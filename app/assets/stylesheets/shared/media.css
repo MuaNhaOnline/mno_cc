@@ -1,0 +1,19 @@
+/* input size */
+.size-15 {
+	width: 120px !important;
+}
+
+@media (max-width: 500px) {
+	.item {
+		margin-left: 5px !important;	
+	}
+}
+
+@media (max-width: 768px) {
+	.custom-hidden-768 { display: none !important; }
+	.custom-show-768 { display: block !important; }
+}
+
+@media (max-width: 992px) {
+	.custom-hidden-992 { display: none !important; }
+}
