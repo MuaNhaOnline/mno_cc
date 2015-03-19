@@ -148,7 +148,7 @@ function init() {
 			var matbang = ["#groupDienTichXayDung", "#groupDienTichSuDung", "#groupDienTichKhuonVien", "#groupNgang", "#groupDai", "#groupHinhDang", "#groupBangQuyHoachChiTiet", "#groupSoTang", "#groupWC", "#groupPhongNgu", "#groupHuongNha", "#groupNamXayDung", "#groupChatLuongConLai", "#groupLoaiCongTrinhXayDung"];
 
 		//Default value LoaiHinhBDS (Nhà đất)		
-			$('.sub-item > .form-group').hide();								
+			$('#groupLoaiHinhBDS .sub-item > .form-group').hide();
 			BatTatDoiTuong(dat, "on");
 
 		//Set event LoaiHinh
@@ -159,24 +159,24 @@ function init() {
 			if ($('#LoaiHinh').find(':selected').attr('data-type') == 0) {
 				$('#PhanLoai_LoaiHinhBDS').html($optionLoaiHinhBDS01);												
 					//Default value
-					$('.sub-item > .form-group').hide();								
+					$('#groupLoaiHinhBDS .sub-item > .form-group').hide();								
 					BatTatDoiTuong(dat, "on");
 			}
 			if ($('#LoaiHinh').find(':selected').attr('data-type') == 1) {
 				$('#PhanLoai_LoaiHinhBDS').html($optionLoaiHinhBDS02);					
 					//Default value					
-					$('.sub-item > .form-group').hide();									
+					$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 					BatTatDoiTuong(nhapho, "on");
 				
 				$('#PhanLoai_LoaiHinhBDS').on('change', function(e) {
 					$dataType = parseInt($('#PhanLoai_LoaiHinhBDS').find(':selected').attr('data-type'));
 					switch($dataType) {
 						case 0:
-							$('.sub-item > .form-group').hide();									
+							$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 							BatTatDoiTuong(nhapho, "on");
 							break;
 						case 1:
-							$('.sub-item > .form-group').hide();									
+							$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 							BatTatDoiTuong(bietthu, "on");											
 							break;
 					}
@@ -185,18 +185,18 @@ function init() {
 			if ($('#LoaiHinh').find(':selected').attr('data-type') == 2) {
 				$('#PhanLoai_LoaiHinhBDS').html($optionLoaiHinhBDS03);
 					//Default value
-					$('.sub-item > .form-group').hide();									
+					$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 					BatTatDoiTuong(chungcu, "on");
 
 				$('#PhanLoai_LoaiHinhBDS').on('change', function(e) {
 					$dataType = parseInt($('#PhanLoai_LoaiHinhBDS').find(':selected').attr('data-type'));
 					switch($dataType) {
 						case 0:
-							$('.sub-item > .form-group').hide();									
+							$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 							BatTatDoiTuong(chungcu, "on");
 							break;
 						case 1:
-							$('.sub-item > .form-group').hide();									
+							$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 							BatTatDoiTuong(canhocaocap, "on");
 							break;
 					}
@@ -205,7 +205,7 @@ function init() {
 			if ($('#LoaiHinh').find(':selected').attr('data-type') == 3) {
 				$('#PhanLoai_LoaiHinhBDS').html($optionLoaiHinhBDS04);
 					//Default value
-					$('.sub-item > .form-group').hide();									
+					$('#groupLoaiHinhBDS .sub-item > .form-group').hide();									
 					BatTatDoiTuong(matbang, "on");
 			}
 		});		

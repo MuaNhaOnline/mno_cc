@@ -6,12 +6,12 @@
 ul {
 	list-style: none;
 }
-body {nav-menu-collapse
+body {
 	font-family: 'Segoe UI';
 }
 @font-face {
 	font-family: Davida;
-	src: url('../../font/davida.ttf');
+	src: url('/assets/davida.ttf');
 }
 /*#end general*/
 /*#start top-link*/

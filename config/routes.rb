@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  root 'home#index'
+
   resources :home do
     collection do
+      get 'index'
     end
   end
   resources :properties do
@@ -11,8 +14,17 @@ Rails.application.routes.draw do
       get 'create'
     end
   end
-  resources :businesses
-  resources :projects
+  resources :businesses do
+    collection do
+      get 'index'
+    end
+  end
+  resources :projects do
+    collection do
+      get 'index'
+      get 'view'
+    end
+  end
   resources :news
 
   # The priority is based upon order of creation: first created -> highest priority.
