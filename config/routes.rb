@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :street_types
+
+  resources :units
+
+  resources :currencies
+
+  resources :purposes
+
   root 'home#index'
 
   resources :home do
@@ -6,7 +14,7 @@ Rails.application.routes.draw do
       get 'index'
     end
   end
-  resources :properties do
+  resources :real_estates do
     collection do
       get 'index'
       get 'category'

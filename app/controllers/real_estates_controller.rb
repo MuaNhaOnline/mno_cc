@@ -1,4 +1,4 @@
-class PropertiesController < ApplicationController
+class RealEstatesController < ApplicationController
   layout 'layout'
 
   def index

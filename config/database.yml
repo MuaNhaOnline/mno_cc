@@ -20,6 +20,10 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
+  username: postgres
+  password: postgres
+#  username: lebinhchieu
+#  password: heo~123
 
 development:
   <<: *default
@@ -29,10 +33,10 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  username: postgres
+#  username: lebinhchieu
 
   # The password associated with the postgres role (username).
-  password: postgres
+#  password: heo~123
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -81,5 +85,5 @@ test:
 production:
   <<: *default
   database: mno_production
-  username: postgres
-  password: postgres
+#  username: lebinhchieu
+#  password: heo~123
