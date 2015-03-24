@@ -1,0 +1,521 @@
+<% content_for :stylesheets do %>
+    <link rel="stylesheet" href="/assets/properties/category.css" />
+<% end %>
+
+<% content_for :scripts do %>
+    <script src="/assets/properties/category.js"></script>
+<% end %>
+
+
+<!-- #start filter -->
+<article class="filter-box">
+  <div class="home-rich-filters">
+    <ul>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-tphcm">TPHCM</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-hà_nội">HÀ NỘI</a></li>
+      <li class="col-sm-1 hidden-xs"><a href="/san_pham/tinh-thanh/17-bình_dương">BÌNH DƯƠNG</a></li>
+      <li class="col-sm-1 hidden-xs"><a href="/san_pham/tinh-thanh/47-hải_phòng">HẢI PHÒNG</a></li>
+      <li class="col-sm-1 hidden-xs"><a href="/san_pham/tinh-thanh/2-đà_nẵng">ĐÀ NẴNG</a></li>
+      <li class="col-sm-1" id="show_city_list"><a href="#"><span class="pe-7s-angle-down-circle"></span></a></li>
+    </ul>
+  </div>
+  <div class="city-list">
+    <h4>DANH SÁCH CÁC TỈNH/THÀNH</h4>
+    <ul class="row">
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/19-ba_rịa_vung_tau">Bà Rịa - Vũng Tàu</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/38-bắc_giang">Bắc Giang</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/36-bắc_kạn">Bắc Kạn</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/31-bạc_lieu">Bạc Liêu</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/39-bắc_ninh">Bắc Ninh</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/22-bến_tre">Bến Tre</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/17-binh_duong">Bình Dương</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/15-binh_phuớc">Bình Phước</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/9-binh_thuận">Bình Thuận</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/5-binh_dịnh">Bình Định</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/32-ca_mau">Cà Mau</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/28-cần_tho">Cần Thơ</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/40-cao_bằng">Cao Bằng</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/11-gia_lai">Gia Lai</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/42-ha_giang">Hà Giang</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/43-ha_nam">Hà Nam</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/34-ha_nội">Hà Nội</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/44-ha_tay">Hà Tây</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/45-ha_tinh">Hà Tĩnh</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/46-hải_duong">Hải Dương</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/47-hải_phong">Hải Phòng</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/29-hậu_giang">Hậu Giang</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/48-hoa_binh">Hòa Bình</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/49-hung_yen">Hưng Yên</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/7-khanh_hoa">Khánh Hòa</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/27-kien_giang">Kiên Giang</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/10-kon_tum">Kon Tum</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/50-lai_chau">Lai Châu</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/14-lam_dồng">Lâm Đồng</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/52-lạng_son">Lạng Sơn</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/51-lao_cai">Lào Cai</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/20-long_an">Long An</a></li>
+      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/53-nam_dịnh">Nam Định</a></li>
+    </ul>
+  </div>
+  <div class="home-rich-filters-cats">
+    <ul>
+      <li class="col-sm-1 all-dist active"><a href="#">Tất cả</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-tphcm">Nhà phố</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/17-bình_dương">Nhà tạm</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Văn phòng</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-hà_nội">Villa-Biệt thự</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/47-hải_phòng">Căn hộ cao cấp</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Căn hộ chung cư</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Đất dự án - Quy hoạch</a></li>
+      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Đất ở - Đất thổ cư</a></li>
+    </ul>
+  </div>
+</article>
+<!-- #end filter -->
+<!-- #start products block -->
+<article class="block-box">
+  <section class="block-title">
+    <span>Bất động sản dưới 500 triệu</span>
+  </section>
+  <!-- #start products list -->
+  <section class="block-content">
+    <ul class="products-list row">
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-4 col-xs-6">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+            <section class="content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-4 col-xs-6">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+            <section class="content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-4 col-xs-6">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+            <section class="content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-4 col-xs-6">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+            <section class="content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-4 col-xs-6">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+            <section class="content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-4 col-xs-6">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+            <section class="content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+    </ul>
+  </section>
+  <!-- #end products list -->
+  <!-- #start pagination -->
+  <section class="pagination-block">
+    <ul class="pagination">
+      <li>
+        <a href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li>
+        <a href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- #end pagination -->
+</article>
+<!-- #end products block -->
+<!-- #start infos block -->
+<article class="block-box">
+  <section class="block-title">
+    <span>Tin nhanh</span>
+  </section>
+  <section class="block-content">
+    <!-- #start infos list -->
+    <ul class="infos-list">
+      <!-- #start info item -->
+      <li class="info-item">
+        <section class="time">
+          2/1/2015
+        </section>
+        <section class="content">
+          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
+        </section>
+      </li>
+      <!-- #end info item -->
+      <!-- #start info item -->
+      <li class="info-item">
+        <section class="time">
+          2/1/2015
+        </section>
+        <section class="content">
+          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
+        </section>
+      </li>
+      <!-- #end info item -->
+      <!-- #start info item -->
+      <li class="info-item">
+        <section class="time">
+          2/1/2015
+        </section>
+        <section class="content">
+          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
+        </section>
+      </li>
+      <!-- #end info item -->
+    </ul>
+    <!-- #end infos list -->
+  </section>
+</article>
+<!-- #end infos block -->
+<!-- #start relative-product block -->
+<article class="block-box">
+  <section class="block-title">
+    <span>Bất động sản liên quan</span>
+  </section>
+  <section class="block-content">
+    <article class="relative-filter">
+      <span>Xem theo</span>
+      <ul class="dropdown-search">
+        <li>Nhà phố</li>
+        <li>Dưới 500 triệu</li>
+      </ul>
+    </article>
+    <!-- #start relative-product-list -->
+    <ul class="relative-products-list row">
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+      <!-- #start product item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <section class="product-item">
+          <a class="favorite-button"></a>
+          <a class="top-section" href="ChiTietSanPham.html">
+            <h1 class="title">
+              Nhà phố quận 9
+            </h1>
+            <section class="picture">
+              <img src="../../Contents/image/product/BDS01.jpg">
+            </section>
+            <section class="property">
+              <section class="bedroom">4</section>
+              <section class="bathroom">5</section>
+              <section class="area">100 m<sup>2</sup></section>
+            </section>
+          </a>
+          <section class="bottom-section">
+            <span>$ 2 tỷ</span>
+            <div class="button">
+              <a href="#" class="muathuebds-button"></a>
+              <a href="#" class="share-button"></a>
+              <a href="#">Định giá</a>
+            </div>
+          </section>
+        </section>
+      </li>
+      <!-- #end product item -->
+    </ul>
+    <!-- #end relative-product-list -->
+    <!-- #start pagination -->
+    <section class="pagination-block">
+      <ul class="pagination">
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+    <!-- #end pagination -->
+  </section>
+</article>
+<!-- #end relative-product block -->
+<!-- #start categories block -->
+<article class="block-box">
+  <section class="block-title">
+    <span>Bất động sản theo tiêu chí</span>
+  </section>
+  <section class="block-content">
+    <!-- #start categories list -->
+    <ul class="categories-list row">
+      <!-- #start category item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <a href="SanPhamCon.html" class="category-item">
+          <img src="../../Contents/image/category/pic-Topic.png">
+          <span>Nhà đất dưới 500 triệu</span>
+        </a>
+      </li>
+      <!-- #end category item -->
+      <!-- #start category item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <a href="#" class="category-item">
+          <img src="../../Contents/image/category/pic-Topic.png">
+          <span>Nhà đất trên 1 tỷ</span>
+        </a>
+      </li>
+      <!-- #end category item -->
+      <!-- #start category item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <a href="#" class="category-item">
+          <img src="../../Contents/image/category/pic-Topic.png">
+          <span>Biệt thự giá rẻ</span>
+        </a>
+      </li>
+      <!-- #end category item -->
+      <!-- #start category item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <a href="#" class="category-item">
+          <img src="../../Contents/image/category/Category_BietThuCaoCap.png">
+          <span>Biệt thự cao cấp</span>
+        </a>
+      </li>
+      <!-- #end category item -->
+      <!-- #start category item -->
+      <li class="col-md-4 col-sm-6 col-xs-12">
+        <a href="#" class="category-item">
+          <img src="../../Contents/image/category/Category_DuAnNoiBat.png">
+          <span>Dự án nổi bật</span>
+        </a>
+      </li>
+      <!-- #end category item -->
+    </ul>
+    <!-- #end categories list -->
+  </section>
+</article>
+<!-- #end categories block -->

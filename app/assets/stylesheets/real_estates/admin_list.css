@@ -1,0 +1,31 @@
+.content {
+
+}
+	.content .table {
+		border: 1px solid #ccc;
+	}
+	@media(max-width: 768px) {
+		.content .table {
+			border: none;
+		}
+	}
+		.content .table > thead {
+			font-weight: bold;
+		}			
+		.content .table > tbody {
+
+		}
+			.content .table > tbody > tr > td:first-of-type > span {
+				font-weight: bold;
+				border: 1px solid #286090;
+				border-radius: 4px;
+				padding: 3px 6px;
+				background-color: #286090;
+				color: white;
+			}
+			@media(max-width: 1200px) {
+				.content .table > tbody > tr > td:last-of-type > .btn {
+					margin-bottom: 5px;
+				}
+			}
+			

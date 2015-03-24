@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @street_type.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @street_type.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @street_type.options %>
+</p>
+
+<%= link_to 'Edit', edit_street_type_path(@street_type) %> |
+<%= link_to 'Back', street_types_path %>

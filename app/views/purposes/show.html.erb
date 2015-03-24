@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @purpose.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @purpose.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @purpose.options %>
+</p>
+
+<%= link_to 'Edit', edit_purpose_path(@purpose) %> |
+<%= link_to 'Back', purposes_path %>
