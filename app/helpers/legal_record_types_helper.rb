@@ -1,0 +1,2 @@
+module LegalRecordTypesHelper
+end

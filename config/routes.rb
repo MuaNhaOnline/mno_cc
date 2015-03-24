@@ -1,4 +1,42 @@
 Rails.application.routes.draw do
+  resources :real_estate_images
+
+  resources :real_estate_real_estate_utilities
+
+  resources :real_estate_region_utilities
+
+  resources :real_estate_disadvantages
+
+  resources :real_estate_advantages
+
+  resources :streets
+
+  resources :wards
+
+  resources :districts
+
+  resources :provinces
+
+  resources :real_estate_utilities
+
+  resources :images
+
+  resources :region_utilities
+
+  resources :disadvantages
+
+  resources :advantages
+
+  resources :planning_status_types
+
+  resources :legal_record_types
+
+  resources :constructional_levels
+
+  resources :directions
+
+  resources :real_estate_types
+
   resources :street_types
 
   resources :units

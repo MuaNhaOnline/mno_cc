@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @disadvantage.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @disadvantage.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @disadvantage.options %>
+</p>
+
+<%= link_to 'Edit', edit_disadvantage_path(@disadvantage) %> |
+<%= link_to 'Back', disadvantages_path %>

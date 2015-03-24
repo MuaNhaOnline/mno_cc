@@ -1,0 +1,25 @@
+<%= form_for(@real_estate_advantage) do |f| %>
+  <% if @real_estate_advantage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@real_estate_advantage.errors.count, "error") %> prohibited this real_estate_advantage from being saved:</h2>
+
+      <ul>
+      <% @real_estate_advantage.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :real_estate_id %><br>
+    <%= f.number_field :real_estate_id %>
+  </div>
+  <div class="field">
+    <%= f.label :advantage_id %><br>
+    <%= f.number_field :advantage_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

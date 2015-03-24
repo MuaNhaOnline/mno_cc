@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Real estate:</strong>
+  <%= @real_estate_image.real_estate_id %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @real_estate_image.image_id %>
+</p>
+
+<%= link_to 'Edit', edit_real_estate_image_path(@real_estate_image) %> |
+<%= link_to 'Back', real_estate_images_path %>

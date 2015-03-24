@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @advantage.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @advantage.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @advantage.options %>
+</p>
+
+<%= link_to 'Edit', edit_advantage_path(@advantage) %> |
+<%= link_to 'Back', advantages_path %>

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Disadvantages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Options</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disadvantages.each do |disadvantage| %>
+      <tr>
+        <td><%= disadvantage.name %></td>
+        <td><%= disadvantage.code %></td>
+        <td><%= disadvantage.options %></td>
+        <td><%= link_to 'Show', disadvantage %></td>
+        <td><%= link_to 'Edit', edit_disadvantage_path(disadvantage) %></td>
+        <td><%= link_to 'Destroy', disadvantage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Disadvantage', new_disadvantage_path %>

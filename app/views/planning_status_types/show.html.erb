@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @planning_status_type.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @planning_status_type.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @planning_status_type.options %>
+</p>
+
+<%= link_to 'Edit', edit_planning_status_type_path(@planning_status_type) %> |
+<%= link_to 'Back', planning_status_types_path %>

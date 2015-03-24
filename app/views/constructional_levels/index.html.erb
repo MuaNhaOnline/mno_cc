@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Constructional Levels</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Options</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @constructional_levels.each do |constructional_level| %>
+      <tr>
+        <td><%= constructional_level.name %></td>
+        <td><%= constructional_level.code %></td>
+        <td><%= constructional_level.options %></td>
+        <td><%= link_to 'Show', constructional_level %></td>
+        <td><%= link_to 'Edit', edit_constructional_level_path(constructional_level) %></td>
+        <td><%= link_to 'Destroy', constructional_level, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Constructional level', new_constructional_level_path %>
