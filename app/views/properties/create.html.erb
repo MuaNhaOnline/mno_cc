@@ -25,508 +25,527 @@
   <!-- #end navigator -->
 </div>
 <div class="row">
-  <!-- #start content -->
-  <form class="form-horizontal" name="DangTin" id="DangTin" role="form" method="POST" action="" accept-charset="UTF-8" enctype="application/x-www-form-urlencoded">
-    <article class="content col-md-8">
-      <section class="main-title">THÔNG TIN TÓM TẮT</section>
-      <!-- #Start item "Loại hình giao dịch" -->
-      <ul class="item">
-        <li class="item-title">
-          <span>Loại hình giao dịch</span>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="LoaiHinhGiaoDich">Lựa chọn:</label>
-          <div class="col-sm-4">
-            <select name="LoaiHinhGiaoDich" class="form-control" id="LoaiHinhGiaoDich">
-              <option data-type="0">Bán</option>
-              <option data-type="1">Cho thuê</option>
-            </select>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Loại hình giao dịch" -->
-      <!-- #Start item "Giá bán mong muốn" -->
-      <ul class="item">
-        <li class="item-title">
-          <span>Giá bán mong muốn</span>
-          <a href="#" class="support-button" data-value="#supportGiaBanMongMuon"></a>
-          <section class="support-text" id="supportGiaBanMongMuon">
-            <b>Giá bán mong muốn:</b> Quý khách có thể sử dụng chức năng <a href="#">"định giá nhà"</a> hoặc <a href="#">"định giá khu vực"</a> để tham khảo giá thị trường nhà đất giao dịch gần nhất.<br>
-            <b>Thỏa thuận:</b> Giá bán sẽ được thỏa thuận khi Người mua gặp trực tiếp Người bán.
-          </section>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="Gia">Giá mong muốn:</label>
-          <div class="col-sm-4">
-            <input name="GiaBanMongMuon" class="form-control required only-number" id="Gia" data-separate='.'>
-          </div>
-          <div class="checkbox col-sm-4">
-            <label><input type="checkbox" name="ThoaThuan" id="ThoaThuan"> Giá Thoả thuận</label>
-          </div>
-        </li>
-        <li class="form-group ele-1">
-          <label class="control-label col-sm-3" for="DonViTienTe">Đơn vị tính:</label>
-          <div class="col-sm-3">
-            <select name="DonViTienTe" class="form-control" id="DonViTienTe">
-              <option data-value="VND">VNĐ</option>
-              <option data-value="USD">USD</option>
-              <option data-value="SJC">SJC</option>
-            </select>
-          </div>
-          <div class="col-sm-1">
-            <span>trên</span>
-          </div>
-          <div class="col-sm-4">
-            <select name="DonViDienTich" class="form-control" id="DonViDienTich">
-              <option value="Tổng diện tích">Tổng diện tích</option>
-              <option value="Mét vuông">Mét vuông</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3 hidden-xs">&nbsp;
-          </label>
-          <div class="col-sm-4 checkbox">
-            <label><input type="checkbox" id="CoTheThuongLuong"> Có thể thương lượng</label>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Giá bán mong muốn" -->
-      <!-- #Start item "Vị trí" -->
-      <ul class="item">
-        <li class="item-title"><span>Vị trí</span></li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="TinhTP">Tỉnh/Thành phố:</label>
-          <div class="col-sm-4">
-            <select name="TinhTP" class="form-control" id="TinhTP">
-              <option>TPHCM</option>
-              <option>Hà Nội</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="QuanHuyenThiXa">Quận/Huyện/Thị xã:</label>
-          <div class="col-sm-4">
-            <select name="QuanHuyenThiXa" class="form-control" id="QuanHuyenThiXa">
-              <option>Quận 1</option>
-              <option>Quận 2</option>
-              <option>Quận 3</option>
-              <option>Quận 4</option>
-              <option>Quận 5</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="Phuong">Phường:</label>
-          <div class="col-sm-4">
-            <select name="Phuong" class="form-control" id="Phuong">
-              <option>Cầu Ông Lãnh</option>
-              <option>Đakao</option>
-              <option>Cầu Kho</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="Duong">Đường:</label>
-          <div class="col-sm-4">
-            <select name="Duong" class="form-control" id="Duong">
-              <option>Trần Hưng Đạo</option>
-              <option>Điện Biên Phủ</option>
-              <option>Cô Giang</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="SoNha">Số nhà:</label>
-          <div class="col-sm-4">
-            <input name="SoNha" class="form-control" id="SoNha">
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="LoaiDuong">Loại Đường:</label>
-          <div class="col-sm-4">
-            <select name="LoaiDuong" class="form-control" id="LoaiDuong">
-              <option>Đường chính</option>
-              <option>Đường nội bộ</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3 hidden-xs"></label>
-          <div class="col-sm-2 radio">
-            <label><input type="radio" name="MatTien-Hem" id="MatTien" value="Mặt tiền" checked> Mặt tiền</label>
-          </div>
-          <div class="col-sm-2 radio">
-            <label><input type="radio" name="MatTien-Hem" id="Hem" value="Hẻm"> Hẻm</label>
-          </div>
-          <div class="col-sm-2 col-xs-4">
-            <input name="VaoHem" type="hidden" class="form-control only-number required" size="2" id="VaoHem">
-          </div>
-          <div class="col-sm-1 col-xs-2">
-            <span style="margin-left: -15px; display: none;">m<sup></sup></span>
-          </div>
-        </li>
-        <li class="form-group ele-1">
-          <label class="control-label col-sm-3 hidden-xs"></label>
-          <div class="col-sm-4">
-            <a href="#" id="XemBanDo">Xem vị trí trên bản đồ</a>
-          </div>
-          <div class="col-sm-4">
-            <a href="#" id="DinhGiaTheoViTri">Định giá khu vực</a>
-          </div>
-        </li>
-        <li class="form-group">
-          <div class="col-sm-12 col-xs-12">
-            <img src="/assets/product/icon_Bando.png" class="img-responsive" id="BanDo" style="display:none;">
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Vị trí" -->
-      <!-- #Start item "Loại hình bất động sản" -->
-      <ul class="item" id="groupLoaiHinhBDS">
-        <li class="item-title">
-          <span>Loại hình bất động sản</span>
-          <a href="#" class="support-button" data-value="#supportLoaiHinhBDS"></a>
-          <section class="support-text" id="supportLoaiHinhBDS">
-            <b>Diện tích xây dựng:</b> Là phần đất có công trình xây dựng.<br>
-            <b>Diện tích sử dụng:</b> Là tổng diện tích các sàn xây dựng kể cả ban công, tầng hầm, sân thượng.<br>
-            <b>Diện tích khuôn viên:</b> Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận.
-          </section>
-        </li>
-        <li class="form-group ele-2">
-          <label class="control-label col-sm-3" for="LoaiHinh">Loại hình:</label>
-          <div class="col-sm-4" id="groupLoaiHinh">
-            <select name="LoaiHinh" class="form-control" id="LoaiHinh">
-              <option data-type="0">Đất</option>
-              <option data-type="1">Nhà</option>
-              <option data-type="2">Căn hộ</option>
-              <option data-type="3">Mặt bằng</option>
-            </select>
-          </div>
-          <div class="col-sm-1">
-            <span class="connecter">&gt;</span>
-          </div>
-          <div class="col-sm-4">
-            <select name="PhanLoai_LoaiHinhBDS" class="form-control" id="PhanLoai_LoaiHinhBDS">
-              <option data-show="0">Đất thổ cư</option>
-              <option data-show="0">Trồng cây</option>
-              <option data-show="1">Khác</option>
-            </select>
-          </div>
-        </li>
-        <li class="sub-item">
-          <div class="line">
-            <hr>
-          </div>
-          <div class="form-group" id="groupDienTichXayDung">
-            <label class="control-label col-sm-4" for="DienTichXayDung">Diện tích xây dựng:</label>
-            <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="DienTichXayDung" id="DienTichXayDung"></div>
-            <div class="col-sm-1 col-xs-1 unit">m<sup>2</sup></div>
-          </div>
-          <div class="form-group" id="groupDienTichSuDung">
-            <label class="control-label col-sm-4" for="DienTichSuDung">Diện tích sử dụng:</label>
-            <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="DienTichSuDung" id="DienTichSuDung"></div>
-            <div class="col-sm-1 col-xs-1 unit">m<sup>2</sup></div>
-          </div>
-          <div class="form-group" id="groupDienTichKhuonVien">
-            <label class="control-label col-sm-4" for="DienTichKhuonVien">Diện tích khuôn viên:</label>
-            <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="DienTichKhuonVien" id="DienTichKhuonVien"></div>
-            <div class="col-sm-1 col-xs-1 unit">m<sup>2</sup></div>
-          </div>
-          <div class="form-group" id="groupNgang">
-            <label class="control-label col-sm-4" for="Ngang">Ngang:</label>
-            <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="Ngang" id="Ngang"></div>
-            <div class="col-sm-1 col-xs-1 unit">m<sup>&nbsp;</sup></div>
-          </div>
-          <div class="form-group" id="groupDai">
-            <label class="control-label col-sm-4" for="Dai">Dài:</label>
-            <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="Dai" id="Dai"></div>
-            <div class="col-sm-1 col-xs-1 unit">m<sup>&nbsp;</sup></div>
-          </div>
-          <div class="form-group ele-3" id="groupHinhDang">
-            <label class="control-label col-sm-4" for="NoTopHau">Hình dáng:</label>
-            <div class="col-sm-4">
-              <select class="form-control" id="NoHau">
-                <option data-value="0">Nở hậu</option>
-                <option data-value="1">Tóp hậu</option>
-                <option data-value="2">Bình thường</option>
-              </select>
-            </div>
-            <div class="col-sm-2 col-xs-5">
-              <input name="Do_NoTopHau" class="form-control only-number required" size="2" id="Do_NoTopHau">
-            </div>
-            <div class="col-sm-1 col-xs-1 unit"><span>m</span></div>
-          </div>
-          <div class="form-group row" id="groupBangQuyHoachChiTiet">
-            <label class="control-label col-sm-4 hidden-xs"></label>
-            <div class="col-sm-6 col-xs-12" id="BangQuyHoachChiTiet"><a href="#">Bảng quy hoạch chi tiết</a></div>
-          </div>
-          <div class="form-group row" id="groupSoTang">
-            <label class="control-label col-sm-4" for="SoTang">Số tầng:</label>
-            <div class="col-sm-3 col-xs-11">
-              <select class="form-control" name="SoTang" id="SoTang">
-                <option>Trệt</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>&gt;4</option>
-              </select>
-            </div>
-            <div class="col-sm-1 col-xs-1 unit"></div>
-          </div>
-          <div class="form-group row" id="groupWC">
-            <label class="control-label col-sm-4" for="WC">WC:</label>
-            <div class="col-sm-3 col-xs-11">
-              <select class="form-control" name="WC" id="WC">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>&gt;4</option>
-              </select>
-            </div>
-            <div class="col-sm-1 col-xs-1 unit"></div>
-          </div>
-          <div class="form-group row" id="groupPhongNgu">
-            <label class="control-label col-sm-4" for="PhongNgu">Phòng ngủ:</label>
-            <div class="col-sm-3 col-xs-11">
-              <select class="form-control" name="PhongNgu" id="PhongNgu">
-                <option>0</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>&gt;4</option>
-              </select>
-            </div>
-            <div class="col-sm-1 col-xs-1 unit"></div>
-          </div>
-          <div class="form-group row" id="groupHuongNha">
-            <label class="control-label col-sm-4" for="HuongNha">Hướng nhà:</label>
-            <div class="col-sm-3 col-xs-11">
-              <select class="form-control" name="HuongNha" id="HuongNha">
-                <option>Đông</option>
-                <option>Tây</option>
-                <option>Nam</option>
-                <option>Bắc</option>
-                <option>Đông-Bắc</option>
-                <option>Đông-Nam</option>
-                <option>Tây-Bắc</option>
-                <option>Tây-Nam</option>
-              </select>
-            </div>
-            <div class="col-sm-1 col-xs-1 unit"></div>
-          </div>
-          <div class="form-group row" id="groupNamXayDung">
-            <label class="control-label col-sm-4" for="NamXayDung">Năm xây dựng:</label>
-            <div class="col-sm-3 col-xs-11">
-              <select class="form-control" name="NamXayDung" id="NamXayDung">
-                <!-- js Xử lý-->
-              </select>
-            </div>
-            <div class="col-sm-1 col-xs-1 unit"></div>
-          </div>
-          <div class="form-group row" id="groupChatLuongConLai">
-            <label class="control-label col-sm-4" for="ChatLuongNhaConLai">Chất lượng nhà còn lại:</label>
-            <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="ChatLuongNhaConLai" id="ChatLuongNhaConLai"></div>
-            <div class="col-sm-1 col-xs-1 unit">%</div>
-          </div>
-          <div class="form-group row" id="groupLoaiCongTrinhXayDung">
-            <label class="control-label col-sm-4" for="LoaiCongTrinhXayDung">Phân loại nhà:</label>
-            <div class="col-sm-4 col-xs-12">
-              <select class="form-control" name="LoaiCongTrinhXayDung" id="LoaiCongTrinhXayDung">
-                <option>Nhà cấp 1</option>
-                <option>Nhà cấp 2</option>
-                <option>Nhà cấp 3</option>
-                <option>Nhà cấp 4</option>
-                <option>Nhà tạm</option>
-              </select>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Loại hình bất động sản" -->
-      <!-- #Start item "Nội dung tin đăng" -->
-      <ul class="item">
-        <li class="item-title"><span>Nội dung tin đăng</span></li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="TieuDe">Tiêu đề:</label>
-          <div class="col-sm-9">
-            <input name="TieuDe" class="form-control required" id="TieuDe">
-          </div>
-        </li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="NoiDung">Nội dung:</label>
-          <div class="col-sm-9">
-            <textarea name="NoiDung" class="form-control required" id="NoiDung" style="height: 150px"></textarea>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Nội dung tin đăng" -->
-      <!-- #Start item "Hồ sơ pháp lý" -->
-      <ul class="item" id="groupHoSoPhapLy">
-        <li class="item-title"><span>Hồ sơ pháp lý</span></li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="LoaiHoSoPhapLy">Loại:</label>
-          <div class="col-sm-4">
-            <select name="LoaiHoSoPhapLy" class="form-control" id="LoaiHoSoPhapLy">\
-              <option data-type="0">Sổ đỏ</option>
-              <option data-type="1">Sổ hồng</option>
-              <option data-type="2">Khác</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal" id="groupLoaiHoSoPhapLy_Khac" style="display: none">
-          <label class="control-label col-sm-3 hidden-xs"></label>
-          <div class="col-sm-4">
-            <input name="LoaiHoSoPhapLy_Khac" class="form-control required" id="LoaiHoSoPhapLy_Khac">
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Hồ sơ pháp lý" -->
-      <!-- #Start item "Tình trạng quy hoạch" -->
-      <ul class="item" id="groupTinhTrangQuyHoach">
-        <li class="item-title"><span>Tình trạng quy hoạch</span></li>
-        <li class="form-group normal">
-          <label class="control-label col-sm-3" for="LoaiTinhTrangQuyHoach">Loại:</label>
-          <div class="col-sm-4">
-            <select name="LoaiTinhTrangQuyHoach" class="form-control" id="LoaiTinhTrangQuyHoach">
-              <option data-type="0">Ổn định</option>
-              <option data-type="1">Một phần</option>
-              <option data-type="2">Toàn bộ</option>
-              <option data-type="3">Khác</option>
-            </select>
-          </div>
-        </li>
-        <li class="form-group normal" id="groupLoaiTinhTrangQuyHoach_Khac" style="display: none">
-          <label class="control-label col-sm-3 hidden-xs"></label>
-          <div class="col-sm-4">
-            <input name="LoaiTinhTrangQuyHoach_Khac" class="form-control required" id="LoaiTinhTrangQuyHoach_Khac">
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Tình trang quy hoạch" -->
-      <!-- #Start item "Tiện nghi khác" -->
-      <ul class="item" id="groupTienNghiKhac">
-        <li class="item-title"><span>Tiện nghi</span></li>
-        <li class="form-group ele-1">
-          <div class="checkbox">
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Tầng hầm</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Tầng lửng</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Sân thượng</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Gara ôtô</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Thang máy</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Hồ bơi</label>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Tiện nghi khác" -->
-      <!-- #Start item "Tiện ích khu vực" -->
-      <ul class="item" id="groupTienIchKhuVuc">
-        <li class="item-title"><span>Tiện ích khu vực</span></li>
-        <li class="form-group ele-1">
-          <div class="checkbox">
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Siêu thị</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Chợ</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Bệnh viện</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Công viên</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Khu vui chơi</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Bến xe</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Khu dân cư</label>
-            <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Khu kinh doanh</label>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Tiện nghi khác" -->
-      <!-- #Start item "Đánh giá các đặc điểm khác" -->
-      <ul class="item" id="groupDanhGiaCacDacDiemKhac">
-        <li class="item-title">
-          <span>Đánh giá các đặc điểm khác</span>
-          <a href="#" class="support-button" data-value="#supportDanhGiaDacDiemKhac"></a>
-          <section class="support-text" id="supportDanhGiaDacDiemKhac">
-            Nhập đặc điểm tốt, xấu (nếu có) để phần mềm định giá được chính xác hơn.
-          </section>
-        </li>
-        <li class="sub-item">
-          <div class="sub-item-title">
-            Điểm tốt
-          </div>
-          <div class="line">
-            <hr>
-          </div>
-          <div class="form-group ele-1">
-            <div class="checkbox">
-              <label class="col-sm-12"><input type="checkbox"> Hẻm thông</label>
-              <label class="col-sm-12"><input type="checkbox"> Có 2 mặt đường chính</label>
-              <label class="col-sm-12"><input type="checkbox"> Có 2 mặt hẻm</label>
-              <label class="col-sm-12"><input type="checkbox"> Có 1 mặt đường chính và 1 mặt hẻm</label>
-              <label class="col-sm-12"><input type="checkbox"> Tiện làm quán cafe, nhà hàng, khách sạn</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3" for="DiemTotKhac">Điểm tốt khác:</label>
-            <div class="col-sm-9">
-              <input name="DiemTotKhac" class="form-control" id="DiemTotKhac">
-            </div>
-          </div>
-        </li>
-        <li class="sub-item">
-          <div class="sub-item-title">
-            Điểm xấu
-          </div>
-          <div class="line">
-            <hr>
-          </div>
-          <div class="form-group ele-1">
-            <div class="checkbox">
-              <label class="col-sm-12"><input type="checkbox"> Khu quy hoạch treo</label>
-              <label class="col-sm-12"><input type="checkbox"> Gần chùa, nhà thờ, tang lễ</label>
-              <label class="col-sm-12"><input type="checkbox"> Đường hẻm đâm thẳng vào nhà</label>
-              <label class="col-sm-12"><input type="checkbox"> Gần chân cầu, trụ điện, ống cống</label>
-              <label class="col-sm-12"><input type="checkbox"> Tường chung không thể xây mới</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3" for="DiemXauKhac">Điểm xấu khác:</label>
-            <div class="col-sm-9">
-              <input name="DiemXauKhac" class="form-control" id="DiemXauKhac">
-            </div>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Đánh giá các đặc điểm khác" -->
-      <!-- #Start item "Hình ảnh" -->
-      <ul class="item" id="groupHinhAnh">
-        <li class="item-title"><span>Hình ảnh</span></li>
-        <li class="form-group pic-ele">
-          <label class="control-label col-sm-3" for="HinhAnh">Hình ảnh mô tả BĐS của bạn:</label>
-          <div class="col-sm-9">
-            <input type="file" name="HinhAnh" class="form-control required" id="HinhAnh">
-          </div>
-        </li>
-        <li class="sub-item">
-          <div class="form-group pic-ele" id="groupThemHinhAnh">
-            <div class="col-sm-7 col-xs-12">
-              <input type="file" name="HinhAnh" class="form-control" id="HinhAnh">
-            </div>
-            <div class="col-sm-3">
-              <button class="btn btn-link" id="btnThemAnh">thêm ảnh +</button>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <!-- #End item "Hình ảnh" -->
-      <!-- #Start Submit Button -->
-      <ul class="item">
-        <div class="free-supporter">Hoàn tất <a href="#" id="btnDienTiepThongTin">thông tin bổ sung</a> bên dưới để đăng tin đầy đủ và được phần mềm hỗ trợ định giá nhà</div>
-        <li class="submit">
-          <button type="submit" class="btn btn-primary">Đăng tin</button>
-          <button type="reset" class="btn btn-danger">Xoá hết</button>
-          <button type="submit" class="btn btn-default">Xem trước</button>
-        </li>
-      </ul>
-      <!-- #End Submit Button -->
-    </article>
-  </form>
-  <!-- #end content -->
+  <!-- #start content -->       
+          <form class="form-horizontal" name="DangTin" id="DangTin" role="form" method="POST" action="" accept-charset="UTF-8" enctype="application/x-www-form-urlencoded">
+            <article class="content col-md-8">
+              <section class="main-title">THÔNG TIN TÓM TẮT</section>
+              <!-- #Start item "Loại hình giao dịch" -->
+              <ul class="item">
+                <li class="item-title">
+                  <span>Loại hình giao dịch</span>                  
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="purpose">Lựa chọn:</label>
+                  <div class="col-sm-4">
+                    <select name="purpose" class="form-control will-change-select" id="purpose">
+                      <option data-show="sell" data-hide="un-sell">Bán</option>
+                      <option data-show="rent" data-hide="un-rent">Cho thuê</option>
+                    </select>
+                  </div>            
+                </li>
+              </ul>
+              <!-- #End item "Loại hình giao dịch" -->
+              <!-- #Start item "Giá bán mong muốn" -->
+              <ul class="item">
+                <li class="item-title">
+                  <span>Giá bán mong muốn</span>
+                  <a href="#" class="support-button" data-value="#support_price"></a>
+                  <section class="support-text" id="support_price">
+                    <b>Giá bán mong muốn:</b> Quý khách có thể sử dụng chức năng <a href="#">"định giá nhà"</a> hoặc <a href="#">"định giá khu vực"</a> để tham khảo giá thị trường nhà đất giao dịch gần nhất.<br>
+                    <b>Thỏa thuận:</b> Giá bán sẽ được thỏa thuận khi Người mua gặp trực tiếp Người bán.
+                  </section>
+                </li>
+                <li class="form-group normal">                  
+                  <label class="control-label col-sm-3" for="price">Giá mong muốn:</label>                                
+                  <div class="col-sm-4">
+                    <input name="price" class="form-control required only-number" id="price" data-separate='.' data-controlled="|price-agree|">
+                  </div>                  
+                  <div class="checkbox col-sm-4">
+                    <label><input type="checkbox" class="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
+                  </div>                
+                </li>
+                <li class="form-group ele-1">
+                  <label class="control-label col-sm-3" for="currency_id">Đơn vị tính:</label>
+                  <div class="col-sm-3">
+                    <select name="currency_id" class="form-control" id="currency_id">
+                      <option data-value="VND">VNĐ</option>
+                      <option data-value="USD">USD</option>
+                      <option data-value="SJC">SJC</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-1">
+                    <span>trên</span>
+                  </div>
+                  <div class="col-sm-4"> 
+                    <select class="form-control" id="unit" data-controlled="|sell|un-rent|">  
+                      <option>Tổng diện tích</option>
+                      <option>Mét vuông</option>  
+                    </select>
+                    <select class="form-control" id="unit" data-controlled="|rent|un-sell|" style="display:none;">
+                      <option>Tháng</option>
+                      <option>Năm</option>
+                    </select>                   
+                  </div>    
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3 hidden-xs">&nbsp;
+                  </label>
+                  <div class="col-sm-4 checkbox">
+                    <label><input type="checkbox" id="is_negotiable"> Có thể thương lượng</label>
+                  </div>                
+                </li>
+              </ul>
+              <!-- #End item "Giá bán mong muốn" -->
+              <!-- #Start item "Vị trí" -->
+              <ul class="item">
+                <li class="item-title"><span>Vị trí</span></li> 
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="province_id">Tỉnh/Thành phố:</label>
+                  <div class="col-sm-4">
+                    <select name="province_id" class="form-control" id="province_id">
+                      <option>TPHCM</option>
+                      <option>Hà Nội</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="district_id">Quận/Huyện/Thị xã:</label>
+                  <div class="col-sm-4">
+                    <select name="district_id" class="form-control" id="district_id">
+                      <option>Quận 1</option>
+                      <option>Quận 2</option>
+                      <option>Quận 3</option>
+                      <option>Quận 4</option>
+                      <option>Quận 5</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="ward_id">Phường:</label>
+                  <div class="col-sm-4">
+                    <select name="ward_id" class="form-control" id="ward_id">
+                      <option>Cầu Ông Lãnh</option>
+                      <option>Đakao</option>
+                      <option>Cầu Kho</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="street_id">Đường:</label>
+                  <div class="col-sm-4">
+                    <select name="street_id" class="form-control" id="street_id">
+                      <option>Trần Hưng Đạo</option>
+                      <option>Điện Biên Phủ</option>
+                      <option>Cô Giang</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="address_number">Số nhà:</label>
+                  <div class="col-sm-4">
+                    <input name="address_number" class="form-control" id="address_number">
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="street_type">Loại Đường:</label>
+                  <div class="col-sm-4">
+                    <select name="street_type" class="form-control" id="street_type">
+                      <option>Đường chính</option>
+                      <option>Đường nội bộ</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3 hidden-xs"></label>
+                  <div class="col-sm-2 radio">
+                    <label><input type="radio" name="is_alley" class="will-change-show-check" value="Mặt tiền" data-hide="alley"> Mặt tiền</label>
+                  </div>
+                  <div class="col-sm-2 radio">  
+                    <label><input type="radio" name="is_alley" class="will-change-show-check" value="Hẻm" data-show="alley" checked> Hẻm</label>      
+                  </div>
+                  <div class="col-sm-2 col-xs-4">
+                    <input name="alley_size" class="form-control only-number required" size="2" id="alley_size" data-controlled="|alley|">
+                  </div>
+                  <div class="col-sm-1 col-xs-2">
+                    <span style="margin-left: -15px;" data-controlled="|alley|">m<sup></sup></span>
+                  </div>
+                </li>
+                <li class="form-group ele-1">
+                  <label class="control-label col-sm-3 hidden-xs"></label>
+                  <div class="col-sm-4">
+                    <a href="#" class="expand" data-target="#map">Xem vị trí trên bản đồ</a>
+                  </div>
+                  <div class="col-sm-4">
+                    <a href="#" id="set_price_area">Định giá khu vực</a>                    
+                  </div>
+                </li>
+                <li class="form-group"> 
+                  <div class="col-sm-12 col-xs-12">
+                    <img src="../../Contents/image/product/icon_Bando.png" class="img-responsive" id="map" style="display:none;">
+                  </div>                
+                </li>
+              </ul>
+              <!-- #End item "Vị trí" -->
+              <!-- #Start item "Loại hình bất động sản" -->
+              <ul class="item" id="groupLoaiHinhBDS">
+                <li class="item-title">
+                  <span>Loại hình bất động sản</span>
+                  <a href="#" class="support-button" data-value="#support_property_type"></a>
+                  <section class="support-text" id="support_property_type">                   
+                    <b>Diện tích xây dựng:</b> Là phần đất có công trình xây dựng.<br>
+                    <b>Diện tích sử dụng:</b> Là tổng diện tích các sàn xây dựng kể cả ban công, tầng hầm, sân thượng.<br>
+                    <b>Diện tích khuôn viên:</b> Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận.
+                  </section>
+                </li>
+                <li class="form-group ele-2">
+                  <label class="control-label col-sm-3" for="property_type">Loại hình:</label>
+                  <div class="col-sm-4" id="groupLoaiHinh">
+                    <select class="form-control will-change-select">
+                      <option data-show="land" data-hide="un-land">Đất</option>
+                      <option data-show="house" data-hide="un-house">Nhà</option>
+                      <option data-show="apartment" data-hide="un-apartment">Căn hộ</option>
+                      <option data-show="space" data-hide="un-space">Mặt bằng</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-1">  
+                    <span class="connecter">&gt;</span>
+                  </div>
+                  <div class="col-sm-4">
+                    <select class="form-control will-change-select" data-controlled="|land|un-house|un-apartment|un-space|">
+                      <option>Đất thổ cư</option>
+                      <option>Trồng cây</option>
+                      <option>Khác</option>
+                    </select>
+                    <select class="form-control will-change-select" data-controlled="|un-land|house|un-apartment|un-space|" style="display:none;">
+                      <option data-show="home-city" data-hide="un-home-city">Nhà phố</option>
+                      <option data-show="villa" data-hide="un-villa">Biệt thự</option>                      
+                    </select>
+                    <select class="form-control will-change-select" data-controlled="|un-land|un-house|apartment|un-space|" style="display:none;">
+                      <option data-show="apartment-building" data-hide="un-apartment-building">Chung cư</option>
+                      <option data-show="luxury-apartment" data-hide="un-luxury-apartment">Căn hộ cao cấp</option>                      
+                    </select>
+                    <select class="form-control" data-controlled="|un-land|un-house|un-apartment|space|" style="display:none;">
+                      <option>Văn phòng</option>
+                      <option>Phòng trọ</option>
+                      <option>Mặt bằng-Cửa hàng</option>                      
+                      <option>Nhà hàng-khách sạn</option>
+                      <option>Nhà kho-Xưởng</option>
+                    </select>
+                  </div>
+                </li>
+                <li class="sub-item">                 
+                  <div class="line">
+                    <hr>
+                  </div>
+                  <div class="form-group" id="group_construction_area" style="display:none;" data-controlled="|un-land|house|un-apartment|space|">
+                    <label class="control-label col-sm-4" for="building_area">Diện tích xây dựng:</label>
+                    <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="construction_area" id="construction_area"></div>
+                    <div class="col-sm-1 col-xs-1 unit">m<sup>2</sup></div>
+                  </div>
+                  <div class="form-group" id="group_using_area" style="display:none;" data-controlled="|un-land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="using_area">Diện tích sử dụng:</label>
+                    <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="using_area" id="using_area"></div>
+                    <div class="col-sm-1 col-xs-1 unit">m<sup>2</sup></div>
+                  </div>
+                  <div class="form-group" id="groupDienTichKhuonVien" data-controlled="|land|house|un-apartment|space|">
+                    <label class="control-label col-sm-4" for="campus_area">Diện tích khuôn viên:</label>
+                    <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="campus_area" id="campus_area"></div>
+                    <div class="col-sm-1 col-xs-1 unit">m<sup>2</sup></div>
+                  </div>
+                  <div class="form-group" id="group_width_x" data-controlled="|land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="width_x">Ngang:</label>
+                    <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="width_x" id="width_x"></div>
+                    <div class="col-sm-1 col-xs-1 unit">m<sup>&nbsp;</sup></div>
+                  </div>
+                  <div class="form-group" id="group_width_y" data-controlled="|land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="width_y">Dài:</label>
+                    <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="width_y" id="width_y"></div>
+                    <div class="col-sm-1 col-xs-1 unit">m<sup>&nbsp;</sup></div>
+                  </div>
+                  <div class="form-group ele-3" id="group_shape" data-controlled="|land|house|apartment|space|">  
+                    <label class="control-label col-sm-4" for="shape">Hình dáng:</label>          
+                    <div class="col-sm-4">
+                      <select class="form-control will-change-select">
+                        <option data-hide="normal-shape">Bình thường</option>
+                        <option data-show="normal-shape">Nở hậu</option>
+                        <option data-show="normal-shape">Tóp hậu</option>                       
+                      </select>
+                    </div>
+                    <div class="col-sm-2 col-xs-5" style="display:none;" data-controlled="|normal-shape|">
+                      <input name="Do_NoTopHau" class="form-control only-number required" size="2" id="shape_width">
+                    </div>              
+                    <div class="col-sm-1 col-xs-1 unit" style="display:none;" data-controlled="|normal-shape|"><span>m</span></div>
+                  </div>                                
+                  <div class="form-group row" data-controlled="|sell|un-rent|">
+                    <label class="control-label col-sm-4 hidden-xs"></label>
+                    <div class="col-sm-6 col-xs-12" id="plan_table"><a href="#">Bảng quy hoạch chi tiết</a></div>
+                  </div>
+                  <div class="form-group row" id="group_floor_number" style="display:none;" data-controlled="|un-land|house|apartment|un-space|">
+                    <label class="control-label col-sm-4" for="floor_number">Số tầng:</label>
+                    <div class="col-sm-3 col-xs-11">
+                      <select class="form-control" name="floor_number" id="floor_number">
+                        <option>Trệt</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>&gt;4</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-1 col-xs-1 unit"></div>
+                  </div>
+                  <div class="form-group row" id="group_restroom_number" style="display:none;" data-controlled="|un-land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="restroom_number">WC:</label>
+                    <div class="col-sm-3 col-xs-11">
+                      <select class="form-control" name="restroom_number" id="restroom_number">                       
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>&gt;4</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-1 col-xs-1 unit"></div>
+                  </div>
+                  <div class="form-group row" id="group_bedroom_number" style="display:none;" data-controlled="|un-land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="bedroom_number">Phòng ngủ:</label>
+                    <div class="col-sm-3 col-xs-11">
+                      <select class="form-control" name="bedroom_number" id="bedroom_number">                       
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>&gt;4</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-1 col-xs-1 unit"></div>
+                  </div>
+                  <div class="form-group row" id="group_direction" style="display:none;" data-controlled="|un-land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="direction" >Hướng nhà:</label>
+                    <div class="col-sm-3 col-xs-11">
+                      <select class="form-control" name="direction" id="direction">     
+                        <option>Đông</option>
+                        <option>Tây</option>
+                        <option>Nam</option>
+                        <option>Bắc</option>
+                        <option>Đông-Bắc</option>
+                        <option>Đông-Nam</option>
+                        <option>Tây-Bắc</option>
+                        <option>Tây-Nam</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-1 col-xs-1 unit"></div>
+                  </div>
+                  <div class="form-group row" id="group_build_year" style="display:none;" data-controlled="|un-land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="build_year">Năm xây dựng:</label>
+                    <div class="col-sm-3 col-xs-11">
+                      <select class="form-control" name="build_year" id="build_year">
+                        <!-- js Xử lý-->                        
+                      </select>
+                    </div>
+                    <div class="col-sm-1 col-xs-1 unit"></div>
+                  </div>
+                  <div class="form-group row" id="group_construction_quality" style="display:none;" data-controlled="|un-land|house|apartment|space|">
+                    <label class="control-label col-sm-4" for="construction_quality">Chất lượng nhà còn lại:</label>
+                    <div class="col-sm-3 col-xs-11"><input class="form-control only-number required" name="construction_quality" id="construction_quality"></div>
+                    <div class="col-sm-1 col-xs-1 unit">%</div>
+                  </div>
+                  <div class="form-group row" id="group_construction_level" style="display:none;" data-controlled="|un-land|house|apartment|space|un-villa|home-city|un-luxury-apartment|apartment-building|">
+                    <label class="control-label col-sm-4" for="construction_level">Phân loại nhà:</label>
+                    <div class="col-sm-4 col-xs-12">
+                      <select class="form-control" name="construction_level" id="construction_level">     
+                        <option>Nhà cấp 1</option>
+                        <option>Nhà cấp 2</option>
+                        <option>Nhà cấp 3</option>
+                        <option>Nhà cấp 4</option>
+                        <option>Nhà tạm</option>                        
+                      </select>
+                    </div>                    
+                  </div>                  
+                </li>
+              </ul>
+              <!-- #End item "Loại hình bất động sản" -->
+              <!-- #Start item "Nội dung tin đăng" -->
+              <ul class="item">
+                <li class="item-title"><span>Nội dung tin đăng</span></li>  
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="title" style="width=100%">Tiêu đề:</label>
+                  <div class="col-sm-9">
+                    <input name="title" class="form-control required" id="title">
+                  </div>                
+                </li>
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="description">Nội dung:</label>
+                  <div class="col-sm-9">
+                    <textarea name="description" class="form-control required" id="description" style="height: 150px"></textarea>                   
+                  </div>                
+                </li>
+              </ul>
+              <!-- #End item "Nội dung tin đăng" -->                  
+              <!-- #Start item "Hồ sơ pháp lý" -->
+              <ul class="item continue-composing" id="group_legal_records" data-controlled="|sell|un-rent|">
+                <li class="item-title"><span>Hồ sơ pháp lý</span></li>  
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="legal_records">Loại:</label>
+                  <div class="col-sm-4">
+                    <select name="legal_records" class="form-control will-change-select" id="legal_records">\
+                      <option data-hide="different-legal">Sổ đỏ</option>
+                      <option data-hide="different-legal">Sổ hồng</option>
+                      <option data-show="different-legal">Khác</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal" id="group_legal_record_different" style="display: none" data-controlled="|different-legal|">
+                  <label class="control-label col-sm-3 hidden-xs"></label>
+                  <div class="col-sm-4">
+                    <input name="legal_record_different" class="form-control required" id="legal_record_different">
+                  </div>                
+                </li>
+              </ul>
+              <!-- #End item "Hồ sơ pháp lý" -->
+              <!-- #Start item "Tình trạng quy hoạch" -->
+              <ul class="item continue-composing" id="group_planning_status" data-controlled="|sell|un-rent|">
+                <li class="item-title"><span>Tình trạng quy hoạch</span></li> 
+                <li class="form-group normal">
+                  <label class="control-label col-sm-3" for="planning_status">Loại:</label>
+                  <div class="col-sm-4">
+                    <select name="planning_status" class="form-control will-change-select" id="planning_status">\
+                      <option data-hide="different-planning">Ổn định</option>
+                      <option data-hide="different-planning">Một phần</option>
+                      <option data-hide="different-planning">Toàn bộ</option>
+                      <option data-show="different-planning">Khác</option>
+                    </select>
+                  </div>                
+                </li>
+                <li class="form-group normal" id="group_planning_status_different" style="display: none" data-controlled="|different-planning|">
+                  <label class="control-label col-sm-3 hidden-xs"></label>
+                  <div class="col-sm-4">
+                    <input name="planning_status_different" class="form-control required" id="planning_status_different">
+                  </div>                
+                </li>
+              </ul>
+              <!-- #End item "Tình trang quy hoạch" -->
+              <!-- #Start item "Tiện nghi khác" -->
+              <ul class="item continue-composing" id="group_real_estate_utility">
+                <li class="item-title"><span>Tiện nghi</span></li>                
+                <li class="form-group ele-1">
+                  <div class="checkbox">                    
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Tầng hầm</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Tầng lửng</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Sân thượng</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Gara ôtô</label>           
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Thang máy</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Hồ bơi</label>                   
+                  </div>
+                </li>           
+              </ul>
+              <!-- #End item "Tiện nghi khác" -->
+              <!-- #Start item "Tiện ích khu vực" -->
+              <ul class="item continue-composing" id="group_region_utility">
+                <li class="item-title"><span>Tiện ích khu vực</span></li>               
+                <li class="form-group ele-1">
+                  <div class="checkbox">
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Siêu thị</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Chợ</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Bệnh viện</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Công viên</label>      
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Khu vui chơi</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Bến xe</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Khu dân cư</label>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox"> Khu kinh doanh</label>         
+                  </div>
+                </li>           
+              </ul>
+              <!-- #End item "Tiện nghi khác" -->             
+              <!-- #Start item "Đánh giá các đặc điểm khác" -->
+              <ul class="item continue-composing" id="group_characteristic_different" >
+                <li class="item-title">
+                  <span>Đánh giá các đặc điểm khác</span>
+                  <a href="#" class="support-button" data-value="#support_characteristic_differents"></a>
+                  <section class="support-text" id="support_characteristic_differents">                   
+                    Nhập đặc điểm tốt, xấu (nếu có) để phần mềm định giá được chính xác hơn.
+                  </section>
+                </li>                                   
+                <li class="sub-item">
+                  <div class="sub-item-title">
+                    Điểm tốt
+                  </div>
+                  <div class="line">
+                    <hr>
+                  </div>
+                  <div class="form-group ele-1">                    
+                    <div class="checkbox">
+                      <label class="col-sm-12"><input type="checkbox"> Hẻm thông</label>
+                      <label class="col-sm-12"><input type="checkbox"> Có 2 mặt đường chính</label>
+                      <label class="col-sm-12"><input type="checkbox"> Có 2 mặt hẻm</label>
+                      <label class="col-sm-12"><input type="checkbox"> Có 1 mặt đường chính và 1 mặt hẻm</label>
+                      <label class="col-sm-12"><input type="checkbox"> Tiện làm quán cafe, nhà hàng, khách sạn</label>
+                    </div>
+                  </div>  
+                  <div class="form-group">
+                    <label class="control-label col-sm-3" for="custom_advantages">Điểm tốt khác:</label>
+                    <div class="col-sm-9">
+                      <input name="custom_advantages" class="form-control" id="custom_advantages">
+                    </div>    
+                  </div>                                
+                </li>               
+                <li class="sub-item">
+                  <div class="sub-item-title">
+                    Điểm xấu
+                  </div>
+                  <div class="line">
+                    <hr>
+                  </div>                  
+                  <div class="form-group ele-1">
+                    <div class="checkbox">                      
+                      <label class="col-sm-12"><input type="checkbox"> Khu quy hoạch treo</label>
+                      <label class="col-sm-12"><input type="checkbox"> Gần chùa, nhà thờ, tang lễ</label>
+                      <label class="col-sm-12"><input type="checkbox"> Đường hẻm đâm thẳng vào nhà</label>          
+                      <label class="col-sm-12"><input type="checkbox"> Gần chân cầu, trụ điện, ống cống</label>
+                      <label class="col-sm-12"><input type="checkbox"> Tường chung không thể xây mới</label>
+                    </div>                      
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-3" for="custom_disadvantages">Điểm xấu khác:</label>
+                    <div class="col-sm-9">
+                      <input name="custom_disadvantages" class="form-control" id="custom_disadvantages">
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <!-- #End item "Đánh giá các đặc điểm khác" -->
+              <!-- #Start item "Hình ảnh" -->
+              <ul class="item continue-composing" id="group_images">
+                <li class="item-title"><span>Hình ảnh</span></li> 
+                <li class="form-group pic-ele">
+                  <label class="control-label col-sm-3" for="images">Hình ảnh mô tả BĐS của bạn:</label>
+                  <div class="col-sm-9">
+                    <input type="file" name="images" class="form-control required" id="images">
+                  </div>                  
+                </li>
+                <li class="sub-item">
+                  <div class="form-group pic-ele" id="group_add_images">      
+                    <div class="col-sm-7">
+                      <input type="file" name="images" class="form-control image" id="images" data-name="sub-image">      
+                    </div>
+                    <div class="col-sm-3">
+                      <button class="btn btn-link" id="btn_add_image" data-add="sub-image">thêm ảnh +</button>
+                    </div>                    
+                  </div>                  
+                </li>               
+              </ul>
+              <!-- #End item "Hình ảnh" -->
+              <!-- #Start Submit Button -->
+              <ul class="item">               
+                <div class="free-supporter">Điền tiếp <a href="#" class="expand" id="btn_continue_composing" data-target=".continue-composing">thông tin bổ sung</a> bên dưới để đăng tin đầy đủ và được phần mềm hỗ trợ định giá nhà</div>
+                <li class="submit">
+                  <button type="submit" class="btn btn-primary">Đăng tin</button>
+                  <button type="reset" class="btn btn-danger">Xoá hết</button>
+                  <button type="submit" class="btn btn-default">Xem trước</button>                  
+                </li>               
+              </ul>
+              <!-- #End Submit Button -->
+            </article>
+          </form>
+          <!-- #end content -->
   <!-- #start guide -->
   <article class="guide col-md-4 custom-hidden-992">
     <b>Nhà cấp 1:</b><br>

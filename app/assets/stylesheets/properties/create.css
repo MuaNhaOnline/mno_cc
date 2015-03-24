@@ -279,6 +279,9 @@ main {
 					.content > ul.item > li.sub-item > div.form-group.pic-ele > div {
 						margin-top: 5px;
 					}
+					.content > ul.item > li.sub-item > div.form-group.pic-ele > div > input {
+						margin-top: 5px;
+					}
 			/*#end sub-item*/
 		/*#end item form-group*/		
 		/*#start submit*/
