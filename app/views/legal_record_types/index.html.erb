@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Legal Record Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Options</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @legal_record_types.each do |legal_record_type| %>
+      <tr>
+        <td><%= legal_record_type.name %></td>
+        <td><%= legal_record_type.code %></td>
+        <td><%= legal_record_type.options %></td>
+        <td><%= link_to 'Show', legal_record_type %></td>
+        <td><%= link_to 'Edit', edit_legal_record_type_path(legal_record_type) %></td>
+        <td><%= link_to 'Destroy', legal_record_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Legal record type', new_legal_record_type_path %>

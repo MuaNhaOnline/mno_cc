@@ -1,0 +1,2 @@
+module RealEstateAdvantagesHelper
+end

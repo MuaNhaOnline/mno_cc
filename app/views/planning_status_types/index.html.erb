@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Planning Status Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Options</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @planning_status_types.each do |planning_status_type| %>
+      <tr>
+        <td><%= planning_status_type.name %></td>
+        <td><%= planning_status_type.code %></td>
+        <td><%= planning_status_type.options %></td>
+        <td><%= link_to 'Show', planning_status_type %></td>
+        <td><%= link_to 'Edit', edit_planning_status_type_path(planning_status_type) %></td>
+        <td><%= link_to 'Destroy', planning_status_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Planning status type', new_planning_status_type_path %>

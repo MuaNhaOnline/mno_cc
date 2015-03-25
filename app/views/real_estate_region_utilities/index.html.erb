@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Real Estate Region Utilities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Real estate</th>
+      <th>Region utility</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @real_estate_region_utilities.each do |real_estate_region_utility| %>
+      <tr>
+        <td><%= real_estate_region_utility.real_estate_id %></td>
+        <td><%= real_estate_region_utility.region_utility_id %></td>
+        <td><%= link_to 'Show', real_estate_region_utility %></td>
+        <td><%= link_to 'Edit', edit_real_estate_region_utility_path(real_estate_region_utility) %></td>
+        <td><%= link_to 'Destroy', real_estate_region_utility, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Real estate region utility', new_real_estate_region_utility_path %>

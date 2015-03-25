@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @region_utility.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @region_utility.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @region_utility.options %>
+</p>
+
+<%= link_to 'Edit', edit_region_utility_path(@region_utility) %> |
+<%= link_to 'Back', region_utilities_path %>

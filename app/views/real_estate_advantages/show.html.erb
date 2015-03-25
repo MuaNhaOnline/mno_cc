@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Real estate:</strong>
+  <%= @real_estate_advantage.real_estate_id %>
+</p>
+
+<p>
+  <strong>Advantage:</strong>
+  <%= @real_estate_advantage.advantage_id %>
+</p>
+
+<%= link_to 'Edit', edit_real_estate_advantage_path(@real_estate_advantage) %> |
+<%= link_to 'Back', real_estate_advantages_path %>

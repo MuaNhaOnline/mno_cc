@@ -6,255 +6,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="description" Contents="MuaNhaOnline - Giá trị thực trong tầm tay">
-
-  <link rel="stylesheet" href="/assets/shared/media.css" />
+  
   <link rel="stylesheet" href="/assets/shared/layout_admin.css" />
   <link rel="stylesheet" href="/assets/shared/bootstrap.min.css" />
   <%= yield :stylesheets %>
 </head>
 <body>
 <!-- #start header -->
-<!--<header class="container-fluid navbar-fixed-top">
-  &lt;!&ndash; #start logo &ndash;&gt;
-  <section class="logo">
-    <h1>
-      <a href="../../index.html">
-        <img src="/assets/logo/logo.png" />
-      </a>
-      <i>MuaNhaOnline.vn</i>
-    </h1>
-  </section>
-  &lt;!&ndash; #end logo &ndash;&gt;
-  &lt;!&ndash; #start menu &ndash;&gt;
-  <section class="nav-menu">
-    <input class="toggle-button visible-xs visible-sm" data-toggle-target=".nav-menu-collapse" type="button" />
-    <ul class="hidden-xs hidden-sm custom-hidden-1010">
-      <li>
-        <a href="../SanPham/index.html">
-          BĐS BÁN
-        </a>
-      </li>
-      <li>
-        <a href="../SanPham/index.html">
-          BĐS CHO THUÊ
-        </a>
-      </li>
-      <li>
-        <a href="../DuAn/index.html">
-          DỰ ÁN
-        </a>
-      </li>
-      <li>
-        <a href="../TinTuc/index.html">
-          TIN TỨC
-        </a>
-      </li>
-      <li>
-        <a href="../DoanhNghiep/index.html">
-          DOANH NGHIỆP
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          LIÊN HỆ
-        </a>
-      </li>
-      <li>
-        <a href="index.html">
-          (Demo) Đăng tin
-        </a>
-      </li>
-    </ul>
-  </section>
-  &lt;!&ndash; #end menu &ndash;&gt;
-  &lt;!&ndash; #start sign &ndash;&gt;
-  <section class="nav-right custom-hidden-0 custom-visible-1200">
-    <ul>
-      <li>
-        <a class="log show-next" data-focus="#email" href="#">
-          Đăng nhập
-        </a>
-      </li>
-      <li>
-        <a class="register show-next" data-focus="#ten-dang-nhap" href="#">
-          Đăng ký
-        </a>
-      </li>
-    </ul>
-  </section>
-  &lt;!&ndash; #end sign &ndash;&gt;
-  &lt;!&ndash; #start link &ndash;&gt;
-  <section class="nav-link custom-hidden-0 custom-visible-400">
-    <ul>
-      <li>
-        <a class='nha-dat-ban' href="#"></a>
-      </li>
-      <li>
-        <a class='nha-dat-thue' href="#"></a>
-      </li>
-      <li>
-        <a class='dinh-gia' href="#"></a>
-      </li>
-    </ul>
-  </section>
-  &lt;!&ndash; #end link &ndash;&gt;
-  &lt;!&ndash; #start menu-collapse &ndash;&gt;
-  <section class="nav-menu-collapse visible-xs visible-sm">
-    <ul>
-      <li class="custom-visible-0 custom-hidden-590">
-        <a href="#">
-          Đăng nhập
-        </a>
-      </li>
-      <li class="custom-visible-0 custom-hidden-590">
-        <a href="#">
-          Đăng ký
-        </a>
-      </li>
-      <li>
-        <a href="../SanPham/index.html">
-          BĐS BÁN
-        </a>
-      </li>
-      <li>
-        <a href="../SanPham/index.html">
-          BĐS CHO THUÊ
-        </a>
-      </li>
-      <li>
-        <a href="../DuAn/index.html">
-          DỰ ÁN
-        </a>
-      </li>
-      <li>
-        <a href="../TinTuc/index.html">
-          TIN TỨC
-        </a>
-      </li>
-      <li>
-        <a href="../DoanhNghiep/index.html">
-          DOANH NGHIỆP
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          LIÊN HỆ
-        </a>
-      </li>
-      <li>
-        <a href="index.html">
-          (Demo) Đăng tin
-        </a>
-      </li>
-    </ul>
-  </section>
-  &lt;!&ndash; #end menu-collapse &ndash;&gt;
-  &lt;!&ndash; #start collapse-aside &ndash;&gt;
-  <aside class="collapse-aside custom-show-768 col-sm-3 col-lg-2">
-    <section class="title">--- Dịch vụ chính</section>
-    <ul>
-      <li>
-        <section class="title">Bất động sản</section>
-        <ul>
-          <li><a href="#">Đăng tin bất động sản</a></li>
-          <li><a href="#">Hiển thị tất cả BĐS</a></li>
-          <li><a href="#">BĐS đang được hiển thị</a></li>
-          <li><a href="#">BĐS hết hạn hiển thị</a></li>
-          <li><a href="#">BĐS đang chờ duyệt</a></li>
-        </ul>
-      </li>
-      <li>
-        <section class="title">Nhu cầu mua thuê BĐS</section>
-        <ul>
-          <li><a href="#">Thêm nhu cầu</a></li>
-        </ul>
-      </li>
-      <li>
-        <section class="title">Thẩm định giá BĐS</section>
-        <ul>
-          <li><a href="#">Đăng yêu cầu thẩm định</a></li>
-          <li><a href="#">BĐS Đợi thẩm định</a></li>
-        </ul>
-      </li>
-    </ul>
-    <section class="title">--- Quản trị</section>
-    <ul>
-      <li>
-        <section class="title">Bất động sản quan tâm</section>
-        <ul>
-          <li><a href="#">Hiển thị tất cả</a></li>
-        </ul>
-      </li>
-      <li>
-        <section class="title">Khách hàng liên hệ</section>
-        <ul>
-          <li><a href="#">Hiển thị tất cả</a></li>
-        </ul>
-      </li>
-    </ul>
-  </aside>
-  &lt;!&ndash; #end collapse-aside &ndash;&gt;
-</header>-->
+<header class="container-fluid navbar-fixed-top">
+  
+</header>
+<div class="header"></div>
 <!-- #end header -->
-<div class="row" style="margin-top:45px">
-  <!-- #start left-aside -->
-  <aside class="left-aside hidden-xs col-sm-3 col-lg-2">
-    <section class="title">.:. Dịch vụ chính .:.</section>
-    <ul>
-      <li>
-        <section class="title active">Bất động sản</section>
-        <ul>
-          <li><a href="#">Đăng tin bất động sản</a></li>
-          <li><a href="../TrangQuanTri/DanhSachBDS.html">Hiển thị tất cả BĐS</a></li>
-          <li><a href="#">BĐS đang được hiển thị</a></li>
-          <li><a href="#">BĐS hết hạn hiển thị</a></li>
-          <li><a href="#">BĐS đang chờ duyệt</a></li>
-        </ul>
-      </li>
-      <li>
-        <section class="title active">Nhu cầu mua thuê BĐS</section>
-        <ul>
-          <li><a href="#">Thêm nhu cầu</a></li>
-        </ul>
-      </li>
-      <li>
-        <section class="title active">Thẩm định giá BĐS</section>
-        <ul>
-          <li><a href="#">Đăng yêu cầu thẩm định</a></li>
-          <li><a href="#">BĐS Đợi thẩm định</a></li>
-        </ul>
-      </li>
-    </ul>
-    <section class="title">.:. Quản trị .:.</section>
-    <ul>
-      <li>
-        <section class="title active">Bất động sản quan tâm</section>
-        <ul>
-          <li><a href="#">Hiển thị tất cả</a></li>
-        </ul>
-      </li>
-      <li>
-        <section class="title active">Khách hàng liên hệ</section>
-        <ul>
-          <li><a href="#">Hiển thị tất cả</a></li>
-        </ul>
-      </li>
-    </ul>
+<!-- #start main -->
+<main>  
+  <!-- #start aside -->
+  <aside class="hidden-xs hidden-sm">
+  
   </aside>
-  <!-- #end left-aside -->
-  <!-- #start main -->
-  <main class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-    <div class="container-fluid">
-      <%= yield %>
-    </div>
-  </main>
-  <!-- #end main -->
-</div>
-<!-- #start footer -->
-<!-- #end footer -->
+  <!-- #end aside -->
+  <!-- #start content -->
+  <article class="content">
+    <%= yield %>    
+  </article>       
+  <!-- #end content -->
+</main>
+<!-- #end main -->
 </body>
-`
+
 <script src="/assets/shared/jquery.min.js"></script>
 <script src="/assets/shared/layout.js"></script>
-<%= yield :scripts %>`
+<%= yield :scripts %>
 </html>

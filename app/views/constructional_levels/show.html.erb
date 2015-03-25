@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @constructional_level.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @constructional_level.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @constructional_level.options %>
+</p>
+
+<%= link_to 'Edit', edit_constructional_level_path(@constructional_level) %> |
+<%= link_to 'Back', constructional_levels_path %>
