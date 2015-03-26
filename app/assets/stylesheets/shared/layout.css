@@ -106,8 +106,7 @@ header > .button-mini-sitemap.scroll-button-mini-sitemap {
     }
 }
 ul.mini-sitemap {
-    display: none;
-    margin-top: 77px;
+    display: none;      
     padding: 0 15px;
     width: 100%;
     transition: height 0.5s;
@@ -119,20 +118,34 @@ ul.mini-sitemap {
     -webkit-box-shadow: 0px 3px 10px #ccc;
     -moz-box-shadow: 0px 3px 10px #ccc;
 }
-ul.mini-sitemap.scroll-mini-sitemap {
-    margin-top: 60px;
+ul.mini-sitemap.scroll-mini-sitemap {       
+}
+@media(min-width: 1000px) {
+    .mini-sitemap {
+        display: none !important;
+    }
 }
 @media(max-width: 768px) {
-    ul.mini-sitemap {
+    .mini-sitemap {
+        margin-top: 0;          
+    }
+    .mini-sitemap.scroll-mini-sitemap {
         margin-top: 0;
     }
-    ul.mini-sitemap.scroll-mini-sitemap {
-        margin-top: 0;
-    }
-}
+}   
 ul.mini-sitemap > li {
-    margin: 5px 0;
-}
+    margin: 10px 0;
+}   
+ul.mini-sitemap > li:last-of-type {
+    color: ##d9534f;    
+}   
+    ul.mini-sitemap > li:last-of-type > a {
+        display: inline-block !important;
+    }
+    ul.mini-sitemap > li:last-of-type > img {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
 /* #end mini-sitemap */
 /* #end sitemap */
 /* #start posting */
@@ -142,7 +155,7 @@ header > .posting {
     transition: 0.5s;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
-}
+}    
 header > .posting.scroll-posting {
     margin: 30px 5px 5px 5px;
 }

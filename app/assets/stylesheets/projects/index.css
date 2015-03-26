@@ -43,7 +43,7 @@
 						width: 10px;						
 						position: absolute;
 						margin: 5px 0 0 -15px;
-						background: url('../../image/icon/DangHoanThanh.png') no-repeat center center;
+						background: url('/assets/icon/DangHoanThanh.png') no-repeat center center;
 					}
 			.slide-picture > .details > li > .address {
 				margin: 5px 0 5px 17px;
@@ -54,13 +54,13 @@
 		.slide-picture > ul.scroll > .active {
 			width: 20px;	
 			height: 5px;		
-			background: url('../../image/icon/scroll.png') no-repeat top center;
+			background: url('/assets/icon/scroll.png') no-repeat top center;
 			display: inline-block;
 		}
 		.slide-picture > ul.scroll > .inactive {
 			width: 20px;	
 			height: 5px;		
-			background: url('../../image/icon/scroll.png') no-repeat bottom;
+			background: url('/assets/icon/scroll.png') no-repeat bottom;
 			display: inline-block;
 		}
 /* #end slide-picture */
@@ -68,7 +68,7 @@
 /* #start separator */
 .separator {
 	height: 20px;
-	background: url('../../image/icon/separator.png') no-repeat center center;	
+	background: url('/assets/icon/separator.png') no-repeat center center;	
 }
 /* #end separator */
 
@@ -142,7 +142,7 @@ ul.project-list {
 								width: 10px;						
 								position: absolute;
 								margin: 5px 0 0 -15px;
-								background: url('../../image/icon/DangHoanThanh.png') no-repeat center center;
+								background: url('/assets/icon/DangHoanThanh.png') no-repeat center center;
 							}
 						ul.project-list > li .project-item > a > .details > .content > .properties {							
 							color: #999;	
@@ -150,7 +150,7 @@ ul.project-list {
 						}
 						ul.project-list > li .project-item > a > .details > .favorite-button {
 							display: block;					
-							background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+							background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 							width: 20px;
 							height: 20px;
 							position: absolute;
@@ -158,7 +158,7 @@ ul.project-list {
 							right: 15px;							
 						}
 							ul.project-list > li .project-item > a > .details > .favorite-button:hover {
-								background: url('../../image/icon/icon_highlight.png') no-repeat center top;
+								background: url('/assets/icon/icon_highlight.png') no-repeat center top;
 							}
 			/* #start details */
 			/* #start link */
@@ -175,7 +175,7 @@ ul.project-list {
 				}
 				ul.project-list > li .project-item > .link > a.share-button {
 					display: block;
-					background: url('../../image/icon/share.png') no-repeat left center;
+					background: url('/assets/icon/share.png') no-repeat left center;
 					width: 14px;
 					height: 28px;
 					position: absolute;
@@ -183,7 +183,7 @@ ul.project-list {
 					right: 18px;
 				}
 					ul.project-list > li .project-item > .link > a.share-button:hover {
-						background: url('../../image/icon/share.png') no-repeat right center;
+						background: url('/assets/icon/share.png') no-repeat right center;
 					}
 			/* #end link*/
 /* #end project-list */

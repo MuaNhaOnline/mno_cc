@@ -38,7 +38,7 @@ ul.products-list {
 		}
 			ul.products-list > li .favorite-button {
 				display: block;					
-				background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+				background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 				width: 20px;
 				height: 20px;
 				position: absolute;
@@ -46,7 +46,7 @@ ul.products-list {
 				right: 15px;
 			}
 				ul.products-list > li .favorite-button:hover {					
-					background: url('../../image/icon/icon_highlight.png') no-repeat center top;
+					background: url('/assets/icon/icon_highlight.png') no-repeat center top;
 				}
 			ul.products-list > li .product-item .top-section {
 				text-decoration: none;
@@ -97,13 +97,13 @@ ul.products-list {
 						vertical-align: middle;
 					}
 					ul.products-list > li .product-item .top-section .property .bedroom:before {
-						background-image: url('../../image/icon/icon_phongngu.png');
+						background-image: url('/assets/icon/icon_phongngu.png');
 					}
 					ul.products-list > li .product-item .top-section .property .bathroom:before {
-						background-image: url('../../image/icon/icon_phongtam.png');
+						background-image: url('/assets/icon/icon_phongtam.png');
 					}
 					ul.products-list > li .product-item .top-section .property .area:before {
-						background-image: url('../../image/icon/icon_dientich.png');
+						background-image: url('/assets/icon/icon_dientich.png');
 					}
 				ul.products-list > li .product-item .top-section .content {
 					font-size: 12px;
@@ -139,7 +139,7 @@ ul.products-list {
 					}
 					ul.products-list > li .product-item .bottom-section .button .share-button {
 						display: block;					
-						background: url('../../image/icon/share.png') no-repeat left center;
+						background: url('/assets/icon/share.png') no-repeat left center;
 						width: 14px;
 						height: 16px;
 						position: absolute;
@@ -147,11 +147,11 @@ ul.products-list {
 						right: 60px; 
 					}
 					ul.products-list > li .product-item .bottom-section .button .share-button:hover {
-						background: url('../../image/icon/share.png') no-repeat right center;
+						background: url('/assets/icon/share.png') no-repeat right center;
 					}
 					ul.products-list > li .product-item .bottom-section .button .muathuebds-button {
 						display: block;					
-						background: url('../../image/icon/small_muathuebds.png') no-repeat left center;
+						background: url('/assets/icon/small_muathuebds.png') no-repeat left center;
 						width: 17px;
 						height: 17px;
 						position: absolute;
@@ -159,7 +159,7 @@ ul.products-list {
 						right: 86px; 
 					}
 					ul.products-list > li .product-item .bottom-section .button .muathuebds-button:hover {
-						background: url('../../image/icon/small_muathuebds.png') no-repeat right center;
+						background: url('/assets/icon/small_muathuebds.png') no-repeat right center;
 					}
 		/*#end product item*/
 /*#end products list*/
@@ -219,7 +219,7 @@ ul.infos-list {
 		}
 		.relative-filter > ul.dropdown-search > li:after {
 			content: "";
-			background: url('../../image/icon/down.png') no-repeat center center;
+			background: url('/assets/icon/down.png') no-repeat center center;
 			width: 5px;
 			height: 5px;
 			display: inline-block;
@@ -257,7 +257,7 @@ ul.relative-products-list {
 		}
 			ul.relative-products-list > li .favorite-button {
 				display: block;					
-				background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+				background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 				width: 20px;
 				height: 20px;
 				position: absolute;
@@ -265,7 +265,7 @@ ul.relative-products-list {
 				right: 15px;
 			}
 				ul.relative-products-list > li .favorite-button:hover {					
-					background: url('../../image/icon/icon_highlight.png') no-repeat center top;
+					background: url('/assets/icon/icon_highlight.png') no-repeat center top;
 				}
 			ul.relative-products-list > li .product-item .top-section {
 				text-decoration: none;
@@ -316,13 +316,13 @@ ul.relative-products-list {
 						vertical-align: middle;
 					}
 					ul.relative-products-list > li .product-item .top-section .property .bedroom:before {
-						background-image: url('../../image/icon/icon_phongngu.png');
+						background-image: url('/assets/icon/icon_phongngu.png');
 					}
 					ul.relative-products-list > li .product-item .top-section .property .bathroom:before {
-						background-image: url('../../image/icon/icon_phongtam.png');
+						background-image: url('/assets/icon/icon_phongtam.png');
 					}
 					ul.relative-products-list > li .product-item .top-section .property .area:before {
-						background-image: url('../../image/icon/icon_dientich.png');
+						background-image: url('/assets/icon/icon_dientich.png');
 					}
 				ul.relative-products-list > li .product-item .top-section .content {
 					font-size: 12px;
@@ -358,7 +358,7 @@ ul.relative-products-list {
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .share-button {
 						display: block;					
-						background: url('../../image/icon/share.png') no-repeat left center;
+						background: url('/assets/icon/share.png') no-repeat left center;
 						width: 14px;
 						height: 16px;
 						position: absolute;
@@ -366,11 +366,11 @@ ul.relative-products-list {
 						right: 60px; 
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .share-button:hover {
-						background: url('../../image/icon/share.png') no-repeat right center;
+						background: url('/assets/icon/share.png') no-repeat right center;
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .muathuebds-button {
 						display: block;					
-						background: url('../../image/icon/small_muathuebds.png') no-repeat left center;
+						background: url('/assets/icon/small_muathuebds.png') no-repeat left center;
 						width: 17px;
 						height: 17px;
 						position: absolute;
@@ -378,7 +378,7 @@ ul.relative-products-list {
 						right: 86px; 
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .muathuebds-button:hover {
-						background: url('../../image/icon/small_muathuebds.png') no-repeat right center;
+						background: url('/assets/icon/small_muathuebds.png') no-repeat right center;
 					}
 		/*#end product item*/
 /*#end relative-product list*/
