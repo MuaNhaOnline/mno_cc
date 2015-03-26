@@ -1,2 +1,17 @@
 module ApplicationHelper
+  def self.to_i string
+    begin
+      string.remove(/\D/).to_i
+    rescue
+      0
+    end
+  end
+
+  def self.to_f string
+    begin
+      string.remove(/[^0-9.,]/).to_f
+    rescue
+      0
+    end
+  end
 end
