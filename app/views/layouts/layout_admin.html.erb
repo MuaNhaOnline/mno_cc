@@ -13,7 +13,63 @@
 </head>
 <body>
 <!-- #start header -->
-<header class="container-fluid navbar-fixed-top">  
+<header class="container-fluid navbar-fixed-top">
+  <!-- #start logo -->
+  <a href="/home/index" class="logo hidden-xs">
+    <img src="/assets/logo/logoMain.png">
+  </a>
+  <!-- Mini logo -->
+  <div class="mini-logo">
+    <span class="visible-xs"><a href="/home/index">MuaNhaOnline.vn</a></span>
+  </div>
+  <!-- #end logo -->
+  <!-- #start sitemap -->
+  <ul class="sitemap">
+    <li><a href="/real_estates/index">BĐS cần bán</a></li>
+    <li><a href="/real_estates/index">BĐS cần mua</a></li>
+    <li><a href="/projects/index">Dự án</a></li>
+    <li><a href="/news/index">Tin tức</a></li>
+    <li><a href="/businesses/index">Doanh nghiệp</a></li>
+  </ul>
+  <!-- Mini sitemap -->
+  <div class="button-mini-sitemap" data-toggle-target=".mini-sitemap"></div>
+  <ul class="mini-sitemap">
+    <li><a href="/real_estates/index">BĐS cần bán</a></li>
+    <li><a href="/real_estates/index">BĐS cần mua</a></li>
+    <li><a href="/projects/index">Dự án</a></li>
+    <li><a href="/news/index">Tin tức</a></li>
+    <li><a href="/businesses/index">Doanh nghiệp</a></li>
+    <li class="visible-xs" hidden>
+      <a href="/real_estates/create" id="posting">Đăng tin miễn phí</a>
+      <img src="/assets/icon/star-icon.png">
+    </li>
+  </ul>
+  <!-- #end nav -->
+  <!-- posting -->
+  <article class="posting hidden-xs">
+    <button href="/real_estates/create" class="btn btn-danger">Đăng tin miễn phí</button>
+  </article>
+  <!-- #start login -->
+  <article class="user visible-lg">
+    <div class="login">
+      <a href="#">Đăng nhập</a>
+    </div>
+    <div class="register">
+      <a href="#">Đăng ký</a>
+    </div>
+  </article>
+  <!-- Mini login -->
+  <article class="user-mini user-mini-toggle-button hidden-lg" data-toggle-target=".user-mini-content">
+    <section class="user-mini-content">
+      <div class="login">
+        <a href="#">Đăng nhập</a>
+      </div>
+      <div class="register">
+        <a href="#">Đăng ký</a>
+      </div>
+    </section>
+  </article>
+  <!-- #end login -->
 </header>
 <div class="header"></div>
 <!-- #end header -->
@@ -34,6 +90,6 @@
 </body>
 
 <script src="/assets/shared/jquery.min.js"></script>
-<script src="/assets/shared/layout.js"></script>
+<script src="/assets/shared/layout_admin.js"></script>
 <%= yield :scripts %>
 </html>

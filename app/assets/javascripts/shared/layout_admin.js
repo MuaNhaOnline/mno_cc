@@ -1,21 +1,16 @@
 // #start start
-$(function () {
-	initial();
+$(function () {	
 	initAside();
-});
-// #end start
 
-// #start initial
-function initial() {
 	//process toggle button
-	$('.toggle-button').on('click', function () {
-		initial_toggle_button(this);
-	});	
-	$('.toggle-button-panel').on('click', function() {
+	$('.user-mini-toggle-button').on('click', function () {
 		initial_toggle_button(this);
 	});
-}
-// #end initial
+	$('.button-mini-sitemap').on('click', function () {
+		initial_toggle_button(this);
+	});
+});
+// #end start
 
 // #start toggle_button
 	// #start toggle
@@ -24,14 +19,15 @@ function initial() {
 			//get $object
 			object = $(object);
 
-			//toggle class "show"
-			object.toggleClass('show');
+			//toggle
+			object.toggle();
 		}
 	// #end toggle
 	function initial_toggle_button (sender) {
 		toggle(sender.getAttribute('data-toggle-target'));
 	}
 // #end toggle_button
+
 //initialize Aside
 function initAside() {
 	//left-aside
