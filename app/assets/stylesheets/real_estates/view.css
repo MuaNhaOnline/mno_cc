@@ -11,7 +11,11 @@
 .general-infos {
 	position: relative;
 	display: flex;
+	display: -webkit-flex;
+	display: -moz-flex;
 	flex-direction: row;
+	-webkit-flex-direction: row;
+	-moz-flex-direction: row;	
 }
 	.general-infos .image {
 		margin: 0px 10px;
@@ -23,7 +27,7 @@
 	}		
 		.general-infos .image .favorite-button {
 			display: block;					
-			background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+			background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 			width: 20px;
 			height: 20px;
 			position: absolute;
@@ -31,7 +35,7 @@
 			right: 15px;	
 		}
 			.general-infos .image .favorite-button:hover {
-				background: url('../../image/icon/icon_highlight.png') no-repeat center top;		
+				background: url('/assets/icon/icon_highlight.png') no-repeat center top;		
 			}
 		.general-infos .image img {			
 			width: 100%;
@@ -179,7 +183,7 @@
 		display: inline-block;
 		width: 11px;
 		height: 9px;
-		background-image: url('../../image/icon/nike.png');
+		background-image: url('/assets/icon/nike.png');
 		margin-right: 5px;
 	}
 	.infos-list .item.circle:before {
@@ -187,7 +191,7 @@
 		display: inline-block;
 		width: 11px;
 		height: 9px;
-		background-image: url('../../image/icon/circle.png');
+		background-image: url('/assets/icon/circle.png');
 		margin-right: 5px;
 	}
 @media (max-width: 560px) {
@@ -220,7 +224,7 @@
 		}
 		.relative-filter > ul.dropdown-search > li:after {
 			content: "";
-			background: url('../../image/icon/down.png') no-repeat center center;
+			background: url('/assets/icon/down.png') no-repeat center center;
 			width: 5px;
 			height: 5px;
 			display: inline-block;
@@ -257,7 +261,7 @@ ul.relative-products-list {
 		}
 			ul.relative-products-list > li .favorite-button {
 				display: block;					
-				background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+				background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 				width: 20px;
 				height: 20px;
 				position: absolute;
@@ -265,7 +269,7 @@ ul.relative-products-list {
 				right: 15px;
 			}
 				ul.relative-products-list > li .favorite-button:hover {					
-					background: url('../../image/icon/icon_highlight.png') no-repeat center top;
+					background: url('/assets/icon/icon_highlight.png') no-repeat center top;
 				}
 			ul.relative-products-list > li .product-item .top-section {
 				text-decoration: none;
@@ -316,13 +320,13 @@ ul.relative-products-list {
 						vertical-align: middle;
 					}
 					ul.relative-products-list > li .product-item .top-section .property .bedroom:before {
-						background-image: url('../../image/icon/icon_phongngu.png');
+						background-image: url('/assets/icon/icon_phongngu.png');
 					}
 					ul.relative-products-list > li .product-item .top-section .property .bathroom:before {
-						background-image: url('../../image/icon/icon_phongtam.png');
+						background-image: url('/assets/icon/icon_phongtam.png');
 					}
 					ul.relative-products-list > li .product-item .top-section .property .area:before {
-						background-image: url('../../image/icon/icon_dientich.png');
+						background-image: url('/assets/icon/icon_dientich.png');
 					}
 				ul.relative-products-list > li .product-item .top-section .content {
 					font-size: 12px;
@@ -358,7 +362,7 @@ ul.relative-products-list {
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .share-button {
 						display: block;					
-						background: url('../../image/icon/share.png') no-repeat left center;
+						background: url('/assets/icon/share.png') no-repeat left center;
 						width: 14px;
 						height: 16px;
 						position: absolute;
@@ -366,11 +370,11 @@ ul.relative-products-list {
 						right: 60px; 
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .share-button:hover {
-						background: url('../../image/icon/share.png') no-repeat right center;
+						background: url('/assets/icon/share.png') no-repeat right center;
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .muathuebds-button {
 						display: block;					
-						background: url('../../image/icon/small_muathuebds.png') no-repeat left center;
+						background: url('/assets/icon/small_muathuebds.png') no-repeat left center;
 						width: 17px;
 						height: 17px;
 						position: absolute;
@@ -378,7 +382,7 @@ ul.relative-products-list {
 						right: 86px; 
 					}
 					ul.relative-products-list > li .product-item .bottom-section .button .muathuebds-button:hover {
-						background: url('../../image/icon/small_muathuebds.png') no-repeat right center;
+						background: url('/assets/icon/small_muathuebds.png') no-repeat right center;
 					}
 		/*#end product item*/
 /*#end relative-product list*/
