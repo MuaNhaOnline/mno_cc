@@ -14,4 +14,8 @@ module ApplicationHelper
       0
     end
   end
+
+  def self.id_format id, code, length = 5
+    "\##{code}#{id.to_s.rjust(5, '0')}"
+  end
 end

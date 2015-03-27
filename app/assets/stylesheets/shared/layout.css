@@ -25,15 +25,17 @@ header.scroll {
 }
 /* #start logo */
 header > a.logo {
-    float: left;
-    margin: 10px;
+    float: left;    
     transition: 0.5s;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
 }
-header > a.logo.scroll-logo {
-    margin: 5px 10px;
+@media (scroll-top: 10px) {
+    header > .logo {
+        margin: 5px 10px;
+    }
 }
+
 /* Mini logo */
 header > .mini-logo {
     display: inline-block;
@@ -81,7 +83,7 @@ header > .button-mini-sitemap {
     margin: 30px 10px 10px 10px;
     width: 40px;
     height: 40px;
-    background: url('../../image/icon/mini-sitemap.png') no-repeat center left;
+    background: url('/assets/icon/mini-sitemap.png') no-repeat center left;
     transition: 0.5s;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
@@ -162,7 +164,7 @@ header > .user > .login {
     padding-left: 30px;
     line-height: 30px;
     height: 26px;
-    background: url('../../image/icon/login.png') no-repeat center left;
+    background: url('/assets/icon/login.png') no-repeat center left;
     float: left;
     margin: 10px;
 }
@@ -170,7 +172,7 @@ header > .user > .register {
     padding-left: 30px;
     line-height: 30px;
     height: 26px;
-    background: url('../../image/icon/register.png') no-repeat center left;
+    background: url('/assets/icon/register.png') no-repeat center left;
     float: left;
     margin: 10px;
 }
@@ -188,7 +190,7 @@ header > .user-mini {
     width: 40px;
     margin: 30px 5px 5px 5px;
     position: relative;
-    background: url('../../image/icon/mini-user.png') no-repeat center center;
+    background: url('/assets/icon/mini-user.png') no-repeat center center;
     transition: 0.5s;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
@@ -220,14 +222,14 @@ header > .user-mini > .user-mini-content > .login {
     padding-left: 30px;
     line-height: 30px;
     height: 26px;
-    background: url('../../image/icon/login.png') no-repeat center left;
+    background: url('/assets/icon/login.png') no-repeat center left;
     margin: 10px;
 }
 header > .user-mini > .user-mini-content > .register {
     padding-left: 30px;
     line-height: 30px;
     height: 26px;
-    background: url('../../image/icon/register.png') no-repeat center left;
+    background: url('/assets/icon/register.png') no-repeat center left;
     margin: 10px;
 }
 /* #end user-mini */
@@ -510,7 +512,7 @@ footer:before {
     position: absolute;
     top: -25px;
     left: calc(50% - 30px);
-    background: #484a50 url('../../image/icon/about.png') no-repeat 20px center;
+    background: #484a50 url('/assets/icon/about.png') no-repeat 20px center;
     border-radius: 50%;
 }
 /*#start bottom-footer*/
@@ -535,7 +537,7 @@ footer > .bottom-footer > p.email:before {
     vertical-align: bottom;
     width: 26px;
     height: 20px;
-    background: url('../../image/icon/mail.png') no-repeat left center;
+    background: url('/assets/icon/mail.png') no-repeat left center;
 }
 /*#end bottom-footer*/
 /*#end footer*/

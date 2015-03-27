@@ -11,18 +11,22 @@ class RealEstatesController < ApplicationController
   end
 
   def view
-
+    begin
+      @real_estate = RealEstate.find(params['id'])
+    rescue
+      redirect_to '/real_estates/index'
+    end
   end
 
   def create
-    @options = RealEstate.getOptionsBeforeCreate
+    @options = RealEstate.get_options_before_create
 
     render layout: 'layout_admin'
   end
 
   def save
-    realEstate = RealEstate.saveRealEstate params['real_estate']
+    real_estate = RealEstate.save_real_estate params['real_estate']
 
-    @a = realEstate.id
+    redirect_to "/real_estates/view/#{real_estate.id}"
   end
 end

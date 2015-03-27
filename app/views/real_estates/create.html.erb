@@ -167,7 +167,7 @@
                 <label><input type="radio" name="real_estate[is_alley]" value="1" data-feature="will-change-show-check" data-show="alley"> Hẻm</label>
               </div>
               <div class="col-xs-4 col-xs-offset-7 col-sm-2 input-group" data-controlled="alley" hidden>
-                <input name="real_estate[alley_size]" type="text" class="form-control">
+                <input name="real_estate[alley_width]" type="text" class="form-control">
                 <div class="input-group-addon">m</div>
               </div>                  
             </li>
@@ -438,8 +438,8 @@
           <ul class="item-content">
             <li class="form-group">            
               <div class="checkbox">
-                <% @options['real_estate_utilities'].each do |real_estate_utility| %>
-                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox" name="real_estate[real_estate_utility_ids][]" value="<%= real_estate_utility.id %>"><%= real_estate_utility.name %></label>
+                <% @options['property_utilities'].each do |property_utility| %>
+                    <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox" name="real_estate[property_utility_ids][]" value="<%= property_utility.id %>"><%= property_utility.name %></label>
                 <% end %>
               </div>
             </li>            

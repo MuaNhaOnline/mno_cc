@@ -12,7 +12,7 @@ $(function(e){
 	//Khởi tạo năm xây dựng
 	initNamXayDung();
 	//Khởi tạo Validation
-    //validation("create_real_estate");
+    validation("create_real_estate");
 	//Ẩn đối tượng mặc định
 	hideObjectDefault();
 });

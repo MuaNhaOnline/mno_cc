@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :property_utilities
+
   root 'home#index'
 
   get 'home/index'
@@ -7,7 +9,7 @@ Rails.application.routes.draw do
 
   get 'real_estates/index'
   get 'real_estates/category'
-  get 'real_estates/view'
+  get 'real_estates/view/:id' => 'real_estates#view'
   get 'real_estates/create'
   post 'real_estates/create' => 'real_estates#save'
 
@@ -23,12 +25,6 @@ Rails.application.routes.draw do
     end
   end
   resources :news
-
-  resources :real_estate_images
-  resources :real_estate_real_estate_utilities
-  resources :real_estate_region_utilities
-  resources :real_estate_disadvantages
-  resources :real_estate_advantages
   resources :streets
   resources :wards
   resources :districts

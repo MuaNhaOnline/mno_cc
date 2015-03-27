@@ -7,6 +7,8 @@ $(function (){
 	$('.button-mini-sitemap').on('click', function () {
 		initial_toggle_button(this);
 	});
+
+	//Khởi tạo Header
 	initHeader();
 });
 // #end initialization

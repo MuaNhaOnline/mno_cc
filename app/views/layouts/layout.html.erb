@@ -6,8 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="description" Contents="MuaNhaOnline - Giá trị thực trong tầm tay">
-
-  <link rel="stylesheet" href="/assets/shared/media.css" />
+  
   <link rel="stylesheet" href="/assets/shared/layout.css" />
   <link rel="stylesheet" href="/assets/shared/bootstrap.min.css" />
   <link rel="stylesheet" href="/assets/shared/pe_icon_7_stroke.css" />
@@ -17,12 +16,12 @@
 <!-- #start header -->
 <header class="container-fluid navbar-fixed-top">
   <!-- #start logo -->
-  <a href="../../index.html" class="logo hidden-xs">
-    <img src="../../Contents/image/logo/logoMain.png">
+  <a href="/home/index.html" class="logo hidden-xs">
+    <img src="/assets/logo/logoMain.png">
   </a>
   <!-- Mini logo -->
   <div class="mini-logo">
-    <span class="visible-xs"><a href="../../index.html">MuaNhaOnline.vn</a></span>
+    <span class="visible-xs"><a href="/home/index.html">MuaNhaOnline.vn</a></span>
   </div>
   <!-- #end logo -->
   <!-- #start sitemap -->
@@ -45,7 +44,7 @@
   <!-- #end nav -->
   <!-- posting -->
   <article class="posting hidden-xs">
-    <button class="btn btn-danger">Đăng tin miễn phí</button>
+    <button href="/real_estates/create" class="btn btn-danger">Đăng tin miễn phí</button>
   </article>
   <!-- #start login -->
   <article class="user visible-lg">
@@ -77,8 +76,8 @@
     <section class="col-md-9 main-frame">
       <!-- #start navigator -->
       <nav class="navigator">
-        <ul>
-          <%= yield :navigate %>
+        <ul>    
+          
         </ul>
       </nav>
       <!-- #end navigator -->
@@ -89,8 +88,7 @@
       <!-- #end main -->
     </section>
     <!-- #start main-aside -->
-    <aside class="col-md-3 main-aside">
-      <%= yield :aside %>
+    <aside class="col-md-3 main-aside">      
       <article class="block-box">
         <section class="block-title">
           <span>Tìm kiếm</span>
@@ -101,7 +99,7 @@
               <input name="TuKhoa" class="form-control" placeholder="Nhập từ khoá ...">
             </article>
             <article class="link">
-              <img src="../../Contents/image/link/search-plus.png">
+              <img src="/assets/link/search-plus.png">
             </article>
             <article class="input-box">
               <select name="ThanhPho" class="form-control">
@@ -149,9 +147,9 @@
         </section>
         <section class="block-content">
           <ul class="function">
-            <li><a href="#"><img src="../../Contents/image/icon/btn_muathuebds.png"></a></li>
-            <li><a href="#"><img src="../../Contents/image/icon/btn_thamdinhgia.png"></a></li>
-            <li><a href="#"><img src="../../Contents/image/icon/btn_dangtinvip.png"></a></li>
+            <li><a href="#"><img src="/assets/icon/btn_muathuebds.png"></a></li>
+            <li><a href="#"><img src="/assets/icon/btn_thamdinhgia.png"></a></li>
+            <li><a href="#"><img src="/assets/icon/btn_dangtinvip.png"></a></li>
           </ul>
         </section>
       </article>
@@ -162,7 +160,7 @@
         <section class="block-content">
           <div class="contact-box">
             <div class="image">
-              <img src="../../Contents/image/icon/contact.png">
+              <img src="/assets/icon/contact.png">
             </div>
             <div class="info">
               <span>Tư vấn bán - Mrs.Chi</span>
@@ -171,7 +169,7 @@
           </div>
           <div class="contact-box">
             <div class="image">
-              <img src="../../Contents/image/icon/contact.png">
+              <img src="/assets/icon/contact.png">
             </div>
             <div class="info">
               <span>Tư vấn cho thuê - Mrs.Chi</span>

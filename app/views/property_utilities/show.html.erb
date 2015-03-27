@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @property_utility.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @property_utility.code %>
+</p>
+
+<p>
+  <strong>Options:</strong>
+  <%= @property_utility.options %>
+</p>
+
+<%= link_to 'Edit', edit_property_utility_path(@property_utility) %> |
+<%= link_to 'Back', property_utilities_path %>

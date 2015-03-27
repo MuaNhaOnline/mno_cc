@@ -11,9 +11,17 @@ ul {
 /* #start header */
 header {
     height: 50px;
-    background-color: #eee;
+    background-color: #fff;
     color: white;
 }
+    /* #start logo */
+    header > a.logo {
+        float: left;
+        margin: 10px;
+        transition: 0.5s;
+        -webkit-transition: 0.5s;
+        -moz-transition: 0.5s;
+    }
 .header {
     height: 50px;
 }
@@ -30,7 +38,7 @@ main {
         height: calc(100vh - 50px);
         padding: 5px;
         float: left;
-        background-color: #eee;
+        background-color: #fff;
     }
     /* #end aside */
     /* #start content */
@@ -38,6 +46,7 @@ main {
         padding: 5px;
         width: calc(100% - 200px);
         float: right;
+        background-color: #eee;
     }
     @media(max-width: 992px) {
         .content {
