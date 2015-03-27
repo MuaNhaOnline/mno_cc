@@ -107,6 +107,7 @@ header.scroll {
 	    }
 	}
 	ul.mini-sitemap {
+	    top: 75px;
 	    display: none;	    
 	    padding: 0 15px;
 	    width: 100%;
@@ -125,10 +126,11 @@ header.scroll {
 		.mini-sitemap {
 			display: none !important;
 		}
-	}
+	}	
 	@media(max-width: 768px) {
 	    .mini-sitemap {
-	        margin-top: 0;	        
+	        margin-top: 0;
+	        top: 50px !important;	        
 	    }
 	    .mini-sitemap.scroll-mini-sitemap {
 	        margin-top: 0;

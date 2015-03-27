@@ -45,8 +45,8 @@ function initHeader () {
 			//get $object
 			object = $(object);
 
-			//toggle class "show"
-			object.toggleClass('show');
+			//toggle
+			object.toggle();
 		}
 	// #end toggle
 	function initial_toggle_button (sender) {

@@ -39,7 +39,7 @@ ul.products-list {
 		}
 			ul.products-list > li .favorite-button {
 				display: block;					
-				background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+				background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 				width: 20px;
 				height: 20px;
 				position: absolute;
@@ -47,7 +47,7 @@ ul.products-list {
 				right: 15px;
 			}
 				ul.products-list > li .favorite-button:hover {					
-					background: url('../../image/icon/icon_highlight.png') no-repeat center top;
+					background: url('/assets/icon/icon_highlight.png') no-repeat center top;
 				}
 			ul.products-list > li .product-item {
 				text-decoration: none;

@@ -62,7 +62,7 @@
 	}		
 		.general-infos .image .favorite-button {
 			display: block;					
-			background: url('../../image/icon/icon_highlight.png') no-repeat center bottom;
+			background: url('/assets/icon/icon_highlight.png') no-repeat center bottom;
 			width: 20px;
 			height: 20px;
 			position: absolute;
@@ -70,7 +70,7 @@
 			right: 15px;	
 		}
 			.general-infos .image .favorite-button:hover {
-				background: url('../../image/icon/icon_highlight.png') no-repeat center top;		
+				background: url('/assets/icon/icon_highlight.png') no-repeat center top;		
 			}
 		.general-infos .image img {			
 			width: 100%;
@@ -180,10 +180,10 @@
 			margin-right: 5px;
 		}
 		.infos-list .item.check:before {
-			background-image: url('../../image/icon/nike.png');
+			background-image: url('/assets/icon/nike.png');
 		}
 		.infos-list .item.circle:before {
-			background-image: url('../../image/icon/circle.png');
+			background-image: url('/assets/icon/circle.png');
 		}
 	@media (max-width: 560px) {
 		.infos-list .item {
