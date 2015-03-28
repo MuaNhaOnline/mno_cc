@@ -48,7 +48,7 @@ nav {
 	.main-content .main-title {
 		font-size: 17px;		
 		width: 100%;
-		color: #1c77e0;
+		color: #A86E51;
 		font-weight: bolder;
 		padding: 8px 10px;
 		text-align: center;
@@ -67,8 +67,8 @@ nav {
 			color: white;
 			margin-top: 10px;
 			padding: 4px 15px;
-			background-color: #993300;
-			border: 1px solid #993300;
+			background-color: #A86E51;
+			border: 1px solid #A86E51;
 			border-top-left-radius: 5px;
 			-webkit-border-top-left-radius: 10px;
 			border-top-right-radius: 5px;
@@ -76,9 +76,9 @@ nav {
 		}
 		/* #start item-content*/
 		.main-content .item-wrapper > .item > .item-content {
-			border-left: 1px solid #993300;
-			border-right: 1px solid #993300;	
-			border-bottom: 1px solid #993300;
+			border-left: 1px solid #A86E51;
+			border-right: 1px solid #A86E51;	
+			border-bottom: 1px solid #A86E51;
 			padding: 10px;
 		}
 			/* #start form-group */

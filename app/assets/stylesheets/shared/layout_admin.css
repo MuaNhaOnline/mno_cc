@@ -246,7 +246,7 @@ header > .user-mini > .user-mini-content > .register {
 /* #end user-mini */
 /* #end user */
 .header {
-    height: 50px;
+    height: 70px;
     display: block;
 }
 @media(max-width: 768px) {
@@ -266,9 +266,9 @@ main {
         width: 200px;                 
         position: fixed;
         height: calc(100vh - 50px);
-        padding: 5px;
+        padding: 10px;
         float: left;
-        background-color: #fff;
+        background-color: #F5F5F5;
         border-right: 1px solid #eee;
         box-shadow: 0px 2px 10px #eee;
         -webkit-box-shadow: 0px 2px 10px #eee;
@@ -277,7 +277,7 @@ main {
     /* #end aside */
     /* #start content */
     .content {            
-        padding: 30px 5px;
+        padding: 5px;
         width: calc(100% - 200px);
         float: right;
         
@@ -286,11 +286,6 @@ main {
         .content {
             width: 100%;
         }
-    }
-    @media(max-width: 768px) {
-        .content {
-            padding: 5px;
-        }
-    }
+    }   
     /* #end content */
 /* #end main */
