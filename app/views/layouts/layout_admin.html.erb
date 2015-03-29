@@ -12,64 +12,49 @@
   <%= yield :stylesheets %>
 </head>
 <body>
+<div class="container-fluid navbar-fixed-top">
+</div>
 <!-- #start header -->
 <header class="container-fluid navbar-fixed-top">
-  <!-- #start logo -->
-  <a href="/home/index" class="logo hidden-xs">
-    <img src="/assets/logo/logoMain.png">
-  </a>
-  <!-- Mini logo -->
-  <div class="mini-logo">
-    <span class="visible-xs"><a href="/home/index">MuaNhaOnline.vn</a></span>
+  <!-- #start top-header -->
+    <div class="top-header">   
+      <!-- #start logo -->    
+      <div class="logo hidden-xs">
+        <a href="/home/index"><img src="/assets/logo/logo-white.png"></a>
+      </div>    
+      <!-- #end logo -->
+      <!-- #start sitemap -->
+      <ul class="sitemap">
+        <li><a href="#">Dịch vụ chính</a></li>
+        <li><a href="#">Quản trị</a></li>
+      </ul>
+      <!-- #end sitemap -->
+      <!-- #start user -->
+      <div class="userbox" data-toggle-target="#dropdownlist-username">
+        <div class="avatar">
+          <img src="/assets/icon/guest-26.png">
+        </div>
+        <div class="username">
+          Penguinbluechip          
+        </div>
+        <!-- Dropdownlist -->
+        <ul id="dropdownlist-username" hidden>
+          <li><a href="#">Sửa thông tin cá nhân</a></li>
+          <li><a href="#">Đổi mật khẩu</a></li>
+          <li><a href="#">Đăng xuất</a></li>
+        </ul>        
+      </div>
+      <!-- #end user -->
+    </div>    
+  <!-- #end top-header -->
+  <!-- #start bottom-header -->  
+  <div class="bottom-header">    
+    <nav>      
+      <li><a href="#">Trang quản trị</a></li>
+      <li><a href="#">Đăng tin</a></li>        
+    </nav>
   </div>
-  <!-- #end logo -->
-  <!-- #start sitemap -->
-  <ul class="sitemap">
-    <li><a href="/real_estates/index">BĐS cần bán</a></li>
-    <li><a href="/real_estates/index">BĐS cần mua</a></li>
-    <li><a href="/projects/index">Dự án</a></li>
-    <li><a href="/news/index">Tin tức</a></li>
-    <li><a href="/businesses/index">Doanh nghiệp</a></li>
-  </ul>
-  <!-- Mini sitemap -->
-  <div class="button-mini-sitemap" data-toggle-target=".mini-sitemap"></div>
-  <ul class="mini-sitemap">
-    <li><a href="/real_estates/index">BĐS cần bán</a></li>
-    <li><a href="/real_estates/index">BĐS cần mua</a></li>
-    <li><a href="/projects/index">Dự án</a></li>
-    <li><a href="/news/index">Tin tức</a></li>
-    <li><a href="/businesses/index">Doanh nghiệp</a></li>
-    <li class="visible-xs" hidden>
-      <a href="/real_estates/create" id="posting">Đăng tin miễn phí</a>
-      <img src="/assets/icon/star-icon.png">
-    </li>
-  </ul>
-  <!-- #end nav -->
-  <!-- posting -->
-  <article class="posting hidden-xs">
-    <button href="/real_estates/create" class="btn btn-danger">Đăng tin miễn phí</button>
-  </article>
-  <!-- #start login -->
-  <article class="user visible-lg">
-    <div class="login">
-      <a href="#">Đăng nhập</a>
-    </div>
-    <div class="register">
-      <a href="#">Đăng ký</a>
-    </div>
-  </article>
-  <!-- Mini login -->
-  <article class="user-mini user-mini-toggle-button hidden-lg" data-toggle-target=".user-mini-content">
-    <section class="user-mini-content">
-      <div class="login">
-        <a href="#">Đăng nhập</a>
-      </div>
-      <div class="register">
-        <a href="#">Đăng ký</a>
-      </div>
-    </section>
-  </article>
-  <!-- #end login -->
+  <!-- #end bottom-header -->  
 </header>
 <div class="header"></div>
 <!-- #end header -->
@@ -80,10 +65,11 @@
     <div class="title">
       Chức năng chính
     </div>
-    <ul>
-      <li>Đăng tin bất động sản</li>
-      <li>Thẩm định giá</li>   
-    </ul>
+    <ul class="item">
+      <li><a href="/real_estates/create">Đăng tin bất động sản</a></li>
+      <li><a href="#">Đăng ký mua/thuê BĐS</a></li>
+      <li><a href="#">Đăng yêu cầu thẩm định</a></li>   
+    </ul>    
   </aside>
   <!-- #end aside -->
   <!-- #start content -->

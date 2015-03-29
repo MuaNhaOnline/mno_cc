@@ -1,65 +1,18 @@
 Rails.application.routes.draw do
-  resources :real_estate_images
 
-  resources :real_estate_real_estate_utilities
-
-  resources :real_estate_region_utilities
-
-  resources :real_estate_disadvantages
-
-  resources :real_estate_advantages
-
-  resources :streets
-
-  resources :wards
-
-  resources :districts
-
-  resources :provinces
-
-  resources :real_estate_utilities
-
-  resources :images
-
-  resources :region_utilities
-
-  resources :disadvantages
-
-  resources :advantages
-
-  resources :planning_status_types
-
-  resources :legal_record_types
-
-  resources :constructional_levels
-
-  resources :directions
-
-  resources :real_estate_types
-
-  resources :street_types
-
-  resources :units
-
-  resources :currencies
-
-  resources :purposes
+  resources :property_utilities
 
   root 'home#index'
 
-  resources :home do
-    collection do
-      get 'index'
-    end
-  end
-  resources :real_estates do
-    collection do
-      get 'index'
-      get 'category'
-      get 'view'
-      get 'create'
-    end
-  end
+  get 'home/index'
+
+
+  get 'real_estates/index'
+  get 'real_estates/category'
+  get 'real_estates/view/:id' => 'real_estates#view'
+  get 'real_estates/create'
+  post 'real_estates/create' => 'real_estates#save'
+
   resources :businesses do
     collection do
       get 'index'
@@ -72,6 +25,24 @@ Rails.application.routes.draw do
     end
   end
   resources :news
+  resources :streets
+  resources :wards
+  resources :districts
+  resources :provinces
+  resources :real_estate_utilities
+  resources :images
+  resources :region_utilities
+  resources :disadvantages
+  resources :advantages
+  resources :planning_status_types
+  resources :legal_record_types
+  resources :constructional_levels
+  resources :directions
+  resources :real_estate_types
+  resources :street_types
+  resources :units
+  resources :currencies
+  resources :purposes
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

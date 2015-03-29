@@ -1,0 +1,46 @@
+class AddColumnsIntoRealEstates < ActiveRecord::Migration
+  def change
+    add_column :real_estates, :title, :text
+    add_column :real_estates, :description, :text
+    add_column :real_estates, :name, :text
+    add_column :real_estates, :purpose_id, :integer
+    add_column :real_estates, :price, :decimal
+    add_column :real_estates, :currency_id, :integer
+    add_column :real_estates, :unit_id, :integer
+    add_column :real_estates, :is_negotiable, :integer
+    add_column :real_estates, :province_id, :integer
+    add_column :real_estates, :district_id, :integer
+    add_column :real_estates, :ward_id, :integer
+    add_column :real_estates, :street_id, :integer
+    add_column :real_estates, :address_number, :text
+    add_column :real_estates, :street_type_id, :integer
+    add_column :real_estates, :is_alley, :integer
+    add_column :real_estates, :alley_width, :decimal
+    add_column :real_estates, :real_estate_type_id, :integer
+    add_column :real_estates, :campus_area, :decimal
+    add_column :real_estates, :using_area, :decimal
+    add_column :real_estates, :floor_number, :integer
+    add_column :real_estates, :restroom_number, :integer
+    add_column :real_estates, :bedroom_number, :integer
+    add_column :real_estates, :direction_id, :integer
+    add_column :real_estates, :build_year, :integer
+    add_column :real_estates, :constructional_quality, :integer
+    add_column :real_estates, :constructional_area, :decimal
+    add_column :real_estates, :constructional_level_id, :integer
+    add_column :real_estates, :width_x, :decimal
+    add_column :real_estates, :width_y, :decimal
+    add_column :real_estates, :shape, :integer
+    add_column :real_estates, :shape_width, :decimal
+    add_column :real_estates, :legal_record_type_id, :integer
+    add_column :real_estates, :custom_legal_record_type, :text
+    add_column :real_estates, :planning_status_type_id, :integer
+    add_column :real_estates, :custom_planning_status_type, :text
+    add_column :real_estates, :custom_advantages, :text
+    add_column :real_estates, :custom_disadvantages, :text
+    add_column :real_estates, :is_show, :integer
+    add_column :real_estates, :expired_time, :datetime
+    add_column :real_estates, :ads_cost, :decimal
+    add_column :real_estates, :is_paid, :integer
+    add_column :real_estates, :options, :text
+  end
+end

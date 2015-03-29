@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  real_estate_id: 1
-  advantage_id: 1
-
-two:
-  real_estate_id: 1
-  advantage_id: 1

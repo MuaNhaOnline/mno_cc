@@ -9,6 +9,11 @@ $(function () {
 	$('.button-mini-sitemap').on('click', function () {
 		initial_toggle_button(this);
 	});
+
+	//username hover
+	$('.userbox').on('click', function(e) {
+		initial_toggle_button(this);
+	});
 });
 // #end start
 

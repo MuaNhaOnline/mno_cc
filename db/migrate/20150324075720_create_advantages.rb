@@ -4,6 +4,7 @@ class CreateAdvantages < ActiveRecord::Migration
       t.text :name
       t.text :code
       t.text :options
+      t.integer :index
 
       t.timestamps null: false
     end
