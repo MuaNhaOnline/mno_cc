@@ -18,24 +18,42 @@
 <header class="container-fluid navbar-fixed-top">
   <!-- #start top-header -->
     <div class="top-header">   
+      <!-- #start function -->
+      <div class="button-mini-function visible-xs" data-toggle-target=".mini-function" hidden></div>
+      <ul class="mini-function hidden-sm hidden-md hidden-lg" hidden>
+        <li><a href="#">Đăng tin bất động sản</a></li>
+        <li><a href="#">Đăng ký mua/thuê BĐS</a></li>
+        <li><a href="#">Thẩm định giá</a></li>
+      </ul>
+      <!-- #end function -->
       <!-- #start logo -->    
       <div class="logo hidden-xs">
         <a href="/home/index"><img src="/assets/logo/logo-white.png"></a>
       </div>    
+        <!-- mini logo -->
+        <div class="button-mini-logo visible-xs" hidden>
+          <a href="/home/index">MuaNhaOnline</a>
+        </div>
       <!-- #end logo -->
       <!-- #start sitemap -->
-      <ul class="sitemap">
+      <ul class="sitemap hidden-xs">
         <li><a href="#">Dịch vụ chính</a></li>
         <li><a href="#">Quản trị</a></li>
       </ul>
+        <!-- mini sitemap -->
+        <div class="button-mini-sitemap visible-xs" data-toggle-target=".mini-sitemap" hidden></div>
+        <ul class="mini-sitemap hidden-sm hidden-md hidden-lg" hidden>
+          <li><a href="#">Dịch vụ chính</a></li>
+          <li><a href="#">Quản trị</a></li>
+        </ul>      
       <!-- #end sitemap -->
       <!-- #start user -->
-      <div class="userbox" data-toggle-target="#dropdownlist-username">
+      <div class="userbox hidden-xs" data-toggle-target="#dropdownlist-username">
         <div class="avatar">
           <img src="/assets/icon/guest-26.png">
         </div>
         <div class="username">
-          Penguinbluechip          
+          PenguinBlue-Chip          
         </div>
         <!-- Dropdownlist -->
         <ul id="dropdownlist-username" hidden>
@@ -44,6 +62,13 @@
           <li><a href="#">Đăng xuất</a></li>
         </ul>        
       </div>
+        <!-- mini user -->
+        <div class="button-mini-userbox visible-xs" data-toggle-target=".dropdownlist-mini-username" hidden></div>
+        <ul class="dropdownlist-mini-username hidden-sm hidden-md hidden-lg" hidden>
+          <li><a href="#">Sửa thông tin cá nhân</a></li>
+          <li><a href="#">Đổi mật khẩu</a></li>
+          <li><a href="#">Đăng xuất</a></li>
+        </ul>
       <!-- #end user -->
     </div>    
   <!-- #end top-header -->

@@ -79,6 +79,7 @@ nav {
 			border-right: 1px solid #ececec;	
 			border-bottom: 1px solid #ececec;
 			padding: 10px;
+			background: white;
 		}
 			/* #start form-group */
 			.main-content .item-wrapper > .item > .item-content .form-group {
