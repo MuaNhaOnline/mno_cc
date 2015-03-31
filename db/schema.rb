@@ -229,27 +229,6 @@ ActiveRecord::Schema.define(version: 20150327071736) do
     t.text     "options"
   end
 
-  create_table "real_estates_advantages", force: :cascade do |t|
-    t.integer  "real_estate_id"
-    t.integer  "advantage_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  create_table "real_estates_disadvantages", force: :cascade do |t|
-    t.integer  "real_estate_id"
-    t.integer  "disadvantage_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  create_table "real_estates_property_utilities", force: :cascade do |t|
-    t.integer  "real_estate_id"
-    t.integer  "property_utility_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-  end
-
   create_table "real_estates_region_utilities", force: :cascade do |t|
     t.integer  "real_estate_id"
     t.integer  "region_utility_id"

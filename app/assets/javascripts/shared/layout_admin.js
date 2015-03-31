@@ -1,12 +1,21 @@
 // #start start
-$(function () {	
-	initAside();
+$(function () {			
+	//init Aside
+	initAside();		
 
 	//process toggle button
-	$('.user-mini-toggle-button').on('click', function () {
+	$('.button-mini-userbox').on('click', function () {
 		initial_toggle_button(this);
 	});
 	$('.button-mini-sitemap').on('click', function () {
+		initial_toggle_button(this);
+	});
+	$('.button-mini-function').on('click', function() {
+		initial_toggle_button(this);
+	});
+
+	//username click
+	$('.userbox').on('click', function(e) {
 		initial_toggle_button(this);
 	});
 });
