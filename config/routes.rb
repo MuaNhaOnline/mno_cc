@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'testing/index'
+  get 'testing/result'
+  post 'testing/result'
+
   resources :property_utilities
 
   root 'home#index'
