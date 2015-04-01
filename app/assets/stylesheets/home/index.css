@@ -290,18 +290,7 @@ main {
 	main > .banner {
 		height: 550px;
 		background: white url('/assets/background/background-1.jpg') no-repeat center center;
-	}
-	main > .banner:after {
-		content: '';
-		display: block;
-		height: 60px;
-		width: 60px;
-		position: absolute;
-	  	bottom: -14px;
-		left: calc(50% - 30px);
-		background: #1c77e0 url('/assets/icon/search-plus.png') no-repeat center center;
-		border-radius: 50%;
-	}
+	}	
 		main > .banner > .box {
 			background-color: rgba(0, 0, 0, 0.7);
 			position: relative;
@@ -370,12 +359,24 @@ main {
 			display: block;
 			background: url('/assets/link/link-search.png') no-repeat center center;
 			margin: 0 auto;
-			margin-bottom: 20px;
+			margin-bottom: 10px;
 		}
+			.search-container > .btn-search-box:after {
+				content: '';
+				display: block;
+				height: 60px;
+				width: 60px;
+				position: absolute;
+			  	bottom: -14px;
+				left: calc(50% - 30px);
+				background: #1c77e0 url('/assets/icon/search-plus.png') no-repeat center center;
+				border-radius: 50%;
+			}
+
 		.search-container > .search-box {
 			width: 80%;
 			border: 1px solid #ccc;
-			margin: 0 auto;
+			margin: 10px auto;
 			border-radius: 5px;
 			display: block;
 			padding: 10px 0;
@@ -389,8 +390,7 @@ main {
 				margin: 30px 0;
 			}				
 			.search-container > .search-box > .content {
-				display: flex;
-				display: -webkit-flex;				
+				padding: 0 !important;				
 			}
 				.search-container > .search-box > .content > .form-input {					
 				}					
@@ -406,9 +406,54 @@ main {
 						width: 100%;
 					}			
 	/*#end search*/	
-	/*#start product*/
-	
-	/*#end product*/
+	/*#start project*/
+	.project-container {		
+		margin: 30px 0;
+	}
+		.project-container > .title {
+			border: 1px solid #ddd;
+			width: 200px;
+			margin: 0 auto;
+			padding: 10px;
+			text-align: center;
+		}
+		.project-container > .details {
+			border-top: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;			
+			margin-bottom: 10px;
+			margin-top: 30px;
+		}	
+			.project-container > .details > li {		
+			}
+				.project-container > .details > li > .picture {					
+				}
+					.project-container > .details > li > .picture > img {
+						width: 100%;								
+					}
+				.project-container > .details > li > .info {
+				}
+					.project-container > .details > li > .info > .title {
+						margin: 10px 10px 0 15px;
+						font-size: 2em;
+						display: inline-block;
+					}
+					.project-container > .details > li > .info > .state {
+						color: #e69422;
+						margin-left: 32px;
+						display: inline-block;
+					}
+						.project-container > .details > li > .info > .state:before {
+							content: '';
+							height: 10px;
+							width: 10px;						
+							position: absolute;
+							margin: 5px 0 0 -15px;
+							background: url('/assets/icon/DangHoanThanh.png') no-repeat center center;
+						}
+					.project-container > .details > li > .info > .address {
+						margin: 5px 0 5px 17px;
+					}
+	/*#end project*/
 /*#end main*/
 /*#start footer*/
 footer {
