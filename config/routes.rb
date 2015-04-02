@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   get 'real_estates/create'
   post 'real_estates/create' => 'real_estates#save'
 
+  get 'provinces/get_full_data/:id' => 'provinces#get_full_data'
+
+  post 'images/upload' => 'images#upload'
+
   resources :businesses do
     collection do
       get 'index'

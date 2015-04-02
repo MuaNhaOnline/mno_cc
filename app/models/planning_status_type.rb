@@ -15,4 +15,8 @@ class PlanningStatusType < ActiveRecord::Base
     end
   end
 
+  def self.get_options
+    order order: 'ASC'
+  end
+
 end

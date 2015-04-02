@@ -4,7 +4,7 @@ class TestingController < ApplicationController
   end
 
   def result
-    path = Rails.root.join('assets', 'images', params['file'].original_filename)
-    File.open(path, "wb")
+    path = File.join('app/assets/images/real_estate_images', params['file'].original_filename)
+    File.open(path, "wb") do |f| f.write(params['file'].read) end
   end
 end

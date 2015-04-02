@@ -19,14 +19,16 @@ class RealEstatesController < ApplicationController
   end
 
   def create
-    @options = RealEstate.get_options_before_create
-
     render layout: 'layout_admin'
   end
 
   def save
     real_estate = RealEstate.save_real_estate params['real_estate']
 
-    redirect_to "/real_estates/view/#{real_estate.id}"
+    if real_estate.errors.any?
+      render json: Hash[status: 0, result: real_estate.errors.full_messages]
+    else
+      render json: Hash[status: 1, result: "/real_estates/view/#{real_estate.id}"]
+    end
   end
 end
