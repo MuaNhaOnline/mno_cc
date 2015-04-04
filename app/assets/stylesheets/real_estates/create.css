@@ -181,3 +181,87 @@ nav {
 	border-color: red !important;
 	box-shadow: 0 0 12px #FF9999 !important;
 }
+
+/* image upload */
+.image-upload {
+    display: inline-block;
+    width: 60px;
+    height: 48px;
+    position: relative;
+    margin-right: 5px;
+    vertical-align: bottom;
+}
+
+.image-upload label {
+    display: block;
+    width: 60px;
+    height: 48px;
+    outline: 1px dashed #ddd;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+    .image-upload label:before {
+        content: '+';
+        line-height: 44px;
+        height: 48px;
+        text-align: center;
+        display: block;
+        font-size: 30px;
+        color: #ddd;
+        transition: 0.5s;
+    }
+    .image-upload label:hover:before {
+        color: #aaa;
+    }
+.image-upload img {
+    display: none;
+    width: 60px;
+    height: 48px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.image-upload u {
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background-color: #ddd;
+    transition: width 0.5s;
+}
+.image-upload i {
+    display: none;
+    width: 10px;
+    height: 10px;
+    background-image: url('/assets/icon/close.png');
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    opacity: 0.3;
+}
+    .image-upload i:hover {
+        opacity: 1;
+    }
+    .image-upload.has-file label {
+        outline: none;
+    }
+    .image-upload.has-file label:before {
+        display: none;
+    }
+    .image-upload.has-file u {
+        display: none;
+    }
+    .image-upload.has-file i {
+        display: block;
+    }
+    .image-upload.has-file img {
+        display: block;
+    }
+.image-upload input[type="file"] {
+    display: none;
+}
+.image-upload input[type="text"] {
+    display: none;
+}

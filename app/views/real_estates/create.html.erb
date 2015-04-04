@@ -10,7 +10,7 @@
   <!-- #start main-content -->
   <article class="row wrapper">
     <article class="main-content col-md-8">    
-      <form class="form-horizontal" id="create_real_estate" role="form" method="post" action="/real_estates/create" accept-charset="UTF-8" enctype="application/x-www-form-urlencoded">
+      <form class="form-horizontal" id="create_real_estate" method="post" action="/real_estates/create">
       <section class="main-title">Thông tin rao bán của bạn</section>      
       <ul class="item-wrapper">
         <!-- #Start item "Loại hình giao dịch" -->
@@ -20,7 +20,7 @@
             <li class="form-group">            
               <div class="col-sm-4 col-sm-offset-3">
                 <select name="real_estate[purpose_id]" class="form-control" data-feature="will-change-select" id="purpose">
-                  <% @options['purposes'].each do |purpose| %>
+                  <% Purpose.get_options.each do |purpose| %>
                       <% a = purpose.options %>
                       <option value="<%= purpose.id %>" <%= purpose.options_hash['html']['attributes'] if defined? purpose.options_hash['html']['attributes'] %>><%= purpose.name %></option>
                   <% end %>
@@ -54,7 +54,7 @@
               <label for="currency_id" class="control-label col-sm-3">Đơn vị tính:</label>
               <div class="col-sm-3">
                 <select name="real_estate[currency_id]" class="form-control" id="currency_id">
-                  <% @options['currencies'].each do |currency| %>
+                  <% Currency.get_options.each do |currency| %>
                       <option value="<%= currency.id %>" <%= currency.options_hash['html']['attributes'] %>><%= currency.name %></option>
                   <% end %>
                 </select>
@@ -64,7 +64,7 @@
 
                 <%
                    ban = thue = ''
-                   @options['units'].each do |unit|
+                   Unit.get_options.each do |unit|
                      case unit.options_hash['group']
                        when 'Ban'
                          ban += "<option value=\"#{unit.id}\">#{unit.name}</options>"
@@ -97,41 +97,43 @@
             <li class="form-group">
               <label class="control-label col-sm-3" for="province_id">Tỉnh/Thành phố:</label>
               <div class="col-sm-4">
-                <select name="real_estate[province_id]" class="form-control" id="province_id">
-                  <option value="1">TPHCM</option>
-                  <option value="2">Hà Nội</option>
+                <select name="real_estate[province_id]" class="form-control" id="province">
+                  <% Province.get_options.each do |province| %>
+                      <option <%= 'selected' if province.id == 1 %> value="<%= province.id %>"><%= province.name.html_safe %></option>
+                  <% end %>
                 </select>
               </div>
             </li>
             <li class="form-group">            
               <label class="control-label col-sm-3" for="district_id">Quận/Huyện/Thị xã:</label>
               <div class="col-sm-4">
-                <select name="real_estate[district_id]" class="form-control" id="district_id">
-                  <option value="1">Quận 1</option>
-                  <option value="2">Quận 2</option>
-                  <option value="3">Quận 3</option>
-                  <option value="4">Quận 4</option>
-                  <option value="5">Quận 5</option>
+                <select name="real_estate[district_id]" class="form-control" id="district">
+                  <% District.get_options(1).each do |district| %>
+                      <option value="<%= district.id %>"><%= district.name.html_safe %></option>
+                  <% end %>
                 </select>
               </div>
             </li>
             <li class="form-group">
               <label class="control-label col-sm-3" for="ward_id">Phường:</label>
               <div class="col-sm-4">
-                <select name="real_estate[ward_id]" class="form-control" id="ward_id">
-                  <option value="1">Cầu Ông Lãnh</option>
-                  <option value="2">Đakao</option>
-                  <option value="3">Cầu Kho</option>
+                <select name="real_estate[ward_id]" class="form-control" id="ward">
+                  <% temp = '' %>
+                  <% Ward.get_options(1).each do |ward| %>
+                      <% next if ward.name == temp %>
+                      <option value="<%= ward.id %>"><%= ward.name.html_safe %></option>
+                      <% temp = ward.name %>
+                  <% end %>
                 </select>
               </div>
             </li> 
             <li class="form-group">            
               <label class="control-label col-sm-3" for="street_id">Đường:</label>
               <div class="col-sm-4">
-                <select name="real_estate[street_id]" class="form-control" id="street_id">
-                  <option value="1">Trần Hưng Đạo</option>
-                  <option value="2">Điện Biên Phủ</option>
-                  <option value="3">Cô Giang</option>
+                <select name="real_estate[street_id]" class="form-control" id="street">
+                  <% Street.get_options(1).each do |street| %>
+                    <option value="<%= street.id %>"><%= street.name.html_safe %></option>
+                  <% end %>
                 </select>
               </div>
             </li>
@@ -145,7 +147,7 @@
               <label class="control-label col-sm-3" for="street_type">Loại Đường:</label>
               <div class="col-sm-4">
                 <select name="real_estate[street_type_id]" class="form-control" id="street_type">
-                  <% @options['street_types'].each do |street_type| %>
+                  <% StreetType.get_options.each do |street_type| %>
                       <option value="<%= street_type.id %>"><%= street_type.name %></option>
                   <% end %>
                 </select>
@@ -206,7 +208,7 @@
 
                 <%
                    dat = nha = canHo = matBang = ''
-                   @options['real_estate_types'].each do |real_estate_type|
+                   RealEstateType.get_options.each do |real_estate_type|
                      case real_estate_type.options_hash['group']
                         when 'Dat'
                             dat += "<option #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
@@ -325,7 +327,7 @@
               <label class="control-label col-sm-4" for="direction">Hướng nhà:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[direction_id]" id="direction">
-                  <% @options['directions'].each do |direction| %>
+                  <% Direction.get_options.each do |direction| %>
                       <option value="<%= direction.id %>"><%= direction.name %></option>
                   <% end %>
                 </select>
@@ -343,7 +345,7 @@
               <label class="control-label col-sm-4" for="construction_level">Phân loại nhà:</label>
               <div class="col-sm-3">
                 <select class="form-control" name="real_estate[constructional_level_id]" id="construction_level">
-                  <% @options['constructional_levels'].each do |constructional_level| %>
+                  <% ConstructionalLevel.get_options.each do |constructional_level| %>
                       <option value="<%= constructional_level.id %>"><%= constructional_level.name %></option>
                   <% end %>
                 </select>
@@ -386,7 +388,7 @@
               <label class="control-label col-sm-3" for="legal_records">Loại:</label>
               <div class="col-sm-4">
                 <select name="real_estate[legal_record_type_id]" class="form-control" data-feature="will-change-select" id="legal_records">
-                  <% @options['legal_record_types'].each do |legal_record_type| %>
+                  <% LegalRecordType.get_options.each do |legal_record_type| %>
                       <option value="<%= legal_record_type.code != 'Custom' ? legal_record_type.id : 0 %>" <%= legal_record_type.options_hash['html']['attributes'] if defined? legal_record_type.options_hash['html']['attributes']%>><%= legal_record_type.name %></option>
                   <% end %>
                 </select>
@@ -409,7 +411,7 @@
               <label class="control-label col-sm-3" for="planning_status">Loại:</label>
               <div class="col-sm-4">
                 <select name="real_estate[planning_status_type_id]" class="form-control" data-feature="will-change-select" id="planning_status">
-                  <% @options['planning_status_types'].each do |planning_status_type| %>
+                  <% PlanningStatusType.get_options.each do |planning_status_type| %>
                       <option value="<%= planning_status_type.code != 'Custom' ? planning_status_type.id : 0 %>" <%= planning_status_type.options_hash['html']['attributes'] if defined? planning_status_type.options_hash['html']['attributes']%>><%= planning_status_type.name %></option>
                   <% end %>
                 </select>
@@ -430,7 +432,7 @@
           <ul class="item-content">
             <li class="form-group">            
               <div class="checkbox">
-                <% @options['property_utilities'].each do |property_utility| %>
+                <% PropertyUtility.get_options.each do |property_utility| %>
                     <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox" name="real_estate[property_utility_ids][]" value="<%= property_utility.id %>"><%= property_utility.name %></label>
                 <% end %>
               </div>
@@ -444,7 +446,7 @@
           <ul class="item-content">
             <li class="form-group">            
               <div class="checkbox">
-                <% @options['region_utilities'].each do |region_utility| %>
+                <% RegionUtility.get_options.each do |region_utility| %>
                     <label class="col-xs-6 col-sm-3 col-md-4 col-lg-3"><input type="checkbox" name="real_estate[region_utility_ids][]" value="<%= region_utility.id %>"><%= region_utility.name %></label>
                 <% end %>
               </div>
@@ -465,7 +467,7 @@
             <li class="form-group">            
               <label class="control-label col-sm-3 left">Điểm tốt</label>              
               <div class="checkbox">
-                <% @options['advantages'].each do |advantage| %>
+                <% Advantage.get_options.each do |advantage| %>
                     <label class="col-sm-12"><input type="checkbox" name="real_estate[advantage_ids][]" value="<%= advantage.id %>"><%= advantage.name %></label>
                 <% end %>
               </div>
@@ -479,7 +481,7 @@
             <li class="form-group">            
               <label class="control-label col-sm-3 left">Điểm xấu</label>
               <div class="checkbox">
-                <% @options['disadvantages'].each do |disadvantage| %>
+                <% Disadvantage.get_options.each do |disadvantage| %>
                     <label class="col-sm-12"><input type="checkbox" name="real_estate[disadvantage_ids][]" value="<%= disadvantage.id %>"><%= disadvantage.name %></label>
                 <% end %>
               </div>
@@ -497,20 +499,56 @@
         <li class="item continue-composing" hidden>
           <div class="item-title">Hình ảnh</div>
           <ul class="item-content">
-            <li class="form-group">            
+            <li class="form-group">
               <label class="control-label col-sm-3" for="images">Hình ảnh mô tả BĐS của bạn:</label>
               <div class="col-sm-9">
-                <input type="file" name="images" class="form-control required" id="images">
-              </div>                  
-            </li>      
-            <li class="form-group sub-item">            
-              <div class="col-sm-7">
-                <input type="file" name="images" class="form-control image" id="images" data-name="sub-image">      
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
                 </div>
-                <div class="col-sm-3">
-                  <button class="btn btn-link" id="btn_add_image" data-add="sub-image">thêm ảnh +</button>
-                </div>                    
-            </li>        
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+              </div>                  
+            </li>
           </ul>
         </li>
         <!-- #End item "Hình ảnh" -->
@@ -525,6 +563,9 @@
                 <button type="submit" class="btn btn-primary">Đăng tin</button>
                 <button type="reset" class="btn btn-danger">Xoá hết</button>
                 <button type="submit" class="btn btn-default">Xem trước</button>                              
+              </p>
+              <p id="errors" class="text-center">
+
               </p>
             </li>
           </ul>

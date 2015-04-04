@@ -3,8 +3,6 @@ $(function(e){
 	init();
 	//Khởi tạo sự kiện Expand và Collapse cho button
 	initExpand();
-	//Khởi tạo nút Thêm hình ảnh - giới hạn 5 ảnh
-	generalImage(5);
 	//Khởi tạo ẩn hiện nội dung đầy đủ
 	initComposing();
 	//Khởi tạo supporter
@@ -15,6 +13,10 @@ $(function(e){
     validation("create_real_estate");
 	//Ẩn đối tượng mặc định
 	hideObjectDefault();
+    //Ajax lấy dữ liệu địa chỉ
+    getFullProvinceData_AfterChange();
+    //Init image upload
+    initImageUpload();
 });
 
 function init() {
@@ -71,19 +73,6 @@ function initExpand() {
 	});
 }
 
-function generalImage(limitNumber) {
-	$('#btn_add_image').on('click', function(e) {
-		e.preventDefault();
-
-		nameObject = $(this).data('add');		
-		$currentObject = $(':last-of-type[data-name="' + nameObject + '"]');
-		if ($('[data-name="' + nameObject + '"]').length < limitNumber) {
-			$newObject = $currentObject.clone();	
-			$currentObject.after($newObject);
-		}		
-	});
-}
-
 function initComposing() {
 	$('.continue-composing').hide();
 }
@@ -130,6 +119,7 @@ function validation(idForm) {
 	$(idForm).submit(function(e) {
 		//redefine event
 		e = e || window.event;
+        e.preventDefault();
 
 		//Variable valid
 		var isValid = true;		
@@ -155,8 +145,29 @@ function validation(idForm) {
 				{ scrollTop: $('.is-error').offset().top - 100 }
 			);
 			$('.is-error')[0].focus();
-			e.preventDefault();
-		}		
+		}
+        else {
+            $.ajax({
+                url: '/real_estates/create',
+                type: 'POST',
+                data: $(idForm).serialize(),
+                dataType: 'JSON'
+            }).done(function(data) {
+                if (data.status == 1) {
+                    window.location = data.result;
+                }
+                else {
+                    var result = data.result;
+                    var errors = '';
+                    for (var i = 0; i < result.length; i++) {
+                        errors += result[i] + '<br />';
+                    }
+                    $('#errors').html(errors);
+                }
+            }).fail(function() {
+                alert('Đăng tin thất bại');
+            })
+        }
 	});	
 
 	/* prevent key non-number */
@@ -203,3 +214,87 @@ function validation(idForm) {
 	/* #end Progress DonViTienTe*/
 }
 /* #end Validation */
+
+/* #start Get province data */
+function getFullProvinceData_AfterChange() {
+    $('#province').on('change', function() {
+        $.ajax({
+            url: '/provinces/get_full_data/' + $(this).find(':selected').val() + '.json'
+        }).done(function(data) {
+            $('#district').html(data[0]);
+            $('#ward').html(data[1]);
+            $('#street').html(data[2]);
+        }).fail(function() {
+            alert('Lấy dữ liệu tỉnh/thành thất bại.')
+        });
+    })
+}
+/* #end Get province data */
+
+/* #start Image upload */
+function initImageUpload() {
+    $('.image-upload input[type="file"]').on('change', function() {
+        //Check file exist
+        if (this.files.length == 0) {
+            return;
+        }
+
+        //Get container
+        $fileUploadContainer = $(this).parents('.image-upload');
+        //Get & reset progress bar
+        var progressBar = $fileUploadContainer.children('u')[0];
+        progressBar.style.width = '0%';
+
+        //Collect data
+        var data = new FormData();
+        data.append('file', this.files[0]);
+        data.append('type', 'real_estate');
+
+        //post request
+        $.ajax({
+            url: '/images/upload',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: data,
+            dataType: 'JSON',
+            xhr: function() {
+                var xhr = $.ajaxSettings.xhr();
+                if(xhr.upload){ //Check if upload property exists
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if(e.lengthComputable){
+                            progressBar.style.width = Math.ceil(e.loaded/e.total) * 100 + '%';
+                        }
+                    }, false); //For handling the progress of the upload
+                }
+                return xhr;
+            }
+        }).done(function(data) {
+            if (data.status == 1) {
+                $fileUploadContainer.addClass('has-file');
+                $fileUploadContainer.find('img').attr('src', data.result.path);
+                $fileUploadContainer.children('input[type="hidden"]').val(data.result.id);
+            }
+            else {
+                alert('Thêm file thất bại')
+            }
+        }).fail(function() {
+            alert('Thêm file thất bại')
+        }).always(function() {
+            progressBar.style.width = '0%';
+        });
+    });
+
+    $('.image-upload i').on('click', function() {
+        if (!confirm('Bạn có chắc muốn xóa hình này?')) {
+            return;
+        }
+
+        //Get container
+        $fileUploadContainer = $(this).parents('.image-upload');
+
+        $fileUploadContainer.removeClass('has-file');
+        $fileUploadContainer.children('input[type="hidden"]').val('');
+    });
+}
+/* #end Image upload */

@@ -1,6 +1,11 @@
 class ProvincesController < ApplicationController
   before_action :set_province, only: [:show, :edit, :update, :destroy]
 
+  # json
+  def get_full_data
+    @province_id = params['id']
+  end
+
   # GET /provinces
   # GET /provinces.json
   def index

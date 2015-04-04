@@ -45,32 +45,25 @@
 <!-- #start general infos -->
 <section class="block-box highlight">
   <section class="block-title" data-after="Thời gian đăng: <%= @real_estate.created_at.strftime('%F %H:%M') %>">
-    <span><%= @real_estate.name %></span>
+    <span><%= @real_estate.name.html_safe %></span>
   </section>
   <section class="block-content general-infos row">
     <section class="image">
       <a href="#" class="favorite-button"></a>
-      <img src="/assets/product/BDS05.jpg">
+      <img src="<%= @real_estate.images.length != 0 ? @real_estate.images[0].path : '/assets/product/BDS01.jpg' %>">
     </section>
     <section class="infos">
       <ul class="image-infos">
-        <li class="item">
-          <img src="/assets/product/BDS01.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS02.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS03.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS04.jpg">
-        </li>
+        <% (1...@real_estate.images.length).each do |i| %>
+            <li class="item">
+              <img src="<%= @real_estate.images[i].path %>">
+            </li>
+        <% end %>
       </ul>
       <ul class="text-infos">
         <li>
           <span class="title">Mã tin:</span>
-									<span class="value" style="
+          <span class="value" style="
                                     border: 1px solid #286090;
                                             border-radius: 4px;
                                             padding: 3px 6px;
@@ -88,7 +81,7 @@
         </li>
         <li>
           <span class="title">Địa chỉ:</span>
-          <span class="value"><%= "#{@real_estate.address_number}, ..." %></span>
+          <span class="value"><%= "#{@real_estate.address_number}, đường #{@real_estate.street.name.html_safe}, phường #{@real_estate.ward.name.html_safe}, quận #{@real_estate.district.name.html_safe}, #{@real_estate.province.name.html_safe}" %></span>
         </li>
       </ul>
     </section>
@@ -160,7 +153,7 @@
       </span>
       </li>
       <li class="item col-xs-6 col-sm-4 circle">
-        <% if @real_estate.is_alley %>
+        <% if @real_estate.is_alley == 1 %>
             <span>Hẻm: <b><%= @real_estate.alley_width %>m</b></span>
         <% else %>
             <span>Mặt tiền</span>
@@ -184,7 +177,7 @@
             <span>Diện tích khuôn viên: <b><%= @real_estate.campus_area %>m</b></span>
           </li>
       <% end %>
-      <% if @real_estate.shape %>
+      <% if @real_estate.shape != 0 %>
           <li class="item col-xs-6 col-sm-4 circle">
             <span><%= @real_estate.shape == 1 ? 'Nở hậu' : 'Tóp hậu' %>: <b><%= @real_estate.shape_width %>m</b></span>
           </li>
