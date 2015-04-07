@@ -22,7 +22,7 @@ class RealEstatesController < ApplicationController
     render layout: 'layout_admin'
   end
 
-  def save
+  def saves
     real_estate = RealEstate.save_real_estate params['real_estate']
 
     if real_estate.errors.any?
