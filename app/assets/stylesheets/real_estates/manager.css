@@ -31,4 +31,6 @@
 				margin-bottom: 5px;
 			}
 		}
-		
+		.content .table > tbody > tr:nth-of-type(2n+1) {
+			background-color: #eee;
+		}
