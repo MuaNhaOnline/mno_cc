@@ -20,7 +20,7 @@ class RealEstatesController < ApplicationController
 
   def create
     render layout: 'layout_admin'
-  end
+  end  
 
   def save
     real_estate = RealEstate.save_real_estate params['real_estate']
@@ -30,5 +30,13 @@ class RealEstatesController < ApplicationController
     else
       render json: Hash[status: 1, result: "/real_estates/view/#{real_estate.id}"]
     end
+  end
+
+  def manager
+    render layout: 'layout_admin'
+  end
+
+  def real_estates_pending
+    render layout: 'layout_admin'
   end
 end

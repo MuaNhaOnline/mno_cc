@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get 'real_estates/view/:id' => 'real_estates#view'
   get 'real_estates/create'
   post 'real_estates/create' => 'real_estates#save'
+  get 'real_estates/manager'
+  get 'real_estates/real_estates_pending'
 
   get 'provinces/get_full_data/:id' => 'provinces#get_full_data'
 
