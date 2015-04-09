@@ -1,0 +1,121 @@
+<% content_for :stylesheets do %>
+    <link rel="stylesheet" href="/assets/businesses/create.css" />
+<% end %>
+
+<% content_for :scripts do %>
+<% end %>
+
+<div class="container-fluid">  
+  <!-- #start main-content -->
+  <article class="row wrapper">
+    <article class="main-content col-sm-8">    
+      <form class="form-horizontal" id="create_real_estate" method="post" action="/businesses/manager">
+      <section class="main-title">Admin Add Company</section>      
+      <ul class="item-wrapper">
+        <!-- #Start item "Thông tin cơ bản" -->
+        <li class="item">
+          <div class="item-title">Thông tin cơ bản</div>
+          <ul class="item-content">
+            <li class="form-group">            
+              <label class="control-label col-sm-3 input-sm">Company Category:</label>            
+              <div class="col-sm-4">
+                <select class="form-control input-sm">
+                  <option>--Select Company Category--</option>
+                </select>
+              </div>
+            </li>      
+            <li class="form-group">            
+              <label class="control-label col-sm-3 input-sm">Name:</label>            
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">            
+              <label class="control-label col-sm-3 input-sm">Email:</label>            
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">            
+              <label class="control-label col-sm-3 input-sm">Phone:</label>            
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">            
+              <label class="control-label col-sm-3 input-sm">Fax:</label>            
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">            
+              <label class="control-label col-sm-3 input-sm">Website:</label>            
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+          </ul>
+        </li>
+        <!-- #End item "Thông tin cơ bản" -->
+        <!-- #Start item "Vị trí" -->
+        <li class="item">
+          <div class="item-title">Vị trí</div>
+          <ul class="item-content">                        
+            <li class="form-group">                          
+              <div class="col-sm-9">
+                <textarea name="real_estate[description]" class="form-control required" id="description"></textarea>
+              </div>
+            </li>            
+          </ul>
+        </li>
+        <!-- #End item "Vị trí" -->
+        <!-- #Start item "Mô tả" -->
+        <li class="item">
+          <div class="item-title">Mô tả</div>
+          <ul class="item-content">                        
+            <li class="form-group">                          
+              <div class="col-sm-9">
+                <textarea name="real_estate[description]" class="form-control required" id="description"></textarea>
+              </div>
+            </li>            
+          </ul>
+        </li>
+        <!-- #End item "Mô tả" -->
+        <!-- #Start item "Hình ảnh" -->
+        <li class="item continue-composing">
+          <div class="item-title">Hình ảnh doanh nghiệp</div>
+          <ul class="item-content">
+            <li class="form-group">              
+              <div class="col-sm-9">
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>                      
+              </div>                  
+            </li>
+          </ul>
+        </li>
+        <!-- #End item "Hình ảnh" -->
+        <!-- #Start item "Submit Button" -->
+        <li class="item">          
+          <ul class="item-content">
+            <li class="submit-button">                                              
+              <p class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-danger">Reset</button>                
+              </p>              
+            </li>
+          </ul>
+        </li>
+        <!-- #End item "Submit Button" -->
+      </ul>
+      </form>
+    </article>              
+  </article>
+  <!-- #start main-content -->
+</div>

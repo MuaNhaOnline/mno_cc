@@ -8,4 +8,12 @@ class ProjectsController < ApplicationController
   def view
 
   end
+
+  def manager
+  	render layout: 'layout_admin'
+  end
+
+  def create
+  	render layout: 'layout_admin'
+  end
 end

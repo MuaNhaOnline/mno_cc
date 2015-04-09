@@ -18,6 +18,12 @@ Rails.application.routes.draw do
   post 'real_estates/create' => 'real_estates#save'
   get 'real_estates/manager'
   get 'real_estates/real_estates_pending'
+  get 'projects/manager'
+  get 'projects/create'
+  get 'businesses/manager'
+  get 'businesses/create'
+  get 'businesses/create_category'
+  get 'news/manager/'
 
   get 'provinces/get_full_data/:id' => 'provinces#get_full_data'
 
