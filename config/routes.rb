@@ -22,8 +22,7 @@ Rails.application.routes.draw do
   get 'projects/create'
   get 'businesses/manager'
   get 'businesses/create'
-  get 'businesses/create_category'
-  get 'news/manager/'
+  get 'businesses/create_category'  
 
   get 'provinces/get_full_data/:id' => 'provinces#get_full_data'
 

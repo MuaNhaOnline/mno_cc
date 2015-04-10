@@ -1,8 +1,10 @@
 <% content_for :stylesheets do %>
-    <link rel="stylesheet" href="/assets/projects/create.css" />
+  <link rel="stylesheet" href="/assets/projects/create.css" />
+  <link rel="stylesheet" href="/assets/shared/datepicker.css">
 <% end %>
 
 <% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/shared/bootstrap-datepicker.js"></script>
 <% end %>
 
 <div class="container-fluid">  
@@ -72,50 +74,59 @@
           <div class="item-title">Chi tiết</div>
           <ul class="item-content">                        
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Diện tích đất:</label>
+              <label class="control-label col-sm-3 input-sm">Diện tích đất:</label>
               <div class="input-group col-sm-4">
                 <input class="form-control input-sm">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>
             </li>
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Diện tích sử dụng:</label>
+              <label class="control-label col-sm-3 input-sm">Diện tích sử dụng:</label>
               <div class="input-group col-sm-4">
                 <input class="form-control input-sm">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>
             </li>
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Ngang:</label>
+              <label class="control-label col-sm-3 input-sm">Ngang:</label>
               <div class="input-group col-sm-4">
                 <input class="form-control input-sm">
                 <div class="input-group-addon">m</div>
               </div>
             </li>
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Dọc:</label>
+              <label class="control-label col-sm-3 input-sm">Dọc:</label>
               <div class="input-group col-sm-4">
                 <input class="form-control input-sm">
                 <div class="input-group-addon">m</div>
               </div>
             </li>
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Tỉ lệ sử dụng:</label>
+              <label class="control-label col-sm-3 input-sm">Tỉ lệ sử dụng:</label>
               <div class="input-group col-sm-4">
                 <input class="form-control input-sm">
                 <div class="input-group-addon">%</div>
               </div>
             </li>
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Số tầng:</label>
+              <label class="control-label col-sm-3 input-sm">Số tầng:</label>
               <div class="col-sm-4">
                 <input class="form-control input-sm">                
               </div>
             </li>
             <li class="form-group">                          
-            <label class="control-label col-sm-3 input-sm">Số căn hộ trên 1 tầng:</label>
+              <label class="control-label col-sm-3 input-sm">Số căn hộ trên 1 tầng:</label>
               <div class="col-sm-4">
                 <input class="form-control input-sm">                
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Ngày khởi công (dự kiến):</label>
+              <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
               </div>
             </li>
           </ul>
