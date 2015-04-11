@@ -3,6 +3,7 @@
 <% end %>
 
 <% content_for :scripts do %>  
+  <script src="/assets/projects/create.js"></script>
 <% end %>
 
 <div class="container-fluid">  
@@ -61,7 +62,12 @@
             <li class="form-group"> 
               <label class="control-label col-sm-3 input-sm"></label>
               <div class="col-sm-4">
-                <a href="#" class="btn btn-link">View Map</a>
+                <a href="#" class="btn btn-link expand" data-target="#map">View Map</a>
+              </div>
+            </li>
+            <li class="form-group">            
+              <div class="col-xs-12">
+                <img src="/assets/product/icon_Bando.png" class="img-responsive" id="map" style="display:none;">
               </div>
             </li>
           </ul>
@@ -69,7 +75,7 @@
         <!-- #End item "Vị trí" -->
         <!-- #Start item "Chi tiết" -->
         <li class="item">
-          <div class="item-title">Chi tiết</div>
+          <div class="item-title">Thông tin chi tiết</div>
           <ul class="item-content">                        
             <li class="form-group">                          
               <label class="control-label col-sm-3 input-sm">Diện tích đất:</label>
@@ -121,10 +127,79 @@
             <li class="form-group">                          
               <label class="control-label col-sm-3 input-sm">Ngày khởi công (dự kiến):</label>
               <div class="input-group col-sm-4">
-                <input class="form-control input-sm">
+                <input class="form-control input-sm date">
                 <div class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                 </div>
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Ngày hoàn thành (dự kiến):</label>
+              <div class="input-group col-sm-4">
+                <input class="form-control input-sm date">
+                <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Ngày khởi công:</label>
+              <div class="input-group col-sm-4">
+                <input class="form-control input-sm date">
+                <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Hoàn thành mống:</label>
+              <div class="input-group col-sm-4">
+                <input class="form-control input-sm date">
+                <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Ngày bàn giao nhà:</label>
+              <div class="input-group col-sm-4">
+                <input class="form-control input-sm date">
+                <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Ngày cấp sổ:</label>
+              <div class="input-group col-sm-4">
+                <input class="form-control input-sm date">
+                <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Chủ đầu tư:</label>
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Đơn vị thi công:</label>
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Đơn vị thiết kế:</label>
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
+              </div>
+            </li>
+            <li class="form-group">                          
+              <label class="control-label col-sm-3 input-sm">Đơn vị quản lý:</label>
+              <div class="col-sm-4">
+                <input class="form-control input-sm">
               </div>
             </li>
           </ul>
@@ -142,11 +217,12 @@
           </ul>
         </li>
         <!-- #End item "Mô tả" -->
-        <!-- #Start item "Hình ảnh" -->
+        <!-- #Start item "Hình ảnh dự án" -->
         <li class="item continue-composing">
-          <div class="item-title">Hình ảnh doanh nghiệp</div>
+          <div class="item-title">Hình ảnh dự án</div>
           <ul class="item-content">
-            <li class="form-group">              
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="images"></label>
               <div class="col-sm-9">
                 <div class="image-upload">
                   <input type="hidden" name="real_estate[image_ids][]" />
@@ -156,12 +232,48 @@
                   <img />
                   <u></u>
                   <i></i>
-                </div>                      
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
+                <div class="image-upload">
+                  <input type="hidden" name="real_estate[image_ids][]" />
+                  <label>
+                    <input type="file" />
+                  </label>
+                  <img />
+                  <u></u>
+                  <i></i>
+                </div>
               </div>                  
             </li>
           </ul>
         </li>
-        <!-- #End item "Hình ảnh" -->
+        <!-- #End item "Hình ảnh dự án" -->
         <!-- #Start item "Submit Button" -->
         <li class="item">          
           <ul class="item-content">
