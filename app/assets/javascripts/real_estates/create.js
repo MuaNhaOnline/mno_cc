@@ -3,8 +3,6 @@ $(function(e){
 	init();
 	//Khởi tạo sự kiện Expand và Collapse cho button
 	initExpand();
-	//Khởi tạo ẩn hiện nội dung đầy đủ
-	initComposing();
 	//Khởi tạo supporter
 	init_support();
 	//Khởi tạo năm xây dựng
@@ -71,10 +69,6 @@ function initExpand() {
 			$(this).parent().hide();
 		}
 	});
-}
-
-function initComposing() {
-	$('.continue-composing').hide();
 }
 
 /* #start supporter */

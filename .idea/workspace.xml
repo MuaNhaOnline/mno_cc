@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/views/real_estates/create.html.erb" line="28" />
+    <bookmark url="file://$PROJECT_DIR$/app/views/real_estates/create.html.erb" line="31" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="508a591d-8a6b-419e-a8bd-7bda9dbaaae5" name="Default" comment="" />
@@ -38,8 +38,18 @@
       <file leaf-file-name="manager.html.erb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/real_estates/manager.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="972">
-              <caret line="40" column="31" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="31" />
+            <state vertical-scroll-proportion="-6.185185" vertical-offset="301" max-vertical-offset="972">
+              <caret line="26" column="55" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view.html.erb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/real_estates/view.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.46168223" vertical-offset="4541" max-vertical-offset="7596">
+              <caret line="272" column="35" selection-start-line="272" selection-start-column="35" selection-end-line="272" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -58,18 +68,38 @@
       <file leaf-file-name="real_estates_controller.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/real_estates_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="198" max-vertical-offset="1242">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="468" max-vertical-offset="1242">
+              <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create.html.erb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="create.html.erb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/real_estates/create.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5837479" vertical-offset="7694" max-vertical-offset="10890">
-              <caret line="447" column="77" selection-start-line="447" selection-start-column="77" selection-end-line="447" selection-end-column="77" />
+            <state vertical-scroll-proportion="11.333333" vertical-offset="594" max-vertical-offset="10584">
+              <caret line="16" column="53" selection-start-line="16" selection-start-column="53" selection-end-line="16" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="real_estate.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/real_estate.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1104" max-vertical-offset="3654">
+              <caret line="67" column="43" selection-start-line="67" selection-start-column="43" selection-end-line="67" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.0" vertical-offset="0" max-vertical-offset="5400">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -123,14 +153,14 @@
         <option value="$PROJECT_DIR$/app/models/image.rb" />
         <option value="$PROJECT_DIR$/app/controllers/images_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/projects/create.js" />
-        <option value="$PROJECT_DIR$/app/views/real_estates/view.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/real_estates/manager.js" />
-        <option value="$PROJECT_DIR$/app/models/real_estate.rb" />
-        <option value="$PROJECT_DIR$/app/views/real_estates/manager.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/real_estates_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js" />
         <option value="$PROJECT_DIR$/app/views/real_estates/create.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/real_estate.rb" />
+        <option value="$PROJECT_DIR$/app/views/real_estates/manager.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/real_estates/view.html.erb" />
       </list>
     </option>
   </component>
@@ -824,6 +854,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.05598756" vertical-offset="0" max-vertical-offset="643">
           <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -838,13 +869,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.47589424" vertical-offset="0" max-vertical-offset="643">
           <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/real_estates/view.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5522388" vertical-offset="0" max-vertical-offset="6840">
-          <caret line="52" column="126" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="126" />
         </state>
       </provider>
     </entry>
@@ -876,24 +900,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5101089" vertical-offset="3668" max-vertical-offset="5508">
-          <caret line="222" column="32" selection-start-line="222" selection-start-column="32" selection-end-line="222" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/image.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="92" max-vertical-offset="882">
           <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/real_estate.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51428574" vertical-offset="0" max-vertical-offset="3564">
-          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -908,6 +918,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="2340">
           <caret line="15" column="57" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -919,26 +930,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/real_estates_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="198" max-vertical-offset="1242">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state vertical-scroll-proportion="-2.0" vertical-offset="0" max-vertical-offset="5400">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/real_estates/manager.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/real_estates_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="972">
-          <caret line="40" column="31" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="468" max-vertical-offset="1242">
+          <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/real_estate.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1104" max-vertical-offset="3654">
+          <caret line="67" column="43" selection-start-line="67" selection-start-column="43" selection-end-line="67" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/real_estates/create.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5837479" vertical-offset="7694" max-vertical-offset="10890">
-          <caret line="447" column="77" selection-start-line="447" selection-start-column="77" selection-end-line="447" selection-end-column="77" />
+        <state vertical-scroll-proportion="11.333333" vertical-offset="594" max-vertical-offset="10584">
+          <caret line="16" column="53" selection-start-line="16" selection-start-column="53" selection-end-line="16" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/real_estates/manager.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.185185" vertical-offset="301" max-vertical-offset="972">
+          <caret line="26" column="55" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/real_estates/view.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46168223" vertical-offset="4541" max-vertical-offset="7596">
+          <caret line="272" column="35" selection-start-line="272" selection-start-column="35" selection-end-line="272" selection-end-column="35" />
           <folding />
         </state>
       </provider>

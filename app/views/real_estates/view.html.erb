@@ -247,6 +247,48 @@
       </section>
     </section>
 <% end %>
+<% if @real_estate.advantages.length > 0 %>
+    <section class="block-box">
+      <section class="block-title">
+        Tiện nghi
+      </section>
+      <section class="block-content content-detail-infos">
+        <ul class="row infos-list">
+          <% @real_estate.advantages.each do |advantage| %>
+              <li class="item col-xs-6 col-sm-4">
+                <span><%= advantage.name %></span>
+              </li>
+          <% end %>
+          <% unless @real_estate.custom_advantages.blank? %>
+              <li class="item col-xs-6 col-sm-4">
+                <span><%= @real_estate.custom_advantages %></span>
+              </li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+<% end %>
+<% if @real_estate.disadvantages.length > 0 %>
+    <section class="block-box">
+      <section class="block-title">
+        Tiện nghi
+      </section>
+      <section class="block-content content-detail-infos">
+        <ul class="row infos-list">
+          <% @real_estate.disadvantages.each do |disadvantage| %>
+              <li class="item col-xs-6 col-sm-4">
+                <span><%= disadvantage.name %></span>
+              </li>
+          <% end %>
+          <% unless @real_estate.custom_disadvantages.blank? %>
+              <li class="item col-xs-6 col-sm-4">
+                <span><%= @real_estate.custom_disadvantages %></span>
+              </li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+<% end %>
 <section class="block-box">
   <section class="block-title">
     Vị trí trên bản đồ

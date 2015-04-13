@@ -31,7 +31,6 @@ class RealEstate < ActiveRecord::Base
   validates :address_number, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :street_type_id, presence: { message: 'Loại đường không được bỏ trống' }
   validates :real_estate_type_id, presence: { message: 'Loại bất động sản không được bỏ trống' }
-  validates :direction_id, presence: { message: 'Hướng nhà không được bỏ trống' }
   validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
   validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
   validates :shape, presence: { message: 'Hình dáng không được bỏ trống' }
@@ -55,6 +54,7 @@ class RealEstate < ActiveRecord::Base
     errors.add(:custom_planning_status_type, 'Tình trạng quy hoạch không được bỏ trống') if fields.include?(:custom_planning_status_type) && custom_planning_status_type.blank?
     errors.add(:campus_area, 'Diện tích khuôn viên không được bỏ trống') if fields.include?(:campus_area) && campus_area == 0
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area == 0
+    errors.add(:direction_id, 'Kích thước hẻm không được bỏ trống') if fields.include? :direction_id
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area == 0
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality == 0
   end
@@ -63,7 +63,12 @@ class RealEstate < ActiveRecord::Base
   def self.save_real_estate params
     # save data
     real_estate_params = get_real_estate_params params
-    real_estate = RealEstate.new(real_estate_params)
+    if params.include? :id
+      real_estate = find params[:id]
+      real_estate.update real_estate_params
+    else
+      real_estate = RealEstate.new real_estate_params
+    end
     real_estate.advantages << Advantage.find(params[:advantage_ids]) if params.include? :advantage_ids
     real_estate.disadvantages << Disadvantage.find(params[:disadvantage_ids]) if params.include? :disadvantage_ids
     real_estate.property_utilities << PropertyUtility.find(params[:property_utility_ids]) if params.include? :property_utility_ids
@@ -132,7 +137,7 @@ class RealEstate < ActiveRecord::Base
     # currency_id, unit_id, is_negotiable, province_id, district_id
     # ward_id, street_id, address_number, street_type_id, is_alley
     # #alley_size, real_estate_type_id, #campus_area, #using_area,
-    # #floor_number, #restroom_number, #bedroom_number, direction_id
+    # #floor_number, #restroom_number, #bedroom_number, #direction_id
     # #build_year, #constructional_quality, #constructional_area,
     # #constructional_level_id, width_x, width_y, shape, #shape_width,
     # legal_record_type_id, #custom_legal_record_type, planning_status_type_id,
@@ -142,7 +147,7 @@ class RealEstate < ActiveRecord::Base
     fields = [
       :title, :description, :name, :purpose_id, :price, :currency_id, :unit_id,
       :is_negotiable, :province_id, :district_id, :ward_id, :street_id, :address_number,
-      :street_type_id, :is_alley, :real_estate_type_id, :direction_id, :width_x, :width_y, :shape,
+      :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y, :shape,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages
     ]
 
@@ -173,7 +178,7 @@ class RealEstate < ActiveRecord::Base
         fields << :campus_area
       when 'MatBang', 'Nha'
         fields << :campus_area << :using_area << :constructional_area << :restroom_number <<
-            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality
+            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality << :direction_id
         if real_estate_type.options_hash['group'] == 'Nha'
           fields << :floor_number
           if real_estate_type.code == 'BietThu'
@@ -182,7 +187,7 @@ class RealEstate < ActiveRecord::Base
         end
       when 'CanHo'
         fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
-            :build_year << :constructional_quality
+            :build_year << :constructional_quality << :direction_id
         if real_estate_type.code == 'ChungCu'
           fields << :constructional_level_id
         end
