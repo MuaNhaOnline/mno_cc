@@ -7,7 +7,7 @@
     <tr>
       <th>Name</th>
       <th>Code</th>
-      <th>Ward</th>
+      <th>Province</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -17,7 +17,7 @@
       <tr>
         <td><%= street.name %></td>
         <td><%= street.code %></td>
-        <td><%= street.ward_id %></td>
+        <td><%= street.province_id %></td>
         <td><%= link_to 'Show', street %></td>
         <td><%= link_to 'Edit', edit_street_path(street) %></td>
         <td><%= link_to 'Destroy', street, method: :delete, data: { confirm: 'Are you sure?' } %></td>

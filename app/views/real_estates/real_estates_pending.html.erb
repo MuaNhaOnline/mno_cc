@@ -1,0 +1,267 @@
+<% content_for :stylesheets do %>
+    <link rel="stylesheet" href="/assets/real_estates/real_estates_pending.css" />
+<% end %>
+
+<% content_for :scripts do %>
+	<script src="/assets/real_estates/real_estates_pending.js"></script>
+<% end %>
+
+<!-- #start FilterBox -->
+<article class="filter-box">
+	<section class="title">Bộ lọc sản phẩm</section>
+	<form method="post" action="/real_estates/real_estates_pending">
+	<section class="container-fluid">		
+		<div class="item col-sm-3">
+			<div class="item-title">Tên BĐS</div>
+			<div class="form-group">
+				<input class="form-control input-sm">				
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Tỉnh/Thành</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Quận/Huyện</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Dự án</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Module</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Giá</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Diện tích</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Loại</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Nhu cầu</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Phòng ngủ</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>
+		<div class="item col-sm-3">
+			<div class="item-title">Phòng tắm</div>
+			<div class="form-group">
+				<select class="form-control input-sm">
+					<option>--Chọn--</option>
+				</select>			
+			</div>
+		</div>		
+	</section>
+	<section class="btn-submit">
+		<button class="btn btn-primary" type="submit">Tìm kiếm theo bộ lọc</button>
+	</section>
+	</form>
+	<!-- #end FilterBox -->
+	<!-- #start TableResult -->
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<td>Mã tin</td>
+					<td>Tên BĐS</td>
+					<td>Nhu cầu</td>
+					<td>Loại BĐS</td>
+					<td>Người đăng</td>
+					<td>Giá</td>	
+					<td>Thời gian đăng</td>		
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td rowspan="2" align="center">
+						<span>#RE01778</span>
+						<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
+					</td>						
+					<td>Nhà phố nổi bật nhất ... bla bla bla</td>
+					<td>Bán</td>
+					<td>Nhà phố</td>
+					<td>user01</td>
+					<td>1.570.000.000 VNĐ</td>
+					<td>08/04/2015 <br> 11:44</td>				
+				</tr>	
+				<tr>
+					<td colspan="6">
+						<div class="item-info">
+							<div class="btn-function">
+								<button class="btn btn-primary btn-xs">Duyệt</button>
+								<button class="btn btn-default btn-xs">Loại</button>
+								<button class="btn btn-default btn-xs">Xem/Chỉnh sửa</button>
+								<button class="btn btn-danger btn-xs">Xoá</button>
+								<button class="btn btn-default btn-xs">Làm mới tin</button>
+							</div>
+							<ul class="info">
+								<li>Chờ duyệt</li>
+								<li>Featured: no</li>
+								<li>New: no</li>
+								<li>Sale: no</li>
+								<li>Hit: no</li>
+								<li>Ngày còn lại: 0</li>
+								<li>Làm mới: 0 lần</li>
+							</ul>
+						</div>
+					</td>				
+				</tr>						
+			</tbody>
+			<tbody>
+				<tr>
+					<td rowspan="2" align="center">
+						<span>#RE01778</span>
+						<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
+					</td>						
+					<td>Nhà phố nổi bật nhất ... bla bla bla</td>
+					<td>Bán</td>
+					<td>Nhà phố</td>
+					<td>user01</td>
+					<td>1.570.000.000 VNĐ</td>
+					<td>08/04/2015 <br> 11:44</td>				
+				</tr>	
+				<tr>
+					<td colspan="6">
+						<div class="item-info">
+							<div class="btn-function">
+								<button class="btn btn-primary btn-xs">Duyệt</button>
+								<button class="btn btn-default btn-xs">Loại</button>
+								<button class="btn btn-default btn-xs">Xem/Chỉnh sửa</button>
+								<button class="btn btn-danger btn-xs">Xoá</button>
+								<button class="btn btn-default btn-xs">Làm mới tin</button>
+							</div>
+							<ul class="info">
+								<li>Chờ duyệt</li>
+								<li>Featured: no</li>
+								<li>New: no</li>
+								<li>Sale: no</li>
+								<li>Hit: no</li>
+								<li>Ngày còn lại: 0</li>
+								<li>Làm mới: 0 lần</li>
+							</ul>
+						</div>
+					</td>				
+				</tr>						
+			</tbody>
+			<tbody>
+				<tr>
+					<td rowspan="2" align="center">
+						<span>#RE01778</span>
+						<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
+					</td>						
+					<td>Nhà phố nổi bật nhất ... bla bla bla</td>
+					<td>Bán</td>
+					<td>Nhà phố</td>
+					<td>user01</td>
+					<td>1.570.000.000 VNĐ</td>
+					<td>08/04/2015 <br> 11:44</td>				
+				</tr>	
+				<tr>
+					<td colspan="6">
+						<div class="item-info">
+							<div class="btn-function">
+								<button class="btn btn-primary btn-xs">Duyệt</button>
+								<button class="btn btn-default btn-xs">Loại</button>
+								<button class="btn btn-default btn-xs">Xem/Chỉnh sửa</button>
+								<button class="btn btn-danger btn-xs">Xoá</button>
+								<button class="btn btn-default btn-xs">Làm mới tin</button>
+							</div>
+							<ul class="info">
+								<li>Chờ duyệt</li>
+								<li>Featured: no</li>
+								<li>New: no</li>
+								<li>Sale: no</li>
+								<li>Hit: no</li>
+								<li>Ngày còn lại: 0</li>
+								<li>Làm mới: 0 lần</li>
+							</ul>
+						</div>
+					</td>				
+				</tr>						
+			</tbody>
+			<tbody>
+				<tr>
+					<td rowspan="2" align="center">
+						<span>#RE01778</span>
+						<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
+					</td>						
+					<td>Nhà phố nổi bật nhất ... bla bla bla</td>
+					<td>Bán</td>
+					<td>Nhà phố</td>
+					<td>user01</td>
+					<td>1.570.000.000 VNĐ</td>
+					<td>08/04/2015 <br> 11:44</td>				
+				</tr>	
+				<tr>
+					<td colspan="6">
+						<div class="item-info">
+							<div class="btn-function">
+								<button class="btn btn-primary btn-xs">Duyệt</button>
+								<button class="btn btn-default btn-xs">Loại</button>
+								<button class="btn btn-default btn-xs">Xem/Chỉnh sửa</button>
+								<button class="btn btn-danger btn-xs">Xoá</button>
+								<button class="btn btn-default btn-xs">Làm mới tin</button>
+							</div>
+							<ul class="info">
+								<li>Chờ duyệt</li>
+								<li>Featured: no</li>
+								<li>New: no</li>
+								<li>Sale: no</li>
+								<li>Hit: no</li>
+								<li>Ngày còn lại: 0</li>
+								<li>Làm mới: 0 lần</li>
+							</ul>
+						</div>
+					</td>				
+				</tr>						
+			</tbody>
+		</table>		
+	</div>
+</article>
+<!-- #end TableResult -->

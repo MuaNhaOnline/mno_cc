@@ -69,6 +69,6 @@ class WardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ward_params
-      params.require(:ward).permit(:name, :code, :district_id)
+      params.require(:ward).permit(:name, :code, :province_id)
     end
 end

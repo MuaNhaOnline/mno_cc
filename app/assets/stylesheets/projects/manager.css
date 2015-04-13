@@ -1,0 +1,74 @@
+/* #start Bộ lọc*/
+.filter-box {
+
+}
+	.filter-box > .title {
+		padding: 10px;
+		font-size: 1.3em;
+		color: #a5a5a5;
+	}
+		.filter-box .item {
+
+		}		
+			.filter-box .item > .item-title {
+				color: #aaa;
+				padding: 5px 0;
+			}	
+			.filter-box .item > .form-group {
+
+			}
+			@media(max-width: 768px) {
+				.filter-box .item > .form-group {
+					margin: 0 !important;
+				}
+			}
+	.filter-box .btn-submit {
+		padding: 0 30px;
+	}
+	@media(max-width: 768px) {
+		.filter-box .btn-submit {
+			padding: 10px 30px;
+		}
+	}
+/*#end Bộ lọc*/
+/*#start TableResul*/
+.content .table {
+	border: 1px solid #ccc;
+	margin: 10px 0;
+}
+@media(max-width: 768px) {
+	.content .table {
+		border: none;
+	}
+}
+	.content .table > thead {
+		font-weight: bold;
+	}			
+	.content .table > tbody {
+
+	}
+		.table > tbody td:first-of-type {
+			width: 121px;		
+		}
+		.content .table > tbody > tr > td:first-of-type > span {
+			font-weight: bold;
+			border: 1px solid #286090;
+			border-radius: 4px;
+			padding: 3px 6px;
+			background-color: #286090;
+			color: white;
+			display: block;
+			margin-bottom: 5px;
+		}		
+		.content .table > tbody > tr > td:first-of-type {
+			text-align: center;
+		}
+		@media(max-width: 1200px) {
+			.content .table > tbody > tr > td:last-of-type > .btn {
+				margin-bottom: 5px;
+			}
+		}
+		.content .table > tbody > tr:nth-of-type(2n+1) {
+			background-color: #eee;
+		}
+/*#end TableResult*/

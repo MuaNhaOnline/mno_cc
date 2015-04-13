@@ -1,0 +1,41 @@
+/*#start TableResult*/
+.content .table {
+	border: 1px solid #ccc;
+	margin: 10px 0;
+}
+@media(max-width: 768px) {
+	.content .table {
+		border: none;
+	}
+}
+	.content .table > thead {
+		font-weight: bold;
+	}			
+	.content .table > tbody {
+
+	}
+		.table > tbody td:first-of-type {
+			width: 121px;		
+		}
+		.content .table > tbody > tr > td:first-of-type > span {
+			font-weight: bold;
+			border: 1px solid #286090;
+			border-radius: 4px;
+			padding: 3px 6px;
+			background-color: #286090;
+			color: white;
+			display: block;
+			margin-bottom: 5px;
+		}		
+		.content .table > tbody > tr > td:first-of-type {
+			text-align: center;
+		}
+		@media(max-width: 1200px) {
+			.content .table > tbody > tr > td:last-of-type > .btn {
+				margin-bottom: 5px;
+			}
+		}
+		.content .table > tbody > tr:nth-of-type(2n+1) {
+			background-color: #eee;
+		}
+/*#end TableResult*/
