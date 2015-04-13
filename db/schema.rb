@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150402122449) do
+ActiveRecord::Schema.define(version: 20150413033956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20150402122449) do
   end
 
   create_table "images", force: :cascade do |t|
-    t.text     "path"
+    t.text     "folder"
     t.text     "options"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -237,6 +237,27 @@ ActiveRecord::Schema.define(version: 20150402122449) do
     t.decimal  "ads_cost"
     t.integer  "is_paid"
     t.text     "options"
+  end
+
+  create_table "real_estates_advantages", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "advantage_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "real_estates_disadvantages", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "disadvantage_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "real_estates_property_utilities", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "property_utility_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|

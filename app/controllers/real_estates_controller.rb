@@ -1,6 +1,6 @@
 class RealEstatesController < ApplicationController
   layout 'layout'
-  skip_before_filter :verify_authenticity_token, :only => [:save]
+  skip_before_filter :verify_authenticity_token, :only => [:save, :delete]
 
   def index
 
@@ -19,6 +19,16 @@ class RealEstatesController < ApplicationController
   end
 
   def create
+      if (params.include?('id'))
+        begin
+          @real_estate = RealEstate.find(params['id'])
+        rescue
+          @real_estate = RealEstate.new
+        end
+      else
+        @real_estate = RealEstate.new
+      end
+
     render layout: 'layout_admin'
   end  
 
@@ -28,15 +38,26 @@ class RealEstatesController < ApplicationController
     if real_estate.errors.any?
       render json: Hash[status: 0, result: real_estate.errors.full_messages]
     else
-      render json: Hash[status: 1, result: "/real_estates/view/#{real_estate.id}"]
+      render json: Hash[status: 1, result: real_estate.id]
     end
   end
 
   def manager
+    @real_estates = RealEstate.all
+
     render layout: 'layout_admin'
   end
 
   def real_estates_pending
     render layout: 'layout_admin'
+  end
+
+  def delete
+    begin
+      RealEstate.delete params['id']
+      render json: Hash[status: 1]
+    rescue
+      render json: Hash[status: 0, result: real_estate.errors.full_messages]
+    end
   end
 end
