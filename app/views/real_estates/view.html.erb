@@ -50,13 +50,13 @@
   <section class="block-content general-infos row">
     <section class="image">
       <a href="#" class="favorite-button"></a>
-      <img src="<%= @real_estate.images.length != 0 ? @real_estate.images[0].path : '/assets/product/BDS01.jpg' %>">
+      <img src="<%= @real_estate.images.length != 0 ? "/images/#{@real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
     </section>
     <section class="infos">
       <ul class="image-infos">
         <% (1...@real_estate.images.length).each do |i| %>
             <li class="item">
-              <img src="<%= @real_estate.images[i].path %>">
+              <img src="<%= "/images/#{@real_estate.images[i].id}" %>">
             </li>
         <% end %>
       </ul>

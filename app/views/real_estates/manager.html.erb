@@ -2,7 +2,8 @@
     <link rel="stylesheet" href="/assets/real_estates/manager.css" />
 <% end %>
 
-<% content_for :scripts do %>    
+<% content_for :scripts do %>
+    <script src="/assets/real_estates/manager.js"></script>
 <% end %>
 	
 <!-- #start content -->
@@ -21,97 +22,27 @@
 				<td>Điều khiển</td>															
 			</tr>								
 		</thead>	
-		<tbody>
-			<tr>
-				<td>
-					<span>#RE01778</span>
-					<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
-				</td>
-				<td>Nhà phố Quận 7</td>
-				<td>Bán</td>
-				<td>Nhà phố</td>
-				<td>3 tỷ</td>
-				<td>3 ngày</td>
-				<td>đang soạn</td>
-				<td>800</td>				
-				<td>
-					<button class="btn btn-default" id="btnDangTin">Đăng tin</button>
-					<button class="btn btn-default" id="btnSuaTin">Sửa tin</button>
-					<button class="btn btn-danger" id="btnXoaTin">Xoá tin</button>
-				</td>								
-			</tr>
-			<tr>
-				<td>
-					<span>#RE01778</span>
-					<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
-				</td>
-				<td>Nhà phố Quận 7</td>
-				<td>Bán</td>
-				<td>Nhà phố</td>
-				<td>3 tỷ</td>
-				<td>3 ngày</td>
-				<td>đang soạn</td>
-				<td>800</td>				
-				<td>
-					<button class="btn btn-default" id="btnDangTin">Đăng tin</button>
-					<button class="btn btn-default" id="btnSuaTin">Sửa tin</button>
-					<button class="btn btn-danger" id="btnXoaTin">Xoá tin</button>
-				</td>								
-			</tr>
-			<tr>
-				<td>
-					<span>#RE01778</span>
-					<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
-				</td>
-				<td>Nhà phố Quận 7</td>
-				<td>Bán</td>
-				<td>Nhà phố</td>
-				<td>3 tỷ</td>
-				<td>3 ngày</td>
-				<td>đang soạn</td>
-				<td>800</td>				
-				<td>
-					<button class="btn btn-default" id="btnDangTin">Đăng tin</button>
-					<button class="btn btn-default" id="btnSuaTin">Sửa tin</button>
-					<button class="btn btn-danger" id="btnXoaTin">Xoá tin</button>
-				</td>								
-			</tr>
-			<tr>
-				<td>
-					<span>#RE01778</span>
-					<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
-				</td>
-				<td>Nhà phố Quận 7</td>
-				<td>Bán</td>
-				<td>Nhà phố</td>
-				<td>3 tỷ</td>
-				<td>3 ngày</td>
-				<td>đang soạn</td>
-				<td>800</td>				
-				<td>
-					<button class="btn btn-default" id="btnDangTin">Đăng tin</button>
-					<button class="btn btn-default" id="btnSuaTin">Sửa tin</button>
-					<button class="btn btn-danger" id="btnXoaTin">Xoá tin</button>
-				</td>								
-			</tr>
-			<tr>
-				<td>
-					<span>#RE01778</span>
-					<img src="/assets/product/BDS05.jpg" width="100px" height="100px">
-				</td>
-				<td>Nhà phố Quận 7</td>
-				<td>Bán</td>
-				<td>Nhà phố</td>
-				<td>3 tỷ</td>
-				<td>3 ngày</td>
-				<td>đang soạn</td>
-				<td>800</td>				
-				<td>
-					<button class="btn btn-default" id="btnDangTin">Đăng tin</button>
-					<button class="btn btn-default" id="btnSuaTin">Sửa tin</button>
-					<button class="btn btn-danger" id="btnXoaTin">Xoá tin</button>
-				</td>								
-			</tr>			
+		<tbody id="real_estates_list">
+            <% @real_estates.each do |real_estate| %>
+                <tr data-value="<%= real_estate.id %>">
+                    <td>
+                        <span><%= ApplicationHelper.id_format real_estate.id, 'RE'%></span>
+                        <img src="<%= real_estate.images.length != 0 ? "/images/#{real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>" width="100px" height="100px">
+                    </td>
+                    <td><%= real_estate.name %></td>
+                    <td><%= real_estate.purpose.name %></td>
+                    <td><%= real_estate.real_estate_type.name %></td>
+                    <td><%= real_estate.price.to_s + ' ' + real_estate.currency.name %></td>
+                    <td>Chưa xử lý</td>
+                    <td>Chưa xử lý</td>
+                    <td>Chưa xử lý</td>
+                    <td>
+                        <button class="btn btn-default" id="btnDangTin" data-function="post">Đăng tin</button>
+                        <button class="btn btn-default" id="btnSuaTin" data-function="edit">Sửa tin</button>
+                        <button class="btn btn-danger" id="btnXoaTin" data-function="delete">Xoá tin</button>
+                    </td>
+                </tr>
+            <% end %>
 		</tbody>
 	</table>
 </div>

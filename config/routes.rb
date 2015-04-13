@@ -10,23 +10,31 @@ Rails.application.routes.draw do
 
   get 'home/index'
 
-
+  #Real estate
   get 'real_estates/index'
   get 'real_estates/category'
-  get 'real_estates/view/:id' => 'real_estates#view'
-  get 'real_estates/create'
-  post 'real_estates/create' => 'real_estates#save'
+  get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/manager'
   get 'real_estates/real_estates_pending'
+  post 'real_estates/create' => 'real_estates#save'
+  delete 'real_estates/:id' => 'real_estates#delete'
+  get 'real_estates/:id' => 'real_estates#view'
+
+  #Project
   get 'projects/manager'
   get 'projects/create'
+
+  #Business
   get 'businesses/manager'
   get 'businesses/create'
   get 'businesses/create_category'  
 
+  #Province
   get 'provinces/get_full_data/:id' => 'provinces#get_full_data'
 
+  #Image
   post 'images/upload' => 'images#upload'
+  get 'images/:id' => 'images#get_image'
 
   resources :businesses do
     collection do

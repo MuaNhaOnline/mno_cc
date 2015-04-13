@@ -157,7 +157,7 @@ function validation(idForm) {
                 dataType: 'JSON'
             }).done(function(data) {
                 if (data.status == 1) {
-                    window.location = data.result;
+                    window.location = '/real_estates/' + data.result;
                 }
                 else {
                     var result = data.result;
@@ -275,8 +275,8 @@ function initImageUpload() {
         }).done(function(data) {
             if (data.status == 1) {
                 $fileUploadContainer.addClass('has-file');
-                $fileUploadContainer.find('img').attr('src', data.result.path);
-                $fileUploadContainer.children('input[type="hidden"]').val(data.result.id);
+                $fileUploadContainer.find('img').attr('src', '/images/' + data.result);
+                $fileUploadContainer.children('input[type="hidden"]').val(data.result);
             }
             else {
                 alert('Thêm file thất bại')

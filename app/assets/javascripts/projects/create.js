@@ -68,8 +68,8 @@ function initImageUpload() {
         }).done(function(data) {
             if (data.status == 1) {
                 $fileUploadContainer.addClass('has-file');
-                $fileUploadContainer.find('img').attr('src', data.result.path);
-                $fileUploadContainer.children('input[type="hidden"]').val(data.result.id);
+                $fileUploadContainer.find('img').attr('src', '/images/' + data.result);
+                $fileUploadContainer.children('input[type="hidden"]').val(data.result);
             }
             else {
                 alert('Thêm file thất bại')

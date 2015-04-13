@@ -5,8 +5,8 @@
 <% content_for :scripts do %>
     <script src="/assets/real_estates/create.js"></script>
 <% end %>
+<div class="container-fluid">
 
-<div class="container-fluid">  
   <!-- #start main-content -->
   <article class="row wrapper">
     <article class="main-content col-md-8">    
@@ -21,8 +21,7 @@
               <div class="col-sm-4 col-sm-offset-3">
                 <select name="real_estate[purpose_id]" class="form-control" data-feature="will-change-select" id="purpose">
                   <% Purpose.get_options.each do |purpose| %>
-                      <% a = purpose.options %>
-                      <option value="<%= purpose.id %>" <%= purpose.options_hash['html']['attributes'] if defined? purpose.options_hash['html']['attributes'] %>><%= purpose.name %></option>
+                      <option value="<%= purpose.id %>" <%= 'selected' if purpose.id == @real_estate.purpose_id %> <%= purpose.options_hash['html']['attributes'] if defined? purpose.options_hash['html']['attributes'] %>><%= purpose.name %></option>
                   <% end %>
                 </select>
               </div>
@@ -44,10 +43,14 @@
             <li class="form-group">            
               <label for="price" class="control-label col-sm-3">Giá mong muốn:</label>                                
               <div class="col-sm-4">
-                <input name="real_estate[price]" class="form-control required only-number" id="price" data-separate='.' data-controlled="price-agree">
+                <input value="<%= @real_estate.price %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control required only-number" id="price" data-separate='.' data-controlled="price-agree">
               </div>
               <div class="checkbox col-sm-4">
+<<<<<<< HEAD
                 <label class="label-non-margin"><input name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
+=======
+                <label><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
+>>>>>>> 62740dca85aefe247c4835e8d063ff6ab8b7111e
               </div>                 
             </li>
             <li class="form-group">            
@@ -55,7 +58,7 @@
               <div class="col-sm-3">
                 <select name="real_estate[currency_id]" class="form-control" id="currency_id">
                   <% Currency.get_options.each do |currency| %>
-                      <option value="<%= currency.id %>" <%= currency.options_hash['html']['attributes'] %>><%= currency.name %></option>
+                      <option value="<%= currency.id %>" <%= 'selected' if currency.id == @real_estate.currency_id %> <%= currency.options_hash['html']['attributes'] %>><%= currency.name %></option>
                   <% end %>
                 </select>
               </div>
@@ -67,9 +70,9 @@
                    Unit.get_options.each do |unit|
                      case unit.options_hash['group']
                        when 'Ban'
-                         ban += "<option value=\"#{unit.id}\">#{unit.name}</options>"
+                         ban += "<option #{'selected' if unit.id == @real_estate.unit_id} value=\"#{unit.id}\">#{unit.name}</options>"
                        when 'Thue'
-                         thue += "<option value=\"#{unit.id}\">#{unit.name}</options>"
+                         thue += "<option #{'selected' if unit.id == @real_estate.unit_id} value=\"#{unit.id}\">#{unit.name}</options>"
                      end
                    end
                 %>
@@ -84,7 +87,7 @@
             </li>   
             <li class="form-group">                          
               <div class="col-sm-4 col-sm-offset-3 checkbox">
-                <label><input name="real_estate[is_negotiable]" type="checkbox" id="is_negotiable">Có thể thương lượng</label>
+                <label><input <%= 'checked' if @real_estate.is_negotiable %> name="real_estate[is_negotiable]" type="checkbox" id="is_negotiable">Có thể thương lượng</label>
               </div>                
             </li>            
           </ul>
@@ -98,9 +101,21 @@
               <label class="control-label col-sm-3" for="province_id">Tỉnh/Thành phố:</label>
               <div class="col-sm-4">
                 <select name="real_estate[province_id]" class="form-control" id="province">
-                  <% Province.get_options.each do |province| %>
-                      <option <%= 'selected' if province.id == 1 %> value="<%= province.id %>"><%= province.name.html_safe %></option>
-                  <% end %>
+                  <%
+                    if @real_estate.province_id.blank?
+                       Province.get_options.each do |province|
+                  %>
+                          <option <%= 'selected' if province.id == 1 %> value="<%= province.id %>"><%= province.name.html_safe %></option>
+                  <%
+                       end
+                    else
+                       Province.get_options.each do |province|
+                  %>
+                          <option <%= 'selected' if province.id == @real_estate.province_id %> value="<%= province.id %>"><%= province.name.html_safe %></option>
+                  <%
+                       end
+                    end
+                  %>
                 </select>
               </div>
             </li>
@@ -109,7 +124,7 @@
               <div class="col-sm-4">
                 <select name="real_estate[district_id]" class="form-control" id="district">
                   <% District.get_options(1).each do |district| %>
-                      <option value="<%= district.id %>"><%= district.name.html_safe %></option>
+                      <option <%= 'selected' if district.id == @real_estate.district_id %> value="<%= district.id %>"><%= district.name.html_safe %></option>
                   <% end %>
                 </select>
               </div>
@@ -121,7 +136,7 @@
                   <% temp = '' %>
                   <% Ward.get_options(1).each do |ward| %>
                       <% next if ward.name == temp %>
-                      <option value="<%= ward.id %>"><%= ward.name.html_safe %></option>
+                      <option <%= 'selected' if ward.id == @real_estate.ward_id %> value="<%= ward.id %>"><%= ward.name.html_safe %></option>
                       <% temp = ward.name %>
                   <% end %>
                 </select>
@@ -132,7 +147,7 @@
               <div class="col-sm-4">
                 <select name="real_estate[street_id]" class="form-control" id="street">
                   <% Street.get_options(1).each do |street| %>
-                    <option value="<%= street.id %>"><%= street.name.html_safe %></option>
+                    <option <%= 'selected' if street.id == @real_estate.street_id %> value="<%= street.id %>"><%= street.name.html_safe %></option>
                   <% end %>
                 </select>
               </div>
@@ -140,7 +155,7 @@
             <li class="form-group">            
               <label class="control-label col-sm-3" for="address_number">Số nhà:</label>
               <div class="col-sm-4">
-                <input name="real_estate[address_number]" class="form-control" id="address_number">
+                <input value="<%= @real_estate.address_number %>" name="real_estate[address_number]" class="form-control" id="address_number">
               </div>
             </li>
             <li class="form-group">
@@ -148,20 +163,20 @@
               <div class="col-sm-4">
                 <select name="real_estate[street_type_id]" class="form-control" id="street_type">
                   <% StreetType.get_options.each do |street_type| %>
-                      <option value="<%= street_type.id %>"><%= street_type.name %></option>
+                      <option <%= 'selected' if street_type.id == @real_estate.street_type_id %> value="<%= street_type.id %>"><%= street_type.name %></option>
                   <% end %>
                 </select>
               </div>
             </li>
             <li class="form-group">              
               <div class="col-xs-6 col-sm-2 col-sm-offset-3 radio">
-                <label><input type="radio" name="real_estate[is_alley]" value="0" data-feature="will-change-show-check" data-hide="alley" checked> Mặt tiền</label>
+                <label><input <%= 'checked' if @real_estate.is_alley != 1 %> type="radio" name="real_estate[is_alley]" value="0" data-feature="will-change-show-check" data-hide="alley" checked> Mặt tiền</label>
               </div>
               <div class="col-xs-6 col-sm-2 radio">  
-                <label><input type="radio" name="real_estate[is_alley]" value="1" data-feature="will-change-show-check" data-show="alley"> Hẻm</label>
+                <label><input <%= 'checked' if @real_estate.is_alley == 1 %> type="radio" name="real_estate[is_alley]" value="1" data-feature="will-change-show-check" data-show="alley"> Hẻm</label>
               </div>
               <div class="col-xs-4 col-xs-offset-7 col-sm-2 input-group" data-controlled="alley" hidden>
-                <input name="real_estate[alley_width]" type="text" class="form-control">
+                <input value="<%= @real_estate.alley_width %>" name="real_estate[alley_width]" type="text" class="form-control">
                 <div class="input-group-addon">m</div>
               </div>                  
             </li>
@@ -197,10 +212,11 @@
               <label class="control-label col-sm-3" for="property_type">Loại hình:</label>
               <div class="col-sm-4" id="groupLoaiHinh">
                 <select name="real_estate[real_estate_type_group]" class="form-control" data-feature="will-change-select" id="property_type">
-                  <option value="Dat" data-show="land" data-hide="un-land">Đất</option>
-                  <option value="Nha" data-show="house" data-hide="un-house">Nhà</option>
-                  <option value="CanHo" data-show="apartment" data-hide="un-apartment">Căn hộ</option>
-                  <option value="MatBang" data-show="space" data-hide="un-space">Mặt bằng</option>
+                  <% temp = @real_estate.real_estate_type.options_hash['group'] %>
+                  <option <%= 'checked' if temp == 'Dat' %> value="Dat" data-show="land" data-hide="un-land">Đất</option>
+                  <option <%= 'checked' if temp == 'Nha' %> value="Nha" data-show="house" data-hide="un-house">Nhà</option>
+                  <option <%= 'checked' if temp == 'CanHo' %> value="CanHo" data-show="apartment" data-hide="un-apartment">Căn hộ</option>
+                  <option <%= 'checked' if temp == 'MatBang' %> value="MatBang" data-show="space" data-hide="un-space">Mặt bằng</option>
                 </select>
               </div>
               <label class="control-label col-sm-1" for="property_type_details">&gt;</label>              
@@ -211,13 +227,13 @@
                    RealEstateType.get_options.each do |real_estate_type|
                      case real_estate_type.options_hash['group']
                         when 'Dat'
-                            dat += "<option #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
+                            dat += "<option #{'selected' if real_estate_type.id == @real_estate.real_estate_type_id} #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
                         when 'Nha'
-                            nha += "<option #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
+                            nha += "<option #{'selected' if real_estate_type.id == @real_estate.real_estate_type_id} #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
                         when 'CanHo'
-                            canHo += "<option #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
+                            canHo += "<option #{'selected' if real_estate_type.id == @real_estate.real_estate_type_id} #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
                         when 'MatBang'
-                            matBang += "<option #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
+                            matBang += "<option #{'selected' if real_estate_type.id == @real_estate.real_estate_type_id} #{real_estate_type.options_hash['html']['attributes'] if defined? real_estate_type.options_hash['html']['attributes']} value=\"#{real_estate_type.id}\">#{real_estate_type.name}</option>"
                      end
                    end
                 %>
@@ -239,35 +255,35 @@
             <li class="form-group sub-item" data-controlled="un-land house un-apartment space" hidden>
               <label class="control-label col-sm-4" for="construction_area">Diện tích xây dựng:</label>
               <div class="col-sm-3 input-group">
-                <input class="form-control only-number required" name="real_estate[constructional_area]" id="construction_area">
+                <input value="<%= @real_estate.constructional_area %>" class="form-control only-number required" name="real_estate[constructional_area]" id="construction_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
             <li class="form-group sub-item" data-controlled="un-land house apartment space" hidden>
               <label class="control-label col-sm-4" for="using_area">Diện tích sử dụng:</label>
               <div class="col-sm-3 input-group">
-                <input class="form-control only-number required" name="real_estate[using_area]" id="using_area">
+                <input value="<%= @real_estate.using_area %>" class="form-control only-number required" name="real_estate[using_area]" id="using_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
             <li class="form-group sub-item" data-controlled="land house un-apartment space">
               <label class="control-label col-sm-4" for="campus_area">Diện tích khuôn viên:</label>
               <div class="col-sm-3 input-group">
-                <input class="form-control only-number required" name="real_estate[campus_area]" id="campus_area">
+                <input value="<%= @real_estate.campus_area %>" class="form-control only-number required" name="real_estate[campus_area]" id="campus_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
             <li class="form-group sub-item" data-controlled="land house apartment space">
               <label class="control-label col-sm-4" for="width_x">Ngang:</label>
               <div class="col-sm-3 input-group">
-                <input class="form-control only-number required" name="real_estate[width_x]" id="width_x">
+                <input value="<%= @real_estate.width_x %>" class="form-control only-number required" name="real_estate[width_x]" id="width_x">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>
             <li class="form-group sub-item" data-controlled="land house apartment space">
               <label class="control-label col-sm-4" for="width_y">Dài:</label>
               <div class="col-sm-3 input-group">
-                <input class="form-control only-number required" name="real_estate[width_y]" id="width_y">
+                <input value="<%= @real_estate.width_y %>" class="form-control only-number required" name="real_estate[width_y]" id="width_y">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>
@@ -275,13 +291,13 @@
               <label class="control-label col-sm-4" for="shape">Hình dáng:</label>          
               <div class="col-sm-4">
                 <select name="real_estate[shape]" class="form-control" data-feature="will-change-select">
-                  <option data-hide="normal-shape" value="0">Bình thường</option>
-                  <option data-show="normal-shape" value="1">Nở hậu</option>
-                  <option data-show="normal-shape" value="2">Tóp hậu</option>
+                  <option <%= 'selected' if @real_estate.shape == 0 %> data-hide="normal-shape" value="0">Bình thường</option>
+                  <option <%= 'selected' if @real_estate.shape == 1 %> data-show="normal-shape" value="1">Nở hậu</option>
+                  <option <%= 'selected' if @real_estate.shape == 2 %> data-show="normal-shape" value="2">Tóp hậu</option>
                 </select>
               </div>
               <div class="col-sm-2 col-xs-5 col-xs-offset-4 input-group" data-controlled="normal-shape" hidden>
-                <input name="real_estate[shape_width]" class="form-control only-number required" size="2" id="shape_width">
+                <input value="<%= @real_estate.shape_width %>" name="real_estate[shape_width]" class="form-control only-number required" size="2" id="shape_width">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>            
@@ -289,11 +305,11 @@
               <label class="control-label col-sm-4" for="floor_number">Số tầng:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[floor_number]" id="floor_number">
-                  <option value="0">Trệt</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">&gt;4</option>
+                  <option <%= 'selected' if @real_estate.floor_number == 0 %> value="0">Trệt</option>
+                  <option <%= 'selected' if @real_estate.floor_number == 1 %> value="1">1</option>
+                  <option <%= 'selected' if @real_estate.floor_number == 2 %> value="2">2</option>
+                  <option <%= 'selected' if @real_estate.floor_number == 3 %> value="3">3</option>
+                  <option <%= 'selected' if @real_estate.floor_number == 4 %> value="4">&gt;4</option>
                 </select>
               </div>
             </li>                          
@@ -301,10 +317,10 @@
               <label class="control-label col-sm-4" for="restroom_number">WC:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[restroom_number]" id="restroom_number">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">&gt;4</option>
+                  <option <%= 'selected' if @real_estate.restroom_number == 1 %> value="1">1</option>
+                  <option <%= 'selected' if @real_estate.restroom_number == 2 %> value="2">2</option>
+                  <option <%= 'selected' if @real_estate.restroom_number == 3 %> value="3">3</option>
+                  <option <%= 'selected' if @real_estate.restroom_number == 4 %> value="4">&gt;4</option>
                 </select>
               </div>                      
             </li>
@@ -312,11 +328,11 @@
               <label class="control-label col-sm-4" for="bedroom_number">Phòng ngủ:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[bedroom_number]" id="bedroom_number">
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">&gt;4</option>
+                  <option <%= 'selected' if @real_estate.bedroom_number == 0 %> value="0">0</option>
+                  <option <%= 'selected' if @real_estate.bedroom_number == 1 %> value="1">1</option>
+                  <option <%= 'selected' if @real_estate.bedroom_number == 2 %> value="2">2</option>
+                  <option <%= 'selected' if @real_estate.bedroom_number == 3 %> value="3">3</option>
+                  <option <%= 'selected' if @real_estate.bedroom_number == 4 %> value="4">&gt;4</option>
                 </select>
               </div>
             </li>
@@ -325,7 +341,7 @@
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[direction_id]" id="direction">
                   <% Direction.get_options.each do |direction| %>
-                      <option value="<%= direction.id %>"><%= direction.name %></option>
+                      <option <%= 'selected' if direction.id == @real_estate.direction_id %> value="<%= direction.id %>"><%= direction.name %></option>
                   <% end %>
                 </select>
               </div>                       
@@ -333,7 +349,7 @@
             <li class="form-group sub-item" data-controlled="un-land house apartment space" hidden>
               <label class="control-label col-sm-4" for="build_year">Năm xây dựng:</label>
               <div class="col-sm-3">
-                <select class="form-control" name="real_estate[build_year]" id="build_year">
+                <select class="form-control" name="real_estate[build_year]" id="build_year" data-value="<%= @real_estate.build_year %>">
                   <!-- js Xử lý-->                        
                 </select>
               </div>                    
@@ -343,7 +359,7 @@
               <div class="col-sm-3">
                 <select class="form-control" name="real_estate[constructional_level_id]" id="construction_level">
                   <% ConstructionalLevel.get_options.each do |constructional_level| %>
-                      <option value="<%= constructional_level.id %>"><%= constructional_level.name %></option>
+                      <option <%= 'selected' if constructional_level.id == @real_estate.constructional_level_id %> value="<%= constructional_level.id %>"><%= constructional_level.name %></option>
                   <% end %>
                 </select>
               </div>                  
@@ -351,7 +367,7 @@
             <li class="form-group sub-item" data-controlled="un-land house apartment space" hidden>
               <label class="control-label col-sm-4" for="construction_quality">Chất lượng nhà còn lại:</label>
               <div class="col-sm-3 input-group">
-                <input class="form-control only-number required" name="real_estate[constructional_quality]" id="construction_quality">
+                <input value="<%= @real_estate.constructional_quality %>" class="form-control only-number required" name="real_estate[constructional_quality]" id="construction_quality">
                 <div class="input-group-addon">%</div>
               </div>                  
             </li>            
@@ -365,13 +381,13 @@
             <li class="form-group">            
               <label class="control-label col-sm-3" for="title">Tiêu đề:</label>
               <div class="col-sm-9">
-                <input name="real_estate[title]" class="form-control required" id="title">
+                <input value="<%= @real_estate.title %>" name="real_estate[title]" class="form-control required" id="title">
               </div>
             </li>
             <li class="form-group">            
               <label class="control-label col-sm-3" for="description">Nội dung:</label>
               <div class="col-sm-9">
-                <textarea name="real_estate[description]" class="form-control required" id="description"></textarea>
+                <textarea value="<%= @real_estate.description %>" name="real_estate[description]" class="form-control required" id="description"></textarea>
               </div>
             </li>            
           </ul>
@@ -386,7 +402,7 @@
               <div class="col-sm-4">
                 <select name="real_estate[legal_record_type_id]" class="form-control" data-feature="will-change-select" id="legal_records">
                   <% LegalRecordType.get_options.each do |legal_record_type| %>
-                      <option value="<%= legal_record_type.code != 'Custom' ? legal_record_type.id : 0 %>" <%= legal_record_type.options_hash['html']['attributes'] if defined? legal_record_type.options_hash['html']['attributes']%>><%= legal_record_type.name %></option>
+                      <option <%= 'selected' if legal_record_type.id == @real_estate.legal_record_type_id || (legal_record_type.code == 'Custom' && @real_estate.legal_record_type_id == 0) %> value="<%= legal_record_type.code != 'Custom' ? legal_record_type.id : 0 %>" <%= legal_record_type.options_hash['html']['attributes'] if defined? legal_record_type.options_hash['html']['attributes']%>><%= legal_record_type.name %></option>
                   <% end %>
                 </select>
               </div>               
@@ -394,7 +410,7 @@
             <li class="form-group" data-controlled="different-legal" hidden>
               <label class="control-label col-sm-3 hidden-xs"></label>
               <div class="col-sm-4">
-                <input name="real_estate[custom_legal_record_type]" class="form-control required" id="legal_record_different">
+                <input value="<%= @real_estate.custom_legal_record_type %>" name="real_estate[custom_legal_record_type]" class="form-control required" id="legal_record_different">
               </div>                      
             </li>            
           </ul>
@@ -409,7 +425,7 @@
               <div class="col-sm-4">
                 <select name="real_estate[planning_status_type_id]" class="form-control" data-feature="will-change-select" id="planning_status">
                   <% PlanningStatusType.get_options.each do |planning_status_type| %>
-                      <option value="<%= planning_status_type.code != 'Custom' ? planning_status_type.id : 0 %>" <%= planning_status_type.options_hash['html']['attributes'] if defined? planning_status_type.options_hash['html']['attributes']%>><%= planning_status_type.name %></option>
+                      <option <%= 'selected' if planning_status_type.id == @real_estate.planning_status_type_id || (planning_status_type.code == 'Custom' && @real_estate.planning_status_type_id == 0) %> value="<%= planning_status_type.code != 'Custom' ? planning_status_type.id : 0 %>" <%= planning_status_type.options_hash['html']['attributes'] if defined? planning_status_type.options_hash['html']['attributes']%>><%= planning_status_type.name %></option>
                   <% end %>
                 </select>
               </div>
@@ -417,7 +433,7 @@
             <li class="form-group" data-controlled="different-planning" hidden>
               <label class="control-label col-sm-3 hidden-xs"></label>
               <div class="col-sm-4">
-                <input name="real_estate[custom_planning_status_type]" class="form-control required" id="planning_status_different">
+                <input value="<%= @real_estate.custom_planning_status_type %>" name="real_estate[custom_planning_status_type]" class="form-control required" id="planning_status_different">
               </div>               
             </li>
             <li class="form-group" data-controlled="sell un-rent">
