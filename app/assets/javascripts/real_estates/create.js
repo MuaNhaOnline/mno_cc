@@ -53,7 +53,10 @@ function init() {
 		disableObject = $(this).data('disable');
 
 		$('*[data-controlled~="' + enableObject + '"]').prop('disabled', !checked);
-		$('*[data-controlled~="' + disableObject + '"').prop('disabled', checked);
+		$('*[data-controlled~="' + disableObject + '"').prop({
+			'disabled': checked,
+			'value': null,
+		});
 	});
 }
 function hideObjectDefault() {

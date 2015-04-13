@@ -47,7 +47,7 @@
                 <input name="real_estate[price]" class="form-control required only-number" id="price" data-separate='.' data-controlled="price-agree">
               </div>
               <div class="checkbox col-sm-4">
-                <label><input name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
+                <label class="label-non-margin"><input name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
               </div>                 
             </li>
             <li class="form-group">            
@@ -284,10 +284,7 @@
                 <input name="real_estate[shape_width]" class="form-control only-number required" size="2" id="shape_width">
                 <div class="input-group-addon">m</div>
               </div>              
-            </li>
-            <li class="form-group sub-item" data-controlled="sell un-rent">
-              <div class="col-sm-6 col-sm-offset-4 col-xs-12" id="plan_table"><a href="#" class="btn btn-link">Bảng quy hoạch chi tiết</a></div>
-            </li>
+            </li>            
             <li class="form-group sub-item" data-controlled="un-land house apartment un-space" hidden>
               <label class="control-label col-sm-4" for="floor_number">Số tầng:</label>
               <div class="col-sm-3 col-xs-12">
@@ -422,6 +419,9 @@
               <div class="col-sm-4">
                 <input name="real_estate[custom_planning_status_type]" class="form-control required" id="planning_status_different">
               </div>               
+            </li>
+            <li class="form-group" data-controlled="sell un-rent">
+              <div class="col-sm-6 col-sm-offset-3 col-xs-12" id="plan_table"><a href="#" class="btn btn-link">Bảng quy hoạch chi tiết</a></div>
             </li>              
           </ul>
         </li>

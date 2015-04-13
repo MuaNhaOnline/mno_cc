@@ -117,6 +117,9 @@ nav {
 					.main-content .item-wrapper > .item > .item-content .form-group > .checkbox > label {
 						margin-top: 10px;
 					}
+					.main-content .item-wrapper > .item > .item-content .form-group > .checkbox > .label-non-margin {
+						margin-top: 0;
+					}
 
 				/* #start sub-item */
 				.main-content .item-wrapper > .item > .item-content > .sub-item {
