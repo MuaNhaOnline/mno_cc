@@ -51,7 +51,10 @@ function init() {
 		disableObject = $(this).data('disable');
 
 		$('*[data-controlled~="' + enableObject + '"]').prop('disabled', !checked);
-		$('*[data-controlled~="' + disableObject + '"').prop('disabled', checked);
+		$('*[data-controlled~="' + disableObject + '"').prop({
+			'disabled': checked,
+			'value': null,
+		});
 	});
 }
 function hideObjectDefault() {
@@ -99,11 +102,15 @@ function initNamXayDung() {
 	$year = "";	
 	$tempDate = new Date();
 	$nowYear = $tempDate.getYear() + 1900;
+
+    var selectedValue = $('#build_year').attr('data-value');
+
 	for (var i = $nowYear; i >= $nowYear - 20; i--) {
-		$year += "<option value=" + i + ">" + i + "</option>";
+		$year += "<option " + (i == selectedValue ? "selected" : "") + " value=" + i + ">" + i + "</option>";
 	}	
-	$year += "<option value=\"tren20nam\">>20 năm</option>" ;
-	$year += "<option value=\"tren50nam\">>50 năm</option>" ;
+	$year += "<option " + (selectedValue == "20" ? "selected" : "") + " value=\"20\">>20 năm</option>";
+	$year += "<option " + (selectedValue == "50" ? "selected" : "") + " value=\"50\">>50 năm</option>";
+
 	$('#build_year').html($year);
 }
 /* #end Khởi tạo năm xây dựng */

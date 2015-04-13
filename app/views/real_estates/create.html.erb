@@ -49,8 +49,8 @@
                 <input value="<%= @real_estate.price %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control required only-number" id="price" data-separate='.' data-controlled="price-agree">
               </div>
               <div class="checkbox col-sm-4">
-                <label><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
-              </div>                 
+                <label class="label-non-margin"><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
+              </div>
             </li>
             <li class="form-group">            
               <label for="currency_id" class="control-label col-sm-3">Đơn vị tính:</label>
@@ -299,10 +299,7 @@
               <div class="col-sm-2 col-xs-5 col-xs-offset-4 input-group" data-controlled="normal-shape" <%= 'hidden' if @real_estate.shape == 0 %>>
                 <input value="<%= @real_estate.shape_width %>" name="real_estate[shape_width]" class="form-control only-number required" size="2" id="shape_width">
                 <div class="input-group-addon">m</div>
-              </div>              
-            </li>
-            <li class="form-group sub-item" data-controlled="sell un-rent">
-              <div class="col-sm-6 col-sm-offset-4 col-xs-12" id="plan_table"><a href="#" class="btn btn-link">Bảng quy hoạch chi tiết</a></div>
+              </div>
             </li>
             <li class="form-group sub-item" data-controlled="un-land house apartment un-space" <%= 'hidden' unless temp.include? :floor_number %>>
               <label class="control-label col-sm-4" for="floor_number">Số tầng:</label>
@@ -438,6 +435,9 @@
               <div class="col-sm-4">
                 <input value="<%= @real_estate.custom_planning_status_type %>" name="real_estate[custom_planning_status_type]" class="form-control required" id="planning_status_different">
               </div>               
+            </li>
+            <li class="form-group" data-controlled="sell un-rent">
+              <div class="col-sm-6 col-sm-offset-3 col-xs-12" id="plan_table"><a href="#" class="btn btn-link">Bảng quy hoạch chi tiết</a></div>
             </li>              
           </ul>
         </li>
