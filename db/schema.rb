@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413033956) do
+ActiveRecord::Schema.define(version: 20150420113634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -37,7 +36,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -47,7 +45,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -57,7 +54,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -67,7 +63,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -107,7 +102,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -117,7 +111,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -149,17 +142,43 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
+  end
+
+  create_table "real_estate_advantages", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "advantage_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "real_estate_disadvantages", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "disadvantage_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "real_estate_real_estate_utilities", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "real_estate_utility_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "real_estate_region_utilities", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "region_utility_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "real_estate_types", force: :cascade do |t|
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -169,14 +188,13 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "real_estates", force: :cascade do |t|
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.text     "title"
     t.text     "description"
     t.text     "name"
@@ -214,11 +232,33 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "custom_planning_status_type"
     t.text     "custom_advantages"
     t.text     "custom_disadvantages"
-    t.integer  "is_show"
+    t.integer  "is_show",                     default: 1
     t.datetime "expired_time"
     t.decimal  "ads_cost"
-    t.integer  "is_paid"
+    t.integer  "is_paid",                     default: 1
     t.text     "options"
+    t.integer  "is_pending",                  default: 1
+  end
+
+  create_table "real_estates_advantages", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "advantage_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "real_estates_disadvantages", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "disadvantage_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "real_estates_property_utilities", force: :cascade do |t|
+    t.integer  "real_estate_id"
+    t.integer  "property_utility_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|
@@ -232,7 +272,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -242,7 +281,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
@@ -259,7 +297,6 @@ ActiveRecord::Schema.define(version: 20150413033956) do
     t.text     "name"
     t.text     "code"
     t.text     "options"
-    t.integer  "index"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"

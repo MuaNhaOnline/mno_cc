@@ -246,7 +246,7 @@
                 <select style="<%= 'display:none;' if temp != 'CanHo' %>" name="real_estate[real_estate_type_id_can_ho]" class="form-control" data-feature="will-change-select" data-controlled="un-land un-house apartment un-space">
                   <%= canHo.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'MatBang' %>" name="real_estate[real_estate_type_id_mat_bang]" class="form-control" data-controlled="un-land un-house un-apartment space">
+                <select style="<%= 'display:none;' if temp != 'MatBang' %>" name="real_estate[real_estate_type_id_mat_bang]" class="form-control" dat a-controlled="un-land un-house un-apartment space">
                   <%= matBang.html_safe %>
                 </select>
               </div>
@@ -296,7 +296,7 @@
                   <option <%= 'selected' if @real_estate.shape == 2 %> data-show="normal-shape" value="2">Tóp hậu</option>
                 </select>
               </div>
-              <div class="col-sm-2 col-xs-5 col-xs-offset-4 input-group" data-controlled="normal-shape" <%= 'hidden' if @real_estate.shape == 0 %>>
+              <div class="col-sm-2 col-xs-5 col-xs-offset-4 input-group" data-controlled="normal-shape" <%= 'hidden' if @real_estate.shape != 1 && @real_estate != 2 %>>
                 <input value="<%= @real_estate.shape_width %>" name="real_estate[shape_width]" class="form-control only-number required" size="2" id="shape_width">
                 <div class="input-group-addon">m</div>
               </div>
@@ -549,15 +549,9 @@
         <li class="item">          
           <ul class="item-content">
             <li class="submit-button">
-              <% if @real_estate.id.blank? %>
-                  <p class="text-center">Điền tiếp <a href="#" class="expand" id="btn_continue_composing" data-target=".continue-composing">
-                    thông tin bổ sung</a> bên dưới để đăng tin đầy đủ và được phần mềm hỗ trợ định giá nhà
-                  </p>
-              <% end %>
               <p class="text-center">
                 <button type="submit" class="btn btn-primary"><%= @real_estate.id.blank? ? 'Đăng tin' : 'Cập nhật' %></button>
-                <button type="reset" class="btn btn-danger">Xoá hết</button>
-                <button type="submit" class="btn btn-default">Xem trước</button>                              
+                <button type="button" class="btn btn-default" data-feature="preview">Xem trước</button>
               </p>
               <p id="errors" class="text-center">
 

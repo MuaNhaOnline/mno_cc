@@ -135,7 +135,7 @@ ul.mini-sitemap > li {
     margin: 10px 0;
 }   
 ul.mini-sitemap > li:last-of-type {
-    color: ##d9534f;    
+    color: #d9534f;
 }   
     ul.mini-sitemap > li:last-of-type > a {
         display: inline-block !important;

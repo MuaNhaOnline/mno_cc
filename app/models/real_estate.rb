@@ -54,14 +54,20 @@ class RealEstate < ActiveRecord::Base
     errors.add(:custom_planning_status_type, 'Tình trạng quy hoạch không được bỏ trống') if fields.include?(:custom_planning_status_type) && custom_planning_status_type.blank?
     errors.add(:campus_area, 'Diện tích khuôn viên không được bỏ trống') if fields.include?(:campus_area) && campus_area == 0
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area == 0
-    errors.add(:direction_id, 'Kích thước hẻm không được bỏ trống') if fields.include? :direction_id
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area == 0
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality == 0
+    errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
   end
 
   # save real-estate params
   def self.save_real_estate params
-    # save data
+    real_estate = set_real_estate params
+
+    real_estate.save
+    real_estate
+  end
+
+  def self.set_real_estate params
     real_estate_params = get_real_estate_params params
     if params.include? :id
       real_estate = find params[:id]
@@ -76,7 +82,6 @@ class RealEstate < ActiveRecord::Base
     real_estate.images << Image.find(params[:image_ids].to_a - ['']) if params.include? :image_ids
     real_estate.name = get_real_estate_name real_estate_params
 
-    real_estate.save
     real_estate
   end
 

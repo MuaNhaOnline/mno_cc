@@ -77,7 +77,7 @@
         </li>
         <li>
           <span class="title">Diện tích:</span>
-          <span class="value"><%= @real_estate.width_x * @real_estate.width_y %>m<sup>2</sup></span>
+          <span class="value"><%= @real_estate.campus_area %>m<sup>2</sup></span>
         </li>
         <li>
           <span class="title">Địa chỉ:</span>
@@ -164,17 +164,17 @@
       </li>
       <% if fields.include? :constructional_area %>
           <li class="item col-xs-6 col-sm-4 circle">
-            <span>Diện tích xây dựng: <b><%= @real_estate.constructional_area %>m</b></span>
+            <span>Diện tích xây dựng: <b><%= @real_estate.constructional_area %>m<sup>2</sup></b></span>
           </li>
       <% end %>
       <% if fields.include? :using_area %>
           <li class="item col-xs-6 col-sm-4 circle">
-            <span>Diện tích sử dụng: <b><%= @real_estate.using_area %>m</b></span>
+            <span>Diện tích sử dụng: <b><%= @real_estate.using_area %>m<sup>2</sup></b></span>
           </li>
       <% end %>
       <% if fields.include? :campus_area %>
           <li class="item col-xs-6 col-sm-4 circle">
-            <span>Diện tích khuôn viên: <b><%= @real_estate.campus_area %>m</b></span>
+            <span>Diện tích khuôn viên: <b><%= @real_estate.campus_area %>m<sup>2</sup></b></span>
           </li>
       <% end %>
       <% if @real_estate.shape != 0 %>
