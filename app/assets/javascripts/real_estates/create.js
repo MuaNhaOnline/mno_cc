@@ -18,40 +18,46 @@ $(function(e){
 });
 
 function init() {
-	$('*[data-feature~="will-change-select"]').on('change', function(e) {
+	$('[data-feature~="will-change-select"]').on('change', function(e) {
+		e = e || window.event();
+
 		$option = $(this).find('option:selected');
 
 		hideObject = $option.data('hide');
 		showObject = $option.data('show');
 
-		$('*[data-controlled~="' + hideObject + '"]').hide();
-		$('*[data-controlled~="' + showObject + '"').show();
+		$('[data-controlled~="' + hideObject + '"]').hide();
+		$('[data-controlled~="' + showObject + '"]').show();
 	});
 
-	$('*[data-feature~="will-change-show-check"]').on('change', function() {
+	$('[data-feature~="will-change-show-check"]').on('change', function(e) {
+		e = e || window.event();
+
 		var checked = this.checked;
 
 		hideObject = $(this).data('hide');
 		showObject = $(this).data('show');
 
 		if (checked) {
-			$('*[data-controlled~="' + hideObject + '"]').slideUp();
-			$('*[data-controlled~="' + showObject + '"').slideDown();
+			$('[data-controlled~="' + hideObject + '"]').slideUp();
+			$('[data-controlled~="' + showObject + '"]').slideDown();
 		}
 		else {
-			$('*[data-controlled~="' + hideObject + '"]').slideDown();
-			$('*[data-controlled~="' + showObject + '"').slideUp();
+			$('[data-controlled~="' + hideObject + '"]').slideDown();
+			$('[data-controlled~="' + showObject + '"]').slideUp();
 		}
 	});
 
-	$('*[data-feature~="will-change-available-check"]').on('change', function() {
+	$('[data-feature~="will-change-available-check"]').on('change', function(e) {
+		e = e || window.event();
+
 		var checked = this.checked;
 
 		enableObject = $(this).data('enable');
 		disableObject = $(this).data('disable');
 
-		$('*[data-controlled~="' + enableObject + '"]').prop('disabled', !checked);
-		$('*[data-controlled~="' + disableObject + '"').prop({
+		$('[data-controlled~="' + enableObject + '"]').prop('disabled', !checked);
+		$('[data-controlled~="' + disableObject + '"]').prop({
 			'disabled': checked,
 			'value': null,
 		});
@@ -62,6 +68,8 @@ function hideObjectDefault() {
 }
 function initExpand() {
 	$('.expand').on('click', function(e) {
+		e = e || window.event();
+
 		e.preventDefault();
 		
 		expandObject = $(this).data('target');
@@ -76,8 +84,10 @@ function initExpand() {
 
 /* #start supporter */
 function init_support() {
-	$('.support-button').on('click', function(event) {
-		event.preventDefault();
+	$('.support-button').on('click', function(e) {
+		e = e || window.event();
+
+		e.preventDefault();
 		/* Act on the event */		
 		var dataType = $(this).attr('data-value');
 		show_supporter(dataType);
