@@ -34,7 +34,7 @@
                     <td><%= real_estate.real_estate_type.name %></td>
                     <td><%= real_estate.price.to_s + ' ' + real_estate.currency.name %></td>
                     <td>Chưa xử lý</td>
-                    <td>Chưa xử lý</td>
+                    <td><%= real_estate.is_pending ? 'Chờ duyệt' : (!real_estate.is_paid ? 'Chưa thanh toán' : (real_estate.is_show ? 'Hiển thị' : 'Ẩn')) %></td>
                     <td>Chưa xử lý</td>
                     <td>
                         <button class="btn btn-default" id="btnDangTin" data-function="post">Đăng tin</button>

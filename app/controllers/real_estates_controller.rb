@@ -1,6 +1,6 @@
 class RealEstatesController < ApplicationController
   layout 'layout'
-  skip_before_filter :verify_authenticity_token, :only => [:save, :delete]
+  skip_before_filter :verify_authenticity_token, :only => [:save, :delete, :preview]
 
   def index
 
@@ -42,6 +42,17 @@ class RealEstatesController < ApplicationController
     end
   end
 
+  def preview
+    params['real_estate'].delete(:id)
+    @real_estate = RealEstate.set_real_estate params['real_estate']
+
+    if @real_estate.valid?
+      render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview'), formats: [:html]]
+    else
+      render json: Hash[status: 0, result: @real_estate.errors.full_messages]
+    end
+  end
+
   def manager
     @real_estates = RealEstate.all
 
@@ -57,7 +68,7 @@ class RealEstatesController < ApplicationController
       RealEstate.delete params['id']
       render json: Hash[status: 1]
     rescue
-      render json: Hash[status: 0, result: real_estate.errors.full_messages]
+      render json: Hash[status: 0, result: 'Xóa thất bại']
     end
   end
 end

@@ -1,8 +1,6 @@
 $(function(e){
 	//Khởi tạo sự kiện select của <select>, <checkbox>, <radiobutton>
 	init();
-	//Khởi tạo sự kiện Expand và Collapse cho button
-	initExpand();
 	//Khởi tạo supporter
 	init_support();
 	//Khởi tạo năm xây dựng
@@ -59,7 +57,7 @@ function init() {
 		$('[data-controlled~="' + enableObject + '"]').prop('disabled', !checked);
 		$('[data-controlled~="' + disableObject + '"]').prop({
 			'disabled': checked,
-			'value': null,
+			'value': null
 		});
 	});
 }
@@ -126,30 +124,30 @@ function initNamXayDung() {
 /* #end Khởi tạo năm xây dựng */
 /* #start validation */
 function validation(idForm) {
-	idForm = "#" + idForm;
-	$(idForm).submit(function(e) {
+	$form = $('#' + idForm);
+	$form.submit(function(e) {
 		//redefine event
 		e = e || window.event;
         e.preventDefault();
 
 		//Variable valid
-		var isValid = true;		
+		var isValid = true;
 
 		$('.required:visible').each(function(index, el) {
 			el = $(el);
-			if (el.val() == "") {				
-				//$(this).css('border-color', 'red');				
+			if (el.val() == "") {
+				//$(this).css('border-color', 'red');
 				el.addClass('is-error');
-				isValid = false;				
+				isValid = false;
 			}
 			else {
-				//$obj.css('border-color', '#ccc');				
+				//$obj.css('border-color', '#ccc');
 				el.removeClass('is-error');
 			}
-			el.on('focusin', function() {				
-				//$obj.css('border-color', '#ccc');				
+			el.on('focusin', function() {
+				//$obj.css('border-color', '#ccc');
 				el.removeClass('is-error');
-			});				
+			});
 		});
 		if (!isValid) {
 			$('html, body').animate(
@@ -161,11 +159,36 @@ function validation(idForm) {
             $.ajax({
                 url: '/real_estates/create',
                 type: 'POST',
-                data: $(idForm).serialize(),
+                data: $form.serialize(),
                 dataType: 'JSON'
             }).done(function(data) {
                 if (data.status == 1) {
-                    window.location = '/real_estates/' + data.result;
+                    if ($form.find('input[name="real_estate[id]"]').length != 0) {
+                        window.location = '/real_estates/' + data.result;
+                    }
+                    else {
+                        promptPopup('Thông tin đã được đăng thành công, bạn có muốn bổ sung thông tin?', [
+                            {
+                                text: 'Bổ sung',
+                                handle: function () {
+                                    $('.continue-composing').slideDown();
+
+                                    $('html, body').animate(
+                                        { scrollTop: $('.continue-composing').offset().top - 100 }
+                                    );
+                                    $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
+                                    $form.find('button[type="submit"]').text('Bổ sung');
+                                },
+                                type: 'primary'
+                            },
+                            {
+                                text: 'Xem kết quả',
+                                handle: function () {
+                                    window.location = '/real_estates/' + data.result;
+                                }
+                            }
+                        ]);
+                    }
                 }
                 else {
                     var result = data.result;
@@ -179,7 +202,43 @@ function validation(idForm) {
                 alert('Đăng tin thất bại');
             })
         }
-	});	
+	});
+
+    initPopupFull($form.find('[data-feature="preview"]'), {
+        condition: function () {
+            //Variable valid
+            var isValid = true;
+
+            $('.required:visible').each(function(index, el) {
+                el = $(el);
+                if (el.val() == "") {
+                    //$(this).css('border-color', 'red');
+                    el.addClass('is-error');
+                    isValid = false;
+                }
+                else {
+                    //$obj.css('border-color', '#ccc');
+                    el.removeClass('is-error');
+                }
+                el.on('focusin', function() {
+                    //$obj.css('border-color', '#ccc');
+                    el.removeClass('is-error');
+                });
+            });
+            if (!isValid) {
+                $('html, body').animate(
+                    { scrollTop: $('.is-error').offset().top - 100 }
+                );
+                $('.is-error')[0].focus();
+            }
+            return isValid;
+        },
+        url: '/real_estates/preview',
+        method: 'POST',
+        data: function () {
+            return $form.serialize();
+        }
+    }, 'iframe');
 
 	/* prevent key non-number */
 	$('.only-number').on('keypress', function(event) {		

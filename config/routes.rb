@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/manager'
   get 'real_estates/real_estates_pending'
+  post 'real_estates/preview' => 'real_estates#preview'
   post 'real_estates/create' => 'real_estates#save'
   delete 'real_estates/:id' => 'real_estates#delete'
   get 'real_estates/:id' => 'real_estates#view'
