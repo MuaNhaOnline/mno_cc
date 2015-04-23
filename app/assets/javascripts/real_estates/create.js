@@ -282,16 +282,18 @@ function init_Submit($form) {
             }
         });
 
-        var hasOne = false;
-        $('.image-upload input[type="hidden"]').each(function () {
-            if (this.value) {
-                hasOne = true;
-            }
-        });
+        if ($('.image-upload:visible').length) {        
+            var hasOne = false;
+            $('.image-upload:visible input[type="hidden"]').each(function () {
+                if (this.value) {
+                    hasOne = true;
+                }
+            });
 
-        if (!hasOne) {
-            isValid = false;
-            $($('.image-upload input[type="hidden"]')[0]).parents('.image-upload').addClass('is-error');
+            if (!hasOne) {
+                isValid = false;
+                $($('.image-upload input[type="hidden"]')[0]).parents('.image-upload').addClass('is-error');
+            }
         }
 
         if (!isValid) {
