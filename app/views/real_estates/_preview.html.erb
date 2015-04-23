@@ -1,0 +1,264 @@
+<link rel="stylesheet" href="/assets/shared/layout.css" />
+<link rel="stylesheet" href="/assets/shared/layout_front.css" />
+<link rel="stylesheet" href="/assets/shared/bootstrap.min.css" />
+<link rel="stylesheet" href="/assets/shared/pe_icon_7_stroke.css" />
+<link rel="stylesheet" href="/assets/real_estates/view.css"/>
+
+<article class="main-frame">
+  <main>
+    <section class="block-box">
+      <section class="block-title">
+        <span><%= @real_estate.name.html_safe %></span>
+      </section>
+      <section class="block-content general-infos">
+        <section class="image">
+          <a href="#" class="favorite-button"></a>
+          <img src="<%= @real_estate.images.length != 0 ? "/images/#{@real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
+        </section>
+        <section class="infos">
+          <ul class="image-infos">
+            <% (1...@real_estate.images.length).each do |i| %>
+                <li class="item">
+                  <img src="<%= "/images/#{@real_estate.images[i].id}" %>">
+                </li>
+            <% end %>
+          </ul>
+          <ul class="text-infos">
+            <li>
+              <span class="title">Mã tin:</span>
+              <span class="value" style="
+              border: 1px solid #286090;
+                      border-radius: 4px;
+                      padding: 3px 6px;
+                      background-color: #286090;
+                      color: white;
+              "><%= ApplicationHelper.id_format('00000', 'RE') %></span>
+            </li>
+            <li>
+              <span class="title">Loại:</span>
+              <span class="value"><%= @real_estate.real_estate_type.name %></span>
+            </li>
+            <li>
+              <span class="title">Diện tích:</span>
+              <span class="value"><%= @real_estate.campus_area %>m<sup>2</sup></span>
+            </li>
+            <li>
+              <span class="title">Địa chỉ:</span>
+              <span class="value"><%= "#{@real_estate.address_number}, đường #{@real_estate.street.name.html_safe}, phường #{@real_estate.ward.name.html_safe}, quận #{@real_estate.district.name.html_safe}, #{@real_estate.province.name.html_safe}" %></span>
+            </li>
+          </ul>
+        </section>
+        <section class="cost">
+          <div>
+            <% if @real_estate.price != 0 %>
+                <section class="money">
+                  <%= @real_estate.price.to_s %>
+                </section>
+                <section class="currency">
+                  <%= @real_estate.currency.name %>
+                </section>
+            <% else %>
+                <section class="currency">
+                  Giá thỏa thuận
+                </section>
+            <% end %>
+          </div>
+        </section>
+      </section>
+    </section>
+    <!-- #end general infos -->
+    <!-- #start share box -->
+    <section class="share-box">
+      <span class="description">Chia sẻ trên:</span>
+      <a href="#" class="button"><img src="/assets/logo/facebook.png" /></a>
+      <a href="#" class="button"><img src="/assets/logo/google.png" /></a>
+      <a href="#" class="button"><img src="/assets/logo/youtube.png" /></a>
+      <a href="#" class="button"><img src="/assets/logo/twitter.png" /></a>
+    </section>
+    <!-- #end share box -->
+    <!-- #start detail infos -->
+    <section class="block-box">
+      <section class="block-title">
+        Nội dung
+      </section>
+      <section class="block-content content-detail-infos">
+        <h2 class="title">
+          <%= @real_estate.title %>
+        </h2>
+        <p>
+          <%= @real_estate.description %>
+        </p>
+      </section>
+    </section>
+    <section class="block-box">
+      <section class="block-title">
+        Thông tin chi tiết
+      </section>
+      <section class="block-content content-detail-infos">
+
+        <% fields = RealEstate.get_real_estate_type_fields @real_estate.real_estate_type_id %>
+
+        <ul class="row infos-list">
+          <li class="item col-xs-6 col-sm-4 circle">
+          <span>
+            Hồ sơ pháp lý:
+            <b><%= @real_estate.legal_record_type_id != 0 ?
+                           @real_estate.legal_record_type.name :
+                           @real_estate.custom_legal_record_type %></b>
+          </span>
+          </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+          <span>
+            Tình trạng quy hoạch:
+            <b><%= @real_estate.planning_status_type_id != 0 ?
+                           @real_estate.planning_status_type.name :
+                           @real_estate.custom_planning_status_type %></b>
+          </span>
+          </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <% if @real_estate.is_alley == 1 %>
+                <span>Hẻm: <b><%= @real_estate.alley_width %>m</b></span>
+            <% else %>
+                <span>Mặt tiền</span>
+            <% end %>
+          </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>Kích thước: <b><%= "#{@real_estate.width_x} x #{@real_estate.width_y}" %>m</b></span>
+          </li>
+          <% if fields.include? :constructional_area %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Diện tích xây dựng: <b><%= @real_estate.constructional_area %>m<sup>2</sup></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :using_area %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Diện tích sử dụng: <b><%= @real_estate.using_area %>m<sup>2</sup></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :campus_area %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Diện tích khuôn viên: <b><%= @real_estate.campus_area %>m<sup>2</sup></b></span>
+              </li>
+          <% end %>
+          <% if @real_estate.shape != 0 %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span><%= @real_estate.shape == 1 ? 'Nở hậu' : 'Tóp hậu' %>: <b><%= @real_estate.shape_width %>m</b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :floor_number %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Số tầng: <b><%= case @real_estate.floor_number; when 0; 'Trệt'; when 4; 'Hơn 4'; else; @real_estate.floor_number end %></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :restroom_number %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>WC: <b><%= @real_estate.restroom_number != 4 ? @real_estate.restroom_number : 'Hơn 4' %></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :bedroom_number %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Phòng ngủ: <b><%= @real_estate.bedroom_number != 4 ? @real_estate.bedroom_number : 'Hơn 4' %></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :build_year %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Năm xây dựng: <b><%= @real_estate.build_year %></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :constructional_level_id %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Phân loại: <b><%= @real_estate.constructional_level.name %></b></span>
+              </li>
+          <% end %>
+          <% if fields.include? :constructional_quality %>
+              <li class="item col-xs-6 col-sm-4 circle">
+                <span>Chất lượng nhà: <b><%= @real_estate.constructional_quality %>%</b></span>
+              </li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+    <% if @real_estate.property_utilities.length > 0 %>
+        <section class="block-box">
+          <section class="block-title">
+            Tiện ích khu vực
+          </section>
+          <section class="block-content content-detail-infos">
+            <ul class="row infos-list">
+              <% @real_estate.region_utilities.each do |region_utility| %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= region_utility.name %></span>
+                  </li>
+              <% end %>
+            </ul>
+          </section>
+        </section>
+    <% end %>
+    <% if @real_estate.property_utilities.length > 0 %>
+        <section class="block-box">
+          <section class="block-title">
+            Tiện nghi
+          </section>
+          <section class="block-content content-detail-infos">
+            <ul class="row infos-list">
+              <% @real_estate.property_utilities.each do |property_utility| %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= property_utility.name %></span>
+                  </li>
+              <% end %>
+            </ul>
+          </section>
+        </section>
+    <% end %>
+    <% if @real_estate.advantages.length > 0 %>
+        <section class="block-box">
+          <section class="block-title">
+            Tiện nghi
+          </section>
+          <section class="block-content content-detail-infos">
+            <ul class="row infos-list">
+              <% @real_estate.advantages.each do |advantage| %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= advantage.name %></span>
+                  </li>
+              <% end %>
+              <% unless @real_estate.custom_advantages.blank? %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= @real_estate.custom_advantages %></span>
+                  </li>
+              <% end %>
+            </ul>
+          </section>
+        </section>
+    <% end %>
+    <% if @real_estate.disadvantages.length > 0 %>
+        <section class="block-box">
+          <section class="block-title">
+            Tiện nghi
+          </section>
+          <section class="block-content content-detail-infos">
+            <ul class="row infos-list">
+              <% @real_estate.disadvantages.each do |disadvantage| %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= disadvantage.name %></span>
+                  </li>
+              <% end %>
+              <% unless @real_estate.custom_disadvantages.blank? %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= @real_estate.custom_disadvantages %></span>
+                  </li>
+              <% end %>
+            </ul>
+          </section>
+        </section>
+    <% end %>
+    <section class="block-box">
+      <section class="block-title">
+        Vị trí trên bản đồ
+      </section>
+      <section class="block-content map-infos">
+        <img class="img-responsive" src="/assets/product/icon_Bando.png">
+      </section>
+    </section>
+  </main>
+</article>

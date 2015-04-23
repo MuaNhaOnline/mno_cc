@@ -1,4 +1,4 @@
-/* #start general */
+/* region General */
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +6,9 @@
 ul {
     list-style: none;
 }
-/* #end general */
+/* endregion */
 
-/* #start popup */
+/* region Popup */
 
 body.prevent-scroll {
     overflow: hidden;
@@ -73,6 +73,4 @@ body.prevent-scroll {
     margin: 5px;
 }
 
-/*
-    #end popup
-*/
+/* endregion */

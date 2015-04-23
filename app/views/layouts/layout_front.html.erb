@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mua nhà online</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" Contents="MuaNhaOnline - Giá trị thực trong tầm tay">
+
+  <link rel="stylesheet" href="/assets/shared/layout.css" />
+  <link rel="stylesheet" href="/assets/shared/layout_front.css" />
+  <link rel="stylesheet" href="/assets/shared/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/shared/pe_icon_7_stroke.css" />
+  <%= yield :stylesheets %>
+</head>
+<body>
+<!-- #start header -->
+<header class="container-fluid navbar-fixed-top">
+  <!-- #start logo -->
+  <a href="/home/index" class="logo hidden-xs">
+    <img src="/assets/logo/logoMain.png">
+  </a>
+  <!-- Mini logo -->
+  <div class="mini-logo">
+    <span class="visible-xs"><a href="/home/index">MuaNhaOnline.vn</a></span>
+  </div>
+  <!-- #end logo -->
+  <!-- #start sitemap -->
+  <ul class="sitemap">
+    <li><a href="/real_estates/index">BĐS cần bán</a></li>
+    <li><a href="/real_estates/index">BĐS cần mua</a></li>
+    <li><a href="/projects/index">Dự án</a></li>
+    <li><a href="/news/index">Tin tức</a></li>
+    <li><a href="/businesses/index">Doanh nghiệp</a></li>
+  </ul>
+  <!-- Mini sitemap -->
+  <div class="button-mini-sitemap" data-toggle-target=".mini-sitemap"></div>
+  <ul class="mini-sitemap">
+    <li><a href="/real_estates/index">BĐS cần bán</a></li>
+    <li><a href="/real_estates/index">BĐS cần mua</a></li>
+    <li><a href="/projects/index">Dự án</a></li>
+    <li><a href="/news/index">Tin tức</a></li>
+    <li><a href="/businesses/index">Doanh nghiệp</a></li>
+    <li class="visible-xs" hidden>
+      <a href="/real_estates/create" id="posting">Đăng tin miễn phí</a>
+      <img src="/assets/icon/star-icon.png">
+    </li>
+  </ul>
+  <!-- #end nav -->
+  <!-- posting -->
+  <article class="posting hidden-xs">
+    <a href="/real_estates/create" class="btn btn-danger">Đăng tin miễn phí</a>
+  </article>
+  <!-- #start login -->
+  <article class="user visible-lg">
+    <div class="login">
+      <a href="#">Đăng nhập</a>
+    </div>
+    <div class="register">
+      <a href="#">Đăng ký</a>
+    </div>
+  </article>
+  <!-- Mini login -->
+  <article class="user-mini user-mini-toggle-button hidden-lg" data-toggle-target=".user-mini-content">
+    <section class="user-mini-content">
+      <div class="login">
+        <a href="#">Đăng nhập</a>
+      </div>
+      <div class="register">
+        <a href="#">Đăng ký</a>
+      </div>
+    </section>
+  </article>
+  <!-- #end login -->
+</header>
+<div class="header"></div>
+<!-- #end header -->
+<!-- #start main frame -->
+<section class="container-fluid">
+  <div class="row">
+    <section class="col-md-9 main-frame">
+      <!-- #start navigator -->
+      <nav class="navigator">
+        <ul>    
+          
+        </ul>
+      </nav>
+      <!-- #end navigator -->
+      <!-- #start main -->
+      <main>
+        <%= yield %>
+      </main>
+      <!-- #end main -->
+    </section>
+    <!-- #start main-aside -->
+    <aside class="col-md-3 main-aside">      
+      <article class="block-box">
+        <section class="block-title">
+          <span>Tìm kiếm</span>
+        </section>
+        <section class="block-content">
+          <form>
+            <article class="input-box">
+              <input name="TuKhoa" class="form-control" placeholder="Nhập từ khoá ...">
+            </article>
+            <article class="link">
+              <img src="/assets/link/search-plus.png">
+            </article>
+            <article class="input-box">
+              <select name="ThanhPho" class="form-control">
+                <option>Chọn thành phố</option>
+                <option>TPHCM</option>
+                <option>Hà Nội</option>
+              </select>
+              <select name="QuanHuyen" class="form-control">
+                <option>Chọn quận/huyện</option>
+                <option>Quận 1</option>
+                <option>Quận 2</option>
+              </select>
+              <select name="DuAn" class="form-control">
+                <option>Chọn dự án</option>
+                <option>Dự án đã hoàn thành</option>
+                <option>Dự án chưa hoàn thành</option>
+              </select>
+              <select name="KhoangGia" class="form-control">
+                <option>Chọn khoảng giá</option>
+                <option>500 triệu - 1 tỷ</option>
+                <option>1 tỷ - 2 tỷ</option>
+                <option>2 tỷ - 5 tỷ</option>
+              </select>
+              <select name="LoaiBDS" class="form-control">
+                <option>Chọn loại BĐS</option>
+                <option>Bất động sản bán</option>
+                <option>Bất động sản cho thuê</option>
+              </select>
+              <select name="DienTich" class="form-control">
+                <option>Chọn diện tích</option>
+                <option>0 - 100 m2</option>
+                <option>100 - 200 m2</option>
+                <option>200 - 500 m2</option>
+              </select>
+            </article>
+            <article class="input-box">
+              <button type="submit" class="btn btn-primary">Tìm</button>
+            </article>
+          </form>
+        </section>
+      </article>
+      <article class="block-box">
+        <section class="block-title">
+          <span>Chức năng chính</span>
+        </section>
+        <section class="block-content">
+          <ul class="function">
+            <li><a href="#"><img src="/assets/icon/btn_muathuebds.png"></a></li>
+            <li><a href="#"><img src="/assets/icon/btn_thamdinhgia.png"></a></li>
+            <li><a href="#"><img src="/assets/icon/btn_dangtinvip.png"></a></li>
+          </ul>
+        </section>
+      </article>
+      <article class="block-box">
+        <section class="block-title">
+          <span>Liên hệ</span>
+        </section>
+        <section class="block-content">
+          <div class="contact-box">
+            <div class="image">
+              <img src="/assets/icon/contact.png">
+            </div>
+            <div class="info">
+              <span>Tư vấn bán - Mrs.Chi</span>
+              <span>0918 911 119</span>
+            </div>
+          </div>
+          <div class="contact-box">
+            <div class="image">
+              <img src="/assets/icon/contact.png">
+            </div>
+            <div class="info">
+              <span>Tư vấn cho thuê - Mrs.Chi</span>
+              <span>0918 911 119</span>
+            </div>
+          </div>
+        </section>
+      </article>
+    </aside>
+    <!-- #end main-aside -->
+  </div>
+</section>
+<!-- #end main frame -->
+<!-- #start footer -->
+<footer>
+  <!-- #start bottom-footer -->
+  <section class="bottom-footer container">
+    <p>
+      Công ty TNHH Tư Vấn BĐS Thịnh An
+      <br />
+      Tầng 1, Tòa nhà Rosana, số 60 Nguyễn Đình Chiểu, Phường Đa Kao, Quận 1, Tp. HCM
+      <br />
+      ĐT: (84-8) 2221 1906 - Fax: (84-8) 222 02201
+    </p>
+    <p class="email">
+      <a href="mailto:info@muanhaonline.vn">
+        Email: info@muanhaonline.vn
+      </a>
+    </p>
+  </section>
+  <!-- #end bottom-fotter -->
+</footer>
+<!-- #end footer -->
+</body>
+<script src="/assets/shared/jquery.min.js"></script>
+<script src="/assets/shared/layout.js"></script>
+<script src="/assets/shared/layout_front.js"></script>
+<%= yield :scripts %>
+</html>

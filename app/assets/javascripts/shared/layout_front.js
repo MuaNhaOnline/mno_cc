@@ -1,0 +1,7 @@
+//region Initialization
+
+$(function () {
+
+});
+
+//end
