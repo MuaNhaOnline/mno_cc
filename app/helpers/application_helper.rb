@@ -9,7 +9,7 @@ module ApplicationHelper
 
   def self.to_f string
     begin
-      string.remove(/[^0-9.,]/).to_f
+      string.remove(/[^(0-9).]/).to_f
     rescue
       0
     end

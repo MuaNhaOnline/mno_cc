@@ -140,6 +140,18 @@ nav {
 	/* #end item */
 /* #end main-content */
 
+/* #start hide fields */
+
+.form-es.full .until-full {
+    display: inherit;
+}
+
+.form-es:not(.full) .until-full {
+    display: none;
+}
+
+/* #end hide fields */
+
 /* #start supporter */
 .support-button {
 	display: inline-block;
@@ -180,9 +192,9 @@ nav {
 /* #end supporter */
 
 /*status*/
-.is-error {
+.is-error:not(.image-upload) {
 	border-color: red !important;
-	box-shadow: 0 0 12px #FF9999 !important;
+	box-shadow: 0 0 12px #f99 !important;
 }
 
 /* image upload */
@@ -204,6 +216,10 @@ nav {
     top: 0px;
     left: 0px;
 }
+    .image-upload.is-error label {
+        outline-color: #f99;
+    }
+
     .image-upload label:before {
         content: '+';
         line-height: 44px;
@@ -214,6 +230,9 @@ nav {
         color: #ddd;
         transition: 0.5s;
     }
+        .image-upload.is-error label:before {
+            color: #f99;
+        }
     .image-upload label:hover:before {
         color: #aaa;
     }

@@ -1,5 +1,5 @@
 class NewsController < ApplicationController  
-  	layout 'layout'
+  	layout 'layout_front'
   def index
 
   end

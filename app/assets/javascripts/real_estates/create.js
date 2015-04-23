@@ -1,286 +1,201 @@
+//region Initialization
+
 $(function(e){
-	//Khởi tạo sự kiện select của <select>, <checkbox>, <radiobutton>
-	init();
-	//Khởi tạo supporter
-	init_support();
-	//Khởi tạo năm xây dựng
-	initNamXayDung();
-	//Khởi tạo Validation
-    validation("create_real_estate");
-	//Ẩn đối tượng mặc định
-	hideObjectDefault();
-    //Ajax lấy dữ liệu địa chỉ
-    getFullProvinceData_AfterChange();
-    //Init image upload
-    initImageUpload();
+    var $form = $('#create_real_estate');
+	setDefault_ToggleInputs();
+    init_ToggleInputs();
+    init_BuildYear();
+    init_UnitFormat();
+    init_Constraint($form);
+    initImageUpload($form.find('.image-upload input[type="file"]'));
+    init_Submit($form);
+    init_Preview($form);
+
+    getFullProvinceDataAfterChange();
 });
 
-function init() {
-	$('*[data-feature~="will-change-select"]').on('change', function(e) {
-		$option = $(this).find('option:selected');
+//endregion
 
-		hideObject = $option.data('hide');
-		showObject = $option.data('show');
+//region Initialize functions
 
-		$('*[data-controlled~="' + hideObject + '"]').hide();
-		$('*[data-controlled~="' + showObject + '"').show();
-	});
+//region Init show/hide inputs
 
-	$('*[data-feature~="will-change-show-check"]').on('change', function() {
-		var checked = this.checked;
+//Set default
+function setDefault_ToggleInputs() {
+    $('[data-toggle-input~="select-show"]:visible').each(function() {
+        var $option = $(this).find('option:selected');
 
-		hideObject = $(this).data('hide');
-		showObject = $(this).data('show');
+        var hideObject = $option.attr('data-hide');
+        var showObject = $option.attr('data-show');
 
-		if (checked) {
-			$('*[data-controlled~="' + hideObject + '"]').slideUp();
-			$('*[data-controlled~="' + showObject + '"').slideDown();
-		}
-		else {
-			$('*[data-controlled~="' + hideObject + '"]').slideDown();
-			$('*[data-controlled~="' + showObject + '"').slideUp();
-		}
-	});
+        $('[data-toggle-input-object~="' + hideObject + '"]').hide();
+        $('[data-toggle-input-object~="' + showObject + '"]').show();
+    });
 
-	$('*[data-feature~="will-change-available-check"]').on('change', function() {
-		var checked = this.checked;
+    $('[data-toggle-input~="check-show"]:visible').each(function() {
+        var checked = this.checked;
 
-		enableObject = $(this).data('enable');
-		disableObject = $(this).data('disable');
+        var $obj = $(this);
+        var hideObject = $obj.data('hide');
+        var showObject = $obj.data('show');
 
-		$('*[data-controlled~="' + enableObject + '"]').prop('disabled', !checked);
-		$('*[data-controlled~="' + disableObject + '"').prop({
-			'disabled': checked,
-			'value': null
-		});
-	});
-}
-function hideObjectDefault() {
-	$('*[hidden]').hide();
-}
-
-/* #start supporter */
-function init_support() {
-	$('.support-button').on('click', function(event) {
-		event.preventDefault();
-		/* Act on the event */		
-		var dataType = $(this).attr('data-value');
-		show_supporter(dataType);
-	});
-}
-function show_supporter(object) {
-	//get object	
-	var obj = $(object);	
-	//toggle supporter
-	obj.slideToggle('fast');
-	//Click out supporter to slideUp
-	$('body').click(function(event) {
-		/* Act on the event */
-		if (!$(event.target).closest($('.support-button')).length) {
-			$(obj).slideUp('fast');
-		}
-	});
-}
-/* #end supporter */
-/* #start Khởi tạo năm xây dựng */
-function initNamXayDung() {
-	$year = "";	
-	$tempDate = new Date();
-	$nowYear = $tempDate.getYear() + 1900;
-
-    var selectedValue = $('#build_year').attr('data-value');
-
-	for (var i = $nowYear; i >= $nowYear - 20; i--) {
-		$year += "<option " + (i == selectedValue ? "selected" : "") + " value=" + i + ">" + i + "</option>";
-	}	
-	$year += "<option " + (selectedValue == "20" ? "selected" : "") + " value=\"20\">>20 năm</option>";
-	$year += "<option " + (selectedValue == "50" ? "selected" : "") + " value=\"50\">>50 năm</option>";
-
-	$('#build_year').html($year);
-}
-/* #end Khởi tạo năm xây dựng */
-/* #start validation */
-function validation(idForm) {
-	$form = $('#' + idForm);
-	$form.submit(function(e) {
-		//redefine event
-		e = e || window.event;
-        e.preventDefault();
-
-		//Variable valid
-		var isValid = true;
-
-		$('.required:visible').each(function(index, el) {
-			el = $(el);
-			if (el.val() == "") {
-				//$(this).css('border-color', 'red');
-				el.addClass('is-error');
-				isValid = false;
-			}
-			else {
-				//$obj.css('border-color', '#ccc');
-				el.removeClass('is-error');
-			}
-			el.on('focusin', function() {
-				//$obj.css('border-color', '#ccc');
-				el.removeClass('is-error');
-			});
-		});
-		if (!isValid) {
-			$('html, body').animate(
-				{ scrollTop: $('.is-error').offset().top - 100 }
-			);
-			$('.is-error')[0].focus();
-		}
+        if (checked) {
+            $('*[data-toggle-input-object~="' + hideObject + '"]').hide();
+            $('*[data-toggle-input-object~="' + showObject + '"]').show();
+        }
         else {
-            $.ajax({
-                url: '/real_estates/create',
-                type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON'
-            }).done(function(data) {
-                if (data.status == 1) {
-                    if ($form.find('input[name="real_estate[id]"]').length != 0) {
-                        window.location = '/real_estates/' + data.result;
-                    }
-                    else {
-                        promptPopup('Thông tin đã được đăng thành công, bạn có muốn bổ sung thông tin?', [
-                            {
-                                text: 'Bổ sung',
-                                handle: function () {
-                                    $('.continue-composing').slideDown();
-
-                                    $('html, body').animate(
-                                        { scrollTop: $('.continue-composing').offset().top - 100 }
-                                    );
-                                    $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
-                                    $form.find('button[type="submit"]').text('Bổ sung');
-                                },
-                                type: 'primary'
-                            },
-                            {
-                                text: 'Xem kết quả',
-                                handle: function () {
-                                    window.location = '/real_estates/' + data.result;
-                                }
-                            }
-                        ]);
-                    }
-                }
-                else {
-                    var result = data.result;
-                    var errors = '';
-                    for (var i = 0; i < result.length; i++) {
-                        errors += result[i] + '<br />';
-                    }
-                    $('#errors').html(errors);
-                }
-            }).fail(function() {
-                alert('Đăng tin thất bại');
-            })
+            $('*[data-toggle-input-object~="' + hideObject + '"]').show();
+            $('*[data-toggle-input-object~="' + showObject + '"]').hide();
         }
-	});
+    });
 
-    initPopupFull($form.find('[data-feature="preview"]'), {
-        condition: function () {
-            //Variable valid
-            var isValid = true;
+    $('[data-toggle-input~="check-disable"]:visible').each(function() {
+        var checked = this.checked;
 
-            $('.required:visible').each(function(index, el) {
-                el = $(el);
-                if (el.val() == "") {
-                    //$(this).css('border-color', 'red');
-                    el.addClass('is-error');
-                    isValid = false;
-                }
-                else {
-                    //$obj.css('border-color', '#ccc');
-                    el.removeClass('is-error');
-                }
-                el.on('focusin', function() {
-                    //$obj.css('border-color', '#ccc');
-                    el.removeClass('is-error');
-                });
-            });
-            if (!isValid) {
-                $('html, body').animate(
-                    { scrollTop: $('.is-error').offset().top - 100 }
-                );
-                $('.is-error')[0].focus();
-            }
-            return isValid;
-        },
-        url: '/real_estates/preview',
-        method: 'POST',
-        data: function () {
-            return $form.serialize();
+        var $obj = $(this);
+        var enabledObject = $(this).data('enable');
+        var disabledObject = $(this).data('disable');
+
+        $('[data-toggle-input-object~="' + enabledObject + '"]').prop('disabled', !checked);
+        $('[data-toggle-input-object~="' + disabledObject + '"]').prop('disabled', checked);
+    });
+}
+
+//Set event
+function init_ToggleInputs() {
+    $('[data-toggle-input="select-show"]').on('change', function() {
+        var $option = $(this).find('option:selected');
+
+        var hideObject = $option.attr('data-hide');
+        var showObject = $option.attr('data-show');
+
+        $('[data-toggle-input-object~="' + hideObject + '"]').hide();
+        $('[data-toggle-input-object~="' + showObject + '"]').show();
+    });
+
+    $('[data-toggle-input="check-show"]').on('change', function() {
+        var checked = this.checked;
+
+        var $obj = $(this);
+        var hideObject = $obj.data('hide');
+        var showObject = $obj.data('show');
+
+        if (checked) {
+            $('*[data-toggle-input-object~="' + hideObject + '"]').hide();
+            $('*[data-toggle-input-object~="' + showObject + '"]').show();
         }
-    }, 'iframe');
+        else {
+            $('*[data-toggle-input-object~="' + hideObject + '"]').show();
+            $('*[data-toggle-input-object~="' + showObject + '"]').hide();
+        }
+    });
 
-	/* prevent key non-number */
-	$('.only-number').on('keypress', function(event) {		
-		event = event || window.event;
+    $('[data-toggle-input="check-disable"]').on('change', function() {
+        var checked = this.checked;
 
-		if (event.keyCode < 48 || event.keyCode > 57) {
-			event.preventDefault();		
-		}					
-	});
-	
-	/* #start Progress DonViTienTe*/
-	$('#currency_id').on('change', function(event) {
-		$obj = $('#price');
-		if ($(this).find('option:selected').attr('data-value') == "USD") {
-			$obj.attr('data-separate', ',');
-			var reg = new RegExp('[.]', "g");
-			$obj.val($obj.val().replace(reg, ','));
-		} else {
-			$obj.attr('data-separate', '.');
-			var reg = new RegExp('[,]', "g");
-			$obj.val($obj.val().replace(reg, '.'));
-		}
-	});
-		/*Numberic format*/
-		function insertSeparate(str, separate) {
-			if (str.length > 3) {
-				return insertSeparate(str.slice(0, str.length - 3), separate) + separate + str.slice(str.length - 3);
-			}
-			return str;
-		}
-		function numbericFormat(value, separate){
-			var reg = new RegExp('[' + separate + ']', "g");
-			var value = value.replace(reg, '');
+        var $obj = $(this);
+        var enabledObject = $(this).data('enable');
+        var disabledObject = $(this).data('disable');
 
-			return insertSeparate(value, separate);
-		}
-		$('#price').on('keyup', function(event) {	
-			$obj = $(this);
-			var separate = $obj.attr('data-separate');
-			
-			$obj.val(numbericFormat($obj.val(), separate));
-		});
-	/* #end Progress DonViTienTe*/
+        $('[data-toggle-input-object~="' + enabledObject + '"]').prop('disabled', !checked);
+        $('[data-toggle-input-object~="' + disabledObject + '"').prop('disabled', checked);
+    });
 }
-/* #end Validation */
 
-/* #start Get province data */
-function getFullProvinceData_AfterChange() {
-    $('#province').on('change', function() {
-        $.ajax({
-            url: '/provinces/get_full_data/' + $(this).find(':selected').val() + '.json'
-        }).done(function(data) {
-            $('#district').html(data[0]);
-            $('#ward').html(data[1]);
-            $('#street').html(data[2]);
-        }).fail(function() {
-            alert('Lấy dữ liệu tỉnh/thành thất bại.')
-        });
-    })
+//endregion
+
+//region Init building year
+
+function init_BuildYear() {
+    var $selectObject = $('#build_year');
+    var selectedValue = $selectObject.attr('data-value');
+
+    var htmlYear = '', date = new Date();
+    var nowYear = date.getFullYear();
+    var minYear = nowYear - 20;
+    for (var i = nowYear; i >= minYear; i--) {
+        htmlYear += "<option " + (i == selectedValue ? "selected" : "") + " value=" + i + ">" + i + "</option>";
+    }
+    htmlYear += "<option " + (selectedValue == "20" ? "selected" : "") + " value=\"20\">>20 năm</option>";
+    htmlYear += "<option " + (selectedValue == "50" ? "selected" : "") + " value=\"50\">>50 năm</option>";
+
+    $selectObject.html(htmlYear);
 }
-/* #end Get province data */
 
-/* #start Image upload */
-function initImageUpload() {
-    $('.image-upload input[type="file"]').on('change', function() {
+//endregion
+
+//region Init unit format
+
+function init_UnitFormat() {
+    var $select = $('#currency_id');
+    var $input = $('#price');
+
+    $select.on('change', function () {
+        if ($select.find('option:selected').attr('data-value') == 'USD') {
+            $input.attr('data-separate', ',');
+            var reg = new RegExp('[.]', "g");
+            $input.val($input.val().replace(reg, ','));
+        }
+        else {
+            $input.attr('data-separate', '.');
+            var reg = new RegExp('[,]', "g");
+            $input.val($input.val().replace(reg, '.'));
+        }
+    });
+
+    $input.on('keyup', function() {
+        var separate = $input.attr('data-separate');
+
+        $input.val(numbericFormat($input.val(), separate));
+    });
+}
+
+function numbericFormat(value, separate){
+    var reg = new RegExp('[' + separate + ']', "g");
+    value = value.replace(reg, '');
+
+    return insertSeparate(value, separate);
+}
+
+function insertSeparate(str, separate) {
+    if (str.length > 3) {
+        return insertSeparate(str.slice(0, str.length - 3), separate) + separate + str.slice(str.length - 3);
+    }
+    return str;
+}
+
+//endregion
+
+//region Init constraint
+
+function init_Constraint($form) {
+    //init integer
+    $('[data-constraint~="only-number"]').on('keydown', function (e) {
+        e = e || window.event;
+
+        if (//number
+            (!e.shiftKey &&
+            ((48 <= e.keyCode && e.keyCode <= 57) ||
+            (96 <= e.keyCode && e.keyCode <= 105))) ||
+            //., backspace, delete, tab, enter
+            $.inArray(e.keyCode, [190, 8, 46, 9, 13]) !== -1 ||
+            //home, end, left, right, down, up
+            (35 <= e.keyCode && e.keyCode <= 40) ||
+            //ctrl A
+            (e.keyCode == 65 && e.ctrlKey)) {
+            return;
+        }
+
+        e.preventDefault();
+    });
+}
+
+//endregion
+
+//region Init image upload
+
+function initImageUpload($objs) {
+    $objs.on('change', function() {
         //Check file exist
         if (this.files.length == 0) {
             return;
@@ -344,4 +259,129 @@ function initImageUpload() {
         $fileUploadContainer.children('input[type="hidden"]').val('');
     });
 }
-/* #end Image upload */
+
+//endregion
+
+//region Init submit form
+
+function init_Submit($form) {
+    $form.on('submit', function (e) {
+        e = e || window.event;
+        e.preventDefault();
+
+        var isValid = true;
+
+        $('[data-validate~="required"]:visible').each(function () {
+            var $input = $(this);
+            if ($input.val() == "") {
+                $input.addClass('is-error');
+                isValid = false;
+            }
+            else {
+                $input.removeClass('is-error');
+            }
+        });
+
+        var hasOne = false;
+        $('.image-upload input[type="hidden"]').each(function () {
+            if (this.value) {
+                hasOne = true;
+            }
+        });
+
+        if (!hasOne) {
+            isValid = false;
+            $($('.image-upload input[type="hidden"]')[0]).parents('.image-upload').addClass('is-error');
+        }
+
+        if (!isValid) {
+            $('html, body').animate(
+                { scrollTop: $('.is-error').offset().top - 100 }
+            );
+        }
+        else {
+            $.ajax({
+                url: '/real_estates/create',
+                type: 'POST',
+                data: $form.serialize(),
+                dataType: 'JSON'
+            }).done(function (data) {
+                if (data.status == 1) {
+                    if ($form.find('input[name="real_estate[id]"]').length != 0) {
+                        window.location = '/real_estates/' + data.result;
+                    }
+                    else {
+                        promptPopup('Thông tin đã được đăng thành công, bạn có muốn bổ sung thông tin?', [{
+                            text: 'Bổ sung',
+                            handle: function () {
+                                $form.addClass('full');
+                                $('html, body').animate(
+                                    { scrollTop: $('.until-full').offset().top - 100 }
+                                );
+
+                                $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
+                                $form.find('button[type="submit"]').text('Bổ sung');
+                            },
+                            type: 'primary'
+                        }, {
+                            text: 'Xem kết quả',
+                            handle: function () {
+                                window.location = '/real_estates/' + data.result;
+                            }
+                        }]);
+                    }
+                }
+                else {
+                    var result = data.result;
+                    var errors = '';
+                    for (var i = 0; i < result.length; i++) {
+                        errors += result[i] + '<br />';
+                    }
+                    $('#errors').html(errors);
+                }
+            }).fail(function () {
+                alert('Đăng tin thất bại');
+            })
+        }
+    });
+}
+
+//endregion
+
+//region Init preview
+
+function init_Preview($form) {
+    init_PopupFull($form.find('[data-feature="preview"]'), {
+        url: '/real_estates/preview',
+        method: 'POST',
+        data: function () {
+            return $form.serialize();
+        }
+    }, 'iframe');
+}
+
+//endregion
+
+//endregion
+
+//region Process
+
+//region Get full province after change
+
+function getFullProvinceDataAfterChange() {
+    $('#province').on('change', function() {
+        $.ajax({
+            url: '/provinces/get_full_data/' + $(this).find(':selected').val() + '.json'
+        }).done(function(data) {
+            $('#district').html(data[0]);
+            $('#ward').html(data[1]);
+            $('#street').html(data[2]);
+        }).fail(function() {
+            alert('Lấy dữ liệu tỉnh/thành thất bại.')
+        });
+    })
+}
+
+//endregion
+
+//endregion

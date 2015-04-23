@@ -218,22 +218,6 @@
 <% if @real_estate.property_utilities.length > 0 %>
     <section class="block-box">
       <section class="block-title">
-        Tiện ích khu vực
-      </section>
-      <section class="block-content content-detail-infos">
-        <ul class="row infos-list">
-          <% @real_estate.region_utilities.each do |region_utility| %>
-              <li class="item col-xs-6 col-sm-4">
-                <span><%= region_utility.name %></span>
-              </li>
-          <% end %>
-        </ul>
-      </section>
-    </section>
-<% end %>
-<% if @real_estate.property_utilities.length > 0 %>
-    <section class="block-box">
-      <section class="block-title">
         Tiện nghi
       </section>
       <section class="block-content content-detail-infos">
@@ -247,10 +231,26 @@
       </section>
     </section>
 <% end %>
-<% if @real_estate.advantages.length > 0 %>
+<% if @real_estate.region_utilities.length > 0 %>
     <section class="block-box">
       <section class="block-title">
-        Tiện nghi
+        Tiện ích khu vực
+      </section>
+      <section class="block-content content-detail-infos">
+        <ul class="row infos-list">
+          <% @real_estate.region_utilities.each do |region_utility| %>
+              <li class="item col-xs-6 col-sm-4">
+                <span><%= region_utility.name %></span>
+              </li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+<% end %>
+<% if @real_estate.advantages.length > 0 || !@real_estate.custom_advantages.blank? %>
+    <section class="block-box">
+      <section class="block-title">
+        Điểm tốt
       </section>
       <section class="block-content content-detail-infos">
         <ul class="row infos-list">
@@ -268,10 +268,10 @@
       </section>
     </section>
 <% end %>
-<% if @real_estate.disadvantages.length > 0 %>
+<% if @real_estate.disadvantages.length > 0 || !@real_estate.custom_disadvantages.blank? %>
     <section class="block-box">
       <section class="block-title">
-        Tiện nghi
+        Điểm xấu
       </section>
       <section class="block-content content-detail-infos">
         <ul class="row infos-list">

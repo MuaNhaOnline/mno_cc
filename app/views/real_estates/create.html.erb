@@ -10,7 +10,7 @@
   <!-- #start main-content -->
   <article class="row wrapper">
     <article class="main-content col-md-8">    
-      <form class="form-horizontal" id="create_real_estate">
+      <form class="form-horizontal form-es <%= 'full' unless @real_estate.id.blank? %>" id="create_real_estate">
         <% unless @real_estate.id.blank? %>
             <input type="hidden" name="real_estate[id]" value="<%= @real_estate.id %>" />
         <% end %>
@@ -22,7 +22,7 @@
           <ul class="item-content">
             <li class="form-group">            
               <div class="col-sm-4 col-sm-offset-3">
-                <select name="real_estate[purpose_id]" class="form-control" data-feature="will-change-select" id="purpose">
+                <select name="real_estate[purpose_id]" class="form-control" data-toggle-input="select-show" id="purpose">
                   <% Purpose.get_options.each do |purpose| %>
                       <option value="<%= purpose.id %>" <%= 'selected' if purpose.id == @real_estate.purpose_id %> <%= purpose.options_hash['html']['attributes'] if defined? purpose.options_hash['html']['attributes'] %>><%= purpose.name %></option>
                   <% end %>
@@ -46,10 +46,10 @@
             <li class="form-group">            
               <label for="price" class="control-label col-sm-3">Giá mong muốn:</label>                                
               <div class="col-sm-4">
-                <input value="<%= @real_estate.price %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control required only-number" id="price" data-separate='.' data-controlled="price-agree">
+                <input value="<%= @real_estate.price.nil? ? '' : @real_estate.price.round %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control only-number" data-validate="required" id="price" data-separate='.' data-toggle-input-object="price-agree">
               </div>
               <div class="checkbox col-sm-4">
-                <label class="label-non-margin"><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-feature="will-change-available-check" data-disable="price-agree"> Giá Thoả thuận</label>
+                <label class="label-non-margin"><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="price-agree"> Giá Thoả thuận</label>
               </div>
             </li>
             <li class="form-group">            
@@ -76,10 +76,10 @@
                    end
                 %>
 
-                <select style="<%= 'display:none;' if !@real_estate.purpose.blank? && @real_estate.purpose.code != 'Ban' %>" name="real_estate[unit_id_sell]" class="form-control" id="unit" data-controlled="sell un-rent">
+                <select style="<%= 'display:none;' if !@real_estate.purpose.blank? && @real_estate.purpose.code != 'Ban' %>" name="real_estate[unit_id_sell]" class="form-control" id="unit" data-toggle-input-object="sell un-rent">
                   <%= ban.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if @real_estate.purpose.blank? || @real_estate.purpose.code != 'Thue' %>" name="real_estate[unit_id_rent]" class="form-control" id="unit" data-controlled="rent un-sell">
+                <select style="<%= 'display:none;' if @real_estate.purpose.blank? || @real_estate.purpose.code != 'Thue' %>" name="real_estate[unit_id_rent]" class="form-control" id="unit" data-toggle-input-object="rent un-sell">
                   <%= thue.html_safe %>
                 </select>                   
               </div>    
@@ -169,12 +169,12 @@
             </li>
             <li class="form-group">              
               <div class="col-xs-6 col-sm-2 col-sm-offset-3 radio">
-                <label><input <%= 'checked' if @real_estate.is_alley != 1 %> type="radio" name="real_estate[is_alley]" value="0" data-feature="will-change-show-check" data-hide="alley" checked> Mặt tiền</label>
+                <label><input <%= 'checked' if @real_estate.is_alley != 1 %> type="radio" name="real_estate[is_alley]" value="0" data-toggle-input="check-show" data-hide="alley" checked> Mặt tiền</label>
               </div>
               <div class="col-xs-6 col-sm-2 radio">  
-                <label><input <%= 'checked' if @real_estate.is_alley == 1 %> type="radio" name="real_estate[is_alley]" value="1" data-feature="will-change-show-check" data-show="alley"> Hẻm</label>
+                <label><input <%= 'checked' if @real_estate.is_alley == 1 %> type="radio" name="real_estate[is_alley]" value="1" data-toggle-input="check-show" data-show="alley"> Hẻm</label>
               </div>
-              <div class="col-xs-4 col-xs-offset-7 col-sm-2 input-group" data-controlled="alley" <%= 'hidden' if @real_estate.is_alley != 1 %>>
+              <div class="col-xs-4 col-xs-offset-7 col-sm-2 input-group" data-toggle-input-object="alley">
                 <input value="<%= @real_estate.alley_width %>" name="real_estate[alley_width]" type="text" class="form-control">
                 <div class="input-group-addon">m</div>
               </div>                  
@@ -210,7 +210,7 @@
             <li class="form-group">            
               <label class="control-label col-sm-3" for="property_type">Loại hình:</label>
               <div class="col-sm-4" id="groupLoaiHinh">
-                <select name="real_estate[real_estate_type_group]" class="form-control" data-feature="will-change-select" id="property_type">
+                <select name="real_estate[real_estate_type_group]" class="form-control" data-toggle-input="select-show" id="property_type">
                   <% temp = @real_estate.real_estate_type.blank? ? '' : @real_estate.real_estate_type.options_hash['group'] %>
                   <option <%= 'selected' if temp == 'Dat' %> value="Dat" data-show="land" data-hide="un-land">Đất</option>
                   <option <%= 'selected' if temp == 'Nha' %> value="Nha" data-show="house" data-hide="un-house">Nhà</option>
@@ -237,71 +237,70 @@
                    end
                 %>
 
-                <select style="<%= temp.blank? || temp == 'Dat' ? '' : 'display:none;' %>" name="real_estate[real_estate_type_id_dat]" class="form-control will-change-select" id="property_type_details" data-controlled="land un-house un-apartment un-space">
+                <select style="<%= temp.blank? || temp == 'Dat' ? '' : 'display:none;' %>" name="real_estate[real_estate_type_id_dat]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="land un-house un-apartment un-space">
                   <%= dat.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'Nha' %>" name="real_estate[real_estate_type_id_nha]" class="form-control" data-feature="will-change-select" data-controlled="un-land house un-apartment un-space">
+                <select style="<%= 'display:none;' if temp != 'Nha' %>" name="real_estate[real_estate_type_id_nha]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="un-land house un-apartment un-space">
                   <%= nha.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'CanHo' %>" name="real_estate[real_estate_type_id_can_ho]" class="form-control" data-feature="will-change-select" data-controlled="un-land un-house apartment un-space">
+                <select style="<%= 'display:none;' if temp != 'CanHo' %>" name="real_estate[real_estate_type_id_can_ho]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="un-land un-house apartment un-space">
                   <%= canHo.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'MatBang' %>" name="real_estate[real_estate_type_id_mat_bang]" class="form-control" dat a-controlled="un-land un-house un-apartment space">
+                <select style="<%= 'display:none;' if temp != 'MatBang' %>" name="real_estate[real_estate_type_id_mat_bang]" class="form-control" data-toggle-input-object="un-land un-house un-apartment space">
                   <%= matBang.html_safe %>
                 </select>
               </div>
             </li>
-            <% temp = RealEstate.get_real_estate_type_fields(@real_estate.real_estate_type_id.blank? ? 1 : @real_estate.real_estate_type_id) %>
-            <li class="form-group sub-item" data-controlled="un-land house un-apartment space" <%= 'hidden' unless temp.include? :constructional_area %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house un-apartment space">
               <label class="control-label col-sm-4" for="construction_area">Diện tích xây dựng:</label>
               <div class="col-sm-3 input-group">
-                <input value="<%= @real_estate.constructional_area %>" class="form-control only-number required" name="real_estate[constructional_area]" id="construction_area">
+                <input value="<%= @real_estate.constructional_area %>" class="form-control" data-constraint="only-number" data-validate="required" name="real_estate[constructional_area]" id="construction_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
-            <li class="form-group sub-item" data-controlled="un-land house apartment space" <%= 'hidden' unless temp.include? :using_area %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
               <label class="control-label col-sm-4" for="using_area">Diện tích sử dụng:</label>
               <div class="col-sm-3 input-group">
-                <input value="<%= @real_estate.using_area %>" class="form-control only-number required" name="real_estate[using_area]" id="using_area">
+                <input value="<%= @real_estate.using_area %>" class="form-control" data-constraint="only-number" data-validate="required" name="real_estate[using_area]" id="using_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
-            <li class="form-group sub-item" data-controlled="land house un-apartment space" <%= 'hidden' unless temp.include? :campus_area %>>
+            <li class="form-group sub-item" data-toggle-input-object="land house un-apartment space">
               <label class="control-label col-sm-4" for="campus_area">Diện tích khuôn viên:</label>
               <div class="col-sm-3 input-group">
-                <input value="<%= @real_estate.campus_area %>" class="form-control only-number required" name="real_estate[campus_area]" id="campus_area">
+                <input value="<%= @real_estate.campus_area %>" class="form-control" data-constraint="only-number" data-validate="required" name="real_estate[campus_area]" id="campus_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
-            <li class="form-group sub-item" data-controlled="land house apartment space">
+            <li class="form-group sub-item" data-toggle-input-object="land house apartment space">
               <label class="control-label col-sm-4" for="width_x">Ngang:</label>
               <div class="col-sm-3 input-group">
-                <input value="<%= @real_estate.width_x %>" class="form-control only-number required" name="real_estate[width_x]" id="width_x">
+                <input value="<%= @real_estate.width_x %>" class="form-control" data-constraint="only-number" data-validate="required" name="real_estate[width_x]" id="width_x">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>
-            <li class="form-group sub-item" data-controlled="land house apartment space">
+            <li class="form-group sub-item" data-toggle-input-object="land house apartment space">
               <label class="control-label col-sm-4" for="width_y">Dài:</label>
               <div class="col-sm-3 input-group">
-                <input value="<%= @real_estate.width_y %>" class="form-control only-number required" name="real_estate[width_y]" id="width_y">
+                <input value="<%= @real_estate.width_y %>" class="form-control" data-constraint="only-number" data-validate="required" name="real_estate[width_y]" id="width_y">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>
-            <li class="form-group sub-item" data-controlled="land house apartment space">
+            <li class="form-group sub-item" data-toggle-input-object="land house un-apartment space">
               <label class="control-label col-sm-4" for="shape">Hình dáng:</label>          
               <div class="col-sm-4">
-                <select name="real_estate[shape]" class="form-control" data-feature="will-change-select">
+                <select name="real_estate[shape]" class="form-control" data-toggle-input="select-show">
                   <option <%= 'selected' if @real_estate.shape == 0 %> data-hide="normal-shape" value="0">Bình thường</option>
                   <option <%= 'selected' if @real_estate.shape == 1 %> data-show="normal-shape" value="1">Nở hậu</option>
                   <option <%= 'selected' if @real_estate.shape == 2 %> data-show="normal-shape" value="2">Tóp hậu</option>
                 </select>
               </div>
-              <div class="col-sm-2 col-xs-5 col-xs-offset-4 input-group" data-controlled="normal-shape" <%= 'hidden' if @real_estate.shape != 1 && @real_estate != 2 %>>
-                <input value="<%= @real_estate.shape_width %>" name="real_estate[shape_width]" class="form-control only-number required" size="2" id="shape_width">
+              <div class="col-sm-2 col-xs-5 col-xs-offset-4 input-group" data-toggle-input-object="normal-shape">
+                <input value="<%= @real_estate.shape_width %>" name="real_estate[shape_width]" class="form-control" data-constraint="only-number" data-validate="required" size="2" id="shape_width">
                 <div class="input-group-addon">m</div>
               </div>
             </li>
-            <li class="form-group sub-item" data-controlled="un-land house apartment un-space" <%= 'hidden' unless temp.include? :floor_number %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment un-space">
               <label class="control-label col-sm-4" for="floor_number">Số tầng:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[floor_number]" id="floor_number">
@@ -313,7 +312,7 @@
                 </select>
               </div>
             </li>                          
-            <li class="form-group sub-item" data-controlled="un-land house apartment space" <%= 'hidden' unless temp.include? :restroom_number %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
               <label class="control-label col-sm-4" for="restroom_number">WC:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[restroom_number]" id="restroom_number">
@@ -324,7 +323,7 @@
                 </select>
               </div>                      
             </li>
-            <li class="form-group sub-item" data-controlled="un-land house apartment space" <%= 'hidden' unless temp.include? :bedroom_number %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
               <label class="control-label col-sm-4" for="bedroom_number">Phòng ngủ:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[bedroom_number]" id="bedroom_number">
@@ -336,7 +335,7 @@
                 </select>
               </div>
             </li>
-            <li class="form-group sub-item" data-controlled="un-land house apartment space" <%= 'hidden' unless temp.include? :direction_id %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
               <label class="control-label col-sm-4" for="direction">Hướng nhà:</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[direction_id]" id="direction">
@@ -346,7 +345,7 @@
                 </select>
               </div>                       
             </li>
-            <li class="form-group sub-item" data-controlled="un-land house apartment space" <%= 'hidden' unless temp.include? :build_year %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
               <label class="control-label col-sm-4" for="build_year">Năm xây dựng:</label>
               <div class="col-sm-3">
                 <select class="form-control" name="real_estate[build_year]" id="build_year" data-value="<%= @real_estate.build_year %>">
@@ -354,7 +353,7 @@
                 </select>
               </div>                    
             </li>            
-            <li class="form-group sub-item" data-controlled="un-land house apartment space un-villa home-city un-luxury-apartment apartment-building" <%= 'hidden' unless temp.include? :constructional_level_id %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space un-villa home-city un-luxury-apartment apartment-building">
               <label class="control-label col-sm-4" for="construction_level">Phân loại nhà:</label>
               <div class="col-sm-3">
                 <select class="form-control" name="real_estate[constructional_level_id]" id="construction_level">
@@ -364,16 +363,65 @@
                 </select>
               </div>                  
             </li>
-            <li class="form-group sub-item" data-controlled="un-land house apartment space" <%= 'hidden' unless temp.include? :constructional_quality %>>
+            <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
               <label class="control-label col-sm-4" for="construction_quality">Chất lượng nhà còn lại:</label>
               <div class="col-sm-3 input-group">
-                <input value="<%= @real_estate.constructional_quality %>" class="form-control only-number required" name="real_estate[constructional_quality]" id="construction_quality">
+                <input value="<%= @real_estate.constructional_quality %>" class="form-control" data-constraint="only-number" data-validate="required" name="real_estate[constructional_quality]" id="construction_quality">
                 <div class="input-group-addon">%</div>
               </div>                  
             </li>            
           </ul>
         </li>
         <!-- #End item "Loại hình bất động sản" -->
+        <!-- #Start item "Hồ sơ pháp lý" -->
+        <li class="item" data-toggle-input-object="sell un-rent">
+          <div class="item-title">Hồ sơ pháp lý</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="legal_records">Loại:</label>
+              <div class="col-sm-4">
+                <select name="real_estate[legal_record_type_id]" class="form-control" data-toggle-input="select-show" id="legal_records">
+                  <% LegalRecordType.get_options.each do |legal_record_type| %>
+                      <option <%= 'selected' if legal_record_type.id == @real_estate.legal_record_type_id || (legal_record_type.code == 'Custom' && @real_estate.legal_record_type_id == 0) %> value="<%= legal_record_type.code != 'Custom' ? legal_record_type.id : 0 %>" <%= legal_record_type.options_hash['html']['attributes'] if defined? legal_record_type.options_hash['html']['attributes']%>><%= legal_record_type.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </li>
+            <li class="form-group" data-toggle-input-object="different-legal">
+              <label class="control-label col-sm-3 hidden-xs"></label>
+              <div class="col-sm-4">
+                <input value="<%= @real_estate.custom_legal_record_type %>" name="real_estate[custom_legal_record_type]" class="form-control" data-validate="required" id="legal_record_different">
+              </div>
+            </li>
+          </ul>
+        </li>
+        <!-- #End item "Hồ sơ pháp lý" -->
+        <!-- #Start item "Tình trạng quy hoạch" -->
+        <li class="item" data-toggle-input-object="sell un-rent">
+          <div class="item-title">Tình trạng quy hoạch</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="planning_status">Loại:</label>
+              <div class="col-sm-4">
+                <select name="real_estate[planning_status_type_id]" class="form-control" data-toggle-input="select-show" id="planning_status">
+                  <% PlanningStatusType.get_options.each do |planning_status_type| %>
+                      <option <%= 'selected' if planning_status_type.id == @real_estate.planning_status_type_id || (planning_status_type.code == 'Custom' && @real_estate.planning_status_type_id == 0) %> value="<%= planning_status_type.code != 'Custom' ? planning_status_type.id : 0 %>" <%= planning_status_type.options_hash['html']['attributes'] if defined? planning_status_type.options_hash['html']['attributes']%>><%= planning_status_type.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </li>
+            <li class="form-group" data-toggle-input-object="different-planning">
+              <label class="control-label col-sm-3 hidden-xs"></label>
+              <div class="col-sm-4">
+                <input value="<%= @real_estate.custom_planning_status_type %>" name="real_estate[custom_planning_status_type]" class="form-control" data-validate="required" id="planning_status_different">
+              </div>
+            </li>
+            <li class="form-group" data-toggle-input-object="sell un-rent">
+              <div class="col-sm-6 col-sm-offset-3 col-xs-12" id="plan_table"><a href="#" class="btn btn-link">Bảng quy hoạch chi tiết</a></div>
+            </li>
+          </ul>
+        </li>
+        <!-- #End item "Tình trạng quy hoạch" -->
         <!-- #Start item "Nội dung tin đăng" -->
         <li class="item">
           <div class="item-title">Nội dung tin đăng</div>
@@ -381,69 +429,20 @@
             <li class="form-group">            
               <label class="control-label col-sm-3" for="title">Tiêu đề:</label>
               <div class="col-sm-9">
-                <input value="<%= @real_estate.title %>" name="real_estate[title]" class="form-control required" id="title">
+                <input value="<%= @real_estate.title %>" name="real_estate[title]" class="form-control" data-validate="required" id="title">
               </div>
             </li>
             <li class="form-group">            
               <label class="control-label col-sm-3" for="description">Nội dung:</label>
               <div class="col-sm-9">
-                <textarea name="real_estate[description]" class="form-control required" id="description"><%= @real_estate.description %></textarea>
+                <textarea name="real_estate[description]" class="form-control" data-validate="required" id="description"><%= @real_estate.description %></textarea>
               </div>
             </li>            
           </ul>
         </li>
         <!-- #End item "Nội dung tin đăng" -->
-        <!-- #Start item "Hồ sơ pháp lý" -->
-        <li class="item continue-composing" data-controlled="sell un-rent" <%= 'hidden' if @real_estate.id.blank? %>>
-          <div class="item-title">Hồ sơ pháp lý</div>
-          <ul class="item-content">
-            <li class="form-group">            
-              <label class="control-label col-sm-3" for="legal_records">Loại:</label>
-              <div class="col-sm-4">
-                <select name="real_estate[legal_record_type_id]" class="form-control" data-feature="will-change-select" id="legal_records">
-                  <% LegalRecordType.get_options.each do |legal_record_type| %>
-                      <option <%= 'selected' if legal_record_type.id == @real_estate.legal_record_type_id || (legal_record_type.code == 'Custom' && @real_estate.legal_record_type_id == 0) %> value="<%= legal_record_type.code != 'Custom' ? legal_record_type.id : 0 %>" <%= legal_record_type.options_hash['html']['attributes'] if defined? legal_record_type.options_hash['html']['attributes']%>><%= legal_record_type.name %></option>
-                  <% end %>
-                </select>
-              </div>               
-            </li>
-            <li class="form-group" data-controlled="different-legal" <%= 'hidden' if @real_estate.legal_record_type_id != 0 %>>
-              <label class="control-label col-sm-3 hidden-xs"></label>
-              <div class="col-sm-4">
-                <input value="<%= @real_estate.custom_legal_record_type %>" name="real_estate[custom_legal_record_type]" class="form-control required" id="legal_record_different">
-              </div>                      
-            </li>            
-          </ul>
-        </li>
-        <!-- #End item "Hồ sơ pháp lý" -->
-        <!-- #Start item "Tình trạng quy hoạch" -->
-        <li class="item continue-composing" data-controlled="sell un-rent" <%= 'hidden' if @real_estate.id.blank? %>>
-          <div class="item-title">Tình trạng quy hoạch</div>
-          <ul class="item-content">
-            <li class="form-group">            
-              <label class="control-label col-sm-3" for="planning_status">Loại:</label>
-              <div class="col-sm-4">
-                <select name="real_estate[planning_status_type_id]" class="form-control" data-feature="will-change-select" id="planning_status">
-                  <% PlanningStatusType.get_options.each do |planning_status_type| %>
-                      <option <%= 'selected' if planning_status_type.id == @real_estate.planning_status_type_id || (planning_status_type.code == 'Custom' && @real_estate.planning_status_type_id == 0) %> value="<%= planning_status_type.code != 'Custom' ? planning_status_type.id : 0 %>" <%= planning_status_type.options_hash['html']['attributes'] if defined? planning_status_type.options_hash['html']['attributes']%>><%= planning_status_type.name %></option>
-                  <% end %>
-                </select>
-              </div>
-            </li>
-            <li class="form-group" data-controlled="different-planning" <%= 'hidden' if @real_estate.planning_status_type_id != 0 %>>
-              <label class="control-label col-sm-3 hidden-xs"></label>
-              <div class="col-sm-4">
-                <input value="<%= @real_estate.custom_planning_status_type %>" name="real_estate[custom_planning_status_type]" class="form-control required" id="planning_status_different">
-              </div>               
-            </li>
-            <li class="form-group" data-controlled="sell un-rent">
-              <div class="col-sm-6 col-sm-offset-3 col-xs-12" id="plan_table"><a href="#" class="btn btn-link">Bảng quy hoạch chi tiết</a></div>
-            </li>              
-          </ul>
-        </li>
-        <!-- #End item "Tình trạng quy hoạch" -->
         <!-- #Start item "Tiện nghi khác" -->
-        <li class="item continue-composing" <%= 'hidden' if @real_estate.id.blank? %>>
+        <li class="item until-full">
           <div class="item-title">Tiện nghi khác</div>
           <ul class="item-content">
             <li class="form-group">            
@@ -457,7 +456,7 @@
         </li>
         <!-- #End item "Tiện nghi khác" -->
         <!-- #Start item "Tiện ích khu vực" -->
-        <li class="item continue-composing" <%= 'hidden' if @real_estate.id.blank? %>>
+        <li class="item until-full">
           <div class="item-title">Tiện ích khu vực</div>
           <ul class="item-content">
             <li class="form-group">            
@@ -471,7 +470,7 @@
         </li>
         <!-- #End item "Tiện ích khu vực" -->
         <!-- #Start item "Đánh giá các đặc điểm khác" -->
-        <li class="item continue-composing" <%= 'hidden' if @real_estate.id.blank? %>>
+        <li class="item until-full">
           <div class="item-title">
             Đánh giá các đặc điểm khác
             <a href="#" class="support-button" data-value="#support_characteristic_differents"></a>
@@ -512,7 +511,7 @@
         </li>
         <!-- #End item "Đánh giá các đặc điểm khác" -->
         <!-- #Start item "Hình ảnh" -->
-        <li class="item continue-composing" <%= 'hidden' if @real_estate.id.blank? %>>
+        <li class="item until-full">
           <div class="item-title">Hình ảnh</div>
           <ul class="item-content">
             <li class="form-group">

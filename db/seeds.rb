@@ -7,11 +7,12 @@ Advantage.create name: 'Có 2 mặt hẻm'
 Advantage.create name: 'Có một mặt đường chính và 1 mặt hẻm'
 Advantage.create name: 'Tiện làm quán cafe, nhà hàng, khách sạn'
 
-ConstructionalLevel.create name: 'Nhà cấp 1';
-ConstructionalLevel.create name: 'Nhà cấp 2';
-ConstructionalLevel.create name: 'Nhà cấp 3';
-ConstructionalLevel.create name: 'Nhà cấp 4';
-ConstructionalLevel.create name: 'Nhà tạm';
+ConstructionalLevel.create name: 'Nhà cấp 1'
+ConstructionalLevel.create name: 'Nhà cấp 2'
+ConstructionalLevel.create name: 'Nhà cấp 3'
+ConstructionalLevel.create name: 'Nhà cấp 4'
+ConstructionalLevel.create name: 'Nhà tạm'
+ConstructionalLevel.create name: 'Nhà thô'
 
 Currency.create name: 'VNĐ', options: '{"html":{"attributes":"data-value=VND"}}'
 Currency.create name: 'USD', options: '{"html":{"attributes":"data-value=USD"}}'
@@ -87,3 +88,8 @@ Unit.create name: 'Tổng diện tích', options: '{"group":"Ban"}'
 Unit.create name: 'Mét vuông', options: '{"group":"Ban"}'
 Unit.create name: 'Tháng', options: '	{"group":"Thue"}'
 Unit.create name: 'Năm', options: '	{"group":"Thue"}'
+
+Province.create name: 'Hồ Chí Minh'
+District.create name: '1', province_id: 1
+Ward.create name: 'Bến Nghé', province_id: 1
+Street.create name: 'Lê Lợi', province_id: 1

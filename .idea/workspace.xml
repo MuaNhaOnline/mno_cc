@@ -34,63 +34,11 @@
     <favorites_list name="mno_cc" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="20150420113634_add_default_value_into_real_estates.rb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20150420113634_add_default_value_into_real_estates.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="234">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="create.html.erb" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/real_estates/create.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5478261" vertical-offset="4365" max-vertical-offset="10476">
-              <caret line="253" column="104" selection-start-line="253" selection-start-column="104" selection-end-line="253" selection-end-column="104" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manager.html.erb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/real_estates/manager.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5185184" vertical-offset="301" max-vertical-offset="972">
-              <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="create.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.111111" vertical-offset="2426" max-vertical-offset="6354">
-              <caret line="145" column="19" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/db/migrate/20150326175446_add_columns_into_real_estates.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/testing_controller.rb" />
-        <option value="$PROJECT_DIR$/db/migrate/20150331134520_add_order_columns.rb" />
-        <option value="$PROJECT_DIR$/app/models/advantage.rb" />
-        <option value="$PROJECT_DIR$/app/models/constructional_level.rb" />
-        <option value="$PROJECT_DIR$/app/models/direction.rb" />
-        <option value="$PROJECT_DIR$/app/models/disadvantage.rb" />
-        <option value="$PROJECT_DIR$/app/models/legal_record_type.rb" />
-        <option value="$PROJECT_DIR$/app/models/planning_status_type.rb" />
-        <option value="$PROJECT_DIR$/app/models/property_utility.rb" />
-        <option value="$PROJECT_DIR$/app/models/purpose.rb" />
         <option value="$PROJECT_DIR$/app/models/real_estate_type.rb" />
         <option value="$PROJECT_DIR$/app/models/region_utility.rb" />
         <option value="$PROJECT_DIR$/app/models/street_type.rb" />
@@ -106,31 +54,42 @@
         <option value="$PROJECT_DIR$/db/migrate/20150402073737_add_name_into_images.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20150402075419_add_type_into_images.rb" />
         <option value="$PROJECT_DIR$/config/application.rb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/real_estates/create.css" />
         <option value="$PROJECT_DIR$/db/migrate/20150402122449_rename_real_estates_images_table.rb" />
         <option value="$PROJECT_DIR$/app/models/ward.rb" />
         <option value="$PROJECT_DIR$/app/models/currency.rb" />
-        <option value="$PROJECT_DIR$/db/seeds.rb" />
-        <option value="$PROJECT_DIR$/config/database.yml" />
         <option value="$PROJECT_DIR$/app/views/provinces/get_full_data.json.jbuilder" />
         <option value="$PROJECT_DIR$/db/migrate/20150413033956_update_images_table.rb" />
         <option value="$PROJECT_DIR$/app/models/image.rb" />
         <option value="$PROJECT_DIR$/app/controllers/images_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/projects/create.js" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/real_estates/manager.js" />
-        <option value="$PROJECT_DIR$/app/views/real_estates/view.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/shared/layout.css" />
-        <option value="$PROJECT_DIR$/app/views/real_estates/_preview.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/real_estates_controller.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/shared/layout_admin.js" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/shared/layout_admin.css" />
-        <option value="$PROJECT_DIR$/app/models/real_estate.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20150420113114_insert_is_pending_into_real_estates.rb" />
         <option value="$PROJECT_DIR$/app/views/real_estates/manager.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js" />
         <option value="$PROJECT_DIR$/db/migrate/20150420113634_add_default_value_into_real_estates.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/shared/layout_admin.js" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/businesses/create.css" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/shared/layout_back.js" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/shared/layout_front.js" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/shared/layout_back.css" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/shared/layout.css" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/shared/layout_front.css" />
+        <option value="$PROJECT_DIR$/app/views/layouts/layout_admin.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/layout_front.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/layout_back.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/shared/bootstrap.min.css" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/shared/layout.js" />
+        <option value="$PROJECT_DIR$/app/views/real_estates/_preview.html.erb" />
+        <option value="$PROJECT_DIR$/config/database.yml" />
+        <option value="$PROJECT_DIR$/db/seeds.rb" />
+        <option value="$PROJECT_DIR$/app/models/real_estate.rb" />
+        <option value="$PROJECT_DIR$/app/views/real_estates/view.html.erb" />
+        <option value="$PROJECT_DIR$/app/helpers/application_helper.rb" />
         <option value="$PROJECT_DIR$/app/views/real_estates/create.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/real_estates/create.css" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js" />
       </list>
     </option>
   </component>
@@ -184,6 +143,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="RailsProjectView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -212,7 +173,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -226,18 +191,174 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="migrate" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layouts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stylesheets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stylesheets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="real_estates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mno_cc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="RailsProjectView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -245,7 +366,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="Currency&#9;null&#9;null" />
@@ -253,6 +374,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/assets/stylesheets/shared" />
+      <recent name="$PROJECT_DIR$/app/assets/javascripts/shared" />
       <recent name="$PROJECT_DIR$/app/views/real_estates" />
     </key>
   </component>
@@ -407,7 +530,7 @@
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SpellCheckerSettings" BundledDictionaries="76" BundledDictionary0="rspec-rails.dic" BundledDictionary1="mustache.dic" BundledDictionary2="shoulda-matchers.dic" BundledDictionary3="ffi.dic" BundledDictionary4="ruby.dic" BundledDictionary5="css.dic" BundledDictionary6="multi_json.dic" BundledDictionary7="shoulda-context.dic" BundledDictionary8="activemodel.dic" BundledDictionary9="arel.dic" BundledDictionary10="selenium-webdriver.dic" BundledDictionary11="erubis.dic" BundledDictionary12="hashie.dic" BundledDictionary13="rubyzip.dic" BundledDictionary14="gherkin.dic" BundledDictionary15="highline.dic" BundledDictionary16="webrat.dic" BundledDictionary17="journey.dic" BundledDictionary18="net-ssh.dic" BundledDictionary19="spork.dic" BundledDictionary20="nokogiri.dic" BundledDictionary21="rdoc.dic" BundledDictionary22="capistrano.dic" BundledDictionary23="jetbrains.dic" BundledDictionary24="cucumber.dic" BundledDictionary25="xpath.dic" BundledDictionary26="mime-types.dic" BundledDictionary27="tilt.dic" BundledDictionary28="rack-ssl.dic" BundledDictionary29="systemu.dic" BundledDictionary30="less.dic" BundledDictionary31="errno.dic" BundledDictionary32="rake.dic" BundledDictionary33="bundler.dic" BundledDictionary34="redis.dic" BundledDictionary35="rack.dic" BundledDictionary36="chef.dic" BundledDictionary37="english.dic" BundledDictionary38="metaclass.dic" BundledDictionary39="rspec-expectations.dic" BundledDictionary40="mixlib-shellout.dic" BundledDictionary41="i18n.dic" BundledDictionary42="polyglot.dic" BundledDictionary43="sprockets.dic" BundledDictionary44="treetop.dic" BundledDictionary45="rack-cache.dic" BundledDictionary46="resque.dic" BundledDictionary47="activerecord.dic" BundledDictionary48="hpricot.dic" BundledDictionary49="rspec-core.dic" BundledDictionary50="ohai.dic" BundledDictionary51="sinatra.dic" BundledDictionary52="rspec-mocks.dic" BundledDictionary53="eventmachine.dic" BundledDictionary54="json.dic" BundledDictionary55="diff-lcs.dic" BundledDictionary56="factory_girl.dic" BundledDictionary57="mocha.dic" BundledDictionary58="haml.dic" BundledDictionary59="net-sftp.dic" BundledDictionary60="RedCloth.dic" BundledDictionary61="capybara.dic" BundledDictionary62="websocket.dic" BundledDictionary63="childprocess.dic" BundledDictionary64="mixlib-authentication.dic" BundledDictionary65="mail.dic" BundledDictionary66="cucumber-rails.dic" BundledDictionary67="railties.dic" BundledDictionary68="omniauth.dic" BundledDictionary69="activesupport.dic" BundledDictionary70="authlogic.dic" BundledDictionary71="builder.dic" BundledDictionary72="actionpack.dic" BundledDictionary73="hike.dic" BundledDictionary74="carrierwave.dic" BundledDictionary75="ipaddress.dic" Folders="0" Dictionaries="0" />
+  <component name="SpellCheckerSettings" BundledDictionaries="76" BundledDictionary0="rspec-rails.dic" BundledDictionary1="mustache.dic" BundledDictionary2="shoulda-matchers.dic" BundledDictionary3="ffi.dic" BundledDictionary4="ruby.dic" BundledDictionary5="css.dic" BundledDictionary6="multi_json.dic" BundledDictionary7="shoulda-context.dic" BundledDictionary8="activemodel.dic" BundledDictionary9="arel.dic" BundledDictionary10="selenium-webdriver.dic" BundledDictionary11="erubis.dic" BundledDictionary12="hashie.dic" BundledDictionary13="rubyzip.dic" BundledDictionary14="highline.dic" BundledDictionary15="gherkin.dic" BundledDictionary16="webrat.dic" BundledDictionary17="journey.dic" BundledDictionary18="net-ssh.dic" BundledDictionary19="spork.dic" BundledDictionary20="nokogiri.dic" BundledDictionary21="capistrano.dic" BundledDictionary22="rdoc.dic" BundledDictionary23="jetbrains.dic" BundledDictionary24="cucumber.dic" BundledDictionary25="xpath.dic" BundledDictionary26="mime-types.dic" BundledDictionary27="tilt.dic" BundledDictionary28="rack-ssl.dic" BundledDictionary29="systemu.dic" BundledDictionary30="less.dic" BundledDictionary31="errno.dic" BundledDictionary32="rake.dic" BundledDictionary33="bundler.dic" BundledDictionary34="redis.dic" BundledDictionary35="rack.dic" BundledDictionary36="chef.dic" BundledDictionary37="english.dic" BundledDictionary38="metaclass.dic" BundledDictionary39="rspec-expectations.dic" BundledDictionary40="mixlib-shellout.dic" BundledDictionary41="i18n.dic" BundledDictionary42="polyglot.dic" BundledDictionary43="sprockets.dic" BundledDictionary44="treetop.dic" BundledDictionary45="rack-cache.dic" BundledDictionary46="resque.dic" BundledDictionary47="activerecord.dic" BundledDictionary48="hpricot.dic" BundledDictionary49="ohai.dic" BundledDictionary50="rspec-core.dic" BundledDictionary51="eventmachine.dic" BundledDictionary52="rspec-mocks.dic" BundledDictionary53="sinatra.dic" BundledDictionary54="json.dic" BundledDictionary55="diff-lcs.dic" BundledDictionary56="mocha.dic" BundledDictionary57="factory_girl.dic" BundledDictionary58="net-sftp.dic" BundledDictionary59="haml.dic" BundledDictionary60="capybara.dic" BundledDictionary61="RedCloth.dic" BundledDictionary62="websocket.dic" BundledDictionary63="childprocess.dic" BundledDictionary64="mixlib-authentication.dic" BundledDictionary65="mail.dic" BundledDictionary66="cucumber-rails.dic" BundledDictionary67="railties.dic" BundledDictionary68="omniauth.dic" BundledDictionary69="builder.dic" BundledDictionary70="authlogic.dic" BundledDictionary71="activesupport.dic" BundledDictionary72="actionpack.dic" BundledDictionary73="hike.dic" BundledDictionary74="carrierwave.dic" BundledDictionary75="ipaddress.dic" Folders="0" Dictionaries="0" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -450,7 +573,9 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11439394" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27348486" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986626" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -458,9 +583,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986626" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -483,67 +606,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/app/assets/javascripts/shared/layout.js</url>
+          <line>12</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/street.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09391304" vertical-offset="0" max-vertical-offset="575">
-          <caret line="3" column="46" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/provinces/index.json.jbuilder">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11197512" vertical-offset="0" max-vertical-offset="643">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/district.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.083981335" vertical-offset="0" max-vertical-offset="643">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/province.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="234">
-          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/404.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1314">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/advantages_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7838258" vertical-offset="108" max-vertical-offset="1440">
-          <caret line="34" column="83" selection-start-line="34" selection-start-column="62" selection-end-line="34" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/advantages/_form.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20454545" vertical-offset="0" max-vertical-offset="630">
-          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.2.0/gems/activerecord-4.2.0/lib/active_record/relation.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12366">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.2.0/gems/activemodel-4.2.0/lib/active_model/translation.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33281493" vertical-offset="542" max-vertical-offset="1350">
@@ -600,13 +674,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/real_estates/create.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54285717" vertical-offset="4266" max-vertical-offset="4896">
-          <caret line="256" column="23" selection-start-line="256" selection-start-column="23" selection-end-line="256" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/ward.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.083981335" vertical-offset="0" max-vertical-offset="643">
@@ -635,13 +702,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/database.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="1710">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/provinces/get_full_data.json.jbuilder">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.47589424" vertical-offset="0" max-vertical-offset="643">
@@ -656,13 +716,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/seeds.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25714287" vertical-offset="0" max-vertical-offset="1692">
-          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/real_estates/real_estates_pending.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4896">
@@ -674,7 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.05598756" vertical-offset="0" max-vertical-offset="643">
           <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -682,13 +734,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.64385694" vertical-offset="0" max-vertical-offset="643">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers/application_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47589424" vertical-offset="0" max-vertical-offset="643">
-          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -734,25 +779,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/manager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="738">
-          <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/routes.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="2358">
           <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/real_estates/view.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43283582" vertical-offset="4995" max-vertical-offset="7596">
-          <caret line="298" column="10" selection-start-line="45" selection-start-column="0" selection-end-line="298" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -763,54 +793,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/shared/layout.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.01318" vertical-offset="9869" max-vertical-offset="10476">
-          <caret line="42" column="26" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/layout.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="3942">
-          <caret line="7" column="80" selection-start-line="7" selection-start-column="80" selection-end-line="11" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/real_estate.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2809524" vertical-offset="3" max-vertical-offset="3744">
-          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/real_estates/_preview.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8095238" vertical-offset="4257" max-vertical-offset="4824">
-          <caret line="262" column="10" selection-start-line="262" selection-start-column="10" selection-end-line="262" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/real_estates_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5598756" vertical-offset="468" max-vertical-offset="1440">
           <caret line="46" column="67" selection-start-line="46" selection-start-column="67" selection-end-line="46" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/shared/layout_admin.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7278383" vertical-offset="846" max-vertical-offset="7380">
-          <caret line="73" column="22" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/shared/layout_admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5303266" vertical-offset="2629" max-vertical-offset="4266">
-          <caret line="165" column="53" selection-start-line="165" selection-start-column="53" selection-end-line="165" selection-end-column="53" />
         </state>
       </provider>
     </entry>
@@ -818,39 +804,296 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.05598756" vertical-offset="0" max-vertical-offset="643">
           <caret line="2" column="51" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/models/real_estate_test.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="643">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/real_estates/manager.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5185184" vertical-offset="301" max-vertical-offset="972">
+        <state vertical-scroll-proportion="0.24709785" vertical-offset="301" max-vertical-offset="972">
           <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/shared/layout_back.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/shared/layout_front.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16796267" vertical-offset="0" max-vertical-offset="643">
+          <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/shared/bootstrap-datepicker.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2" vertical-offset="0" max-vertical-offset="630">
+          <caret line="7" column="154" selection-start-line="7" selection-start-column="154" selection-end-line="7" selection-end-column="154" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/manager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5318818" vertical-offset="36" max-vertical-offset="738">
+          <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/shared/layout_front.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6718507" vertical-offset="432" max-vertical-offset="10296">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/shared/layout_back.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.111111" vertical-offset="2426" max-vertical-offset="6354">
-          <caret line="145" column="19" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
+        <state vertical-scroll-proportion="-5.6267495" vertical-offset="3618" max-vertical-offset="5868">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/shared/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22395024" vertical-offset="0" max-vertical-offset="1494">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/layout_back.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8092869" vertical-offset="1546" max-vertical-offset="2178">
+          <caret line="113" column="39" selection-start-line="113" selection-start-column="39" selection-end-line="113" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/layout_front.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.79545456" vertical-offset="3344" max-vertical-offset="3978">
+          <caret line="213" column="40" selection-start-line="213" selection-start-column="40" selection-end-line="213" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/shared/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.121212125" vertical-offset="0" max-vertical-offset="594">
+          <caret line="4" column="36693" selection-start-line="4" selection-start-column="36693" selection-end-line="4" selection-end-column="36693" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/database.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="311" max-vertical-offset="1710">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/seeds.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="738" max-vertical-offset="1800">
+          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/shared/layout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="308" max-vertical-offset="1728">
+          <caret line="86" column="49" selection-start-line="86" selection-start-column="49" selection-end-line="86" selection-end-column="49" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#39#92#0" expanded="false" />
+            <element signature="e#140#167#0" expanded="false" />
+            <element signature="e#324#1203#0" expanded="false" />
+            <element signature="e#334#347#0" expanded="false" />
+            <element signature="e#633#726#0" expanded="false" />
+            <element signature="e#732#1197#0" expanded="false" />
+            <element signature="e#864#1185#0" expanded="false" />
+            <element signature="e#1054#1171#0" expanded="false" />
+            <element signature="e#1703#1820#0" expanded="false" />
+            <element signature="e#1750#1810#0" expanded="false" />
+            <element signature="e#1920#1962#0" expanded="false" />
+            <element signature="e#2040#2106#0" expanded="false" />
+            <element signature="e#2243#2423#0" expanded="false" />
+            <element signature="e#2329#2405#0" expanded="false" />
+            <element signature="e#2547#2694#0" expanded="false" />
+            <element signature="e#3130#3158#0" expanded="false" />
+            <element signature="e#3197#5293#0" expanded="false" />
+            <element signature="e#3234#3331#0" expanded="false" />
+            <element signature="e#3282#3321#0" expanded="false" />
+            <element signature="e#3348#3629#0" expanded="false" />
+            <element signature="e#3652#4989#0" expanded="false" />
+            <element signature="e#3692#4773#0" expanded="false" />
+            <element signature="e#3879#4325#0" expanded="false" />
+            <element signature="e#4030#4281#0" expanded="false" />
+            <element signature="e#4347#4602#0" expanded="false" />
+            <element signature="e#4409#4582#0" expanded="false" />
+            <element signature="e#4692#4759#0" expanded="false" />
+            <element signature="e#4791#4979#0" expanded="false" />
+            <element signature="e#4831#4885#0" expanded="false" />
+            <element signature="e#4907#4965#0" expanded="false" />
+            <element signature="e#5008#5168#0" expanded="false" />
+            <element signature="e#5044#5090#0" expanded="false" />
+            <element signature="e#5108#5158#0" expanded="false" />
+            <element signature="e#5189#5285#0" expanded="false" />
+            <element signature="e#5227#5275#0" expanded="false" />
+            <element signature="e#5413#5441#0" expanded="false" />
+            <element signature="e#5790#6017#0" expanded="false" />
+            <element signature="e#5932#6009#0" expanded="false" />
+            <element signature="e#6047#6073#0" expanded="false" />
+            <marker date="1429787939344" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1429787939344" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1429787939344" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/real_estates/_preview.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="4734">
+          <caret line="1" column="56" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers/application_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30793157" vertical-offset="0" max-vertical-offset="643">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/real_estate.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.82857144" vertical-offset="3222" max-vertical-offset="4356">
+          <caret line="150" column="60" selection-start-line="150" selection-start-column="60" selection-end-line="150" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/real_estates/view.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.3001657" vertical-offset="737" max-vertical-offset="7596">
+          <caret line="258" column="27" selection-start-line="258" selection-start-column="27" selection-end-line="258" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20150420113634_add_default_value_into_real_estates.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="234">
+        <state vertical-scroll-proportion="0.19595645" vertical-offset="0" max-vertical-offset="643">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/businesses/create.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1836">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/real_estates/create.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42857143" vertical-offset="3726" max-vertical-offset="5292">
+          <caret line="222" column="32" selection-start-line="222" selection-start-column="32" selection-end-line="222" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/real_estates/create.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5478261" vertical-offset="4365" max-vertical-offset="10476">
-          <caret line="253" column="104" selection-start-line="253" selection-start-column="104" selection-end-line="253" selection-end-column="104" />
+        <state vertical-scroll-proportion="0.8225539" vertical-offset="9062" max-vertical-offset="10458">
+          <caret line="531" column="32" selection-start-line="531" selection-start-column="32" selection-end-line="531" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/real_estates/create.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5714286" vertical-offset="702" max-vertical-offset="1890">
+          <caret line="293" column="80" selection-start-line="293" selection-start-column="80" selection-end-line="293" selection-end-column="80" />
+          <folding>
+            <element signature="e#414#444#0" expanded="false" />
+            <element signature="e#565#873#0" expanded="false" />
+            <element signature="e#944#1463#0" expanded="false" />
+            <element signature="e#1121#1282#0" expanded="false" />
+            <element signature="e#1296#1457#0" expanded="false" />
+            <element signature="e#1537#1902#0" expanded="false" />
+            <element signature="n#!!block;n#init_ToggleInputs#0" expanded="false" />
+            <element signature="e#2018#2326#0" expanded="false" />
+            <element signature="e#2396#2915#0" expanded="false" />
+            <element signature="e#2573#2734#0" expanded="false" />
+            <element signature="e#2748#2909#0" expanded="false" />
+            <element signature="e#2988#3352#0" expanded="false" />
+            <element signature="e#3371#3398#0" expanded="false" />
+            <element signature="n#!!block;n#init_BuildYear#0" expanded="false" />
+            <element signature="e#3686#3806#0" expanded="false" />
+            <element signature="e#4072#4097#0" expanded="false" />
+            <element signature="n#!!block;n#init_UnitFormat#0" expanded="false" />
+            <element signature="e#4233#4648#0" expanded="false" />
+            <element signature="e#4308#4468#0" expanded="false" />
+            <element signature="e#4482#4642#0" expanded="false" />
+            <element signature="e#4686#4807#0" expanded="false" />
+            <element signature="n#!!block;n#numbericFormat#0" expanded="false" />
+            <element signature="n#!!block;n#insertSeparate#0" expanded="false" />
+            <element signature="e#5057#5174#0" expanded="false" />
+            <element signature="e#5207#5231#0" expanded="false" />
+            <element signature="n#!!block;n#init_Constraint#0" expanded="false" />
+            <element signature="e#5355#5887#0" expanded="false" />
+            <element signature="e#5821#5852#0" expanded="false" />
+            <element signature="e#5906#5932#0" expanded="false" />
+            <element signature="n#!!block;n#initImageUpload#0" expanded="false" />
+            <element signature="e#6002#7772#0" expanded="false" />
+            <element signature="e#6067#6098#0" expanded="false" />
+            <element signature="e#6515#7225#0" expanded="false" />
+            <element signature="e#6724#7215#0" expanded="false" />
+            <element signature="e#6804#7173#0" expanded="false" />
+            <element signature="e#6912#7104#0" expanded="false" />
+            <element signature="e#6960#7082#0" expanded="false" />
+            <element signature="e#7247#7620#0" expanded="false" />
+            <element signature="e#7283#7533#0" expanded="false" />
+            <element signature="e#7551#7610#0" expanded="false" />
+            <element signature="e#7638#7689#0" expanded="false" />
+            <element signature="e#7709#7764#0" expanded="false" />
+            <element signature="e#7824#8135#0" expanded="false" />
+            <element signature="e#7882#7913#0" expanded="false" />
+            <element signature="e#9037#9165#0" expanded="false" />
+            <element signature="e#9200#9364#0" expanded="false" />
+            <element signature="e#9387#10992#0" expanded="false" />
+            <element signature="e#9427#10667#0" expanded="false" />
+            <element signature="e#9510#9607#0" expanded="false" />
+            <element signature="e#9633#10649#0" expanded="false" />
+            <element signature="e#9740#10625#0" expanded="false" />
+            <element signature="e#9741#10384#0" expanded="false" />
+            <element signature="e#9836#10313#0" expanded="false" />
+            <element signature="e#10386#10624#0" expanded="false" />
+            <element signature="e#10485#10598#0" expanded="false" />
+            <element signature="e#10689#10978#0" expanded="false" />
+            <element signature="e#10834#10913#0" expanded="false" />
+            <element signature="e#11011#11070#0" expanded="false" />
+            <element signature="e#11569#11669#0" expanded="false" />
+            <element signature="e#11691#11822#0" expanded="false" />
+            <element signature="e#11840#11905#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

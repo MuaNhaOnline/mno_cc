@@ -1,5 +1,5 @@
 class RealEstatesController < ApplicationController
-  layout 'layout'
+  layout 'layout_front'
   skip_before_filter :verify_authenticity_token, :only => [:save, :delete, :preview]
 
   def index
@@ -29,7 +29,7 @@ class RealEstatesController < ApplicationController
         @real_estate = RealEstate.new
       end
 
-    render layout: 'layout_admin'
+    render layout: 'layout_back'
   end  
 
   def save
@@ -56,11 +56,11 @@ class RealEstatesController < ApplicationController
   def manager
     @real_estates = RealEstate.all
 
-    render layout: 'layout_admin'
+    render layout: 'layout_back'
   end
 
   def real_estates_pending
-    render layout: 'layout_admin'
+    render layout: 'layout_back'
   end
 
   def delete
