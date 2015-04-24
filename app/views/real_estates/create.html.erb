@@ -46,7 +46,7 @@
             <li class="form-group">            
               <label for="price" class="control-label col-sm-3">Giá mong muốn:</label>                                
               <div class="col-sm-4">
-                <input value="<%= @real_estate.price.nil? ? '' : @real_estate.price.round %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control only-number" data-validate="required" id="price" data-separate='.' data-toggle-input-object="price-agree">
+                <input value="<%= @real_estate.price.blank? ? '' : @real_estate.price.round %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control only-number" data-validate="required" id="price" data-separate='.' data-toggle-input-object="price-agree">
               </div>
               <div class="checkbox col-sm-4">
                 <label class="label-non-margin"><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="price-agree"> Giá Thoả thuận</label>
@@ -210,7 +210,7 @@
             <li class="form-group">            
               <label class="control-label col-sm-3" for="property_type">Loại hình:</label>
               <div class="col-sm-4" id="groupLoaiHinh">
-                <select name="real_estate[real_estate_type_group]" class="form-control" data-toggle-input="select-show" id="property_type">
+                <select class="form-control" data-toggle-input="select-show" id="property_type">
                   <% temp = @real_estate.real_estate_type.blank? ? '' : @real_estate.real_estate_type.options_hash['group'] %>
                   <option <%= 'selected' if temp == 'Dat' %> value="Dat" data-show="land" data-hide="un-land">Đất</option>
                   <option <%= 'selected' if temp == 'Nha' %> value="Nha" data-show="house" data-hide="un-house">Nhà</option>
@@ -237,16 +237,16 @@
                    end
                 %>
 
-                <select style="<%= temp.blank? || temp == 'Dat' ? '' : 'display:none;' %>" name="real_estate[real_estate_type_id_dat]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="land un-house un-apartment un-space">
+                <select style="<%= temp.blank? || temp == 'Dat' ? '' : 'display:none;' %>" name="real_estate[real_estate_type_id]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="land un-house un-apartment un-space">
                   <%= dat.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'Nha' %>" name="real_estate[real_estate_type_id_nha]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="un-land house un-apartment un-space">
+                <select style="<%= 'display:none;' if temp != 'Nha' %>" name="real_estate[real_estate_type_id]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="un-land house un-apartment un-space">
                   <%= nha.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'CanHo' %>" name="real_estate[real_estate_type_id_can_ho]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="un-land un-house apartment un-space">
+                <select style="<%= 'display:none;' if temp != 'CanHo' %>" name="real_estate[real_estate_type_id]" class="form-control" data-toggle-input="select-show" data-toggle-input-object="un-land un-house apartment un-space">
                   <%= canHo.html_safe %>
                 </select>
-                <select style="<%= 'display:none;' if temp != 'MatBang' %>" name="real_estate[real_estate_type_id_mat_bang]" class="form-control" data-toggle-input-object="un-land un-house un-apartment space">
+                <select style="<%= 'display:none;' if temp != 'MatBang' %>" name="real_estate[real_estate_type_id]" class="form-control" data-toggle-input-object="un-land un-house un-apartment space">
                   <%= matBang.html_safe %>
                 </select>
               </div>
@@ -550,6 +550,9 @@
             <li class="submit-button">
               <p class="text-center">
                 <button type="submit" class="btn btn-primary"><%= @real_estate.id.blank? ? 'Đăng tin' : 'Cập nhật' %></button>
+                <% if @real_estate.id.blank? || @real_estate.name == 'draft' %>
+                    <button name="real_estate[draft]" type="button" class="btn btn-default" data-feature="save-draft">Lưu tạm</button>
+                <% end %>
                 <button type="button" class="btn btn-default" data-feature="preview">Xem trước</button>
               </p>
               <p id="errors" class="text-center">

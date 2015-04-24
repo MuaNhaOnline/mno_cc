@@ -10,6 +10,7 @@ $(function(e){
     initImageUpload($form.find('.image-upload input[type="file"]'));
     init_Submit($form);
     init_Preview($form);
+    init_SaveDraft($form);
 
     getFullProvinceDataAfterChange();
 });
@@ -28,8 +29,8 @@ function setDefault_ToggleInputs() {
         var hideObject = $option.attr('data-hide');
         var showObject = $option.attr('data-show');
 
-        $('[data-toggle-input-object~="' + hideObject + '"]').hide();
-        $('[data-toggle-input-object~="' + showObject + '"]').show();
+        $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);
+        $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', false);
     });
 
     $('[data-toggle-input~="check-show"]:visible').each(function() {
@@ -40,12 +41,12 @@ function setDefault_ToggleInputs() {
         var showObject = $obj.data('show');
 
         if (checked) {
-            $('*[data-toggle-input-object~="' + hideObject + '"]').hide();
-            $('*[data-toggle-input-object~="' + showObject + '"]').show();
+            $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);
+            $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', false);
         }
         else {
-            $('*[data-toggle-input-object~="' + hideObject + '"]').show();
-            $('*[data-toggle-input-object~="' + showObject + '"]').hide();
+            $('[data-toggle-input-object~="' + hideObject + '"]').show().prop('disabled', false);
+            $('[data-toggle-input-object~="' + showObject + '"]').hide().prop('disabled', true);
         }
     });
 
@@ -69,8 +70,8 @@ function init_ToggleInputs() {
         var hideObject = $option.attr('data-hide');
         var showObject = $option.attr('data-show');
 
-        $('[data-toggle-input-object~="' + hideObject + '"]').hide();
-        $('[data-toggle-input-object~="' + showObject + '"]').show();
+        $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);
+        $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', false);
     });
 
     $('[data-toggle-input="check-show"]').on('change', function() {
@@ -81,12 +82,12 @@ function init_ToggleInputs() {
         var showObject = $obj.data('show');
 
         if (checked) {
-            $('*[data-toggle-input-object~="' + hideObject + '"]').hide();
-            $('*[data-toggle-input-object~="' + showObject + '"]').show();
+            $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);;
+            $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', fakse);;
         }
         else {
-            $('*[data-toggle-input-object~="' + hideObject + '"]').show();
-            $('*[data-toggle-input-object~="' + showObject + '"]').hide();
+            $('[data-toggle-input-object~="' + hideObject + '"]').show().prop('disabled', false);;
+            $('[data-toggle-input-object~="' + showObject + '"]').hide().prop('disabled', true);;
         }
     });
 
@@ -98,7 +99,7 @@ function init_ToggleInputs() {
         var disabledObject = $(this).data('disable');
 
         $('[data-toggle-input-object~="' + enabledObject + '"]').prop('disabled', !checked);
-        $('[data-toggle-input-object~="' + disabledObject + '"').prop('disabled', checked);
+        $('[data-toggle-input-object~="' + disabledObject + '"]').prop('disabled', checked);
     });
 }
 
@@ -350,7 +351,7 @@ function init_Submit($form) {
 
 //endregion
 
-//region Init preview
+//region Init preview, save draft
 
 function init_Preview($form) {
     init_PopupFull($form.find('[data-feature="preview"]'), {
@@ -360,6 +361,31 @@ function init_Preview($form) {
             return $form.serialize();
         }
     }, 'iframe');
+}
+
+function init_SaveDraft($form) {
+    $form.find('[data-feature="save-draft"]').on('click', function () {
+        $.ajax({
+            url: '/real_estates/create',
+            type: 'POST',
+            data: $form.serialize() + '&draft',
+            dataType: 'JSON'
+        }).done(function (data) {
+            if (data.status == 1) {
+
+                if ($form.children('input[name="real_estate[id]"]').length == 0) {
+                    $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
+                    $form.find('button[type="submit"]').text('Bổ sung');
+                }
+                alert('Lưu tạm thành công');
+            }
+            else {
+                alert('Lưu tạm thất bại');
+            }
+        }).fail(function () {
+            alert('Lưu tạm thất bại');
+        })
+    });
 }
 
 //endregion

@@ -24,6 +24,7 @@
 		</thead>	
 		<tbody id="real_estates_list">
             <% @real_estates.each do |real_estate| %>
+                <% status = real_estate.is_draft == 1 ? 'draft' : (real_estate.is_pending ? 'pend' : (!real_estate.is_paid ? 'pay' : (real_estate.is_show ? 'show' : 'hide'))) %>
                 <tr data-value="<%= real_estate.id %>">
                     <td>
                         <span><%= ApplicationHelper.id_format real_estate.id, 'RE'%></span>
@@ -34,12 +35,53 @@
                     <td><%= real_estate.real_estate_type.name %></td>
                     <td><%= real_estate.price.to_s + ' ' + real_estate.currency.name %></td>
                     <td>Chưa xử lý</td>
-                    <td><%= real_estate.is_pending ? 'Chờ duyệt' : (!real_estate.is_paid ? 'Chưa thanh toán' : (real_estate.is_show ? 'Hiển thị' : 'Ẩn')) %></td>
+                    <td>
+                      <%=
+                         case status
+                            when 'draft'
+                              'Đang soạn'
+                            when 'pend'
+                              'Đang chờ duyệt'
+                            when 'pay'
+                              'Chưa thanh toán'
+                            when 'show'
+                              'Đang hiển thị'
+                            when 'hide'
+                              'Đang ẩn'
+                         end
+                      %>
+                    </td>
                     <td>Chưa xử lý</td>
                     <td>
-                        <button class="btn btn-default" id="btnDangTin" data-function="post">Đăng tin</button>
-                        <a href="/real_estates/create/<%= real_estate.id %>" class="btn btn-default" id="btnSuaTin" data-function="edit">Sửa tin</a>
-                        <button class="btn btn-danger" id="btnXoaTin" data-function="delete">Xoá tin</button>
+                      <div class="dropdown">
+                        <button id="drop_down_button_<%= real_estate.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                          Điều khiển
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop_down_button_<%= real_estate.id %>" style="left: initial; right: 0px">
+                          <li role="presentation">
+                            <% if real_estate.is_paid == 0 %>
+                                <a href="javascript:void(0)">
+                                  Thanh toán (Chưa xử lý)
+                                </a>
+                            <% end %>
+                            <% if real_estate.is_show == 1 %>
+                                <a data-function="hide" href="javascript:void(0)">
+                                  Ẩn
+                                </a>
+                            <% else %>
+                                <a data-function="show" href="javascript:void(0)">
+                                  Hiển thị
+                                </a>
+                            <% end %>
+                            <a href="/real_estates/create/<%= real_estate.id %>">
+                              <%= status == 'draft' ? 'Soạn tiếp' : 'Sửa tin' %>
+                            </a>
+                            <a data-function="delete" href="javascript:void(0)">
+                              Xóa tin
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                 </tr>
             <% end %>

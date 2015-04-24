@@ -1,6 +1,6 @@
 class RealEstatesController < ApplicationController
   layout 'layout_front'
-  skip_before_filter :verify_authenticity_token, :only => [:save, :delete, :preview]
+  skip_before_filter :verify_authenticity_token, :only => [:save, :delete, :preview, :change_show_status]
 
   def index
 
@@ -33,9 +33,13 @@ class RealEstatesController < ApplicationController
   end  
 
   def save
-    real_estate = RealEstate.save_real_estate params['real_estate']
+    is_draft = params.include? :draft
 
-    if real_estate.errors.any?
+    real_estate = params['real_estate'][:id].blank? ?
+      RealEstate.save_real_estate(params['real_estate'], is_draft) :
+      RealEstate.update_real_estate(params['real_estate'], is_draft)
+
+    if real_estate.errors.any? && !is_draft
       render json: Hash[status: 0, result: real_estate.errors.full_messages]
     else
       render json: Hash[status: 1, result: real_estate.id]
@@ -43,14 +47,9 @@ class RealEstatesController < ApplicationController
   end
 
   def preview
-    params['real_estate'].delete(:id)
-    @real_estate = RealEstate.set_real_estate params['real_estate']
+    @real_estate = RealEstate.create_real_estate params['real_estate']
 
-    if @real_estate.valid?
-      render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview'), formats: [:html]]
-    else
-      render json: Hash[status: 0, result: @real_estate.errors.full_messages]
-    end
+    render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview'), formats: [:html]]
   end
 
   def manager
@@ -59,8 +58,10 @@ class RealEstatesController < ApplicationController
     render layout: 'layout_back'
   end
 
-  def real_estates_pending
-    render layout: 'layout_back'
+  def change_show_status
+    RealEstate.update_show_status params[:id], params[:is_show]
+
+    render json: Hash[status: 1]
   end
 
   def delete
@@ -68,7 +69,11 @@ class RealEstatesController < ApplicationController
       RealEstate.delete params['id']
       render json: Hash[status: 1]
     rescue
-      render json: Hash[status: 0, result: 'Xóa thất bại']
+      render json: Hash[status: 0]
     end
+  end
+
+  def real_estates_pending
+    render layout: 'layout_back'
   end
 end

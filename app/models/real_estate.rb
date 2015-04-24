@@ -68,34 +68,18 @@ class RealEstate < ActiveRecord::Base
 
   #region Save real-estate
 
-  def self.save_real_estate params
+  def self.save_real_estate params, is_draft = false
+    real_estate = create_real_estate params
 
-    if params.include? :id
-      real_estate_params = get_real_estate_params params
-      real_estate = find params[:id]
-      real_estate.update real_estate_params
+    real_estate.is_draft = is_draft ? 1 : 0
 
-      real_estate.advantages = params.include?(:advantage_ids) ? Advantage.find(params[:advantage_ids]) : []
-      real_estate.disadvantages = params.include?(:disadvantage_ids) ? Disadvantage.find(params[:disadvantage_ids]) : []
-      real_estate.property_utilities = params.include?(:property_utility_ids) ? PropertyUtility.find(params[:property_utility_ids]) : []
-      real_estate.region_utilities = params.include?(:region_utility_ids) ? RegionUtility.find(params[:region_utility_ids]) : []
-      real_estate.images = params.include?(:image_ids) ? Image.find(params[:image_ids].to_a - ['']) : []
-      real_estate.name = get_real_estate_name real_estate_params
-    else
-      real_estate = set_real_estate params
-    end
-
-    real_estate.save
+    real_estate.save validate: !is_draft
 
     real_estate
   end
 
-  #endregion
-
-  #region Set real-estate
-
-  #Set value for real-estate
-  def self.set_real_estate params
+  #Create new real-estate
+  def self.create_real_estate params
     real_estate_params = get_real_estate_params params
 
     real_estate = RealEstate.new real_estate_params
@@ -108,6 +92,33 @@ class RealEstate < ActiveRecord::Base
     real_estate.name = get_real_estate_name real_estate_params
 
     real_estate
+  end
+
+  #endregion
+
+  #region Update real-estate
+
+  def self.update_real_estate params, is_draft = false
+    real_estate_params = get_real_estate_params params
+
+    real_estate = find params[:id]
+    real_estate.update real_estate_params
+    real_estate.advantages = params.include?(:advantage_ids) ? Advantage.find(params[:advantage_ids]) : []
+    real_estate.disadvantages = params.include?(:disadvantage_ids) ? Disadvantage.find(params[:disadvantage_ids]) : []
+    real_estate.property_utilities = params.include?(:property_utility_ids) ? PropertyUtility.find(params[:property_utility_ids]) : []
+    real_estate.region_utilities = params.include?(:region_utility_ids) ? RegionUtility.find(params[:region_utility_ids]) : []
+    real_estate.images = params.include?(:image_ids) ? Image.find(params[:image_ids].to_a - ['']) : []
+    real_estate.name = get_real_estate_name(real_estate_params)
+    real_estate.is_draft = is_draft ? 1 : 0
+
+    real_estate.save validate: !is_draft
+
+    real_estate
+  end
+
+  def self.update_show_status id, is_show
+    real_estate = find id
+    real_estate.update is_show: is_show
   end
 
   #endregion
@@ -128,19 +139,6 @@ class RealEstate < ActiveRecord::Base
     # alley_width
     # Chuyển sang số
     real_estate_params['alley_width'] = ApplicationHelper.to_i real_estate_params['alley_width']
-
-    # real_estate_type
-    case real_estate_params['real_estate_type_group']
-      when 'Dat'
-        temp = 'dat'
-      when 'Nha'
-        temp = 'nha'
-      when 'CanHo'
-        temp = 'can_ho'
-      when 'MatBang'
-        temp = 'mat_bang'
-    end
-    real_estate_params['real_estate_type_id'] = real_estate_params["real_estate_type_id_#{temp}"]
 
     # constructional_area
     # Chuyển sang dạng số

@@ -1,17 +1,19 @@
+//region Initialization
+
 $(function () {
-    manager_init();
+    init_DeleteButton($('[data-function="delete"]'));
+    init_ShowButton($('[data-function="show"]'));
+    init_HideButton($('[data-function="hide"]'));
 });
 
-function manager_init() {
-    $('*[data-function="post"]').on('click', function () {
+//endregion
 
-    });
+//region Initialize functión
 
-    $('*[data-function="edit"]').on('click', function () {
+//region Init delete button
 
-    });
-
-    $('*[data-function="delete"]').on('click', function () {
+function init_DeleteButton($button) {
+    $button.on('click', function () {
         if (!confirm('Bạn có chắc muốn xóa tin này?')) {
             return;
         }
@@ -19,7 +21,7 @@ function manager_init() {
         $row = $(this).parents('tr');
 
         $.ajax({
-            url: '/real_estates/' + $row.data('value'),
+            url: '/real_estates/' + $row.attr('data-value'),
             type: 'DELETE',
             contentType: 'JSON'
         }).done(function (data) {
@@ -34,3 +36,59 @@ function manager_init() {
         });
     });
 }
+
+//endregion
+
+//region Init show button
+
+function init_ShowButton($button) {
+    $button.on('click', function () {
+
+        $row = $(this).parents('tr');
+
+        $.ajax({
+            url: '/real_estates/change_show_status/' + $row.attr('data-value') + '/1',
+            type: 'PUT',
+            contentType: 'JSON'
+        }).done(function (data) {
+            if (data.status == 1) {
+                alert('Hiển thị tin thành công')
+            }
+            else {
+                alert('Hiển thị tin thất bại')
+            }
+        }).fail(function () {
+            alert('Hiển thị tin thất bại')
+        });
+    });
+}
+
+//endregion
+
+//region Init hide button
+
+function init_HideButton($button) {
+    $button.on('click', function () {
+
+        $row = $(this).parents('tr');
+
+        $.ajax({
+            url: '/real_estates/change_show_status/' + $row.attr('data-value') + '/0',
+            type: 'PUT',
+            contentType: 'JSON'
+        }).done(function (data) {
+            if (data.status == 1) {
+                alert('Ẩn tin thành công')
+            }
+            else {
+                alert('Ẩn tin thất bại')
+            }
+        }).fail(function () {
+            alert('Ẩn tin thất bại')
+        });
+    });
+}
+
+//endregion
+
+//endregion

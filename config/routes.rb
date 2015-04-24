@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   post 'real_estates/create' => 'real_estates#save'
   delete 'real_estates/:id' => 'real_estates#delete'
   get 'real_estates/:id' => 'real_estates#view'
+  put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
 
   #Project
   get 'projects/manager'
