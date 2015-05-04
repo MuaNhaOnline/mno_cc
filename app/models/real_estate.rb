@@ -82,7 +82,7 @@ class RealEstate < ActiveRecord::Base
   def self.create_real_estate params
     real_estate_params = get_real_estate_params params
 
-    real_estate = RealEstate.new real_estate_params
+    real_estate = new real_estate_params
 
     real_estate.advantages = Advantage.find(params[:advantage_ids]) if params.include? :advantage_ids
     real_estate.disadvantages = Disadvantage.find(params[:disadvantage_ids]) if params.include? :disadvantage_ids

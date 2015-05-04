@@ -2,15 +2,15 @@
 
 $(function(e){
     var $form = $('#create_real_estate');
-	setDefault_ToggleInputs();
-    init_ToggleInputs();
     init_BuildYear();
-    init_UnitFormat();
-    init_Constraint($form);
-    initImageUpload($form.find('.image-upload input[type="file"]'));
-    init_Submit($form);
+    init_UnitFormat([{
+        select: $form.find('#currency_id'),
+        input: $form.find('#price')
+    }]);
+    initImageUpload($form.find('.image-upload input[type="file"]'), 'real_estate');
     init_Preview($form);
     init_SaveDraft($form);
+    init_Submit($form);
 
     getFullProvinceDataAfterChange();
 });
@@ -18,92 +18,6 @@ $(function(e){
 //endregion
 
 //region Initialize functions
-
-//region Init show/hide inputs
-
-//Set default
-function setDefault_ToggleInputs() {
-    $('[data-toggle-input~="select-show"]:visible').each(function() {
-        var $option = $(this).find('option:selected');
-
-        var hideObject = $option.attr('data-hide');
-        var showObject = $option.attr('data-show');
-
-        $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);
-        $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', false);
-    });
-
-    $('[data-toggle-input~="check-show"]:visible').each(function() {
-        var checked = this.checked;
-
-        var $obj = $(this);
-        var hideObject = $obj.data('hide');
-        var showObject = $obj.data('show');
-
-        if (checked) {
-            $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);
-            $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', false);
-        }
-        else {
-            $('[data-toggle-input-object~="' + hideObject + '"]').show().prop('disabled', false);
-            $('[data-toggle-input-object~="' + showObject + '"]').hide().prop('disabled', true);
-        }
-    });
-
-    $('[data-toggle-input~="check-disable"]:visible').each(function() {
-        var checked = this.checked;
-
-        var $obj = $(this);
-        var enabledObject = $(this).data('enable');
-        var disabledObject = $(this).data('disable');
-
-        $('[data-toggle-input-object~="' + enabledObject + '"]').prop('disabled', !checked);
-        $('[data-toggle-input-object~="' + disabledObject + '"]').prop('disabled', checked);
-    });
-}
-
-//Set event
-function init_ToggleInputs() {
-    $('[data-toggle-input="select-show"]').on('change', function() {
-        var $option = $(this).find('option:selected');
-
-        var hideObject = $option.attr('data-hide');
-        var showObject = $option.attr('data-show');
-
-        $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);
-        $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', false);
-    });
-
-    $('[data-toggle-input="check-show"]').on('change', function() {
-        var checked = this.checked;
-
-        var $obj = $(this);
-        var hideObject = $obj.data('hide');
-        var showObject = $obj.data('show');
-
-        if (checked) {
-            $('[data-toggle-input-object~="' + hideObject + '"]').hide().prop('disabled', true);;
-            $('[data-toggle-input-object~="' + showObject + '"]').show().prop('disabled', fakse);;
-        }
-        else {
-            $('[data-toggle-input-object~="' + hideObject + '"]').show().prop('disabled', false);;
-            $('[data-toggle-input-object~="' + showObject + '"]').hide().prop('disabled', true);;
-        }
-    });
-
-    $('[data-toggle-input="check-disable"]').on('change', function() {
-        var checked = this.checked;
-
-        var $obj = $(this);
-        var enabledObject = $(this).data('enable');
-        var disabledObject = $(this).data('disable');
-
-        $('[data-toggle-input-object~="' + enabledObject + '"]').prop('disabled', !checked);
-        $('[data-toggle-input-object~="' + disabledObject + '"]').prop('disabled', checked);
-    });
-}
-
-//endregion
 
 //region Init building year
 
@@ -125,184 +39,75 @@ function init_BuildYear() {
 
 //endregion
 
-//region Init unit format
+//region Init preview, save draft
 
-function init_UnitFormat() {
-    var $select = $('#currency_id');
-    var $input = $('#price');
-
-    $select.on('change', function () {
-        if ($select.find('option:selected').attr('data-value') == 'USD') {
-            $input.attr('data-separate', ',');
-            var reg = new RegExp('[.]', "g");
-            $input.val($input.val().replace(reg, ','));
+function init_Preview($form) {
+    init_PopupFull($form.find('[data-function="preview"]'), {
+        url: '/real_estates/preview',
+        method: 'POST',
+        data: function () {
+            return $form.serialize();
         }
-        else {
-            $input.attr('data-separate', '.');
-            var reg = new RegExp('[,]', "g");
-            $input.val($input.val().replace(reg, '.'));
-        }
-    });
-
-    $input.on('keyup', function() {
-        var separate = $input.attr('data-separate');
-
-        $input.val(numbericFormat($input.val(), separate));
-    });
+    }, 'iframe');
 }
 
-function numbericFormat(value, separate){
-    var reg = new RegExp('[' + separate + ']', "g");
-    value = value.replace(reg, '');
-
-    return insertSeparate(value, separate);
-}
-
-function insertSeparate(str, separate) {
-    if (str.length > 3) {
-        return insertSeparate(str.slice(0, str.length - 3), separate) + separate + str.slice(str.length - 3);
-    }
-    return str;
-}
-
-//endregion
-
-//region Init constraint
-
-function init_Constraint($form) {
-    //init integer
-    $('[data-constraint~="only-number"]').on('keydown', function (e) {
-        e = e || window.event;
-
-        if (//number
-            (!e.shiftKey &&
-            ((48 <= e.keyCode && e.keyCode <= 57) ||
-            (96 <= e.keyCode && e.keyCode <= 105))) ||
-            //., backspace, delete, tab, enter
-            $.inArray(e.keyCode, [190, 8, 46, 9, 13]) !== -1 ||
-            //home, end, left, right, down, up
-            (35 <= e.keyCode && e.keyCode <= 40) ||
-            //ctrl A
-            (e.keyCode == 65 && e.ctrlKey)) {
-            return;
-        }
-
-        e.preventDefault();
-    });
-}
-
-//endregion
-
-//region Init image upload
-
-function initImageUpload($objs) {
-    $objs.on('change', function() {
-        //Check file exist
-        if (this.files.length == 0) {
-            return;
-        }
-
-        //Get container
-        $fileUploadContainer = $(this).parents('.image-upload');
-        //Get & reset progress bar
-        var progressBar = $fileUploadContainer.children('u')[0];
-        progressBar.style.width = '0%';
-
-        //Collect data
-        var data = new FormData();
-        data.append('file', this.files[0]);
-        data.append('type', 'real_estate');
-
-        //post request
+function init_SaveDraft($form) {
+    $form.find('[data-function="save-draft"]').on('click', function () {
         $.ajax({
-            url: '/images/upload',
+            url: '/real_estates/create',
             type: 'POST',
-            processData: false,
-            contentType: false,
-            data: data,
-            dataType: 'JSON',
-            xhr: function() {
-                var xhr = $.ajaxSettings.xhr();
-                if(xhr.upload){ //Check if upload property exists
-                    xhr.upload.addEventListener('progress', function(e) {
-                        if(e.lengthComputable){
-                            progressBar.style.width = Math.ceil(e.loaded/e.total) * 100 + '%';
-                        }
-                    }, false); //For handling the progress of the upload
-                }
-                return xhr;
-            }
-        }).done(function(data) {
+            data: $form.serialize() + '&draft',
+            dataType: 'JSON'
+        }).done(function (data) {
             if (data.status == 1) {
-                $fileUploadContainer.addClass('has-file');
-                $fileUploadContainer.find('img').attr('src', '/images/' + data.result);
-                $fileUploadContainer.children('input[type="hidden"]').val(data.result);
+
+                if ($form.children('input[name="real_estate[id]"]').length == 0) {
+                    $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
+                    $form.find('button[type="submit"]').text('Bổ sung');
+                }
+                alert('Lưu tạm thành công');
             }
             else {
-                alert('Thêm file thất bại')
+                alert('Lưu tạm thất bại');
             }
-        }).fail(function() {
-            alert('Thêm file thất bại')
-        }).always(function() {
-            progressBar.style.width = '0%';
-        });
-    });
-
-    $('.image-upload i').on('click', function() {
-        if (!confirm('Bạn có chắc muốn xóa hình này?')) {
-            return;
-        }
-
-        //Get container
-        $fileUploadContainer = $(this).parents('.image-upload');
-
-        $fileUploadContainer.removeClass('has-file');
-        $fileUploadContainer.children('input[type="hidden"]').val('');
+        }).fail(function () {
+            alert('Lưu tạm thất bại');
+        })
     });
 }
 
 //endregion
 
-//region Init submit form
+//region Init submit
 
 function init_Submit($form) {
-    $form.on('submit', function (e) {
-        e = e || window.event;
-        e.preventDefault();
+    init_SubmitForm($form, {
+        validate: function () {
+            if ($('.image-upload:visible').length) {
+                var hasOne = false;
+                $('.image-upload input[type="hidden"]').each(function () {
+                    if (this.value) {
+                        hasOne = true;
+                    }
+                });
 
-        var isValid = true;
-
-        $('[data-validate~="required"]:visible').each(function () {
-            var $input = $(this);
-            if ($input.val() == "") {
-                $input.addClass('is-error');
-                isValid = false;
+                if (!hasOne) {
+                    return {
+                        status: 0,
+                        result: $($('.image-upload input[type="hidden"]')[0]).parents('.image-upload')
+                    };
+                }
+                return {
+                    status: 1
+                }
             }
             else {
-                $input.removeClass('is-error');
-            }
-        });
-
-        if ($('.image-upload:visible').length) {        
-            var hasOne = false;
-            $('.image-upload:visible input[type="hidden"]').each(function () {
-                if (this.value) {
-                    hasOne = true;
+                return {
+                    status: 1
                 }
-            });
-
-            if (!hasOne) {
-                isValid = false;
-                $($('.image-upload input[type="hidden"]')[0]).parents('.image-upload').addClass('is-error');
             }
-        }
-
-        if (!isValid) {
-            $('html, body').animate(
-                { scrollTop: $('.is-error').offset().top - 100 }
-            );
-        }
-        else {
+        },
+        submit: function () {
             $.ajax({
                 url: '/real_estates/create',
                 type: 'POST',
@@ -346,49 +151,10 @@ function init_Submit($form) {
                 alert('Đăng tin thất bại');
             })
         }
-    });
+    })
 }
 
-//endregion
-
-//region Init preview, save draft
-
-function init_Preview($form) {
-    init_PopupFull($form.find('[data-feature="preview"]'), {
-        url: '/real_estates/preview',
-        method: 'POST',
-        data: function () {
-            return $form.serialize();
-        }
-    }, 'iframe');
-}
-
-function init_SaveDraft($form) {
-    $form.find('[data-feature="save-draft"]').on('click', function () {
-        $.ajax({
-            url: '/real_estates/create',
-            type: 'POST',
-            data: $form.serialize() + '&draft',
-            dataType: 'JSON'
-        }).done(function (data) {
-            if (data.status == 1) {
-
-                if ($form.children('input[name="real_estate[id]"]').length == 0) {
-                    $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
-                    $form.find('button[type="submit"]').text('Bổ sung');
-                }
-                alert('Lưu tạm thành công');
-            }
-            else {
-                alert('Lưu tạm thất bại');
-            }
-        }).fail(function () {
-            alert('Lưu tạm thất bại');
-        })
-    });
-}
-
-//endregion
+//region
 
 //endregion
 

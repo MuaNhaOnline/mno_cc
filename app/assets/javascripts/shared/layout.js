@@ -46,7 +46,7 @@ function init_ToggleTarget($buttons) {
 //region Init show popup
 
 function getPopupFull() {
-    $popupFull = $('#popup_full');
+    var $popupFull = $('#popup_full');
 
     if ($popupFull.length == 0) {
         $popupFull = $(
@@ -130,11 +130,11 @@ function init_PopupFull($element, params, type) {
             dataType: 'JSON'
         }).done(function (data) {
             if (data.status == 1    ) {
-                $popup = getPopupFull();
+                var $popup = getPopupFull();
 
                 $popup.trigger('open');
 
-                $popupContent = $popup.find('#popup_content');
+                var $popupContent = $popup.find('#popup_content');
 
                 if (type == 'iframe') {
                     $popupContent.addClass('iframe').html('<iframe></iframe>');
@@ -190,9 +190,9 @@ function promptPopup(title, params) {
         params = {};
     }
 
-    $popup = getPopupFull();
+    var $popup = getPopupFull();
 
-    $popupContent = $popup.find('#popup_content');
+    var $popupContent = $popup.find('#popup_content');
     $popupContent.addClass('prompt');
 
     $popupContent.html('\
@@ -200,7 +200,7 @@ function promptPopup(title, params) {
         <section class="button"></section>\
     ');
 
-    $buttons = $popupContent.find('.button');
+    var $buttons = $popupContent.find('.button');
 
     $(params).each(function (index, object) {
         $buttons.append($('<button class="btn btn-' + (object.type || 'default') + '">' + object.text + '</button>').on('click', function() {

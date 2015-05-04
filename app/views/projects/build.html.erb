@@ -1,0 +1,56 @@
+<% content_for :stylesheets do %>
+    <link rel="stylesheet" href="/assets/projects/build.css" />
+<% end %>
+
+<% content_for :scripts do %>
+    <script src="/assets/projects/build.js"></script>
+
+    project_id = '<%= @project_id %>';
+<% end %>
+
+<article class="block-build">
+  <ul class="groups">
+    <li class="item" data-width="3.0">A</li>
+    <li class="item" data-width="3.0">B</li>
+    <li class="button" data-function="create-item-type">+</li>
+  </ul>
+  <section class="buttons">
+    <a href="javascript:void(0)" data-function="create-floor">Tạo tầng mới</a>
+  </section>
+  <ul id="building" class="building">
+    <li class="floor-container">
+      <ul class="floor">
+        <li class="item" data-width="3.0">A</li>
+        <li class="item" data-width="3.0">A</li>
+        <li class="item" data-width="3.0">B</li>
+        <li class="item" data-width="3.0">B</li>
+      </ul>
+      <a class="open-functions-button">
+      </a>
+      <ul class="functions-container">
+        <li>
+          <a href="#">Sao chép thêm dòng</a>
+        </li>
+      </ul>
+    </li>
+    <li class="floor-container">
+      <ul class="floor">
+        <li class="item" data-width="3.0">A</li>
+        <li class="item" data-width="3.0">A</li>
+        <li class="item" data-width="3.0">B</li>
+        <li class="item" data-width="3.0">B</li>
+      </ul>
+      <a class="open-functions-button">
+      </a>
+      <ul class="functions-container">
+        <li>
+          <a href="#">Sao chép thêm dòng</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</article>
+
+<div style="text-align: center;">
+  <button class="btn btn-primary">Lưu</button>
+</div>

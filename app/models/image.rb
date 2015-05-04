@@ -7,7 +7,7 @@ class Image < ActiveRecord::Base
         folder: get_folder(image_params['type'])
     )
 
-    File.open(get_path(image), "wb") do |f| f.write(image_params['file'].read) end
+    File.open(get_path(image), 'wb') do |f| f.write(image_params['file'].read) end
 
     image
   end
@@ -20,6 +20,8 @@ class Image < ActiveRecord::Base
     case type
       when 'real_estate'
         folder = 'real_estate/'
+      when 'project'
+        folder = 'project/'
       else
         folder = 'stuff/'
     end
