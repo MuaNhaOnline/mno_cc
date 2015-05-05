@@ -243,6 +243,7 @@ function insertSeparate(str, separate) {
 
     validate
     submit
+    scroller (for scroll during error)
 
  */
 function init_SubmitForm($form, options) {
@@ -264,7 +265,7 @@ function init_SubmitForm($form, options) {
         });
 
         if ('validate' in options) {
-            result = options.validate();
+            var result = options.validate();
 
             if (result.status != 1) {
                 result.result.addClass('is-error');
@@ -273,7 +274,8 @@ function init_SubmitForm($form, options) {
         }
 
         if (!isValid) {
-            $('html, body').animate(
+            var $scroller = 'scroller' in options ? options['scroller'] : $('html, body');
+            $scroller.animate(
                 { scrollTop: $('.is-error').offset().top - 100 }
             );
         }

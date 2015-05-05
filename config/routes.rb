@@ -25,9 +25,16 @@ Rails.application.routes.draw do
   get 'projects/create'
   post 'projects/create' => 'projects#save'
   get 'projects/build/:id' => 'projects#build'
+  
+  #Block
+  get 'blocks/create/:project_id' => 'blocks#create'
+  post 'blocks/create' => 'blocks#save'
+  get 'blocks/build/:id' => 'blocks#build'
+  put 'blocks/build/:id' => 'blocks#save_building'
 
   #Item group
   get 'item_groups/create/:block_id' => 'item_groups#create'
+  post 'item_groups/create' => 'item_groups#save'
 
   #Business
   get 'businesses/manager'

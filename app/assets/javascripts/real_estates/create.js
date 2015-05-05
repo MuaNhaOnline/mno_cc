@@ -1,3 +1,8 @@
+/* global promptPopup */
+/* global initImageUpload */
+/* global init_UnitFormat */
+/* global init_SubmitForm */
+
 //region Initialization
 
 $(function(e){
@@ -72,7 +77,7 @@ function init_SaveDraft($form) {
             }
         }).fail(function () {
             alert('Lưu tạm thất bại');
-        })
+        });
     });
 }
 
@@ -99,12 +104,12 @@ function init_Submit($form) {
                 }
                 return {
                     status: 1
-                }
+                };
             }
             else {
                 return {
                     status: 1
-                }
+                };
             }
         },
         submit: function () {
@@ -149,9 +154,9 @@ function init_Submit($form) {
                 }
             }).fail(function () {
                 alert('Đăng tin thất bại');
-            })
+            });
         }
-    })
+    });
 }
 
 //region
