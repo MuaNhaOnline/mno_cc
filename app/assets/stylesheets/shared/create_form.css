@@ -212,7 +212,7 @@ nav {
     left: 0px;
 }
     .image-upload.is-error label {
-        outline-color: #f99;
+        outline-color: red;
     }
 
     .image-upload label:before {
@@ -226,7 +226,7 @@ nav {
         transition: 0.5s;
     }
         .image-upload.is-error label:before {
-            color: #f99;
+            color: red;
         }
     .image-upload label:hover:before {
         color: #aaa;

@@ -17,9 +17,9 @@ function init_ToggleTarget($buttons) {
         //get objects
         //$obj: clicked element
         //$target: element is effected
-        $obj = $(this);
+        var $obj = $(this);
         var toggleObject = $obj.attr('data-toggle-target');
-        $target = $('[data-toggle-object="' + toggleObject + '"');
+        var $target = $('[data-toggle-object="' + toggleObject + '"');
 
         //Check show/hide
         if ($target.is(':visible')) {
@@ -46,7 +46,7 @@ function init_ToggleTarget($buttons) {
 //region Init show popup
 
 function getPopupFull() {
-    $popupFull = $('#popup_full');
+    var $popupFull = $('#popup_full');
 
     if ($popupFull.length == 0) {
         $popupFull = $(
@@ -87,7 +87,7 @@ function getPopupFull() {
             $('body').addClass('prevent-scroll');
         });
 
-        $popupFull.on('close', function () {
+        $popupFull.add($popupFull.find('#popup_content')).on('close', function () {
             $popupFull.hide();
             $(document).off('keydown.close_popup');
             $('body').removeClass('prevent-scroll');
@@ -105,6 +105,7 @@ function getPopupFull() {
  Tham số gồm:
  condition (function (), trả về false nếu muốn dừng ajax),
  url hoặc href của phần tử (bắt buộc),
+ method (mặc định: GET),
  width, height,
  data (mảng {} hoặc function),
  done (function (data: nội dung popup)),
@@ -129,12 +130,12 @@ function init_PopupFull($element, params, type) {
             data: 'data' in params ? (typeof params.data == 'function' ? params.data() : params.data) : {},
             dataType: 'JSON'
         }).done(function (data) {
-            if (data.status == 1    ) {
-                $popup = getPopupFull();
+            if (data.status == 1) {
+                var $popup = getPopupFull();
 
                 $popup.trigger('open');
 
-                $popupContent = $popup.find('#popup_content');
+                var $popupContent = $popup.find('#popup_content');
 
                 if (type == 'iframe') {
                     $popupContent.addClass('iframe').html('<iframe></iframe>');
@@ -190,9 +191,9 @@ function promptPopup(title, params) {
         params = {};
     }
 
-    $popup = getPopupFull();
+    var $popup = getPopupFull();
 
-    $popupContent = $popup.find('#popup_content');
+    var $popupContent = $popup.find('#popup_content');
     $popupContent.addClass('prompt');
 
     $popupContent.html('\
@@ -200,7 +201,7 @@ function promptPopup(title, params) {
         <section class="button"></section>\
     ');
 
-    $buttons = $popupContent.find('.button');
+    var $buttons = $popupContent.find('.button');
 
     $(params).each(function (index, object) {
         $buttons.append($('<button class="btn btn-' + (object.type || 'default') + '">' + object.text + '</button>').on('click', function() {

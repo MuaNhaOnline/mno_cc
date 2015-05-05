@@ -1,0 +1,34 @@
+<% content_for :stylesheets do %>
+    <link rel="stylesheet" href="/assets/projects/build.css" />
+    <link rel="stylesheet" href="/assets/shared/create_form.css" />
+<% end %>
+
+<% content_for :scripts do %>    
+    <script>
+      var project_id = '<%= @project_id %>';
+    </script>
+    
+    <script src="/assets/projects/build.js"></script>
+    <script src="/assets/shared/form.js"></script>
+<% end %>
+
+<section class="blocks-list-container">
+  <ul id="blocks_list" class="blocks-list">
+    <% Block.where(project_id: @project_id).each do |block| %>
+      <li>
+        <a class="block" data-function="build-block" data-value="<%= block.id %>" href="javascript:void(0)">
+          <%= block.name %>
+        </a>
+      </li>
+    <% end %>
+    <li>
+      <a class="block" data-function="create-block" href="javascript:void(0)">
+        +        
+      </a>
+    </li>
+  </ul>
+</section>
+
+<section id="block_building_container" class="block-building-container">
+  
+</section>
