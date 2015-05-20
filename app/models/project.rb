@@ -41,12 +41,19 @@ class Project < ActiveRecord::Base
 
   #endregion
 
+  def name
+    ProjectType.find(project_type_id).name + ' ' +
+        'Quận ' + District.find(district_id).name
+  end
+
   #region Save project
 
-  def self.save_project params
+  def self.save_project params, is_draft = false
     project = create_project params
 
-    project.save
+    project.is_draft = is_draft ? 1 : 0
+
+    project.save validate: !is_draft
 
     project
   end
@@ -64,10 +71,41 @@ class Project < ActiveRecord::Base
 
   #endregion
 
+  #region Update project
+
+  def self.update_project params, is_draft = false
+    project_params = get_project_params params
+
+    project = find params[:id]
+    project.update project_params
+    project.images = Image.find(params[:image_ids].to_a - [''])
+    project.is_draft = is_draft ? 1 : 0
+
+    project.save validate: !is_draft
+    
+    project
+  end
+
+  def self.update_show_status id, is_show
+    project = find id
+
+    project.is_show = is_show
+
+    project.save validate: false
+  end
+
+  #endregion
+
   #region Helper
 
   #Get project params
   def self.get_project_params params
+    params['campus_area'] = ApplicationHelper.to_f params['campus_area']
+    params['width_x'] = ApplicationHelper.to_f params['width_x']
+    params['width_y'] = ApplicationHelper.to_f params['width_y']
+    params['using_ratio'] = ApplicationHelper.to_f params['using_ratio']
+    params['unit_price'] = ApplicationHelper.to_i params['unit_price']
+
     fields = [
         :title, :description, :province_id, :district_id, :ward_id, :street_id, :address_number,
         :project_type_id, :campus_area, :width_x, :width_y, :using_ratio, :estimate_starting_date,
@@ -80,32 +118,4 @@ class Project < ActiveRecord::Base
   end
 
   #endregion
-
-  # #region Update real-estate
-  #
-  # def self.update_real_estate params, is_draft = false
-  #   real_estate_params = get_real_estate_params params
-  #
-  #   real_estate = find params[:id]
-  #   real_estate.update real_estate_params
-  #   real_estate.advantages = params.include?(:advantage_ids) ? Advantage.find(params[:advantage_ids]) : []
-  #   real_estate.disadvantages = params.include?(:disadvantage_ids) ? Disadvantage.find(params[:disadvantage_ids]) : []
-  #   real_estate.property_utilities = params.include?(:property_utility_ids) ? PropertyUtility.find(params[:property_utility_ids]) : []
-  #   real_estate.region_utilities = params.include?(:region_utility_ids) ? RegionUtility.find(params[:region_utility_ids]) : []
-  #   real_estate.images = params.include?(:image_ids) ? Image.find(params[:image_ids].to_a - ['']) : []
-  #   real_estate.name = get_real_estate_name(real_estate_params)
-  #   real_estate.is_draft = is_draft ? 1 : 0
-  #
-  #   real_estate.save validate: !is_draft
-  #
-  #   real_estate
-  # end
-  #
-  # def self.update_show_status id, is_show
-  #   real_estate = find id
-  #   real_estate.update is_show: is_show
-  # end
-  #
-  # #endregion
-
 end

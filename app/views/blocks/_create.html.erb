@@ -1,0 +1,59 @@
+<article class="row wrapper">
+  <article class="main-content col-sm-12">    
+		<form class="form-horizontal" id="create_block_form" action="#">
+      <input type="hidden" name="block[project_id]" value="<%= @project_id %>">
+      <section class="main-title">
+        Tạo block mới 
+      </section>
+      <ul class="item-wrapper">
+        
+        <!-- region Input -->
+        
+        <li class="item">
+          <div class="item-title">Thông tin block</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="name">Tên</label>
+              <div class="col-sm-9">
+                <input name="block[name]" class="form-control" data-validate="required" id="name">
+              </div>
+            </li>          
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="description">Mô tả</label>
+              <div class="col-sm-9">
+                <textarea name="block[description]" class="form-control" data-validate="required" id="description"></textarea>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="direction_id">Hướng:</label>
+              <div class="col-sm-4">
+                <select class="form-control" name="block[direction_id]" id="direction_id">
+                  <% Direction.get_options.each do |direction| %>
+                      <option value="<%= direction.id %>"><%= direction.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </li>
+          </ul>
+        </li>
+  
+        <!-- endregion -->
+  
+        <!-- region Nút xử lý -->
+  
+        <li class="item">
+          <ul class="item-content">
+            <li class="submit-button">
+              <p class="text-center">
+                <button type="submit" class="btn btn-primary">Tạo mới</button>
+              </p>
+            </li>
+          </ul>
+        </li>
+  
+        <!-- endregion -->
+  
+      </ul>
+    </form>
+  </article>              
+</article>

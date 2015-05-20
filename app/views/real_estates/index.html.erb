@@ -79,198 +79,37 @@
   <!-- #start products list -->
   <section class="block-content">
     <ul class="products-list row">
-      <!-- #start product item -->
-      <li class="col-md-4 col-sm-4 col-xs-6">
-        <section class="product-item">
-          <a class="favorite-button"></a>
-          <a class="top-section" href="/real_estates/view">
-            <h1 class="title">
-              Nhà phố quận 9
-            </h1>
-            <section class="picture">
-              <img src="/assets/product/BDS01.jpg">
+      <% @real_estates.each do |real_estate| %>
+        <li class="col-md-4 col-sm-4 col-xs-6">
+          <section class="product-item">
+            <a class="favorite-button"></a>
+            <a class="top-section" href="/real_estates/<%= real_estate.id %>">
+              <h1 class="title">
+                <%= real_estate.name %>
+              </h1>
+              <section class="picture">
+                <img height="150" src="<%= real_estate.images.length != 0 ? "images/#{real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
+              </section>
+              <section class="property">
+                <section class="bedroom"><%= real_estate.bedroom_number %></section>
+                <section class="bathroom"><%= real_estate.restroom_number %></section>
+                <section class="area">m<sup>2</sup></section>
+              </section>
+              <section class="content">
+                <%= real_estate.description %>
+              </section>
+            </a>
+            <section class="bottom-section">
+              <span><%= real_estate.price %></span>
+              <div class="button">
+                <a href="#" class="muathuebds-button"></a>
+                <a href="#" class="share-button"></a>
+                <a href="#">Định giá</a>
+              </div>
             </section>
-            <section class="property">
-              <section class="bedroom">4</section>
-              <section class="bathroom">5</section>
-              <section class="area">100 m<sup>2</sup></section>
-            </section>
-            <section class="content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
-            </section>
-          </a>
-          <section class="bottom-section">
-            <span>$ 2 tỷ</span>
-            <div class="button">
-              <a href="#" class="muathuebds-button"></a>
-              <a href="#" class="share-button"></a>
-              <a href="#">Định giá</a>
-            </div>
           </section>
-        </section>
-      </li>
-      <!-- #end product item -->
-      <!-- #start product item -->
-      <li class="col-md-4 col-sm-4 col-xs-6">
-        <section class="product-item">
-          <a class="favorite-button"></a>
-          <a class="top-section" href="/real_estates/view">
-            <h1 class="title">
-              Nhà phố quận 9
-            </h1>
-            <section class="picture">
-              <img src="/assets/product/BDS01.jpg">
-            </section>
-            <section class="property">
-              <section class="bedroom">4</section>
-              <section class="bathroom">5</section>
-              <section class="area">100 m<sup>2</sup></section>
-            </section>
-            <section class="content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
-            </section>
-          </a>
-          <section class="bottom-section">
-            <span>$ 2 tỷ</span>
-            <div class="button">
-              <a href="#" class="muathuebds-button"></a>
-              <a href="#" class="share-button"></a>
-              <a href="#">Định giá</a>
-            </div>
-          </section>
-        </section>
-      </li>
-      <!-- #end product item -->
-      <!-- #start product item -->
-      <li class="col-md-4 col-sm-4 col-xs-6">
-        <section class="product-item">
-          <a class="favorite-button"></a>
-          <a class="top-section" href="/real_estates/view">
-            <h1 class="title">
-              Nhà phố quận 9
-            </h1>
-            <section class="picture">
-              <img src="/assets/product/BDS01.jpg">
-            </section>
-            <section class="property">
-              <section class="bedroom">4</section>
-              <section class="bathroom">5</section>
-              <section class="area">100 m<sup>2</sup></section>
-            </section>
-            <section class="content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
-            </section>
-          </a>
-          <section class="bottom-section">
-            <span>$ 2 tỷ</span>
-            <div class="button">
-              <a href="#" class="muathuebds-button"></a>
-              <a href="#" class="share-button"></a>
-              <a href="#">Định giá</a>
-            </div>
-          </section>
-        </section>
-      </li>
-      <!-- #end product item -->
-      <!-- #start product item -->
-      <li class="col-md-4 col-sm-4 col-xs-6">
-        <section class="product-item">
-          <a class="favorite-button"></a>
-          <a class="top-section" href="/real_estates/view">
-            <h1 class="title">
-              Nhà phố quận 9
-            </h1>
-            <section class="picture">
-              <img src="/assets/product/BDS01.jpg">
-            </section>
-            <section class="property">
-              <section class="bedroom">4</section>
-              <section class="bathroom">5</section>
-              <section class="area">100 m<sup>2</sup></section>
-            </section>
-            <section class="content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
-            </section>
-          </a>
-          <section class="bottom-section">
-            <span>$ 2 tỷ</span>
-            <div class="button">
-              <a href="#" class="muathuebds-button"></a>
-              <a href="#" class="share-button"></a>
-              <a href="#">Định giá</a>
-            </div>
-          </section>
-        </section>
-      </li>
-      <!-- #end product item -->
-      <!-- #start product item -->
-      <li class="col-md-4 col-sm-4 col-xs-6">
-        <section class="product-item">
-          <a class="favorite-button"></a>
-          <a class="top-section" href="/real_estates/view">
-            <h1 class="title">
-              Nhà phố quận 9
-            </h1>
-            <section class="picture">
-              <img src="/assets/product/BDS01.jpg">
-            </section>
-            <section class="property">
-              <section class="bedroom">4</section>
-              <section class="bathroom">5</section>
-              <section class="area">100 m<sup>2</sup></section>
-            </section>
-            <section class="content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
-            </section>
-          </a>
-          <section class="bottom-section">
-            <span>$ 2 tỷ</span>
-            <div class="button">
-              <a href="#" class="muathuebds-button"></a>
-              <a href="#" class="share-button"></a>
-              <a href="#">Định giá</a>
-            </div>
-          </section>
-        </section>
-      </li>
-      <!-- #end product item -->
-      <!-- #start product item -->
-      <li class="col-md-4 col-sm-4 col-xs-6">
-        <section class="product-item">
-          <a class="favorite-button"></a>
-          <a class="top-section" href="/real_estates/view">
-            <h1 class="title">
-              Nhà phố quận 9
-            </h1>
-            <section class="picture">
-              <img src="/assets/product/BDS01.jpg">
-            </section>
-            <section class="property">
-              <section class="bedroom">4</section>
-              <section class="bathroom">5</section>
-              <section class="area">100 m<sup>2</sup></section>
-            </section>
-            <section class="content">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...
-            </section>
-          </a>
-          <section class="bottom-section">
-            <span>$ 2 tỷ</span>
-            <div class="button">
-              <a href="#" class="muathuebds-button"></a>
-              <a href="#" class="share-button"></a>
-              <a href="#">Định giá</a>
-            </div>
-          </section>
-        </section>
-      </li>
-      <!-- #end product item -->
+        </li>
+      <% end %>
     </ul>
   </section>
   <!-- #end products list -->

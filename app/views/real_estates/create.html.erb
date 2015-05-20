@@ -176,7 +176,7 @@
                 <label><input <%= 'checked' if @real_estate.is_alley == 1 %> type="radio" name="real_estate[is_alley]" value="1" data-toggle-input="check-show" data-show="alley"> Hẻm</label>
               </div>
               <div class="col-xs-4 col-xs-offset-7 col-sm-2 input-group" data-toggle-input-object="alley">
-                <input value="<%= @real_estate.alley_width %>" name="real_estate[alley_width]" type="text" class="form-control">
+                <input value="<%= @real_estate.alley_width %>" name="real_estate[alley_width]" data-constraint="only-number" type="text" class="form-control">
                 <div class="input-group-addon">m</div>
               </div>                  
             </li>
@@ -551,8 +551,8 @@
             <li class="submit-button">
               <p class="text-center">
                 <button type="submit" class="btn btn-primary"><%= @real_estate.id.blank? ? 'Đăng tin' : 'Cập nhật' %></button>
-                <% if @real_estate.id.blank? || @real_estate.name == 'draft' %>
-                    <button name="real_estate[draft]" type="button" class="btn btn-default" data-function="save-draft">Lưu tạm</button>
+                <% if @real_estate.id.blank? || @real_estate.is_draft == 1 %>
+                    <button type="button" class="btn btn-default" data-function="save-draft">Lưu tạm</button>
                 <% end %>
                 <button type="button" class="btn btn-default" data-function="preview">Xem trước</button>
               </p>

@@ -55,7 +55,7 @@ Purpose.create name: 'Thuê', code: 'Thue', options: '{"html":{"attributes":"dat
 RealEstateType.create name: 'Đất thổ cư', code: 'DatThoCu', options: '{"group":"Dat"}'
 RealEstateType.create name: 'Đất trồng', code: 'DatTrong', options: '{"group":"Dat"}'
 RealEstateType.create name: 'Đất khác', code: 'DatKhac', options: '{"group":"Dat"}'
-RealEstateType.create name: 'Văn phong', code: 'VanPhong', options: '{"group":"MatBang"}'
+RealEstateType.create name: 'Văn phòng', code: 'VanPhong', options: '{"group":"MatBang"}'
 RealEstateType.create name: 'Phòng trọ', code: 'PhongTro', options: '{"group":"MatBang"}'
 RealEstateType.create name: 'Mặt bằng - Cửa hàng', code: 'MatBang_CuaHang', options: '{"group":"MatBang"}'
 RealEstateType.create name: 'Nhà hàng - Khách sạn', code: 'NhaHang_KhachSan', options: '{"group":"MatBang"}'

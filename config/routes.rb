@@ -14,18 +14,24 @@ Rails.application.routes.draw do
   get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/manager'
   get 'real_estates/real_estates_pending'
+  get 'real_estates/:id' => 'real_estates#view'
+  get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'
   post 'real_estates/create' => 'real_estates#save'
   delete 'real_estates/:id' => 'real_estates#delete'
-  get 'real_estates/:id' => 'real_estates#view'
   put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
 
   #Project
+  get 'projects/index'
   get 'projects/manager'
-  get 'projects/create'
-  post 'projects/create' => 'projects#save'
+  get 'projects/create(/:id)' => 'projects#create'
   get 'projects/build/:id' => 'projects#build'
-  
+  get 'projects/:id' => 'projects#view'
+  get 'projects' => 'projects#index'
+  post 'projects/create' => 'projects#save'
+  delete 'projects/:id' => 'projects#delete'
+  put 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
+
   #Block
   get 'blocks/create/:project_id' => 'blocks#create'
   post 'blocks/create' => 'blocks#save'

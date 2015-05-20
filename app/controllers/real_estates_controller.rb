@@ -3,7 +3,7 @@ class RealEstatesController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:save, :delete, :preview, :change_show_status]
 
   def index
-
+    @real_estates = RealEstate.where(is_draft: 0, is_show: 1).limit(6)
   end
 
   def category
@@ -53,7 +53,7 @@ class RealEstatesController < ApplicationController
   end
 
   def manager
-    @real_estates = RealEstate.all
+    @real_estates = RealEstate.all.order updated_at: 'desc'
 
     render layout: 'layout_back'
   end

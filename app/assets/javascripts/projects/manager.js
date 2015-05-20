@@ -20,7 +20,7 @@ function init_DeleteButton($button) {
         $row = $(this).parents('tr');
 
         $.ajax({
-            url: '/real_estates/' + $row.attr('data-value'),
+            url: '/projects/' + $row.attr('data-value'),
             type: 'DELETE',
             contentType: 'JSON'
         }).done(function (data) {
@@ -44,10 +44,10 @@ function init_ChangeShowStatusButton($button) {
     $button.on('click', function () {
         var status = $button.attr('data-value');
         var $row = $(this).closest('tr');
-        var real_estate_id = $row.attr('data-value');
+        var project_id = $row.attr('data-value');
 
         $.ajax({
-            url: '/real_estates/change_show_status/' + real_estate_id + '/' + status,
+            url: '/projects/change_show_status/' + project_id + '/' + status,
             type: 'PUT',
             contentType: 'JSON'
         }).done(function (data) {

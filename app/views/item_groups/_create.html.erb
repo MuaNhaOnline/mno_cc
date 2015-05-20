@@ -1,0 +1,99 @@
+<article class="row wrapper">
+  <article class="main-content col-sm-12">    
+		<form class="form-horizontal" id="create_item_group_form" method="post" action="#">
+      <input type="hidden" name="item_group[block_id]" value="<%= @block_id %>" />
+      <section class="main-title">
+        Tạo nhóm mới
+      </section>
+      <ul class="item-wrapper">
+        
+        <!-- region Input -->
+
+        <li class="item">
+          <div class="item-title">Thông tin nhóm</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="name">Tên</label>
+              <div class="col-sm-9">
+                <input name="item_group[name]" class="form-control" id="name" data-validate="required">
+              </div>
+            </li>          
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="description">Mô tả</label>
+              <div class="col-sm-9">
+                <textarea name="item_group[description]" class="form-control" id="description" data-validate="required"></textarea>
+              </div>
+            </li>                  
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="restroom_number">WC:</label>
+              <div class="col-sm-4">
+                <select class="form-control" name="item_group[restroom_number]" id="restroom_number">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">&gt;4</option>
+                </select>
+              </div>                      
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="bedroom_number">Phòng ngủ:</label>
+              <div class="col-sm-4">
+                <select class="form-control" name="item_group[bedroom_number]" id="bedroom_number">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">&gt;4</option>
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="using_area">Diện tích</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="item_group[using_area]" class="form-control" data-constraint="only-number" data-validate="required" id="using_area" />
+                  <div class="input-group-addon">m</div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="width_x">Rộng</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="item_group[width_x]" class="form-control" data-constraint="only-number" data-validate="required" id="width_x" />
+                  <div class="input-group-addon">m</div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="width_y">Dài</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="item_group[width_y]" class="form-control" data-constraint="only-number" data-validate="required" id="width_y" />
+                  <div class="input-group-addon">m</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Nút xử lý -->
+
+        <li class="item">
+          <ul class="item-content">
+            <li class="submit-button">
+              <p class="text-center">
+                <button type="submit" class="btn btn-primary">Tạo mới</button>
+              </p>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+      </ul>
+    </form>
+  </article>              
+</article>

@@ -16,7 +16,7 @@
 		.table > tbody td:first-of-type {
 			width: 121px;		
 		}
-		.content .table > tbody > tr > td:first-of-type > span {
+		.content .table > tbody > tr > td:first-of-type span {
 			font-weight: bold;
 			border: 1px solid #286090;
 			border-radius: 4px;

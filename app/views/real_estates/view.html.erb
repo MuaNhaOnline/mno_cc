@@ -1,3 +1,5 @@
+<% @title = @real_estate.name %>
+
 <% content_for :stylesheets do %>
     <link rel="stylesheet" href="/assets/real_estates/view.css" />
 <% end %>
@@ -15,7 +17,7 @@
         <article class="left">
           <div class="picture">
             <img src="/assets/product/avatar.JPG">
-          </div>
+          </div>  
           <span>Mrs.Chi</span>
         </article>
         <article class="right">
@@ -44,8 +46,8 @@
 
 <!-- #start general infos -->
 <section class="block-box highlight">
-  <section class="block-title" data-after="Thời gian đăng: <%= @real_estate.created_at.strftime('%F %H:%M') %>">
-    <span><%= @real_estate.name.html_safe %></span>
+  <section class="block-title" data-after="Thời gian đăng: <%= @real_estate.created_at.strftime('%d/%m/%Y %H:%M') %>">
+    <span><%= @real_estate.title %></span>
   </section>
   <section class="block-content general-infos row">
     <section class="image">
@@ -119,9 +121,6 @@
     Nội dung
   </section>
   <section class="block-content content-detail-infos">
-    <h2 class="title">
-      <%= @real_estate.title %>
-    </h2>
     <p>
       <%= @real_estate.description %>
     </p>

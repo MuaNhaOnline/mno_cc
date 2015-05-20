@@ -66,6 +66,14 @@ class RealEstate < ActiveRecord::Base
 
   #endregion
 
+  def name
+    RealEstateType.find(real_estate_type_id).name + ' ' +
+        (is_alley == 1 ? 'Hẻm' : 'Mặt tiền') + ' ' +
+        Street.find(street_id).name + ' ' +
+        'Quận ' + District.find(district_id).name + ' ' +
+        Province.find(province_id).name
+  end
+
   #region Save real-estate
 
   def self.save_real_estate params, is_draft = false
@@ -89,7 +97,6 @@ class RealEstate < ActiveRecord::Base
     real_estate.property_utilities = PropertyUtility.find(params[:property_utility_ids]) if params.include? :property_utility_ids
     real_estate.region_utilities = RegionUtility.find(params[:region_utility_ids]) if params.include? :region_utility_ids
     real_estate.images = Image.find(params[:image_ids].to_a - ['']) if params.include? :image_ids
-    real_estate.name = get_real_estate_name real_estate_params
 
     real_estate
   end
@@ -108,7 +115,6 @@ class RealEstate < ActiveRecord::Base
     real_estate.property_utilities = params.include?(:property_utility_ids) ? PropertyUtility.find(params[:property_utility_ids]) : []
     real_estate.region_utilities = params.include?(:region_utility_ids) ? RegionUtility.find(params[:region_utility_ids]) : []
     real_estate.images = params.include?(:image_ids) ? Image.find(params[:image_ids].to_a - ['']) : []
-    real_estate.name = get_real_estate_name(real_estate_params)
     real_estate.is_draft = is_draft ? 1 : 0
 
     real_estate.save validate: !is_draft
@@ -118,7 +124,10 @@ class RealEstate < ActiveRecord::Base
 
   def self.update_show_status id, is_show
     real_estate = find id
-    real_estate.update is_show: is_show
+
+    real_estate.is_show = is_show
+
+    real_estate.save validate: false
   end
 
   #endregion
@@ -157,7 +166,7 @@ class RealEstate < ActiveRecord::Base
     real_estate_params['constructional_quality'] = ApplicationHelper.to_i real_estate_params['constructional_quality']
 
 
-    # title, description, name, purpose_id, price,
+    # title, description, purpose_id, price,
     # currency_id, unit_id, is_negotiable, province_id, district_id
     # ward_id, street_id, address_number, street_type_id, is_alley
     # #alley_size, real_estate_type_id, #campus_area, #using_area,
@@ -169,7 +178,7 @@ class RealEstate < ActiveRecord::Base
     # is_show, expired_time, ads_cost, is_paid, options
 
     fields = [
-        :title, :description, :name, :purpose_id, :price, :currency_id, :unit_id,
+        :title, :description, :purpose_id, :price, :currency_id, :unit_id,
         :is_negotiable, :province_id, :district_id, :ward_id, :street_id, :address_number,
         :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
         :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages
@@ -219,15 +228,6 @@ class RealEstate < ActiveRecord::Base
     end
 
     fields
-  end
-
-  #Get name of real-estate
-  def self.get_real_estate_name real_estate_params
-    RealEstateType.find(real_estate_params['real_estate_type_id']).name + ' ' +
-        real_estate_params['is_alley'] == '1' ? 'Hẻm' : 'Mặt tiền' + ' ' +
-        Street.find(real_estate_params['street_id']).name + ' ' +
-        District.find(real_estate_params['district_id']).name + ' ' +
-        Province.find(real_estate_params['province_id']).name
   end
 
   #endregion

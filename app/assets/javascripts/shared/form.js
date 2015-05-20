@@ -97,6 +97,16 @@ function init_ToggleInputs() {
 
 //endregion
 
+//region Init datepicker
+
+function init_DatePicker($input) {
+    $input.datepicker({
+        format: 'dd/mm/yyyy'
+    });
+}
+
+//endregion
+
 //region Init constraint
 
 function init_Constraint($form) {

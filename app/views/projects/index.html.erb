@@ -35,168 +35,32 @@
 <section class="block-box">
   <article class="block-content">
     <ul class="project-list row">
-      <!-- #start item -->
-      <li class="col-sm-6">
-        <section class="project-item">
-          <a href="/projects/view">
-            <article class="details">
-              <div class="image">
-                <img src="/assets/product/BDS09.jpg">
-              </div>
-              <div class="content">
-                <h4>Chung cư Himlam</h4>
-                <div class="investor"><span>Chủ đầu tư: Cty CP Himlam</span></div>
-                <div class="state">Đang hoàn thành</div>
-                <div class="properties">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+      <% @projects.each do |project| %>
+        <li class="col-sm-6">
+          <section class="project-item">
+            <a href="/projects/<%= project.id %>">
+              <article class="details">
+                <div class="image">
+                  <img src="<%= project.images.length != 0 ? "/images/#{project.images[0].id}" : '/assets/product/BDS09.jpg' %>" />
                 </div>
-              </div>
-              <div class="favorite-button"></div>
-            </article>
-          </a>
-          <article class="link">
-            <a href="#">Xem tất cả bất động sản</a>
-            <a href="#" class="share-button"></a>
-          </article>
-        </section>
-      </li>
-      <!-- #end item -->
-      <!-- #start item -->
-      <li class="col-sm-6">
-        <section class="project-item">
-          <a href="/projects/view">
-            <article class="details">
-              <div class="image">
-                <img src="/assets/product/BDS07.jpg">
-              </div>
-              <div class="content">
-                <h4>Chung cư Himlam</h4>
-                <div class="investor"><span>Chủ đầu tư: Cty CP Himlam</span></div>
-                <div class="state">Đang hoàn thành</div>
-                <div class="properties">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+                <div class="content">
+                  <h4><%= project.title %></h4>
+                  <div class="investor"><span><%= project.investor.name %></span></div>
+                  <div class="state">Đang hoàn thành</div>
+                  <div class="properties">
+                    <%= project.description %>
+                  </div>
                 </div>
-              </div>
-              <div class="favorite-button"></div>
+                <div class="favorite-button"></div>
+              </article>
+            </a>
+            <article class="link">
+              <a href="#">Xem tất cả bất động sản</a>
+              <a href="#" class="share-button"></a>
             </article>
-          </a>
-          <article class="link">
-            <a href="#">Xem tất cả bất động sản</a>
-            <a href="#" class="share-button"></a>
-          </article>
-        </section>
-      </li>
-      <!-- #end item -->
-      <!-- #start item -->
-      <li class="col-sm-6">
-        <section class="project-item">
-          <a href="/projects/view">
-            <article class="details">
-              <div class="image">
-                <img src="/assets/product/BDS01.jpg">
-              </div>
-              <div class="content">
-                <h4>Chung cư Himlam</h4>
-                <div class="investor"><span>Chủ đầu tư: Cty CP Himlam</span></div>
-                <div class="state">Đang hoàn thành</div>
-                <div class="properties">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-              </div>
-              <div class="favorite-button"></div>
-            </article>
-          </a>
-          <article class="link">
-            <a href="#">Xem tất cả bất động sản</a>
-            <a href="#" class="share-button"></a>
-          </article>
-        </section>
-      </li>
-      <!-- #end item -->
-      <!-- #start item -->
-      <li class="col-sm-6">
-        <section class="project-item">
-          <a href="/projects/view">
-            <article class="details">
-              <div class="image">
-                <img src="/assets/product/BDS06.jpg">
-              </div>
-              <div class="content">
-                <h4>Chung cư Himlam</h4>
-                <div class="investor"><span>Chủ đầu tư: Cty CP Himlam</span></div>
-                <div class="state">Đang hoàn thành</div>
-                <div class="properties">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-              </div>
-              <div class="favorite-button"></div>
-            </article>
-          </a>
-          <article class="link">
-            <a href="#">Xem tất cả bất động sản</a>
-            <a href="#" class="share-button"></a>
-          </article>
-        </section>
-      </li>
-      <!-- #end item -->
-      <!-- #start item -->
-      <li class="col-sm-6">
-        <section class="project-item">
-          <a href="/projects/view">
-            <article class="details">
-              <div class="image">
-                <img src="/assets/product/BDS03.jpg">
-              </div>
-              <div class="content">
-                <h4>Chung cư Himlam</h4>
-                <div class="investor"><span>Chủ đầu tư: Cty CP Himlam</span></div>
-                <div class="state">Đang hoàn thành</div>
-                <div class="properties">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-              </div>
-              <div class="favorite-button"></div>
-            </article>
-          </a>
-          <article class="link">
-            <a href="#">Xem tất cả bất động sản</a>
-            <a href="#" class="share-button"></a>
-          </article>
-        </section>
-      </li>
-      <!-- #end item -->
-      <!-- #start item -->
-      <li class="col-sm-6">
-        <section class="project-item">
-          <a href="/projects/view">
-            <article class="details">
-              <div class="image">
-                <img src="/assets/product/BDS04.jpg">
-              </div>
-              <div class="content">
-                <h4>Chung cư Himlam</h4>
-                <div class="investor"><span>Chủ đầu tư: Cty CP Himlam</span></div>
-                <div class="state">Đang hoàn thành</div>
-                <div class="properties">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
-                </div>
-              </div>
-              <div class="favorite-button"></div>
-            </article>
-          </a>
-          <article class="link">
-            <a href="#">Xem tất cả bất động sản</a>
-            <a href="#" class="share-button"></a>
-          </article>
-        </section>
-      </li>
-      <!-- #end item -->
+          </section>
+        </li>
+      <% end %>
     </ul>
   </article>
 </section>

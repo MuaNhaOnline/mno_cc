@@ -1,5 +1,9 @@
+<% 
+  @title = @project.name 
+%>
+
 <% content_for :stylesheets do %>
-    <link rel="stylesheet" href="/assets/projects/view.css" />
+  <link rel="stylesheet" href="/assets/projects/view.css" />
 <% end %>
 
 <% content_for :scripts do %>
@@ -44,30 +48,20 @@
 
 <!-- #start general infos -->
 <section class="block-box highlight">
-  <section class="block-title" data-after="Thời gian đăng: 6/10/2014">
-    <span>Nhà phố Quận 7</span>
+  <section class="block-title" data-after="Thời gian đăng: <%= @project.created_at.strftime('%d/%m/%Y %H:%M') %>">
+    <span><%= @project.title %></span>
   </section>
   <section class="block-content general-infos row">
     <section class="image">
-      <img src="/assets/product/Project01.jpg" class="img-responsive">
+      <img src="<%= @project.images.length != 0 ? "/images/#{@project.images[0].id}" : '/assets/product/Project01.jpg' %>" class="img-responsive">
     </section>
     <section class="infos">
       <ul class="image-infos">
-        <li class="item">
-          <img src="/assets/product/BDS01.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS02.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS03.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS04.jpg">
-        </li>
-        <li class="item">
-          <img src="/assets/product/BDS05.jpg">
-        </li>
+        <% (1...@project.images.length).each do |i| %>
+            <li class="item">
+              <img src="<%= "/images/#{@project.images[i].id}" %>">
+            </li>
+        <% end %>
       </ul>
     </section>
   </section>
@@ -75,7 +69,7 @@
 <!-- #end general infos -->
 <!-- #start address info -->
 <section class="address-info">
-  <span>Địa chỉ: <b>Số 30, đường Lê Văn Lương, Quận 7</b></span>
+  <span>Địa chỉ: <b><%= "#{@project.address_number}, quận #{@project.district.name}, #{@project.province.name} " %></b></span>
 </section>
 <!-- #end address infos -->
 <!-- #start share box -->
@@ -100,52 +94,46 @@
   <section class="block-content content-detail-infos">
     <ul class="row">
       <li class="col-sm-6">
-        Diện tích đất: <b>1327.00 m<sup>2</sup></b>
+        Ngang: <b><%= @project.width_x %>m</b>
       </li>
       <li class="col-sm-6">
-        Diện tích sử dụng: <b>.00 m<sup>2</sup></b>
+        Dài: <b><%= @project.width_y %>m</b>
       </li>
       <li class="col-sm-6">
-        Khuôn viên: x <b>(m<sup>2</sup>)</b>
+        Diện tích: <b><%= @project.campus_area %>m<sup>2</sup></b>
       </li>
       <li class="col-sm-6">
-        Tỉ lệ sử dụng: <b>28.00 %</b>
+        Tỉ lệ sử dụng: <b><%= @project.using_ratio %>%</b>
       </li>
       <li class="col-sm-6">
-        Số tầng: <b>25</b>
+        Thời gian khởi công (dự kiến): <b><%= @project.estimate_starting_date.strftime('%d/%m/%Y') %></b>
       </li>
       <li class="col-sm-6">
-        Số căn hộ/tầng: <b>6</b>
+        Thời gian hoàn thành (dự kiến): <b><%= @project.estimate_finishing_date.strftime('%d/%m/%Y') %></b>
       </li>
       <li class="col-sm-6">
-        Thời gian khởi công (dự kiến): <b>11/2013</b>
+        Ngày khởi công: <b><%= @project.starting_date.strftime('%d/%m/%Y') %></b>
       </li>
       <li class="col-sm-6">
-        Thời gian hoàn thành (dự kiến): <b>11/2013</b>
+        Ngày hoàn thành móng: <b><%= @project.finished_base_date.strftime('%d/%m/%Y') %></b>
       </li>
       <li class="col-sm-6">
-        Ngày khởi công: <b>29/3/2013</b>
+        Ngày bàn giao: <b><%= @project.transfer_date.strftime('%d/%m/%Y') %></b>
       </li>
       <li class="col-sm-6">
-        Ngày hoàn thành móng: <b>29/3/2013</b>
+        Ngày cấp sổ: <b><%= @project.docs_issue_date.strftime('%d/%m/%Y') %></b>
       </li>
       <li class="col-sm-6">
-        Ngày bàn giao: <b>29/3/2013</b>
+        Chủ đầu tư: <b><%= @project.investor.name %></b>
       </li>
       <li class="col-sm-6">
-        Ngày cấp sổ: <b>29/11/2013</b>
+        Đơn vị thi công: <b><%= @project.execute_unit %></b>
       </li>
       <li class="col-sm-6">
-        Chủ đầu tư: <b>Cty CP Himlam</b>
+        Đơn vị thiết kế: <b><%= @project.design_unit %></b>
       </li>
       <li class="col-sm-6">
-        Đơn vị thi công: <b>POSCO E&C Việt Nam</b>
-      </li>
-      <li class="col-sm-6">
-        Đơn vị thiết kế: <b>TT Decor</b>
-      </li>
-      <li class="col-sm-6">
-        Đơn vị quản lý dự án: <b>Cty XYZ</b>
+        Đơn vị quản lý dự án: <b><%= @project.manage_unit %></b>
       </li>
     </ul>
   </section>
@@ -155,15 +143,12 @@
     Mô tả
   </section>
   <section class="block-content content-detail-infos">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <p>
+      <%= @project.description %>
+    </p>
   </section>
 </section>
-<section class="block-box">
+<!-- <section class="block-box">
   <section class="block-title">
     Tiện ích khu vực
   </section>
@@ -215,5 +200,5 @@
   <section class="block-content map-infos">
     <img class="img-responsive" src="/assets/product/icon_Bando.png">
   </section>
-</section>
+</section> -->
 <!-- #end detail infos -->
