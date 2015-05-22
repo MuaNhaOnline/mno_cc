@@ -60,8 +60,10 @@
         <% status = project.is_draft == 1 ? 'draft' : (false && project.is_pending == 1 ? 'pend' : (project.is_show == 1 ? 'show' : 'hide')) %>
 				<tr data-value="<%= project.id %>">
 					<td>
-						<span><%= ApplicationHelper.id_format(project.id, 'PJ') %></span>
-						<img src="<%= project.images.length > 0 ? "/images/#{project.images[0].id}" : '/assets/product/BDS05.jpg' %>" width="100px" height="100px">
+						<a href="/projects/<%= project.id %>">
+							<span><%= ApplicationHelper.id_format(project.id, 'PJ') %></span>
+							<img src="<%= project.images.length > 0 ? "/images/#{project.images[0].id}" : '/assets/product/BDS05.jpg' %>" width="100px" height="100px">
+						</a>
 					</td>						
 					<td><%= project.title %></td>
 					<td><%= project.province.name %></td>
