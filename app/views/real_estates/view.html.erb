@@ -52,13 +52,13 @@
   <section class="block-content general-infos row">
     <section class="image">
       <a href="#" class="favorite-button"></a>
-      <img src="<%= @real_estate.images.length != 0 ? "/images/#{@real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
+      <img alt="Hình ảnh <%= @real_estate.name %>" title="Hình ảnh <%= @real_estate.name %>" src="<%= @real_estate.images.length != 0 ? "/images/#{@real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
     </section>
     <section class="infos">
       <ul class="image-infos">
         <% (1...@real_estate.images.length).each do |i| %>
             <li class="item">
-              <img src="<%= "/images/#{@real_estate.images[i].id}" %>">
+              <img alt="Hình ảnh <%= @real_estate.name %>" title="Hình ảnh <%= @real_estate.name %>" src="<%= "/images/#{@real_estate.images[i].id}" %>">
             </li>
         <% end %>
       </ul>
@@ -88,20 +88,38 @@
       </ul>
     </section>
     <section class="cost">
-      <div>
-        <% if @real_estate.price != 0 %>
-            <section class="money">
-              <%= @real_estate.price.to_s %>
-            </section>
-            <section class="currency">
-              <%= @real_estate.currency.name %>
-            </section>
-        <% else %>
-            <section class="currency">
-              Giá thỏa thuận
-            </section>
-        <% end %>
-      </div>
+      <% if (@real_estate.purpose.code == 'Ban' || @real_estate.purpose.code == 'BanThue') %>
+        <div>
+          <% if @real_estate.rent_price != 0 %>
+              <section class="money">
+                <%= @real_estate.rent_price.to_s %>
+              </section>
+              <section class="currency">
+                <%= @real_estate.currency.name %>
+              </section>
+          <% else %>
+              <section class="currency">
+                Giá thỏa thuận
+              </section>
+          <% end %>
+        </div>
+      <% end %>
+      <% if (@real_estate.purpose.code == 'Thue' || @real_estate.purpose.code == 'BanThue') %>
+        <div>
+          <% if @real_estate.sell_price != 0 %>
+              <section class="money">
+                <%= @real_estate.sell_price.to_s %>
+              </section>
+              <section class="currency">
+                <%= @real_estate.currency.name %>
+              </section>
+          <% else %>
+              <section class="currency">
+                Giá thỏa thuận
+              </section>
+          <% end %>
+        </div>
+      <% end %>
     </section>
   </section>
 </section>

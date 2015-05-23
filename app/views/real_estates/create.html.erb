@@ -36,23 +36,25 @@
         <!-- #Start item "Giá bán mong muốn" -->
         <li class="item">
           <div class="item-title">
-            Giá bán mong muốn
+            Giám ong muốn
             <a href="#" class="support-button" data-value="#support_price"></a>
             <section class="support-text" id="support_price">
-              <b>Giá bán mong muốn:</b> Quý khách có thể sử dụng chức năng <a href="#">"định giá nhà"</a> hoặc <a href="#">"định giá khu vực"</a> để tham khảo giá thị trường nhà đất giao dịch gần nhất.<br>
+              <b>Giá mong muốn:</b> Quý khách có thể sử dụng chức năng <a href="#">"định giá nhà"</a> hoặc <a href="#">"định giá khu vực"</a> để tham khảo giá thị trường nhà đất giao dịch gần nhất.<br>
               <b>Thỏa thuận:</b> Giá bán sẽ được thỏa thuận khi Người mua gặp trực tiếp Người bán.
             </section>
           </div>
           <ul class="item-content">
-            <li class="form-group">            
-              <label for="price" class="control-label col-sm-3">Giá mong muốn:</label>                                
-              <div class="col-sm-4">
-                <input value="<%= @real_estate.price.blank? ? '' : @real_estate.price.round %>" <%= 'disabled' if @real_estate.price == 0 %> name="real_estate[price]" class="form-control only-number" data-validate="required" id="price" data-separate='.' data-toggle-input-object="price-agree">
-              </div>
-              <div class="checkbox col-sm-4">
-                <label class="label-non-margin"><input <%= 'checked' if @real_estate.price == 0 %> name="real_estate[no_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="price-agree"> Giá Thoả thuận</label>
-              </div>
-            </li>
+            <%
+               ban = thue = ''
+               Unit.get_options.each do |unit|
+                 case unit.options_hash['group']
+                   when 'Ban'
+                     ban += "<option #{'selected' if unit.id == @real_estate.sell_unit_id} value=\"#{unit.id}\">#{unit.name}</options>"
+                   when 'Thue'
+                     thue += "<option #{'selected' if unit.id == @real_estate.rent_unit_id} value=\"#{unit.id}\">#{unit.name}</options>"
+                 end
+               end
+            %>
             <li class="form-group">            
               <label for="currency_id" class="control-label col-sm-3">Đơn vị tính:</label>
               <div class="col-sm-3">
@@ -61,26 +63,38 @@
                       <option value="<%= currency.id %>" <%= 'selected' if currency.id == @real_estate.currency_id %> <%= currency.options_hash['html']['attributes'] %>><%= currency.name %></option>
                   <% end %>
                 </select>
-              </div>
-              <label for="unit" class="control-label col-sm-1">trên</label>
+              </div>  
+            </li>
+            <li class="form-group" data-toggle-input-object="sell rent_sell un-rent">            
+              <label for="price" class="control-label col-sm-3">Giá bán mong muốn:</label>                                
               <div class="col-sm-4">
-
-                <%
-                   ban = thue = ''
-                   Unit.get_options.each do |unit|
-                     case unit.options_hash['group']
-                       when 'Ban'
-                         ban += "<option #{'selected' if unit.id == @real_estate.unit_id} value=\"#{unit.id}\">#{unit.name}</options>"
-                       when 'Thue'
-                         thue += "<option #{'selected' if unit.id == @real_estate.unit_id} value=\"#{unit.id}\">#{unit.name}</options>"
-                     end
-                   end
-                %>
-
-                <select style="<%= 'display:none;' if !@real_estate.purpose.blank? && @real_estate.purpose.code != 'Ban' %>" name="real_estate[unit_id_sell]" class="form-control" id="unit" data-toggle-input-object="sell un-rent">
+                <input value="<%= @real_estate.sell_price.blank? ? '' : @real_estate.sell_price.round %>" <%= 'disabled' if @real_estate.sell_price == 0 %> name="real_estate[sell_price]" class="form-control only-number" data-validate="required" id="sell_price" data-separate='.' data-toggle-input-object="sell-price-agree">
+              </div>
+              <div class="checkbox col-sm-4">
+                <label class="label-non-margin"><input <%= 'checked' if @real_estate.sell_price == 0 %> name="real_estate[no_sell_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="sell-price-agree"> Giá Thoả thuận</label>
+              </div>
+            </li>
+            <li class="form-group" data-toggle-input-object="sell rent_sell un-rent"> 
+              <label for="unit" class="control-label col-sm-3">Trên:</label>
+              <div class="col-sm-4">
+                <select style="<%= 'display:none;' if !@real_estate.purpose.blank? && @real_estate.purpose.code != 'Ban' %>" name="real_estate[sell_unit_id]" class="form-control col-sm-6" data-toggle-input-object="sell un-rent rent_sell">
                   <%= ban.html_safe %>
-                </select>
-                <select style="<%= 'display:none;' if @real_estate.purpose.blank? || @real_estate.purpose.code != 'Thue' %>" name="real_estate[unit_id_rent]" class="form-control" id="unit" data-toggle-input-object="rent un-sell">
+                </select>              
+              </div>    
+            </li>
+            <li class="form-group" data-toggle-input-object="rent rent_sell un-sell">            
+              <label for="price" class="control-label col-sm-3">Giá thuê mong muốn:</label>                                
+              <div class="col-sm-4">
+                <input value="<%= @real_estate.rent_price.blank? ? '' : @real_estate.rent_price.round %>" <%= 'disabled' if @real_estate.rent_price == 0 %> name="real_estate[rent_price]" class="form-control only-number" data-validate="required" id="rent_price" data-separate='.' data-toggle-input-object="rent-price-agree">
+              </div>
+              <div class="checkbox col-sm-4">
+                <label class="label-non-margin"><input <%= 'checked' if @real_estate.rent_price == 0 %> name="real_estate[no_rent_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="rent-price-agree"> Giá Thoả thuận</label>
+              </div>
+            </li>
+            <li class="form-group" data-toggle-input-object="rent rent_sell un-sell"> 
+              <label for="unit" class="control-label col-sm-3">Trên:</label>
+              <div class="col-sm-4">
+                <select style="<%= 'display:none;' if @real_estate.purpose.blank? || @real_estate.purpose.code != 'Thue' %>" name="real_estate[rent_unit_id]" class="form-control col-sm-6" data-toggle-input-object="rent un-sell rent_sell">
                   <%= thue.html_safe %>
                 </select>                   
               </div>    

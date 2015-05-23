@@ -91,6 +91,7 @@
 		right: 20px;
 	}
 		.general-infos .cost div {
+			display: inline-block;
 			border: 1px solid #ddd;
 			text-align: center;
 			border-radius: 5px;

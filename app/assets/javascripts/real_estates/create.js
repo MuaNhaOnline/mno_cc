@@ -1,8 +1,3 @@
-/* global promptPopup */
-/* global initImageUpload */
-/* global init_UnitFormat */
-/* global init_SubmitForm */
-
 //region Initialization
 
 $(function(e){
@@ -10,7 +5,7 @@ $(function(e){
     init_BuildYear();
     init_UnitFormat([{
         select: $form.find('#currency_id'),
-        input: $form.find('#price')
+        input: $form.find('#sell_price, #rent_price')
     }]);
     initImageUpload($form.find('.image-upload input[type="file"]'), 'real_estate');
     init_Preview($form);

@@ -209,21 +209,28 @@ function init_UnitFormat(objects) {
     var count = objects.length;
     for (var i = 0; i < count; i++) {
         var $select = objects[i].select;
-        var $input = objects[i].input;
+        var $inputs = objects[i].input;
         $select.on('change', function () {
             if ($select.find('option:selected').attr('data-value') == 'USD') {
-                $input.attr('data-separate', ',');
-                var reg = new RegExp('[.]', "g");
-                $input.val($input.val().replace(reg, ','));
+                $inputs.each(function () {
+                    var $input = $(this);
+                    $input.attr('data-separate', ',');
+                    var reg = new RegExp('[.]', "g");
+                    $input.val($input.val().replace(reg, ','));  
+                });
             }
             else {
-                $input.attr('data-separate', '.');
-                var reg = new RegExp('[,]', "g");
-                $input.val($input.val().replace(reg, '.'));
+                $inputs.each(function () {
+                    var $input = $(this);
+                    $input.attr('data-separate', '.');
+                    var reg = new RegExp('[,]', "g");
+                    $input.val($input.val().replace(reg, '.'));  
+                })
             }
         });
 
-        $input.on('keyup', function() {
+        $inputs.on('keyup', function() {
+            var $input = $(this);
             var separate = $input.attr('data-separate');
 
             $input.val(numbericFormat($input.val(), separate));

@@ -42,8 +42,8 @@ class Project < ActiveRecord::Base
   #endregion
 
   def name
-    ProjectType.find(project_type_id).name + ' ' +
-        'Quận ' + District.find(district_id).name
+    project_type.name + ' ' +
+      'Quận ' + district.name
   end
 
   #region Save project

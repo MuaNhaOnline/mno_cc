@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519202110) do
+ActiveRecord::Schema.define(version: 20150523105405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,7 +134,6 @@ ActiveRecord::Schema.define(version: 20150519202110) do
     t.decimal "width_x"
     t.decimal "width_y"
     t.text    "options"
-    t.integer "block_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -207,34 +206,6 @@ ActiveRecord::Schema.define(version: 20150519202110) do
     t.integer  "is_draft"
   end
 
-  create_table "projects_tables", force: :cascade do |t|
-    t.text     "title"
-    t.text     "description"
-    t.integer  "province_id"
-    t.integer  "district_id"
-    t.integer  "street_id"
-    t.text     "address_number"
-    t.integer  "project_type_id"
-    t.decimal  "campus_area"
-    t.decimal  "width_x"
-    t.decimal  "width_y"
-    t.decimal  "using_ratio"
-    t.datetime "estimate_starting_date"
-    t.datetime "estimate_finishing_date"
-    t.datetime "starting_date"
-    t.datetime "finished_base_date"
-    t.datetime "transfer_date"
-    t.datetime "docs_issue_date"
-    t.integer  "investor_id"
-    t.text     "execute_unit"
-    t.text     "design_unit"
-    t.text     "manage_unit"
-    t.text     "payment_method"
-    t.decimal  "unit_price"
-    t.integer  "is_show",                 default: 1
-    t.integer  "is_pending",              default: 1
-  end
-
   create_table "property_utilities", force: :cascade do |t|
     t.text     "name"
     t.text     "code"
@@ -292,9 +263,9 @@ ActiveRecord::Schema.define(version: 20150519202110) do
     t.text     "title"
     t.text     "description"
     t.integer  "purpose_id"
-    t.decimal  "price"
+    t.decimal  "rent_price"
     t.integer  "currency_id"
-    t.integer  "unit_id"
+    t.integer  "rent_unit_id"
     t.integer  "is_negotiable"
     t.integer  "province_id"
     t.integer  "district_id"
@@ -332,6 +303,8 @@ ActiveRecord::Schema.define(version: 20150519202110) do
     t.text     "options"
     t.integer  "is_pending",                  default: 1
     t.integer  "is_draft",                    default: 0
+    t.decimal  "sell_price"
+    t.integer  "sell_unit_id"
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|

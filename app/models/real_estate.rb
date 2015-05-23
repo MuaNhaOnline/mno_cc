@@ -9,7 +9,8 @@ class RealEstate < ActiveRecord::Base
   belongs_to :province
   belongs_to :currency
   belongs_to :purpose
-  belongs_to :unit
+  belongs_to :sell_unit, class_name: 'Unit'
+  belongs_to :rent_unit, class_name: 'Unit'
   belongs_to :legal_record_type
   belongs_to :planning_status_type
   belongs_to :constructional_level
@@ -27,9 +28,7 @@ class RealEstate < ActiveRecord::Base
   validates :title, presence: { message: 'Tiêu đề không được bỏ trống' }
   validates :description, presence: { message: 'Mô tả không được bỏ trống' }
   validates :purpose_id, presence: { message: 'Mục tiêu không được bỏ trống' }
-  validates :price, presence: { message: 'Giá không được bỏ trống' }
   validates :currency_id, presence: { message: 'Loại tiền không được bỏ trống' }
-  validates :unit_id, presence: { message: 'Đơn vị tính không được bỏ trống' }
   validates :province_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :district_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :ward_id, presence: { message: 'Địa chỉ không được bỏ trống' }
@@ -67,11 +66,13 @@ class RealEstate < ActiveRecord::Base
   #endregion
 
   def name
-    RealEstateType.find(real_estate_type_id).name + ' ' +
-        (is_alley == 1 ? 'Hẻm' : 'Mặt tiền') + ' ' +
-        Street.find(street_id).name + ' ' +
-        'Quận ' + District.find(district_id).name + ' ' +
-        Province.find(province_id).name
+    purpose.name + ' ' +
+      real_estate_type.name + ' ' +
+      (is_alley == 1 ? 'Hẻm' : 'Mặt tiền') + ' ' +
+      street.name + ' ' +
+      'Quận ' + district.name + ' ' +
+      province.name + ' ' +
+      (legal_record_type.code != 'Custom' ? legal_record_type.name : custom_legal_record_type)
   end
 
   #region Save real-estate
@@ -138,12 +139,13 @@ class RealEstate < ActiveRecord::Base
   def self.get_real_estate_params real_estate_params
     # price
     # Chuyển sang số
-    real_estate_params['price'] = real_estate_params[:no_price] == '1' ? 0 : ApplicationHelper.to_i(real_estate_params['price'])
+    real_estate_params['sell_price'] = real_estate_params[:no_sell_price] == '1' ? 0 : ApplicationHelper.to_i(real_estate_params['sell_price'])
+    real_estate_params['rent_price'] = real_estate_params[:no_rent_price] == '1' ? 0 : ApplicationHelper.to_i(real_estate_params['rent_price'])
 
     # unit
     # Kiểm tra xem mục đích là gì để xác định unit
-    temp = Purpose.find(real_estate_params['purpose_id'])
-    real_estate_params['unit_id'] = real_estate_params[temp.code == 'Ban' ? 'unit_id_sell' : 'unit_id_rent']
+    real_estate_params['sell_unit_id'] = real_estate_params['sell_unit_id']
+    real_estate_params['rent_unit_id'] = real_estate_params['rent_unit_id']
 
     # alley_width
     # Chuyển sang số
@@ -178,9 +180,9 @@ class RealEstate < ActiveRecord::Base
     # is_show, expired_time, ads_cost, is_paid, options
 
     fields = [
-        :title, :description, :purpose_id, :price, :currency_id, :unit_id,
-        :is_negotiable, :province_id, :district_id, :ward_id, :street_id, :address_number,
-        :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
+        :title, :description, :purpose_id, :sell_price, :rent_price, :currency_id, :sell_unit_id,
+        :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
+        :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
         :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages
     ]
 

@@ -19,7 +19,6 @@
 				<td>Tên</td>
 				<td>Mục đích</td>
 				<td>Loại</td>
-				<td>Giá</td>
 				<td>Tình trạng</td>
 				<td>Điều khiển</td>															
 			</tr>								
@@ -37,7 +36,6 @@
               <td><%= real_estate.title %></td>
               <td><%= real_estate.purpose.name %></td>
               <td><%= real_estate.real_estate_type.name %></td>
-              <td><%= real_estate.price.to_s + ' ' + real_estate.currency.name %></td>
               <td data-object="status">
                 <%=
                   case status

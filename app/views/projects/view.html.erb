@@ -53,13 +53,13 @@
   </section>
   <section class="block-content general-infos row">
     <section class="image">
-      <img src="<%= @project.images.length != 0 ? "/images/#{@project.images[0].id}" : '/assets/product/Project01.jpg' %>" class="img-responsive">
+      <img alt="Hình ảnh <%= @project.name %>" title="Hình ảnh <%= @project.name %>" src="<%= @project.images.length != 0 ? "/images/#{@project.images[0].id}" : '/assets/product/Project01.jpg' %>" class="img-responsive">
     </section>
     <section class="infos">
       <ul class="image-infos">
         <% (1...@project.images.length).each do |i| %>
             <li class="item">
-              <img src="<%= "/images/#{@project.images[i].id}" %>">
+              <img alt="Hình ảnh <%= @project.name %>" title="Hình ảnh <%= @project.name %>" src="<%= "/images/#{@project.images[i].id}" %>">
             </li>
         <% end %>
       </ul>
