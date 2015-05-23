@@ -25,7 +25,7 @@
               <div class="col-sm-4 col-sm-offset-3">
                 <select name="real_estate[purpose_id]" class="form-control" data-toggle-input="select-show" id="purpose">
                   <% Purpose.get_options.each do |purpose| %>
-                      <option value="<%= purpose.id %>" <%= 'selected' if purpose.id == @real_estate.purpose_id %> <%= purpose.options_hash['html']['attributes'] if defined? purpose.options_hash['html']['attributes'] %>><%= purpose.name %></option>
+                      <option value="<%= purpose.id %>" <%= 'selected' if purpose.id == @real_estate.purpose_id %> <%= purpose.options_hash['html']['attributes'].html_safe if defined? purpose.options_hash['html']['attributes'] %>><%= purpose.name %></option>
                   <% end %>
                 </select>
               </div>

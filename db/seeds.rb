@@ -50,7 +50,8 @@ PropertyUtility.create name: 'Thang máy'
 PropertyUtility.create name: 'Hồ bơi'
 
 Purpose.create name: 'Bán', code: 'Ban', options: '{"html":{"attributes":"data-show=sell data-hide=un-sell"}}'
-Purpose.create name: 'Thuê', code: 'Thue', options: '{"html":{"attributes":"data-show=rent data-hide=un-rent"}}'
+Purpose.create name: 'Cho thuê', code: 'Thue', options: '{"html":{"attributes":"data-show=rent data-hide=un-rent"}}'
+Purpose.create name: 'Bán hoặc cho thuê', code: 'BanThue', options: '{"html":{"attributes":"data-show=\"rent sell\""}}'
 
 RealEstateType.create name: 'Đất thổ cư', code: 'DatThoCu', options: '{"group":"Dat"}'
 RealEstateType.create name: 'Đất trồng', code: 'DatTrong', options: '{"group":"Dat"}'
@@ -93,3 +94,5 @@ Province.create name: 'Hồ Chí Minh'
 District.create name: '1', province_id: 1
 Ward.create name: 'Bến Nghé', province_id: 1
 Street.create name: 'Lê Lợi', province_id: 1
+
+ProjectType.create name: 'Căn hộ', code: 'CanHo'
