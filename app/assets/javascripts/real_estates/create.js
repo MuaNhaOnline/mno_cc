@@ -124,9 +124,10 @@ function init_Submit($form) {
                             handle: function () {
                                 $form.addClass('full');
                                 $('html, body').animate(
-                                    { scrollTop: $('.until-full').offset().top - 100 }
+                                    { scrollTop: $('.until-full:visible').offset().top - 100 }
                                 );
 
+                                setDefault_ToggleInputs();
                                 $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
                                 $form.find('button[type="submit"]').text('Bổ sung');
                             },

@@ -100,7 +100,7 @@
               </section>
             </a>
             <section class="bottom-section">
-              <span><%= real_estate.price %></span>
+              <span><%= real_estate.sell_price.blank? ? real_estate.rent_price : real_estate.sell_price %></span>
               <div class="button">
                 <a href="#" class="muathuebds-button"></a>
                 <a href="#" class="share-button"></a>

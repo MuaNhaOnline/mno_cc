@@ -138,11 +138,11 @@ nav {
 /* #start hide fields */
 
 .form-es.full .until-full {
-    display: inherit;
+  display: inherit;
 }
 
 .form-es:not(.full) .until-full {
-    display: none;
+  display: none !important;
 }
 
 /* #end hide fields */

@@ -388,8 +388,27 @@
           </ul>
         </li>
         <!-- #End item "Loại hình bất động sản" -->
+        <!-- #Start item "Nội dung tin đăng" -->
+        <li class="item">
+          <div class="item-title">Nội dung tin đăng</div>
+          <ul class="item-content">            
+            <li class="form-group">            
+              <label class="control-label col-sm-3" for="title">Tiêu đề:</label>
+              <div class="col-sm-9">
+                <input value="<%= @real_estate.title %>" name="real_estate[title]" class="form-control" data-validate="required" id="title">
+              </div>
+            </li>
+            <li class="form-group">            
+              <label class="control-label col-sm-3" for="description">Nội dung:</label>
+              <div class="col-sm-9">
+                <textarea name="real_estate[description]" class="form-control" data-validate="required" id="description"><%= @real_estate.description %></textarea>
+              </div>
+            </li>            
+          </ul>
+        </li>
+        <!-- #End item "Nội dung tin đăng" -->
         <!-- #Start item "Hồ sơ pháp lý" -->
-        <li class="item" data-toggle-input-object="sell un-rent">
+        <li class="item until-full" data-toggle-input-object="sell un-rent rent_sell">
           <div class="item-title">Hồ sơ pháp lý</div>
           <ul class="item-content">
             <li class="form-group">
@@ -412,7 +431,7 @@
         </li>
         <!-- #End item "Hồ sơ pháp lý" -->
         <!-- #Start item "Tình trạng quy hoạch" -->
-        <li class="item" data-toggle-input-object="sell un-rent">
+        <li class="item until-full" data-toggle-input-object="sell un-rent rent_sell">
           <div class="item-title">Tình trạng quy hoạch</div>
           <ul class="item-content">
             <li class="form-group">
@@ -437,25 +456,6 @@
           </ul>
         </li>
         <!-- #End item "Tình trạng quy hoạch" -->
-        <!-- #Start item "Nội dung tin đăng" -->
-        <li class="item">
-          <div class="item-title">Nội dung tin đăng</div>
-          <ul class="item-content">            
-            <li class="form-group">            
-              <label class="control-label col-sm-3" for="title">Tiêu đề:</label>
-              <div class="col-sm-9">
-                <input value="<%= @real_estate.title %>" name="real_estate[title]" class="form-control" data-validate="required" id="title">
-              </div>
-            </li>
-            <li class="form-group">            
-              <label class="control-label col-sm-3" for="description">Nội dung:</label>
-              <div class="col-sm-9">
-                <textarea name="real_estate[description]" class="form-control" data-validate="required" id="description"><%= @real_estate.description %></textarea>
-              </div>
-            </li>            
-          </ul>
-        </li>
-        <!-- #End item "Nội dung tin đăng" -->
         <!-- #Start item "Tiện nghi khác" -->
         <li class="item until-full">
           <div class="item-title">Tiện nghi khác</div>

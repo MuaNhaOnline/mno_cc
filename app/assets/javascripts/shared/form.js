@@ -16,6 +16,7 @@ $(function(e){
 //Set default
 function setDefault_ToggleInputs() {
     $('[data-toggle-input~="select-show"]:visible').each(function() {
+        console.log(this.name);
         var $option = $(this).find('option:selected');
 
         var hideObject = $option.attr('data-hide');
