@@ -6,20 +6,21 @@
 
 <article class="main-frame">
   <main>
-    <section class="block-box">
-      <section class="block-title">
-        <span><%= @real_estate.name.html_safe %></span>
+    <!-- #start general infos -->
+    <section class="block-box highlight">
+      <section class="block-title" data-after="Thời gian đăng: <%= @real_estate.created_at.blank? ? '' : @real_estate.created_at.strftime('%d/%m/%Y %H:%M') %>">
+        <span><%= @real_estate.title %></span>
       </section>
-      <section class="block-content general-infos">
+      <section class="block-content general-infos row">
         <section class="image">
           <a href="#" class="favorite-button"></a>
-          <img src="<%= @real_estate.images.length != 0 ? "/images/#{@real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
+          <img alt="Hình ảnh <%= @real_estate.name %>" title="Hình ảnh <%= @real_estate.name %>" src="<%= @real_estate.images.length != 0 ? "/images/#{@real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
         </section>
         <section class="infos">
           <ul class="image-infos">
             <% (1...@real_estate.images.length).each do |i| %>
                 <li class="item">
-                  <img src="<%= "/images/#{@real_estate.images[i].id}" %>">
+                  <img alt="Hình ảnh <%= @real_estate.name %>" title="Hình ảnh <%= @real_estate.name %>" src="<%= "/images/#{@real_estate.images[i].id}" %>">
                 </li>
             <% end %>
           </ul>
@@ -27,12 +28,12 @@
             <li>
               <span class="title">Mã tin:</span>
               <span class="value" style="
-              border: 1px solid #286090;
-                      border-radius: 4px;
-                      padding: 3px 6px;
-                      background-color: #286090;
-                      color: white;
-              "><%= ApplicationHelper.id_format('00000', 'RE') %></span>
+                                        border: 1px solid #286090;
+                                                border-radius: 4px;
+                                                padding: 3px 6px;
+                                                background-color: #286090;
+                                                color: white;
+                                        "><%= ApplicationHelper.id_format(@real_estate.id, 'RE') %></span>
             </li>
             <li>
               <span class="title">Loại:</span>
@@ -49,20 +50,38 @@
           </ul>
         </section>
         <section class="cost">
-          <div>
-            <% if @real_estate.price != 0 %>
-                <section class="money">
-                  <%= @real_estate.price.to_s %>
-                </section>
-                <section class="currency">
-                  <%= @real_estate.currency.name %>
-                </section>
-            <% else %>
-                <section class="currency">
-                  Giá thỏa thuận
-                </section>
-            <% end %>
-          </div>
+          <% if (@real_estate.purpose.code == 'Ban' || @real_estate.purpose.code == 'BanThue') %>
+            <div>
+              <% if @real_estate.rent_price != 0 %>
+                  <section class="money">
+                    <%= @real_estate.rent_price.to_s %>
+                  </section>
+                  <section class="currency">
+                    <%= @real_estate.currency.name %>
+                  </section>
+              <% else %>
+                  <section class="currency">
+                    Giá thỏa thuận
+                  </section>
+              <% end %>
+            </div>
+          <% end %>
+          <% if (@real_estate.purpose.code == 'Thue' || @real_estate.purpose.code == 'BanThue') %>
+            <div>
+              <% if @real_estate.sell_price != 0 %>
+                  <section class="money">
+                    <%= @real_estate.sell_price.to_s %>
+                  </section>
+                  <section class="currency">
+                    <%= @real_estate.currency.name %>
+                  </section>
+              <% else %>
+                  <section class="currency">
+                    Giá thỏa thuận
+                  </section>
+              <% end %>
+            </div>
+          <% end %>
         </section>
       </section>
     </section>
@@ -82,9 +101,6 @@
         Nội dung
       </section>
       <section class="block-content content-detail-infos">
-        <h2 class="title">
-          <%= @real_estate.title %>
-        </h2>
         <p>
           <%= @real_estate.description %>
         </p>
@@ -146,54 +162,38 @@
               </li>
           <% end %>
           <% if fields.include? :floor_number %>
-              <li class="item col-xs-6 col-sm-4 circle">
-                <span>Số tầng: <b><%= case @real_estate.floor_number; when 0; 'Trệt'; when 4; 'Hơn 4'; else; @real_estate.floor_number end %></b></span>
-              </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>Số tầng: <b><%= case @real_estate.floor_number; when 0; 'Trệt'; when 4; 'Hơn 4'; else; @real_estate.floor_number end %></b></span>
+          </li>
           <% end %>
           <% if fields.include? :restroom_number %>
-              <li class="item col-xs-6 col-sm-4 circle">
-                <span>WC: <b><%= @real_estate.restroom_number != 4 ? @real_estate.restroom_number : 'Hơn 4' %></b></span>
-              </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>WC: <b><%= @real_estate.restroom_number != 4 ? @real_estate.restroom_number : 'Hơn 4' %></b></span>
+          </li>
           <% end %>
           <% if fields.include? :bedroom_number %>
-              <li class="item col-xs-6 col-sm-4 circle">
-                <span>Phòng ngủ: <b><%= @real_estate.bedroom_number != 4 ? @real_estate.bedroom_number : 'Hơn 4' %></b></span>
-              </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>Phòng ngủ: <b><%= @real_estate.bedroom_number != 4 ? @real_estate.bedroom_number : 'Hơn 4' %></b></span>
+          </li>
           <% end %>
           <% if fields.include? :build_year %>
-              <li class="item col-xs-6 col-sm-4 circle">
-                <span>Năm xây dựng: <b><%= @real_estate.build_year %></b></span>
-              </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>Năm xây dựng: <b><%= @real_estate.build_year %></b></span>
+          </li>
           <% end %>
           <% if fields.include? :constructional_level_id %>
-              <li class="item col-xs-6 col-sm-4 circle">
-                <span>Phân loại: <b><%= @real_estate.constructional_level.name %></b></span>
-              </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>Phân loại: <b><%= @real_estate.constructional_level.name %></b></span>
+          </li>
           <% end %>
           <% if fields.include? :constructional_quality %>
-              <li class="item col-xs-6 col-sm-4 circle">
-                <span>Chất lượng nhà: <b><%= @real_estate.constructional_quality %>%</b></span>
-              </li>
+          <li class="item col-xs-6 col-sm-4 circle">
+            <span>Chất lượng nhà: <b><%= @real_estate.constructional_quality %>%</b></span>
+          </li>
           <% end %>
         </ul>
       </section>
     </section>
-    <% if @real_estate.property_utilities.length > 0 %>
-        <section class="block-box">
-          <section class="block-title">
-            Tiện ích khu vực
-          </section>
-          <section class="block-content content-detail-infos">
-            <ul class="row infos-list">
-              <% @real_estate.region_utilities.each do |region_utility| %>
-                  <li class="item col-xs-6 col-sm-4">
-                    <span><%= region_utility.name %></span>
-                  </li>
-              <% end %>
-            </ul>
-          </section>
-        </section>
-    <% end %>
     <% if @real_estate.property_utilities.length > 0 %>
         <section class="block-box">
           <section class="block-title">
@@ -210,10 +210,26 @@
           </section>
         </section>
     <% end %>
-    <% if @real_estate.advantages.length > 0 %>
+    <% if @real_estate.region_utilities.length > 0 %>
         <section class="block-box">
           <section class="block-title">
-            Tiện nghi
+            Tiện ích khu vực
+          </section>
+          <section class="block-content content-detail-infos">
+            <ul class="row infos-list">
+              <% @real_estate.region_utilities.each do |region_utility| %>
+                  <li class="item col-xs-6 col-sm-4">
+                    <span><%= region_utility.name %></span>
+                  </li>
+              <% end %>
+            </ul>
+          </section>
+        </section>
+    <% end %>
+    <% if @real_estate.advantages.length > 0 || !@real_estate.custom_advantages.blank? %>
+        <section class="block-box">
+          <section class="block-title">
+            Điểm tốt
           </section>
           <section class="block-content content-detail-infos">
             <ul class="row infos-list">
@@ -231,10 +247,10 @@
           </section>
         </section>
     <% end %>
-    <% if @real_estate.disadvantages.length > 0 %>
+    <% if @real_estate.disadvantages.length > 0 || !@real_estate.custom_disadvantages.blank? %>
         <section class="block-box">
           <section class="block-title">
-            Tiện nghi
+            Điểm xấu
           </section>
           <section class="block-content content-detail-infos">
             <ul class="row infos-list">
@@ -260,5 +276,129 @@
         <img class="img-responsive" src="/assets/product/icon_Bando.png">
       </section>
     </section>
+    <section class="block-box">
+      <section class="block-title">
+        Bất động sản liên quan
+      </section>
+      <section class="block-content">
+        <article class="relative-filter">
+          <span>Xem theo</span>
+          <ul class="dropdown-search">
+            <li>Nhà phố</li>
+            <li>Dưới 500 triệu</li>
+          </ul>
+        </article>
+        <!-- #start relative-product-list -->
+        <ul class="relative-products-list row">
+          <!-- #start product item -->
+          <li class="col-md-4 col-sm-6 col-xs-12">
+            <section class="product-item">
+              <a class="favorite-button"></a>
+              <a class="top-section" href="ChiTietSanPham.html">
+                <h1 class="title">
+                  Nhà phố quận 9
+                </h1>
+                <section class="picture">
+                  <img src="/assets/product/BDS01.jpg">
+                </section>
+                <section class="property">
+                  <section class="bedroom">4</section>
+                  <section class="bathroom">5</section>
+                  <section class="area">100 m<sup>2</sup></section>
+                </section>
+              </a>
+              <section class="bottom-section">
+                <span>$ 2 tỷ</span>
+                <div class="button">
+                  <a href="#" class="muathuebds-button"></a>
+                  <a href="#" class="share-button"></a>
+                  <a href="#">Định giá</a>
+                </div>
+              </section>
+            </section>
+          </li>
+          <!-- #end product item -->
+          <!-- #start product item -->
+          <li class="col-md-4 col-sm-6 col-xs-12">
+            <section class="product-item">
+              <a class="favorite-button"></a>
+              <a class="top-section" href="ChiTietSanPham.html">
+                <h1 class="title">
+                  Nhà phố quận 9
+                </h1>
+                <section class="picture">
+                  <img src="/assets/product/BDS01.jpg">
+                </section>
+                <section class="property">
+                  <section class="bedroom">4</section>
+                  <section class="bathroom">5</section>
+                  <section class="area">100 m<sup>2</sup></section>
+                </section>
+              </a>
+              <section class="bottom-section">
+                <span>$ 2 tỷ</span>
+                <div class="button">
+                  <a href="#" class="muathuebds-button"></a>
+                  <a href="#" class="share-button"></a>
+                  <a href="#">Định giá</a>
+                </div>
+              </section>
+            </section>
+          </li>
+          <!-- #end product item -->
+          <!-- #start product item -->
+          <li class="col-md-4 col-sm-6 col-xs-12">
+            <section class="product-item">
+              <a class="favorite-button"></a>
+              <a class="top-section" href="ChiTietSanPham.html">
+                <h1 class="title">
+                  Nhà phố quận 9
+                </h1>
+                <section class="picture">
+                  <img src="/assets/product/BDS01.jpg">
+                </section>
+                <section class="property">
+                  <section class="bedroom">4</section>
+                  <section class="bathroom">5</section>
+                  <section class="area">100 m<sup>2</sup></section>
+                </section>
+              </a>
+              <section class="bottom-section">
+                <span>$ 2 tỷ</span>
+                <div class="button">
+                  <a href="#" class="muathuebds-button"></a>
+                  <a href="#" class="share-button"></a>
+                  <a href="#">Định giá</a>
+                </div>
+              </section>
+            </section>
+          </li>
+          <!-- #end product item -->
+        </ul>
+        <!-- #end relative-product-list -->
+        <!-- #start pagination -->
+        <section class="pagination-block">
+          <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <!-- #end pagination -->
+      </section>
+    </section>
+    <!-- #end detail infos -->
   </main>
 </article>

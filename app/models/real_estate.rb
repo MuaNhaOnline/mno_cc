@@ -149,7 +149,7 @@ class RealEstate < ActiveRecord::Base
 
     # alley_width
     # Chuyển sang số
-    real_estate_params['alley_width'] = ApplicationHelper.to_i real_estate_params['alley_width']
+    real_estate_params['alley_width'] = ApplicationHelper.to_f real_estate_params['alley_width']
 
     # constructional_area
     # Chuyển sang dạng số

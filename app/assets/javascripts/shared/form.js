@@ -16,7 +16,6 @@ $(function(e){
 //Set default
 function setDefault_ToggleInputs() {
     $('[data-toggle-input~="select-show"]:visible').each(function() {
-        console.log(this.name);
         var $option = $(this).find('option:selected');
 
         var hideObject = $option.attr('data-hide');
@@ -112,23 +111,111 @@ function init_DatePicker($input) {
 
 function init_Constraint($form) {
     //init integer
-    $('[data-constraint~="only-number"]').on('keydown', function (e) {
-        e = e || window.event;
+    $('[data-constraint~="decimal"]').on({
+        'keydown': function (e) {
+            var $input = $(this);
+            
+            e = e || window.event;
+            var keyCode = e.keyCode;
 
-        if (//number
-        (!e.shiftKey &&
-        ((48 <= e.keyCode && e.keyCode <= 57) ||
-        (96 <= e.keyCode && e.keyCode <= 105))) ||
-            //., backspace, delete, tab, enter
-        $.inArray(e.keyCode, [190, 8, 46, 9, 13]) !== -1 ||
-            //home, end, left, right, down, up
-        (35 <= e.keyCode && e.keyCode <= 40) ||
-            //ctrl A
-        (e.keyCode == 65 && e.ctrlKey)) {
-            return;
+            if (
+                //number
+                (!e.shiftKey &&
+                ((48 <= keyCode && keyCode <= 57) ||
+                (96 <= keyCode && keyCode <= 105))) ||
+
+                //dấu chấm thập phân
+                keyCode == 190 && $input.val().indexOf('.') === -1 ||
+
+                //backspace, delete, tab, enter
+                $.inArray(keyCode, [8, 46, 9, 13]) !== -1 ||
+
+                //home, end, left, right, down, up
+                (35 <= keyCode && keyCode <= 40) ||
+
+                //ctrl A | Z | X | C | V |...
+                e.ctrlKey) {
+                return;
+            }
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        },
+        'paste': function () {
+            var $input = $(this);
+
+            setTimeout(function () {
+                var chuoi = $input.val();
+
+                var viTriDau = chuoi.indexOf('.');
+
+                if (viTriDau === -1) {
+                    chuoi = chuoi.replace(/\D/g, '');
+                }
+                else {
+                    chuoi = chuoi.slice(0, viTriDau).replace(/\D/g, '') + '.' + chuoi.slice(viTriDau).replace(/\D/g, '');
+                }
+
+                $input.val(chuoi);
+            });
+        },
+        'focusout': function () {
+            var $input = $(this);
+
+            var chuoi = $input.val();
+
+            if (/\D&[^.]/.test(chuoi) || chuoi.indexOf('.') !== chuoi.lastIndexOf('.')) {
+                //baoloi
+            }
+            else {
+                //tat loi
+            }
         }
+    });
 
-        e.preventDefault();
+    //init integer
+    $('[data-constraint~="integer"]').on({
+        'keydown': function (e) {
+            e = e || window.event;
+            var keyCode = e.keyCode;
+
+            if (
+                //number
+                (!e.shiftKey &&
+                ((48 <= keyCode && keyCode <= 57) ||
+                (96 <= keyCode && keyCode <= 105))) ||
+
+                //backspace, delete, tab, enter
+                $.inArray(keyCode, [8, 46, 9, 13]) !== -1 ||
+
+                //home, end, left, right, down, up
+                (35 <= keyCode && keyCode <= 40) ||
+
+                //ctrl A | Z | X | C | V |...
+                e.ctrlKey) {
+                return;
+            }
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        },
+        'paste': function () {
+            var $input = $(this);
+
+            setTimeout(function () {
+                $input.val($input.val().replace(/\D/g, ''));
+            });
+        },
+        'focusout': function () {
+            var $input = $(this);
+
+            if (/\D/.test($input.val())) {
+                //Bat loi
+            }
+            else {
+                //Tat loi
+            }
+        }
     });
 }
 

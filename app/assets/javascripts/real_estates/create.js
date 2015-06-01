@@ -8,6 +8,7 @@ $(function(e){
         input: $form.find('#sell_price, #rent_price')
     }]);
     initImageUpload($form.find('.image-upload input[type="file"]'), 'real_estate');
+    init_LimitQuality($('#construction_quality'));
     init_Preview($form);
     init_SaveDraft($form);
     init_Submit($form);
@@ -18,6 +19,18 @@ $(function(e){
 //endregion
 
 //region Initialize functions
+
+//region Init limit quality
+
+function init_LimitQuality($inputs) {
+    $inputs.on('keydown', function (e) {
+        if (this.value + String.fromCharCode(e.keyCode) > 100) {
+            e.preventDefault();
+        }
+    })
+}
+
+//endregion
 
 //region Init building year
 
