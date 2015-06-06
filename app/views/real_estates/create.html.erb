@@ -36,7 +36,7 @@
         <!-- #Start item "Giá bán mong muốn" -->
         <li class="item">
           <div class="item-title">
-            Giám ong muốn
+            Giá giao dịch
             <a href="#" class="support-button" data-value="#support_price"></a>
             <section class="support-text" id="support_price">
               <b>Giá mong muốn:</b> Quý khách có thể sử dụng chức năng <a href="#">"định giá nhà"</a> hoặc <a href="#">"định giá khu vực"</a> để tham khảo giá thị trường nhà đất giao dịch gần nhất.<br>
@@ -56,7 +56,7 @@
                end
             %>
             <li class="form-group">            
-              <label for="currency_id" class="control-label col-sm-3">Đơn vị tính:</label>
+              <label for="currency_id" class="control-label col-sm-3">Đơn vị tính</label>
               <div class="col-sm-3">
                 <select name="real_estate[currency_id]" class="form-control" id="currency_id">
                   <% Currency.get_options.each do |currency| %>
@@ -66,16 +66,16 @@
               </div>  
             </li>
             <li class="form-group" data-toggle-input-object="sell rent_sell un-rent">            
-              <label for="price" class="control-label col-sm-3">Giá bán mong muốn:</label>                                
+              <label for="price" class="control-label col-sm-3">Giá bán mong muốn</label>                                
               <div class="col-sm-4">
                 <input value="<%= @real_estate.sell_price.blank? ? '' : @real_estate.sell_price.round %>" <%= 'disabled' if @real_estate.sell_price == 0 %> name="real_estate[sell_price]" class="form-control" data-constraint="integer" data-validate="required" id="sell_price" data-separate='.' data-toggle-input-object="sell-price-agree">
               </div>
               <div class="checkbox col-sm-4">
-                <label class="label-non-margin"><input <%= 'checked' if @real_estate.sell_price == 0 %> name="real_estate[no_sell_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="sell-price-agree"> Giá Thoả thuận</label>
+                <label class="label-non-margin"><input <%= 'checked' if @real_estate.sell_price == 0 %> name="real_estate[no_sell_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="sell-price-agree"> Giá thoả thuận</label>
               </div>
             </li>
             <li class="form-group" data-toggle-input-object="sell rent_sell un-rent"> 
-              <label for="unit" class="control-label col-sm-3">Trên:</label>
+              <label for="unit" class="control-label col-sm-3">Đơn vị tính</label>
               <div class="col-sm-4">
                 <select style="<%= 'display:none;' if !@real_estate.purpose.blank? && @real_estate.purpose.code != 'Ban' %>" name="real_estate[sell_unit_id]" class="form-control col-sm-6" data-toggle-input-object="sell un-rent rent_sell">
                   <%= ban.html_safe %>
@@ -83,16 +83,16 @@
               </div>    
             </li>
             <li class="form-group" data-toggle-input-object="rent rent_sell un-sell">            
-              <label for="price" class="control-label col-sm-3">Giá thuê mong muốn:</label>                                
+              <label for="price" class="control-label col-sm-3">Giá thuê mong muốn</label>                                
               <div class="col-sm-4">
                 <input value="<%= @real_estate.rent_price.blank? ? '' : @real_estate.rent_price.round %>" <%= 'disabled' if @real_estate.rent_price == 0 %> name="real_estate[rent_price]" class="form-control" data-constraint="integer" data-validate="required" id="rent_price" data-separate='.' data-toggle-input-object="rent-price-agree">
               </div>
               <div class="checkbox col-sm-4">
-                <label class="label-non-margin"><input <%= 'checked' if @real_estate.rent_price == 0 %> name="real_estate[no_rent_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="rent-price-agree"> Giá Thoả thuận</label>
+                <label class="label-non-margin"><input <%= 'checked' if @real_estate.rent_price == 0 %> name="real_estate[no_rent_price]" value="1" type="checkbox" data-toggle-input="check-disable" data-disable="rent-price-agree"> Giá thoả thuận</label>
               </div>
             </li>
             <li class="form-group" data-toggle-input-object="rent rent_sell un-sell"> 
-              <label for="unit" class="control-label col-sm-3">Trên:</label>
+              <label for="unit" class="control-label col-sm-3">Đơn vị tính</label>
               <div class="col-sm-4">
                 <select style="<%= 'display:none;' if @real_estate.purpose.blank? || @real_estate.purpose.code != 'Thue' %>" name="real_estate[rent_unit_id]" class="form-control col-sm-6" data-toggle-input-object="rent un-sell rent_sell">
                   <%= thue.html_safe %>
@@ -112,7 +112,7 @@
           <div class="item-title">Vị trí</div>
           <ul class="item-content">
             <li class="form-group">
-              <label class="control-label col-sm-3" for="province_id">Tỉnh/Thành phố:</label>
+              <label class="control-label col-sm-3" for="province_id">Tỉnh/Thành phố</label>
               <div class="col-sm-4">
                 <select name="real_estate[province_id]" class="form-control" id="province">
                   <%
@@ -134,7 +134,7 @@
               </div>
             </li>
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="district_id">Quận/Huyện/Thị xã:</label>
+              <label class="control-label col-sm-3" for="district_id">Quận/Huyện/Thị xã</label>
               <div class="col-sm-4">
                 <select name="real_estate[district_id]" class="form-control" id="district">
                   <% District.get_options(1).each do |district| %>
@@ -144,7 +144,7 @@
               </div>
             </li>
             <li class="form-group">
-              <label class="control-label col-sm-3" for="ward_id">Phường:</label>
+              <label class="control-label col-sm-3" for="ward_id">Phường</label>
               <div class="col-sm-4">
                 <select name="real_estate[ward_id]" class="form-control" id="ward">
                   <% temp = '' %>
@@ -157,7 +157,7 @@
               </div>
             </li> 
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="street_id">Đường:</label>
+              <label class="control-label col-sm-3" for="street_id">Đường</label>
               <div class="col-sm-4">
                 <select name="real_estate[street_id]" class="form-control" id="street">
                   <% Street.get_options(1).each do |street| %>
@@ -167,13 +167,13 @@
               </div>
             </li>
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="address_number">Số nhà:</label>
+              <label class="control-label col-sm-3" for="address_number">Số nhà</label>
               <div class="col-sm-4">
                 <input value="<%= @real_estate.address_number %>" name="real_estate[address_number]" class="form-control" id="address_number">
               </div>
             </li>
             <li class="form-group">
-              <label class="control-label col-sm-3" for="street_type">Loại Đường:</label>
+              <label class="control-label col-sm-3" for="street_type">Loại Đường</label>
               <div class="col-sm-4">
                 <select name="real_estate[street_type_id]" class="form-control" id="street_type">
                   <% StreetType.get_options.each do |street_type| %>
@@ -223,7 +223,7 @@
           </div>
           <ul class="item-content">
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="property_type">Loại hình:</label>
+              <label class="control-label col-sm-3" for="property_type">Loại hình</label>
               <div class="col-sm-4" id="groupLoaiHinh">
                 <select class="form-control" data-toggle-input="select-show" id="property_type">
                   <% temp = @real_estate.real_estate_type.blank? ? '' : @real_estate.real_estate_type.options_hash['group'] %>
@@ -274,35 +274,38 @@
               </div>              
             </li>
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
-              <label class="control-label col-sm-4" for="using_area">Diện tích sử dụng:</label>
+              <label class="control-label col-sm-4" for="using_area">Diện tích sử dụng</label>
               <div class="col-sm-3 input-group">
                 <input value="<%= @real_estate.using_area %>" class="form-control" data-constraint="decimal" data-validate="required" name="real_estate[using_area]" id="using_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
             <li class="form-group sub-item" data-toggle-input-object="land house un-apartment space">
-              <label class="control-label col-sm-4" for="campus_area">Diện tích khuôn viên:</label>
+              <label class="control-label col-sm-4" for="campus_area">Diện tích khuôn viên</label>
               <div class="col-sm-3 input-group">
                 <input value="<%= @real_estate.campus_area %>" class="form-control" data-constraint="decimal" data-validate="required" name="real_estate[campus_area]" id="campus_area">
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>              
             </li>
             <li class="form-group sub-item" data-toggle-input-object="land house apartment space">
-              <label class="control-label col-sm-4" for="width_x">Ngang:</label>
+              <label class="control-label col-sm-4" for="width_x">Ngang</label>
               <div class="col-sm-3 input-group">
                 <input value="<%= @real_estate.width_x %>" class="form-control" data-constraint="decimal" data-validate="required" name="real_estate[width_x]" id="width_x">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>
             <li class="form-group sub-item" data-toggle-input-object="land house apartment space">
-              <label class="control-label col-sm-4" for="width_y">Dài:</label>
+              <label class="control-label col-sm-4" for="width_y">Dài</label>
               <div class="col-sm-3 input-group">
                 <input value="<%= @real_estate.width_y %>" class="form-control" data-constraint="decimal" data-validate="required" name="real_estate[width_y]" id="width_y">
                 <div class="input-group-addon">m</div>
               </div>              
             </li>
+            <li id="area_reminder" style="color: #888; margin: 10px 0; text-align: center;">
+              <span>Diện tích không thỏa, bạn có muốn kiểm tra lại?</span>
+            </li>
             <li class="form-group sub-item" data-toggle-input-object="land house un-apartment space">
-              <label class="control-label col-sm-4" for="shape">Hình dáng:</label>          
+              <label class="control-label col-sm-4" for="shape">Hình dáng</label>          
               <div class="col-sm-4">
                 <select name="real_estate[shape]" class="form-control" data-toggle-input="select-show">
                   <option <%= 'selected' if @real_estate.shape == 0 %> data-hide="normal-shape" value="0">Bình thường</option>
@@ -316,7 +319,7 @@
               </div>
             </li>
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment un-space">
-              <label class="control-label col-sm-4" for="floor_number">Tầng:</label>
+              <label class="control-label col-sm-4" for="floor_number">Tầng</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[floor_number]" id="floor_number">
                   <option <%= 'selected' if @real_estate.floor_number == 0 %> value="0">Trệt</option>
@@ -328,7 +331,7 @@
               </div>
             </li>                          
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
-              <label class="control-label col-sm-4" for="restroom_number">WC:</label>
+              <label class="control-label col-sm-4" for="restroom_number">WC</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[restroom_number]" id="restroom_number">
                   <option <%= 'selected' if @real_estate.restroom_number == 1 %> value="1">1</option>
@@ -339,7 +342,7 @@
               </div>                      
             </li>
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
-              <label class="control-label col-sm-4" for="bedroom_number">Phòng ngủ:</label>
+              <label class="control-label col-sm-4" for="bedroom_number">Phòng ngủ</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[bedroom_number]" id="bedroom_number">
                   <option <%= 'selected' if @real_estate.bedroom_number == 0 %> value="0">0</option>
@@ -351,7 +354,7 @@
               </div>
             </li>
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
-              <label class="control-label col-sm-4" for="direction">Hướng nhà:</label>
+              <label class="control-label col-sm-4" for="direction">Hướng nhà</label>
               <div class="col-sm-3 col-xs-12">
                 <select class="form-control" name="real_estate[direction_id]" id="direction">
                   <% Direction.get_options.each do |direction| %>
@@ -361,7 +364,7 @@
               </div>                       
             </li>
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
-              <label class="control-label col-sm-4" for="build_year">Năm xây dựng:</label>
+              <label class="control-label col-sm-4" for="build_year">Năm xây dựng</label>
               <div class="col-sm-3">
                 <select class="form-control" name="real_estate[build_year]" id="build_year" data-value="<%= @real_estate.build_year %>">
                   <!-- js Xử lý-->                        
@@ -369,7 +372,7 @@
               </div>                    
             </li>            
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space un-villa home-city un-luxury-apartment apartment-building">
-              <label class="control-label col-sm-4" for="construction_level">Phân loại nhà:</label>
+              <label class="control-label col-sm-4" for="construction_level">Phân loại nhà</label>
               <div class="col-sm-3">
                 <select class="form-control" name="real_estate[constructional_level_id]" id="construction_level">
                   <% ConstructionalLevel.get_options.each do |constructional_level| %>
@@ -379,7 +382,7 @@
               </div>                  
             </li>
             <li class="form-group sub-item" data-toggle-input-object="un-land house apartment space">
-              <label class="control-label col-sm-4" for="construction_quality">Chất lượng nhà còn lại:</label>
+              <label class="control-label col-sm-4" for="construction_quality">Chất lượng nhà còn lại</label>
               <div class="col-sm-3 input-group">
                 <input value="<%= @real_estate.constructional_quality %>" class="form-control" data-constraint="integer" data-validate="required" name="real_estate[constructional_quality]" id="construction_quality">
                 <div class="input-group-addon">%</div>
@@ -393,13 +396,13 @@
           <div class="item-title">Nội dung tin đăng</div>
           <ul class="item-content">            
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="title">Tiêu đề:</label>
+              <label class="control-label col-sm-3" for="title">Tiêu đề</label>
               <div class="col-sm-9">
                 <input value="<%= @real_estate.title %>" name="real_estate[title]" class="form-control" data-validate="required" id="title">
               </div>
             </li>
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="description">Nội dung:</label>
+              <label class="control-label col-sm-3" for="description">Nội dung</label>
               <div class="col-sm-9">
                 <textarea name="real_estate[description]" class="form-control" data-validate="required" id="description"><%= @real_estate.description %></textarea>
               </div>
@@ -412,7 +415,7 @@
           <div class="item-title">Hồ sơ pháp lý</div>
           <ul class="item-content">
             <li class="form-group">
-              <label class="control-label col-sm-3" for="legal_records">Loại:</label>
+              <label class="control-label col-sm-3" for="legal_records">Loại</label>
               <div class="col-sm-4">
                 <select name="real_estate[legal_record_type_id]" class="form-control" data-toggle-input="select-show" id="legal_records">
                   <% LegalRecordType.get_options.each do |legal_record_type| %>
@@ -435,7 +438,7 @@
           <div class="item-title">Tình trạng quy hoạch</div>
           <ul class="item-content">
             <li class="form-group">
-              <label class="control-label col-sm-3" for="planning_status">Loại:</label>
+              <label class="control-label col-sm-3" for="planning_status">Loại</label>
               <div class="col-sm-4">
                 <select name="real_estate[planning_status_type_id]" class="form-control" data-toggle-input="select-show" id="planning_status">
                   <% PlanningStatusType.get_options.each do |planning_status_type| %>
@@ -458,7 +461,7 @@
         <!-- #End item "Tình trạng quy hoạch" -->
         <!-- #Start item "Tiện nghi khác" -->
         <li class="item until-full" data-toggle-input-object="un-land house apartment space">
-          <div class="item-title">Tiện nghi khác</div>
+          <div class="item-title">Tiện nghi khác<a data-function="uncheck" href="javascript:void(0)" style="float: right">Bỏ chọn</a></div>
           <ul class="item-content">
             <li class="form-group">            
               <div class="checkbox">
@@ -472,7 +475,7 @@
         <!-- #End item "Tiện nghi khác" -->
         <!-- #Start item "Tiện ích khu vực" -->
         <li class="item until-full">
-          <div class="item-title">Tiện ích khu vực</div>
+          <div class="item-title">Tiện ích khu vực<a data-function="uncheck" href="javascript:void(0)" style="float: right">Bỏ chọn</a></div>
           <ul class="item-content">
             <li class="form-group">            
               <div class="checkbox">
@@ -492,6 +495,7 @@
             <section class="support-text" id="support_characteristic_differents">                   
               Nhập đặc điểm tốt, xấu (nếu có) để phần mềm định giá được chính xác hơn.
             </section>
+            <a data-function="uncheck" href="javascript:void(0)" style="float: right">Bỏ chọn</a>
           </div>
           <ul class="item-content">
             <li class="form-group">            
@@ -503,7 +507,7 @@
               </div>
             </li>
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="custom_advantages">Điểm tốt khác:</label>
+              <label class="control-label col-sm-3" for="custom_advantages">Điểm tốt khác</label>
               <div class="col-sm-9">
                 <input value="<%= @real_estate.custom_advantages %>" name="real_estate[custom_advantages]" class="form-control" id="custom_advantages">
               </div>                    
@@ -517,7 +521,7 @@
               </div>
             </li>
             <li class="form-group">            
-              <label class="control-label col-sm-3" for="custom_disadvantages">Điểm xấu khác:</label>
+              <label class="control-label col-sm-3" for="custom_disadvantages">Điểm xấu khác</label>
               <div class="col-sm-9">
                 <input value="<%= @real_estate.custom_disadvantages %>" name="real_estate[custom_disadvantages]" class="form-control" id="custom_disadvantages">
               </div>                      
@@ -530,7 +534,7 @@
           <div class="item-title">Hình ảnh</div>
           <ul class="item-content">
             <li class="form-group">
-              <label class="control-label col-sm-3" for="images">Hình ảnh mô tả BĐS của bạn:</label>
+              <label class="control-label col-sm-3" for="images">Hình ảnh mô tả BĐS của bạn</label>
               <div class="col-sm-9">
                 <% @real_estate.images.each do |image| %>
                     <div class="image-upload has-file">

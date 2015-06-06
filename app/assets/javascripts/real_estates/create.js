@@ -12,6 +12,8 @@ $(function(e){
     init_Preview($form);
     init_SaveDraft($form);
     init_Submit($form);
+    init_Uncheck($form.find('[data-function="uncheck"]'));
+    init_CheckArea($form);
 
     getFullProvinceDataAfterChange();
 });
@@ -87,6 +89,42 @@ function init_SaveDraft($form) {
             alert('Lưu tạm thất bại');
         });
     });
+}
+
+function init_Uncheck($button) {
+    $button.on('click', function () {
+        $(this).closest('.item').find('input[type="checkbox"]').prop('checked', false);  
+    })
+}
+
+function init_CheckArea($form) {
+    var $campus_area = $form.find('#campus_area'),
+        $using_area = $form.find('#using_area'),
+        $width_x = $form.find('#width_x'),
+        $width_y = $form.find('#width_y'),
+        $reminder = $form.find('#area_reminder');
+
+    var area = $campus_area.is(':visible') ? $campus_area.val() : $using_area.val();
+    if (area && $width_x.val() && $width_y.val()) {
+        if (area < parseFloat($width_x.val()) * parseFloat($width_y.val())) {
+            $reminder.show();
+        }
+        else {
+            $reminder.hide();
+        }
+    }
+
+    $campus_area.add($using_area).add($width_x).add($width_y).on('change', function () {
+        var area = $campus_area.is(':visible') ? $campus_area.val() : $using_area.val();
+        if (area && $width_x.val() && $width_y.val()) {
+            if (area < parseFloat($width_x.val()) * parseFloat($width_y.val())) {
+                $reminder.show();
+            }
+            else {
+                $reminder.hide();
+            }
+        }
+    })
 }
 
 //endregion

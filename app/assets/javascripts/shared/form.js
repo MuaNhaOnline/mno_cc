@@ -358,7 +358,7 @@ function init_SubmitForm($form, options) {
 
         var isValid = true;
 
-        $('[data-validate~="required"]:visible').each(function () {
+        $('[data-validate~="required"]:visible:not(:disabled)').each(function () {
             var $input = $(this);
             if ($input.val() == "") {
                 $input.addClass('is-error');

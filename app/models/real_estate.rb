@@ -232,6 +232,15 @@ class RealEstate < ActiveRecord::Base
     fields
   end
 
+  #Get keyword
+  def keyword
+    legal = legal_record_type_id == 0 ? legal_record_type.name : custom_legal_record_type
+    alley = is_alley == 1 ? 'Hẻm' : 'Mặt tiền'
+
+    keyword =  
+      "#{name}, #{purpose.name} #{real_estate_type.name} quận #{district.name}, #{real_estate_type.name} #{legal}, #{real_estate_type.name} #{alley}, #{alley} quận #{district.name}, #{street.name} quận #{district.name}, #{purpose.name}, #{province.name}, #{real_estate_type.name}, #{legal}"
+  end
+
   #endregion
 
 end

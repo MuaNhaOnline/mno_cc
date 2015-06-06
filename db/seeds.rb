@@ -35,12 +35,12 @@ Disadvantage.create name: 'Tường chung không thể xây mới'
 
 LegalRecordType.create name: 'Sổ đỏ', options: '{"html":{"attributes":"data-hide=different-legal"}}'
 LegalRecordType.create name: 'Sổ hồng', options: '{"html":{"attributes":"data-hide=different-legal"}}'
-LegalRecordType.create name: 'Khác', code: '', options: '{"html":{"attributes":"data-show=different-legal"}}'
+LegalRecordType.create name: 'Khác', code: 'Custom', options: '{"html":{"attributes":"data-show=different-legal"}}'
 
 PlanningStatusType.create name: 'Ổn định', options: '{"html":{"attributes":"data-hide=different-planning"}}'
 PlanningStatusType.create name: 'Một phần', options: '{"html":{"attributes":"data-hide=different-planning"}}'
 PlanningStatusType.create name: 'Toàn bộ', options: '{"html":{"attributes":"data-hide=different-planning"}}'
-PlanningStatusType.create name: 'Khác', code: 'Khac', options: '{"html":{"attributes":"data-show=different-planning"}}'
+PlanningStatusType.create name: 'Khác', code: 'Custom', options: '{"html":{"attributes":"data-show=different-planning"}}'
 
 PropertyUtility.create name: 'Tầng hầm'
 PropertyUtility.create name: 'Tầng lửng'

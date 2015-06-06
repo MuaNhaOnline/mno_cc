@@ -1,4 +1,7 @@
-<% @title = @real_estate.name %>
+<% 
+  @title = @real_estate.name 
+  @keyword = @real_estate.keyword
+%>
 
 <% content_for :stylesheets do %>
     <link rel="stylesheet" href="/assets/real_estates/view.css" />
@@ -79,7 +82,7 @@
         </li>
         <li>
           <span class="title">Diện tích:</span>
-          <span class="value"><%= @real_estate.campus_area %>m<sup>2</sup></span>
+          <span class="value"><%= @real_estate.campus_area.blank? ? @real_estate.using_area : @real_estate.campus_area %>m<sup>2</sup></span>
         </li>
         <li>
           <span class="title">Địa chỉ:</span>
@@ -216,7 +219,7 @@
       <% end %>
       <% if fields.include? :build_year %>
       <li class="item col-xs-6 col-sm-4 circle">
-        <span>Năm xây dựng: <b><%= @real_estate.build_year %></b></span>
+        <span>Năm xây dựng: <b><%= @real_estate.build_year >= 20 ? "Trên #{@real_estate.build_year} năm" : @real_estate.build_year %></b></span>
       </li>
       <% end %>
       <% if fields.include? :constructional_level_id %>
