@@ -3,82 +3,77 @@
 %>
 
 <% content_for :stylesheets do %>
-    <link rel="stylesheet" href="/assets/real_estates/manager.css" />
+  <link rel="stylesheet" href="/assets/real_estates/manager.css" />
 <% end %>
 
 <% content_for :scripts do %>
-    <script src="/assets/real_estates/manager.js"></script>
+  <script type="text/javascript" src="/assets/real_estates/<%= I18n.locale %>.js"></script>
+  <script src="/assets/real_estates/manager.js"></script>
 <% end %>
-	
-<!-- #start content -->
-<div class="table-responsive" >
-	<table class="table">
-		<thead>
-			<tr>
-				<td>Mã tin</td>
-				<td>Tên</td>
-				<td>Mục đích</td>
-				<td>Loại</td>
-				<td>Tình trạng</td>
-				<td>Điều khiển</td>															
-			</tr>								
-		</thead>	
-		<tbody id="real_estates_list">
-      <% @real_estates.each do |real_estate| %>
-          <% status = real_estate.is_draft == 1 ? 'draft' : (false && real_estate.is_pending == 1 ? 'pend' : (real_estate.is_show == 1 ? 'show' : 'hide')) %>
-          <tr data-value="<%= real_estate.id %>">
-              <td>
-                <a href="/real_estates/<%= real_estate.id %>">
-                  <span><%= ApplicationHelper.id_format real_estate.id, 'RE'%></span>
-                  <img src="<%= real_estate.images.length != 0 ? "/images/#{real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>" width="100px" height="100px">
-                </a>
-              </td>
-              <td><%= real_estate.title %></td>
-              <td><%= real_estate.purpose.name %></td>
-              <td><%= real_estate.real_estate_type.name %></td>
-              <td data-object="status">
-                <%=
-                  case status
-                    when 'draft'
-                      'Đang soạn'
-                    when 'pend'
-                      'Đang chờ duyệt'
-                    when 'show'
-                      'Đang hiển thị'
-                    when 'hide'
-                      'Đang ẩn'
-                  end
-                %>
-              </td>
-              <td>
-                <div class="dropdown">
-                  <button id="drop_down_button_<%= real_estate.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-                    Điều khiển
-                  </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="drop_down_button_<%= real_estate.id %>" style="left: initial; right: 0; min-width: 100%">
-                    <li role="presentation">
-                      <% if real_estate.is_show === 1 %>
-                        <a data-function="change_show_status" data-value="0" href="javascript:void(0)">
-                          Ẩn
-                        </a>
-                      <% else %>
-                        <a data-function="change_show_status" data-value="1" href="javascript:void(0)">
-                          Hiện
-                        </a>
-                      <% end %>
-                      <a href="/real_estates/create/<%= real_estate.id %>">
-                        <%= status == 'draft' ? 'Soạn tiếp' : 'Sửa tin' %>
-                      </a>
-                      <a data-function="delete" href="javascript:void(0)">
-                        Xóa tin
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </td>
+
+<% content_for :content_header do %>
+  <%= t 'real_estate.manager.page_title' %>
+<% end %>
+
+<% content_for :navigator do %>
+  <li class="active"><%= t 'real_estate.manager.page_title_nav' %></li>
+<% end %>
+
+<article class="box box-default">
+  <section class="box-body no-padding table-responsive">
+    <table class="table table-stripedp re-content">
+      <thead>
+        <th><%= t 'real_estate.attribute.id' %></th>
+        <th><%= t 'real_estate.attribute.name' %></th>
+        <th><%= t 'real_estate.attribute.purpose' %></th>
+        <th><%= t 'real_estate.attribute.real_estate_type' %></th>
+        <th><%= t 'real_estate.attribute.status' %></th>
+        <th>&nbsp;</th>
+      </thead>
+      <tbody id="re_list">
+        <% @res.each do |re| %>
+          <!-- Get status -->
+          <% 
+            status = '';
+            if re.is_draft == 1
+              status = 'draft '
+            elsif re.is_pending == 1
+              status = 'pending '
+            end
+
+            if re.is_show == 1
+              status += 'show'
+            end
+          %>
+
+          <tr data-value="<%= re.id %>" data-status="<%= status %>">
+            <td>
+              <a class="view" href="/real_estates/<%= re.id %>">
+                <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
+                <img src="<%= re.images.length != 0 ? "/images/#{re.images[0].id}" : '/assets/product/BDS01.jpg' %>" width="100px" height="100px">
+              </a>
+            </td>
+            <td><%= re.title %></td>
+            <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
+            <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
+            <td aria-object="status"></td>
+            <td>
+              <div class="dropdown">
+                <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                  <%= t 'real_estate.manager.control' %>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
+                  <li role="presentation">
+                    <a aria-click="change-show-status" href="javascript:void(0)"></a>
+                    <a aria-click="edit" href="/real_estates/create/<%= re.id %>"></a>
+                    <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.manager.delete' %></a>
+                  </li>
+                </ul>
+              </div>
+            </td>
           </tr>
-      <% end %>
-		</tbody>
-	</table>
-</div>
-<!-- #end content -->									
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</article>

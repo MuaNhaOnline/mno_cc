@@ -23,5 +23,9 @@ module Mno
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.encoding = 'utf-8'
+    config.assets.paths << Rails.root.join('app', 'assets', 'templates')
+
+    I18n.available_locales = [:vi, :en]
+    I18n.default_locale = :vi
   end
 end

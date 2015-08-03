@@ -1,0 +1,7 @@
+.create-form-re {
+	
+}
+
+.create-form-re .unit-label:before {
+	content: attr(data-currency) ' / ';
+}

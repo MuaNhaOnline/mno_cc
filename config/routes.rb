@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get 'real_estates/category'
   get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/manager'
-  get 'real_estates/real_estates_pending'
+  get 'real_estates/pending'
   get 'real_estates/:id' => 'real_estates#view'
   get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'

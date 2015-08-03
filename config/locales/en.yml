@@ -1,23 +1,159 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  real_estate:
+    attribute:
+      type_transfer_box: 'Loại hình giao dịch'
+      purpose: 'Mục đích'
+      price_box: 'Giá giao dịch'
+      id: 'Mã'
+      name: 'Tên'
+      status: 'Trạng thái'
+      currency: 'Loại tiền tệ'
+      sell_price: 'Giá bán mong muốn'
+      rent_price: 'Giá cho thuê mong muốn'
+      negotiable: 'Có thể thương lượng'
+      real_estate_type_box: 'Loại bất động sản'
+      real_estate_type: 'Loại bất động sản'
+      constructional_area: 'Diện tích xây dựng'
+      using_area: 'Diện tích xây dựng'
+      campus_area: 'Diện tích khuôn viên'
+      width_x: 'Chiều ngang'
+      width_y: 'Chiều dài'
+      shape: 'Hình dáng'
+      shape_normal: 'Bình thường'
+      shape_less: 'Tóp hậu'
+      shape_greater: 'Nở hậu'
+      shape_width: 'Chênh lệch'
+      restroom: 'Nhà vệ sinh'
+      bedroom: 'Phòng ngủ'
+      direction: 'Hướng'
+      constructional_level: 'Loại nhà'
+      build_year: 'Loại nhà'
+      constructional_quality: 'Chất lượng còn lại'
+      position_box: 'Vị trí'
+      province: 'Tỉnh/Thành phố'
+      district: 'Quận/Huyện'
+      ward: 'Phường/Xã'
+      street: 'Đường'
+      street_type: 'Loại đường'
+      facade: 'Mặt tiền'
+      alley: 'Hẻm'
+      alley_width: 'Kích thước hẻm'
+      content_box: 'Nội dung'
+      title: 'Tiêu đề'
+      description: 'Mô tả'
+      docs_box: 'Thông tin giấy tờ'
+      legal_record_type: 'Hồ sơ pháp lý'
+      planning_status_type: 'Tình trạng quy hoạch'
+      region_utility: 'Tiện ích khu vực'
+      property_utility: 'Tiện ích bất động sản'
+      advantage: 'Điểm tốt'
+      disadvantage: 'Điểm xấu'
+      image: 'Hình ảnh'
+      floor_number_1: 'Số tầng'
+      floor_number_2: 'Tầng thứ'
+    create:
+      page_title_nav: 'Đăng bất động sản'
+      page_title: 'Thông tin bất động sản cần đăng'
+      finish: 'Hoàn tất'
+      save_draft: 'Lưu tạm'
+      other_legal_record_type_placeholder: 'Giấy tờ khác'
+      other_planning_status_type_placeholder: 'Trạng thái khác'
+    manager:
+      page_title_nav: 'Quản lý'
+      page_title: 'Quản lý bất động sản'
+      control: 'Control'
+      delete: 'Delete'  
+  real_estate_type:
+    text:
+      land_group: 'Đất'
+      residential_land: 'Đất thổ cư'
+      vacant_land: 'Đất trồng'
+      other_land: 'Đất khác'
+      space_group: 'Mặt bằng'
+      office: 'Văn phòng'
+      motel: 'Phòng trọ'
+      store: 'Mặt bằng cửa hàng'
+      restaurant_hotel: 'Nhà hàng - khách sạn'
+      storage_workshop: 'Kho - xưởng'
+      apartment_group: 'Căn hộ'
+      building_apartment: 'Chung cư'
+      luxury_apartment: 'Căn hộ cao cấp'
+      house_group: 'Nhà'
+      villa: 'Biệt thự'
+      town_house: 'Nhà phố'
+  purpose:
+    text:
+      sell: 'Bán'
+      rent: 'Cho thuê'
+      sell_rent: 'Bán hoặc cho thuê'
+  direction:
+    text:
+      east: 'Đông'
+      west: 'Tây'
+      south: 'Nam'
+      north: 'Bắc'
+      north_west: 'Tây bắc'
+      south_west: 'Tây nam'
+      north_east: 'Đông bắc'
+      south_east: 'Đông nam'
+  constructional_level:
+    text:
+      level_1: 'Nhà cấp 1'
+      level_2: 'Nhà cấp 2'
+      level_3: 'Nhà cấp 3'
+      level_4: 'Nhà cấp 4'
+      temporary: 'Nhà tạm'
+      empty: 'Nhà thô'
+  legal_record_type:
+    text:
+      red: 'Sổ đỏ'
+      pink: 'Sổ hồng'
+      other: 'Khác'
+  planning_status_type:
+    text:
+      stable: 'Ổn định'
+      part: 'Một phần'
+      full: 'Toàn bộ'
+      other: 'Khác'
+  region_utility:
+    text:
+      n_1: 'Siêu thị'
+      n_2: 'Chợ'
+      n_3: 'Bệnh viện'
+      n_4: 'Công viên'
+      n_5: 'Khu vui chơi'
+      n_6: 'Bến xe'
+      n_7: 'Khu dân cư'
+      n_8: 'Khu kinh doanh'
+  property_utility:
+    text:
+      n_1: 'Tầng hầm'
+      n_2: 'Tầng lửng'
+      n_3: 'Sân thượng'
+      n_4: 'Gara ôtô'
+      n_5: 'Thang máy'
+      n_6: 'Hồ bơi'
+  advantage:
+    text:
+      n_1: 'Hẻm thông'
+      n_2: 'Có hai mặt đường chính'
+      n_3: 'Có hai mặt hẻm'
+      n_4: 'Có một mặt đường chính và một mặt hẻm'
+      n_5: 'Tiện làm quán cafe, nhà hàng, khách sạn'
+  disadvantage:
+    text:
+      n_1: 'Khu quy hoạch treo'
+      n_2: 'Gần chùa, nhà  thờ, tang lễ'
+      n_3: 'Đường hẻm đâm thẳng vào nhà'
+      n_4: 'Gần chân cầu, trụ điện, ống cống'
+      n_5: 'Tường chung không thể xây mới'
+  street_type:
+    text:
+      public: 'Đường chính'
+      private: 'Đường nội bộ'
+  unit:
+    text:
+      area: 'Tổng diện tích'
+      square_meter: 'Mét vuông'
+      month: 'Tháng'
+      year: 'Năm'

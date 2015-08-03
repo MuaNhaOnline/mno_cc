@@ -1,77 +1,158 @@
-//region Initialization
-
 $(function () {
-    init_DeleteButton($('[data-function="delete"]'));
-    init_ChangeShowStatusButton($('[data-function="change_show_status"]'));
-});
+  var $list = $('#re_list');
 
-//endregion
+  $list.children().each(function () {
+    initStatus($(this));
+  });
+  initChangeShowStatus();
+  initDelete();
 
-//region Initialize functión
+  /*
+    Init display with status
+  */
 
-//region Init delete button
+  function initStatus($row) {
+    var 
+      status = $row.data('status'),
+      isDraft = listString.has('draft', status),
+      isPending = listString.has('pending', status),
+      isShow = listString.has('show', status);
 
-function init_DeleteButton($button) {
-    $button.on('click', function () {
-        if (!confirm('Bạn có chắc muốn xóa tin này?')) {
-            return;
+    // Status
+
+    var statusHtml = '';
+    if (isDraft) {
+      statusHtml += '<span class="label label-default">' + _t.real_estate.attribute.draft_status + '</span><br />';
+    }
+    else if (isPending) {
+      statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.pending_status + '</span><br />';
+    }
+
+    if (isShow) {
+      statusHtml += '<span class="label label-primary">' + _t.real_estate.attribute.show_status + '</span>';
+    }
+    else {
+      statusHtml += '<span class="label label-danger">' + _t.real_estate.attribute.hide_status + '</span>';
+    }
+
+    $row.find('[aria-object="status"]').html(statusHtml);
+
+    // Constrol buttons
+
+    if (isShow) {
+      $row.find('[aria-click="change-show-status"]').text(_t.real_estate.manager.hide);
+    }
+    else {
+      $row.find('[aria-click="change-show-status"]').text(_t.real_estate.manager.show);
+    }
+
+    if (isDraft) {
+      $row.find('[aria-click="edit"]').text(_t.real_estate.manager['continue']);
+    }
+    else {
+      $row.find('[aria-click="edit"]').text(_t.real_estate.manager.edit);
+    }
+  }
+
+  /*
+    / Init display with status
+  */
+
+  /*
+    Init change show status buttons
+  */
+
+  function initChangeShowStatus() {
+    $list.find('[aria-click="change-show-status"]').on('click', function () {
+      var $row = $(this).closest('tr');
+      var status = $row.data('status');
+      var isShow = listString.has('show', status);
+
+      $.ajax({
+          url: '/real_estates/change_show_status/' + $row.data('value') + '/' + (isShow ? 0 : 1),
+          type: 'PUT',
+          contentType: 'JSON'
+      }).done(function (data) {
+        if (data.status == 0) {
+          if (isShow) {
+            $row.data('status', listString.remove('show', status));
+          }
+          else {
+            $row.data('status', listString.add('show', status));
+          }
+          initStatus($row);
         }
-
-        $row = $(this).parents('tr');
-
-        $.ajax({
-            url: '/real_estates/' + $row.attr('data-value'),
-            type: 'DELETE',
-            contentType: 'JSON'
-        }).done(function (data) {
-            if (data.status == 1) {
-                $row.remove();
-            }
-            else {
-                alert('Xóa tin thất bại')
-            }
-        }).fail(function () {
-            alert('Xóa tin thất bại')
+        else {
+          popupPrompt({
+            title: _t.form.error_title,
+            content: _t.form.error_content,
+            type: 'danger'
+          });
+        }
+      }).fail(function () {
+        popupPrompt({
+          title: _t.form.error_title,
+          content: _t.form.error_content,
+          type: 'danger'
         });
+      });
     });
-}
+  }
 
-//endregion
+  /*
+    / Init change show status buttons
+  */
 
-//region Init change show status button
+  /*
+    Init delete buttons
+  */
 
-function init_ChangeShowStatusButton($button) {
-    $button.on('click', function () {
-        var status = $button.attr('data-value');
-        var $row = $(this).closest('tr');
-        var real_estate_id = $row.attr('data-value');
+  function initDelete() {
+    $list.find('[aria-click="delete"]').on('click', function () {
+      var $row = $(this).closest('tr');
 
-        $.ajax({
-            url: '/real_estates/change_show_status/' + real_estate_id + '/' + status,
-            type: 'PUT',
-            contentType: 'JSON'
-        }).done(function (data) {
-            if (data.status == 1) {
-                if (status == 1) {
-                    $button.attr('data-value', '0');
-                    $button.text('Ẩn');
-                    $row.find('[data-object="status"]').text('Đang hiển thị');
+      popupPrompt({
+        title: _t.form.confirm_title,
+        content: _t.real_estate.manager.delete_confirm,
+        type: 'warning',
+        buttons: [
+          {
+            text: _t.form.yes,
+            type: 'warning',
+            handle: function () {
+              $.ajax({
+                url: '/real_estates/' + $row.data('value'),
+                type: 'DELETE',
+                contentType: 'JSON'
+              }).done(function (data) {
+                if (data.status == 0) {
+                  $row.remove();
                 }
                 else {
-                    $button.attr('data-value', '1');
-                    $button.text('Hiện');
-                    $row.find('[data-object="status"]').text('Đang ẩn');
+                  popupPrompt({
+                    title: _t.form.error_title,
+                    content: _t.form.error_content,
+                    type: 'danger'
+                  });
                 }
+              }).fail(function () {
+                popupPrompt({
+                  title: _t.form.error_title,
+                  content: _t.form.error_content,
+                  type: 'danger'
+                });
+              });
             }
-            else {
-                alert('Hiển thị tin thất bại')
-            }
-        }).fail(function () {
-            alert('Hiển thị tin thất bại')
-        });
+          },
+          {
+            text: _t.form.no
+          }
+        ]
+      })
     });
-}
+  }
 
-//endregion
-
-//endregion
+  /*
+    / Init delete buttons
+  */
+});

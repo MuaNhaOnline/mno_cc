@@ -19,30 +19,38 @@ class RealEstatesController < ApplicationController
   end
 
   def create
-      if (params.include?('id'))
+      if (params.has_key?('id'))
         begin
-          @real_estate = RealEstate.find(params['id'])
+          @re = RealEstate.find(params['id'])
         rescue
-          @real_estate = RealEstate.new
+          @re = RealEstate.new
         end
       else
-        @real_estate = RealEstate.new
+        @re = RealEstate.new
       end
 
     render layout: 'layout_back'
   end  
 
   def save
-    is_draft = params.include? :draft
+    is_draft = params.has_key? :draft
 
-    real_estate = params['real_estate'][:id].blank? ?
-      RealEstate.save_real_estate(params['real_estate'], is_draft) :
-      RealEstate.update_real_estate(params['real_estate'], is_draft)
+    if params[:real_estate][:id].blank?
+      real_estate = RealEstate.new
+    else 
+      begin
+        real_estate = RealEstate.find(params[:real_estate][:id])
+      rescue
+        return render json: Hash[status: 1, result: real_estate.errors.full_messages]
+      end
+    end
+
+    real_estate.save_with_params(params[:real_estate], is_draft)
 
     if real_estate.errors.any? && !is_draft
-      render json: Hash[status: 0, result: real_estate.errors.full_messages]
+      render json: Hash[status: 1, result: real_estate.errors.full_messages]
     else
-      render json: Hash[status: 1, result: real_estate.id]
+      render json: Hash[status: 0, result: real_estate.id]
     end
   end
 
@@ -53,7 +61,7 @@ class RealEstatesController < ApplicationController
   end
 
   def manager
-    @real_estates = RealEstate.all.order updated_at: 'desc'
+    @res = RealEstate.order updated_at: 'desc'
 
     render layout: 'layout_back'
   end
@@ -61,15 +69,15 @@ class RealEstatesController < ApplicationController
   def change_show_status
     RealEstate.update_show_status params[:id], params[:is_show]
 
-    render json: Hash[status: 1]
+    render json: Hash[status: 0]
   end
 
   def delete
     begin
-      RealEstate.delete params['id']
-      render json: Hash[status: 1]
-    rescue
+      RealEstate.delete params[:id]
       render json: Hash[status: 0]
+    rescue
+      render json: Hash[status: 1]
     end
   end
 

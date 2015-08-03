@@ -1,100 +1,172 @@
 #   cities = City.create [{ name: 'Chicago' }, { name: 'Copenhagen' }]
 #   Mayor.create name: 'Emanuel', city: cities.first
 
-Advantage.create name: 'Hẻm thông'
-Advantage.create name: 'Có 2 mặt đường chính'
-Advantage.create name: 'Có 2 mặt hẻm'
-Advantage.create name: 'Có một mặt đường chính và 1 mặt hẻm'
-Advantage.create name: 'Tiện làm quán cafe, nhà hàng, khách sạn'
+Advantage.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE advantages_id_seq RESTART WITH 1')
+Advantage.create [
+	{ name: 'n_1' },
+	{ name: 'n_2' },
+	{ name: 'n_3' },
+	{ name: 'n_4' },
+	{ name: 'n_5' }
+]
 
-ConstructionalLevel.create name: 'Nhà cấp 1'
-ConstructionalLevel.create name: 'Nhà cấp 2'
-ConstructionalLevel.create name: 'Nhà cấp 3'
-ConstructionalLevel.create name: 'Nhà cấp 4'
-ConstructionalLevel.create name: 'Nhà tạm'
-ConstructionalLevel.create name: 'Nhà thô'
+ConstructionalLevel.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE constructional_levels_id_seq RESTART WITH 1')
+ConstructionalLevel.create [
+	{ name: 'level_1', options: '{"default":""}' },
+	{ name: 'level_2' },
+	{ name: 'level_3' },
+	{ name: 'level_4' },
+	{ name: 'temporary' },
+	{ name: 'empty' }
+]
 
-Currency.create name: 'VNĐ', options: '{"html":{"attributes":"data-value=VND"}}'
-Currency.create name: 'USD', options: '{"html":{"attributes":"data-value=USD"}}'
-Currency.create name: 'SJC', options: '{"html":{"attributes":"data-value=SJC"}}'
+Currency.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE currencies_id_seq RESTART WITH 1')
+Currency.create [
+	{ name: 'VNĐ', options: '{"html":{"attributes":"data-value=VND"},"default":""}' },
+	{ name: 'USD', options: '{"html":{"attributes":"data-value=USD"}}' },
+	{ name: 'SJC', options: '{"html":{"attributes":"data-value=SJC"}}' }
+]
 
-Direction.create name: 'Đông'
-Direction.create name: 'Tây'
-Direction.create name: 'Nam'
-Direction.create name: 'Bắc'
-Direction.create name: 'Tây-Bắc'
-Direction.create name: 'Tây-Nam'
-Direction.create name: 'Đông-Bắc'
-Direction.create name: 'Đông-Nam'
+Direction.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE directions_id_seq RESTART WITH 1')
+Direction.create [
+	{ name: 'east', options: '{"default":"default"}' },
+	{ name: 'west' },
+	{ name: 'south' },
+	{ name: 'north' },
+	{ name: 'north_west' },
+	{ name: 'south_west' },
+	{ name: 'north_east' },
+	{ name: 'south_east' }
+]
 
-Disadvantage.create name: 'Khu quy hoạch treo'
-Disadvantage.create name: 'Gần chùa, nhà thờ, tang lễ'
-Disadvantage.create name: 'Đường hẻm đâm thẳng vào nhà'
-Disadvantage.create name: 'Gần chân cầu, trụ điện, ống cống'
-Disadvantage.create name: 'Tường chung không thể xây mới'
+Disadvantage.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE disadvantages_id_seq RESTART WITH 1')
+Disadvantage.create [
+	{ name: 'n_1' },
+	{ name: 'n_2' },
+	{ name: 'n_3' },
+	{ name: 'n_4' },
+	{ name: 'n_5' }
+]
 
-LegalRecordType.create name: 'Sổ đỏ', options: '{"html":{"attributes":"data-hide=different-legal"}}'
-LegalRecordType.create name: 'Sổ hồng', options: '{"html":{"attributes":"data-hide=different-legal"}}'
-LegalRecordType.create name: 'Khác', code: 'Custom', options: '{"html":{"attributes":"data-show=different-legal"}}'
+LegalRecordType.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE legal_record_types_id_seq RESTART WITH 1')
+LegalRecordType.create [
+	{ name: 'red', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}, "default":""}' },
+	{ name: 'pink', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}}' },
+	{ name: 'other', code: 'Custom', options: '{"html":{"attributes":"data-on=custom-legal-record-type"}}' }
+]
 
-PlanningStatusType.create name: 'Ổn định', options: '{"html":{"attributes":"data-hide=different-planning"}}'
-PlanningStatusType.create name: 'Một phần', options: '{"html":{"attributes":"data-hide=different-planning"}}'
-PlanningStatusType.create name: 'Toàn bộ', options: '{"html":{"attributes":"data-hide=different-planning"}}'
-PlanningStatusType.create name: 'Khác', code: 'Custom', options: '{"html":{"attributes":"data-show=different-planning"}}'
+PlanningStatusType.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE planning_status_types_id_seq RESTART WITH 1')
+PlanningStatusType.create [
+	{ name: 'stable', options: '{"html":{"attributes":"data-off=custom-planning-status-type"},"default":""}' },
+	{ name: 'part', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
+	{ name: 'full', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
+	{ name: 'other', code: 'Custom', options: '{"html":{"attributes":"data-on=custom-planning-status-type"}}' }
+]
 
-PropertyUtility.create name: 'Tầng hầm'
-PropertyUtility.create name: 'Tầng lửng'
-PropertyUtility.create name: 'Sân thượng'
-PropertyUtility.create name: 'Gara ôtô'
-PropertyUtility.create name: 'Thang máy'
-PropertyUtility.create name: 'Hồ bơi'
+PropertyUtility.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE property_utilities_id_seq RESTART WITH 1')
+PropertyUtility.create [
+	{ name: 'n_1' },
+	{ name: 'n_2' },
+	{ name: 'n_3' },
+	{ name: 'n_4' },
+	{ name: 'n_5' },
+	{ name: 'n_6' }
+]
 
-Purpose.create name: 'Bán', code: 'Ban', options: '{"html":{"attributes":"data-show=sell data-hide=un-sell"}}'
-Purpose.create name: 'Cho thuê', code: 'Thue', options: '{"html":{"attributes":"data-show=rent data-hide=un-rent"}}'
-Purpose.create name: 'Bán hoặc cho thuê', code: 'BanThue', options: '{"html":{"attributes":"data-show=rent_sell"}}'
+Purpose.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE purposes_id_seq RESTART WITH 1')
+Purpose.create [
+	{ name: 'sell', code: 'sell', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' },
+	{ name: 'rent', code: 'rent', options: '{"html":{"attributes":"data-on=rent data-off=un-rent"}}' },
+	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""},"default":""}' }
+]
 
-RealEstateType.create name: 'Đất thổ cư', code: 'DatThoCu', options: '{"group":"Dat"}'
-RealEstateType.create name: 'Đất trồng', code: 'DatTrong', options: '{"group":"Dat"}'
-RealEstateType.create name: 'Đất khác', code: 'DatKhac', options: '{"group":"Dat"}'
-RealEstateType.create name: 'Văn phòng', code: 'VanPhong', options: '{"group":"MatBang"}'
-RealEstateType.create name: 'Phòng trọ', code: 'PhongTro', options: '{"group":"MatBang"}'
-RealEstateType.create name: 'Mặt bằng - Cửa hàng', code: 'MatBang_CuaHang', options: '{"group":"MatBang"}'
-RealEstateType.create name: 'Nhà hàng - Khách sạn', code: 'NhaHang_KhachSan', options: '{"group":"MatBang"}'
-RealEstateType.create name: 'Nhà kho - Xưởng', code: 'NhaKho_Xuong', options: '{"group":"MatBang"}'
-RealEstateType.create name: 'Chung cư', code: 'ChungCu', options: '{"html":{"attributes":"data-show=apartment-building data-hide=un-apartment-building"},"group":"CanHo"}'
-RealEstateType.create name: 'Căn hộ cao cấp', code: 'CanHoCaoCap', options: '{"html":{"attributes":"data-show=luxury-apartment data-hide=un-luxury-apartment"},"group":"CanHo"}'
-RealEstateType.create name: 'Biệt thự', code: 'BietThu', options: '{"html":{"attributes":"data-show=villa data-hide=un-villa"},"group":"Nha"}'
-RealEstateType.create name: 'Nhà phố', code: 'NhaPho', options: '{"html":{"attributes":"data-show=home-city data-hide=un-home-city"},"group":"Nha"}'
+RealEstateType.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
+RealEstateType.create [
+	{ name: 'residential_land', options: '{"group":"land","default":""}' },
+	{ name: 'vacant_land', options: '{"group":"land"}' },
+	{ name: 'other_land', options: '{"group":"land"}' },
+	{ name: 'office', options: '{"group":"space","default":""}' },
+	{ name: 'motel', options: '{"group":"space"}' },
+	{ name: 'store', options: '{"group":"space"}' },
+	{ name: 'restaurant_hotel', options: '{"group":"space"}' },
+	{ name: 'storage_workshop', options: '{"group":"space"}' },
+	{ name: 'building_apartment', options: '{"html":{"attributes":"data-on=building-apartment data-off=un-building-apartment"},"group":"apartment","default":""}' },
+	{ name: 'luxury_apartment', options: '{"html":{"attributes":"data-on=luxury-apartment data-off=un-luxury-apartment"},"group":"apartment"}' },
+	{ name: 'villa', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
+	{ name: 'town_house', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
+]
 
-RealEstateUtility.create name: 'Tầng hầm'
-RealEstateUtility.create name: 'Tầng lửng'
-RealEstateUtility.create name: 'Sân thượng'
-RealEstateUtility.create name: 'Gara otô'
-RealEstateUtility.create name: 'Thang máy'
-RealEstateUtility.create name: 'Hồ bơi'
+RegionUtility.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE region_utilities_id_seq RESTART WITH 1')
+RegionUtility.create [
+	{ name: 'n_1' },
+	{ name: 'n_2' },
+	{ name: 'n_3' },
+	{ name: 'n_4' },
+	{ name: 'n_5' },
+	{ name: 'n_6' },
+	{ name: 'n_7' },
+	{ name: 'n_8' }
+]
 
-RegionUtility.create name: 'Siêu thị'
-RegionUtility.create name: 'Chợ'
-RegionUtility.create name: 'Bệnh viện'
-RegionUtility.create name: 'Công viên'
-RegionUtility.create name: 'Khu vui chơi'
-RegionUtility.create name: 'Bến xe'
-RegionUtility.create name: 'Khu dân cư'
-RegionUtility.create name: 'Khu kinh doanh'
+StreetType.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE street_types_id_seq RESTART WITH 1')
+StreetType.create [
+	{ name: 'public', options: '{"default":""}' },
+	{ name: 'private' }
+]
 
-StreetType.create name: 'Đường chính'
-StreetType.create name: 'Đường nội bộ'
+Unit.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE units_id_seq RESTART WITH 1')
+Unit.create [
+	{ name: 'area', options: '{"group":"sell","default":""}' },
+	{ name: 'square_meter', options: '{"group":"sell"}' },
+	{ name: 'month', options: '{"group":"rent","default":""}' },
+	{ name: 'year', options: '{"group":"rent"}' }
+]
 
-Unit.create name: 'Tổng diện tích', options: '{"group":"Ban"}'
-Unit.create name: 'Mét vuông', options: '{"group":"Ban"}'
-Unit.create name: 'Tháng', options: '	{"group":"Thue"}'
-Unit.create name: 'Năm', options: '	{"group":"Thue"}'
+Province.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE provinces_id_seq RESTART WITH 1')
+Province.create [
+	{ name: 'Hồ Chí Minh', options: '{"default":""}' }
+]
 
-Province.create name: 'Hồ Chí Minh'
-District.create name: '1', province_id: 1
-Ward.create name: 'Bến Nghé', province_id: 1
-Street.create name: 'Lê Lợi', province_id: 1
+District.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE districts_id_seq RESTART WITH 1')
+District.create [
+	{ name: '1', province_id: 1, options: '{"default":""}' }
+]
 
-ProjectType.create name: 'Căn hộ', code: 'CanHo'
+Ward.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE wards_id_seq RESTART WITH 1')
+Ward.create [
+	{ name: 'Bến Nghé', province_id: 1, options: '{"default":""}' }
+]
 
-Investor.create name: 'Chủ đầu tư A'
+Street.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE streets_id_seq RESTART WITH 1')
+Street.create [
+	{ name: 'Lê Lợi', province_id: 1, options: '{"default":""}' }
+]
+
+ProjectType.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE project_types_id_seq RESTART WITH 1')
+ProjectType.create [
+	{ name: 'Căn hộ', code: 'CanHo', options: '{"default":""}' }
+]
+
+Investor.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE investors_id_seq RESTART WITH 1')
+Investor.create [
+	{ name: 'Chủ đầu tư A', options: '{"default":""}' }
+]

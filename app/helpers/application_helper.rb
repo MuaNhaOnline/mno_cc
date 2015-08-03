@@ -1,15 +1,15 @@
 module ApplicationHelper
-  def self.to_i string
+  def self.format_i string
     begin
-      string.remove(/\D/).to_i
+      string.remove(/\D/)
     rescue
       0
     end
   end
 
-  def self.to_f string
+  def self.format_f string
     begin
-      string.remove(/[^(0-9).]/).to_f
+      string.remove(/[^(0-9).]/)
     rescue
       0
     end

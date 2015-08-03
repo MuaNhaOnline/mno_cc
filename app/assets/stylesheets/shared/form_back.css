@@ -1,0 +1,79 @@
+.form {
+
+}
+
+/*
+	Attributes
+*/
+
+	/* 
+		Off 
+	*/
+	
+	.form .off {
+		pointer-events: none;
+	}
+	
+	.form .off:not(.disabled-only) {
+		display: none !important;
+		visibility: hidden;
+	}
+	
+	.form .off.disabled-only {
+		opacity: .2;
+	}
+
+	/* 
+		/ Off 
+	*/
+
+/*
+	/ Attributes
+*/
+
+/*
+	File input
+*/
+
+.form .file-uploader {
+	display: block;
+	padding: 10px;
+  min-height: 100px;
+  height: auto;
+  border: 2px dashed #eee;
+  margin-bottom: 0;
+}
+
+	.form .file-uploader:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	.form .file-uploader input[type="file"] {
+		position: absolute;
+		left: -9999px;
+	}
+
+	.form .file-uploader .preview {
+		position: relative;
+		padding: 5px;
+		float: left;
+		max-width: 100%;
+	}
+
+		.form .file-uploader .preview img {
+			width: auto;
+			height: 150px;
+			max-width: 100%;
+		}    
+
+		.form .file-uploader .preview .control {
+			position: absolute;
+	    top: 0;
+	    right: 0;
+		}
+
+/*
+	/ File input
+*/

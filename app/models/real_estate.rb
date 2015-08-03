@@ -1,6 +1,6 @@
 class RealEstate < ActiveRecord::Base
 
-  #region Associate
+  # Associates
 
   belongs_to :real_estate_type
   belongs_to :street
@@ -21,9 +21,9 @@ class RealEstate < ActiveRecord::Base
   has_and_belongs_to_many :disadvantages
   has_and_belongs_to_many :images
 
-  #endregion
+  # / Associates
 
-  #region Validates
+  # Validates
 
   validates :title, presence: { message: 'Tiêu đề không được bỏ trống' }
   validates :description, presence: { message: 'Mô tả không được bỏ trống' }
@@ -37,15 +37,33 @@ class RealEstate < ActiveRecord::Base
   validates :real_estate_type_id, presence: { message: 'Loại bất động sản không được bỏ trống' }
   validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
   validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
-  validates :legal_record_type_id, presence: { message: 'Hồ sơ không được bỏ trống' }
-  validates :planning_status_type_id, presence: { message: 'Tình trạng không được bỏ trống' }
 
   validate :custom_validate
 
   def custom_validate
     fields = []
 
-    fields |= RealEstate.get_real_estate_type_fields(real_estate_type_id)
+    real_estate_type = RealEstateType.find real_estate_type_id
+    case real_estate_type.options_hash['group']
+      when 'land'
+        fields << :campus_area << :shape
+      when 'space', 'house'
+        fields << :campus_area << :using_area << :constructional_area << :restroom_number <<
+            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality <<
+            :direction_id << :shape
+        if real_estate_type.options_hash['group'] == 'house'
+          fields << :floor_number
+          if real_estate_type.code == 'villa'
+            fields.delete :constructional_level_id
+          end
+        end
+      when 'apartment'
+        fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
+          :build_year << :constructional_quality << :direction_id
+        if real_estate_type.code == 'building-apartment'
+          fields << :constructional_level_id
+        end
+    end
     fields << :alley_width if is_alley == 1
     fields << :shape_width if fields.include?(:shape) && shape != 0
     fields << :custom_legal_record_type if legal_record_type_id == 0
@@ -57,13 +75,17 @@ class RealEstate < ActiveRecord::Base
     errors.add(:custom_legal_record_type, 'Loại hồ sơ không được bỏ trống') if fields.include?(:custom_legal_record_type) && custom_legal_record_type.blank?
     errors.add(:custom_planning_status_type, 'Tình trạng quy hoạch không được bỏ trống') if fields.include?(:custom_planning_status_type) && custom_planning_status_type.blank?
     errors.add(:campus_area, 'Diện tích khuôn viên không được bỏ trống') if fields.include?(:campus_area) && campus_area.blank?
-    errors.add(:using_area, 'Diện tíchx sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
+    errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area.blank?
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality.blank?
+    errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if !id.blank? && legal_record_type_id.blank?
+    errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if !id.blank? && planning_status_type_id.blank?
     errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
   end
 
-  #endregion
+  # / Validates
+
+  # Name
 
   def name
     purpose.name + ' ' +
@@ -75,161 +97,105 @@ class RealEstate < ActiveRecord::Base
       (legal_record_type.code != 'Custom' ? legal_record_type.name : custom_legal_record_type)
   end
 
-  #region Save real-estate
+  # / Name
 
-  def self.save_real_estate params, is_draft = false
-    real_estate = create_real_estate params
+  # Get params
 
-    real_estate.is_draft = is_draft ? 1 : 0
+  def self.get_params params
+    # Get price
+    params[:sell_price] = ApplicationHelper.format_i(params[:sell_price]) if params.has_key? :sell_price
+    params[:rent_price] = ApplicationHelper.format_i(params[:rent_price]) if params.has_key? :rent_price
 
-    real_estate.save validate: !is_draft
+    # Alley width
+    params[:alley_width] = ApplicationHelper.format_f params[:alley_width] if params.has_key? :alley_width
 
-    real_estate
+    # Area
+    params[:constructional_area] = ApplicationHelper.format_f params[:constructional_area] if params.has_key? :constructional_area
+    params[:using_area] = ApplicationHelper.format_f params[:using_area] if params.has_key? :using_area
+    params[:campus_area] = ApplicationHelper.format_f params[:campus_area] if params.has_key? :campus_area
+    params[:width_x] = ApplicationHelper.format_f params[:width_x] if params.has_key? :using_area
+    params[:width_y] = ApplicationHelper.format_f params[:width_y] if params.has_key? :campus_area
+
+    # Constructional quality
+    params[:constructional_quality] = ApplicationHelper.format_i params[:constructional_quality] if params.has_key? :constructional_quality
+
+    # Advantages, disavantage, property utility, region utility
+    params[:advantage_ids] = [] unless params.has_key? :advantage_ids
+    params[:disadvantage_ids] = [] unless params.has_key? :disadvantage_ids
+    params[:property_utility_ids] = [] unless params.has_key? :property_utility_ids
+    params[:region_utility_ids] = [] unless params.has_key? :region_utility_ids
+
+    # Images 
+    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',')
+
+    # Get field
+
+    fields = [
+      :title, :description, :purpose_id, :sell_price, :rent_price, :currency_id, :sell_unit_id,
+      :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
+      :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
+      :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
+      :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
+      :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
+      :image_ids => []
+    ]
+
+    real_estate_type = RealEstateType.find params[:real_estate_type_id]
+    case real_estate_type.options_hash['group']
+      when 'land'
+        fields << :campus_area << :shape
+      when 'space', 'house'
+        fields << :campus_area << :using_area << :constructional_area << :restroom_number <<
+            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality <<
+            :direction_id << :shape
+        if real_estate_type.options_hash['group'] == 'house'
+          fields << :floor_number
+          if real_estate_type.code == 'villa'
+            fields.delete :constructional_level_id
+          end
+        end
+      when 'apartment'
+        fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
+          :build_year << :constructional_quality << :direction_id
+        if real_estate_type.code == 'building-apartment'
+          fields << :constructional_level_id
+        end
+    end
+
+    # / Get fields
+
+    params.permit fields
   end
 
-  #Create new real-estate
-  def self.create_real_estate params
-    real_estate_params = get_real_estate_params params
+  # Assign with params
 
-    real_estate = new real_estate_params
+  def assign_with_params params
+    real_estate_params = RealEstate.get_params params
 
-    real_estate.advantages = Advantage.find(params[:advantage_ids]) if params.include? :advantage_ids
-    real_estate.disadvantages = Disadvantage.find(params[:disadvantage_ids]) if params.include? :disadvantage_ids
-    real_estate.property_utilities = PropertyUtility.find(params[:property_utility_ids]) if params.include? :property_utility_ids
-    real_estate.region_utilities = RegionUtility.find(params[:region_utility_ids]) if params.include? :region_utility_ids
-    real_estate.images = Image.find(params[:image_ids].to_a - ['']) if params.include? :image_ids
-
-    real_estate
+    assign_attributes(real_estate_params)
   end
 
-  #endregion
+  # / Assign with params
 
-  #region Update real-estate
+  # Save with params
 
-  def self.update_real_estate params, is_draft = false
-    real_estate_params = get_real_estate_params params
+  def save_with_params params, is_draft = false
+    params[:is_draft] = is_draft ? 1 : 0
+    assign_with_params params
 
-    real_estate = find params[:id]
-    real_estate.update real_estate_params
-    real_estate.advantages = params.include?(:advantage_ids) ? Advantage.find(params[:advantage_ids]) : []
-    real_estate.disadvantages = params.include?(:disadvantage_ids) ? Disadvantage.find(params[:disadvantage_ids]) : []
-    real_estate.property_utilities = params.include?(:property_utility_ids) ? PropertyUtility.find(params[:property_utility_ids]) : []
-    real_estate.region_utilities = params.include?(:region_utility_ids) ? RegionUtility.find(params[:region_utility_ids]) : []
-    real_estate.images = params.include?(:image_ids) ? Image.find(params[:image_ids].to_a - ['']) : []
-    real_estate.is_draft = is_draft ? 1 : 0
-
-    real_estate.save validate: !is_draft
-
-    real_estate
+    save validate: !is_draft
   end
 
+  # / Save with params
+
+
+# Temp
   def self.update_show_status id, is_show
     real_estate = find id
 
     real_estate.is_show = is_show
 
     real_estate.save validate: false
-  end
-
-  #endregion
-
-  #region Helper
-
-  #Get real-estate params
-  def self.get_real_estate_params real_estate_params
-    # price
-    # Chuyển sang số
-    real_estate_params['sell_price'] = real_estate_params[:no_sell_price] == '1' ? 0 : ApplicationHelper.to_i(real_estate_params['sell_price'])
-    real_estate_params['rent_price'] = real_estate_params[:no_rent_price] == '1' ? 0 : ApplicationHelper.to_i(real_estate_params['rent_price'])
-
-    # unit
-    # Kiểm tra xem mục đích là gì để xác định unit
-    real_estate_params['sell_unit_id'] = real_estate_params['sell_unit_id']
-    real_estate_params['rent_unit_id'] = real_estate_params['rent_unit_id']
-
-    # alley_width
-    # Chuyển sang số
-    real_estate_params['alley_width'] = ApplicationHelper.to_f real_estate_params['alley_width']
-
-    # constructional_area
-    # Chuyển sang dạng số
-    real_estate_params['constructional_area'] = ApplicationHelper.to_f real_estate_params['constructional_area']
-
-    # using_area
-    # Chuyển sang dạng số
-    real_estate_params['using_area'] = ApplicationHelper.to_f real_estate_params['using_area']
-
-    # campus_area
-    # Chuyển sang dạng số
-    real_estate_params['campus_area'] = ApplicationHelper.to_f real_estate_params['campus_area']
-
-    # constructional_quality
-    # Chuyển sang dạng số
-    real_estate_params['constructional_quality'] = ApplicationHelper.to_i real_estate_params['constructional_quality']
-
-
-    # title, description, purpose_id, price,
-    # currency_id, unit_id, is_negotiable, province_id, district_id
-    # ward_id, street_id, address_number, street_type_id, is_alley
-    # #alley_size, real_estate_type_id, #campus_area, #using_area,
-    # #floor_number, #restroom_number, #bedroom_number, #direction_id
-    # #build_year, #constructional_quality, #constructional_area,
-    # #constructional_level_id, width_x, width_y, shape, #shape_width,
-    # legal_record_type_id, #custom_legal_record_type, planning_status_type_id,
-    # #custom_planning_status_type, custom_advantages, custom_disadvantages,
-    # is_show, expired_time, ads_cost, is_paid, options
-
-    fields = [
-        :title, :description, :purpose_id, :sell_price, :rent_price, :currency_id, :sell_unit_id,
-        :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
-        :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
-        :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages
-    ]
-
-    # real_estate_type
-    fields |= get_real_estate_type_fields(real_estate_params[:real_estate_type_id])
-
-    fields << :alley_width if real_estate_params[:is_alley] == '1'
-    fields << :shape_width if fields.include?(:shape) && real_estate_params[:shape] != '0'
-    fields << :custom_legal_record_type if real_estate_params[:legal_record_type_id] == '0'
-    fields << :custom_planning_status_type if real_estate_params[:planning_status_type_id] == '0'
-    fields << :advantage_ids if real_estate_params.include?(:advantage_ids) && real_estate_params[:advantage_ids].any?
-    fields << :disadvantage_ids if real_estate_params.include?(:disadvantage_ids) && real_estate_params[:disadvantage_ids].any?
-    fields << :property_utility_ids if real_estate_params.include?(:property_utility_ids) && real_estate_params[:property_utility_ids].any?
-    fields << :region_utility_ids if real_estate_params.include?(:region_utility_ids) && real_estate_params[:region_utility_ids].any?
-    fields << :image_ids if real_estate_params.include?(:image_ids) && real_estate_params[:image_ids].any?
-
-    real_estate_params.permit(fields)
-  end
-
-  #Get fields by real-estate type
-  def self.get_real_estate_type_fields real_estate_type_id
-    fields = []
-
-    real_estate_type = RealEstateType.find real_estate_type_id
-
-    case real_estate_type.options_hash['group']
-      when 'Dat'
-        fields << :campus_area << :shape
-      when 'MatBang', 'Nha'
-        fields << :campus_area << :using_area << :constructional_area << :restroom_number <<
-            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality <<
-            :direction_id << :shape
-        if real_estate_type.options_hash['group'] == 'Nha'
-          fields << :floor_number
-          if real_estate_type.code == 'BietThu'
-            fields.delete :constructional_level_id
-          end
-        end
-      when 'CanHo'
-        fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
-            :build_year << :constructional_quality << :direction_id
-        if real_estate_type.code == 'ChungCu'
-          fields << :constructional_level_id
-        end
-    end
-
-    fields
   end
 
   #Get keyword
@@ -242,5 +208,6 @@ class RealEstate < ActiveRecord::Base
   end
 
   #endregion
+# / Temp
 
 end

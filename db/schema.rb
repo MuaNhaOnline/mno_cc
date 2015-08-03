@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150523105405) do
+ActiveRecord::Schema.define(version: 20150728090818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20150523105405) do
     t.text    "code"
     t.integer "province_id"
     t.integer "order"
+    t.text    "options"
   end
 
   create_table "images", force: :cascade do |t|
@@ -226,6 +227,7 @@ ActiveRecord::Schema.define(version: 20150523105405) do
     t.text    "name"
     t.text    "code"
     t.integer "order"
+    t.text    "options"
   end
 
   create_table "purposes", force: :cascade do |t|
@@ -346,6 +348,7 @@ ActiveRecord::Schema.define(version: 20150523105405) do
     t.text    "code"
     t.integer "province_id"
     t.integer "order"
+    t.text    "options"
   end
 
   create_table "units", force: :cascade do |t|
@@ -363,6 +366,7 @@ ActiveRecord::Schema.define(version: 20150523105405) do
     t.text    "code"
     t.integer "province_id"
     t.integer "order"
+    t.text    "options"
   end
 
 end

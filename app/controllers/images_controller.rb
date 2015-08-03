@@ -16,9 +16,9 @@ class ImagesController < ApplicationController
     image = Image.save_image params
 
     if image.errors.any?
-      render json: Hash[status: 0, result: image.errors.full_messages]
+      render json: Hash[status: 1, result: image.errors.full_messages]
     else
-      render json: Hash[status: 1, result: image.id]
+      render json: Hash[status: 0, result: image.id]
     end
   end
 
