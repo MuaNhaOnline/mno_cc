@@ -325,6 +325,27 @@ function initForm($form, params) {
 	*/
 
 	function initConstraint() {
+		$form.find('.form-group').filter(function () {
+			var ok = false;
+
+			$(this).find('[data-constraint~="required"]').each(function () {
+				if (!this.value) {
+					$(this).data('invalid', ok = true);
+					return false;
+				}
+			});
+
+			return ok;
+		}).addClass('has-error');
+
+		$form.find('[data-constraint~="required"]').on({
+			change: function () {
+				if (!this.value) {
+					$(this).data('invalid', true).closest('.form-group').addClass('has-error');	
+				}
+			}
+		})
+
 		$form.find('[data-constraint]').on({
 			'change': function () {
 				var $input = $(this);

@@ -111,7 +111,7 @@ $(function () {
   */
 
   function collapseBoxes($boxes) {
-    $boxes.addClass('collapse-box');
+    $boxes.addClass('collapsed-box');
     $boxes.find('[data-widget="collapse"] i').removeClass('fa-minus').addClass('fa-plus');
     $boxes.find('.box-body, .box-footer').hide();
   }
@@ -216,7 +216,7 @@ $(function () {
       $lat = $form.find('#lat'),
       $long = $form.find('#long');
 
-    $form.find('#location').css({
+    $form.find('#map').css({
       height: '300px'
     }).locationpicker({
       radius: 100,
@@ -224,9 +224,24 @@ $(function () {
       inputBinding: {
         latitudeInput: $lat,
         longitudeInput: $long,
-        locationNameInput: $form.find('#address')
-      }
+        locationNameInput: $form.find('#location'),
+        streetInput: $form.find('#street'),
+        wardInput: $form.find('#ward'),
+        districtInput: $form.find('#district'),
+        provinceInput: $form.find('#province')
+      },
+      enableAutocomplete: true
     });
+
+    // var autocomplete = new google.maps.places.Autocomplete(
+    //   (document.getElementById('address')),
+    //   { types: ['geocode'] }
+    // );
+
+    // google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    //   var place = autocomplete.getPlace();
+    //   console.log(place);
+    // });
   }
 
   /*

@@ -119,6 +119,28 @@ class RealEstate < ActiveRecord::Base
     # Constructional quality
     params[:constructional_quality] = ApplicationHelper.format_i params[:constructional_quality] if params.has_key? :constructional_quality
 
+    # Location
+    unless params[:street].blank?
+      street = Street.find_by_name(params[:street])
+      street = Street.create(name: params[:street]) if street.nil?
+      params[:street_id] = street.id
+    end
+    unless params[:ward].blank?
+      ward = Ward.find_by_name(params[:ward])
+      ward = Ward.create(name: params[:ward]) if ward.nil?
+      params[:ward_id] = ward.id
+    end
+    unless params[:district].blank?
+      district = District.find_by_name(params[:district])
+      district = District.create(name: params[:district]) if district.nil?
+      params[:district_id] = district.id
+    end
+    unless params[:province].blank?
+      province = Province.find_by_name(params[:province])
+      province = Province.create(name: params[:province]) if province.nil?
+      params[:province_id] = province.id
+    end
+
     # Advantages, disavantage, property utility, region utility
     params[:advantage_ids] = [] unless params.has_key? :advantage_ids
     params[:disadvantage_ids] = [] unless params.has_key? :disadvantage_ids
@@ -136,7 +158,7 @@ class RealEstate < ActiveRecord::Base
       :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
-      :lat, :long,
+      :lat, :long,  
       :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
       :image_ids => []
     ]

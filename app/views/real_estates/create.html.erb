@@ -125,7 +125,8 @@
 
   <!-- Price info -->
 
-  <div class="col-md-6 input-box pull-right-md"><article class="box box-default">
+  <div class="col-md-6 input-box pull-right-md">
+    <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title">
           <%= t 'real_estate.attribute.price_box' %>
@@ -202,7 +203,7 @@
     
   <!-- Position -->
 
-  <div class="col-md-6 input-box pull-left clearleft">
+  <div class="col-md-6 input-box pull-left-md clearleft">
     <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title"><%= t 'real_estate.attribute.position_box' %></h2>
@@ -212,69 +213,29 @@
       </section>
       <section class="box-body">
 
-        <div class="row">
+        <!-- Location -->
 
-          <!-- Province -->
+        <article class="form-group">
+          <label for="address_number">Số nhà</label>
+          <input value="<%= @re.address_number %>" class="form-control" name="real_estate[street_number]" type="text" id="address_number" />
+        </article>
 
-          <article class="form-group col-md-6">
-            <label for="province_id">
-              <%= t 'real_estate.attribute.province' %>
-            </label>
-            <select name="real_estate[province_id]" class="form-control" id="province_id">
-              <% Province.get_options.each do |p| %>
-                <option value="<%= p.id %>" <%= 'selected' if p.id == @re.province_id || (!p.options_hash.nil? && p.options_hash.has_key?('default') && @re.province_id.blank?) %>><%= p.name %></option>
-              <% end %>
-            </select>
-          </article>
+        <article class="form-group">
+          <label for="location">Vị trí</label>
+          <input class="form-control" id="location" type="text" /> 
+          <input value="<%= @re.street.name unless @re.street.nil? %>" name="real_estate[street]" type="hidden" id="street" />
+          <input value="<%= @re.ward.name unless @re.ward.nil? %>" name="real_estate[ward]" type="hidden" id="ward" />
+          <input value="<%= @re.district.name unless @re.district.nil? %>" name="real_estate[district]" type="hidden" id="district" />
+          <input value="<%= @re.province unless @re.province.nil? %>" name="real_estate[province]" type="hidden" id="province" />
+          <input value="<%= @re.lat || '10.771528380460218' %>" name="real_estate[lat]" type="hidden" id="lat" />
+          <input value="<%= @re.long || '106.69838659487618' %>" name="real_estate[long]" type="hidden" id="long" />
+        </article>
 
-          <!-- / Province -->
+        <article class="form-group">
+          <div id="map"></div>
+        </article>
 
-          <!-- District -->
-
-          <article class="form-group col-md-6">
-            <label for="district_id">
-              <%= t 'real_estate.attribute.district' %>
-            </label>
-            <select name="real_estate[district_id]" class="form-control" id="district_id">
-              <% District.get_options(1).each do |d| %>
-                <option value="<%= d.id %>" <%= 'selected' if d.id == @re.district_id || (!d.options_hash.nil? && d.options_hash.has_key?('default') && @re.district_id.blank?) %>><%= d.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / District -->
-
-          <!-- Ward -->
-
-          <article class="form-group col-md-6">
-            <label for="ward_id">
-              <%= t 'real_estate.attribute.ward' %>
-            </label>
-            <select name="real_estate[ward_id]" class="form-control" id="ward_id">
-              <% Ward.get_options(1).each do |w| %>
-                <option value="<%= w.id %>" <%= 'selected' if w.id == @re.ward_id || (!w.options_hash.nil? && w.options_hash.has_key?('default') && @re.ward_id.blank?) %>><%= w.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / Ward -->
-
-          <!-- Street -->
-
-          <article class="form-group col-md-6">
-            <label for="street_id">
-              <%= t 'real_estate.attribute.street' %>
-            </label>
-            <select name="real_estate[street_id]" class="form-control" id="street_id">
-              <% Street.get_options(1).each do |s| %>
-                <option value="<%= s.id %>" <%= 'selected' if s.id == @re.street_id || (!s.options_hash.nil? && s.options_hash.has_key?('default') && @re.street_id.blank?) %>><%= s.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / Street -->
-
-        </div>
+        <!-- / Location -->
 
         <!-- Street type -->
 
@@ -314,16 +275,6 @@
 
         <!-- / Alley -->
 
-        <!-- Location -->
-
-        <article class="form-group">
-          <div id="location"></div>
-          <input value="<%= @re.lat || '10.771528380460218' %>" name="real_estate[lat]" type="hidden" id="lat" />
-          <input value="<%= @re.long || '106.69838659487618' %>" name="real_estate[long]" type="hidden" id="long" />
-        </article>
-
-        <!-- / Location -->
-
       </section>
     </article>
   </div>
@@ -332,7 +283,7 @@
 
   <!-- Real-estate info -->
 
-  <div class="col-md-6 input-box pull-right clearright">
+  <div class="col-md-6 input-box pull-right-md clearright">
     <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title">
