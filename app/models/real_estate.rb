@@ -136,6 +136,7 @@ class RealEstate < ActiveRecord::Base
       :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
+      :lat, :long,
       :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
       :image_ids => []
     ]

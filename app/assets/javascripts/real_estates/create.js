@@ -83,6 +83,7 @@ $(function () {
   }
   initPrice();
   initSaveDraft();
+  initLocation();
 
   /*
     / Init
@@ -204,6 +205,32 @@ $(function () {
 
   /*
     / Price format
+  */
+
+  /*
+    Init location
+  */
+
+  function initLocation() {
+    var 
+      $lat = $form.find('#lat'),
+      $long = $form.find('#long');
+
+    $form.find('#location').css({
+      height: '300px'
+    }).locationpicker({
+      radius: 100,
+      location: {latitude: $lat.val(), longitude: $long.val()},
+      inputBinding: {
+        latitudeInput: $lat,
+        longitudeInput: $long,
+        locationNameInput: $form.find('#address')
+      }
+    });
+  }
+
+  /*
+    / Init location
   */
 
   /*

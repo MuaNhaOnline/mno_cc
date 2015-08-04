@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728090818) do
+ActiveRecord::Schema.define(version: 20150804074530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,8 @@ ActiveRecord::Schema.define(version: 20150728090818) do
     t.integer  "is_draft",                    default: 0
     t.decimal  "sell_price"
     t.integer  "sell_unit_id"
+    t.text     "lat"
+    t.text     "long"
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|

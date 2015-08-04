@@ -7,7 +7,8 @@
   <script type="text/javascript" src="/assets/real_estates/<%= I18n.locale %>.js"></script>
   <script type="text/javascript" src="/assets/shared/form_back.js"></script>
   <script type="text/javascript" src="/assets/real_estates/create.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiX3-00JV484NWtFa1UGgnbFKKq1P6rPI" type="text/javascript"></script>
+  <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+  <script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -306,12 +307,22 @@
         <article class="form-group" data-toggled-element="alley">
           <label for="alley_width"><%= t 'real_estate.attribute.alley_width' %></label>
           <div class="input-group">
-          <input data-constraint="real" class="form-control" name="real_estate[alley_width]" id="alley_width" value="<%= @re.alley_width %>" />
+            <input data-constraint="real" class="form-control" name="real_estate[alley_width]" id="alley_width" value="<%= @re.alley_width %>" />
             <div class="input-group-addon">m</div>
           </div>
         </article>
 
         <!-- / Alley -->
+
+        <!-- Location -->
+
+        <article class="form-group">
+          <div id="location"></div>
+          <input value="<%= @re.lat || '10.771528380460218' %>" name="real_estate[lat]" type="hidden" id="lat" />
+          <input value="<%= @re.long || '106.69838659487618' %>" name="real_estate[long]" type="hidden" id="long" />
+        </article>
+
+        <!-- / Location -->
 
       </section>
     </article>
