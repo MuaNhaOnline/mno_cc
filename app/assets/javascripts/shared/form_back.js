@@ -7,24 +7,7 @@ function initForm($form, params) {
 	initFileInput();
 	initConstraint();
 	initSubmit();
-
-	$form.find(':input').on({
-		keypress: function (e) {
-	    if (e.keyCode == 13) {
-	    	e.preventDefault();
-
-        var inputs = $form.find(":input:focusable");
-        var idx = inputs.index(this);
-
-        if (idx == inputs.length - 1) {
-          inputs[0].focus();
-        } 
-        else {
-          inputs[idx + 1].focus();
-        }
-      }
-		}
-	});
+	initEnterKey();
 
 	/*
 		Toggle
@@ -552,6 +535,34 @@ function initForm($form, params) {
 
 	/*
 		/ Constraint
+	*/
+
+	/*
+		Enter key
+	*/
+
+	function initEnterKey() {
+		$form.find(':input').on({
+			keypress: function (e) {
+		    if (e.keyCode == 13 && !e.shiftKey) {
+		    	e.preventDefault();
+
+	        var inputs = $form.find(":input:focusable");
+	        var idx = inputs.index(this);
+
+	        if (idx == inputs.length - 1) {
+	          inputs[0].focus();
+	        } 
+	        else {
+	          inputs[idx + 1].focus();
+	        }
+	      }
+			}
+		});
+	}
+
+	/*
+		/Enter key
 	*/
 
 	/*

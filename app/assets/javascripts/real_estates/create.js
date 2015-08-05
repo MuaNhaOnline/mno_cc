@@ -235,8 +235,6 @@ $(function () {
           $area = $usingArea;
         }
 
-        console.log($area);
-
         // If empty => valid too
         if ($area.val() && $widthX.val() && $widthY.val() && !isValidArea($area.val(), $widthX.val(), $widthY.val())) {
           $areaAlert.show();
