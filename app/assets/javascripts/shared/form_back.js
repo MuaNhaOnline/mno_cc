@@ -7,6 +7,7 @@ function initForm($form, params) {
 	initFileInput();
 	initConstraint();
 	initSubmit();
+	initEnterKey();
 
 	/*
 		Toggle
@@ -105,7 +106,7 @@ function initForm($form, params) {
 				if (on) {
 					$element.removeClass('off');
 
-					$element.find(':input').prop('disabled', false);
+					$element.find(':input').prop('disabled', false).trigger('enable');
 					// .each(function () {
 					// 	var $input = $(this);
 					// 	var invalid = checkInvalidInput($input);
@@ -117,16 +118,24 @@ function initForm($form, params) {
 				else {
 					$element.addClass('off');
 
-					$element.find(':input').prop('disabled', true).each(function () {
+					$element.find(':input').prop('disabled', true).trigger('disable').each(function () {
 						var $input = $(this);
+
 						toggleValidInput($input, true, $input.attr('name'));	      		
 					});
+				}
+
+				if ($element.is('.form-group')) {
+					initConstraintFormGroup($element);
+				}
+				else {
+					initConstraintFormGroup($element.find('.form-group'));
 				}
 			}
 			else {
 				$element.prop('disabled', !on);
 				if (on) {
-					$element.removeClass('off');
+					$element.removeClass('off').trigger('enable');
 
 					// var invalid = checkInvalidInput($element);
 					// if (invalid) {
@@ -134,10 +143,12 @@ function initForm($form, params) {
 					// }
 				}
 				else {
-					$element.addClass('off');
+					$element.addClass('off').trigger('disable');;
 
 					toggleValidInput($element, false, $element.attr('name'));	  
 				}
+
+				initConstraintFormGroup($element.closest('.form-group'));
 			}
 		}
 	}
@@ -324,7 +335,32 @@ function initForm($form, params) {
 		Constraint
 	*/
 
+	function initConstraintFormGroup($formGroups) {
+		$formGroups.filter(function () {
+			var ok = false;
+
+			$(this).find('[data-constraint~="required"]').each(function () {
+				if (!this.value) {
+					$(this).data('invalid', ok = true);
+					return false;
+				}
+			});
+
+			return ok;
+		}).addClass('has-error');
+	}
+
 	function initConstraint() {
+		initConstraintFormGroup($form.find('.form-group'));
+
+		$form.find('[data-constraint~="required"]').on({
+			change: function () {
+				if (!this.value) {
+					$(this).data('invalid', true).closest('.form-group').addClass('has-error');	
+				}
+			}
+		})
+
 		$form.find('[data-constraint]').on({
 			'change': function () {
 				var $input = $(this);
@@ -499,6 +535,34 @@ function initForm($form, params) {
 
 	/*
 		/ Constraint
+	*/
+
+	/*
+		Enter key
+	*/
+
+	function initEnterKey() {
+		$form.find(':input').on({
+			keypress: function (e) {
+		    if (e.keyCode == 13 && !e.shiftKey) {
+		    	e.preventDefault();
+
+	        var inputs = $form.find(":input:focusable");
+	        var idx = inputs.index(this);
+
+	        if (idx == inputs.length - 1) {
+	          inputs[0].focus();
+	        } 
+	        else {
+	          inputs[idx + 1].focus();
+	        }
+	      }
+			}
+		});
+	}
+
+	/*
+		/Enter key
 	*/
 
 	/*

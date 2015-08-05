@@ -83,6 +83,8 @@ $(function () {
   }
   initPrice();
   initSaveDraft();
+  initLocation();
+  initCheckArea();
 
   /*
     / Init
@@ -110,7 +112,7 @@ $(function () {
   */
 
   function collapseBoxes($boxes) {
-    $boxes.addClass('collapse-box');
+    $boxes.addClass('collapsed-box');
     $boxes.find('[data-widget="collapse"] i').removeClass('fa-minus').addClass('fa-plus');
     $boxes.find('.box-body, .box-footer').hide();
   }
@@ -199,11 +201,88 @@ $(function () {
 
         _temp['price'] = value;
       }
-    }).focusout();
+    }).keyup();
   }
 
   /*
     / Price format
+  */
+
+  /*
+    Check area
+  */
+
+  function initCheckArea() {
+    var 
+      $campusArea = $form.find('#campus_area'),
+      $constructionalArea = $form.find('#constructional_area'),
+      $usingArea = $form.find('#using_area'),
+      $widthX = $form.find('#width_x'),
+      $widthY = $form.find('#width_y'),
+      $areaAlert = $form.find('#area_alert');
+
+    $campusArea.add($constructionalArea).add($usingArea).add($widthX).add($widthY).on({
+      'change disable enable': function () {
+        var $area;
+
+        if ($campusArea.is(':enabled')) {
+          $area = $campusArea;
+        }
+        else if ($constructionalArea.is(':enabled')) {
+          $area = $constructionalArea;
+        }
+        else {
+          $area = $usingArea;
+        }
+
+        // If empty => valid too
+        if ($area.val() && $widthX.val() && $widthY.val() && !isValidArea($area.val(), $widthX.val(), $widthY.val())) {
+          $areaAlert.show();
+        }
+        else {
+          $areaAlert.hide();
+        }
+      }
+    }).change();
+
+    function isValidArea(area, widthX, widthY) {
+      return widthX * widthY <= area;
+    }
+  }
+
+  /*
+    / Check area
+  */
+
+  /*
+    Init location
+  */
+
+  function initLocation() {
+    var 
+      $lat = $form.find('#lat'),
+      $long = $form.find('#long');
+
+    $form.find('#map').css({
+      height: '300px'
+    }).locationpicker({
+      radius: 100,
+      location: {latitude: $lat.val(), longitude: $long.val()},
+      inputBinding: {
+        latitudeInput: $lat,
+        longitudeInput: $long,
+        locationNameInput: $form.find('#location'),
+        streetInput: $form.find('#street'),
+        wardInput: $form.find('#ward'),
+        districtInput: $form.find('#district'),
+        provinceInput: $form.find('#province')
+      },
+      enableAutocomplete: true
+    });
+  }
+
+  /*
+    / Init location
   */
 
   /*

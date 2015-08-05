@@ -37,6 +37,8 @@ class RealEstate < ActiveRecord::Base
   validates :real_estate_type_id, presence: { message: 'Loại bất động sản không được bỏ trống' }
   validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
   validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
+  validates :legal_record_type_id, presence: { message: 'Hồ sơ pháp lý không được bỏ trống' }
+  validates :planning_status_type_id, presence: { message: 'Tình trạng quy hoạch không được bỏ trống' }
 
   validate :custom_validate
 
@@ -78,8 +80,8 @@ class RealEstate < ActiveRecord::Base
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area.blank?
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality.blank?
-    errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if !id.blank? && legal_record_type_id.blank?
-    errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if !id.blank? && planning_status_type_id.blank?
+    # errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if !id.blank? && legal_record_type_id.blank?
+    # errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if !id.blank? && planning_status_type_id.blank?
     errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
   end
 
@@ -119,6 +121,28 @@ class RealEstate < ActiveRecord::Base
     # Constructional quality
     params[:constructional_quality] = ApplicationHelper.format_i params[:constructional_quality] if params.has_key? :constructional_quality
 
+    # Location
+    unless params[:street].blank?
+      street = Street.find_by_name(params[:street])
+      street = Street.create(name: params[:street]) if street.nil?
+      params[:street_id] = street.id
+    end
+    unless params[:ward].blank?
+      ward = Ward.find_by_name(params[:ward])
+      ward = Ward.create(name: params[:ward]) if ward.nil?
+      params[:ward_id] = ward.id
+    end
+    unless params[:district].blank?
+      district = District.find_by_name(params[:district])
+      district = District.create(name: params[:district]) if district.nil?
+      params[:district_id] = district.id
+    end
+    unless params[:province].blank?
+      province = Province.find_by_name(params[:province])
+      province = Province.create(name: params[:province]) if province.nil?
+      params[:province_id] = province.id
+    end
+
     # Advantages, disavantage, property utility, region utility
     params[:advantage_ids] = [] unless params.has_key? :advantage_ids
     params[:disadvantage_ids] = [] unless params.has_key? :disadvantage_ids
@@ -136,6 +160,7 @@ class RealEstate < ActiveRecord::Base
       :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
+      :lat, :long,  
       :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
       :image_ids => []
     ]

@@ -7,7 +7,8 @@
   <script type="text/javascript" src="/assets/real_estates/<%= I18n.locale %>.js"></script>
   <script type="text/javascript" src="/assets/shared/form_back.js"></script>
   <script type="text/javascript" src="/assets/real_estates/create.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiX3-00JV484NWtFa1UGgnbFKKq1P6rPI" type="text/javascript"></script>
+  <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+  <script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -124,7 +125,8 @@
 
   <!-- Price info -->
 
-  <div class="col-md-6 input-box pull-right-md"><article class="box box-default">
+  <div class="col-md-6 input-box pull-right-md">
+    <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title">
           <%= t 'real_estate.attribute.price_box' %>
@@ -156,7 +158,7 @@
             <input data-constraint="integer" value="<%= @re.sell_price.round unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control" id="sell_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
-              <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %></button>
+              <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
               <ul class="dropdown-menu pull-right">
                 <%= sell_unit_html.html_safe %>
               </ul>
@@ -170,7 +172,7 @@
             <input data-constraint="integer" value="<%= @re.rent_price.round unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control" id="rent_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
-              <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %></button>
+              <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
               <ul class="dropdown-menu pull-right">
                 <%= rent_unit_html.html_safe %>
               </ul>
@@ -201,7 +203,7 @@
     
   <!-- Position -->
 
-  <div class="col-md-6 input-box pull-left clearleft">
+  <div class="col-md-6 input-box pull-left-md clearleft">
     <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title"><%= t 'real_estate.attribute.position_box' %></h2>
@@ -211,69 +213,25 @@
       </section>
       <section class="box-body">
 
-        <div class="row">
+        <!-- Location -->
 
-          <!-- Province -->
+        <article class="form-group">
+          <label for="location"><%= t 'real_estate.attribute.address' %></label>
+          <input data-constraint="required" class="form-control" id="location" type="text" /> 
+          <input value="<%= @re.street.name unless @re.street.nil? %>" name="real_estate[street]" type="hidden" id="street" />
+          <input value="<%= @re.ward.name unless @re.ward.nil? %>" name="real_estate[ward]" type="hidden" id="ward" />
+          <input value="<%= @re.district.name unless @re.district.nil? %>" name="real_estate[district]" type="hidden" id="district" />
+          <input value="<%= @re.province unless @re.province.nil? %>" name="real_estate[province]" type="hidden" id="province" />
+          <input value="<%= @re.lat || '10.771528380460218' %>" name="real_estate[lat]" type="hidden" id="lat" />
+          <input value="<%= @re.long || '106.69838659487618' %>" name="real_estate[long]" type="hidden" id="long" />
+        </article>
 
-          <article class="form-group col-md-6">
-            <label for="province_id">
-              <%= t 'real_estate.attribute.province' %>
-            </label>
-            <select name="real_estate[province_id]" class="form-control" id="province_id">
-              <% Province.get_options.each do |p| %>
-                <option value="<%= p.id %>" <%= 'selected' if p.id == @re.province_id || (!p.options_hash.nil? && p.options_hash.has_key?('default') && @re.province_id.blank?) %>><%= p.name %></option>
-              <% end %>
-            </select>
-          </article>
+        <article class="form-group">
+          <label for="address_number"><%= t 'real_estate.attribute.address_number' %></label>
+          <input value="<%= @re.address_number %>" class="form-control" name="real_estate[street_number]" type="text" id="address_number" />
+        </article>
 
-          <!-- / Province -->
-
-          <!-- District -->
-
-          <article class="form-group col-md-6">
-            <label for="district_id">
-              <%= t 'real_estate.attribute.district' %>
-            </label>
-            <select name="real_estate[district_id]" class="form-control" id="district_id">
-              <% District.get_options(1).each do |d| %>
-                <option value="<%= d.id %>" <%= 'selected' if d.id == @re.district_id || (!d.options_hash.nil? && d.options_hash.has_key?('default') && @re.district_id.blank?) %>><%= d.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / District -->
-
-          <!-- Ward -->
-
-          <article class="form-group col-md-6">
-            <label for="ward_id">
-              <%= t 'real_estate.attribute.ward' %>
-            </label>
-            <select name="real_estate[ward_id]" class="form-control" id="ward_id">
-              <% Ward.get_options(1).each do |w| %>
-                <option value="<%= w.id %>" <%= 'selected' if w.id == @re.ward_id || (!w.options_hash.nil? && w.options_hash.has_key?('default') && @re.ward_id.blank?) %>><%= w.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / Ward -->
-
-          <!-- Street -->
-
-          <article class="form-group col-md-6">
-            <label for="street_id">
-              <%= t 'real_estate.attribute.street' %>
-            </label>
-            <select name="real_estate[street_id]" class="form-control" id="street_id">
-              <% Street.get_options(1).each do |s| %>
-                <option value="<%= s.id %>" <%= 'selected' if s.id == @re.street_id || (!s.options_hash.nil? && s.options_hash.has_key?('default') && @re.street_id.blank?) %>><%= s.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / Street -->
-
-        </div>
+        <!-- / Location -->
 
         <!-- Street type -->
 
@@ -306,12 +264,20 @@
         <article class="form-group" data-toggled-element="alley">
           <label for="alley_width"><%= t 'real_estate.attribute.alley_width' %></label>
           <div class="input-group">
-          <input data-constraint="real" class="form-control" name="real_estate[alley_width]" id="alley_width" value="<%= @re.alley_width %>" />
+            <input data-constraint="real" class="form-control" name="real_estate[alley_width]" id="alley_width" value="<%= @re.alley_width %>" />
             <div class="input-group-addon">m</div>
           </div>
         </article>
 
         <!-- / Alley -->
+
+        <!-- Map -->
+
+        <article class="form-group">
+          <div id="map"></div>
+        </article>
+
+        <!-- / Map -->
 
       </section>
     </article>
@@ -321,7 +287,7 @@
 
   <!-- Real-estate info -->
 
-  <div class="col-md-6 input-box pull-right clearright">
+  <div class="col-md-6 input-box pull-right-md clearright">
     <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title">
@@ -371,7 +337,7 @@
             <%= t 'real_estate.attribute.constructional_area' %>
           </label>
           <div class="input-group">
-            <input data-constraint="required real" class="form-control" name="real_estate[constructional_area]" id="construction_area" value="<%= @re.constructional_area %>" />
+            <input data-constraint="required real" class="form-control" name="real_estate[constructional_area]" id="constructional_area" value="<%= @re.constructional_area %>" />
             <div class="input-group-addon">m<sup>2</sup></div>
           </div>
         </article>
@@ -400,7 +366,7 @@
 
         <!-- Width -->
 
-        <div class="row" data-toggled-element="land house apartment space">
+        <div class="row">
           <article class="form-group col-md-6">
             <label for="width_x">
               <%= t 'real_estate.attribute.width_x' %>
@@ -419,6 +385,12 @@
               <input data-constraint="required real" class="form-control" name="real_estate[width_y]" id="width_y" value="<%= @re.width_y %>" />
               <div class="input-group-addon">m</div>
             </div>
+          </article>
+
+          <article class="col-md-12" id="area_alert">
+            <article class="callout callout-warning">
+              <%= t 'real_estate.create.area_alert' %>
+            </article>
           </article>
         </div>
 
@@ -554,42 +526,9 @@
 
   <!-- / Real-estate info -->
 
-  <!-- Description -->
-
-  <div class="col-md-12 input-box">
-
-    <article class="box box-default">
-      <section class="box-header with-border">
-        <h2 class="box-title">
-          <%= t 'real_estate.attribute.content_box' %>
-        </h2>
-        <div class="box-tools pull-right">
-          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-      </section>
-      <section class="box-body">
-        <article class="form-group">
-          <label for="title">
-            <%= t 'real_estate.attribute.title' %>
-          </label>
-          <input data-constraint="required" class="form-control" name="real_estate[title]" id="title" value="<%= @re.title %>" />
-        </article>
-        <article class="form-group">
-          <label for="description">
-            <%= t 'real_estate.attribute.description' %>
-          </label>
-          <textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description"><%= @re.description %></textarea>
-        </article>
-      </section>
-    </article>
-
-  </div>
-    
-  <!-- / Description -->
-
   <!-- Docs info -->
 
-  <div class="col-md-12 input-box until-full" data-toggled-element="sell un-rent">
+  <div class="col-md-12 input-box" data-toggled-element="sell un-rent">
     
     <article class="box box-default">
       <section class="box-header with-border">
@@ -652,35 +591,40 @@
 
   <!-- / Docs info -->
 
-  <!-- Utilities -->
+  <!-- Description -->
 
-  <div class="col-md-6 input-box until-full">
+  <div class="col-md-12 input-box">
+
     <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title">
-          <%= t 'real_estate.attribute.region_utility' %>
+          <%= t 'real_estate.attribute.content_box' %>
         </h2>
         <div class="box-tools pull-right">
           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
       </section>
       <section class="box-body">
-          
-        <!-- Region utilities -->
-        
         <article class="form-group">
-          <% RegionUtility.get_options.each do |u| %>
-            <div class="checkbox">
-              <label><input <%= 'checked' if @re.region_utilities.exists?(id: u.id) %> type="checkbox" name="real_estate[region_utility_ids][]" value="<%= u.id %>"><%= t 'region_utility.text.' + u.name %></label>
-            </div>
-          <% end %>
+          <label for="title">
+            <%= t 'real_estate.attribute.title' %>
+          </label>
+          <input data-constraint="required" class="form-control" name="real_estate[title]" id="title" value="<%= @re.title %>" />
         </article>
-
-        <!-- / Region utilities -->
-
+        <article class="form-group">
+          <label for="description">
+            <%= t 'real_estate.attribute.description' %>
+          </label>
+          <textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description"><%= @re.description %></textarea>
+        </article>
       </section>
     </article>
+
   </div>
+    
+  <!-- / Description -->
+
+  <!-- Utilities -->
 
   <div class="col-md-6 input-box until-full" data-toggled-element="un-land house apartment space">
     <article class="box box-default">
@@ -705,6 +649,34 @@
         </article>
 
         <!-- / Property utilities -->
+
+      </section>
+    </article>
+  </div>
+
+  <div class="col-md-6 input-box until-full">
+    <article class="box box-default">
+      <section class="box-header with-border">
+        <h2 class="box-title">
+          <%= t 'real_estate.attribute.region_utility' %>
+        </h2>
+        <div class="box-tools pull-right">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </section>
+      <section class="box-body">
+          
+        <!-- Region utilities -->
+        
+        <article class="form-group">
+          <% RegionUtility.get_options.each do |u| %>
+            <div class="checkbox">
+              <label><input <%= 'checked' if @re.region_utilities.exists?(id: u.id) %> type="checkbox" name="real_estate[region_utility_ids][]" value="<%= u.id %>"><%= t 'region_utility.text.' + u.name %></label>
+            </div>
+          <% end %>
+        </article>
+
+        <!-- / Region utilities -->
 
       </section>
     </article>

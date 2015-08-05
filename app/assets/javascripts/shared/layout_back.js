@@ -4,7 +4,44 @@ $(function () {
 	$body = $('body');
 
   $('#loading_page').remove();
+  
+  customPrototype();
+  customJquery();
 });
+
+/*
+  Custom property
+*/
+
+function customPrototype() {
+  String.prototype.format = function(replace) {
+    var string = this;
+    for (var key in replace) {
+      string = string.replace(new RegExp("\\{" + key + "\\}", "g"), replace[key]);
+    }
+    return string;
+  }
+
+  String.prototype.toSentenceCase = function() {
+    return this.toLowerCase().replace(/^(.)|\s(.)/g, function(char) { return char.toUpperCase(); });
+  }
+}
+
+/*
+  / Custom property
+*/
+
+/*
+  Custom jquery
+*/
+
+function customJquery() {
+
+}
+
+/*
+  / Custom jquery
+*/
 
 /* 
 	Popup 
