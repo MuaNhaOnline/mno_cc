@@ -49,10 +49,6 @@
   Custom layout
 */
 
-.text-center {
-  text-align: center;
-}
-
 .margin-0 {
   margin: 0;
 }
@@ -68,6 +64,10 @@
 
 .margin-left-5 {
   margin-left: 5px;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 /*

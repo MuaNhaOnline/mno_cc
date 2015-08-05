@@ -307,3 +307,97 @@ listString.remove = function (key, string) {
 /*
   / String
 */
+
+/*
+  Pagination
+*/
+
+/*
+  $list: List content
+  $pagination: Pagination
+  params:
+    url: *required*
+      Url action get content
+      With page param
+    data: 
+    Data will be pass to url
+      {} or func return {}
+    afterLoad:
+      init after fill new page
+      param: result
+    page: 1
+      default page
+*/
+function _initPagination($list, $pagination, params) {
+  if (typeof params === 'undefined' || typeof params.url === 'undefined') {
+    return;
+  }
+
+  $pagination.find('[data-page="' + (params.page || 1) + '"]').parent().addClass('active');
+
+  $pagination.find('[aria-click="paging"]').on('click', function () {
+    var 
+      $button = $(this),
+      $parent = $button.parent();
+
+    if ($parent.hasClass('active')) {
+      return;
+    }
+
+    var data;
+    if ('data' in params) {
+      if (typeof params.data === 'function') {
+        data = params.data();
+      }
+      else {
+        data = params.data;
+      }
+    }
+
+    if (typeof (data) !== 'object') {
+      data = {}
+    }
+
+    data.page = $button.data('page');
+
+    $.ajax({
+      url: params.url,
+      data: data,
+      dataType: 'JSON'
+    }).done(function (data) {
+      if (data.status == 0) {
+        if ('afterLoad' in params) {
+          var result = params.afterLoad(data.result);
+
+          if (result) {
+            $list.html(result);
+          }
+        }
+        else {
+          $list.html(data.result);
+        }
+
+
+        $parent.siblings('.active').removeClass('active');
+        $parent.addClass('active');
+      }
+      else {
+        popupPrompt({
+          title: _t.form.error_title,
+          type: 'danger',
+          content: _t.form.error_content
+        })
+      }
+    }).fail(function () {
+      popupPrompt({
+        title: _t.form.error_title,
+        type: 'danger',
+        content: _t.form.error_content
+      })
+    });
+  });
+}
+
+/*
+  / Pagination
+*/

@@ -57,13 +57,22 @@ class RealEstatesController < ApplicationController
   def preview
     @real_estate = RealEstate.create_real_estate params['real_estate']
 
-    render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview'), formats: [:html]]
+    render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview')]
   end
 
   def manager
-    @res = RealEstate.order updated_at: 'desc'
+    @res = RealEstate.order(updated_at: 'desc')
 
     render layout: 'layout_back'
+  end
+
+  def _manager_list
+    per = Rails.application.config.item_per_page
+    offset = (params[:page].to_i - 1) * per
+
+    @res = RealEstate.order(updated_at: 'desc').limit(per).offset(offset)
+
+    render json: Hash[status: 0, result: render_to_string(partial: 'real_estates/manager_list')]
   end
 
   def change_show_status
