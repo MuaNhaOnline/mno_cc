@@ -1,11 +1,152 @@
 /*start search*/
 .search {
 	background: url('/assets/background/background-search.jpg') no-repeat center center;
-	height: 500px;
+	height: 550px;
 	display: flex;
+	margin-bottom: 25px;
 }	
 	.search .search-box {
 		margin: auto;
 	}
 /*end search*/
 
+/*start Interested Project*/
+.project-is-interested {
+	font-size: 13px;
+}
+	/*start Title*/
+	.project-is-interested .title {
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 20px;
+		margin-bottom: 20px;
+		position: relative;
+		transition: 0.2s;
+	}
+	.project-is-interested a {
+		display: block;
+		color: #666;
+		transition: 0.2s;
+	}
+		.project-is-interested a:hover {
+			text-decoration: none;
+			color: #54b40d;
+		}
+		.project-is-interested a:hover i.link {
+			background: url('/assets/icon/link-12-hover.png') no-repeat center center;
+		}
+	.project-is-interested i.link {
+		position: relative;
+		vertical-align: middle;
+		width: 12px;
+		height: 12px;
+		background: url('/assets/icon/link-12.png') no-repeat center center;
+		display: inline-block;
+		transition: 0.2s;
+	}
+		.project-is-interested i.link:before {
+			content: '';
+			position: absolute;
+			width: 300px;
+			height: 5px;
+			background: url('/assets/icon/line.png') no-repeat center center;
+			right: 100%;
+			display: block;
+			top: calc(50% - 2.5px);
+			margin-right: 20px;
+		}
+	.project-is-interested .title span {
+		position: relative;		
+	}
+		.project-is-interested .title span:before {
+			content: '';
+			position: absolute;
+			width: 300px;
+			height: 5px;
+			background: url('/assets/icon/line.png') no-repeat center center;
+			left: 100%;
+			display: block;
+			top: calc(50% - 2.5px);
+			transform: rotate(180deg);
+			-o-transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			-webkit-transform: rotate(180deg);
+			margin-left: 20px;
+		}
+	/*end Title*/
+
+	/*start Content*/
+	.project-is-interested .content {
+		color: #666;
+	}
+
+		/*start picture*/
+		.project-is-interested .picture {
+			/*max-height: 300px;
+			display: flex;*/
+		}
+			.project-is-interested .picture img {
+				max-height: 350px;
+				width: 100%;
+			}
+		/*end*/
+
+		/*start name project*/
+		.project-is-interested .name-project {
+			font-size: 21px;
+			color: #333;
+		}
+		/*end*/
+
+		/*start status project*/
+		.project-is-interested .status-project {			
+			margin-bottom: 5px;
+		}
+		.project-is-interested .status-project i.done {
+			vertical-align: middle;
+			display: inline-block;
+			width: 8px;
+			height: 8px;
+			background: url('/assets/icon/done.png') no-repeat center center;
+		}
+		.project-is-interested .status-project span {
+			color: #666;
+			margin-left: 5px;
+			font-size: 12px;
+		}
+		/*end*/
+
+		/*start address project*/
+		.project-is-interested .address-project {
+			margin-bottom: 5px;
+		}
+		/*end*/
+
+		/*start ticker project*/
+		.project-is-interested .ticker-project {
+			height: 35px;
+			border: 1px dashed #999;	
+			margin-bottom: 5px;		
+		}
+		/*end*/
+
+		/*start detail project*/
+		.project-is-interested .detail {
+			text-align: justify;
+			margin-bottom: 10px;
+		}
+		/*end*/
+
+		/*start btn more*/
+		.project-is-interested .btn-more {
+			text-align: right;
+		}
+			.project-is-interested .btn-more a {
+				color: #54b40d;
+			}
+			.project-is-interested .btn-more a:hover {
+				color: #ff6511;
+			}
+		/*end*/
+	/*end Content*/
+/*end Interested Project*/

@@ -3,10 +3,9 @@
 <% end %>
 
 <% content_for :scripts do %>
-<script type="text/javascript" src="/assets/home/index.js"></script>
 <% end %>
 
-<!--start Main Content -->
+<!--start Search Box -->
 
 <section class="search">
 	<div class="search-box">
@@ -34,20 +33,21 @@
 					từ khóa<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
+						<li><a href="#">Từ khóa 01</a></li>
+						<li><a href="#">Từ khóa 02</a></li>
+						<li><a href="#">Từ khóa 03</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="btn-more">
-				<button type="button" class="btn btn-link">Thêm lựa chọn</button>
+				<button type="button" class="btn btn-link" data-function="show-search-plus">Thêm lựa chọn</button>
 			</div>
-			<section class="more-search" style="display:none">
+			<section class="more-search" id="more_search" style="display:none">
 				<div class="form-group-custom container-fluid">
 					<div class="row">
 						<div class="col-md-6 input-inline">
 							<select class="form-control input-sm">
+								<option>--Chọn thành phố/Tỉnh--</option>
 								<option>Thành phố Hồ Chí Minh</option>
 								<option>Hà Nội</option>
 								<option>Bà Rịa - Vũng Tàu</option>
@@ -55,15 +55,16 @@
 						</div>
 						<div class="col-md-6">
 							<select class="form-control input-sm">
+								<option>--Chọn quận/huyện--</option>
 								<option>Quận 1</option>
-								<option>Quận 2</option>
-								<option>Quận 3</option>
+								<option>Quận 5</option>
 							</select>
 						</div>
 					</div>
 				</div>
 				<div class="form-group-custom">
 					<select class="form-control input-sm">
+						<option>--Chọn giá tiền--</option>
 						<option>1 tỷ - 3 tỷ</option>
 						<option>3 tỷ - 5 tỷ</option>
 						<option>trên 5 tỷ</option>
@@ -71,6 +72,7 @@
 				</div>
 				<div class="form-group-custom">
 					<select class="form-control input-sm">
+						<option>--Chọn giá tiền--</option>
 						<option>50m2 - 100m2</option>
 						<option>100m2 - 200m2</option>
 						<option>trên 200m2</option>
@@ -80,13 +82,15 @@
 					<div class="row">
 						<div class="col-md-6 input-inline">
 							<select class="form-control input-sm">
+								<option>--Chọn loại dự án--</option>
 								<option>Dự án căn hộ liên kế</option>
-								<option>Dự án 1</option>
-								<option>Dự án 2</option>
+								<option>Dự án biệt thự cao cấp</option>
+								<option>Dự án nhà ở xã hội</option>
 							</select>
 						</div>
-						<div class="col-md-6">
-							<select class="form-control">
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn tình trạng dự án--</option>
 								<option>Dự án đã hoàn thành</option>
 								<option>Dự án đang hoàn thành</option>
 							</select>
@@ -104,4 +108,54 @@
 	</div>
 </section>
 
-<!-- end Main Content -->
+<!-- end Search Box-->
+
+<!-- start Interested Project -->
+
+<section class="container project-is-interested">
+	<article class="title">
+		<a href="#">
+			<i class="link"></i>
+			<span>Dự án được quan tâm</span>
+		</a>
+	</article>
+	<article class="content">
+		<section class="row">
+			<div class="col-md-8 picture">
+				<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
+			</div>
+			<div class="col-md-4">
+				<div class="name-project">
+					Tên dự án
+				</div>
+				<div class="status-project">
+					<i class="done"></i>
+					<span>Đã hoàn thành</span>
+				</div>
+				<div class="address-project">
+					Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7
+				</div>
+				<div class="ticker-project">
+
+				</div>
+				<div class="detail">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+				<div class="btn-more">
+					<a href="#">Xem chi tiết</a>
+				</div>
+			</div>
+		</div>
+	</article>
+</section>
+
+<!-- end The Care of Project -->
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
