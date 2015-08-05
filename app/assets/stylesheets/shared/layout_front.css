@@ -47,6 +47,9 @@ header {
             .sitemap > ul {
                 display: flex;
             }
+                .sitemap > ul > li {
+                    padding: 0 10px;
+                }
         .sitemap button[type="button"] {
             color: #666;
             font-size: 15px;
@@ -63,6 +66,10 @@ header {
             background-color: #54b40d;
             color: #f5f5f5;
         }
+        .sitemap button {
+            padding-left: 0;
+            padding-right: 0;
+        }        
         /*end sitemap*/
 
         /*start function-button*/
