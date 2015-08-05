@@ -1,0 +1,20 @@
+form {
+
+}
+	form input[type="text"] {
+		border-radius: 2px;
+	}
+	form select {
+		border-radius: 2px !important;
+	}
+	form .form-group-custom {
+		padding: 0;
+		margin-bottom: 7px;
+	}
+
+@media (max-width: 992px) {
+	form .input-inline {
+		margin-bottom: 7px;
+	}
+}
+	

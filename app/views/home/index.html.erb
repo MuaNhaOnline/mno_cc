@@ -1,391 +1,107 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="description" Contents="MuaNhaOnline - Giá trị thực trong tầm tay">
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/home/index.css">
+<% end %>
 
-  <title>MuaNhaOnline.vn</title>
-
-  <link rel="stylesheet" type="text/css" href="/assets/shared/layout.css">
-  <link rel="stylesheet" type="text/css" href="/assets/home/index.css">
-  <link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap.min.css">
-</head>
-<body>
-<!-- #start header -->
-<header class="container-fluid navbar-fixed-top">
-  <!-- #start logo -->
-  <a href="/home/index" class="logo hidden-xs">
-    <img src="/assets/logo/logoMain.png">
-  </a>
-  <!-- Mini logo -->
-  <div class="mini-logo">
-    <span class="visible-xs"><a href="/home/index">MuaNhaOnline</a></span>
-  </div>
-  <!-- #end logo -->
-  <!-- #start sitemap -->
-  <ul class="sitemap">
-    <li><a href="/real_estates/index">BĐS cần bán</a></li>
-    <li><a href="/real_estates/index">BĐS thuê</a></li>
-    <li><a href="/projects/index">Dự án bán</a></li>
-    <li><a href="/projects/index">Dự án thuê</a></li>
-    <li><a href="/news/index">Tin tức</a></li>
-    <li><a href="/businesses/index">Doanh nghiệp</a></li>
-  </ul>
-  <!-- Mini sitemap -->
-  <div class="button-mini-sitemap" data-toggle-target=".mini-sitemap"></div>
-  <ul class="mini-sitemap">
-    <li><a href="/real_estates/index">BĐS cần bán</a></li>
-    <li><a href="/real_estates/index">BĐS thuê</a></li>
-    <li><a href="/projects/index">Dự án bán</a></li>
-    <li><a href="/projects/index">Dự án thuê</a></li>
-    <li><a href="/news/index">Tin tức</a></li>
-    <li><a href="/businesses/index">Doanh nghiệp</a></li>
-    <li class="visible-xs" hidden>
-      <a href="/real_estates/create" id="posting">Đăng tin miễn phí</a>
-      <img src="/assets/icon/star-icon.png">
-    </li>
-  </ul>
-  <!-- #end nav -->
-  <!-- posting -->
-  <article class="posting hidden-xs">
-    <a href="/real_estates/create" class="btn btn-danger">Đăng tin miễn phí</a>
-  </article>
-  <!-- #start login -->
-  <article class="user visible-lg">
-    <div class="login">
-      <a href="#">Đăng nhập</a>
-    </div>
-    <div class="register">
-      <a href="#">Đăng ký</a>
-    </div>
-  </article>
-  <!-- Mini login -->
-  <article class="user-mini user-mini-toggle-button hidden-lg" data-toggle-target=".user-mini-content">
-    <section class="user-mini-content">
-      <div class="login">
-        <a href="#">Đăng nhập</a>
-      </div>
-      <div class="register">
-        <a href="#">Đăng ký</a>
-      </div>
-    </section>
-  </article>
-  <!-- #end login -->
-</header>
-<div class="header"></div>
-<!-- #end header -->
-<!-- #start main -->
-<main>
-  <!-- #start banner -->
-  <section class="banner">
-    <article class="box custom-width-250-0 custom-width-500-590">
-      <h2>Hãy để MuaNhaOnline tìm nhà giúp bạn.</h2>
-      <section class="tab-container">
-        <a style="background-image: url('/assets/icon/nha-dat-ban.png')" href="#">
-          <span class="custom-hidden-0 custom-visible-590">BĐS bán</span>
-        </a>
-        <a style="background-image: url('/assets/icon/nha-dat-thue.png')" href="#">
-          <span class="custom-hidden-0 custom-visible-590">BĐS cho thuê</span>
-        </a>
-        <a style="background-image: url('/assets/icon/dinh-gia.png')" href="#">
-          <span class="custom-hidden-0 custom-visible-590">Định giá</span>
-        </a>
-      </section>
-      <form class="input-box">
-        <input type="text" placeholder="Nhà phố quận 2..." />
-        <input type="submit" value="" />
-      </form>
-    </article>
-  </section>
-  <!-- #end banner -->
-  <!-- #start search -->
-  <section class="search-container">
-    <section class="btn-search-box" id="search-toggle-button"></section>    
-    <section class="search-box">
-      <div class="title">
-        <h3>TÌM NHÀ NHANH</h3>
-      </div>      
-      <div class="content container-fluid">
-        <div class="form-input col-md-4">
-          
-        </div>
-        <div class="map col-md-8">
-          
-        </div>        
-      </div>
-    </section>
-  </section>
-  <!-- #end search -->
-  <!-- #start project -->
-  <section class="project-container">
-    <div class="title">
-      DỰ ÁN NỔI BẬT
-    </div>   
-    <div class="search-function">      
-      <div class="search-form">
-        <form action="#" method="get">
-          <input type="text">
-          <input type="submit" value>
-        </form>
-      </div>
-      <div class="btn-list-project">
-        <a href="#"><img src="/assets/icon/list-26.png"></a>
-      </div>
-    </div>   
-    <ul class="details">
-      <div class="next-previous">
-        <div class="btn-left"></div>
-        <div class="btn-right"></div>
-      </div>        
-      <li>      
-        <div class="picture">                    
-          <img src="/assets/product/DuAn01.jpg">
-        </div>
-        <div class="info">
-          <div class="title">Dự án Riverside</div>
-          <div class="state">Đang hoàn thành</div>
-          <div class="address">Đường Lê Văn Lương, Phường Tân Quy, Quận 7</div>
-        </div>
-      </li>
-    </ul>    
-  </section>
-  <!-- #end project -->
-  <!-- #start product -->  
-  <section class="product-container container-fluid">
-    <article class="title">Bất động sản theo tiêu chí</article>
-    <article class="content">
-      <article class="text-xs-center text-sm-left">
-        <!-- #start product-column -->
-        <article class="item col-sm-6 col-md-4 col-lg-4 max-width-sm-none">
-          <div class="picture">
-            <img src="/assets/category/pic-Topic.png">
-          </div>
-          <div class="details">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-          </div>
-          <div class="search">
-            <form action="#" method="get">
-              <input type="text">
-              <input type="submit" value>            
-            </form>
-          </div>
-        </article>
-        <!-- #end product-column -->
-        <!-- #start product-column -->
-        <article class="item col-sm-6 col-md-4 col-lg-4 max-width-sm-none">
-          <div class="picture">
-            <img src="/assets/category/pic-Topic.png">
-          </div>
-          <div class="details">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-          </div>
-          <div class="search">
-            <form action="#" method="get">
-              <input type="text">
-              <input type="submit" value>            
-            </form>
-          </div>
-        </article>
-        <!-- #end product-column -->
-        <!-- #start product-column -->
-        <article class="item col-sm-6 col-md-4 col-lg-4 max-width-sm-none">
-          <div class="picture">
-            <img src="/assets/category/pic-Topic.png">
-          </div>
-          <div class="details">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-          </div>
-          <div class="search">
-            <form action="#" method="get">
-              <input type="text">
-              <input type="submit" value>            
-            </form>
-          </div>
-        </article>
-        <!-- #end product-column -->
-        <!-- #start product-column -->
-        <article class="item col-sm-6 col-md-4 col-lg-4 max-width-sm-none">
-          <div class="picture">
-            <img src="/assets/category/pic-Topic.png">
-          </div>
-          <div class="details">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-          </div>
-          <div class="search">
-            <form action="#" method="get">
-              <input type="text">
-              <input type="submit" value>            
-            </form>
-          </div>
-        </article>
-        <!-- #end product-column -->
-        <!-- #start product-column -->
-        <article class="item col-sm-6 col-md-4 col-lg-4 max-width-sm-none">
-          <div class="picture">
-            <img src="/assets/category/pic-Topic.png">
-          </div>
-          <div class="details">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-          </div>
-          <div class="search">
-            <form action="#" method="get">
-              <input type="text">
-              <input type="submit" value>            
-            </form>
-          </div>
-        </article>
-        <!-- #end product-column -->
-        <!-- #start product-column -->
-        <article class="item col-sm-6 col-md-4 col-lg-4 max-width-sm-none">
-        <a href="#">
-          <div class="picture">
-            <img src="/assets/category/pic-Topic.png">
-          </div>
-          <div class="details">        
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-          </div>
-        </a>
-          <div class="search">
-            <form action="#" method="get">
-              <input type="text">
-              <input type="submit" value>            
-            </form>
-          </div>        
-        </article>
-        <!-- #end product-column -->
-      </article>
-    </article>
-  </section>
-  <!-- #end product -->
-</main>
-<!-- #end main -->
-<!-- #start footer -->
-<footer>  
-  <!-- #start top-footer -->
-  <ul class="top-footer container-fluid">
-    <li class="col-sm-3">
-      <div class="title">
-        Từ khoá
-      </div>
-      <ul class="content">
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-      </ul>
-    </li>
-    <li class="col-sm-3">
-      <div class="title">
-        Từ khoá
-      </div>
-      <ul class="content">
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-      </ul>
-    </li>
-    <li class="col-sm-3">
-      <div class="title">
-        Từ khoá
-      </div>
-      <ul class="content">
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-        <li><a href="#">Nhà phố Quận 1</a></li>
-      </ul>
-    </li>
-    <li class="col-sm-3">
-      <div class="title">
-        Liên hệ với chúng tôi trên
-      </div>
-      <ul class="content">
-        <li class="link-social">
-          <a href="#">
-            <img src="/assets/logo/facebook-26.png">
-            <span>Facebook</span>
-          </a>
-        </li>      
-        <li class="link-social">
-          <a href="#">
-            <img src="/assets/logo/twitter-26.png">
-            <span>Twitter</span>
-          </a>
-        </li>  
-        <li class="link-social">
-          <a href="#">
-            <img src="/assets/logo/youtube-26.png">
-            <span>Youtube</span>
-          </a>
-        </li>  
-        <li class="link-social">
-          <a href="#">
-            <img src="/assets/logo/google_plus-26.png">
-            <span>Google+</span>
-          </a>
-        </li>  
-      </ul>
-    </li>
-  </ul>
-  <!-- #end top-footer -->
-  <!-- #start bottom-footer -->
-  <section class="bottom-footer">
-    <ul class="policy container-fluid">
-      <li class="col-sm-3">
-        <a href="#">Giới thiệu</a>
-      </li>
-      <li class="col-sm-3">
-        <a href="#">Chính sách bảo mật</a>
-      </li>
-      <li class="col-sm-3">
-        <a href="#">Quyền lợi thành viên</a>
-      </li>
-      <li class="col-sm-3">
-        <a href="#">Điều khoản sử dụng</a>
-      </li>
-    </ul>   
-    <article class="information">
-      <p>
-        Công ty TNHH Tư Vấn BĐS Thịnh An
-        <br>
-        Tầng 1, Tòa nhà Rosana, số 60 Nguyễn Đình Chiểu, Phường Đa Kao, Quận 1, Tp. HCM
-        <br>
-        ĐT: (84-8) 2221 1906 - Fax: (84-8) 222 02201
-        <br>
-        <a href="mailto:info@muanhaonline.vn">Email: info@muanhaonline.vn</a>
-      </p>
-    </article>
-  </section>
-  <!-- #end bottom-footer -->
-</footer>
-<!-- #end footer -->
-</body>
-<script type="text/javascript" src="/assets/shared/jquery.min.js"></script>
+<% content_for :scripts do %>
 <script type="text/javascript" src="/assets/home/index.js"></script>
-</html>
+<% end %>
+
+<!--start Main Content -->
+
+<section class="search">
+	<div class="search-box">
+		<div class="title">
+			<h3>Hãy để MuanhaOnline tìm nhà giúp bạn.</h3>
+		</div>
+		<form>
+			<div class="tab">
+				<label><input type="radio" name="typeTab"><i class="sale"></i><span>Nhà Bán</span></label>
+				<label><input type="radio" name="typeTab"><i class="rent"></i><span>Nhà Thuê</span></label>				
+			</div>
+			<div class="form-group-custom">
+				<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
+				<div class="btn-zestimate" data-toggle="tooltip" data-placement="left" title="Định giá">
+					<button type="submit"></button>
+				</div>
+				<div class="separator">
+					<span>|</span>
+				</div>
+				<div class="btn-search" data-toggle="tooltip" data-placement="left" title="Tìm kiếm">
+					<button type="submit"></button>
+				</div>
+				<div class="btn-group history-search">
+					<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					từ khóa<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Action</a></li>
+						<li><a href="#">Another action</a></li>
+						<li><a href="#">Something else here</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="btn-more">
+				<button type="button" class="btn btn-link">Thêm lựa chọn</button>
+			</div>
+			<section class="more-search" style="display:none">
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>Thành phố Hồ Chí Minh</option>
+								<option>Hà Nội</option>
+								<option>Bà Rịa - Vũng Tàu</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control input-sm">
+								<option>Quận 1</option>
+								<option>Quận 2</option>
+								<option>Quận 3</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>1 tỷ - 3 tỷ</option>
+						<option>3 tỷ - 5 tỷ</option>
+						<option>trên 5 tỷ</option>
+					</select>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>50m2 - 100m2</option>
+						<option>100m2 - 200m2</option>
+						<option>trên 200m2</option>
+					</select>
+				</div>
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>Dự án căn hộ liên kế</option>
+								<option>Dự án 1</option>
+								<option>Dự án 2</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control">
+								<option>Dự án đã hoàn thành</option>
+								<option>Dự án đang hoàn thành</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-success">
+						<img src="/assets/icon/search-plus.png">
+						Tìm
+					</button>
+				</div>
+			</section>
+		</form>
+	</div>
+</section>
+
+<!-- end Main Content -->
