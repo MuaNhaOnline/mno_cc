@@ -37,6 +37,8 @@ class RealEstate < ActiveRecord::Base
   validates :real_estate_type_id, presence: { message: 'Loại bất động sản không được bỏ trống' }
   validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
   validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
+  validates :legal_record_type_id, presence: { message: 'Hồ sơ pháp lý không được bỏ trống' }
+  validates :planning_status_type_id, presence: { message: 'Tình trạng quy hoạch không được bỏ trống' }
 
   validate :custom_validate
 
@@ -78,8 +80,8 @@ class RealEstate < ActiveRecord::Base
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area.blank?
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality.blank?
-    errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if !id.blank? && legal_record_type_id.blank?
-    errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if !id.blank? && planning_status_type_id.blank?
+    # errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if !id.blank? && legal_record_type_id.blank?
+    # errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if !id.blank? && planning_status_type_id.blank?
     errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
   end
 

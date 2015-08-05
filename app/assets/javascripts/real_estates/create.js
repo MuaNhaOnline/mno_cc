@@ -84,6 +84,7 @@ $(function () {
   initPrice();
   initSaveDraft();
   initLocation();
+  initCheckArea();
 
   /*
     / Init
@@ -200,11 +201,59 @@ $(function () {
 
         _temp['price'] = value;
       }
-    }).focusout();
+    }).keyup();
   }
 
   /*
     / Price format
+  */
+
+  /*
+    Check area
+  */
+
+  function initCheckArea() {
+    var 
+      $campusArea = $form.find('#campus_area'),
+      $constructionalArea = $form.find('#constructional_area'),
+      $usingArea = $form.find('#using_area'),
+      $widthX = $form.find('#width_x'),
+      $widthY = $form.find('#width_y'),
+      $areaAlert = $form.find('#area_alert');
+
+    $campusArea.add($constructionalArea).add($usingArea).add($widthX).add($widthY).on({
+      'change disable enable': function () {
+        var $area;
+
+        if ($campusArea.is(':enabled')) {
+          $area = $campusArea;
+        }
+        else if ($constructionalArea.is(':enabled')) {
+          $area = $constructionalArea;
+        }
+        else {
+          $area = $usingArea;
+        }
+
+        console.log($area);
+
+        // If empty => valid too
+        if ($area.val() && $widthX.val() && $widthY.val() && !isValidArea($area.val(), $widthX.val(), $widthY.val())) {
+          $areaAlert.show();
+        }
+        else {
+          $areaAlert.hide();
+        }
+      }
+    }).change();
+
+    function isValidArea(area, widthX, widthY) {
+      return widthX * widthY <= area;
+    }
+  }
+
+  /*
+    / Check area
   */
 
   /*
@@ -232,16 +281,6 @@ $(function () {
       },
       enableAutocomplete: true
     });
-
-    // var autocomplete = new google.maps.places.Autocomplete(
-    //   (document.getElementById('address')),
-    //   { types: ['geocode'] }
-    // );
-
-    // google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    //   var place = autocomplete.getPlace();
-    //   console.log(place);
-    // });
   }
 
   /*
