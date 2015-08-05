@@ -27,5 +27,7 @@ module Mno
 
     I18n.available_locales = [:vi, :en]
     I18n.default_locale = :vi
+
+    config.item_per_page = 5
   end
 end

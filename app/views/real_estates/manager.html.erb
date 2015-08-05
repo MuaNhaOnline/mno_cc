@@ -19,6 +19,11 @@
   <li class="active"><%= t 'real_estate.manager.page_title_nav' %></li>
 <% end %>
 
+<%
+  total = @res.count
+  per = Rails.application.config.item_per_page
+%>
+
 <article class="box box-default">
   <section class="box-body no-padding table-responsive">
     <table class="table table-stripedp re-content">
@@ -31,7 +36,7 @@
         <th>&nbsp;</th>
       </thead>
       <tbody id="re_list">
-        <% @res.each do |re| %>
+        <% @res.limit(per).each do |re| %>
           <!-- Get status -->
           <% 
             status = '';
@@ -76,4 +81,7 @@
       </tbody>
     </table>
   </section>
+  <nav class="text-center" id="pagination">
+    <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+  </nav>
 </article>

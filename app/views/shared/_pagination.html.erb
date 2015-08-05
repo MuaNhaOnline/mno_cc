@@ -1,0 +1,16 @@
+<!-- per, total -->
+<%
+	pageCount = (total + per - 1) / per
+
+	return if pageCount == 1
+
+ 	i = 0
+%>
+
+<ul class="pagination inline-block">
+	<% while (i += 1) <= pageCount do %>
+		<li>
+	    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
+	  </li>
+	<% end %>
+</ul>
