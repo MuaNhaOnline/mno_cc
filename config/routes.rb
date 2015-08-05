@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'home/index'
+  get 'home/register'
 
   #Real estate
   get 'real_estates/index'
