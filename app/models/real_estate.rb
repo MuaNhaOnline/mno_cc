@@ -37,8 +37,6 @@ class RealEstate < ActiveRecord::Base
   validates :real_estate_type_id, presence: { message: 'Loại bất động sản không được bỏ trống' }
   validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
   validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
-  validates :legal_record_type_id, presence: { message: 'Hồ sơ pháp lý không được bỏ trống' }
-  validates :planning_status_type_id, presence: { message: 'Tình trạng quy hoạch không được bỏ trống' }
 
   validate :custom_validate
 
@@ -71,6 +69,12 @@ class RealEstate < ActiveRecord::Base
     fields << :custom_legal_record_type if legal_record_type_id == 0
     fields << :custom_planning_status_type if planning_status_type_id == 0
 
+    # if sell
+    if purpose.code === 'sell' || purpose.code === 'sell_rent'
+      errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if legal_record_type_id.blank?
+      errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if planning_status_type_id.blank?
+    end
+
     errors.add(:alley_width, 'Kích thước hẻm không được bỏ trống') if fields.include?(:alley_width) && alley_width.blank?
     errors.add(:shape, 'Hình dáng không được bỏ trống') if fields.include?(:shape) && shape.blank?
     errors.add(:shape_width, 'Kích thước hình dáng không được bỏ trống') if fields.include?(:shape_width) && shape_width.blank?
@@ -80,8 +84,6 @@ class RealEstate < ActiveRecord::Base
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area.blank?
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality.blank?
-    # errors.add(:legal_record_type_id, 'Hồ sơ không được bỏ trống') if !id.blank? && legal_record_type_id.blank?
-    # errors.add(:planning_status_type_id, 'Tình trạng không được bỏ trống') if !id.blank? && planning_status_type_id.blank?
     errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
   end
 
