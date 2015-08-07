@@ -1,4 +1,4 @@
-var $body, _temp = {}, _t = {};
+var $body, _temp = {};
 
 $(function () {
 	$body = $('body');
@@ -41,6 +41,37 @@ function customJquery() {
 
 /*
   / Custom jquery
+*/
+
+/*
+  Helper
+*/
+
+function canSee($item) {
+  var topW = $body.scrollTop();
+  var heightW = window.innerHeight;
+  var bottomW = topW + heightW;
+
+  var topI = $item.offset().top;
+  var heightI = $item.height()
+  var bottomI = topI + heightI;
+
+  if (heightW > heightI) {
+    if ((topW < topI && topI < bottomW) ||
+      (topW < bottomI && bottomI < bottomW)) {
+      return true;
+    }
+  }
+  else if ((topI < bottomW && bottomW < bottomI) ||
+    (topI < topW && topW < bottomI)) {
+    return true;
+  }
+
+  return false;
+}
+
+/*
+  / Helper
 */
 
 /* 

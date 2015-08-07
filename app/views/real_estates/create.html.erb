@@ -4,7 +4,6 @@
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/<%= I18n.locale %>.js"></script>
   <script type="text/javascript" src="/assets/shared/form_back.js"></script>
   <script type="text/javascript" src="/assets/real_estates/create.js"></script>
   <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
@@ -12,11 +11,11 @@
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.create.page_title' %>
+  <%= t 'real_estate.view.create.page_title' %>
 <% end %>
 
 <% content_for :navigator do %>
-  <li class="active"><%= t 'real_estate.create.page_title_nav' %></li>
+  <li class="active"><%= t 'real_estate.view.create.page_title_nav' %></li>
 <% end %>
 
 <% 
@@ -155,7 +154,7 @@
         <article class="form-group" data-toggled-element="sell un-rent">
           <label for="sell_price"><%= t 'real_estate.attribute.sell_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @re.sell_price.round unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control" id="sell_price">
+            <input data-constraint="integer" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control" id="sell_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -169,7 +168,7 @@
         <article class="form-group" data-toggled-element="rent un-sell">
           <label for="rent_price"><%= t 'real_estate.attribute.rent_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @re.rent_price.round unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control" id="rent_price">
+            <input data-constraint="integer" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control" id="rent_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -389,7 +388,7 @@
 
           <article class="col-md-12" id="area_alert">
             <article class="callout callout-warning">
-              <%= t 'real_estate.create.area_alert' %>
+              <%= t 'real_estate.view.create.area_alert' %>
             </article>
           </article>
         </div>
@@ -557,7 +556,7 @@
             </article>
 
             <article class="form-group" data-toggled-element="custom-legal-record-type">
-              <input data-constraint="required" value="<%= @re.custom_legal_record_type %>" name="real_estate[custom_legal_record_type]" class="form-control" id="custom_legal_record_type" placeholder="<%= t 'real_estate.create.other_legal_record_type_placeholder' %>" />
+              <input data-constraint="required" value="<%= @re.custom_legal_record_type %>" name="real_estate[custom_legal_record_type]" class="form-control" id="custom_legal_record_type" placeholder="<%= t 'real_estate.view.create.other_legal_record_type_placeholder' %>" />
             </article>
           </div>
 
@@ -578,7 +577,7 @@
             </article>
 
             <article class="form-group" data-toggled-element="custom-planning-status-type">
-              <input data-constraint="required" value="<%= @re.custom_planning_status_type %>" name="real_estate[custom_planning_status_type]" class="form-control" id="custom_planning_status_type" placeholder="<%= t 'real_estate.create.other_planning_status_type_placeholder' %>">
+              <input data-constraint="required" value="<%= @re.custom_planning_status_type %>" name="real_estate[custom_planning_status_type]" class="form-control" id="custom_planning_status_type" placeholder="<%= t 'real_estate.view.create.other_planning_status_type_placeholder' %>">
             </article>
           </div>
 
@@ -633,6 +632,7 @@
           <%= t 'real_estate.attribute.property_utility' %>
         </h2>
         <div class="box-tools pull-right">
+          <a class="btn btn-box-tool" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
       </section>
@@ -661,6 +661,7 @@
           <%= t 'real_estate.attribute.region_utility' %>
         </h2>
         <div class="box-tools pull-right">
+          <a class="btn btn-box-tool" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
       </section>
@@ -695,6 +696,7 @@
           <%= t 'real_estate.attribute.advantage' %>
         </h2>
         <div class="box-tools pull-right">
+          <a class="btn btn-box-tool" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
       </section>
@@ -724,6 +726,7 @@
           <%= t 'real_estate.attribute.disadvantage' %>
         </h2>
         <div class="box-tools pull-right">
+          <a class="btn btn-box-tool" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
       </section>
@@ -774,12 +777,12 @@
 
   <div class="col-md-12">
     <article class="box box-solid">
-      <section class="box-body">
+      <section class="box-body row">
         <div class="margin-top-bottom-5 col-sm-6">
-          <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'real_estate.create.finish' %></b></button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'real_estate.view.create.finish' %></b></button>
         </div>
         <div class="margin-top-bottom-5 col-sm-6">
-          <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.create.save_draft' %></b></button>
+          <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft' %></b></button>
         </div>
       </section>
     </article>

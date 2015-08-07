@@ -5,6 +5,6 @@ class HomeController < ApplicationController
   end
   
   def register
-
+  	render layout: 'layout_back'
   end
 end

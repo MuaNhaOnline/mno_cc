@@ -7,9 +7,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'home/index'
-  get 'home/register'
 
-  #Real estate
+  # Real estate
   get 'real_estates/index'
   get 'real_estates/category'
   get 'real_estates/create(/:id)' => 'real_estates#create'
@@ -23,7 +22,15 @@ Rails.application.routes.draw do
   delete 'real_estates/:id' => 'real_estates#delete'
   put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
 
-  #Project
+  # User
+  get 'signup' => 'users#create'
+  get 'users/check_unique_account'
+  get 'users/check_unique_email'
+  get 'signin' => 'users#signin'
+  post 'register' => 'users#save'
+  post 'signin' => 'users#signin_handle'
+
+  # Project
   get 'projects/index'
   get 'projects/manager'
   get 'projects/create(/:id)' => 'projects#create'
@@ -34,13 +41,13 @@ Rails.application.routes.draw do
   delete 'projects/:id' => 'projects#delete'
   put 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
 
-  #Block
+  # Block
   get 'blocks/create/:project_id' => 'blocks#create'
   post 'blocks/create' => 'blocks#save'
   get 'blocks/build/:id' => 'blocks#build'
   put 'blocks/build/:id' => 'blocks#save_building'
 
-  #Item group
+  # Item group
   get 'item_groups/create/:block_id' => 'item_groups#create'
   post 'item_groups/create' => 'item_groups#save'
 

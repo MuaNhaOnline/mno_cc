@@ -7,16 +7,15 @@
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/<%= I18n.locale %>.js"></script>
   <script src="/assets/real_estates/manager.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.manager.page_title' %>
+  <%= t 'real_estate.view.manager.page_title' %>
 <% end %>
 
 <% content_for :navigator do %>
-  <li class="active"><%= t 'real_estate.manager.page_title_nav' %></li>
+  <li class="active"><%= t 'real_estate.view.manager.page_title_nav' %></li>
 <% end %>
 
 <%
@@ -65,13 +64,13 @@
             <td>
               <div class="dropdown">
                 <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-                  <%= t 'real_estate.manager.control' %>
+                  <%= t 'real_estate.view.manager.control' %>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
                   <li role="presentation">
                     <a aria-click="change-show-status" href="javascript:void(0)"></a>
                     <a aria-click="edit" href="/real_estates/create/<%= re.id %>"></a>
-                    <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.manager.delete' %></a>
+                    <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.manager.delete' %></a>
                   </li>
                 </ul>
               </div>
