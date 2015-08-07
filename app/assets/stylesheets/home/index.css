@@ -12,141 +12,234 @@
 
 /*start Interested Project*/
 .project-is-interested {
-	font-size: 13px;
 }
-	/*start Title*/
-	.project-is-interested .title {
+/*end Interested Project*/
+
+/*start other-project*/
+.other-project {
+	margin-bottom: 20px;
+}
+	.other-project .list {
 		text-align: center;
+	}
+	@media(max-width: 768px) {
+		.other-project .list {
+			text-align: left;
+		}
+	}
+	.other-project a { 
+		margin: 5px 10px;
+	}
+	@media(max-width: 992px) {
+		.other-project a {
+			margin: 7px 10px;
+		}
+	}
+/*end other-project*/
+
+/*start suggest project*/
+.suggest-project {
+
+}
+	/*start title*/
+	.suggest-project .title {
+		font-size: 17px;
 		text-transform: uppercase;
-		font-size: 20px;
+		color: #666;
+		margin-bottom: 15px;		
+		margin-left: 15px;
+	}
+	/*end title*/
+
+	/*start content*/
+	.suggest-project .item {
+		border: 1px solid #ddd;
+		width: 260px;
+		font-size: 13px;
+		color: #888;
+		border-radius: 2px;
 		margin-bottom: 20px;
-		position: relative;
-		transition: 0.2s;
 	}
-	.project-is-interested a {
-		display: block;
-		color: #666;
-		transition: 0.2s;
-	}
-		.project-is-interested a:hover {
-			text-decoration: none;
-			color: #54b40d;
+		.suggest-project .item:hover {
+			border: 1px solid #54b40d;
+			box-shadow: 0px 0px 3px #54b40d;
 		}
-		.project-is-interested a:hover i.link {
-			background: url('/assets/icon/link-12-hover.png') no-repeat center center;
+		.suggest-project .item a {
+			color: #666;
 		}
-	.project-is-interested i.link {
-		position: relative;
-		vertical-align: middle;
-		width: 12px;
-		height: 12px;
-		background: url('/assets/icon/link-12.png') no-repeat center center;
-		display: inline-block;
-		transition: 0.2s;
-	}
-		.project-is-interested i.link:before {
-			content: '';
-			position: absolute;
-			width: 300px;
-			height: 5px;
-			background: url('/assets/icon/line.png') no-repeat center center;
-			right: 100%;
-			display: block;
-			top: calc(50% - 2.5px);
-			margin-right: 20px;
-		}
-	.project-is-interested .title span {
-		position: relative;		
-	}
-		.project-is-interested .title span:before {
-			content: '';
-			position: absolute;
-			width: 300px;
-			height: 5px;
-			background: url('/assets/icon/line.png') no-repeat center center;
-			left: 100%;
-			display: block;
-			top: calc(50% - 2.5px);
-			transform: rotate(180deg);
-			-o-transform: rotate(180deg);
-			-moz-transform: rotate(180deg);
-			-webkit-transform: rotate(180deg);
-			margin-left: 20px;
-		}
-	/*end Title*/
-
-	/*start Content*/
-	.project-is-interested .content {
-		color: #666;
-	}
-
-		/*start picture*/
-		.project-is-interested .picture {
-			/*max-height: 300px;
-			display: flex;*/
-		}
-			.project-is-interested .picture img {
-				max-height: 350px;
-				width: 100%;
+			.suggest-project .item a:hover {
+				text-decoration: none;
 			}
-		/*end*/
-
-		/*start name project*/
-		.project-is-interested .name-project {
-			font-size: 21px;
-			color: #333;
-		}
-		/*end*/
-
-		/*start status project*/
-		.project-is-interested .status-project {			
-			margin-bottom: 5px;
-		}
-		.project-is-interested .status-project i.done {
-			vertical-align: middle;
-			display: inline-block;
+	.suggest-project img {
+		width: 100%;
+		height: 170px;
+	}
+	.suggest-project .item .title {
+		padding: 15px 10px 0 10px;
+		margin-bottom: 0;
+		margin-left: 0;
+	}
+	.suggest-project .item .status {
+		padding: 0 10px 0 10px;
+	}
+		.suggest-project .item .status img {
 			width: 8px;
 			height: 8px;
-			background: url('/assets/icon/done.png') no-repeat center center;
+			vertical-align: middle;
 		}
-		.project-is-interested .status-project span {
-			color: #666;
-			margin-left: 5px;
+		.suggest-project .item .status span {		
 			font-size: 12px;
+			color: #aaa;
+			margin-left: 5px;
 		}
-		/*end*/
+	.suggest-project .address {
+		padding: 5px 10px 0 10px;
+		text-align: justify;
+	}
+	.suggest-project .promotion {
+		border: 1px dashed #ccc;
+		text-align: center;
+		color: #ff8600;
+		margin: 10px;
+		height: 25px;
+		padding: 5px;
+	}
+	/*end content*/
 
-		/*start address project*/
-		.project-is-interested .address-project {
-			margin-bottom: 5px;
-		}
-		/*end*/
+	/*start paging*/
 
-		/*start ticker project*/
-		.project-is-interested .ticker-project {
-			height: 35px;
-			border: 1px dashed #999;	
-			margin-bottom: 5px;		
+	.paging {
+		justify-content: center;
+		display: flex;
+		color: #666;
+		margin-bottom: 25px;
+	}
+		.paging div {
+			height: 30px;
+			width: 30px;
+			display: flex;
+			cursor: pointer;
 		}
-		/*end*/
-
-		/*start detail project*/
-		.project-is-interested .detail {
-			text-align: justify;
-			margin-bottom: 10px;
-		}
-		/*end*/
-
-		/*start btn more*/
-		.project-is-interested .btn-more {
-			text-align: right;
-		}
-			.project-is-interested .btn-more a {
+			.paging div:hover {
 				color: #54b40d;
 			}
-			.project-is-interested .btn-more a:hover {
-				color: #ff6511;
-			}
-		/*end*/
-	/*end Content*/
-/*end Interested Project*/
+		.paging .left {
+			font-size: 30px;
+		}
+		.paging .number {
+			width: 40px;
+			justify-content: center;
+			height: 30px;			
+			line-height: 30px;
+		}
+		.paging .right {
+			font-size: 30px;
+		}
+	/*end paging*/
+/*end suggest project*/
+
+/*start favorite property*/
+	/*start other-property*/
+	.other-property .title {
+		color: #666;
+		display: block;
+		margin-bottom: 10px;
+	}
+	/*end other-property*/
+/*end favorite property*/
+
+/*start propensity-property*/
+.propensity-property {
+
+}
+.propensity-property .content {
+	margin-bottom: 40px;
+}
+	/*start title*/
+	.propensity-property .title {
+		margin-bottom: 12px;
+		font-size: 18px;
+	}
+	.propensity-property .title a {
+		color: #666;
+	}
+		.propensity-property .title a:hover {
+			color: #54b40d;
+			text-decoration: none;
+		}
+	/*end title*/
+
+	/*start content*/
+	.propensity-property ul {
+		margin-bottom: 25px;
+	}
+	.propensity-property li {
+		border: 1px solid #ccc;
+		position: relative;
+		height: 180px;
+		width: calc(50% - 3px);
+		border-radius: 2px;
+	}
+		.propensity-property li:hover {
+			border: 1px solid #54b40d;
+			box-shadow: 0px 0px 3px #54b40d;
+		}
+	.propensity-property li.col1 {
+		width: 100%;
+		display: block;
+		margin-bottom: 10px;
+	}
+	.propensity-property .col2 {
+		display: flex;
+	}
+		.col2 li:nth-child(1) {
+			margin-right: 12px;
+		}
+	.propensity-property img {
+		width: 100%;		
+		height: 100%;
+	}	
+	.propensity-property .wrapper {
+		position: absolute;
+		width: 100%;
+		height: 50px;
+		bottom: 0;
+		background-color: rgba(0,0,0,0.2);
+	}
+	.propensity-property .price {
+		position: absolute;
+		margin: 0 15px;
+		width: calc(100% - 30px);
+		bottom: 24px;
+		color: #f1f1f1;
+		font-size: 16px;
+		font-weight: bolder;
+	}
+	.propensity-property .address {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		position: absolute;
+		bottom: 5px;
+		margin: 0 15px;
+		color: #f1f1f1;
+		font-size: 13px;
+		height: 17px;
+		width: calc(100% - 30px);
+	}
+	/*end content*/
+/*end propensity-property*/
+
+/*start contact*/
+.contact {
+
+}
+.contact img {
+	width: 100%;
+}
+.contact li {
+	font-size: 13px;
+	color: #999;
+	margin: 5px 0;
+}
+/*end contact*/

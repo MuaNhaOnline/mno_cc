@@ -1,191 +1,195 @@
 /*start general*/
 ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 li {
-    margin: 0;
-    padding: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+a:hover {
+	text-decoration: none;
 }
 .dropdown-menu {
-    border-radius: 2px;
+	border-radius: 2px;
 }
-    .dropdown-menu a {
-        transition: 0.2s;
-    }
+	.dropdown-menu a {
+		transition: 0.2s;
+	}
 /*end general*/
 
 /*start header*/
 header {
-    height: 45px;
+	height: 45px;
 }
-    header .navbar-fixed-top {
-        border-bottom: 1px solid #ddd;
-        box-shadow: 0px 0px 2px #ccc;
-    }
+	header .navbar-fixed-top {
+		border-bottom: 1px solid #ddd;
+		box-shadow: 0px 0px 2px #ccc;
+	}
 
-    /*start fixed header*/
-    .header {            
-        pading: 0 10px;
-        height: 45px;
-        display: flex;
-    }
-    
-        /*start logo*/
-        .logo {
-            height: 100%;
-        }
-            .logo img {
-                height: 100%;
-                padding: 12px 0;
-            }
-        /*end logo*/
+	/*start fixed header*/
+	.header {            
+		pading: 0 10px;
+		height: 45px;
+		display: flex;
+	}
+	
+		/*start logo*/
+		.logo {
+			height: 100%;
+		}
+			.logo img {
+				height: 100%;
+				padding: 12px 0;
+			}
+		/*end logo*/
 
-        /*start sitemap*/
-        .sitemap {
-            margin: auto 20px;
-        }        
-            .sitemap > ul {
-                display: flex;
-            }
-                .sitemap > ul > li {
-                    padding: 0 10px;
-                }
-        .sitemap button[type="button"] {
-            color: #666;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-            .sitemap button[type="button"]:hover {
-                text-decoration: none;                
-                color: #54b40d;
-            }
-        .sitemap .dropdown-menu {
-            margin-top: 8px;
-        }
-        .sitemap .dropdown-menu a:hover {
-            background-color: #54b40d;
-            color: #f5f5f5;
-        }
-        .sitemap button {
-            padding-left: 0;
-            padding-right: 0;
-        }        
-        /*end sitemap*/
+		/*start sitemap*/
+		.sitemap {
+			margin: auto 20px;
+		}        
+			.sitemap > ul {
+				display: flex;
+			}
+				.sitemap > ul > li {
+					padding: 0 10px;
+				}
+		.sitemap button[type="button"] {
+			color: #666;
+			font-size: 15px;
+			transition: 0.2s;
+		}
+			.sitemap button[type="button"]:hover {
+				text-decoration: none;                
+				color: #54b40d;
+			}
+		.sitemap .dropdown-menu {
+			margin-top: 8px;
+		}
+		.sitemap .dropdown-menu a:hover {
+			background-color: #54b40d;
+			color: #f5f5f5;
+		}
+		.sitemap button {
+			padding-left: 0;
+			padding-right: 0;
+		}        
+		/*end sitemap*/
 
-        /*start function-button*/
-        .function-button {            
-            margin: auto 0;
-            margin-left: auto;
-            margin-right: 70px
-        }
-            .function-button button {
-                background-color: #ff6511;
-                border-color: #ff6511;
-                transition: 0.2s;
-            }
-                .function-button button:hover {
-                    background-color: #ac440b;
-                    border-color: #ac440b;
-                }
-            .function-button .dropdown-menu {
-                margin-top: 8px;
-            }
-                .function-button .dropdown-menu a:hover {
-                    background-color: #ff6511;
-                    color: #f5f5f5;
-                }
-        /*end function-button*/
+		/*start function-button*/
+		.function-button {            
+			margin: auto 0;
+			margin-left: auto;
+			margin-right: 70px
+		}
+			.function-button button {
+				background-color: #ff6511;
+				border-color: #ff6511;
+				transition: 0.2s;
+			}
+				.function-button button:hover {
+					background-color: #ac440b;
+					border-color: #ac440b;
+				}
+			.function-button .dropdown-menu {
+				margin-top: 8px;
+			}
+				.function-button .dropdown-menu a:hover {
+					background-color: #ff6511;
+					color: #f5f5f5;
+				}
+		/*end function-button*/
 
-        /*start user-box*/
-        .user-box {
+		/*start user-box*/
+		.user-box {
 
-        }
-            .user-box a {
-                padding: 9px 0;
-                display: block;
-                color: #666;
-                transition: 0.2s;
-            }
-                .user-box a:hover {
-                    text-decoration: none;
-                    color: #54b40d;
-                }
-                .user-box a:hover .img-user {
-                    background: url('/assets/icon/login-hover.png') no-repeat;
-                }
-        .user-box .img-user {
-            width: 26px;
-            max-width: 26px;
-            height: 26px;
-            max-height: 26px;
-            background: url('/assets/icon/login.png') no-repeat;
-            display: inline-block;
-            vertical-align: middle;
-            transition: 0.2s;
-        }
-            /*start dropdown-menu of user-box*/
-            .user-box .dropdown-menu {
-                margin-top: 4px;
-            }
-            .user-box .dropdown-menu a:hover {
-                background-color: #54b40d;
-                color: #f5f5f5;
-            }
-            .user-box .dropdown-menu .title {
-                font-size: 13px;
-                padding: 0 18px;
-            }
-            .user-box .dropdown-menu .social-link {
-                text-align: center;
-                margin: 5px 0;
-            }
-                .user-box .dropdown-menu .social-link a {
-                    padding: 3px 5px;
-                    display: inline-block !important;
-                }
-                    .user-box .dropdown-menu .social-link a:hover {
-                        background-color: #fff;
-                    }
-            /*end dropdown-menu of user-box*/
-        /*end user-box*/
+		}
+			.user-box a {
+				padding: 9px 0;
+				display: block;
+				color: #666;
+				transition: 0.2s;
+			}
+				.user-box a:hover {
+					text-decoration: none;
+					color: #54b40d;
+				}
+				.user-box a:hover .img-user {
+					background: url('/assets/icon/login-hover.png') no-repeat;
+				}
+		.user-box .img-user {
+			width: 26px;
+			max-width: 26px;
+			height: 26px;
+			max-height: 26px;
+			background: url('/assets/icon/login.png') no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+			transition: 0.2s;
+		}
+			/*start dropdown-menu of user-box*/
+			.user-box .dropdown-menu {
+				margin-top: 4px;
+			}
+			.user-box .dropdown-menu a:hover {
+				background-color: #54b40d;
+				color: #f5f5f5;
+			}
+			.user-box .dropdown-menu .title {
+				font-size: 13px;
+				padding: 0 18px;
+			}
+			.user-box .dropdown-menu .social-link {
+				text-align: center;
+				margin: 5px 0;
+			}
+				.user-box .dropdown-menu .social-link a {
+					padding: 3px 5px;
+					display: inline-block !important;
+				}
+					.user-box .dropdown-menu .social-link a:hover {
+						background-color: #fff;
+					}
+			/*end dropdown-menu of user-box*/
+		/*end user-box*/
 
-        /*start user-box-login*/
-        .user-box-login {
+		/*start user-box-login*/
+		.user-box-login {
 
-        }
-            .user-box-login a {
-                padding-left: 0;
-                padding-right: 0;
-                display: block;
-                color: #666;
-                transition: 0.2s;
-            }
-                .user-box-login a:hover {
-                    text-decoration: none;
-                    color: #54b40d;
-                }
-            .user-box-login .dropdown-menu {
-                margin-top: 4px;
-            }
-                .user-box-login .dropdown-menu a:hover {
-                    background-color: #54b40d;
-                    color: #f5f5f5;
-                }
-            .user-box-login img {
-                width: 30px;
-                max-width: 30px;
-                height: 30px;
-                max-height: 30px;
-            }
-        /*end user-box-login*/
-    /*end fixed header*/
+		}
+			.user-box-login a {
+				padding-left: 0;
+				padding-right: 0;
+				display: block;
+				color: #666;
+				transition: 0.2s;
+			}
+				.user-box-login a:hover {
+					text-decoration: none;
+					color: #54b40d;
+				}
+			.user-box-login .dropdown-menu {
+				margin-top: 4px;
+			}
+				.user-box-login .dropdown-menu a:hover {
+					background-color: #54b40d;
+					color: #f5f5f5;
+				}
+			.user-box-login img {
+				width: 30px;
+				max-width: 30px;
+				height: 30px;
+				max-height: 30px;
+			}
+		/*end user-box-login*/
+	/*end fixed header*/
 /*end header*/
 
 /*start main*/
 .main {
-    
+	
 }
 /*end main*/
 
@@ -198,152 +202,326 @@ footer {
 /*--------------------------------------------------------*/
 /*start search-box*/
 .search-box {
-    width: 550px;   
-    border: 1px solid #000;
-    background-color: #111;
-    opacity: 0.9;
-    border-radius: 4px;
-    text-align: center;
-    padding-bottom: 10px;
+	width: 550px;   
+	border: 1px solid #000;
+	background-color: #111;
+	opacity: 0.9;
+	border-radius: 4px;
+	text-align: center;
+	padding-bottom: 10px;
 }
-    .search-box .title {
-        text-align: center;
-        color: #fcfcfc;
-    }
-    .search-box .tab {
-        text-align: center;         
-        color: #fff;                    
-    }               
-        .search-box .tab label {
-            padding: 10px;
-        }               
-            .search-box .tab label:hover {
-                cursor: pointer;
-            }
-            .search-box .tab label input {
-                position: absolute;
-                left: -99999px;
-                background-color: #ccc;
-            }                       
-            .search-box .tab label span {                           
-                font-size: 13px;
-                transition: 0.2s;
-            }
-            .search-box .tab label input:checked ~ span,
-            .search-box .tab label input:hover ~ span,
-            .search-box .tab label input:focus ~ span {
-                color: #ff941e;
-            }
-            .search-box .tab label input ~ .sale {
-                display: inline-block;
-                width: 32px;
-                height: 32px;
-                vertical-align: -10px;                          
-                background: url('/assets/icon/Real_Estate_Investment-32.png') no-repeat center center;                          
-                margin-right: 10px;
-                transition: 0.2s;
-            }
-                .search-box .tab label input:hover ~ .sale,
-                .search-box .tab label input:focus ~ .sale,
-                .search-box .tab label input:checked ~ .sale {
-                    background: url('/assets/icon/Real_Estate_Investment-32-hover.png') no-repeat center center;                            
-                }
-            .search-box .tab label input ~ .rent {
-                display: inline-block;
-                width: 32px;
-                height: 32px;
-                vertical-align: -10px;                          
-                background: url('/assets/icon/Rent_Home-32.png') no-repeat center center;                           
-                margin-right: 10px;
-                transition: 0.2s;
-            }
-                .search-box .tab label input:hover ~ .rent,
-                .search-box .tab label input:focus ~ .rent,
-                .search-box .tab label input:checked ~ .rent {
-                    background: url('/assets/icon/Rent_Home-32-hover.png') no-repeat center center;                         
-                }
-    .search-box form {
-        padding: 0 70px;
-    }
-        .search-box form .form-group-custom {
-            position: relative;
-        }
-        /*search-keyword*/
-        .search-box form .search-keyword {
-            padding-right: 150px;
-        }
-        /*button search*/
-        .search-box form .btn-search {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 0 10px;
-        }
-            .search-box form .btn-search button {
-                height: 100%;
-                width: 24px;
-                transition: 0.5s;
-                border: none;
-                text-decoration: none;
-                outline: none;
-                padding: 0;
-                background: url('/assets/icon/search-home.png') no-repeat center center;
-            }
-                .search-box form .btn-search button:hover {
-                    background: url('/assets/icon/search-home-hover.png') no-repeat center center;
-                }
-        /*button zestimate*/
-        .search-box form .btn-zestimate {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 43px;
-            padding: 0 10px;
-        }
-            .search-box form .btn-zestimate button {
-                height: 100%;
-                width: 24px;
-                transition: 0.5s;
-                border: none;
-                text-decoration: none;
-                outline: none;
-                padding: 0;
-                background: url('/assets/icon/price-home.png') no-repeat center center;
-            }
-                .search-box form .btn-zestimate button:hover {
-                    background: url('/assets/icon/price-home-hover.png') no-repeat center center;
-                }
-        /*separator*/
-        .search-box form .separator {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 42px;
-        }
-            .search-box form .separator span {
-                height: 100%;
-                line-height: 33px;
-                color: #ccc;
-            }
-        /*history search*/
-        .search-box form .history-search {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 86px;
-        }
-            .search-box form .history-search button {
-                padding-left: 0;
-                padding-right: 0;
-                color: #ccc;
-            }
-        /*button search-plus*/
-        .search-box form button.btn-success {
-            background-color: #54b40d;
-            border-color: #2b5b07;
-        }
-            .search-box form button.btn-success:hover {
-                background-color: #2b5b07;                
-            }
+	.search-box .title {
+		text-align: center;
+		color: #fcfcfc;
+	}
+	.search-box .tab {
+		text-align: center;         
+		color: #fff;                    
+	}               
+		.search-box .tab label {
+			padding: 10px;
+		}               
+			.search-box .tab label:hover {
+				cursor: pointer;
+			}
+			.search-box .tab label input {
+				position: absolute;
+				left: -99999px;
+				background-color: #ccc;
+			}                       
+			.search-box .tab label span {                           
+				font-size: 13px;
+				transition: 0.2s;
+			}
+			.search-box .tab label input:checked ~ span,
+			.search-box .tab label input:hover ~ span,
+			.search-box .tab label input:focus ~ span {
+				color: #ff941e;
+			}
+			.search-box .tab label input ~ .sale {
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				vertical-align: -10px;                          
+				background: url('/assets/icon/Real_Estate_Investment-32.png') no-repeat center center;                          
+				margin-right: 10px;
+				transition: 0.2s;
+			}
+				.search-box .tab label input:hover ~ .sale,
+				.search-box .tab label input:focus ~ .sale,
+				.search-box .tab label input:checked ~ .sale {
+					background: url('/assets/icon/Real_Estate_Investment-32-hover.png') no-repeat center center;                            
+				}
+			.search-box .tab label input ~ .rent {
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				vertical-align: -10px;                          
+				background: url('/assets/icon/Rent_Home-32.png') no-repeat center center;                           
+				margin-right: 10px;
+				transition: 0.2s;
+			}
+				.search-box .tab label input:hover ~ .rent,
+				.search-box .tab label input:focus ~ .rent,
+				.search-box .tab label input:checked ~ .rent {
+					background: url('/assets/icon/Rent_Home-32-hover.png') no-repeat center center;                         
+				}
+	.search-box form {
+		padding: 0 70px;
+	}
+		.search-box form .form-group-custom {
+			position: relative;
+		}
+		/*search-keyword*/
+		.search-box form .search-keyword {
+			padding-right: 150px;
+		}
+		/*button search*/
+		.search-box form .btn-search {
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 0;
+			padding: 0 10px;
+		}
+			.search-box form .btn-search button {
+				height: 100%;
+				width: 24px;
+				transition: 0.5s;
+				border: none;
+				text-decoration: none;
+				outline: none;
+				padding: 0;
+				background: url('/assets/icon/search-home.png') no-repeat center center;
+			}
+				.search-box form .btn-search button:hover {
+					background: url('/assets/icon/search-home-hover.png') no-repeat center center;
+				}
+		/*button zestimate*/
+		.search-box form .btn-zestimate {
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 43px;
+			padding: 0 10px;
+		}
+			.search-box form .btn-zestimate button {
+				height: 100%;
+				width: 24px;
+				transition: 0.5s;
+				border: none;
+				text-decoration: none;
+				outline: none;
+				padding: 0;
+				background: url('/assets/icon/price-home.png') no-repeat center center;
+			}
+				.search-box form .btn-zestimate button:hover {
+					background: url('/assets/icon/price-home-hover.png') no-repeat center center;
+				}
+		/*separator*/
+		.search-box form .separator {
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 42px;
+		}
+			.search-box form .separator span {
+				height: 100%;
+				line-height: 33px;
+				color: #ccc;
+			}
+		/*history search*/
+		.search-box form .history-search {
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 86px;
+		}
+			.search-box form .history-search button {
+				padding-left: 0;
+				padding-right: 0;
+				color: #ccc;
+			}
+		/*button search-plus*/
+		.search-box form button.btn-success {
+			background-color: #54b40d;
+			border-color: #2b5b07;
+		}
+			.search-box form button.btn-success:hover {
+				background-color: #2b5b07;                
+			}
 /*end search-box*/
+
+/*start item large*/
+.item-large {
+	font-size: 13px;
+	margin-bottom: 20px;
+}
+	/*start content*/
+	.item-large .content {
+		color: #666;
+	}
+		/*start picture*/
+		.item-large .picture img {
+			max-height: 350px;
+			width: 100%;
+		}
+		/*end picture*/
+
+		/*start name*/
+		.item-large .name {
+			font-size: 21px;
+			color: #666;
+		}
+		/*end*/
+
+		/*start status*/
+		.item-large .status {            
+			margin-bottom: 5px;
+		}
+		.item-large .status i.done {
+			vertical-align: middle;
+			display: inline-block;
+			width: 8px;
+			height: 8px;
+			background: url('/assets/icon/done.png') no-repeat center center;
+		}
+		.item-large .status span {
+			color: #666;
+			margin-left: 5px;
+			font-size: 12px;
+		}
+		/*end*/
+
+		/*start convenient*/
+		.item-large .convenient {
+			display: flex;
+			margin: 5px 0;
+		}
+		.item-large .convenient div {
+			margin-right: 15px;
+		}
+		.item-large .convenient i {
+			width: 16px;
+			height: 16px;
+			display: inline-block;
+			vertical-align: -2px;
+		}
+			.item-large .convenient i.icon-area {
+				background: url('/assets/icon/icon_dientich.png') no-repeat center center;
+			}
+			.item-large .convenient i.icon-bathroom {
+				background: url('/assets/icon/icon_phongtam.png') no-repeat center center
+			}
+			.item-large .convenient i.icon-bedroom {
+				background: url('/assets/icon/icon_phongngu.png') no-repeat center center
+			}
+		.item-large span {
+
+		}
+		/*end convenient*/
+
+		/*start address*/
+		.item-large .address {
+			margin-bottom: 5px;
+		}
+		/*end*/
+
+		/*start ticker*/
+		.item-large .ticker {
+			height: 35px;
+			border: 1px dashed #999;    
+			margin-bottom: 5px;     
+		}
+		/*end*/
+
+		/*start detail*/
+		.item-large .detail {
+			text-align: justify;
+			margin-bottom: 10px;
+		}
+		/*end*/
+
+		/*start btn more*/
+		.item-large .btn-more {
+			text-align: right;
+		}
+			.item-large .btn-more a {
+				color: #54b40d;
+			}
+			.item-large .btn-more a:hover {
+				color: #ff6511;
+			}
+		/*end*/
+	/*end content*/
+/*end item-large*/
+
+/*start block*/
+.block {
+
+}
+	/*start Title*/
+	.block .title {
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 20px;
+		margin-bottom: 20px;
+		position: relative;
+		transition: 0.2s;
+		color: #666;
+	}
+	.block .title > a {
+		color: #666;
+		transition: 0.2s;
+		position: relative;
+	}
+		.block .title > a:before {
+			content: '';
+			position: absolute;
+			width: 300px;
+			height: 5px;
+			background: url('/assets/icon/line.png') no-repeat center center;
+			right: 100%;
+			display: block;
+			top: calc(50% - 2.5px);
+			margin-right: 20px;
+		}
+		.block .title > a:after {
+			content: '';
+			position: absolute;
+			width: 300px;
+			height: 5px;
+			background: url('/assets/icon/line.png') no-repeat center center;
+			left: 100%;
+			display: block;
+			top: calc(50% - 2.5px);
+			transform: rotate(180deg);
+			-o-transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			-webkit-transform: rotate(180deg);
+			margin-left: 20px;
+		}
+		.block a.link:hover {
+			text-decoration: none;
+			color: #54b40d;
+		}
+		.block a.link:hover i.line {
+			background: url('/assets/icon/link-12-hover.png') no-repeat center center;
+		}
+	.block i.line {
+		position: relative;
+		vertical-align: middle;
+		width: 12px;
+		height: 12px;
+		background: url('/assets/icon/link-12.png') no-repeat center center;
+		display: inline-block;
+		transition: 0.2s;
+	}
+	/*end Title*/
+
+	/*start content*/
+	.block .content {
+		display: block;
+	}
+	/*end content*/
+/*end block*/
