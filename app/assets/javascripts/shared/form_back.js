@@ -7,7 +7,9 @@ function initForm($form, params) {
 	initFileInput();
 	initConstraint();
 	initSubmit();
-	initEnterKey();
+	if ($form.is('[data-entertotab]')) {
+		initEnterKey();	
+	}
 
 	/*
 		Toggle
@@ -111,7 +113,7 @@ function initForm($form, params) {
 					// 	var $input = $(this);
 					// 	var invalid = checkInvalidInput($input);
 					// 	if (invalid) {
-					// 		toggleValidInput($input, false, $input.attr('name'), invalid);	      		
+					// 		toggleValidInput($input, false, invalid);	      		
 					// 	}
 					// });
 				}
@@ -121,7 +123,7 @@ function initForm($form, params) {
 					$element.find(':input').prop('disabled', true).trigger('disable').each(function () {
 						var $input = $(this);
 
-						toggleValidInput($input, true, $input.attr('name'));	      		
+						toggleValidInput($input, true);
 					});
 				}
 
@@ -139,13 +141,13 @@ function initForm($form, params) {
 
 					// var invalid = checkInvalidInput($element);
 					// if (invalid) {
-					// 	toggleValidInput($element, false, $element.attr('name'), invalid);	      		
+					// 	toggleValidInput($element, false, invalid);	      		
 					// }
 				}
 				else {
 					$element.addClass('off').trigger('disable');;
 
-					toggleValidInput($element, false, $element.attr('name'));	  
+					toggleValidInput($element, false);	  
 				}
 
 				initConstraintFormGroup($element.closest('.form-group'));
@@ -226,6 +228,7 @@ function initForm($form, params) {
 
 			// Get fileupload
 			var $fileUpload = $(this);
+			var isMulti = $fileUpload.is('[multiple]');
 
 			// Get type of image
 			var type = $fileUpload;
@@ -244,6 +247,9 @@ function initForm($form, params) {
 					var $item = $('<article class="preview"></article>');
 					$item.html('<img src="' + e.target.result + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section><section class="progress"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
+					if (!isMulti) {
+						$wrapper.children('.preview').remove();
+					}
 					$wrapper.prepend($item);
 
 					// Get data
@@ -284,7 +290,12 @@ function initForm($form, params) {
 
 							// Value
 							var $hiddenInput = $wrapper.find('input[type="hidden"]');
-							$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change();
+							if (isMulti) {
+								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change();	
+							}
+							else {
+								$hiddenInput.val(data.result).change();
+							}
 							$item.data('value', data.result);
 						}
 						else {
@@ -353,20 +364,12 @@ function initForm($form, params) {
 	function initConstraint() {
 		initConstraintFormGroup($form.find('.form-group'));
 
-		$form.find('[data-constraint~="required"]').on({
-			change: function () {
-				if (!this.value) {
-					$(this).data('invalid', true).closest('.form-group').addClass('has-error');	
-				}
-			}
-		})
-
 		$form.find('[data-constraint]').on({
 			'change': function () {
 				var $input = $(this);
 				if ($input.data('invalid')) {
 					if (!checkInvalidInput($input)) {
-						toggleValidInput($input, true, $input.attr('name'));
+						toggleValidInput($input, true);
 					}
 				}
 			}
@@ -394,7 +397,7 @@ function initForm($form, params) {
 				var $input = $(this);
 
 				setTimeout(function () {
-					$input.val($input.val().replace(/\D/g, ''));
+					$input.val($input.val().replace(/\D/g, '')).change();
 				});
 			}
 		});
@@ -434,10 +437,20 @@ function initForm($form, params) {
 							value = value.slice(0, floatPoint).replace(/\D/g, '') + '.' + value.slice(floatPoint).replace(/\D/g, '');
 					}
 
-					$input.val(value);
+					$input.val(value).change();
 				});
 			}
 		});
+
+    // Email
+    $form.find('[data-constraint~="email"]').on({
+      'focusout': function () {
+        var $input = $(this);
+        if ($input.val() && !/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test($input.val())) {
+          $input.val('').change();
+        }
+      }
+    });
 
 		// Range
 		$form.find('[data-constraint~="range"]').on({
@@ -449,11 +462,19 @@ function initForm($form, params) {
 					maxValue = $input.data('max-value');
 
 				if (minValue && this.value < minValue) {
-					this.value = minValue;
+					$(this).val(minValue).change();
 				}
 
 				if (maxValue && maxValue < this.value) {
-					this.value = maxValue;
+					$(this).val(maxValue).change();
+				}
+			}
+		});
+
+		$form.find('[data-constraint~="required"]').on({
+			change: function () {
+				if (!this.value) {
+					$(this).data('invalid', true).closest('.form-group').addClass('has-error');
 				}
 			}
 		});
@@ -471,9 +492,15 @@ function initForm($form, params) {
 	}
 
 	/*
-
+		Toggle valid input
 	*/
-	function toggleValidInput($input, isValid, name, constraint) {
+	$form.toggleValidInput = function ($input, isValid, constraint) {
+		toggleValidInput($input, isValid, constraint);
+	};
+
+	function toggleValidInput($input, isValid, constraint) {
+		var name = $input.attr('name');
+
 		if (isValid) {
 			// Set valid input
 			$input.data('invalid', false);
@@ -526,7 +553,7 @@ function initForm($form, params) {
 			var $errorMessage = $callout.find('[aria-name="' + name + '"]');
 			if ($errorMessage.length == 0) {
 				$errorMessage = $('<p aria-name="' + name + '"></p>');
-				$callout.prepend($errorMessage);
+				$callout.append($errorMessage);
 			}
 
 			$errorMessage.text(_t[params.object]['validate'][name + '_' + constraint]);
@@ -574,21 +601,25 @@ function initForm($form, params) {
 			e.preventDefault();
 
 			// Check validate
-			var isValid = true;
 			$form.find('[data-constraint]:enabled').each(function () {
 				var $input = $(this);
 				var invalid = checkInvalidInput($input);
 				if (invalid) {
-					toggleValidInput($input, false, $input.attr('name'), invalid)
-					isValid = false;
+					toggleValidInput($input, false, invalid)
 				};				
 			})
 
+			var $dangerBox = $form.find('.box-danger');
+			if ($dangerBox.length) {
+	    	$body.animate({
+	    		scrollTop: $dangerBox.offset().top - 20 
+	    	});	
+				return;	
+			}
+
 			//Submit
-			if (isValid) {
-				if ('submit' in params) {
-					params.submit();
-				}
+			if ('submit' in params) {
+				params.submit();
 			}
 		});
 	}

@@ -1,4 +1,4 @@
-en:
+vi:
   real_estate:
     attribute:
       type_transfer_box: 'Loại hình giao dịch'
@@ -14,7 +14,7 @@ en:
       real_estate_type_box: 'Loại bất động sản'
       real_estate_type: 'Loại bất động sản'
       constructional_area: 'Diện tích xây dựng'
-      using_area: 'Diện tích xây dựng'
+      using_area: 'Diện tích sử dụng'
       campus_area: 'Diện tích khuôn viên'
       width_x: 'Chiều ngang'
       width_y: 'Chiều dài'
@@ -22,14 +22,16 @@ en:
       shape_normal: 'Bình thường'
       shape_less: 'Tóp hậu'
       shape_greater: 'Nở hậu'
-      shape_width: 'Chênh lệch'
-      restroom: 'Nhà vệ sinh'
+      shape_width: 'Mặt hậu'
+      restroom: 'Phòng tắm'
       bedroom: 'Phòng ngủ'
       direction: 'Hướng'
       constructional_level: 'Loại nhà'
-      build_year: 'Loại nhà'
-      constructional_quality: 'Chất lượng còn lại'
+      build_year: 'Năm xây dựng'
+      constructional_quality: 'Chất lượng xây dựng còn lại'
       position_box: 'Vị trí'
+      address_number: 'Số nhà'
+      address: 'Địa chỉ'
       province: 'Tỉnh/Thành phố'
       district: 'Quận/Huyện'
       ward: 'Phường/Xã'
@@ -37,7 +39,7 @@ en:
       street_type: 'Loại đường'
       facade: 'Mặt tiền'
       alley: 'Hẻm'
-      alley_width: 'Kích thước hẻm'
+      alley_width: 'Độ rộng của hẻm'
       content_box: 'Nội dung'
       title: 'Tiêu đề'
       description: 'Mô tả'
@@ -58,11 +60,12 @@ en:
       save_draft: 'Lưu tạm'
       other_legal_record_type_placeholder: 'Giấy tờ khác'
       other_planning_status_type_placeholder: 'Trạng thái khác'
+      area_alert: 'Kích thước không thỏa'
     manager:
       page_title_nav: 'Quản lý'
       page_title: 'Quản lý bất động sản'
-      control: 'Control'
-      delete: 'Delete'  
+      control: 'Điều khiển'
+      delete: 'Xóa'
   real_estate_type:
     text:
       land_group: 'Đất'

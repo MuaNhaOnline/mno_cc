@@ -1,6 +1,6 @@
 class RealEstate < ActiveRecord::Base
 
-  # Associates
+# Associates
 
   belongs_to :real_estate_type
   belongs_to :street
@@ -21,9 +21,9 @@ class RealEstate < ActiveRecord::Base
   has_and_belongs_to_many :disadvantages
   has_and_belongs_to_many :images
 
-  # / Associates
+# / Associates
 
-  # Validates
+# Validates
 
   validates :title, presence: { message: 'Tiêu đề không được bỏ trống' }
   validates :description, presence: { message: 'Mô tả không được bỏ trống' }
@@ -87,7 +87,7 @@ class RealEstate < ActiveRecord::Base
     errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
   end
 
-  # / Validates
+# / Validates
 
   # Name
 
@@ -121,7 +121,10 @@ class RealEstate < ActiveRecord::Base
     params[:width_y] = ApplicationHelper.format_f params[:width_y] if params.has_key? :campus_area
 
     # Constructional quality
-    params[:constructional_quality] = ApplicationHelper.format_i params[:constructional_quality] if params.has_key? :constructional_quality
+    if params.has_key? :constructional_quality
+      constructional_quality = ApplicationHelper.format_i(params[:constructional_quality]).to_i
+      params[:constructional_quality] = constructional_quality < 0 ? 0 : (constructional_quality > 100 ? 100 : constructional_quality)
+    end
 
     # Location
     unless params[:street].blank?
@@ -194,29 +197,24 @@ class RealEstate < ActiveRecord::Base
     params.permit fields
   end
 
-  # Assign with params
-
-  def assign_with_params params
-    real_estate_params = RealEstate.get_params params
-
-    assign_attributes(real_estate_params)
-  end
-
-  # / Assign with params
-
   # Save with params
 
   def save_with_params params, is_draft = false
     params[:is_draft] = is_draft ? 1 : 0
-    assign_with_params params
+
+    real_estate_params = RealEstate.get_params params
+
+    assign_attributes real_estate_params
 
     save validate: !is_draft
   end
 
   # / Save with params
 
+# Updates
 
-# Temp
+  # Update show status
+
   def self.update_show_status id, is_show
     real_estate = find id
 
@@ -224,6 +222,10 @@ class RealEstate < ActiveRecord::Base
 
     real_estate.save validate: false
   end
+
+  # / Update show status
+
+# / Updates
 
   #Get keyword
   def keyword

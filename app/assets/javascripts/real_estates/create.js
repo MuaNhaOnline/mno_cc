@@ -43,7 +43,7 @@ $(function () {
 
                     // Scroll to first until full input
                     $body.animate(
-                        { scrollTop: $('.input-box.until-full:visible').offset().top - 50 }
+                      { scrollTop: $('.input-box.until-full:visible').offset().top - 20 }
                     );
                   }
                 }, {
@@ -85,6 +85,7 @@ $(function () {
   initSaveDraft();
   initLocation();
   initCheckArea();
+  initUncheck();
 
   /*
     / Init
@@ -252,6 +253,20 @@ $(function () {
 
   /*
     / Check area
+  */
+
+  /*
+    Uncheck
+  */
+
+  function initUncheck() {
+    $form.find('[aria-click="uncheck"]').on('click', function () {
+      $(this).closest('.box').find('[type="checkbox"]').prop('checked', false);
+    });
+  }
+
+  /*
+    / Uncheck
   */
 
   /*

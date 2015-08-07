@@ -1,0 +1,349 @@
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" href="/assets/shared/bootstrap-datepicker3.min.css">
+  <link rel="stylesheet" href="/assets/shared/create_form.css" />
+<% end %>
+
+<% content_for :scripts do %>
+  <script src="/assets/shared/bootstrap-datepicker.min.js"></script>
+  <script src="/assets/shared/form.js"></script>
+  <script src="/assets/projects/create.js"></script>
+<% end %>
+
+<div class="container-fluid">
+  <article class="row wrapper">
+    <article class="main-content col-sm-8">    
+      <form class="form-horizontal" id="create_project_form" method="post" action="#">
+        <% unless @project.blank? %>
+          <input type="hidden" name="project[id]" value="<%= @project.id %>" />
+        <% end %>
+      <section class="main-title">
+        Thông tin dự án của bạn
+      </section>
+      <ul class="item-wrapper">
+        <!-- region Vị trí -->
+
+        <li class="item">
+          <div class="item-title">Vị trí</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="province_id">Tỉnh/Thành phố</label>
+              <div class="col-sm-4">
+                <select name="project[province_id]" class="form-control" id="province">
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="district_id">Quận/Huyện/Thị xã</label>
+              <div class="col-sm-4">
+                <select name="project[district_id]" class="form-control" id="district">
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="ward_id">Phường</label>
+              <div class="col-sm-4">
+                <select name="project[ward_id]" class="form-control" id="ward">
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="street_id">Đường</label>
+              <div class="col-sm-4">
+                <select name="project[street_id]" class="form-control" id="street">
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="address_number">Số nhà</label>
+              <div class="col-sm-4">
+                <input name="project[address_number]" value="<%= @project.address_number %>" class="form-control" id="address_number">
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Thông tin chi tiết -->
+
+        <li class="item">
+          <div class="item-title">Thông tin chi tiết</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3">Loại dự án</label>
+              <div class="col-sm-4">
+                <select name="project[project_type_id]" class="form-control">
+                  <% ProjectType.get_options.each do |project_type| %>
+                    <option value="<%= project_type.id %>" <%= 'selected' if @project.project_type_id === project_type.id %>><%= project_type.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Diện tích khuôn viên</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[campus_area]" data-constraint="only-number" value="<%= @project.campus_area %>" class="form-control" data-validate="required" />
+                  <div class="input-group-addon">m<sup>2</sup></div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Rộng</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                    <input name="project[width_x]" value="<%= @project.width_x %>" data-constraint="only-number" class="form-control" data-validate="required" />
+                    <div class="input-group-addon">m</div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Dài</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                    <input name="project[width_y]" value="<%= @project.width_y %>" class="form-control" data-validate="required" data-constraint="only-number" />
+                    <div class="input-group-addon">m</div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Tỉ lệ sử dụng</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[using_ratio]" value="<%= @project.using_ratio %>" class="form-control" data-constraint="only-number" />
+                  <div class="input-group-addon">%</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Tiến độ thực hiện -->
+
+        <li class="item">
+          <div class="item-title">Tiến độ thực hiện</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3">Ngày khởi công (dự kiến)</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[estimate_starting_date]" value="<%= @project.estimate_starting_date.strftime('%d/%m/%Y') unless @project.estimate_starting_date.blank? %>" class="form-control" data-type="date" data-validate="required">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Ngày hoàn thành (dự kiến)</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[estimate_finishing_date]" value="<%= @project.estimate_finishing_date.strftime('%d/%m/%Y') unless @project.estimate_finishing_date.blank? %>" class="form-control" data-type="date" data-validate="required">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Ngày khởi công</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[starting_date]" value="<%= @project.starting_date.strftime('%d/%m/%Y') unless @project.starting_date.blank? %>" class="form-control" data-type="date" data-validate="required">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Hoàn thành móng</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[finished_base_date]" value="<%= @project.finished_base_date.strftime('%d/%m/%Y') unless @project.finished_base_date.blank? %>" class="form-control" data-type="date" data-validate="required">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Ngày bàn giao nhà</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[transfer_date]" value="<%= @project.transfer_date.strftime('%d/%m/%Y') unless @project.transfer_date.blank? %>" class="form-control" data-type="date" data-validate="required">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Ngày cấp sổ</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input name="project[docs_issue_date]" value="<%= @project.docs_issue_date.strftime('%d/%m/%Y') unless @project.docs_issue_date.blank? %>" class="form-control" data-type="date" data-validate="required">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Thông tin nhà đầu tư -->
+
+        <li class="item">
+          <div class="item-title">Thông tin nhà đầu tư</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3">Chủ đầu tư</label>
+              <div class="col-sm-4">
+                <select name="project[investor_id]" class="form-control">
+                  <% Investor.get_options.each do |investor| %>
+                      <option value="<%= investor.id %>" <%= 'selected' if @project.investor_id === investor.id %>><%= investor.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Đơn vị thi công</label>
+              <div class="col-sm-4">
+                <input name="project[execute_unit]" value="<%= @project.execute_unit %>" class="form-control">
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Đơn vị thiết kế</label>
+              <div class="col-sm-4">
+                <input name="project[design_unit]" value="<%= @project.design_unit %>" class="form-control">
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Đơn vị quản lý</label>
+              <div class="col-sm-4">
+                <input name="project[manage_unit]" value="<%= @project.manage_unit %>" class="form-control">
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Thông tin thanh toán -->
+
+        <li class="item">
+          <div class="item-title">Thông tin thanh toán</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label for="price" class="control-label col-sm-3">Đơn giá</label>
+              <div class="col-sm-4">
+                <input name="project[unit_price]" value="<%= @project.unit_price %>" class="form-control" data-validate="required" data-constraint="only-number" id="price" data-separate='.'>
+              </div>
+            </li>
+            <li class="form-group">
+              <label for="currency_id" class="control-label col-sm-3">Đơn vị tính</label>
+              <div class="col-sm-4">
+                <select name="project[currency_id]" class="form-control" id="currency_id">
+                  <% Currency.get_options.each do |currency| %>
+                      <option value="<%= currency.id %>" <%= 'selected' if @project.currency_id === currency.id %> <%= currency.options_hash['html']['attributes'] %>><%= currency.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Phương thức thanh toán</label>
+              <div class="col-sm-9">
+                <textarea name="project[payment_method]" class="form-control required" id="description"><%= @project.payment_method %></textarea>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Mô tả -->
+
+        <li class="item">
+          <div class="item-title">Giới thiệu</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3">Tiêu đề</label>
+              <div class="col-sm-9">
+                <input name="project[title]" value="<%= @project.title %>" class="form-control" data-validate="required">
+              </div>
+            </li>
+            <li class="form-group">
+              <label class="control-label col-sm-3">Nội dung</label>
+              <div class="col-sm-9">
+                <textarea name="project[description]" class="form-control required" id="description" data-validate="required"><%= @project.description %></textarea>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Hình ảnh mô tả -->
+
+        <li class="item">
+          <div class="item-title">Hình ảnh mô tả</div>
+          <ul class="item-content">
+            <li class="form-group">
+              <label class="control-label col-sm-3" for="images">Hình ảnh</label>
+              <div class="col-sm-9">
+                <% @project.images.each do |image| %>
+                    <div class="image-upload has-file">
+                      <input value="<%= image.id %>" type="hidden" name="project[image_ids][]" />
+                      <label>
+                        <input type="file" />
+                      </label>
+                      <img src="/images/<%= image.id %>" />
+                      <u></u>
+                      <i></i>
+                    </div>
+                <% end %>
+                <% (@project.images.length...5).each do %>
+                    <div class="image-upload">
+                      <input type="hidden" name="project[image_ids][]" />
+                      <label>
+                        <input type="file" />
+                      </label>
+                      <img />
+                      <u></u>
+                      <i></i>
+                    </div>
+                <% end %>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+        <!-- region Nút xử lý -->
+
+        <li class="item">
+          <ul class="item-content">
+            <li class="submit-button">
+              <p class="text-center">
+                <button type="submit" class="btn btn-primary">Đăng tin</button>
+                <% if @project.id.blank? || @project.is_draft == 1 %>
+                    <button type="button" class="btn btn-default" data-function="save-draft">Lưu tạm</button>
+                <% end %>
+              </p>
+            </li>
+          </ul>
+        </li>
+
+        <!-- endregion -->
+
+      </ul>
+      </form>
+    </article>              
+  </article>
+</div>

@@ -1,0 +1,79 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/shared/form_back.js"></script>
+	<script type="text/javascript" src="/assets/users/signin.js"></script>
+<% end %>
+
+<form class="row form" id="signin_form">
+	<div class="col-md-6 col-md-offset-3">
+		<article class="box box-default">
+			<section class="box-header with-border">
+				<h2 class="box-title">
+					<%= t 'user.view.signin.box_title' %>
+				</h2>
+			</section>
+			<section class="box-body">
+
+				<!-- Account name -->
+
+				<article class="form-group">
+					<label for="account"><%= t 'user.attribute.account' %></label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-user"></i>
+						</div>
+						<input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" />
+					</div>
+				</article>
+
+				<!-- / Account name -->
+
+				<!-- Password -->
+
+				<article class="form-group">
+					<label for="password"><%= t 'user.attribute.password' %></label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-lock"></i>
+						</div>
+						<input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
+					</div>
+				</article>
+
+				<!-- / Password -->
+
+				<!-- Remember -->
+
+				<article class="form-group">
+					<div class="checkbox">
+						<label><input type="checkbox" name="remember" />Ghi nhớ</label>
+					</div>
+				</article>
+
+				<!-- / Remember -->
+
+			</section>
+		</article>	
+	</div>
+
+	<div class="clearfix"></div>
+
+	<div class="col-md-6 col-md-offset-3">
+
+		<!-- Button -->
+
+		<article class="box box-solid">
+			<section class="box-body row">
+				<div class="margin-top-bottom-5 col-md-12">
+					<button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'user.view.signin.finish' %></b></button>
+				</div>
+			</section>
+		</article>
+
+		<!-- /Button -->
+
+	</div>
+</form>

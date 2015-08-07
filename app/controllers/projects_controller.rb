@@ -15,14 +15,14 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    if (params.include?('id'))
+    if (params.has_key?('id'))
       begin
-        @project = Project.find(params['id'])
+        @p = Project.find(params['id'])
       rescue
-        @project = Project.new
+        @p = Project.new
       end
     else
-      @project = Project.new
+      @p = Project.new
     end
 
   	render layout: 'layout_back'

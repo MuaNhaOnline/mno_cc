@@ -1,3 +1,13 @@
+=begin
+  status
+    0: Success
+    1: No result
+    2: Hanlde error
+    3: Constraint error
+    4: Need sign in
+    5: Error of business
+=end
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.

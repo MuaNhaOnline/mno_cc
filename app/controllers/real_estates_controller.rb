@@ -38,27 +38,26 @@ class RealEstatesController < ApplicationController
     if params[:real_estate][:id].blank?
       real_estate = RealEstate.new
     else 
-      begin
-        real_estate = RealEstate.find(params[:real_estate][:id])
-      rescue
-        return render json: Hash[status: 1, result: real_estate.errors.full_messages]
+      real_estate = RealEstate.find(params[:real_estate][:id])
+      if real_estate.nil?
+        return render json: Hash[status: 1]
       end
     end
 
     real_estate.save_with_params(params[:real_estate], is_draft)
 
     if real_estate.errors.any? && !is_draft
-      render json: Hash[status: 1, result: real_estate.errors.full_messages]
+      render json: Hash[status: 3, result: real_estate.errors.full_messages]
     else
       render json: Hash[status: 0, result: real_estate.id]
     end
   end
 
-  def preview
-    @real_estate = RealEstate.create_real_estate params['real_estate']
+  # def preview
+  #   @real_estate = RealEstate.create_real_estate params['real_estate']
 
-    render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview')]
-  end
+  #   render json: Hash[status: 1, result: render_to_string(partial: '/real_estates/preview')]
+  # end
 
   def manager
     @res = RealEstate.order(updated_at: 'desc')
@@ -86,7 +85,7 @@ class RealEstatesController < ApplicationController
       RealEstate.delete params[:id]
       render json: Hash[status: 0]
     rescue
-      render json: Hash[status: 1]
+      render json: Hash[status: 2]
     end
   end
 
