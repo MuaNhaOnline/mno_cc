@@ -31,7 +31,11 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function (data) {
 				if (data.status == 0) {
-					alert('OK');
+          popupPrompt({
+            title: _t.form.success,
+            type: 'success',
+            content: 'Đăng ký thành công'
+          });
 				}
 				else {
           var result = data.result;
@@ -45,7 +49,6 @@ $(function () {
             content: errors
           });
 				}
-
 			}).fail(function () {
         popupPrompt({
           title: _t.form.error_title,

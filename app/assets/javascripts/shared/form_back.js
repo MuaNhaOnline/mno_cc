@@ -7,7 +7,9 @@ function initForm($form, params) {
 	initFileInput();
 	initConstraint();
 	initSubmit();
-	initEnterKey();
+	if ($form.is('[data-entertotab]')) {
+		initEnterKey();	
+	}
 
 	/*
 		Toggle

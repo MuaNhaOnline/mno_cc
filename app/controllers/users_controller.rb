@@ -12,9 +12,9 @@ class UsersController < ApplicationController
     user.save_with_params params[:user]
 
     if user.errors.any?
-      render json: { status: 1, result: user.errors.full_messages }
+      render json: { status: 3, result: user.errors.full_messages }
     else
-      render json: { status: 3, result: user.id }
+      render json: { status: 0, result: user.id }
     end
   end
 
