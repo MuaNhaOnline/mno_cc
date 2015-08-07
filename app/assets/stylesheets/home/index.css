@@ -143,7 +143,7 @@
 	.other-property .title {
 		color: #666;
 		display: block;
-		margin-bottom: 10px;
+		margin-bottom: 20px;
 	}
 	/*end other-property*/
 /*end favorite property*/
@@ -232,7 +232,7 @@
 
 /*start contact*/
 .contact {
-
+	margin-bottom: 20px;
 }
 .contact img {
 	width: 100%;
@@ -243,3 +243,19 @@
 	margin: 5px 0;
 }
 /*end contact*/
+
+/*start agent*/
+.agent {
+	margin-bottom: 40px;
+}
+.agent ul {
+	text-align: center;
+}
+.agent li {
+	display: inline-block;
+	margin: 0 10px;
+	height: 150px;
+	width: 150px;
+	border: 1px solid #ccc;	
+}
+/*end agent*/
