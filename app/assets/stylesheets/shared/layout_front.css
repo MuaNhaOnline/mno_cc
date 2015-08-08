@@ -491,10 +491,13 @@ footer {
 		/*end*/
 
 		/*start ticker*/
-		.item-lg .ticker {
-			height: 35px;
-			border: 1px dashed #999;    
-			margin-bottom: 5px;     
+		.item-lg .price {
+			margin-bottom: 10px;
+			border: 1px dashed #ccc;
+			text-align: center;
+			color: #ff6511;	
+			height: 25px;
+			line-height: 25px;
 		}
 		/*end*/
 
