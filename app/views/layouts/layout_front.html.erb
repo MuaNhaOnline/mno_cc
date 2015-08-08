@@ -9,6 +9,7 @@
 	<meta name="keyword" content="<%= @keyword %>">
 
 	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap-datepicker3.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/layout_front.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/form_custom.css">
 	<%= yield :stylesheets %>
@@ -19,113 +20,118 @@
 <header>
 	<section class="navbar-fixed-top" style="background-color: #fff">
 		<div class="container header">
+			 <!-- start logo -->
+			 <a href="#">
+				<article class="logo">
+					<img src="/assets/logo/logo.png">
+				</article>
+			 </a>
+			 <!-- end logo -->
 
-		 <!-- start logo -->
-		 <a href="#">
-			<article class="logo">
-				<img src="/assets/logo/logo.png">
-			</article>
-		 </a>
-		 <!-- end logo -->
-
-		<!-- start sitemap -->
-		<article class="sitemap">
-			<ul>
-				<li>
-					<div class="btn-group">
-						<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Bất động sản <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							<li><a href="#">Bán</a></li>
-							<li><a href="#">Cho thuê</a></li>
-						</ul>
-					</div>
-				</li>
-				<li>
-					<div class="btn-group">
-						<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Dự án <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							<li><a href="#">Bán</a></li>
-							<li><a href="#">Cho thuê</a></li>
-						</ul>
-					</div>
-				</li>
-				<li>
-					<div class="btn-group">
-						<button type="button" class="btn btn-link">
-							Doanh nghiệp
-						</button>
-					</div>
-				</li>
-				<li>
-					<div class="btn-group">
-						<button type="button" class="btn btn-link">
-						Tin tức
-						</button>
-					</div>
-				</li>
-			</ul>
-		</article>
-		<!-- end sitemap -->
-
-		 <!-- start function button -->
-		<article class="function-button">
-			<div class="btn-group">
-				<button type="button" class="btn btn-danger">Đăng tin</button>
-				<button type="button" style="border-left-color:#FF7A12" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="caret"></span>
-					<span class="sr-only">Toggle Dropdown</span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a href="#">Đăng tin VIP</a></li>
-					<li><a href="#">Đăng ký mua/thuê</a></li>                      
-					<li role="separator" class="divider"></li>
-					<li><a href="#">Đăng ký nhận tin</a></li>
-				</ul>
-			</div>
-		</article>
-		 <!-- end function button -->
-
-		<!-- start user-box -->
-		<article class="user-box">
-			<div class="btn-group">
-				 <a href="#" class="btn-link dropdown-toggle" data-toggle="dropdown">
-					<div class="img-user"></div>
-					<span>Đăng nhập</span>
-				 </a>
-				 <ul class="dropdown-menu">
-					<li><a href="#" data-toggle="modal" data-target="#dang_nhap">Đăng nhập</a></li>
-					<li><a href="#">Đăng ký</a></li>                      
-					<li role="separator" class="divider"></li>
-					<li class="title">Đăng nhập bằng:</li>
-					<li class="social-link">
-						 <a href="#"><img src="/assets/logo/facebook-32.png"></a>
-						 <a href="#"><img src="/assets/logo/google_plus-32.png"></a>
-						 <a href="#"><img src="/assets/logo/twitter-32.png"></a>
+			<!-- start sitemap -->
+			<article class="sitemap hidden-xs hidden-sm">
+				<ul>
+					<li>
+						<div class="btn-group">
+							<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Bất động sản <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Bán</a></li>
+								<li><a href="#">Cho thuê</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="btn-group">
+							<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Dự án <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Bán</a></li>
+								<li><a href="#">Cho thuê</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="btn-group">
+							<button type="button" class="btn btn-link">
+								Doanh nghiệp
+							</button>
+						</div>
+					</li>
+					<li>
+						<div class="btn-group">
+							<button type="button" class="btn btn-link">
+							Tin tức
+							</button>
+						</div>
 					</li>
 				</ul>
-			</div>
-		</article>
+			</article>
+			<!-- end sitemap -->
 
-		<article class="user-box-login" style="display:none">
-			<div class="btn-group">
-				<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-					<img src="/assets/icon/avatar.jpg">
-					<span>PenguinBlue-Chip</span>
-				</a>
-				<ul class="dropdown-menu">
-					<li><a href="#">Thông tin tài khoản</a></li>
-					<li><a href="#">Đổi mật khẩu</a></li>
-					<li><a href="#">Nâng cấp VIP</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">Đăng xuất</a></li>
-				</ul>
-			</div>
-		</article>
-		<!-- end user -->
+			 <!-- start function button -->
+			<article class="function-button hidden-xs hidden-sm">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger">Đăng tin</button>
+					<button type="button" style="border-left-color:#FF7A12" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#">Đăng tin VIP</a></li>
+						<li><a href="#">Đăng ký mua/thuê</a></li>                      
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Đăng ký nhận tin</a></li>
+					</ul>
+				</div>
+			</article>
+			 <!-- end function button -->
+
+			<!-- start user-box -->
+			<article class="user-box hidden-xs hidden-sm">
+				<div class="btn-group">
+					 <a href="#" class="btn-link dropdown-toggle" data-toggle="dropdown">
+						<div class="img-user"></div>
+						<span>Đăng nhập</span>
+					 </a>
+					 <ul class="dropdown-menu">
+						<li><a href="#" data-toggle="modal" data-target="#dang_nhap">Đăng nhập</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#dang_ky">Đăng ký</a></li>                      
+						<li role="separator" class="divider"></li>
+						<li class="title">Đăng nhập bằng:</li>
+						<li class="social-link">
+							 <a href="#"><img src="/assets/logo/facebook-32.png"></a>
+							 <a href="#"><img src="/assets/logo/google_plus-32.png"></a>
+							 <a href="#"><img src="/assets/logo/twitter-32.png"></a>
+						</li>
+					</ul>
+				</div>
+			</article>
+
+			<article class="user-box-login hidden-xs hidden-sm" style="display:none">
+				<div class="btn-group">
+					<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+						<img src="/assets/icon/avatar.jpg">
+						<span>PenguinBlue-Chip</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Thông tin tài khoản</a></li>
+						<li><a href="#">Đổi mật khẩu</a></li>
+						<li><a href="#">Nâng cấp VIP</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Đăng xuất</a></li>
+					</ul>
+				</div>
+			</article>
+			<!-- end user -->
+
+			<!-- start mini menu -->
+			<article class="btn-mini-menu visible-xs visible-sm">
+				<a href="#" class="icon-mini-menu"></a>
+			</article>
+			<!-- end mini menu -->
 		</div>
 	</section>
 </header>
@@ -190,11 +196,11 @@
 				Email: info@muanhaonline.vn
 			</p>
 			<p>
-				theo dõi chúng tôi trên
-				<a href="#"><img src="/assets/icon/facebook2.png"></a>
-				<a href="#"><img src="/assets/icon/twitter2.png"></a>
-				<a href="#"><img src="/assets/icon/youtube2.png"></a>
-				<a href="#"><img src="/assets/icon/google2.png"></a>
+				<span>theo dõi chúng tôi trên</span>
+				<a href="#"><i class="icon icon-facebook"></i></a>
+				<a href="#"><i class="icon icon-twitter"></i></a>
+				<a href="#"><i class="icon icon-youtube"></i></a>
+				<a href="#"><i class="icon icon-googleplus"></i></a>
 			</p>
 		</div>
 	</div>
@@ -219,7 +225,7 @@
 
 <!-- start modal -->
 
-<!-- Đăng ký Modal -->
+<!-- Đăng nhập Modal -->
 <div class="modal fade" id="dang_nhap">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
@@ -229,19 +235,19 @@
 			</div>
 			<div class="modal-body">
 				<form>
-				 <div class="form-group">
-						<label for="Username">Tên tài khoản</label>
-						<input class="form-control" type="text" id="Username">
-				 </div>
-				 <div class="form-group">
-						<label for="Password">Mật khẩu</label>
-						<input class="form-control" type="password" id="Password">
-				 </div>
-				 <div class="form-group">
+					<div class="form-group">
+						<label for="username">Email</label>
+						<input class="form-control" type="text" id="username">
+					</div>
+					<div class="form-group">
+						<label for="password">Mật khẩu</label>
+						<input class="form-control" type="password" id="password">
+					</div>
+					<div class="form-group">
 						<div class="checkbox">
 							 <label><input type="checkbox">Ghi nhớ</label>
 						</div>
-				 </div>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -251,11 +257,82 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!-- Đăng ký Modal -->
+<div class="modal fade" id="dang_ky">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Đăng ký</h4>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<label for="Email">Email</label>
+						<input class="form-control" type="text" id="Email">
+					</div>
+					<div class="form-group">
+						<label for="pass">Mật khẩu</label>
+						<input class="form-control" type="password" id="pass">
+					</div>
+					<div class="form-group">
+						<label for="repeat_password">Xác nhận mật khẩu</label>
+						<input class="form-control" type="password" id="repeat_password">
+					</div>
+					<div class="form-group">
+						<label for="fullname">Họ tên</label>
+						<input class="form-control" type="text" id="fullname">
+					</div>					
+					<div class="form-group">
+						<div class="radio">
+							 <label><input type="radio" name="Gender" checked>Nam</label>
+							 <label><input type="radio" name="Gender">Nữ</label>
+							 <label><input type="radio" name="Gender">Khác</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="birthday">Ngày sinh</label>
+						<input class="form-control datepicker" data-provide="datepicker" type="text" id="birthday">
+					</div>
+					<div class="form-group">
+						<label for="enterprise">Doanh nghiệp</label>
+						<input class="form-control" type="text" id="enterprise">
+					</div>
+					<div class="form-group">
+						<label for="mobile">Điện thoại di động</label>
+						<input class="form-control" type="text" id="mobile">
+					</div>
+					<div class="form-group">
+						<label for="home_phone">Điện thoại cố định</label>
+						<input class="form-control" type="text" id="home_phone">
+					</div>
+					<div class="form-group">
+						<label for="address">Địa chỉ</label>
+						<input class="form-control" type="text" id="address">
+					</div>
+					<div class="form-group">
+						<label for="avatar">Ảnh cá nhân</label>
+						<input class="form-control" type="file" id="avatar">
+					</div>
+					<div class="checkbox">
+					<label for="regulation"><input type="checkbox" id="regulation">Đọc và chấp nhận <a href="#" target="_blank">Quy định</a> của chúng tôi</label>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary">Đăng ký thành viên</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- end modal -->
 </body>
 
 <script type="text/javascript" src="/assets/shared/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
+<script type="text/javascript" src="/assets/shared/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="/assets/shared/layout_front.js"></script>
 <%= yield :scripts %>
 </html>

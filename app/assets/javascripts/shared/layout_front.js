@@ -8,9 +8,12 @@ $(function () {
 
 	//init search-box
 	initMore();
+
+	//init datepicker
+	$('.datepicker').datepicker();
 });
 
-//end
+//endregion
 
 //region search-box
 function initMore() {
