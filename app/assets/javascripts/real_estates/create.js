@@ -81,7 +81,6 @@ $(function () {
   if (!$form.data('full')) {
     toggleUntilFull(false); 
   }
-  initPrice();
   initSaveDraft();
   initLocation();
   initCheckArea();
@@ -153,60 +152,6 @@ $(function () {
 
   /*
     / Unit format
-  */
-
-  /*
-    Price format
-  */
-
-  function initPrice() {
-    $form.find('#sell_price, #rent_price').on({
-      focus: function () {
-        _temp['price'] = this.value;
-      },
-      keyup: function () {
-        var input = this;
-        var value = input.value;
-
-        var oldPrice = _temp['price'];
-        if (oldPrice == value) {
-          return;
-        }
-
-        // Get current selection end
-        var selectionEnd = value.length - input.selectionEnd;
-
-        value = moneyFormat(intFormat(value), ',');
-        input.value = value;
-        selectionEnd = value.length - selectionEnd;
-        input.setSelectionRange(selectionEnd, selectionEnd);
-
-        _temp['price'] = value;
-      },
-      paste: function () {
-        var input = this;
-        var value = input.value;
-
-        var oldPrice = _temp['price'];
-        if (oldPrice == value) {
-          return;
-        }
-
-        // Get current selection end
-        var selectionEnd = value.length - input.selectionEnd;
-
-        value = moneyFormat(intFormat(value), ',');
-        input.value = value;
-        selectionEnd = value.length - selectionEnd;
-        input.setSelectionRange(selectionEnd, selectionEnd);
-
-        _temp['price'] = value;
-      }
-    }).keyup();
-  }
-
-  /*
-    / Price format
   */
 
   /*

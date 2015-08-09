@@ -5,6 +5,7 @@ function initForm($form, params) {
 
 	initToggle();
 	initFileInput();
+	initSeparateNumber();
 	initConstraint();
 	initSubmit();
 	if ($form.is('[data-entertotab]')) {
@@ -342,6 +343,60 @@ function initForm($form, params) {
 		/ File input
 	*/
 
+  /*
+    Price format
+  */
+
+  function initSeparateNumber() {
+    $form.find('.separate-number').on({
+      focus: function () {
+        _temp['price'] = this.value;
+      },
+      keyup: function () {
+        var input = this;
+        var value = input.value;
+
+        var oldPrice = _temp['price'];
+        if (oldPrice == value) {
+          return;
+        }
+
+        // Get current selection end
+        var selectionEnd = value.length - input.selectionEnd;
+
+        value = moneyFormat(intFormat(value), ',');
+        input.value = value;
+        selectionEnd = value.length - selectionEnd;
+        input.setSelectionRange(selectionEnd, selectionEnd);
+
+        _temp['price'] = value;
+      },
+      paste: function () {
+        var input = this;
+        var value = input.value;
+
+        var oldPrice = _temp['price'];
+        if (oldPrice == value) {
+          return;
+        }
+
+        // Get current selection end
+        var selectionEnd = value.length - input.selectionEnd;
+
+        value = moneyFormat(intFormat(value), ',');
+        input.value = value;
+        selectionEnd = value.length - selectionEnd;
+        input.setSelectionRange(selectionEnd, selectionEnd);
+
+        _temp['price'] = value;
+      }
+    }).keyup();
+  }
+
+  /*
+    / Price format
+  */
+
 	/*
 		Constraint
 	*/
@@ -458,8 +513,8 @@ function initForm($form, params) {
 				var $input = $(this);
 
 				var 
-					minValue = $input.data('min-value'),
-					maxValue = $input.data('max-value');
+					minValue = $input.data('minvalue'),
+					maxValue = $input.data('maxvalue');
 
 				if (minValue && this.value < minValue) {
 					$(this).val(minValue).change();

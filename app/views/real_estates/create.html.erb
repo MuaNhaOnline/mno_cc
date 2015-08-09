@@ -154,7 +154,7 @@
         <article class="form-group" data-toggled-element="sell un-rent">
           <label for="sell_price"><%= t 'real_estate.attribute.sell_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control" id="sell_price">
+            <input data-constraint="integer" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -168,7 +168,7 @@
         <article class="form-group" data-toggled-element="rent un-sell">
           <label for="rent_price"><%= t 'real_estate.attribute.rent_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control" id="rent_price">
+            <input data-constraint="integer" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -510,7 +510,7 @@
               <%= t 'real_estate.attribute.constructional_quality' %>
             </label>
             <div class="input-group">
-              <input data-constraint="required integer range" data-min-value="0" data-max-value="100" value="<%= @re.constructional_quality %>" class="form-control" name="real_estate[constructional_quality]" id="constructional_quality">
+              <input data-constraint="required integer range" data-minvalue="0" data-maxvalue="100" value="<%= @re.constructional_quality %>" class="form-control" name="real_estate[constructional_quality]" id="constructional_quality">
               <div class="input-group-addon">%</div>
             </div>
           </article>

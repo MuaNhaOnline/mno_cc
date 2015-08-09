@@ -1,76 +1,91 @@
 $(function () {
-    var $form = $('#create_project_form');
-    init_DatePicker($form.find('[data-type="date"]'));
-    init_UnitFormat([{
-        select: $form.find('#currency_id'),
-        input: $form.find('#price')
-    }]);
-    initImageUpload($form.find('.image-upload input[type="file"]'), 'project');
-    init_SaveDraft($form);
-    init_Submit($form);
-});
+  var $form = $('#create_p');
 
-function init_SaveDraft($form) {
-    $form.find('[data-function="save-draft"]').on('click', function () {
-        $.ajax({
-            url: '/projects/create',
-            type: 'POST',
-            data: $form.serialize() + '&draft',
-            dataType: 'JSON'
-        }).done(function (data) {
-            if (data.status == 1) {
+  initForm($form, {
+    object: 'project'
+  });
+  initLocation();
+  initCheckArea();
+  initChangeCurrency();
 
-                if ($form.children('input[name="real_estate[id]"]').length == 0) {
-                    $form.prepend('<input type="hidden" name="project[id]" value="' + data.result + '" />');
-                    $form.find('button[type="submit"]').text('Bổ sung');
-                }
-                alert('Lưu tạm thành công');
-            }
-            else {
-                alert('Lưu tạm thất bại');
-            }
-        }).fail(function () {
-            alert('Lưu tạm thất bại');
-        });
+  /*
+    Init location
+  */
+
+  function initLocation() {
+    var 
+      $lat = $form.find('#lat'),
+      $long = $form.find('#long');
+
+    $form.find('#map').css({
+      height: '300px'
+    }).locationpicker({
+      radius: 100,
+      location: {latitude: $lat.val(), longitude: $long.val()},
+      inputBinding: {
+        latitudeInput: $lat,
+        longitudeInput: $long,
+        locationNameInput: $form.find('#location'),
+        streetInput: $form.find('#street'),
+        wardInput: $form.find('#ward'),
+        districtInput: $form.find('#district'),
+        provinceInput: $form.find('#province')
+      },
+      enableAutocomplete: true
     });
-}
+  }
 
-function init_Submit($form) {
-    init_SubmitForm($form, {
-        validate: function () {
-            var hasOne = false;
-            $('.image-upload input[type="hidden"]').each(function () {
-                if (this.value) {
-                    hasOne = true;
-                }
-            });
+  /*
+    / Init location
+  */
 
-            if (!hasOne) {
-                return {
-                    status: 0,
-                    result: $($('.image-upload input[type="hidden"]')[0]).parents('.image-upload')
-                };
-            }
-            return {
-                status: 1
-            }
-        },
-        submit: function () {
-            $.ajax({
-                url: '/projects/create',
-                type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON'
-            }).done(function (data) {
-                if (data.status == 1) {
-                    window.location = '/projects/' + data.result.id;
-                }
-                else {
-                    alert('Thất bại');   
-                }
-            }).fail(function () {
-                alert('Thất bại');
-            });
+  /*
+    Check area
+  */
+
+  function initCheckArea() {
+    var 
+      $campusArea = $form.find('#campus_area'),
+      $widthX = $form.find('#width_x'),
+      $widthY = $form.find('#width_y'),
+      $areaAlert = $form.find('#area_alert');
+
+    $campusArea.add($widthX).add($widthY).on({
+      'change': function () {
+        // If empty => valid too
+        if ($campusArea.val() && $widthX.val() && $widthY.val() && !isValidArea($campusArea.val(), $widthX.val(), $widthY.val())) {
+          $areaAlert.show();
         }
-    })
-}
+        else {
+          $areaAlert.hide();
+        }
+      }
+    }).change();
+
+    function isValidArea(area, widthX, widthY) {
+      return widthX * widthY <= area;
+    }
+  }
+
+  /*
+    / Check area
+  */
+
+  /*
+    Change currency
+  */
+
+  function initChangeCurrency() {
+    var 
+      $currency = $('#currency_id'),
+      $display = $('#currency_display');
+
+    $currency.on('change', function () {
+      $display.text($currency.children(':selected').text());
+    }).change();
+  }
+
+  /*
+    / Change currency
+  */
+})
