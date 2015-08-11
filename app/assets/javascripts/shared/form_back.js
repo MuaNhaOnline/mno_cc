@@ -627,7 +627,7 @@ function initForm($form, params) {
 
 			// Check if not exist error => remove error class
 			if ($callout.children().length == 0) {
-				$box.removeClass('box-error');
+				$box.removeClass('box-danger');
 				$callout.remove();
 			}
 		}
