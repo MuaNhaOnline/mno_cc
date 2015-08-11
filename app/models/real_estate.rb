@@ -33,7 +33,6 @@ class RealEstate < ActiveRecord::Base
   validates :district_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :ward_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :street_id, presence: { message: 'Địa chỉ không được bỏ trống' }
-  validates :street_type_id, presence: { message: 'Loại đường không được bỏ trống' }
   validates :real_estate_type_id, presence: { message: 'Loại bất động sản không được bỏ trống' }
   validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
   validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
@@ -77,14 +76,24 @@ class RealEstate < ActiveRecord::Base
 
     errors.add(:alley_width, 'Kích thước hẻm không được bỏ trống') if fields.include?(:alley_width) && alley_width.blank?
     errors.add(:shape, 'Hình dáng không được bỏ trống') if fields.include?(:shape) && shape.blank?
-    errors.add(:shape_width, 'Kích thước hình dáng không được bỏ trống') if fields.include?(:shape_width) && shape_width.blank?
+    if fields.include? :shape_width
+      if shape_width.blank?
+        errors.add(:shape_width, 'Kích thước mặt hậu không được bỏ trống') 
+      elsif !width_x.blank?
+        if shape == 1
+          errors.add(:shape_width, 'Mặt hậu không hợp lệ') unless shape_width > width_x
+        elsif shape == 2
+          errors.add(:shape_width, 'Mặt hậu không hợp lệ') unless shape_width < width_x
+        end
+      end
+    end
     errors.add(:custom_legal_record_type, 'Loại hồ sơ không được bỏ trống') if fields.include?(:custom_legal_record_type) && custom_legal_record_type.blank?
     errors.add(:custom_planning_status_type, 'Tình trạng quy hoạch không được bỏ trống') if fields.include?(:custom_planning_status_type) && custom_planning_status_type.blank?
     errors.add(:campus_area, 'Diện tích khuôn viên không được bỏ trống') if fields.include?(:campus_area) && campus_area.blank?
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area.blank?
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality.blank?
-    errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0
+    errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0    
   end
 
 # / Validates
@@ -155,14 +164,14 @@ class RealEstate < ActiveRecord::Base
     params[:region_utility_ids] = [] unless params.has_key? :region_utility_ids
 
     # Images 
-    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',')
+    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',').take(5)
 
     # Get field
 
     fields = [
       :title, :description, :purpose_id, :sell_price, :rent_price, :currency_id, :sell_unit_id,
       :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
-      :address_number, :street_type_id, :is_alley, :real_estate_type_id, :width_x, :width_y,
+      :address_number, :street_type, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
       :lat, :long,  

@@ -119,13 +119,6 @@ RegionUtility.create [
 	{ name: 'n_8' }
 ]
 
-StreetType.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE street_types_id_seq RESTART WITH 1')
-StreetType.create [
-	{ name: 'public', options: '{"default":""}' },
-	{ name: 'private' }
-]
-
 Unit.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE units_id_seq RESTART WITH 1')
 Unit.create [

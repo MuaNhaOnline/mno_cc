@@ -12,6 +12,12 @@ function initForm($form, params) {
 		initEnterKey();	
 	}
 
+	$form.find('.box').on('click', function (e) {
+		if ($(e.target).is('.box, .box-header, .box-body, .box-footer, .form-group, .checkbox, .radio')) {
+			$(this).find('[data-widget="collapse"]').click();
+		}
+	});
+
 	/*
 		Toggle
 	*/
@@ -128,12 +134,12 @@ function initForm($form, params) {
 					});
 				}
 
-				if ($element.is('.form-group')) {
-					initConstraintFormGroup($element);
-				}
-				else {
-					initConstraintFormGroup($element.find('.form-group'));
-				}
+				// if ($element.is('.form-group')) {
+				// 	initConstraintFormGroup($element);
+				// }
+				// else {
+				// 	initConstraintFormGroup($element.find('.form-group'));
+				// }
 			}
 			else {
 				$element.prop('disabled', !on);
@@ -148,10 +154,10 @@ function initForm($form, params) {
 				else {
 					$element.addClass('off').trigger('disable');;
 
-					toggleValidInput($element, false);	  
+					toggleValidInput($element, true);	  
 				}
 
-				initConstraintFormGroup($element.closest('.form-group'));
+				// initConstraintFormGroup($element.closest('.form-group'));
 			}
 		}
 	}
@@ -174,8 +180,11 @@ function initForm($form, params) {
 
 			var $wrapper = $('<label class="file-uploader form-control"></label>');
 
+			var $label = $('<div class="file-upload-label"><div class="fa fa-photo"></div><div>' + _t.form.label_image_upload + '</div></div>');
+
 			$fileUpload.after($wrapper);
 			$fileUpload.appendTo($wrapper);
+			$label.appendTo($wrapper);
 
 			var initValue = $fileUpload.attr('data-init-value') || '';
 			var constraint = $fileUpload.attr('data-constraint');
@@ -214,7 +223,7 @@ function initForm($form, params) {
 						$(hiddenInput).change();
 					});
 
-					$wrapper.append($item);
+					$wrapper.prepend($item);
 				});
 			}
 		});
@@ -228,7 +237,15 @@ function initForm($form, params) {
 			}
 
 			// Get fileupload
-			var $fileUpload = $(this);
+			var $fileUpload = $(this),
+				amount = $fileUpload.data('amount'),
+				size = $fileUpload.data('size'),
+				types = $fileUpload.data('type');
+
+			if (types) {
+				types = types.split(' ');
+			}
+
 			var isMulti = $fileUpload.is('[multiple]');
 
 			// Get type of image
@@ -237,9 +254,30 @@ function initForm($form, params) {
 			// Get wrapper
 			var $wrapper = $fileUpload.parent();
 
+			var $hiddenInput = $wrapper.find('input[type="hidden"]');
+
+			// Check amount
+			var currentAmount = $hiddenInput.val().split(',').length;
+
 			// Process files
 			$(this.files).each(function () {
 				var file = this;
+
+				// Check type
+				if (types && $.inArray(file.name.split('.').pop(), types) === -1) {
+					return;
+				}
+
+				// Check size
+				if (size && file.size > size) {
+					return;
+				}
+
+				// Check amount
+				if (amount && ++currentAmount > amount) {
+					return false;
+				}
+
 
 				var fileReader = new FileReader();
 
@@ -290,7 +328,6 @@ function initForm($form, params) {
 							$progressBar.parent().remove();
 
 							// Value
-							var $hiddenInput = $wrapper.find('input[type="hidden"]');
 							if (isMulti) {
 								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change();	
 							}
@@ -401,31 +438,29 @@ function initForm($form, params) {
 		Constraint
 	*/
 
-	function initConstraintFormGroup($formGroups) {
-		$formGroups.filter(function () {
-			var ok = false;
+	// function initConstraintFormGroup($formGroups) {
+	// 	$formGroups.filter(function () {
+	// 		var ok = false;
 
-			$(this).find('[data-constraint~="required"]').each(function () {
-				if (!this.value) {
-					$(this).data('invalid', ok = true);
-					return false;
-				}
-			});
+	// 		$(this).find('[data-constraint~="required"]').each(function () {
+	// 			if (!this.value) {
+	// 				$(this).data('invalid', ok = true);
+	// 				return false;
+	// 			}
+	// 		});
 
-			return ok;
-		}).addClass('has-error');
-	}
+	// 		return ok;
+	// 	}).addClass('has-error');
+	// }
 
 	function initConstraint() {
-		initConstraintFormGroup($form.find('.form-group'));
+		// initConstraintFormGroup($form.find('.form-group'));
 
 		$form.find('[data-constraint]').on({
 			'change': function () {
 				var $input = $(this);
 				if ($input.data('invalid')) {
-					if (!checkInvalidInput($input)) {
-						toggleValidInput($input, true);
-					}
+					checkInvalidInput($(this));	
 				}
 			}
 		});
@@ -526,35 +561,51 @@ function initForm($form, params) {
 			}
 		});
 
-		$form.find('[data-constraint~="required"]').on({
-			change: function () {
-				if (!this.value) {
-					$(this).data('invalid', true).closest('.form-group').addClass('has-error');
-				}
-			}
-		});
+		// $form.find('[data-constraint~="required"]').on({
+		// 	change: function () {
+		// 		if (!this.value) {
+		// 			$(this).data('invalid', true).closest('.form-group').addClass('has-error');
+		// 		}
+		// 	}
+		// });
 	};
 
 	//Check input
 	function checkInvalidInput($input) {
 		if ($input.is('[data-constraint~="required"]')) {
 			if (!$input.val()) {
+				toggleValidInput($input, false, 'required');
 				return 'required';
 			}
 		}
 
-		return;
+		if (typeof $input.data('validate') === 'function') {
+			var result = $input.data('validate')();
+
+			console.log($input);
+			if (result.status === true) {
+				var $validInput = result.input || $input;
+				toggleValidInput($validInput, true, result.constraint || 'custom');
+			}
+			else {
+				var $invalidInput = result.input || $input;
+				toggleValidInput($invalidInput, false, result.constraint || 'custom');
+			}
+			return;
+		}
+
+		toggleValidInput($input, true);
 	}
 
 	/*
 		Toggle valid input
 	*/
-	$form.toggleValidInput = function ($input, isValid, constraint) {
-		toggleValidInput($input, isValid, constraint);
+	$form.toggleValidInput = function ($input, isValid, constraint, name) {
+		toggleValidInput($input, isValid, constraint, name);
 	};
 
-	function toggleValidInput($input, isValid, constraint) {
-		var name = $input.attr('name');
+	function toggleValidInput($input, isValid, constraint, name) {
+		var name = name || $input.attr('name');
 
 		if (isValid) {
 			// Set valid input
@@ -569,14 +620,14 @@ function initForm($form, params) {
 			// Remove error message, remove error class from box
 			var 
 				$box = $input.closest('.box'),
-				$callout = $box.find('.callout-danger');
+				$callout = $box.find('.callout-error');
 
 			// Remove error message
 			$callout.find('[aria-name="' + name + '"]').remove();
 
 			// Check if not exist error => remove error class
 			if ($callout.children().length == 0) {
-				$box.removeClass('box-danger');
+				$box.removeClass('box-error');
 				$callout.remove();
 			}
 		}
@@ -598,9 +649,9 @@ function initForm($form, params) {
 
 			// Add error message
 			// Get callout
-			var $callout = $box.find('.callout-danger');
+			var $callout = $box.find('.callout-error');
 			if ($callout.length == 0) {
-				$callout = $('<div class="callout callout-danger"></div>');
+				$callout = $('<section class="callout-error"></section>');
 				$box.find('.box-body').prepend($callout);
 			}
 
@@ -658,10 +709,9 @@ function initForm($form, params) {
 			// Check validate
 			$form.find('[data-constraint]:enabled').each(function () {
 				var $input = $(this);
-				var invalid = checkInvalidInput($input);
-				if (invalid) {
-					toggleValidInput($input, false, invalid)
-				};				
+				if (!$input.data('invalid')) {
+					checkInvalidInput($input);	
+				}
 			})
 
 			var $dangerBox = $form.find('.box-danger');

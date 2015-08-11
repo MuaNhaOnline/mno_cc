@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807114954) do
+ActiveRecord::Schema.define(version: 20150810133350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -276,7 +276,7 @@ ActiveRecord::Schema.define(version: 20150807114954) do
     t.integer  "ward_id"
     t.integer  "street_id"
     t.text     "address_number"
-    t.integer  "street_type_id"
+    t.integer  "street_type"
     t.integer  "is_alley"
     t.decimal  "alley_width"
     t.integer  "real_estate_type_id"
@@ -335,16 +335,6 @@ ActiveRecord::Schema.define(version: 20150807114954) do
     t.text     "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "street_types", force: :cascade do |t|
-    t.text     "name"
-    t.text     "code"
-    t.text     "options"
-    t.integer  "index"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "order"
   end
 
   create_table "streets", force: :cascade do |t|

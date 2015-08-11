@@ -5,7 +5,8 @@ var _t = {
 		success_title: 'Thành công',
 		confirm_title: 'Xác nhận',
 		yes: 'Có',
-		no: 'Không'
+		no: 'Không',
+		label_image_upload: 'Đăng hình ảnh tại đây'
 	},
 	user: {
 		validate: {
@@ -28,12 +29,14 @@ var _t = {
 			hide_status: 'Ẩn'
 		},
 		validate: {
+			'real_estate[alley_width]_required': 'Độ rộng của hẻm không thể bỏ trống',
 			'real_estate[constructional_area]_required': 'Diện tích xây dựng không thể bỏ trống',
 			'real_estate[using_area]_required': 'Diện tích sử dụng không thể bỏ trống',
 			'real_estate[campus_area]_required': 'Diện tích khuôn viên không thể bỏ trống',
 			'real_estate[width_x]_required': 'Chiều ngang không thể bỏ trống',
 			'real_estate[width_y]_required': 'Chiều dài không thể bỏ trống',
-			'real_estate[shape_width]_required': 'Chênh lệch không thể bỏ trống',
+			'real_estate[shape_width]_required': 'Mặt hậu không thể bỏ trống',
+			'real_estate[shape_width]_width': 'Kích thước mặt hậu không hợp lệ',
 			'real_estate[floor_number]_required': 'Tầng không thể bỏ trống',
 			'real_estate[constructional_quality]_required': 'Chất lượng xây dựng còn lại không thể bỏ trống',
 			'real_estate[title]_required': 'Tiêu đề không thể bỏ trống',
