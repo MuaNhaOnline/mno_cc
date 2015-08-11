@@ -87,13 +87,15 @@ $(function () {
     Toggle until full elements
   */
 
-  function toggleUntilFull(on) {
+  function toggleUntilFull(on, isStart) {
     if (on) {
       $form.find('.input-box.until-full').show().find(':input').prop('disabled', false);
       $form.find('[aria-click="turn-on-until-full"]').remove();
-      $body.animate(
-        { scrollTop: $form.find('.input-box.until-full:visible:eq(0)').offset().top - 20 }
-      );
+      if (!isStart) {
+        $body.animate(
+          { scrollTop: $form.find('.input-box.until-full:visible:eq(0)').offset().top - 20 }
+        );
+      }
       $form.data('full', true);
     }
     else {
@@ -251,7 +253,7 @@ $(function () {
   */
 
   function initUntilFull() {
-    toggleUntilFull($form.data('full'));
+    toggleUntilFull($form.data('full'), true);
   }
 
   /*
