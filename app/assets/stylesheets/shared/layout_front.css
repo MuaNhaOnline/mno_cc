@@ -27,18 +27,20 @@ header {
 	header .navbar-fixed-top {
 		border-bottom: 1px solid #ddd;
 		box-shadow: 0px 0px 2px #ccc;
+		height: 46px;
 	}
 
 	/*start fixed header*/
 	.header {            
 		pading: 0 10px;
-		height: 45px;
+		height: 100%;
 		display: flex;
 	}
 	
 		/*start logo*/
 		.logo {
 			height: 100%;
+			display: flex;
 		}
 			.logo img {
 				height: 100%;
@@ -82,7 +84,7 @@ header {
 		.function-button {            
 			margin: auto 0;
 			margin-left: auto;
-			margin-right: 70px
+			margin-right: 10px;
 		}
 			.function-button button {
 				background-color: #ff6511;
@@ -104,7 +106,7 @@ header {
 
 		/*start user-box*/
 		.user-box {
-
+			margin: auto 0;
 		}
 			.user-box a {
 				padding: 9px 0;
@@ -131,7 +133,8 @@ header {
 		}
 			/*start dropdown-menu of user-box*/
 			.user-box .dropdown-menu {
-				margin-top: 4px;
+				margin-top: 6px;
+				left: -90px !important;
 			}
 			.user-box .dropdown-menu a:hover {
 				background-color: #54b40d;
@@ -266,16 +269,18 @@ footer {
 .search-box {
 	width: 550px;   
 	border: 1px solid #000;
-	background-color: #111;
-	opacity: 0.9;
+	background-color: rgba(0, 0, 0, 0.7);
 	border-radius: 4px;
 	text-align: center;
 	padding-bottom: 10px;
 }
 	.search-box .title {
 		text-align: center;
-		color: #fcfcfc;
+		color: #ff6511;		
 	}
+		.search-box .title h3 {
+			font-weight: bold;
+		}
 	.search-box .tab {
 		text-align: center;         
 		color: #fff;                    
@@ -298,14 +303,14 @@ footer {
 			.search-box .tab label input:checked ~ span,
 			.search-box .tab label input:hover ~ span,
 			.search-box .tab label input:focus ~ span {
-				color: #ff941e;
+				color: #ff6511;
 			}
 			.search-box .tab label input ~ .sale {
 				display: inline-block;
 				width: 32px;
 				height: 32px;
 				vertical-align: -10px;                          
-				background: url('/assets/icon/Real_Estate_Investment-32.png') no-repeat center center;                          
+				background: url('/assets/icon/Real_Estate_Investment-32-hover.png') no-repeat center center;                          
 				margin-right: 10px;
 				transition: 0.2s;
 			}
@@ -319,7 +324,7 @@ footer {
 				width: 32px;
 				height: 32px;
 				vertical-align: -10px;                          
-				background: url('/assets/icon/Rent_Home-32.png') no-repeat center center;                           
+				background: url('/assets/icon/Rent_Home-32-hover.png') no-repeat center center;                           
 				margin-right: 10px;
 				transition: 0.2s;
 			}
@@ -397,7 +402,7 @@ footer {
 			height: 100%;
 			position: absolute;
 			top: 0;
-			right: 86px;
+			right: 55px;
 		}
 			.search-box form .history-search button {
 				padding-left: 0;
@@ -411,6 +416,11 @@ footer {
 		}
 			.search-box form button.btn-success:hover {
 				background-color: #2b5b07;                
+			}
+
+			.btn-more {
+				font-size: 12px;
+				margin: 15px 0 10px 0;
 			}
 /*end search-box*/
 
@@ -543,11 +553,12 @@ footer {
 }
 	.item-sm a:hover {
 		text-decoration: none;
-	}.suggest-project img {
+	}
+	.item-sm img {
 		width: 100%;
 		height: 170px;
 	}
-.item-sm .title {
+.item-sm a > .title {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	font-size: 17px;	
@@ -599,7 +610,7 @@ footer {
 
 }
 	/*start Title*/
-	.block .title {
+	.block > .title {
 		text-align: center;
 		text-transform: uppercase;
 		font-size: 20px;
@@ -608,12 +619,12 @@ footer {
 		transition: 0.2s;
 		color: #666;
 	}
-	.block .title > a {
+	.block > .title > a {
 		color: #666;
 		transition: 0.2s;
 		position: relative;
 	}
-		.block .title > a:before {
+		.block > .title > a:before {
 			content: '';
 			position: absolute;
 			width: 300px;
@@ -624,7 +635,7 @@ footer {
 			top: calc(50% - 2.5px);
 			margin-right: 20px;
 		}
-		.block .title > a:after {
+		.block > .title > a:after {
 			content: '';
 			position: absolute;
 			width: 300px;
@@ -643,10 +654,10 @@ footer {
 			text-decoration: none;
 			color: #54b40d;
 		}
-		.block a.link:hover i.line {
+		.block a.link:hover i.icon-link {
 			background: url('/assets/icon/link-12-hover.png') no-repeat center center;
 		}
-	.block i.line {
+	.block i.icon-link {
 		position: relative;
 		vertical-align: middle;
 		width: 12px;

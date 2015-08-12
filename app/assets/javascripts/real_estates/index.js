@@ -1,0 +1,5 @@
+// Initilization
+$(function() {
+	
+});
+// end

@@ -6,254 +6,881 @@
     <script src="/assets/real_estates/index.js"></script>
 <% end %>
 
-<!-- #start filter -->
-<article class="filter-box">
-  <div class="home-rich-filters">
-    <ul>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-tphcm">TPHCM</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-hà_nội">HÀ NỘI</a></li>
-      <li class="col-sm-1 hidden-xs"><a href="/san_pham/tinh-thanh/17-bình_dương">BÌNH DƯƠNG</a></li>
-      <li class="col-sm-1 hidden-xs"><a href="/san_pham/tinh-thanh/47-hải_phòng">HẢI PHÒNG</a></li>
-      <li class="col-sm-1 hidden-xs"><a href="/san_pham/tinh-thanh/2-đà_nẵng">ĐÀ NẴNG</a></li>
-      <li class="col-sm-1" id="show_city_list"><a href="#"><span class="pe-7s-angle-down-circle"></span></a></li>
-    </ul>
+<!--start Search Box -->
+<section class="search">
+  <div class="search-box">
+    <div class="title">
+      <h3>Hãy để MuanhaOnline tìm nhà giúp bạn.</h3>
+    </div>
+    <form>
+      <div class="tab">
+        <label><input type="radio" name="typeTab"><i class="sale"></i><span>Nhà Bán</span></label>
+        <label><input type="radio" name="typeTab"><i class="rent"></i><span>Nhà Thuê</span></label>       
+      </div>
+      <div class="form-group-custom">
+        <input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">        
+        <div class="separator">
+          <span>|</span>
+        </div>
+        <div class="btn-search" data-toggle="tooltip" data-placement="left" title="Tìm kiếm">
+          <button type="submit"></button>
+        </div>
+        <div class="btn-group history-search">
+          <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          từ khóa
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Từ khóa 01</a></li>
+            <li><a href="#">Từ khóa 02</a></li>
+            <li><a href="#">Từ khóa 03</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="btn-more">
+        <button type="button" class="btn btn-success btn-sm" data-function="zestimate">Định giá khu vực này</button>
+      </div>
+      <section class="more-search" id="more_search" style="display:none">
+        <div class="form-group-custom container-fluid">
+          <div class="row">
+            <div class="col-md-6 input-inline">
+              <select class="form-control input-sm">
+                <option>--Chọn thành phố/Tỉnh--</option>
+                <option>Thành phố Hồ Chí Minh</option>
+                <option>Hà Nội</option>
+                <option>Bà Rịa - Vũng Tàu</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <select class="form-control input-sm">
+                <option>--Chọn quận/huyện--</option>
+                <option>Quận 1</option>
+                <option>Quận 5</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group-custom">
+          <select class="form-control input-sm">
+            <option>--Chọn giá tiền--</option>
+            <option>1 tỷ - 3 tỷ</option>
+            <option>3 tỷ - 5 tỷ</option>
+            <option>trên 5 tỷ</option>
+          </select>
+        </div>
+        <div class="form-group-custom">
+          <select class="form-control input-sm">
+            <option>--Chọn diện tích--</option>
+            <option>50m2 - 100m2</option>
+            <option>100m2 - 200m2</option>
+            <option>trên 200m2</option>
+          </select>
+        </div>
+        <div class="form-group-custom container-fluid">
+          <div class="row">
+            <div class="col-md-6 input-inline">
+              <select class="form-control input-sm">
+                <option>--Chọn loại dự án--</option>
+                <option>Dự án căn hộ liên kế</option>
+                <option>Dự án biệt thự cao cấp</option>
+                <option>Dự án nhà ở xã hội</option>
+              </select>
+            </div>
+            <div class="col-md-6 input-inline">
+              <select class="form-control input-sm">
+                <option>--Chọn tình trạng dự án--</option>
+                <option>Dự án đã hoàn thành</option>
+                <option>Dự án đang hoàn thành</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">
+            <img src="/assets/icon/search-plus.png">
+            Tìm
+          </button>
+        </div>
+      </section>
+    </form>
   </div>
-  <div class="city-list">
-    <h4>DANH SÁCH CÁC TỈNH/THÀNH</h4>
-    <ul class="row">
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/19-ba_rịa_vung_tau">Bà Rịa - Vũng Tàu</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/38-bắc_giang">Bắc Giang</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/36-bắc_kạn">Bắc Kạn</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/31-bạc_lieu">Bạc Liêu</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/39-bắc_ninh">Bắc Ninh</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/22-bến_tre">Bến Tre</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/17-binh_duong">Bình Dương</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/15-binh_phuớc">Bình Phước</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/9-binh_thuận">Bình Thuận</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/5-binh_dịnh">Bình Định</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/32-ca_mau">Cà Mau</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/28-cần_tho">Cần Thơ</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/40-cao_bằng">Cao Bằng</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/11-gia_lai">Gia Lai</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/42-ha_giang">Hà Giang</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/43-ha_nam">Hà Nam</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/34-ha_nội">Hà Nội</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/44-ha_tay">Hà Tây</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/45-ha_tinh">Hà Tĩnh</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/46-hải_duong">Hải Dương</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/47-hải_phong">Hải Phòng</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/29-hậu_giang">Hậu Giang</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/48-hoa_binh">Hòa Bình</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/49-hung_yen">Hưng Yên</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/7-khanh_hoa">Khánh Hòa</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/27-kien_giang">Kiên Giang</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/10-kon_tum">Kon Tum</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/50-lai_chau">Lai Châu</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/14-lam_dồng">Lâm Đồng</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/52-lạng_son">Lạng Sơn</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/51-lao_cai">Lào Cai</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/20-long_an">Long An</a></li>
-      <li class="col-xs-4 col-sm-2"><a href="/san_pham/tinh-thanh/53-nam_dịnh">Nam Định</a></li>
-    </ul>
-  </div>
-  <div class="home-rich-filters-cats">
-    <ul>
-      <li class="col-sm-1 all-dist active"><a href="#">Tất cả</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-tphcm">Nhà phố</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/17-bình_dương">Nhà tạm</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Văn phòng</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/34-hà_nội">Villa-Biệt thự</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/47-hải_phòng">Căn hộ cao cấp</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Căn hộ chung cư</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Đất dự án - Quy hoạch</a></li>
-      <li class="col-sm-1"><a href="/san_pham/tinh-thanh/2-đà_nẵng">Đất ở - Đất thổ cư</a></li>
-    </ul>
-  </div>
-</article>
-<!-- #end filter -->
-<!-- #start products block -->
-<article class="block-box">
-  <section class="block-title">
-    <span>Bất động sản nổi bật</span>
-  </section>
-  <!-- #start products list -->
-  <section class="block-content">
-    <ul class="products-list row">
-      <% @real_estates.each do |real_estate| %>
-        <li class="col-md-4 col-sm-4 col-xs-6">
-          <section class="product-item">
-            <a class="favorite-button"></a>
-            <a class="top-section" href="/real_estates/<%= real_estate.id %>">
-              <h1 class="title">
-                <%= real_estate.name %>
-              </h1>
-              <section class="picture">
-                <img height="150" src="<%= real_estate.images.length != 0 ? "images/#{real_estate.images[0].id}" : '/assets/product/BDS01.jpg' %>">
-              </section>
-              <section class="property">
-                <section class="bedroom"><%= real_estate.bedroom_number %></section>
-                <section class="bathroom"><%= real_estate.restroom_number %></section>
-                <section class="area">m<sup>2</sup></section>
-              </section>
-              <section class="content">
-                <%= real_estate.description %>
-              </section>
-            </a>
-            <section class="bottom-section">
-              <span><%= real_estate.sell_price.blank? ? real_estate.rent_price : real_estate.sell_price %></span>
-              <div class="button">
-                <a href="#" class="muathuebds-button"></a>
-                <a href="#" class="share-button"></a>
-                <a href="#">Định giá</a>
-              </div>
-            </section>
-          </section>
-        </li>
-      <% end %>
-    </ul>
-  </section>
-  <!-- #end products list -->
-  <!-- #start pagination -->
-  <section class="pagination-block">
-    <ul class="pagination">
-      <li>
-        <a href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li>
-        <a href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </section>
-  <!-- #end pagination -->
-</article>
-<!-- #end products block -->
-<!-- #start infos block -->
-<article class="block-box">
-  <section class="block-title">
-    <span>Tin nhanh</span>
-  </section>
-  <section class="block-content">
-    <!-- #start infos list -->
-    <ul class="infos-list">
-      <!-- #start info item -->
-      <li class="info-item">
-        <section class="time">
-          2/1/2015
-        </section>
-        <section class="content">
-          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
-        </section>
-      </li>
-      <!-- #end info item -->
-      <!-- #start info item -->
-      <li class="info-item">
-        <section class="time">
-          2/1/2015
-        </section>
-        <section class="content">
-          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
-        </section>
-      </li>
-      <!-- #end info item -->
-      <!-- #start info item -->
-      <li class="info-item">
-        <section class="time">
-          2/1/2015
-        </section>
-        <section class="content">
-          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
-        </section>
-      </li>
-      <!-- #end info item -->
-      <!-- #start info item -->
-      <li class="info-item">
-        <section class="time">
-          2/1/2015
-        </section>
-        <section class="content">
-          Cần.... asdf asdf asdf asdf asdf asdf asdf asdf asd fwerq fdzf sd
-        </section>
-      </li>
-      <!-- #end info item -->
-      <!-- #start info item -->
-      <li class="info-item">
-        <section class="time">
-          2/1/2015
-        </section>
-        <section class="content">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </section>
-      </li>
-      <!-- #end info item -->
-    </ul>
-    <!-- #end infos list -->
-  </section>
-</article>
-<!-- #end infos block -->
-<!-- #start categories block -->
-<article class="block-box">
-  <section class="block-title">
-    <span>Bất động sản theo tiêu chí</span>
-  </section>
-  <section class="block-content">
-    <!-- #start categories list -->
-    <ul class="categories-list row">
-      <!-- #start category item -->
-      <li class="col-md-4 col-sm-6 col-xs-12">
-        <a href="/real_estates/category" class="category-item">
-          <img src="/assets/category/pic-Topic.png">
-          <span>Nhà đất dưới 500 triệu</span>
-        </a>
-      </li>
-      <!-- #end category item -->
-      <!-- #start category item -->
-      <li class="col-md-4 col-sm-6 col-xs-12">
-        <a href="#" class="category-item">
-          <img src="/assets/category/pic-Topic.png">
-          <span>Nhà đất trên 1 tỷ</span>
-        </a>
-      </li>
-      <!-- #end category item -->
-      <!-- #start category item -->
-      <li class="col-md-4 col-sm-6 col-xs-12">
-        <a href="/real_estates/category" class="category-item">
-          <img src="/assets/category/pic-Topic.png">
-          <span>Biệt thự giá rẻ</span>
-        </a>
-      </li>
-      <!-- #end category item -->
-      <!-- #start category item -->
-      <li class="col-md-4 col-sm-6 col-xs-12">
-        <a href="/real_estates/category" class="category-item">
-          <img src="/assets/category/Category_BietThuCaoCap.png">
-          <span>Biệt thự cao cấp</span>
-        </a>
-      </li>
-      <!-- #end category item -->
-      <!-- #start category item -->
-      <li class="col-md-4 col-sm-6 col-xs-12">
-        <a href="/real_estates/category" class="category-item">
-          <img src="/assets/category/Category_DuAnNoiBat.png">
-          <span>Dự án nổi bật</span>
-        </a>
-      </li>
-      <!-- #end category item -->
-    </ul>
-    <!-- #end categories list -->
-  </section>
-</article>
-<!-- #end categories block -->
+</section>
+<!-- end Search Box-->
+
+<!-- start navigator -->
+<section class="navigator container">
+	<ol class="breadcrumb">
+		<li><a href="#">Trang chủ</a></li>
+		<li class="active">Bất động sản đang rao bán</li>
+	</ol>
+</section>
+<!-- end navigator -->
+
+<!-- start favorite-property -->
+<section class="container favorite-property block">
+	<article class="title">
+		<a href="#" class="link">
+			<i class="icon-link"></i>
+			<span>Bất động sản được yêu thích</span>
+		</a>
+	</article>
+	<article class="content item-lg">
+		<section class="row">
+			<div class="col-md-8 picture col-md-push-4">
+				<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
+			</div>
+			<div class="col-md-4 col-md-pull-8">
+				<div class="name">
+					Tên bất động sản
+				</div>
+				<div class="convenient">
+					<div class="area">
+						<i class="icon-area"></i>
+						<span>2</span>
+					</div>
+					<div class="bathroom">
+						<i class="icon-bathroom"></i>
+						<span>4</span>						
+					</div>
+					<div class="bedroom">
+						<i class="icon-bedroom"></i>
+						<span>3</span>
+					</div>
+				</div>
+				<div class="address">
+					Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7
+				</div>
+				<div class="price">
+					750 triệu
+				</div>
+				<div class="detail">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</div>
+				<div class="btn-more">
+					<a href="#">Xem chi tiết</a>
+				</div>				
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end favorite-property -->
+
+<!-- start list sale property -->
+<section class="container sale-property block">
+	<article class="title">
+		<a>			
+			<span>Danh sách căn hộ được rao bán</span>
+		</a>
+	</article>
+	<article class="content other-property">
+		<div class="list">
+			<a class="btn btn-success btn-sm">Căn hộ chung cư cao cấp</a>
+			<a class="btn btn-success btn-sm">Villa - Biệt thự vừa hoàn thành</a>
+			<a class="btn btn-success btn-sm">Đất thổ cư cần bán</a>
+			<a class="btn btn-success btn-sm">Căn hộ chung cư giá rẻ</a>
+			<a class="btn btn-success btn-sm">Nhà tạm</a>
+			<a class="btn btn-success btn-sm">Mặt bằng - Cửa hàng</a>
+			<a class="btn btn-success btn-sm">Nhà kho - Xưởng</a>
+		</div>
+	</article>
+</section>
+<!-- end list sale property -->
+
+<!-- start suggest property -->
+<section class="suggest-property container">
+	<div class="title">
+		<span>Có thể bạn quan tâm</span>
+		<a href="#">xem thêm</a>
+	</div>
+	<div class="content">
+		<ul class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							850 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							900 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							500 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							1 tỷ 2
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>	
+		</ul>		
+	</div>
+</section>
+<!-- end suggest property -->
+
+<!-- start new property -->
+<section class="new-property container">
+	<div class="title">
+		<span>Căn hộ mới rao bán</span>
+		<a href="#">xem thêm</a>
+	</div>
+	<div class="content">
+		<ul class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							850 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							900 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							500 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							1 tỷ 2
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>	
+		</ul>		
+	</div>
+</section>
+<!-- end new property -->
+
+<!-- start position property -->
+<section class="container position-property block">
+	<article class="title">
+		<a href="#" class="link">
+			<i class="icon-link"></i>
+			<span>Tìm căn hộ theo vị trí</span>
+		</a>
+	</article>
+	<article class="content">
+		<div class="tab-position">
+			<ul>
+				<li class="active"><a href="#">Tất cả</a></li>
+				<li><a href="#">Quận 1</a></li>
+				<li><a href="#">Quận 2</a></li>
+				<li><a href="#">Quận 3</a></li>
+				<li><input class="input-position" type="text" placeholder="...Nhập vị trí"></li>
+			</ul>
+		</div>
+		<ul class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							850 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							900 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							500 triệu
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS06.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>Tên dự án</span>
+						</div>
+						<div class="status">
+							<img src="/assets/icon/done.png">
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address">
+							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+						</div>
+						<div class="price">
+							1 tỷ 2
+						</div>
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+		</ul>
+	</article>
+</section>
+<!-- end position property -->
+
+<!-- start short property -->
+<section class="container short-property block">
+	<article class="title">
+		<a href="#" class="link">
+			<i class="icon-link"></i>
+			<span>Tin nhanh</span>
+		</a>
+	</article>
+	<article class="link">
+		<a href="#">Xem thêm</a>
+	</article>
+	<article class="content">
+		<ul>
+			<li class="item-xs">
+				<div class="title" data-toggle-object="details">
+					<div class="date">Hôm nay</div>
+					<div class="text">Tiêu đề</div>
+				</div>				
+				<div class="details" data-object="details">
+					<div class="button">
+						<a href="" class="btn btn-primary btn-sm">Xem</a>
+					</div>
+					<div class="text">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>					
+				</div>
+			</li>
+			<li class="item-xs">
+				<div class="title">
+					<div class="date">Hôm qua</div>
+					<div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</div>
+				</div>				
+			</li>
+			<li class="item-xs">
+				<div class="title">
+					<div class="date">12/8/2015</div>
+					<div class="text">Tiêu đề</div>
+				</div>				
+			</li>
+			<li class="item-xs">
+				<div class="title">
+					<div class="date">12/8/2015</div>
+					<div class="text">Tiêu đề</div>
+				</div>				
+			</li>
+			<li class="item-xs">
+				<div class="title">
+					<div class="date">12/8/2015</div>
+					<div class="text">Tiêu đề</div>
+				</div>				
+			</li>
+		</ul>
+	</article>
+</section>
+<!-- end short property -->
+
+<!-- start propensity property -->
+<section class="propensity-property container block">
+	<article class="title">
+		<a>
+			<span>Gợi ý tìm nhà</span>
+		</a>
+	</article>
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="title">
+				<a href="#">Nhà vừa mở bán</a>
+			</div>
+			<ul class="content">
+				<a href="#">
+					<li class="col1">
+						<img src="/assets/product/house.jpg">
+						<div class="wrapper">
+							<span class="price">2 tỷ (VNĐ)</span>
+							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+						</div>
+					</li>
+					<div class="col2">
+						<li>
+							<img src="/assets/product/BDS04.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+						<li>
+							<img src="/assets/product/BDS08.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+					</div>
+				</a>
+			</ul>
+		</div>
+		<div class="col-lg-6">
+			<div class="title">
+				<a href="#">Danh sách mới</a>
+			</div>
+			<ul class="content">
+				<a href="#">
+					<li class="col1">
+						<img src="/assets/product/landscape05.jpg">
+						<div class="wrapper">
+							<span class="price">2 tỷ (VNĐ)</span>
+							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+						</div>
+					</li>
+					<div class="col2">
+						<li>
+							<img src="/assets/product/BDS01.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+						<li>
+							<img src="/assets/product/BDS02.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+					</div>
+				</a>
+			</ul>
+		</div>
+		<div class="col-lg-6">
+			<div class="title">
+				<a href="#">Biệt thự giá rẻ</a>
+			</div>
+			<ul class="content">
+				<a href="#">
+					<li class="col1">
+						<img src="/assets/product/landscape01.jpg">
+						<div class="wrapper">
+							<span class="price">2 tỷ (VNĐ)</span>
+							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+						</div>
+					</li>
+					<div class="col2">
+						<li>
+							<img src="/assets/product/BDS03.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+						<li>
+							<img src="/assets/product/BDS04.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+					</div>
+				</a>
+			</ul>
+		</div>
+		<div class="col-lg-6">
+			<div class="title">
+				<a href="#">Nhà ở xã hội</a>
+			</div>
+			<ul class="content">
+				<a href="#">
+					<li class="col1">
+						<img src="/assets/product/landscape02.jpg">
+						<div class="wrapper">
+							<span class="price">2 tỷ (VNĐ)</span>
+							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+						</div>
+					</li>
+					<div class="col2">
+						<li>
+							<img src="/assets/product/BDS05.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+						<li>
+							<img src="/assets/product/BDS06.jpg">
+							<div class="wrapper">
+								<span class="price">300 triệu (VNĐ)</span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+							</div>
+						</li>
+					</div>
+				</a>
+			</ul>
+		</div>
+	</div>
+</section>
+<!-- end propensity property -->
+
+<!-- start contact -->
+<section class="contact block container">
+	<article class="title">
+		<a class="link" href="#">
+			<i class="icon-link"></i>
+			<span>Liên hệ MuaNhaOnline.vn</span>
+		</a>
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-md-2 col-sm-3 hidden-xs">
+				<img src="/assets/contact/contact01.jpg">
+			</div>
+			<div class="col-md-3 col-sm-3">
+				<ul>
+					<li class="name">Tên nhân viên phụ trách</li>
+					<li>Chức vụ</li>
+					<li>Số điện thoại liên hệ</li>
+					<li>Email</li>
+					<li>Liên lạc khác (Zalo, Viber, Skype, ...)</li>
+					<li>
+						<input class="form-control input-sm" placeholder="Tiêu đề câu hỏi">
+					</li>
+					<li>
+						<textarea class="form-control input-sm" rows="3" placeholder="Nội dung bạn muốn hỏi"></textarea>
+					</li>
+					<li>
+						<button class="btn btn-sm">Gửi</button>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-7 question col-sm-6">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Câu hỏi 1</a>
+							</h4>
+						</div>
+						<div id="collapse1" class="panel-collapse collapse in">
+							<div class="panel-body">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						  	</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Câu hỏi 2</a>
+							</h4>
+						</div>
+						<div id="collapse2" class="panel-collapse collapse">
+							<div class="panel-body">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Câu hỏi 3</a>
+							</h4>
+						</div>
+						<div id="collapse3" class="panel-collapse collapse">
+							<div class="panel-body">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Câu hỏi 4</a>
+							</h4>
+						</div>
+						<div id="collapse4" class="panel-collapse collapse">
+							<div class="panel-body">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end contact -->
