@@ -15,12 +15,14 @@ Rails.application.routes.draw do
   get 'real_estates/manager'
   get 'real_estates/_manager_list'
   get 'real_estates/pending'
+  get 'real_estates/_pending_list'
   get 'real_estates/:id' => 'real_estates#view'
   get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'
   post 'real_estates/create' => 'real_estates#save'
   delete 'real_estates/:id' => 'real_estates#delete'
   put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
+  put 'real_estates/approve/:id' => 'real_estates#approve'
 
   # User
   get 'signup' => 'users#create'

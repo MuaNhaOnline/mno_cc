@@ -1,6 +1,6 @@
 class RealEstatesController < ApplicationController
   layout 'layout_front'
-  skip_before_filter :verify_authenticity_token, :only => [:save, :delete, :preview, :change_show_status]
+  skip_before_filter :verify_authenticity_token
 
   def index
     @real_estates = RealEstate.where(is_draft: 0, is_show: 1).limit(6)
@@ -67,15 +67,62 @@ class RealEstatesController < ApplicationController
 
   def _manager_list
     per = Rails.application.config.item_per_page
-    offset = (params[:page].to_i - 1) * per
 
-    @res = RealEstate.order(updated_at: 'desc').limit(per).offset(offset)
+    if params[:keyword].blank?
+      res = RealEstate.order(updated_at: 'desc')
+    else
+      res = RealEstate.search(params[:keyword]).order(updated_at: 'desc')
+    end
 
-    render json: Hash[status: 0, result: render_to_string(partial: 'real_estates/manager_list')]
+    count = res.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page].to_i, per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+      }
+    }
+  end
+
+  def pending
+    @res = RealEstate.where(is_pending: 1).order(updated_at: 'asc')
+
+    render layout: 'layout_back'
+  end
+
+  def _pending_list
+    per = Rails.application.config.item_per_page
+
+    if params[:keyword].blank?
+      res = RealEstate.where(is_pending: 1).order(updated_at: 'asc')
+    else
+      res = RealEstate.where(is_pending: 1).search(params[:keyword]).order(updated_at: 'asc')
+    end
+
+    count = res.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'real_estates/pending_list', locals: { res: res.page(params[:page].to_i, per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+      }
+    }
   end
 
   def change_show_status
     RealEstate.update_show_status params[:id], params[:is_show]
+
+    render json: Hash[status: 0]
+  end
+
+  def approve
+    RealEstate.update_pending_status params[:id], 0
 
     render json: Hash[status: 0]
   end
@@ -87,9 +134,5 @@ class RealEstatesController < ApplicationController
     rescue
       render json: Hash[status: 2]
     end
-  end
-
-  def real_estates_pending
-    render layout: 'layout_back'
   end
 end

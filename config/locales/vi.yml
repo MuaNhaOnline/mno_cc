@@ -64,7 +64,17 @@ vi:
       manager:
         page_title_nav: 'Quản lý'
         page_title: 'Quản lý bất động sản'
+        search: 'Tìm'
+        search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
+        delete: 'Xóa'
+      pending:
+        page_title_nav: 'Quản lý'
+        page_title: 'Quản lý bất động sản'
+        search: 'Tìm'
+        search_placeholder: 'Bạn đang cần tìm gì?'
+        control: 'Điều khiển'
+        approve: 'Duyệt'
         delete: 'Xóa'
   real_estate_type:
     text:

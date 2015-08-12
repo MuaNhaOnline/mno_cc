@@ -1,3 +1,9 @@
+/*
+	object:
+		object form (for validate)
+	submit:
+		function will be implement after submit
+*/
 function initForm($form, params) {
 	if (typeof(params) === 'undefined') {
 		params = {};
@@ -582,7 +588,6 @@ function initForm($form, params) {
 		if (typeof $input.data('validate') === 'function') {
 			var result = $input.data('validate')();
 
-			console.log($input);
 			if (result.status === true) {
 				var $validInput = result.input || $input;
 				toggleValidInput($validInput, true, result.constraint || 'custom');

@@ -1,5 +1,8 @@
 class RealEstate < ActiveRecord::Base
 
+  include PgSearch
+  pg_search_scope :search, against: [:meta_search]
+
 # Associates
 
   belongs_to :real_estate_type
@@ -174,7 +177,7 @@ class RealEstate < ActiveRecord::Base
       :address_number, :street_type, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
-      :lat, :long,  
+      :lat, :long,
       :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
       :image_ids => []
     ]
@@ -214,6 +217,8 @@ class RealEstate < ActiveRecord::Base
     real_estate_params = RealEstate.get_params params
 
     assign_attributes real_estate_params
+    is_pending = 1
+    meta_search = RealEstate.get_meta_search(self) unless is_draft
 
     save validate: !is_draft
   end
@@ -233,6 +238,47 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Update show status
+
+  # Update pending status
+
+  def self.update_pending_status id, is_pending
+    real_estate = find id
+
+    real_estate.is_pending = is_pending
+
+    real_estate.save validate: false
+  end
+
+  # / Update pending status
+
+# / Update
+
+# Helper
+
+  # Get meta search
+
+  def self.get_meta_search re
+    legal = re.legal_record_type_id != 0 ? re.legal_record_type.name : re.custom_legal_record_type
+    alley = re.is_alley == 1 ? 'Hẻm' : 'Mặt tiền'
+
+    tempLocale = I18n.locale
+    I18n.locale = 'vi'
+
+    meta_search = "#{I18n.t 'real_estate_type.text.' + re.real_estate_type.name} #{I18n.t 'purpose.text.' + re.purpose.name} đường #{re.street.name} quận #{re.district.name} #{re.province.name} #{re.title}"
+    
+    I18n.locale = tempLocale
+
+    meta_search
+  end
+
+  # / Get meta search
+
+
+# / Helper
+
+
+
+
 
 # / Updates
 
