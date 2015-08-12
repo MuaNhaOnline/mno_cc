@@ -154,7 +154,7 @@
         <article class="form-group" data-toggled-element="sell un-rent">
           <label for="sell_price"><%= t 'real_estate.attribute.sell_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control" id="sell_price">
+            <input data-constraint="integer" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -168,7 +168,7 @@
         <article class="form-group" data-toggled-element="rent un-sell">
           <label for="rent_price"><%= t 'real_estate.attribute.rent_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control" id="rent_price">
+            <input data-constraint="integer" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
             <div class="input-group-btn">
               <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -184,12 +184,10 @@
         <!-- Negotiable -->
 
         <article class="form-group">
-          <div class="checkbox">
-            <label>
-                <input <%= 'checked' if @re.is_negotiable %> name="real_estate[is_negotiable]" type="checkbox" id="is_negotiable">
-                <%= t 'real_estate.attribute.negotiable' %>
-            </label>
-          </div>
+          <label class="checkbox-inline">
+              <input <%= 'checked' if @re.is_negotiable %> name="real_estate[is_negotiable]" type="checkbox" id="is_negotiable">
+              <%= t 'real_estate.attribute.negotiable' %>
+          </label>
         </article>
 
         <!-- / Negotiable -->
@@ -215,7 +213,13 @@
         <!-- Location -->
 
         <article class="form-group">
+          <label for="address_number"><%= t 'real_estate.attribute.address_number' %></label>
+          <input value="<%= @re.address_number %>" class="form-control" name="real_estate[street_number]" type="text" id="address_number" />
+        </article>
+
+        <article class="form-group">
           <label for="location"><%= t 'real_estate.attribute.address' %></label>
+          <sup class="required-label"></sup>
           <input data-constraint="required" class="form-control" id="location" type="text" /> 
           <input value="<%= @re.street.name unless @re.street.nil? %>" name="real_estate[street]" type="hidden" id="street" />
           <input value="<%= @re.ward.name unless @re.ward.nil? %>" name="real_estate[ward]" type="hidden" id="ward" />
@@ -223,11 +227,6 @@
           <input value="<%= @re.province unless @re.province.nil? %>" name="real_estate[province]" type="hidden" id="province" />
           <input value="<%= @re.lat || '10.771528380460218' %>" name="real_estate[lat]" type="hidden" id="lat" />
           <input value="<%= @re.long || '106.69838659487618' %>" name="real_estate[long]" type="hidden" id="long" />
-        </article>
-
-        <article class="form-group">
-          <label for="address_number"><%= t 'real_estate.attribute.address_number' %></label>
-          <input value="<%= @re.address_number %>" class="form-control" name="real_estate[street_number]" type="text" id="address_number" />
         </article>
 
         <!-- / Location -->
@@ -238,11 +237,14 @@
           <label for="street_type_id">
             <%= t 'real_estate.attribute.street_type' %>
           </label>
-          <select name="real_estate[street_type_id]" class="form-control" id="street_type_id">
-            <% StreetType.get_options.each do |t| %>
-              <option value="<%= t.id %>" <%= 'selected' if t.id == @re.street_type_id || (!t.options_hash.nil? && t.options_hash.has_key?('default') && @re.street_type_id.blank?) %>><%= t 'street_type.text.' + t.name %></option>
-            <% end %>
-          </select>
+          <article class="form-group">
+            <label class="radio-inline">
+              <input type="radio" name="real_estate[street_type]" value="2" <%= 'checked' if @re.street_type.blank? || @re.street_type == 1 %> /><%= t 'real_estate.attribute.public_street' %>
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="real_estate[street_type]" value="1" <%= 'checked' if @re.street_type == 2 %> /><%= t 'real_estate.attribute.private_street' %>
+            </label>
+          </article>
         </article>
 
         <!-- / Street type -->
@@ -250,21 +252,19 @@
         <!-- Alley -->
 
         <article class="form-group">
-          <div class="radio">
-            <label class="radio-inline">
-              <input class="input-toggle" data-off="alley" type="radio" name="real_estate[is_alley]" value="0" checked /><%= t 'real_estate.attribute.facade' %>
-            </label>
-            <label class="radio-inline">
-              <input class="input-toggle" data-on="alley" type="radio" name="real_estate[is_alley]" value="1" <%= 'checked' if @re.is_alley == 1 %> /><%= t 'real_estate.attribute.alley' %>
-            </label>
-          </div>
-        </article>
-
-        <article class="form-group" data-toggled-element="alley">
-          <label for="alley_width"><%= t 'real_estate.attribute.alley_width' %></label>
           <div class="input-group">
-            <input data-constraint="real" class="form-control" name="real_estate[alley_width]" id="alley_width" value="<%= @re.alley_width %>" />
-            <div class="input-group-addon">m</div>
+            <section class="input-group-addon" style="padding: 10px 10px 10px 0px; border: 0; background-color: transparent; text-align: left">
+              <label class="radio-inline" style="color: #333">
+                <input class="input-toggle" data-off="alley" type="radio" name="real_estate[is_alley]" value="0" <%= 'checked' if @re.is_alley.blank? || @re.is_alley == 0 %> /><%= t 'real_estate.attribute.facade' %>
+              </label>
+              <label class="radio-inline">
+                 <input class="input-toggle" data-on="alley" type="radio" name="real_estate[is_alley]" value="1" <%= 'checked' if @re.is_alley == 1 %> /><%= t 'real_estate.attribute.alley' %>
+              </label>                  
+            </section>
+            <article class="form-group">
+              <input type="text" data-constraint="required" name="real_estate[alley_width]" value="<%= @re.alley_width %>" class="form-control" style="padding: 17px 12px;" data-toggled-element="alley" placeholder="<%= t 'real_estate.attribute.alley_width' %>">
+            </article>
+            <section class="input-group-addon" data-toggled-element="alley">m</section>
           </div>
         </article>
 
@@ -273,7 +273,7 @@
         <!-- Map -->
 
         <article class="form-group">
-          <div id="map"></div>
+          <div id="map" tabindex="0" style="outline: 0;"></div>
         </article>
 
         <!-- / Map -->
@@ -334,6 +334,7 @@
         <article class="form-group" data-toggled-element="un-land house un-apartment space">
           <label for="contructional_area">
             <%= t 'real_estate.attribute.constructional_area' %>
+            <sup class="required-label"></sup>
           </label>
           <div class="input-group">
             <input data-constraint="required real" class="form-control" name="real_estate[constructional_area]" id="constructional_area" value="<%= @re.constructional_area %>" />
@@ -344,6 +345,7 @@
         <article class="form-group" data-toggled-element="un-land house apartment space">
           <label for="using_area">
             <%= t 'real_estate.attribute.using_area' %>
+            <sup class="required-label"></sup>
           </label>
           <div class="input-group">
             <input data-constraint="required real" class="form-control" name="real_estate[using_area]" id="using_area" value="<%= @re.using_area %>" />
@@ -354,6 +356,7 @@
         <article class="form-group" data-toggled-element="land house un-apartment space">
           <label for="campus_area">
             <%= t 'real_estate.attribute.campus_area' %>
+            <sup class="required-label"></sup>
           </label>
           <div class="input-group">
             <input data-constraint="required real" class="form-control" name="real_estate[campus_area]" id="campus_area" value="<%= @re.campus_area %>" />
@@ -369,9 +372,10 @@
           <article class="form-group col-md-6">
             <label for="width_x">
               <%= t 'real_estate.attribute.width_x' %>
+              <sup class="required-label"></sup>
             </label>
             <div class="input-group">
-              <input data-constraint="required real" class="form-control" name="real_estate[width_x]" id="width_x" value="<%= @re.width_x %>" />
+              <input data-constraint="required real custom" class="form-control" name="real_estate[width_x]" id="width_x" value="<%= @re.width_x %>" />
               <div class="input-group-addon">m</div>
             </div>
           </article>
@@ -379,6 +383,7 @@
           <article class="form-group col-md-6">
             <label for="width_y">
               <%= t 'real_estate.attribute.width_y' %>
+              <sup class="required-label"></sup>
             </label>
             <div class="input-group">
               <input data-constraint="required real" class="form-control" name="real_estate[width_y]" id="width_y" value="<%= @re.width_y %>" />
@@ -402,7 +407,7 @@
             <label for="shape">
               <%= t 'real_estate.attribute.shape' %>
             </label>
-            <select name="real_estate[shape]" class="form-control input-toggle" id="shape">
+            <select data-constraint="custom" name="real_estate[shape]" class="form-control input-toggle" id="shape">
               <option <%= 'selected' if @re.shape == 0 %> data-off="shape" value="0"><%= t 'real_estate.attribute.shape_normal' %></option>
               <option <%= 'selected' if @re.shape == 1 %> data-on="shape" value="1"><%= t 'real_estate.attribute.shape_greater' %></option>
               <option <%= 'selected' if @re.shape == 2 %> data-on="shape" value="2"><%= t 'real_estate.attribute.shape_less' %></option>
@@ -411,9 +416,10 @@
           <article class="form-group col-md-6 disabled-only" data-toggled-element="shape">
             <label for="shape_width">
               <%= t 'real_estate.attribute.shape_width' %>
+              <sup class="required-label"></sup>
             </label>
             <div class="input-group">
-              <input data-constraint="required real" class="form-control" name="real_estate[shape_width]" id="shape_width" value="<%= @re.shape_width %>" />
+              <input data-constraint="required real custom" class="form-control" name="real_estate[shape_width]" id="shape_width" value="<%= @re.shape_width %>" />
               <div class="input-group-addon">m</div>
             </div>
           </article>
@@ -426,6 +432,7 @@
         <article class="form-group" data-toggled-element="un-land house apartment un-space">
           <label data-toggled-element="house un-apartment" for="floor_number"><%= t 'real_estate.attribute.floor_number_1' %></label>
           <label data-toggled-element="un-house apartment" for="floor_number"><%= t 'real_estate.attribute.floor_number_2' %></label>
+          <sup class="required-label"></sup>
           <input data-constraint="required integer" class="form-control" name="real_estate[floor_number]" id="floor_number" value="<%= @re.floor_number %>" />
         </article>
 
@@ -508,9 +515,10 @@
           <article class="form-group col-md-6" data-toggled-element="un-land house apartment space">
             <label for="constructional_quality">
               <%= t 'real_estate.attribute.constructional_quality' %>
+              <sup class="required-label"></sup>
             </label>
             <div class="input-group">
-              <input data-constraint="required integer range" data-min-value="0" data-max-value="100" value="<%= @re.constructional_quality %>" class="form-control" name="real_estate[constructional_quality]" id="constructional_quality">
+              <input data-constraint="required integer range" data-minvalue="0" data-maxvalue="100" value="<%= @re.constructional_quality %>" class="form-control" name="real_estate[constructional_quality]" id="constructional_quality">
               <div class="input-group-addon">%</div>
             </div>
           </article>
@@ -547,6 +555,7 @@
             <article class="form-group">
               <label for="legal_record_type_id">
                 <%= t 'real_estate.attribute.legal_record_type' %>
+                <sup class="required-label" data-toggled-element="custom-legal-record-type"></sup>
               </label>
               <select name="real_estate[legal_record_type_id]" class="form-control input-toggle" id="legal_record_type_id">
                 <% LegalRecordType.get_options.each do |t| %>
@@ -568,6 +577,7 @@
             <article class="form-group">
               <label for="planning_status_type_id">
                 <%= t 'real_estate.attribute.planning_status_type' %>
+                <sup class="required-label" data-toggled-element="custom-planning-status-type"></sup>
               </label>
               <select name="real_estate[planning_status_type_id]" class="form-control input-toggle" id="planning_status_type_id">
                 <% PlanningStatusType.get_options.each do |t| %>
@@ -592,7 +602,7 @@
 
   <!-- Description -->
 
-  <div class="col-md-12 input-box">
+  <div class="col-md-6 input-box">
 
     <article class="box box-default">
       <section class="box-header with-border">
@@ -607,12 +617,14 @@
         <article class="form-group">
           <label for="title">
             <%= t 'real_estate.attribute.title' %>
+            <sup class="required-label"></sup>
           </label>
           <input data-constraint="required" class="form-control" name="real_estate[title]" id="title" value="<%= @re.title %>" />
         </article>
         <article class="form-group">
           <label for="description">
             <%= t 'real_estate.attribute.description' %>
+            <sup class="required-label"></sup>
           </label>
           <textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description"><%= @re.description %></textarea>
         </article>
@@ -620,8 +632,21 @@
     </article>
 
   </div>
+
+  <div class="col-md-6">
+    <article class="box" style="background-color: transparent; box-shadow: none; border: 0;">
+      <section class="box-body text-center">
+        <a href="javascript:void(0)" aria-click="turn-on-until-full" style="display: inline-block; padding: 10px; text-align: center; background-color: #fff;border: 1px solid #ddd;border-radius: 3px;box-shadow: 0 1px 1px rgba(0,0,0,0.1)">
+          <div class="fa fa-plus-square" style="font-size: 40px;"></div>
+          <div>Đăng hình ảnh và thông tin chi tiết khác</div>
+        </a>
+      </section>
+    </article>
+  </div>
     
   <!-- / Description -->
+
+  <div class="clearfix"></div>
 
   <!-- Utilities -->
 
@@ -654,7 +679,7 @@
     </article>
   </div>
 
-  <div class="col-md-6 input-box until-full">
+  <div class="col-md-6 input-box until-full until-full">
     <article class="box box-default">
       <section class="box-header with-border">
         <h2 class="box-title">
@@ -758,14 +783,16 @@
       <section class="box-header with-border">
         <h2 class="box-title">
           <%= t 'real_estate.attribute.image' %>
+          <sup class="required-label"></sup>
         </h2>
         <div class="box-tools pull-right">
           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
       </section>
       <section class="box-body">
+        <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình với kích thước 3Mb.</p>
         <article class="form-group margin-0">
-          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-init-value="<%= image_ids %>" />
+          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="7" data-size="3145728" data-type="jpg jpeg png" data-init-value="<%= image_ids %>" />
         </article>
       </section>
     </article>
@@ -782,7 +809,7 @@
           <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'real_estate.view.create.finish' %></b></button>
         </div>
         <div class="margin-top-bottom-5 col-sm-6">
-          <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft' %></b></button>
+          <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft_preview' %></b></button>
         </div>
       </section>
     </article>

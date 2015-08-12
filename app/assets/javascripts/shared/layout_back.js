@@ -320,10 +320,19 @@ function intFormat(string) {
 var listString = {};
 
 listString.has = function (key, string) {
-  return string.indexOf(key) != -1;
+  if (string) {
+    return string.indexOf(key) != -1; 
+  }
+  else {
+    return false;
+  }
 }
 
 listString.add = function (key, string) {
+  if (!string) {
+    return key;
+  }
+
   if (listString.has(key, string)) {
     return string;
   }
@@ -332,7 +341,12 @@ listString.add = function (key, string) {
 }
 
 listString.remove = function (key, string) {
-  return string.replace(new RegExp(key, 'g'), '');
+  if (string) {
+    return string.replace(new RegExp(key, 'g'), ''); 
+  }
+  else {
+    return '';
+  }
 }
 
 /*
@@ -408,7 +422,6 @@ function _initPagination($list, $pagination, params) {
           $list.html(data.result);
         }
 
-
         $parent.siblings('.active').removeClass('active');
         $parent.addClass('active');
       }
@@ -431,4 +444,127 @@ function _initPagination($list, $pagination, params) {
 
 /*
   / Pagination
+*/
+
+/*
+  Search & pagination
+*/
+
+/*
+  $list: List content
+  $search: Search form
+  $pagination: Pagination
+  params:
+    url: *required*
+      Url action get content
+      With page param
+    data: 
+      Data will be pass to url
+      {} or func return {}
+    afterLoad:
+      init after fill new page
+      param: result
+    page: 1
+      default page
+*/
+function _initSearchablePagination($list, $search, $pagination, params) {
+  if (typeof params === 'undefined' || typeof params.url === 'undefined') {
+    return;
+  }
+
+  var
+    keyword = '',
+    currentPage = params.page || 1,
+    defaultList = $list.html();
+    defaultPagination = $list.html();
+
+  _temp.isSearching = false;
+
+  $pagination.find('[data-page="' + currentPage + '"]').parent().addClass('active');
+
+  $search.search = function (page) {
+    var data;
+    if ('data' in params) {
+      if (typeof params.data === 'function') {
+        data = thamSo.data();
+      }
+      else {
+        data = thamSo.data;
+      }
+    }
+
+    if (typeof data !== 'object') {
+      data = {}
+    }
+
+    page = page || 1
+
+    data.keyword = keyword;
+    data.page = page;
+
+    if (_temp.isSearching) {
+      _temp.isSearching.abort();
+    }
+
+    _temp.isSearching = $.ajax({
+        url: params.url,
+        data: data,
+        dataType: 'JSON'
+    }).always(function () {
+      _temp.isSearching = false;
+    }).done(function (data) {
+      if (data.status == 0) {
+        currentPage = page;
+
+        if ('afterLoad' in params) {
+          var result = params.afterLoad(data.result.list);
+
+          if (result) {
+            $list.html(result);
+          }
+        }
+        else {
+          $list.html(data.result);
+        }
+
+        $pagination.html(data.result.pagination);
+        initPagination();
+      }
+      else {
+        $list.empty();
+        $pagination.empty();
+      }
+    }).fail(function (xhr, status) {
+      if (status !== 'abort') {
+        $list.empty();
+        $pagination.empty();
+      }
+    });
+  }
+
+  $pagination.update = function () {
+    $pagination.find('.active').removeClass('active');
+    $pagination.find('[data-page="' + currentPage + '"]').parent().addClass('active');
+  }
+
+  initForm($search, {
+    submit: function () {
+      keyword = $search.find('[name="keyword"]').val();
+      $search.search();
+    }
+  });
+
+  function initPagination() {
+    $pagination.update();
+
+    $pagination.find('[aria-click="paging"]').on('click', function () {
+      $search.search($(this).data('page'));
+    });    
+  }
+
+  initPagination();
+}
+
+/*
+  / Search & pagination
 */

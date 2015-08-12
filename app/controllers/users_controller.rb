@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	layout 'layout_back'
-  skip_before_filter :verify_authenticity_token, :only => [:save, :signin_handle]
+  skip_before_filter :verify_authenticity_token
   
   def create
   	

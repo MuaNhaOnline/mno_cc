@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150807114954) do
+ActiveRecord::Schema.define(version: 20150812040225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,16 @@ ActiveRecord::Schema.define(version: 20150807114954) do
     t.integer  "order"
   end
 
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "searchable_id"
+    t.string   "searchable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
   create_table "planning_status_types", force: :cascade do |t|
     t.text     "name"
     t.text     "code"
@@ -276,7 +286,7 @@ ActiveRecord::Schema.define(version: 20150807114954) do
     t.integer  "ward_id"
     t.integer  "street_id"
     t.text     "address_number"
-    t.integer  "street_type_id"
+    t.integer  "street_type"
     t.integer  "is_alley"
     t.decimal  "alley_width"
     t.integer  "real_estate_type_id"
@@ -311,6 +321,7 @@ ActiveRecord::Schema.define(version: 20150807114954) do
     t.integer  "sell_unit_id"
     t.text     "lat"
     t.text     "long"
+    t.text     "meta_search"
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|
@@ -335,16 +346,6 @@ ActiveRecord::Schema.define(version: 20150807114954) do
     t.text     "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "street_types", force: :cascade do |t|
-    t.text     "name"
-    t.text     "code"
-    t.text     "options"
-    t.integer  "index"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "order"
   end
 
   create_table "streets", force: :cascade do |t|

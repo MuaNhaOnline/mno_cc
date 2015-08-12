@@ -155,7 +155,7 @@
         <article class="form-group">
           <label for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
           <div class="input-group">
-            <input data-constraint="required real" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio %>" />
+            <input data-constraint="required integer range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio %>" />
             <div class="input-group-addon">%</div>
           </div>
         </article>
@@ -370,8 +370,8 @@
         <article class="form-group">
           <label for="unit_price"><%= t 'project.attribute.unit_price' %></label>
           <div class="input-group">
-            <input data-constraint="integer" value="<%= @p.unit_price %>" name="project[unit_price]" class="form-control" id="unit_price">
-            <div class="input-group-addon">/ VNĐ</div>
+            <input data-constraint="integer" value="<%= @p.unit_price %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
+            <div class="input-group-addon" id="currency_display"></div>
           </div>
         </article>
 
@@ -417,7 +417,7 @@
 
         <article class="form-group">
           <label for="description"><%= t 'project.attribute.description' %></label>
-          <textarea name="project[description]" class="form-control" id="description"><%= @p.description %></textarea>
+          <textarea data-constraint="required" name="project[description]" class="form-control" id="description"><%= @p.description %></textarea>
         </article>
 
         <!-- / Description -->

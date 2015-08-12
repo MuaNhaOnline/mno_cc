@@ -12,6 +12,7 @@
 			title: "Drag Me",
 			draggable: options.draggable
 		});
+
 		return {
 			map: _map,
 			marker: _marker,
@@ -171,7 +172,7 @@
 				inputBinding.radiusInput.val(gmapContext.radius).change();
 			}
 			if (inputBinding.locationNameInput) {
-				inputBinding.locationNameInput.val(/*(address.streetNumber ? address.streetNumber + ' ' : '') + */address.street + ', ' + address.ward + ', ' + address.district + ', ' + address.province).change();
+				inputBinding.locationNameInput.val(/*(address.streetNumber ? address.streetNumber + ' ' : '') + */address.street + ', ' + address.ward + ', ' + address.district + ', ' + address.province).trigger('change', [ true ]);
 			}
 			if (inputBinding.streetNumberInput) {
 				inputBinding.streetNumberInput.val(address.streetNumber).change();
@@ -187,7 +188,7 @@
 			}
 			if (inputBinding.provinceInput) {
 				inputBinding.provinceInput.val(address.province).change();
-			}			
+			}     
 		}
 		else {
 			if (inputBinding.latitudeInput) {
@@ -216,7 +217,7 @@
 			}
 			if (inputBinding.provinceInput) {
 				inputBinding.provinceInput.val('').change();
-			}			
+			}     
 		}
 
 		/*
@@ -239,6 +240,36 @@
 			}
 			if (inputBinding.locationNameInput && gmapContext.settings.enableAutocomplete) {
 				var blur = false;
+				inputBinding.locationNameInput.on('change', function (e, data) {
+					if (!data) {
+						inputBinding.locationNameInput.val('').trigger('change', [ true ]);
+
+						if (inputBinding.latitudeInput) {
+							inputBinding.latitudeInput.val('').change();
+						}
+						if (inputBinding.longitudeInput) {
+							inputBinding.longitudeInput.val('').change();
+						}
+						if (inputBinding.radiusInput) {
+							inputBinding.radiusInput.val('').change();
+						}
+						if (inputBinding.streetNumberInput) {
+							inputBinding.streetNumberInput.val('').change();
+						}
+						if (inputBinding.streetInput) {
+							inputBinding.streetInput.val('').change();
+						}
+						if (inputBinding.wardInput) {
+							inputBinding.wardInput.val('').change();
+						}
+						if (inputBinding.districtInput) {
+							inputBinding.districtInput.val('').change();
+						}
+						if (inputBinding.provinceInput) {
+							inputBinding.provinceInput.val('').change();
+						}     
+					}
+				});
 				gmapContext.autocomplete = new google.maps.places.Autocomplete(inputBinding.locationNameInput.get(0));
 				google.maps.event.addListener(gmapContext.autocomplete, 'place_changed', function() {
 					blur = false;
@@ -248,10 +279,6 @@
 						return;
 					}
 
-					/* Custom */
-					// Set location
-					/* / Custom */
-
 					GmUtility.setPosition(gmapContext, place.geometry.location, function(context) {
 						updateInputValues(inputBinding, context);
 						context.settings.onchanged.apply(gmapContext.domContainer,
@@ -259,11 +286,11 @@
 					});
 				});
 				if(gmapContext.settings.enableAutocompleteBlur) {
-				  inputBinding.locationNameInput.on("change", function(e) {
+					inputBinding.locationNameInput.on("change", function(e) {
 					if (!e.originalEvent) { return }
 					blur = true;
-				  });
-				  inputBinding.locationNameInput.on("blur", function(e) {
+					});
+					inputBinding.locationNameInput.on("blur", function(e) {
 					if (!e.originalEvent) { return }
 					setTimeout(function() {
 						var address = $(inputBinding.locationNameInput).val();
@@ -280,7 +307,7 @@
 							});
 						}
 					}, 1000);
-				  });
+					});
 				}
 			}
 			if (inputBinding.latitudeInput) {
@@ -411,8 +438,8 @@
 			var $target = $(this);
 			// If plug-in hasn't been applied before - initialize, otherwise - skip
 			if (isPluginApplied(this)){
-			  updateMap(getContextForElement(this), $(this), options);
-			  return;  
+				updateMap(getContextForElement(this), $(this), options);
+				return;  
 			} 
 			// Plug-in initialization is required
 			// Defaults
@@ -424,13 +451,24 @@
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 				mapTypeControl: false,
 				disableDoubleClickZoom: false,
-				scrollwheel: settings.scrollwheel,
+				scrollwheel: false,
 				streetViewControl: false,
 				radius: settings.radius,
 				locationName: settings.locationName,
 				settings: settings,
 				draggable: settings.draggable
 			});
+			if (settings.scrollwheel) {
+				$target.on({
+					'focus, click': function () {
+						gmapContext.map.setOptions({'scrollwheel': true});
+					},
+					focusout: function () {
+						gmapContext.map.setOptions({'scrollwheel': false});
+					}
+				})
+			}
+
 			$target.data("locationpicker", gmapContext);
 			// Subscribe GMap events
 			google.maps.event.addListener(gmapContext.marker, "dragend", function(event) {

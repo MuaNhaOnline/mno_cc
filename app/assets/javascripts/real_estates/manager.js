@@ -7,13 +7,21 @@ $(function () {
   initPagination();
 
   /*
-    Init display with status
+    Display with status
   */
 
-  function initStatus() {
-    $list.children().each(function () {
+  function initStatus($row) {
+    if ($row) {
+      setStatus($row);
+    }
+    else {
+      $list.children().each(function () {
+        setStatus($(this));
+      }); 
+    }
+
+    function setStatus($row) {
       var 
-        $row = $(this),
         status = $row.data('status'),
         isDraft = listString.has('draft', status),
         isPending = listString.has('pending', status),
@@ -53,15 +61,15 @@ $(function () {
       else {
         $row.find('[aria-click="edit"]').text(_t.real_estate.manager.edit);
       }
-    });
+    }
   }
 
   /*
-    / Init display with status
+    / Display with status
   */
 
   /*
-    Init change show status buttons
+    Change show status buttons
   */
 
   function initChangeShowStatus() {
@@ -102,11 +110,11 @@ $(function () {
   }
 
   /*
-    / Init change show status buttons
+    / Change show status buttons
   */
 
   /*
-    Init delete buttons
+    Delete buttons
   */
 
   function initDelete() {
@@ -155,18 +163,30 @@ $(function () {
   }
 
   /*
-    / Init delete buttons
+    / Delete buttons
+  */
+
+  /*
+    Pagination
   */
 
   function initPagination() {
-    _initPagination($list, $('#pagination'), {
-      url: '/real_estates/_manager_list',
-      afterLoad: function (content) {
-        $list.html(content);
-        initStatus();
-        initChangeShowStatus();
-        initDelete();
+    _initSearchablePagination(
+      $list,
+      $('#search_form'),
+      $('#pagination'), 
+      {
+        url: '/real_estates/_manager_list',
+        afterLoad: function (content) {
+          $list.html(content);
+          initStatus();
+          initChangeShowStatus();
+          initDelete();
       }
     });
   }
+
+  /*
+    / Pagination
+  */
 });

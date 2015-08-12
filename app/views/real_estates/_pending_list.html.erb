@@ -1,19 +1,5 @@
 <% res.each do |re| %>
-  <!-- Get status -->
-  <% 
-    status = '';
-    if re.is_draft == 1
-      status = 'draft '
-    elsif re.is_pending == 1
-      status = 'pending '
-    end
-
-    if re.is_show == 1
-      status += 'show'
-    end
-  %>
-
-  <tr data-value="<%= re.id %>" data-status="<%= status %>">
+  <tr data-value="<%= re.id %>">
     <td>
       <a class="view" href="/real_estates/<%= re.id %>">
         <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
@@ -23,17 +9,15 @@
     <td><%= re.title %></td>
     <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
     <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
-    <td aria-object="status"></td>
     <td>
       <div class="dropdown">
         <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-          <%= t 'real_estate.view.manager.control' %>
+          <%= t 'real_estate.view.pending.control' %>
         </button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
           <li role="presentation">
-            <a aria-click="change-show-status" href="javascript:void(0)"></a>
-            <a aria-click="edit" href="/real_estates/create/<%= re.id %>"></a>
-            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.manager.delete' %></a>
+            <a aria-click="approve" href="javascript:void(0)"><%= t 'real_estate.view.pending.approve' %></a>
+            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.pending.delete' %></a>
           </li>
         </ul>
       </div>

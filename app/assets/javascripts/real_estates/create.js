@@ -5,6 +5,7 @@ $(function () {
     Init
   */
 
+  initShapeWidthConstraint();
   initForm($form, {
     object: 'real_estate',
     submit: function () {
@@ -29,7 +30,6 @@ $(function () {
                   type: 'primary',
                   handle: function () {
                     // Hidden id input
-                    $form.data('full', true);
                     $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
 
                     // Turn on until full inputs
@@ -40,11 +40,6 @@ $(function () {
 
                     // Collapse all success boxes
                     collapseBoxes($form.find('.input-box:not(.until-full) .box:not(.collapse-box)'));
-
-                    // Scroll to first until full input
-                    $body.animate(
-                      { scrollTop: $('.input-box.until-full:visible').offset().top - 20 }
-                    );
                   }
                 }, {
                   text: _t.real_estate.create.view,
@@ -78,14 +73,11 @@ $(function () {
     } 
   });
   initUnitInput();
-  if (!$form.data('full')) {
-    toggleUntilFull(false); 
-  }
-  initPrice();
   initSaveDraft();
   initLocation();
   initCheckArea();
   initUncheck();
+  initUntilFull();  
 
   /*
     / Init
@@ -95,12 +87,22 @@ $(function () {
     Toggle until full elements
   */
 
-  function toggleUntilFull(on) {
+  function toggleUntilFull(on, isStart) {
     if (on) {
       $form.find('.input-box.until-full').show().find(':input').prop('disabled', false);
+      $form.find('[aria-click="turn-on-until-full"]').remove();
+      if (!isStart) {
+        $body.animate(
+          { scrollTop: $form.find('.input-box.until-full:visible:eq(0)').offset().top - 20 }
+        );
+      }
+      $form.data('full', true);
     }
     else {
       $form.find('.input-box.until-full').hide().find(':input').prop('disabled', true); 
+      $form.find('[aria-click="turn-on-until-full"]').on('click', function () {
+        toggleUntilFull(true);
+      });
     }
   }
 
@@ -153,60 +155,6 @@ $(function () {
 
   /*
     / Unit format
-  */
-
-  /*
-    Price format
-  */
-
-  function initPrice() {
-    $form.find('#sell_price, #rent_price').on({
-      focus: function () {
-        _temp['price'] = this.value;
-      },
-      keyup: function () {
-        var input = this;
-        var value = input.value;
-
-        var oldPrice = _temp['price'];
-        if (oldPrice == value) {
-          return;
-        }
-
-        // Get current selection end
-        var selectionEnd = value.length - input.selectionEnd;
-
-        value = moneyFormat(intFormat(value), ',');
-        input.value = value;
-        selectionEnd = value.length - selectionEnd;
-        input.setSelectionRange(selectionEnd, selectionEnd);
-
-        _temp['price'] = value;
-      },
-      paste: function () {
-        var input = this;
-        var value = input.value;
-
-        var oldPrice = _temp['price'];
-        if (oldPrice == value) {
-          return;
-        }
-
-        // Get current selection end
-        var selectionEnd = value.length - input.selectionEnd;
-
-        value = moneyFormat(intFormat(value), ',');
-        input.value = value;
-        selectionEnd = value.length - selectionEnd;
-        input.setSelectionRange(selectionEnd, selectionEnd);
-
-        _temp['price'] = value;
-      }
-    }).keyup();
-  }
-
-  /*
-    / Price format
   */
 
   /*
@@ -298,6 +246,68 @@ $(function () {
 
   /*
     / Init location
+  */
+
+  /*
+    Until full
+  */
+
+  function initUntilFull() {
+    toggleUntilFull($form.data('full'), true);
+  }
+
+  /*
+    / Init until full
+  */
+
+  /*
+    Shape width
+  */
+
+  function initShapeWidthConstraint() {
+    var 
+      $shape = $form.find('#shape');
+      $shapeWidth = $form.find('#shape_width'),
+      $widthX = $form.find('#width_x');
+
+    $shape.add($shapeWidth).add($widthX).data('validate', function () {
+      var
+        shapeWidth = $shapeWidth.val(),
+        width = $widthX.val();
+
+      if (shapeWidth && width) {
+        switch ($shape.children(':selected').val()) {
+          case '1':
+            if (parseFloat(shapeWidth) <= parseFloat(width)) {
+              return {
+                status: false,
+                input: $shapeWidth,
+                constraint: 'width'
+              };
+            }
+            break;
+          case '2':
+            if (parseFloat(shapeWidth) >= parseFloat(width)) {
+              $form.toggleValidInput($shapeWidth, false, 'width');
+              return {
+                status: false,
+                input: $shapeWidth,
+                constraint: 'width'
+              };
+            }
+            break;
+        }
+      }  
+
+      return {
+        status: true,
+        input: $shapeWidth
+      };    
+    });
+  }
+
+  /*
+    / Shape width
   */
 
   /*
