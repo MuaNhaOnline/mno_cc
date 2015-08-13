@@ -22,27 +22,31 @@ a:hover {
 
 /*start header*/
 header {
-	height: 45px;
+	height: 60px;
 }
-	header .navbar-fixed-top {
+	header .header-fixed {
 		border-bottom: 1px solid #ddd;
 		box-shadow: 0px 0px 2px #ccc;
+		height: 60px;
+		transition: 0.3s;
 	}
 
 	/*start fixed header*/
 	.header {            
 		pading: 0 10px;
-		height: 45px;
+		height: 100%;
 		display: flex;
 	}
 	
 		/*start logo*/
 		.logo {
 			height: 100%;
+			display: flex;
 		}
 			.logo img {
 				height: 100%;
-				padding: 12px 0;
+				padding: 17px 0;
+				transition: 0.3s;
 			}
 		/*end logo*/
 
@@ -82,7 +86,7 @@ header {
 		.function-button {            
 			margin: auto 0;
 			margin-left: auto;
-			margin-right: 70px
+			margin-right: 10px;
 		}
 			.function-button button {
 				background-color: #ff6511;
@@ -104,7 +108,7 @@ header {
 
 		/*start user-box*/
 		.user-box {
-
+			margin: auto 0;
 		}
 			.user-box a {
 				padding: 9px 0;
@@ -131,7 +135,8 @@ header {
 		}
 			/*start dropdown-menu of user-box*/
 			.user-box .dropdown-menu {
-				margin-top: 4px;
+				margin-top: 6px;
+				left: -90px !important;
 			}
 			.user-box .dropdown-menu a:hover {
 				background-color: #54b40d;
@@ -266,16 +271,18 @@ footer {
 .search-box {
 	width: 550px;   
 	border: 1px solid #000;
-	background-color: #111;
-	opacity: 0.9;
+	background-color: rgba(0, 0, 0, 0.7);
 	border-radius: 4px;
 	text-align: center;
 	padding-bottom: 10px;
 }
 	.search-box .title {
 		text-align: center;
-		color: #fcfcfc;
+		color: #ff6511;		
 	}
+		.search-box .title h3 {
+			font-weight: bold;
+		}
 	.search-box .tab {
 		text-align: center;         
 		color: #fff;                    
@@ -298,41 +305,32 @@ footer {
 			.search-box .tab label input:checked ~ span,
 			.search-box .tab label input:hover ~ span,
 			.search-box .tab label input:focus ~ span {
-				color: #ff941e;
+				color: #ff6511;
 			}
 			.search-box .tab label input ~ .sale {
 				display: inline-block;
 				width: 32px;
 				height: 32px;
 				vertical-align: -10px;                          
-				background: url('/assets/icon/Real_Estate_Investment-32.png') no-repeat center center;                          
+				background: url('/assets/icon/Real_Estate_Investment-32-hover.png') no-repeat center center;                          
 				margin-right: 10px;
 				transition: 0.2s;
 			}
-				.search-box .tab label input:hover ~ .sale,
-				.search-box .tab label input:focus ~ .sale,
-				.search-box .tab label input:checked ~ .sale {
-					background: url('/assets/icon/Real_Estate_Investment-32-hover.png') no-repeat center center;                            
-				}
 			.search-box .tab label input ~ .rent {
 				display: inline-block;
 				width: 32px;
 				height: 32px;
 				vertical-align: -10px;                          
-				background: url('/assets/icon/Rent_Home-32.png') no-repeat center center;                           
+				background: url('/assets/icon/Rent_Home-32-hover.png') no-repeat center center;                           
 				margin-right: 10px;
 				transition: 0.2s;
-			}
-				.search-box .tab label input:hover ~ .rent,
-				.search-box .tab label input:focus ~ .rent,
-				.search-box .tab label input:checked ~ .rent {
-					background: url('/assets/icon/Rent_Home-32-hover.png') no-repeat center center;                         
-				}
+			}				
 	.search-box form {
 		padding: 0 70px;
 	}
 		.search-box form .form-group-custom {
 			position: relative;
+			margin-bottom: 10px;
 		}
 		/*search-keyword*/
 		.search-box form .search-keyword {
@@ -345,6 +343,7 @@ footer {
 			top: 0;
 			right: 0;
 			padding: 0 10px;
+			display: flex;
 		}
 			.search-box form .btn-search button {
 				height: 100%;
@@ -353,39 +352,26 @@ footer {
 				border: none;
 				text-decoration: none;
 				outline: none;
+				vertical-align: middle;
 				padding: 0;
 				background: url('/assets/icon/search-home.png') no-repeat center center;
 			}
 				.search-box form .btn-search button:hover {
 					background: url('/assets/icon/search-home-hover.png') no-repeat center center;
 				}
-		/*button zestimate*/
-		.search-box form .btn-zestimate {
-			height: 100%;
-			position: absolute;
-			top: 0;
-			right: 43px;
-			padding: 0 10px;
-		}
-			.search-box form .btn-zestimate button {
+			.search-box form .btn-search .btn-more {
+				font-size: 12px;				
+				color: #ccc;
+				cursor: pointer;
 				height: 100%;
-				width: 24px;
-				transition: 0.5s;
-				border: none;
-				text-decoration: none;
-				outline: none;
-				padding: 0;
-				background: url('/assets/icon/price-home.png') no-repeat center center;
-			}
-				.search-box form .btn-zestimate button:hover {
-					background: url('/assets/icon/price-home-hover.png') no-repeat center center;
-				}
+				line-height: 31px;
+			}	
 		/*separator*/
 		.search-box form .separator {
 			height: 100%;
 			position: absolute;
 			top: 0;
-			right: 42px;
+			right: 55px;
 		}
 			.search-box form .separator span {
 				height: 100%;
@@ -397,20 +383,21 @@ footer {
 			height: 100%;
 			position: absolute;
 			top: 0;
-			right: 86px;
+			right: 65px;
 		}
 			.search-box form .history-search button {
 				padding-left: 0;
 				padding-right: 0;
 				color: #ccc;
 			}
-		/*button search-plus*/
-		.search-box form button.btn-success {
-			background-color: #54b40d;
-			border-color: #2b5b07;
+		/*button btn-plus*/
+		.search-box form .btn-search-plus {
+			display: none;
+			margin-right: 5px;
 		}
-			.search-box form button.btn-success:hover {
-				background-color: #2b5b07;                
+			.search-box form .btn-search-plus img {
+				width: 15px;
+				height: 15px;
 			}
 /*end search-box*/
 
@@ -543,11 +530,12 @@ footer {
 }
 	.item-sm a:hover {
 		text-decoration: none;
-	}.suggest-project img {
+	}
+	.item-sm img {
 		width: 100%;
 		height: 170px;
 	}
-.item-sm .title {
+.item-sm a > .title {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	font-size: 17px;	
@@ -599,7 +587,7 @@ footer {
 
 }
 	/*start Title*/
-	.block .title {
+	.block > .title {
 		text-align: center;
 		text-transform: uppercase;
 		font-size: 20px;
@@ -608,12 +596,12 @@ footer {
 		transition: 0.2s;
 		color: #666;
 	}
-	.block .title > a {
+	.block > .title > a {
 		color: #666;
 		transition: 0.2s;
 		position: relative;
 	}
-		.block .title > a:before {
+		.block > .title > a:before {
 			content: '';
 			position: absolute;
 			width: 300px;
@@ -624,7 +612,7 @@ footer {
 			top: calc(50% - 2.5px);
 			margin-right: 20px;
 		}
-		.block .title > a:after {
+		.block > .title > a:after {
 			content: '';
 			position: absolute;
 			width: 300px;
@@ -643,10 +631,10 @@ footer {
 			text-decoration: none;
 			color: #54b40d;
 		}
-		.block a.link:hover i.line {
+		.block a.link:hover i.icon-link {
 			background: url('/assets/icon/link-12-hover.png') no-repeat center center;
 		}
-	.block i.line {
+	.block i.icon-link {
 		position: relative;
 		vertical-align: middle;
 		width: 12px;
@@ -663,6 +651,60 @@ footer {
 	}
 	/*end content*/
 /*end block*/
+
+/*start block-info*/
+.block-info {
+
+}
+	.block-info .title {
+		text-align: center;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+		position: relative;
+		transition: 0.2s;
+		color: #666;
+		display: flex;
+		flex-direction: column;
+	}
+	.block-info .title .text {
+		max-width: 400px;
+		position: relative;
+		margin: 0 auto;
+		color: #666;
+		font-size: 15px;
+		font-weight: bold;
+	}
+		.block-info .title .text:before {
+			content: '';
+			position: absolute;
+			width: 300px;
+			height: 5px;
+			background: url('/assets/icon/line.png') no-repeat center center;
+			right: 100%;
+			display: block;
+			top: calc(50% - 2.5px);
+			margin-right: 20px;			
+		}
+		.block-info .title .text:after {
+			content: '';
+			position: absolute;
+			width: 300px;
+			height: 5px;
+			background: url('/assets/icon/line.png') no-repeat center center;
+			left: 100%;
+			display: block;
+			top: calc(50% - 2.5px);
+			transform: rotate(180deg);
+			-o-transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			-webkit-transform: rotate(180deg);
+			margin-left: 20px;
+		}
+	.block-info .date {
+		font-size: 12px;
+		color: #999;
+	}
+/*end block-info*/
 
 /*start icon*/
 .icon {
