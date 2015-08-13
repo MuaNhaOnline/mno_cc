@@ -69,4 +69,30 @@ class UsersController < ApplicationController
 
     render json: { status: 0, result: user.id }
   end
+
+  def manager
+    @users = User.all
+  end
+
+  def _manager_list
+    # per = Rails.application.config.item_per_page
+
+    # if params[:keyword].blank?
+    #   res = User.order(updated_at: 'desc')
+    # else
+    #   res = User.search(params[:keyword]).order(updated_at: 'desc')
+    # end
+
+    # count = res.count
+
+    # return render json: { status: 1 } if count === 0
+
+    # render json: {
+    #   status: 0,
+    #   result: {
+    #     list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page].to_i, per) }),
+    #     pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+    #   }
+    # }
+  end
 end

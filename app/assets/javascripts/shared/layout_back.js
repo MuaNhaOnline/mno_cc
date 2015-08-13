@@ -474,9 +474,7 @@ function _initSearchablePagination($list, $search, $pagination, params) {
 
   var
     keyword = '',
-    currentPage = params.page || 1,
-    defaultList = $list.html();
-    defaultPagination = $list.html();
+    currentPage = params.page || 1;
 
   _temp.isSearching = false;
 

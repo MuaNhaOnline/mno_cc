@@ -1,0 +1,59 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+	<link rel="stylesheet" type="text/css" href="/assets/users/manager.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/shared/form_back.js"></script>
+	<script type="text/javascript" src="/assets/users/manager.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+	Quản lý người dùng
+<% end %>
+
+<article class="col-md-6" id="system_manager">
+	<article class="box box-default">
+		<section class="box-header with-border">
+			<h2 class="box-title">Quản lý hệ thống</h3>
+			<div class="box-tools pull-right">
+        <a href="javascript:void(0)" class="btn-box-tool">Thêm</a>
+        <form class="has-feedback" aria-object="search">
+          <input type="text" class="form-control input-sm" placeholder="Search...">
+          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+        </form>
+      </div>
+		</section>
+		<section class="box-body">
+
+			<!-- User list -->
+
+			<ul class="users-list clearfix" aria-object="list">
+
+				<% @users.each do |user| %>
+					<li>
+						<section class="item-control" style="top: 2px; right: 2px">
+				      <div class="dropdown">
+				        <a id="drop_down_button_<%= user.id %>" href="javascrip:void(0)" class="fa fa-cog" data-toggle="dropdown" aria-expanded="true"></a>
+				        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= user.id %>">
+				          <li role="presentation">
+				            <a aria-click="change-show-status" href="javascript:void(0)">asdfasdfasdf</a>
+				          </li>
+				        </ul>
+				      </div>
+						</section>
+						<%= user_avatar user %>
+						<a class="users-list-name" href="#"><%= user.full_name %></a>
+					</li>
+				<% end %>
+
+			</ul>
+
+			<!-- / User list -->
+
+		  <nav class="text-center" aria-object="pagination">
+		    <%= render partial: 'shared/pagination', locals: { total: 10, per: 3, class_style: 'no-margin' } %>
+		  </nav>
+		</section>
+	</article>
+</article>

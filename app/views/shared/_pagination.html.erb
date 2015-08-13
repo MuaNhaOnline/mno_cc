@@ -7,7 +7,7 @@
  	i = 0
 %>
 
-<ul class="pagination inline-block">
+<ul class="pagination inline-block <%= class_style if defined? class_style %>">
 	<% while (i += 1) <= pageCount do %>
 		<li>
 	    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>

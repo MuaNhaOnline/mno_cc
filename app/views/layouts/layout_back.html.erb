@@ -364,7 +364,7 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper clearfix">
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1><%= yield :content_header %></h1>
@@ -380,21 +380,19 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <section class="clearfix">
-        <article class="pull-left">
-          <strong>MuaNhaOnline</strong> - All rights reserved.
-          <br />
-          <strong>Version</strong>: 1.1.0.
-        </article>
-        <article class="pull-right">
-          <% if I18n.locale.to_s === 'vi' %>
-            <a class="language" href="?l=en">English<img src="/assets/layout/lang/en.png" /></a>
-          <% else %>
-            <a class="language" href="?l=vi">Tiếng việt<img src="/assets/layout/lang/vi.png" /></a>
-          <% end %>
-        </article>
-      </section>
+    <footer class="main-footer clearfix">
+      <article class="pull-left">
+        <strong>MuaNhaOnline</strong> - All rights reserved.
+        <br />
+        <strong>Version</strong>: 1.1.0.
+      </article>
+      <article class="pull-right">
+        <% if I18n.locale.to_s === 'vi' %>
+          <a class="language" href="?l=en">English<img src="/assets/layout/lang/en.png" /></a>
+        <% else %>
+          <a class="language" href="?l=vi">Tiếng việt<img src="/assets/layout/lang/vi.png" /></a>
+        <% end %>
+      </article>
     </footer>
 	</article>
   <!-- jQuery -->

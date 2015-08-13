@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
 
+  include PgSearch
+  pg_search_scope :search, against: [:full_name]
+
 # Associates
 
-	has_one :avatar_image, class_name: 'Image'
+	belongs_to :avatar_image, class_name: 'Image'
 
 # / Associates
 
