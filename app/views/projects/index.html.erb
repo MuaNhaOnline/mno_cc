@@ -8,101 +8,105 @@
 
 <!--start Search Box -->
 <section class="search">
-  <div class="search-box">
-    <div class="title">
-      <h3>Hãy để MuanhaOnline tìm dự án giúp bạn.</h3>
-    </div>
-    <form>
-      <div class="tab">
-        <label><input type="radio" name="typeTab"><i class="sale"></i><span>Dự án bán</span></label>
-        <label><input type="radio" name="typeTab"><i class="rent"></i><span>Dự án cho thuê</span></label>       
-      </div>
-      <div class="form-group-custom">
-        <input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">        
-        <div class="separator">
-          <span>|</span>
-        </div>
-        <div class="btn-search" data-toggle="tooltip" data-placement="left" title="Tìm kiếm">
-          <button type="submit"></button>
-        </div>
-        <div class="btn-group history-search">
-          <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          từ khóa
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Từ khóa 01</a></li>
-            <li><a href="#">Từ khóa 02</a></li>
-            <li><a href="#">Từ khóa 03</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="btn-more">
-        <button type="button" class="btn btn-success btn-sm" data-function="zestimate">Định giá khu vực này</button>
-      </div>
-      <section class="more-search" id="more_search" style="display:none">
-        <div class="form-group-custom container-fluid">
-          <div class="row">
-            <div class="col-md-6 input-inline">
-              <select class="form-control input-sm">
-                <option>--Chọn thành phố/Tỉnh--</option>
-                <option>Thành phố Hồ Chí Minh</option>
-                <option>Hà Nội</option>
-                <option>Bà Rịa - Vũng Tàu</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <select class="form-control input-sm">
-                <option>--Chọn quận/huyện--</option>
-                <option>Quận 1</option>
-                <option>Quận 5</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="form-group-custom">
-          <select class="form-control input-sm">
-            <option>--Chọn giá tiền--</option>
-            <option>1 tỷ - 3 tỷ</option>
-            <option>3 tỷ - 5 tỷ</option>
-            <option>trên 5 tỷ</option>
-          </select>
-        </div>
-        <div class="form-group-custom">
-          <select class="form-control input-sm">
-            <option>--Chọn diện tích--</option>
-            <option>50m2 - 100m2</option>
-            <option>100m2 - 200m2</option>
-            <option>trên 200m2</option>
-          </select>
-        </div>
-        <div class="form-group-custom container-fluid">
-          <div class="row">
-            <div class="col-md-6 input-inline">
-              <select class="form-control input-sm">
-                <option>--Chọn loại dự án--</option>
-                <option>Dự án căn hộ liên kế</option>
-                <option>Dự án biệt thự cao cấp</option>
-                <option>Dự án nhà ở xã hội</option>
-              </select>
-            </div>
-            <div class="col-md-6 input-inline">
-              <select class="form-control input-sm">
-                <option>--Chọn tình trạng dự án--</option>
-                <option>Dự án đã hoàn thành</option>
-                <option>Dự án đang hoàn thành</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-success">
-            <img src="/assets/icon/search-plus.png">
-            Tìm
-          </button>
-        </div>
-      </section>
-    </form>
-  </div>
+	<div class="search-box">
+		<div class="title">
+			<h3>Hãy để MuanhaOnline tìm nhà giúp bạn.</h3>
+		</div>
+		<form>
+			<div class="tab">
+				<label><input type="radio" name="typeTab"><i class="sale"></i><span>Nhà Bán</span></label>
+				<label><input type="radio" name="typeTab"><i class="rent"></i><span>Nhà Thuê</span></label>       
+			</div>
+			<div class="form-group-custom">
+				<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
+				<div class="btn-group history-search">
+					<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						từ khóa
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Từ khóa 01</a></li>
+						<li><a href="#">Từ khóa 02</a></li>
+						<li><a href="#">Từ khóa 03</a></li>
+					</ul>
+				</div>
+				<div class="separator">
+					<span>|</span>
+				</div>
+				<div class="btn-search" data-toggle="tooltip" data-placement="left" title="Tìm kiếm">
+					<button type="submit"></button>
+					<div class="btn-more" data-function="show-search-plus">
+						<span class="caret"></span>
+					</div>
+				</div>
+			</div>			
+			<section class="more-search" id="more_search" style="display:none">
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+						<select class="form-control input-sm">
+						<option>--Chọn thành phố/Tỉnh--</option>
+						<option>Thành phố Hồ Chí Minh</option>
+						<option>Hà Nội</option>
+						<option>Bà Rịa - Vũng Tàu</option>
+						</select>
+						</div>
+						<div class="col-md-6">
+						<select class="form-control input-sm">
+						<option>--Chọn quận/huyện--</option>
+						<option>Quận 1</option>
+						<option>Quận 5</option>
+						</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>--Chọn giá tiền--</option>
+						<option>1 tỷ - 3 tỷ</option>
+						<option>3 tỷ - 5 tỷ</option>
+						<option>trên 5 tỷ</option>
+					</select>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>--Chọn diện tích--</option>
+						<option>50m2 - 100m2</option>
+						<option>100m2 - 200m2</option>
+						<option>trên 200m2</option>
+					</select>
+				</div>
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn loại dự án--</option>
+								<option>Dự án căn hộ liên kế</option>
+								<option>Dự án biệt thự cao cấp</option>
+								<option>Dự án nhà ở xã hội</option>
+							</select>
+						</div>
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn tình trạng dự án--</option>
+								<option>Dự án đã hoàn thành</option>
+								<option>Dự án đang hoàn thành</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					
+				</div>
+			</section>
+			<div class="btn-plus">
+				<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+					<img src="/assets/icon/search-plus.png">
+					Tìm nâng cao
+				</button>
+				<button type="button" class="btn btn-success btn-sm" data-function="zestimate">Định giá khu vực này</button>
+			</div>
+		</form>
+	</div>
 </section>
 <!-- end Search Box-->
 

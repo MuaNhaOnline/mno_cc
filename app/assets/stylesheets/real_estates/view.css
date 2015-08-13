@@ -26,6 +26,7 @@
 	/*start picture-info*/
 	.picture-info {
 		max-width: 400px;
+		max-height: 400px;
 		width: 100%;
 	}
 		.picture-info img {
@@ -45,11 +46,11 @@
 			display: flex;
 			border: 1px solid #ccc;
 			border-radius:  2px;
-			padding: 10px;			
+			padding: 10px;
+			height: 89px;
+			min-width: 470px;
 		}		
-			.basic-info .slide-picture li {
-				height: 50px;
-				width: 50px;
+			.basic-info .slide-picture li {		
 				margin-right: 10px;
 				border: 1px solid #ccc;
 			}
