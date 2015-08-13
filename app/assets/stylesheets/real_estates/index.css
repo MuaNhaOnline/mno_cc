@@ -3,7 +3,7 @@
 	background: url('/assets/background/background-search.jpg') no-repeat center center;
 	height: 550px;
 	display: flex;
-	margin-bottom: 25px;
+	margin-bottom: 20px;
 }	
 	.search .search-box {
 		margin: auto;
@@ -12,7 +12,6 @@
 
 /*start navigator*/
 .navigator {
-
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
@@ -115,6 +114,7 @@
 		vertical-align: middle;
 		font-size: 12px;
 		color: #999;
+		outline: none;
 	}
 	/*end tab-position*/
 /*end position property*/

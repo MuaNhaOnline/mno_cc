@@ -31,24 +31,47 @@
 }
 	/*start distribution-block*/
 	.distribution-block {
-		display: flex;
-		justify-content: flex-end;
+		margin-bottom: 20px;
 	}
 		/*start menu*/
 		.distribution-block .menu {
 			text-align: right;
+			display: flex;
+			justify-content: flex-end;
+			margin-bottom: 10px;
+			margin-right: 80px;
 		}
 			.distribution-block .menu select {
-				width: 150px;
+				width: 185px;
 				border-radius: 2px;
 			}
+			.distribution-block .menu .link {
+				margin-left: 10px;
+				align-self: center;
+			}
 		/*end menu*/
-		/*start link*/
-		.distribution-block .link {
-			margin-left: 10px;
-			align-self: center;
+		/*start details*/
+		.distribution-block .details {
+			display: flex;
 		}
-		/*end link*/
+			.distribution-block .details .name {
+				padding: 5px;
+				align-self: center;
+				text-align: center;
+				width: 100px;
+				font-size: 15px;
+				font-weight: bold;
+			}
+			.distribution-block .details  ul.wrapper {
+				display: flex;
+				border-left: 1px solid #ccc;
+				width: 100%;
+				justify-content: center;
+			}
+			.distribution-block .details li {
+				margin: 0 30px;
+			}
+		/*end details*/
 	/*end distribution-block*/
 /*end distribution*/
 
@@ -69,9 +92,62 @@
 /*end agent*/
 
 /*start general list*/
-general-project {
+.general-project {
 	margin-bottom: 20px;
 }
+	/*start content*/
+		/*start position property*/
+		.position-property {
+			margin-bottom: 15px;
+		}	
+			/*start tab-position*/
+			.tab-position {
+				margin-bottom: 15px;
+			}
+			.tab-position ul {
+				display: flex;
+			}
+			.tab-position li.active {
+				border: 1px solid #54b40d;
+				border-radius: 2px;
+				background-color: #54b40d;		
+				font-size: 12px;
+				padding: 0 12px;
+			}
+				.tab-position li.active a {
+					display: block;
+					color: #fff;
+				}
+				.tab-position li.active:after {
+					content: '';
+				}
+			.tab-position li {
+				position: relative;
+				padding: 0 10px;
+				font-size: 12px;
+				align-self: center;
+			}
+				.tab-position li:after {
+					position: absolute;
+					content: '|';
+					top: -2px;
+					right: 0;
+					display: block;
+					color: #ccc;
+				}
+			.tab-position li:last-child:after {
+				content: '';
+			}
+			.tab-position li .input-position {
+				vertical-align: middle;
+				font-size: 12px;
+				color: #999;
+				outline: none;
+			}
+			/*end tab-position*/
+		/*end position property*/
+
+	/*end content*/
 /*end general list*/
 
 /*start contact*/
