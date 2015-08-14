@@ -21,13 +21,15 @@
 
 /*start standard info*/
 .standard-info {
-
+	margin-bottom: 20px;
 }
 	/*start picture-info*/
 	.picture-info {
 		max-width: 400px;
-		max-height: 400px;
+		max-height: 300px;
 		width: 100%;
+		height: 100%;
+		margin-bottom: 10px;
 	}
 		.picture-info img {
 			width: 100%;
@@ -38,21 +40,210 @@
 	.basic-info {
 		display: flex;
 		flex-direction: column;
+		color: #666;
 	}
-		.basic-info li {
-			margin-bottom: 7px;
+		.basic-info > li:not(:last-child) {
+			margin-bottom: 12px;
 		}
-		.basic-info .slide-picture ul {
+		
+		/*start function*/
+		.basic-info .function {
 			display: flex;
-			border: 1px solid #ccc;
-			border-radius:  2px;
-			padding: 10px;
-			height: 89px;
-			min-width: 470px;
-		}		
+		}
+			.basic-info .function .btn-favor {
+				margin-right: 30px;
+			}
+		/*end*/
+		
+		/*start slide-picture*/
+		.basic-info .slide-picture {
+			margin-bottom: 24px !important;
+		}
+			.basic-info .slide-picture ul {
+				display: flex;
+				border: 1px solid #ccc;
+				border-radius:  2px;
+				padding: 5px;
+				max-height: 72px;
+				max-width: 400px;
+				width: 265px;
+			}
 			.basic-info .slide-picture li {		
-				margin-right: 10px;
+				margin-right: 5px;				
+				width: 60px;
+				height: 60px;
 				border: 1px solid #ccc;
 			}
+				.basic-info .slide-picture li img {
+					width: 100%;
+					height: 100%;
+				}
+			.basic-info .slide-picture li:last-child {
+				margin-right: 0;
+			}
+		/*end*/
 	/*end*/
+
+	/*start price*/
+	.standard-info .price {
+		max-width: 400px;
+		border: 1px solid #ccc;
+		padding: 10px;
+		border-radius: 2px;
+		margin: 0 auto;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: column;
+	}
+		.price select {
+			border: 0px;
+			outline: none;
+			background-color: transparent;
+		}
+		/*start custom-tab*/
+		.price-tab {
+			margin-bottom: -1px;
+			position: relative;
+		}
+			.price-tab li:not(:last-child):after {
+				content: '|';
+				display: block;
+				right: -1px;
+				top: 0;
+				color: #ddd;
+				position: absolute;
+			}
+			.price-tab > li.active > a {
+				border: none;
+				font-weight: bold;
+				color: #666;
+			}
+				.price-tab > li.active > a:hover {
+					border: none;
+				}
+			.price-tab li a {
+				padding: 2px 5px;
+				color: #999;
+			}
+		/*end*/
+		/*start custom-content*/
+		.tab-content {
+			padding: 5px;
+			border-top: 1px solid #eee;
+		}
+		/*end*/
+	/*end price*/
+	/*start share*/
+	.share {
+		text-align: center;
+	}
+	/*end*/
+
 /*end*/
+
+/*start description*/
+.description {
+	padding: 10px 20px;
+}
+	.description h5 {
+		font-size: 16px;
+	}
+/*end*/
+
+/*start detail-info*/
+.detail-info {
+	padding: 10px 20px;
+}
+	.detail-info > div > div {
+		margin-top: 12px;
+	}
+	.detail-info i {
+		display: inline-block;
+		vertical-align: -1px;
+		margin-right: 5px;
+	}
+/*end*
+
+/*start utility*/
+.utility {
+	padding: 10px 20px;
+}
+	.utility > div > div {
+		margin-top: 12px;
+	}
+	.utility i {
+		display: inline-block;
+		vertical-align: -1px;
+		margin-right: 5px;
+	}
+/*end utility*/
+
+/*start convenient*/
+.convenient-lg {
+	padding: 10px 20px;
+}
+	.convenient-lg > div > div {
+		margin-top: 12px;
+	}
+	.convenient-lg i {
+		display: inline-block;
+		vertical-align: -1px;
+		margin-right: 5px;
+	}
+/*end convenient*/
+
+/*start map*/
+.map {
+	padding: 20px 0;
+}
+	.map > div {
+		width: 100%;
+		height: 400px;
+		border: 1px solid #ccc;
+	}
+/*end map*/
+
+/*start information*/
+.information {
+	padding: 15px 0;
+}
+	/*start user-info*/
+	.user-info {
+		text-align: center;
+		color: #666;
+		margin-bottom: 15px;
+	}
+		.user-info img {
+			width: 100%;
+			margin-bottom: 5px;
+		}
+		.user-info .info {
+			display: inline-block;
+			text-align: left;
+			width: 100%;
+		}
+			.user-info .info li {
+				margin-bottom: 12px;
+			}
+			.user-info .info i {
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 6px;
+			}
+		.user-info .btn-contact {
+			text-align: left;
+		}
+			.user-info .btn-contact button {
+				margin-right: 10px;
+			}
+	/*end*/
+	/*start distributor-other*/
+	.distributor-other {
+		display: flex;
+		width: 100%;
+	}
+		.distributor-other .distributor-item {
+			margin-right: 20px;
+		}
+	/*end*/
+/*end information*/

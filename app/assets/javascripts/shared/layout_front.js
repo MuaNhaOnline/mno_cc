@@ -14,6 +14,9 @@ $(function () {
 
 	//init datepicker
 	$('.datepicker').datepicker();
+
+	// init tab
+	
 });
 
 //endregion
@@ -21,6 +24,7 @@ $(function () {
 // start scroll header
 function initHeader() {
 	var header = $('.header-fixed');
+	var logo = $('.logo');
 	var imgLogo = $('.logo > img');
 
 	$(window).scroll(function() {
