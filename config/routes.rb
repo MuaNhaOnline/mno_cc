@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'users/_manager_list'
   post 'register' => 'users#save'
   post 'signin' => 'users#signin_handle'
+  put 'users/change_type'
 
   # Project
   get 'projects/index'

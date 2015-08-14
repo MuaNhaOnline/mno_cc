@@ -74,6 +74,14 @@
   text-decoration: none !important;
 }
 
+.if-before-empty {
+  display: none;
+}
+
+  *:empty + .if-before-empty {
+    display: initial;
+  }
+
 /*
   / Custom layout
 */

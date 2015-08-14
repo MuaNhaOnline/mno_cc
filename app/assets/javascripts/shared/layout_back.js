@@ -144,32 +144,6 @@ function getPopup(params) {
 }
 
 /*
-  tieuDe: Không bắt buộc
-    Tiêu đề của thông báo
-  thongBao: Không bắt buộc
-      Đoạn thông báo
-  bieuTuong: Không bắt buộc (chỉ sử dụng được khi có thông báo)
-      Biểu tượng trước thông báo
-      Gồm: thanh-cong, nguy-hiem, thong-tin, canh-bao, hoi
-  nut: Mặc định: Nút thoát
-      Danh sách nút xử lý ở thông báo
-      Gồm:
-          ten: Mặc định: Nút xử lý
-              Tên của nút
-          loai: Mặc định: chap-nhan
-              Loại nút (chap-nhan, thong-tin, can-than,....)
-          * Có 2 loại xử lý:
-              href: Không bắt buộc
-                  Nút đường dẫn
-                  Ưu tiên hơn nếu có cả href & xuLy
-              xuLy: Mặc định: Tắt popup
-                  Xử lý khi nhấn vào nút
-                  Trả về false nếu muốn chặn tắt popup
-  esc: Mặc định: true
-      Cho phép bấm ra ngoài là tắt popup
-  id, z-index: Trường hợp muốn trùng
-*/
-/*
 	title:
 		title of popup
 	content:
@@ -461,9 +435,12 @@ function _initPagination($list, $pagination, params) {
     data: 
       Data will be pass to url
       {} or func return {}
-    afterLoad:
+    afterLoad: func (result list, note)
       init after fill new page
       param: result
+    ifEmpty: func (params(note))
+      function will be execute
+      return false if want to keep defaults
     page: 1
       default page
 */
@@ -480,14 +457,24 @@ function _initSearchablePagination($list, $search, $pagination, params) {
 
   $pagination.find('[data-page="' + currentPage + '"]').parent().addClass('active');
 
-  $search.search = function (page) {
+  /*
+    searchParams:
+      page
+      keyword
+      note
+  */
+  $search.search = function (searchParams) {
+    if (typeof searchParams === 'undefined') {
+      searchParams = {}
+    }
+
     var data;
     if ('data' in params) {
       if (typeof params.data === 'function') {
-        data = thamSo.data();
+        data = params.data();
       }
       else {
-        data = thamSo.data;
+        data = params.data;
       }
     }
 
@@ -495,9 +482,14 @@ function _initSearchablePagination($list, $search, $pagination, params) {
       data = {}
     }
 
-    page = page || 1
+    page = searchParams.page || 1
 
-    data.keyword = keyword;
+    if ('keyword' in searchParams) {
+      data.keyword = searchParams.keyword;
+    }
+    else {
+      data.keyword = keyword;
+    }
     data.page = page;
 
     if (_temp.isSearching) {
@@ -515,26 +507,38 @@ function _initSearchablePagination($list, $search, $pagination, params) {
         currentPage = page;
 
         if ('afterLoad' in params) {
-          var result = params.afterLoad(data.result.list);
+          var result = params.afterLoad(data.result.list, searchParams.note);
 
           if (result) {
             $list.html(result);
           }
         }
         else {
-          $list.html(data.result);
+          $list.html(data.result.list);
         }
 
         $pagination.html(data.result.pagination);
         initPagination();
       }
       else {
-        $list.empty();
+        if ('ifEmpty' in params) {
+          if (params.ifEmpty(searchParams.note) === false) {
+            $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');
+          }
+        }
+        else {
+          $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');
+        }
         $pagination.empty();
       }
     }).fail(function (xhr, status) {
       if (status !== 'abort') {
-        $list.empty();
+        if ('ifEmpty' in params) {
+          params.ifEmpty(searchParams.note);
+        }
+        else {
+          $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');          
+        }
         $pagination.empty();
       }
     });
@@ -556,7 +560,9 @@ function _initSearchablePagination($list, $search, $pagination, params) {
     $pagination.update();
 
     $pagination.find('[aria-click="paging"]').on('click', function () {
-      $search.search($(this).data('page'));
+      $search.search({
+        page: $(this).data('page')
+      });
     });    
   }
 

@@ -1,0 +1,26 @@
+<% 
+	# params: users(*), is_add(*)
+%>
+
+<% users.each do |user| %>
+	<li aria-object="item" data-value="<%= user.id %>">
+		<section class="item-control" style="top: 2px; right: 2px">
+	    <div class="dropdown">
+	      <a id="drop_down_button_<%= user.id %>" href="javascrip:void(0)" class="fa fa-cog" data-toggle="dropdown" aria-expanded="true"></a>
+	      <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= user.id %>">
+	      	<% if is_add %>
+		        <li>
+		          <a aria-click="add" href="javascript:void(0)">Thêm vào nhóm</a>
+		        </li>
+		      <% else %>
+		        <li>
+		          <a aria-click="remove" href="javascript:void(0)">Loại khỏi nhóm</a>
+		        </li>
+		      <% end %>
+	      </ul>
+	    </div>
+		</section>
+		<%= user_avatar user %>
+		<a class="users-list-name" href="#"><%= user.full_name %></a>
+	</li>
+<% end %>

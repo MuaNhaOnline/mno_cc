@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
 	layout 'layout_back'
   skip_before_filter :verify_authenticity_token
+
+# Sign up
   
   def create
   	
@@ -33,6 +35,10 @@ class UsersController < ApplicationController
       render json: { status: 2 }
     end
   end
+
+# / Sign up
+
+# Sign in
 
   def signin
     
@@ -70,29 +76,51 @@ class UsersController < ApplicationController
     render json: { status: 0, result: user.id }
   end
 
+# / Sign in
+
+# Manager
+
   def manager
-    @users = User.all
+    @system_managers = User.search_by_type '', 'system_manager', true
+    @user_managers = User.search_by_type '', 'user_manager', true
+    @real_estate_managers = User.search_by_type '', 'real_estate_manager', true
+    @project_managers = User.search_by_type '', 'project_manager', true
+    @appraisers = User.search_by_type '', 'appraiser', true
+    @statisticians = User.search_by_type '', 'statistician', true
   end
 
+  # params: is_add(*), type(*), page, keyword
   def _manager_list
-    # per = Rails.application.config.item_per_page
+    # Check unless exists is_add, type
+    return render json: { status: 3 } unless params.has_key?(:is_add) && params.has_key?(:type)
 
-    # if params[:keyword].blank?
-    #   res = User.order(updated_at: 'desc')
-    # else
-    #   res = User.search(params[:keyword]).order(updated_at: 'desc')
-    # end
+    per = Rails.application.config.item_per_page
+    page = params.has_key?(:page) ? params[:page].to_i : 1
+    is_add = params[:is_add] === 'true'
+    type = params[:type]
 
-    # count = res.count
+    users = User.search_by_type params[:keyword], type, !is_add
 
-    # return render json: { status: 1 } if count === 0
+    count = users.count
 
-    # render json: {
-    #   status: 0,
-    #   result: {
-    #     list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page].to_i, per) }),
-    #     pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
-    #   }
-    # }
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'users/manager_list', locals: { users: users.page(page, per), is_add: is_add }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+      }
+    }
   end
+
+  # params: id(*), type(*), is(*)
+  def change_type
+    User.update_type_by_id params[:id], params[:type], params[:is]
+
+    render json: { status: 0 }
+  end
+
+# / Manager
+
 end

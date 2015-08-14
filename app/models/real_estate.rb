@@ -101,19 +101,7 @@ class RealEstate < ActiveRecord::Base
 
 # / Validates
 
-  # Name
-
-  def name
-    purpose.name + ' ' +
-      real_estate_type.name + ' ' +
-      (is_alley == 1 ? 'Hẻm' : 'Mặt tiền') + ' ' +
-      street.name + ' ' +
-      'Quận ' + district.name + ' ' +
-      province.name + ' ' +
-      (legal_record_type.code != 'Custom' ? legal_record_type.name : custom_legal_record_type)
-  end
-
-  # / Name
+# Insert
 
   # Get params
 
@@ -225,6 +213,8 @@ class RealEstate < ActiveRecord::Base
 
   # / Save with params
 
+# / Insert
+
 # Updates
 
   # Update show status
@@ -292,6 +282,20 @@ class RealEstate < ActiveRecord::Base
   end
 
   #endregion
+
+  # Name
+
+  def name
+    purpose.name + ' ' +
+      real_estate_type.name + ' ' +
+      (is_alley == 1 ? 'Hẻm' : 'Mặt tiền') + ' ' +
+      street.name + ' ' +
+      'Quận ' + district.name + ' ' +
+      province.name + ' ' +
+      (legal_record_type.code != 'Custom' ? legal_record_type.name : custom_legal_record_type)
+  end
+
+  # / Name
 # / Temp
 
 end

@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
 
 # / Validates
 
+# Insert
+
 	# Get params
 
 	def self.get_params params
@@ -72,5 +74,37 @@ class User < ActiveRecord::Base
 	end
 
 	# / Signin
+
+# / Insert
+
+# Get
+
+	# Get user by keyword and type
+	def self.search_by_type keyword, type, is
+		if keyword.blank?
+      where("is_#{type} = #{is}")
+    else
+      if is
+        search(keyword).where("is_#{type} = true")
+      else
+        where("is_#{type} = false").search(keyword)
+      end
+    end
+	end
+
+# /Get
+
+# Update
+
+	# Update type by id
+	def self.update_type_by_id id, type, is
+    user = find id
+
+    user.assign_attributes({ "is_#{type}": is })
+
+    user.save validate: false
+	end
+
+# / Update
 
 end
