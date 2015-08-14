@@ -52,18 +52,20 @@ var _t = {
 			'real_estate[custom_planning_status_type]_required': 'Tình trạng khác không thể bỏ trống',
 			'real_estate[image_ids]_required': 'Hình ảnh không thể bỏ trống'
 		},
-		create: {
-			success_content: 'Tin đăng thành công. Đăng hình ảnh và nhận xét về bất động sản của bạn tại đây',
-			save_draft_success_content: 'Lưu tạm thành công',
-			'continue': 'Bổ sung',
-			view: 'Xem kết quả'
-		},
-		manager: {
-			hide: 'Ẩn',
-			show: 'Hiển thị',
-			'continue': 'Tiếp tục',
-			edit: 'Sửa',
-			delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+		view: {
+			create: {
+				success_content: 'Tin đăng thành công. Đăng hình ảnh và nhận xét về bất động sản của bạn tại đây',
+				save_draft_success_content: 'Lưu tạm thành công',
+				'continue': 'Bổ sung',
+				view: 'Xem kết quả'
+			},
+			my: {
+				hide: 'Ẩn',
+				show: 'Hiển thị',
+				'continue': 'Tiếp tục',
+				edit: 'Sửa',
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			}
 		}
 	}
 };

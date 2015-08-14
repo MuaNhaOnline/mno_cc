@@ -121,23 +121,26 @@ function getPopup(params) {
   }
 
   $popup.on = function () {
-      $popup.addClass('on');
-      $(document).on('keydown.turn_off_popup_' + id, function (e) {
-        if ($popup.is('[aria-esc]')) {
-          if (e.keyCode == 27) {
-            $popup.off();
-          }
+    $popup.addClass('on');
+    $(document).on('keydown.turn_off_popup_' + id, function (e) {
+      if ($popup.is('[aria-esc]')) {
+        if (e.keyCode == 27) {
+          $popup.off();
         }
-      });
-      $body.addClass('no-scroll');
+      }
+    });
+    $body.addClass('no-scroll');
   }
 
   $popup.off = function () {
-      $popup.removeClass('on');
-      $(document).off('keydown.turn_off_popup_' + id);
-      $body.removeClass('no-scroll');
+    $popup.removeClass('on');
+    $(document).off('keydown.turn_off_popup_' + id);
+    $body.removeClass('no-scroll');
 
-      $popup.trigger('onEscape');
+    // $popup.trigger('onEscape');
+    if ($popup.data('onEscape')) {
+      $popup.data('onEscape')();
+    }
   };
 
   return $popup;
@@ -184,11 +187,13 @@ function popupPrompt(params) {
 
   $popup = getPopup(popupParams);
 
-  if ('onEscape' in params) {
-    $popup.one('onEscape', function () {
-      params.onEscape();
-    });
-  }
+  $popup.data('onEscape', params.onEscape);
+
+  // if ('onEscape' in params) {
+  //   $popup.on('onEscape', function () {
+  //     params.onEscape();
+  //   });
+  // }
 
   // Get popup content
 

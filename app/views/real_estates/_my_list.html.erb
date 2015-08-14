@@ -27,13 +27,13 @@
     <td>
       <div class="dropdown">
         <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-          <%= t 'real_estate.view.manager.control' %>
+          <%= t 'real_estate.view.my.control' %>
         </button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
           <li role="presentation">
             <a aria-click="change-show-status" href="javascript:void(0)"></a>
             <a aria-click="edit" href="/real_estates/create/<%= re.id %>"></a>
-            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.manager.delete' %></a>
+            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.my.delete' %></a>
           </li>
         </ul>
       </div>

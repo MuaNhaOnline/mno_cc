@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814022551) do
+ActiveRecord::Schema.define(version: 20150814144512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -322,6 +322,7 @@ ActiveRecord::Schema.define(version: 20150814022551) do
     t.text     "lat"
     t.text     "long"
     t.text     "meta_search"
+    t.integer  "user_id"
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|

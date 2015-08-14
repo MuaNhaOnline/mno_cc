@@ -1,4 +1,8 @@
 vi:
+  layout:
+    header:
+      user_profile: 'Thông tin'
+      signout: 'Đăng xuất'
   real_estate:
     attribute:
       type_transfer_box: 'Loại hình giao dịch'
@@ -61,7 +65,7 @@ vi:
         other_planning_status_type_placeholder: 'Trạng thái khác'
         area_alert: 'Kích thước không thỏa'
         uncheck: 'Bỏ chọn'
-      manager:
+      my:
         page_title_nav: 'Quản lý'
         page_title: 'Quản lý bất động sản'
         search: 'Tìm'

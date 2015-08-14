@@ -20,8 +20,15 @@ $(function () {
 				else if (data.status === 5) {
           popupPrompt({
             title: _t.form.error_title,
+            content: data.result.result,
             type: 'danger',
-            content: _t.form.status
+            onEscape: function () {
+            	$form.find('#password').val('').focus();
+		          if (data.result.status == 1) {
+		        		// Account wrong
+            		$form.find('#account').select();
+		          }
+            }
           });
 				}
 				else {
