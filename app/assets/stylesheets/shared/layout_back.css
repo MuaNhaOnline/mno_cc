@@ -1,4 +1,4 @@
-/*
+
   Custom media
 */
 
@@ -69,6 +69,18 @@
 .inline-block {
   display: inline-block;
 }
+
+.no-underline {
+  text-decoration: none !important;
+}
+
+.if-before-empty {
+  display: none;
+}
+
+  *:empty + .if-before-empty {
+    display: initial;
+  }
 
 /*
   / Custom layout
@@ -154,6 +166,28 @@ body.no-scroll {
 */
 
 /*
+  Item control
+*/
+
+.item-control {
+  position: absolute;
+}
+
+  .item-control [data-toggle="dropdown"] {
+    color: #888;
+    opacity: 0.3;
+  }
+
+    .item-control [data-toggle="dropdown"]:hover,
+    .item-control [data-toggle="dropdown"]:focus {
+      opacity: 1;
+    }
+
+/*
+  Item control
+*/
+
+/*
   Language
 */
 
@@ -169,4 +203,3 @@ body.no-scroll {
 
 /*
   Language
-*/

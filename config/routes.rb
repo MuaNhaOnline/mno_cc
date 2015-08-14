@@ -30,8 +30,11 @@ Rails.application.routes.draw do
   get 'users/check_unique_account'
   get 'users/check_unique_email'
   get 'signin' => 'users#signin'
+  get 'users/manager'
+  get 'users/_manager_list'
   post 'register' => 'users#save'
   post 'signin' => 'users#signin_handle'
+  put 'users/change_type'
 
   # Project
   get 'projects/index'

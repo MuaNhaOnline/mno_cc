@@ -6,7 +6,8 @@ var _t = {
 		confirm_title: 'Xác nhận',
 		yes: 'Có',
 		no: 'Không',
-		label_image_upload: 'Đăng hình ảnh tại đây'
+		label_image_upload: 'Đăng hình ảnh tại đây',
+		search_no_result: 'Không tìm thấy kết quả phù hợp'
 	},
 	user: {
 		validate: {
@@ -19,6 +20,12 @@ var _t = {
 			'user[email]_unique': 'Email đã được sử dụng',
 			'user[full_name]_required': 'Họ và tên không thể bỏ trống',
 			'user[birthday]_required': 'Ngày sinh không thể bỏ trống'
+		},
+		view: {
+			manager: {
+				callout_empty_show_list: 'Chưa có người dùng thuộc nhóm, bạn có thể chuyển sang <b>chế độ thêm</b> để thêm người dùng',
+				callout_search_to_add: 'Sử dụng chức năng <b>tìm kiếm</b> để tìm người dùng mà bạn muốn thêm'
+			}
 		}
 	},
 	real_estate: {

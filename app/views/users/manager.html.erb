@@ -1,0 +1,306 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/shared/form_back.js"></script>
+	<script type="text/javascript" src="/assets/users/manager.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+	<%= t 'user.view.manager.page_title' %>
+<% end %>
+
+<%
+	# params: @system_managers(*)
+
+	per = Rails.application.config.item_per_page
+%>
+
+<div class="row">
+
+	<div class="col-md-6">
+
+		<!-- System manager -->
+
+		<article id="system_manager">
+			<article class="box box-default collapsed-box">
+				<section class="box-header with-border">
+					<h2 class="box-title"><%= t 'user.view.manager.system_manager' %></h2>
+		      <div class="box-tools pull-right">
+		        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		      </div>
+				</section>
+				<section class="box-body">
+
+					<% 
+						total = @system_managers.count
+					%>
+
+					<!-- User list -->
+
+					<ul class="users-list clearfix" aria-object="list"><% if total != 0 %>
+		        <%= render partial: 'users/manager_list', locals: { users: @system_managers.page(1, per), is_add: false } %>
+		      <% end %></ul>
+
+					<!-- / User list -->
+
+				  <nav class="text-center" aria-object="pagination">
+
+		        <% if total != 0 %>
+				    	<%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+		        <% end %>
+
+				  </nav>
+				</section>
+				<section class="box-footer">
+					<div class="box-tools pull-right" style="position: static">
+		        <a href="javascript:void(0)" class="btn-box-tool" aria-object="mode-toggle"></a>
+		        <form class="has-feedback" aria-object="search">
+		          <input style="padding-right: 30px;" name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+		          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+		        </form>
+		      </div>
+				</section>
+			</article>
+		</article>
+
+		<!-- / System manager -->
+
+		<!-- User manager -->
+
+		<article id="user_manager">
+			<article class="box box-default collapsed-box">
+				<section class="box-header with-border">
+					<h2 class="box-title"><%= t 'user.view.manager.user_manager' %></h2>
+		      <div class="box-tools pull-right">
+		        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		      </div>
+				</section>
+				<section class="box-body">
+
+					<% 
+						total = @user_managers.count
+					%>
+
+					<!-- User list -->
+
+					<ul class="users-list clearfix" aria-object="list"><% if total != 0 %>
+		        <%= render partial: 'users/manager_list', locals: { users: @user_managers.page(1, per), is_add: false } %>
+		      <% end %></ul>
+
+					<!-- / User list -->
+
+				  <nav class="text-center" aria-object="pagination">
+
+		        <% if total != 0 %>
+				    	<%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+		        <% end %>
+
+				  </nav>
+				</section>
+				<section class="box-footer">
+					<div class="box-tools pull-right" style="position: static">
+		        <a href="javascript:void(0)" class="btn-box-tool" aria-object="mode-toggle"></a>
+		        <form class="has-feedback" aria-object="search">
+		          <input style="padding-right: 30px;" name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+		          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+		        </form>
+		      </div>
+				</section>
+			</article>
+		</article>
+
+		<!-- / User manager -->
+
+		<!-- Statistician -->
+
+		<article id="statistician">
+			<article class="box box-default collapsed-box">
+				<section class="box-header with-border">
+					<h2 class="box-title"><%= t 'user.view.manager.statistician' %></h2>
+		      <div class="box-tools pull-right">
+		        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		      </div>
+				</section>
+				<section class="box-body">
+
+					<% 
+						total = @statisticians.count
+					%>
+
+					<!-- User list -->
+
+					<ul class="users-list clearfix" aria-object="list"><% if total != 0 %>
+		        <%= render partial: 'users/manager_list', locals: { users: @statisticians.page(1, per), is_add: false } %>
+		      <% end %></ul>
+
+					<!-- / User list -->
+
+				  <nav class="text-center" aria-object="pagination">
+
+		        <% if total != 0 %>
+				    	<%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+		        <% end %>
+
+				  </nav>
+				</section>
+				<section class="box-footer">
+					<div class="box-tools pull-right" style="position: static">
+		        <a href="javascript:void(0)" class="btn-box-tool" aria-object="mode-toggle"></a>
+		        <form class="has-feedback" aria-object="search">
+		          <input style="padding-right: 30px;" name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+		          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+		        </form>
+		      </div>
+				</section>
+			</article>
+		</article>
+
+		<!-- / Statistician -->
+
+	</div>
+
+	<div class="col-md-6">
+
+		<!-- Real-estate manager -->
+
+		<article id="real_estate_manager">
+			<article class="box box-default collapsed-box">
+				<section class="box-header with-border">
+					<h2 class="box-title"><%= t 'user.view.manager.real_estate_manager' %></h2>
+		      <div class="box-tools pull-right">
+		        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		      </div>
+				</section>
+				<section class="box-body">
+
+					<% 
+						total = @real_estate_managers.count
+					%>
+
+					<!-- User list -->
+
+					<ul class="users-list clearfix" aria-object="list"><% if total != 0 %>
+		        <%= render partial: 'users/manager_list', locals: { users: @real_estate_managers.page(1, per), is_add: false } %>
+		      <% end %></ul>
+
+					<!-- / User list -->
+
+				  <nav class="text-center" aria-object="pagination">
+
+		        <% if total != 0 %>
+				    	<%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+		        <% end %>
+
+				  </nav>
+				</section>
+				<section class="box-footer">
+					<div class="box-tools pull-right" style="position: static">
+		        <a href="javascript:void(0)" class="btn-box-tool" aria-object="mode-toggle"></a>
+		        <form class="has-feedback" aria-object="search">
+		          <input style="padding-right: 30px;" name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+		          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+		        </form>
+		      </div>
+				</section>
+			</article>
+		</article>
+
+		<!-- / Real-estate manager -->
+
+		<!-- Project manager -->
+
+		<article id="project_manager">
+			<article class="box box-default collapsed-box">
+				<section class="box-header with-border">
+					<h2 class="box-title"><%= t 'user.view.manager.project_manager' %></h2>
+		      <div class="box-tools pull-right">
+		        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		      </div>
+				</section>
+				<section class="box-body">
+
+					<% 
+						total = @project_managers.count
+					%>
+
+					<!-- User list -->
+
+					<ul class="users-list clearfix" aria-object="list"><% if total != 0 %>
+		        <%= render partial: 'users/manager_list', locals: { users: @project_managers.page(1, per), is_add: false } %>
+		      <% end %></ul>
+
+					<!-- / User list -->
+
+				  <nav class="text-center" aria-object="pagination">
+
+		        <% if total != 0 %>
+				    	<%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+		        <% end %>
+
+				  </nav>
+				</section>
+				<section class="box-footer">
+					<div class="box-tools pull-right" style="position: static">
+		        <a href="javascript:void(0)" class="btn-box-tool" aria-object="mode-toggle"></a>
+		        <form class="has-feedback" aria-object="search">
+		          <input style="padding-right: 30px;" name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+		          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+		        </form>
+		      </div>
+				</section>
+			</article>
+		</article>
+
+		<!-- / Project manager -->
+
+		<!-- Appraiser -->
+
+		<article id="appraiser">
+			<article class="box box-default collapsed-box">
+				<section class="box-header with-border">
+					<h2 class="box-title"><%= t 'user.view.manager.appraiser' %></h2>
+		      <div class="box-tools pull-right">
+		        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+		      </div>
+				</section>
+				<section class="box-body">
+
+					<% 
+						total = @appraisers.count
+					%>
+
+					<!-- User list -->
+
+					<ul class="users-list clearfix" aria-object="list"><% if total != 0 %>
+		        <%= render partial: 'users/manager_list', locals: { users: @appraisers.page(1, per), is_add: false } %>
+		      <% end %></ul>
+
+					<!-- / User list -->
+
+				  <nav class="text-center" aria-object="pagination">
+
+		        <% if total != 0 %>
+				    	<%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+		        <% end %>
+
+				  </nav>
+				</section>
+				<section class="box-footer">
+					<div class="box-tools pull-right" style="position: static">
+		        <a href="javascript:void(0)" class="btn-box-tool" aria-object="mode-toggle"></a>
+		        <form class="has-feedback" aria-object="search">
+		          <input style="padding-right: 30px;" name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+		          <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+		        </form>
+		      </div>
+				</section>
+			</article>
+		</article>
+
+		<!-- / Appraiser -->
+
+	</div>
+
+</div>

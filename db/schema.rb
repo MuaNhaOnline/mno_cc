@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150812040225) do
+ActiveRecord::Schema.define(version: 20150814022551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -376,6 +376,12 @@ ActiveRecord::Schema.define(version: 20150812040225) do
     t.text    "phone_number"
     t.text    "address"
     t.integer "avatar_image_id"
+    t.boolean "is_system_manager",      default: false
+    t.boolean "is_real_estate_manager", default: false
+    t.boolean "is_project_manager",     default: false
+    t.boolean "is_user_manager",        default: false
+    t.boolean "is_appraiser",           default: false
+    t.boolean "is_statistician",        default: false
   end
 
   create_table "wards", force: :cascade do |t|

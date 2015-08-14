@@ -195,6 +195,15 @@ vi:
       signin:
         box_title: 'Đăng nhập'
         finish: 'Đăng nhập'
+      manager:
+        page_title: 'Quản lý nhóm người dùng'
+        search_placeholder: 'Tìm kiếm...'
+        system_manager: 'Quản lý hệ thống'
+        user_manager: 'Quản lý người dùng'
+        real_estate_manager: 'Quản lý bất động sản'
+        project_manager: 'Quản lý dự án'
+        appraiser: 'Thẩm định viên'
+        statistician: 'Thống kê viên'
   project:
     attribute:
       position_box: 'Vị trí'

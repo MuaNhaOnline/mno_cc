@@ -117,7 +117,6 @@ $(function () {
   function collapseBoxes($boxes) {
     $boxes.addClass('collapsed-box');
     $boxes.find('[data-widget="collapse"] i').removeClass('fa-minus').addClass('fa-plus');
-    $boxes.find('.box-body, .box-footer').hide();
   }
 
   /*

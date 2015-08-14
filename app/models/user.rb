@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
 
+  include PgSearch
+  pg_search_scope :search, against: [:full_name]
+
 # Associates
 
-	has_one :avatar_image, class_name: 'Image'
+	belongs_to :avatar_image, class_name: 'Image'
 
 # / Associates
 
@@ -20,6 +23,8 @@ class User < ActiveRecord::Base
 	end
 
 # / Validates
+
+# Insert
 
 	# Get params
 
@@ -69,5 +74,37 @@ class User < ActiveRecord::Base
 	end
 
 	# / Signin
+
+# / Insert
+
+# Get
+
+	# Get user by keyword and type
+	def self.search_by_type keyword, type, is
+		if keyword.blank?
+      where("is_#{type} = #{is}")
+    else
+      if is
+        search(keyword).where("is_#{type} = true")
+      else
+        where("is_#{type} = false").search(keyword)
+      end
+    end
+	end
+
+# /Get
+
+# Update
+
+	# Update type by id
+	def self.update_type_by_id id, type, is
+    user = find id
+
+    user.assign_attributes({ "is_#{type}": is })
+
+    user.save validate: false
+	end
+
+# / Update
 
 end

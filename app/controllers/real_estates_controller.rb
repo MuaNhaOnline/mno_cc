@@ -69,9 +69,9 @@ class RealEstatesController < ApplicationController
     per = Rails.application.config.item_per_page
 
     if params[:keyword].blank?
-      res = RealEstate.order(updated_at: 'desc')
+      res = RealEstate.all
     else
-      res = RealEstate.search(params[:keyword]).order(updated_at: 'desc')
+      res = RealEstate.search(params[:keyword])
     end
 
     count = res.count
