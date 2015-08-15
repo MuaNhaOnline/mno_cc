@@ -11,11 +11,7 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function (data) {
 				if (data.status === 0) {
-          popupPrompt({
-            title: _t.form.success,
-            type: 'success',
-            content: 'Đăng nhập thành công'
-          });
+          location = '/home/back'
 				}
 				else if (data.status === 5) {
           popupPrompt({

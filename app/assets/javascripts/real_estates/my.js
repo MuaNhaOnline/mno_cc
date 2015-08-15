@@ -25,7 +25,9 @@ $(function () {
         status = $row.data('status'),
         isDraft = listString.has('draft', status),
         isPending = listString.has('pending', status),
-        isShow = listString.has('show', status);
+        isShow = listString.has('show', status),
+        isAppraised = listString.has('appraised', status),
+        isNotAppraised = listString.has('not_appraised', status);
 
       // Status
 
@@ -33,15 +35,24 @@ $(function () {
       if (isDraft) {
         statusHtml += '<span class="label label-default">' + _t.real_estate.attribute.draft_status + '</span><br />';
       }
-      else if (isPending) {
-        statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.pending_status + '</span><br />';
-      }
-
-      if (isShow) {
-        statusHtml += '<span class="label label-primary">' + _t.real_estate.attribute.show_status + '</span>';
-      }
       else {
-        statusHtml += '<span class="label label-danger">' + _t.real_estate.attribute.hide_status + '</span>';
+        if (isAppraised) {
+          statusHtml += '<span class="label label-success">' + _t.real_estate.attribute.appraised_status + '</span><br />';
+        }
+        else if (isNotAppraised) {
+          statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.not_appraised_status + '</span><br />';
+        }
+
+        if (isPending) {
+          statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.pending_status + '</span><br />';
+        }
+
+        if (isShow) {
+          statusHtml += '<span class="label label-primary">' + _t.real_estate.attribute.show_status + '</span>';
+        }
+        else {
+          statusHtml += '<span class="label label-danger">' + _t.real_estate.attribute.hide_status + '</span>';
+        }
       }
 
       $row.find('[aria-object="status"]').html(statusHtml);

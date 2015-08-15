@@ -44,6 +44,9 @@ class RealEstate < ActiveRecord::Base
   validate :custom_validate
 
   def custom_validate
+    # Appraisal
+    errors.add(:appraisal_purpose, 'Mục đích thẩm định không thể bỏ trống') if appraisal_type != 0 && appraisal_purpose.blank?
+
     fields = []
 
     real_estate_type = RealEstateType.find real_estate_type_id
@@ -166,7 +169,7 @@ class RealEstate < ActiveRecord::Base
       :address_number, :street_type, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
-      :lat, :long, :user_id,
+      :lat, :long, :user_id, :appraisal_purpose, :appraisal_type,
       :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
       :image_ids => []
     ]
@@ -205,7 +208,7 @@ class RealEstate < ActiveRecord::Base
     if new_record?
       return { status: 6 } if User.current_user.cannot? :create, RealEstate
     else
-      return { status: 6 } if User.current_user.cannot? :edit, RealEstate
+      return { status: 6 } if User.current_user.cannot? :edit, self
     end
 
     params[:is_draft] = is_draft ? 1 : 0
@@ -289,7 +292,11 @@ class RealEstate < ActiveRecord::Base
 # Delete
   
   def self.delete_by_id id
-    return { status: 6 } if User.current_user.cannot? :delete, RealEstate
+    real_estate = find id
+
+    return { status: 1 } if real_estate.nil?
+
+    return { status: 6 } if User.current_user.cannot? :delete, real_estate
 
     delete id
 

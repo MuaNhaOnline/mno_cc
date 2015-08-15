@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814144512) do
+ActiveRecord::Schema.define(version: 20150815033053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -323,6 +323,9 @@ ActiveRecord::Schema.define(version: 20150814144512) do
     t.text     "long"
     t.text     "meta_search"
     t.integer  "user_id"
+    t.integer  "appraisal_purpose"
+    t.integer  "appraisal_type",              default: 0
+    t.text     "appraisal_price"
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|
@@ -383,6 +386,7 @@ ActiveRecord::Schema.define(version: 20150814144512) do
     t.boolean "is_user_manager",        default: false
     t.boolean "is_appraiser",           default: false
     t.boolean "is_statistician",        default: false
+    t.boolean "is_admin",               default: false
   end
 
   create_table "wards", force: :cascade do |t|

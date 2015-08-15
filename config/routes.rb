@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'home/index'
+  get 'home/back'
 
   # Real estate
   get 'real_estates/index'
@@ -17,6 +18,8 @@ Rails.application.routes.draw do
   get 'real_estates/_my_list'
   get 'real_estates/pending'
   get 'real_estates/_pending_list'
+  get 'real_estates/appraise'
+  get 'real_estates/_appraise_list'
   get 'real_estates/:id' => 'real_estates#view'
   get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'

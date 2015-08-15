@@ -1,0 +1,26 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
+
+	<script type="text/javascript">
+		$(function () {
+			var $a = $('.container > img');
+			$a.cropper({
+			  aspectRatio: 16 / 9,
+			  autoCropArea: 1,
+			  cropend: function () {
+			  	console.log($a.cropper('getCroppedCanvas'));
+			  	console.log($(this).cropper('getCroppedCanvas'));
+			  }
+			});
+
+		});
+	</script>
+<% end %>
+
+<div class="container">
+	<img src="/images/1">
+</div>

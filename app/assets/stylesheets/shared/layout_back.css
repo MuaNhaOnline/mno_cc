@@ -1,4 +1,4 @@
-
+/*
   Custom media
 */
 
@@ -143,7 +143,7 @@ body.no-scroll {
         @keyframes turn-on-popup-content { 
             0% {
                 opacity: 0;
-                transform: scale(0.8) translateY(-50%);
+                transform: scale(0.7) rotate(-10deg);
             }
             100% {
                 opacity: 1;

@@ -37,8 +37,10 @@ class RealEstatesController < ApplicationController
     # Author
     if @re.new_record?
       authorize! :create, RealEstate
+      @is_appraisal = params.has_key? :appraisal
     else
       authorize! :edit, @re
+      @is_appraisal = @re.appraisal_type != 0
     end
 
     render layout: 'layout_back'
@@ -146,7 +148,7 @@ class RealEstatesController < ApplicationController
     if params[:keyword].blank?
       res = RealEstate.where(is_pending: 1).order(updated_at: 'asc')
     else
-      res = RealEstate.where(is_pending: 1).search(params[:keyword]).order(updated_at: 'asc')
+      res = RealEstate.where(is_pending: 1).search(params[:keyword])
     end
 
     count = res.count
@@ -169,6 +171,46 @@ class RealEstatesController < ApplicationController
   end
 
 # / Pending
+
+# Appraise
+
+  # View
+  def appraise
+    # Author
+    return render json: { staus: 6 } if cannot? :appraise, RealEstate
+
+    @res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').order(updated_at: 'asc')
+
+    render layout: 'layout_back'
+  end
+
+  # Partial view
+  def _appraise_list
+    # Author
+    return render json: { staus: 6 } if cannot? :appraise, RealEstate
+
+    per = Rails.application.config.item_per_page
+
+    if params[:keyword].blank?
+      res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').order(updated_at: 'asc')
+    else
+      res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').search(params[:keyword])
+    end
+
+    count = res.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'real_estates/appraise_list', locals: { res: res.page(params[:page].to_i, per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+      }
+    }
+  end
+  
+# / Appraise
 
   # Handle
   # params: id(*)

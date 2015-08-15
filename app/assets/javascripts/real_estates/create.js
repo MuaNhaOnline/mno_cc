@@ -24,6 +24,7 @@ $(function () {
               title: _t.form.success_title,
               content: _t.real_estate.view.create.success_content,
               type: 'success',
+              esc: false,
               buttons: [
                 {
                   text: _t.real_estate.view.create['continue'],

@@ -96,6 +96,16 @@
                 </ul>
               </li>
             <% else %>
+              <li class="dropdown user user-menu">
+                <a href="/signin">
+                  <span>Đăng nhập</span>
+                </a>
+              </li>
+              <li class="dropdown user user-menu">
+                <a href="/signup">
+                  <span>Đăng ký</span>
+                </a>
+              </li>
             <% end %>
           </ul>
 		    </div>
@@ -147,9 +157,11 @@
               <% end %>
               <% if can? :create, RealEstate %>
                 <li><a href="/real_estates/create"><i class="fa fa-circle-o"></i>  Đăng</a></li>
+                <li><a href="/real_estates/create?appraisal"><i class="fa fa-circle-o"></i>  Đăng &amp; Thẩm định</a></li>
               <% end %>
               <% if can? :manage, RealEstate %>
                 <li><a href="/real_estates/pending"><i class="fa fa-circle-o"></i> Duyệt</a></li>
+                <li><a href="/real_estates/appraise"><i class="fa fa-circle-o"></i> Danh sách thẩm định</a></li>
               <% end %>
             </ul>
           </li>

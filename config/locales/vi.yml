@@ -5,6 +5,14 @@ vi:
       signout: 'Đăng xuất'
   real_estate:
     attribute:
+      appraisal_box: 'Thông tin thẩm định'
+      appraisal_purpose: 'Mục đích'
+      trade: 'Mua bán'
+      borrow: 'Vay vốn ngân hàng'
+      valuation: 'Xác định giá trị'
+      appraisal_type: 'Loại'
+      advisory: 'Tư vấn giá miễn phí'
+      appraisal: 'Thẩm định'
       type_transfer_box: 'Loại hình giao dịch'
       purpose: 'Mục đích'
       price_box: 'Giá giao dịch'
@@ -79,6 +87,13 @@ vi:
         search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
         approve: 'Duyệt'
+        delete: 'Xóa'
+      appraise:
+        page_title_nav: 'Thẩm định bất động sản'
+        page_title: 'Thẩm định bất động sản'
+        search: 'Tìm'
+        search_placeholder: 'Bạn đang cần tìm gì?'
+        control: 'Điều khiển'
         delete: 'Xóa'
   real_estate_type:
     text:

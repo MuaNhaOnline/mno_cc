@@ -40,15 +40,16 @@ class ApplicationController < ActionController::Base
 
     # if exists cookie user_account
     if cookies.has_key? :user_account
-      result = check_signin_without_encode cookies[:user_account], cookies[:user_password]
+      result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
       
-      if result.status === 0
-        User.current_user = User.current_user = @current_user = result.result
-        session[:user_id] = @result.result.id
+      if result[:status] === 0
+        User.current_user = User.current_user = @current_user = result[:result]
+        session[:user_id] = result[:result].id
         return
       end
     end
 
+    session[:user_id] = nil
     return User.current_user = @current_user = User.new
   end
 

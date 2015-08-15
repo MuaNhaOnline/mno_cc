@@ -1,10 +1,12 @@
 <% content_for :stylesheets do %>
   <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
 <% end %>
 
 <% content_for :scripts do %>
   <script type="text/javascript" src="/assets/shared/form_back.js"></script>
   <script type="text/javascript" src="/assets/users/create.js"></script>
+	<script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -181,7 +183,7 @@
 
 		    <article class="form-group">
 		      <label><%= t 'user.attribute.avatar_image' %></label>
-          <input name="user[avatar_image_id]" class="file-upload" type="file" />
+          <input name="user[avatar_image_id]" class="file-upload" type="file" data-type="jpg jpeg png" data-ratio="1" />
 		    </article>
 
 		    <!-- / Avatar -->

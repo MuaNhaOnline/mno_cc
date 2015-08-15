@@ -1,0 +1,59 @@
+<% 
+  @title = 'Quản lý bất động sản'
+%>
+
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+  <link rel="stylesheet" href="/assets/real_estates/appraise.css" />
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/shared/form_back.js"></script>
+  <script type="text/javascript" src="/assets/real_estates/appraise.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+  <%= t 'real_estate.view.appraise.page_title' %>
+<% end %>
+
+<% content_for :navigator do %>
+  <li class="active"><%= t 'real_estate.view.appraise.page_title_nav' %></li>
+<% end %>
+
+<%
+  total = @res.count
+  per = Rails.application.config.item_per_page
+%>
+
+<section class="box box-solid">
+  <section class="box-body">
+    <form id="search_form">
+      <div class="input-group margin">
+        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'real_estate.view.appraise.search_placeholder' %>">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><%= t 'real_estate.view.appraise.search' %></button>
+        </span>
+      </div>
+    </form>
+  </section>
+</section>
+
+<section class="box box-default">
+  <section class="box-body no-padding table-responsive">
+    <table class="table table-stripedp re-content">
+      <thead>
+        <th><%= t 'real_estate.attribute.id' %></th>
+        <th><%= t 'real_estate.attribute.name' %></th>
+        <th><%= t 'real_estate.attribute.purpose' %></th>
+        <th><%= t 'real_estate.attribute.real_estate_type' %></th>
+        <th>&nbsp;</th>
+      </thead>
+      <tbody id="re_list">
+        <%= render partial: 'real_estates/appraise_list', locals: { res: @res.page(1, per) } %>
+      </tbody>
+    </table>
+  </section>
+  <nav class="text-center" id="pagination">
+    <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+  </nav>
+</section>

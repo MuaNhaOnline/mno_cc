@@ -74,6 +74,8 @@ class User < ActiveRecord::Base
 		assign_attributes user_params
 
 		save
+
+		{ status: 0 }
 	end
 
 	# / Save with params
