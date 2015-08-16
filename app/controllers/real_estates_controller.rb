@@ -2,22 +2,22 @@ class RealEstatesController < ApplicationController
   layout 'layout_front'
   skip_before_filter :verify_authenticity_token
 
-  # def index
-  #   @real_estates = RealEstate.where(is_draft: 0, is_show: 1).limit(6)
-  # end
+  def index
+    @real_estates = RealEstate.where(is_draft: 0, is_show: 1).limit(6)
+  end
 
-  # def category
+  def category
 
-  # end
+  end
 
-  # def view
-  # #   begin
-  # #     @real_estate = RealEstate.find(params['id'])
-  # #   rescue
-  # #     redirect_to '/real_estates/index'
-  # #   end
-  #   redirect_to '/' + params[:id]
-  # end
+  def view
+    begin
+      @real_estate = RealEstate.find(params['id'])
+    rescue
+      redirect_to '/real_estates/index'
+    end
+    redirect_to '/' + params[:id]
+  end
 
 # Create
 
