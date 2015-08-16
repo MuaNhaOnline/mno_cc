@@ -25,7 +25,7 @@ $(function () {
 			$modeToggle = $box.find('[aria-object="mode-toggle"]'),
 			$list = $box.find('[aria-object="list"]'),
 			$search = $box.find('[aria-object="search"]'),
-			$pagination = $box.find('[aria-object="pagination"]'),
+			$pagination = $box.find('[aria-object="pagination"]');
 
 		$box.data('is_add', false);
 		$modeToggle.text('Chế độ thêm');

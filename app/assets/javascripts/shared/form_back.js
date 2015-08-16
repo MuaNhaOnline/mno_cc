@@ -269,6 +269,7 @@ function initForm($form, params) {
 
 			var $html = $('<article class="cropper-container"><section class="image-cropper"></section><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.cancel_tooltip + '" class="btn btn-link pull-left"><span class="fa fa-close"></span></button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right"><span class="fa fa-crop"></span></button></section></article>');
 			var fileReader = new FileReader();
+			var currentIndex = 0;
 			fileReader.onload = function (e, i) {
 
 				/*
@@ -301,6 +302,8 @@ function initForm($form, params) {
 				$html.find('[aria-click="crop"]').on('click', function () {
 					$popup.off();
 					readNext();
+
+					currentIndex++;
 
 					var imageData = $img.cropper('getCroppedCanvas').toDataURL();
 
@@ -407,7 +410,6 @@ function initForm($form, params) {
 
 			// Read files
 			var files = this.files;
-			var currentIndex = 0;
 			function readNext() {
 				// Check index & amount
 				if (currentIndex >= files.length || (amount && currentAmount > amount)) {
