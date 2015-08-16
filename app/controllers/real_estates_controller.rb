@@ -11,12 +11,6 @@ class RealEstatesController < ApplicationController
   end
 
   def view
-    begin
-      @real_estate = RealEstate.find(params['id'])
-    rescue
-      redirect_to '/real_estates/index'
-    end
-    redirect_to '/' + params[:id]
   end
 
 # Create
