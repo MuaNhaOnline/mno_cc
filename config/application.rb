@@ -25,6 +25,7 @@ module Mno
     config.encoding = 'utf-8'
     config.assets.paths << Rails.root.join('app', 'assets', 'templates')
 
+    # Multi language
     I18n.available_locales = [:vi, :en]
     I18n.default_locale = :vi
 

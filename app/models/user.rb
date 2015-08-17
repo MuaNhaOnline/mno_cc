@@ -21,6 +21,17 @@ class User < ActiveRecord::Base
 		!@current_user.new_record?
 	end
 
+	def self.from_omniauth auth
+	  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+	    user.provider = auth.provider
+	    user.provider_user_id = auth.uid
+	    user.full_name = auth.info.name
+	    user.provider_token = auth.credentials.token
+	    user.provider_expires_at = Time.at(auth.credentials.expires_at)
+	    user.save
+	  end
+	end
+
 # Associates
 
 	belongs_to :avatar_image, class_name: 'Image'

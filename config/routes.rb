@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'users/check_unique_account'
   get 'users/check_unique_email'
   get 'signin' => 'users#signin'
+  get 'auth/:provider/callback' => 'users#facebook_signin'
   get 'users/manager'
   get 'users/_manager_list'
   get 'signout' => 'users#signout'

@@ -91,6 +91,18 @@ class UsersController < ApplicationController
     redirect_to '/'
   end
 
+  # Facebook signin
+  
+  def facebook_signin
+    return render json: request.env['omniauth.auth']
+    user = User.from_omniauth request.env['omniauth.auth']
+    session[:user_id] = user.id
+    redirect_to 'home/back'
+  end
+
+  # / Facebook signin
+
+
 # / Sign in, out
 
 # Manager
