@@ -9,6 +9,12 @@
     <td><%= re.title %></td>
     <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
     <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
+    <% if re.appraisal_companies.count > 0 
+      ac = re.appraisal_companies.last %>
+      <td aria-object="ac" data-text="ac.name" data-value="ac.id"><%= ac.name %></td>
+    <% else %>
+      <td aria-object="ac"></td>
+    <% end %>
     <td>
       <div class="dropdown">
         <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
@@ -16,6 +22,10 @@
         </button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
           <li role="presentation">
+            <a aria-click="edit-appraisal-company" href="javascript:void(0)"><%= t 'real_estate.view.appraise.edit_appraisal_company' %></a>
+          </li>
+          <li role="presentation">
+            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.appraise.delete' %></a>
           </li>
         </ul>
       </div>

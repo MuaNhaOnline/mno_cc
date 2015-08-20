@@ -63,6 +63,7 @@ vi:
       image: 'Hình ảnh'
       floor_number_1: 'Số tầng'
       floor_number_2: 'Tầng thứ'
+      appraisal_company: 'Công ty thẩm định'
     view:
       create:
         page_title_nav: 'Đăng bất động sản'
@@ -94,6 +95,7 @@ vi:
         search: 'Tìm'
         search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
+        edit_appraisal_company: 'Thay đổi công ty thẩm định'
         delete: 'Xóa'
   real_estate_type:
     text:
@@ -223,6 +225,19 @@ vi:
         project_manager: 'Quản lý dự án'
         appraiser: 'Thẩm định viên'
         statistician: 'Thống kê viên'
+  appraisal_company:
+    attribute:
+      info_box: 'Thông tin'
+      name: 'Tên'
+      representative: 'Người đại diện'
+      avatar_image: 'Ảnh đại diện'
+    view:
+      create:
+        page_title: 'Tạo công ty thẩm định'
+      manager:
+        page_title: 'Quản lý công ty thẩm định'
+        search_placeholder: 'Nhập từ khóa để tìm kiếm'
+        search: 'Tìm kiếm'
   project:
     attribute:
       position_box: 'Vị trí'

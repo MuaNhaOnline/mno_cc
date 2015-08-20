@@ -21,6 +21,7 @@ class Ability
       if user.is_admin
         can [:manage, :approve, :appraise, :edit], RealEstate
         can :manage, User
+        can [:manager, :create, :edit, :delete], AppraisalCompany
       end
 
 # Real estate
@@ -36,12 +37,22 @@ class Ability
 # / Real estate
 
 # User
+      
+      can :edit, User, id: user.id
 
       if user.is_user_manager
-        can :manage, User
+        can [:manage, :edit], User
       end
 
 # / User
+
+# Appraisal company
+
+      if user.is_appraiser
+        can [:manager, :create, :edit, :delete], AppraisalCompany
+      end
+
+# / Appraisal company
 
     end
   end

@@ -1,0 +1,61 @@
+<% 
+=begin
+  params: @acs
+=end
+
+  @title = 'Quản lý công ty thẩm định'
+%>
+
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+  <link rel="stylesheet" href="/assets/appraisal_companies/manager.css" />
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/shared/form_back.js"></script>
+  <script type="text/javascript" src="/assets/appraisal_companies/manager.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+  <%= t 'appraisal_company.view.manager.page_title' %>
+<% end %>
+
+<% content_for :navigator do %>
+  <li class="active"><%= t 'appraisal_company.view.manager.page_title' %></li>
+<% end %>
+
+<%
+  total = @acs.count
+  per = Rails.application.config.item_per_page
+%>
+
+<section class="box box-solid">
+  <section class="box-body">
+    <form id="search_form">
+      <div class="input-group margin">
+        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'appraisal_company.view.manager.search_placeholder' %>">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><%= t 'appraisal_company.view.manager.search' %></button>
+        </span>
+      </div>
+    </form>
+  </section>
+</section>
+
+<section class="box box-default">
+  <section class="box-body no-padding table-responsive">
+    <table class="table table-stripedp ac-content">
+      <thead>
+        <th><%= t 'appraisal_company.attribute.name' %></th>
+        <th><%= t 'appraisal_company.attribute.representative' %></th>
+        <th>&nbsp;</th>
+      </thead>
+      <tbody id="ac_list">
+        <%= render partial: 'appraisal_companies/manager_list', locals: { acs: @acs.page(1, per) } %>
+      </tbody>
+    </table>
+  </section>
+  <nav class="text-center" id="pagination">
+    <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+  </nav>
+</section>

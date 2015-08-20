@@ -23,6 +23,7 @@ class RealEstate < ActiveRecord::Base
   has_and_belongs_to_many :advantages
   has_and_belongs_to_many :disadvantages
   has_and_belongs_to_many :images
+  has_and_belongs_to_many :appraisal_companies
 
 # / Associates
 
@@ -224,9 +225,11 @@ class RealEstate < ActiveRecord::Base
 
     assign_attributes other_params
 
-    save validate: !is_draft
-
-    { status: 0 }
+    if save validate: !is_draft
+      { status: 0 }
+    else 
+      { status: 3 }
+    end
   end
 
   # / Save with params
@@ -287,7 +290,6 @@ class RealEstate < ActiveRecord::Base
 
 
 # / Helper
-
 
 # Delete
   

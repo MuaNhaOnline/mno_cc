@@ -47,8 +47,10 @@ class User < ActiveRecord::Base
   validate :custom_validate
 
 	def custom_validate
-		errors.add(:account, 'Tên tài khoản không hợp lệ') if account.blank? || User.exists?(account: account)
-		errors.add(:email, 'Email không hợp lệ') if email.blank? || !ApplicationHelper.isValidEmail(email) || User.exists?(email: email)
+		if new_record?
+			errors.add(:account, 'Tên tài khoản không hợp lệ') if account.blank? || User.exists?(account: account)
+			errors.add(:email, 'Email không hợp lệ') if email.blank? || !ApplicationHelper.isValidEmail(email) || User.exists?(email: email)
+		end
 	end
 
 # / Validates
@@ -59,8 +61,10 @@ class User < ActiveRecord::Base
 
 	def self.get_params params
 		# Password
-		require 'digest/md5'
-		params[:password] = ApplicationHelper.md5_encode(params[:password])	
+		if params.has_key? :passowrd
+			require 'digest/md5'
+			params[:password] = ApplicationHelper.md5_encode(params[:password])	
+		end
 
 		# Birthday
 		params[:birthday] = Date.strptime(params[:birthday], '%d/%m/%Y')
@@ -78,15 +82,19 @@ class User < ActiveRecord::Base
 		# Author
 		if new_record?
 			return { status: 6 } if User.current_user.cannot? :signup, nil
+		else
+			return { status: 6 } if User.current_user.cannot? :edit, self
 		end
 
 		user_params = User.get_params params
 
 		assign_attributes user_params
 
-		save
-
-		{ status: 0 }
+		if save
+			{ status: 0 }
+		else
+			{ status: 3 }
+		end
 	end
 
 	# / Save with params
@@ -119,7 +127,9 @@ class User < ActiveRecord::Base
 
     user = find id
 
-    user.assign_attributes({ "is_#{type}": is })
+    hash = {}
+    hash["is_#{type}"] = is
+    user.assign_attributes(hash)
 
     user.save validate: false
 

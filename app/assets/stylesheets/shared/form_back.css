@@ -128,6 +128,95 @@
 */
 
 /*
+	Auto complete
+*/
+
+.form .autocomplete-container {
+  position: relative;
+}
+
+.form .autocomplete-list-container {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top: 0;
+  display: none;
+}
+
+  .form input[aria-input-type="autocomplete"].focus ~ .autocomplete-list-container {
+    display: block;
+  }
+
+.form .autocomplete-list-container .list {
+	margin: 0;
+  padding: 0;
+  max-height: 139px;
+  overflow-y: auto;
+}
+
+  .form .autocomplete-list-container .list:not(:empty) {
+    border-top: 1px solid #eee;
+  }
+
+  .form .autocomplete-list-container .list li {
+    margin: 0;
+    display: block;
+    border-top: 1px solid #eee;
+  }
+
+    .form .autocomplete-list-container .list li:first-child {
+      border-top: 0;
+    }
+
+  .form .autocomplete-list-container .list span {
+    display: block;
+    padding: 5px 10px;
+    position: relative;
+    cursor: pointer;
+  }
+
+    .form .autocomplete-list-container .list span:hover {
+      text-decoration: none;
+    }
+
+    .form .autocomplete-list-container .list li:nth-child(odd) span {
+      background-color: #fcfcfc;
+    }
+
+    .form .autocomplete-list-container .list span:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      transition: 0.5s;
+    }
+
+    .form .autocomplete-list-container .list li.selected span:after {
+      background-color: #08c;
+    }
+        
+.form .autocomplete-list-container .list + span {
+  display: none;
+  padding: 10px;
+  background-color: #fcfcfc;
+  border-top: 1px solid #eee;
+}
+
+  .form .autocomplete-list-container .list:empty + span {
+    display: block;
+  }
+
+/*
+	/ Auto complete
+*/
+
+/*
 	Cropper
 */
 

@@ -87,7 +87,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat"><%= t 'layout.header.user_profile' %></a>
+                      <a href="/users/create/<%= current_user.id %>" class="btn btn-default btn-flat"><%= t 'layout.header.user_profile' %></a>
                     </div>
                     <div class="pull-right">
                       <a href="/signout" class="btn btn-default btn-flat"><%= t 'layout.header.signout' %></a>
@@ -142,6 +142,9 @@
               <% if can? :signin, nil %>
                 <li><a href="/signin"><i class="fa fa-circle-o"></i> Đăng nhập</a></li>
               <% end %>
+              <% if can? :edit, current_user %>
+                <li><a href="/users/create/<%= current_user.id %>"><i class="fa fa-circle-o"></i> Thông tin</a></li>
+              <% end %>
               <% if can? :manage, User %>
                 <li><a href="/users/manager"><i class="fa fa-circle-o"></i> Quản lý</a></li>
               <% end %>
@@ -162,6 +165,19 @@
               <% if can? :manage, RealEstate %>
                 <li><a href="/real_estates/pending"><i class="fa fa-circle-o"></i> Duyệt</a></li>
                 <li><a href="/real_estates/appraise"><i class="fa fa-circle-o"></i> Danh sách thẩm định</a></li>
+              <% end %>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-yelp"></i> <span>Công ty thẩm định</span> <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <% if can? :create, AppraisalCompany %>
+                <li><a href="/appraisal_companies/create"><i class="fa fa-circle-o"></i> Tạo</a></li>
+              <% end %>
+              <% if can? :manager, AppraisalCompany %>
+                <li><a href="/appraisal_companies/manager"><i class="fa fa-circle-o"></i> Quản lý</a></li>
               <% end %>
             </ul>
           </li>

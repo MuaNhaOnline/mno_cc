@@ -11,11 +11,12 @@ function initForm($form, params) {
 
 	initToggle();
 	initFileInput();
+	initAutoComplete();
 	initSeparateNumber();
 	initConstraint();
 	initSubmit();
 	if ($form.is('[data-entertotab]')) {
-		initEnterKey();	
+		initEnterKey(); 
 	}
 
 	$form.find('.box').on('click', function (e) {
@@ -32,12 +33,12 @@ function initForm($form, params) {
 		$form.find('.input-toggle').on('change', function () {
 			toggle($(this));
 		}).each(function () {
-			toggle($(this));	
+			toggle($(this));  
 		});
 		
 		$form.inputToggle = function () {
 			$form.find('.input-toggle').each(function () {
-				toggle($(this));	
+				toggle($(this));  
 			});
 		}
 
@@ -123,11 +124,11 @@ function initForm($form, params) {
 
 					$element.find(':input').prop('disabled', false).trigger('enable');
 					// .each(function () {
-					// 	var $input = $(this);
-					// 	var invalid = checkInvalidInput($input);
-					// 	if (invalid) {
-					// 		toggleValidInput($input, false, invalid);	      		
-					// 	}
+					//  var $input = $(this);
+					//  var invalid = checkInvalidInput($input);
+					//  if (invalid) {
+					//    toggleValidInput($input, false, invalid);           
+					//  }
 					// });
 				}
 				else {
@@ -141,10 +142,10 @@ function initForm($form, params) {
 				}
 
 				// if ($element.is('.form-group')) {
-				// 	initConstraintFormGroup($element);
+				//  initConstraintFormGroup($element);
 				// }
 				// else {
-				// 	initConstraintFormGroup($element.find('.form-group'));
+				//  initConstraintFormGroup($element.find('.form-group'));
 				// }
 			}
 			else {
@@ -154,13 +155,13 @@ function initForm($form, params) {
 
 					// var invalid = checkInvalidInput($element);
 					// if (invalid) {
-					// 	toggleValidInput($element, false, invalid);	      		
+					//  toggleValidInput($element, false, invalid);           
 					// }
 				}
 				else {
 					$element.addClass('off').trigger('disable');;
 
-					toggleValidInput($element, true);	  
+					toggleValidInput($element, true);   
 				}
 
 				// initConstraintFormGroup($element.closest('.form-group'));
@@ -287,7 +288,7 @@ function initForm($form, params) {
 
 				// Create image cropper
 				$img.cropper({
-				  aspectRatio: ratio
+					aspectRatio: ratio
 				});
 
 				/*
@@ -353,7 +354,7 @@ function initForm($form, params) {
 
 							// Value
 							if (isMulti) {
-								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change();	
+								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change(); 
 							}
 							else {
 								$hiddenInput.val(data.result).change();
@@ -507,7 +508,7 @@ function initForm($form, params) {
 
 							// Value
 							if (isMulti) {
-								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change();	
+								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change(); 
 							}
 							else {
 								$hiddenInput.val(data.result).change();
@@ -558,77 +559,311 @@ function initForm($form, params) {
 		/ File input
 	*/
 
-  /*
-    Price format
-  */
+	/*
+		Auto complete
+	*/
 
-  function initSeparateNumber() {
-    $form.find('.separate-number').on({
-      focus: function () {
-        _temp['price'] = this.value;
-      },
-      keyup: function () {
-        var input = this;
-        var value = input.value;
+	function initAutoComplete() {
+		var prefix = 'ac_';
+		var $currentList, $currentInput;
 
-        var oldPrice = _temp['price'];
-        if (oldPrice == value) {
-          return;
-        }
+		$form.find('[aria-input-type="autocomplete"]').each(function () {
 
-        // Get current selection end
-        var selectionEnd = value.length - input.selectionEnd;
+			var $input = $(this);
+			// Create full element
+      $input.wrap('<article class="autocomplete-container"></article>');
+      var 
+      	name = $input.attr('name'),
+      	value = $input.data('value');
 
-        value = moneyFormat(intFormat(value), ',');
-        input.value = value;
-        selectionEnd = value.length - selectionEnd;
-        input.setSelectionRange(selectionEnd, selectionEnd);
+      $input.attr('name', name + '_ac');
+      $input.after('<input type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span></span></section>');
+			var $listContainer = $input.find('~ .autocomplete-list-container');
+			var $list = $listContainer.children('ul');
 
-        _temp['price'] = value;
-      },
-      paste: function () {
-        var input = this;
-        var value = input.value;
+			// For prevent when choose by click
+			$listContainer.on('click', function (e) {
+				e.stopPropagation();
+			});
 
-        var oldPrice = _temp['price'];
-        if (oldPrice == value) {
-          return;
-        }
+			$input.on({
+				focus: function () {
+					$currentList = $list;
+					$currentInput = $input;
 
-        // Get current selection end
-        var selectionEnd = value.length - input.selectionEnd;
+					if ($currentInput.hasClass('focus')) {
+						return;
+					}
 
-        value = moneyFormat(intFormat(value), ',');
-        input.value = value;
-        selectionEnd = value.length - selectionEnd;
-        input.setSelectionRange(selectionEnd, selectionEnd);
+					$currentInput.addClass('focus');
+					$list.empty().next().text(_t.form.keyword_for_search);
+					_temp[prefix + 'old'] = $currentInput.val();
 
-        _temp['price'] = value;
-      }
-    }).keyup();
-  }
+					// For click outside
+					$(document).on('click.off', function (e) {
+						if (!$currentInput.is(':focus')) {
+							$currentInput.removeClass('focus');
+							$(document).off('click.off');
 
-  /*
-    / Price format
-  */
+							if (_temp[prefix + 'change']) {
+								closeAutoComplete();
+							}
+						}
+					});
+				},
+				keyup: function () {
+					if (_temp[prefix + 'value'] == $currentInput.val()) {
+						return;
+					}
+
+					if (!$currentInput.hasClass('focus')) {
+						$currentInput.focus();
+					}
+
+					_temp[prefix + 'change'] = true;
+					clearTimeout(_temp[prefix + 'to']);
+					_temp[prefix + 'to'] = setTimeout(function () {
+						_temp[prefix + 'value'] = $currentInput.val();
+
+						var data = $.parseJSON($currentInput.data('data') || '{}');
+						data.keyword = $currentInput.val();
+
+						$.ajax({
+							url: $input.data('url'),
+							data: data,
+							dataType: 'JSON'
+						}).done(function (data) {
+							if (data.status != 0 || data.result.length == 0) {
+								$list.empty().next().text(_t.form.search_no_result);
+							}
+							else {
+								var html = create_auto_complete(data.result);
+								$list.html(html);
+
+								initAutoCompleteList()
+
+								$list.children(':first-child').addClass('selected');
+							}
+						}).fail(function () {
+							$list.empty().next().text(_t.form.search_no_result);
+						});
+					}, 200)
+				},
+				keydown: function (e) {
+					switch (e.which) {
+						// Up
+						case 38:
+							e.preventDefault();
+
+							var $selected = $list.children('.selected');
+							if ($selected.length == 0) {
+								selectAutoComplete($list.children(':last-child'), 1);
+							}
+							else {
+								var $prev = $selected.prev();
+								if ($prev.length == 0) {
+									selectAutoComplete($list.children(':last-child'), 1);
+								}
+								else {
+									selectAutoComplete($prev, 1);
+								}
+							}
+							break;
+
+						// Down
+						case 40:
+							e.preventDefault();
+
+							var $selected = $list.children('.selected');
+							if ($selected.length == 0) {
+								selectAutoComplete($list.children(':first-child'), -1);
+							}
+							else {
+								var $next = $selected.next();
+								if ($next.length == 0) {
+									selectAutoComplete($list.children(':first-child'), -1);
+								}
+								else {
+									selectAutoComplete($next, -1);
+								}
+							}
+							break;
+
+						// Enter
+						case 13:
+							e.preventDefault();
+							getAutoComplete();
+
+						//Tab
+						case 9:
+							$currentInput.removeClass('focus');
+							if (_temp[prefix + 'change']) {
+								getAutoComplete();
+							}
+							break;
+
+						//Esc
+						case 27:
+							e.preventDefault();
+							$currentInput.val(_temp[prefix + 'old']);
+						default:
+							break;
+					}
+				}
+			});
+		})
+
+		function initAutoCompleteList() {
+			var $items = $currentList.find('li');
+			$items.on({
+				mouseenter: function () {
+					selectAutoComplete($(this));
+				},
+				click: function () {
+					getAutoComplete($(this));
+				},
+			});
+		}
+
+		// type: 1 => prev, -1 => next
+		function selectAutoComplete($item, type) {
+			$item.siblings('.selected').removeClass('selected');
+			$item.addClass('selected');
+
+			if (type == 1 || type == -1) {
+				var 
+					itemTop = $item.offset().top,
+					itemHeight = $item.height(),
+					containerTop = $currentList.offset().top,
+					containerHeight = $currentList.height();
+
+				if (itemTop <= containerTop || itemTop + itemHeight >= containerTop + containerHeight) {
+					$currentList.animate({
+						scrollTop: $currentList.scrollTop() - containerTop + itemTop - (itemHeight * (2 + type)) - 2 - type
+					});
+				}
+			}
+		}
+
+		function closeAutoComplete() {
+			var 
+				$input = $currentInput;
+
+			$input.next().val('').change();
+			$input.removeClass('focus').val('');
+
+			_temp[prefix + 'change'] = false;
+			_temp[prefix + 'value'] = '';
+			clearTimeout(_temp[prefix + 'to']);
+		}
+
+		function getAutoComplete($item) {
+			if (!$item) {
+				$item = $currentList.find('.selected')
+			}
+
+			var 
+				$selected = $item.children(),
+				$input = $item.closest('.autocomplete-container').children(':first-child'),
+				text = $selected.text() || '',
+				value = $selected.data('value') || '';
+
+			$input.next().val(value).change();
+			$input.removeClass('focus').val(text).change();
+
+			_temp[prefix + 'change'] = false;
+			_temp[prefix + 'value'] = $input.val();
+			clearTimeout(_temp[prefix + 'to']);
+		}
+
+		function create_auto_complete(data) {
+			var 
+				html = '', 
+				length = data.length;
+
+			for (var i = 0; i < length; i++) {
+				html += '<li><span title="' + (data[i].description || '') + '" data-value="' + data[i].value + '">' + data[i].text + '</span></li>';
+			}
+
+			return html;
+		}
+	}
+
+	/*
+		/ Auto complete
+	*/
+
+	/*
+		Price format
+	*/
+
+	function initSeparateNumber() {
+		$form.find('.separate-number').on({
+			focus: function () {
+				_temp['price'] = this.value;
+			},
+			keyup: function () {
+				var input = this;
+				var value = input.value;
+
+				var oldPrice = _temp['price'];
+				if (oldPrice == value) {
+					return;
+				}
+
+				// Get current selection end
+				var selectionEnd = value.length - input.selectionEnd;
+
+				value = moneyFormat(intFormat(value), ',');
+				input.value = value;
+				selectionEnd = value.length - selectionEnd;
+				input.setSelectionRange(selectionEnd, selectionEnd);
+
+				_temp['price'] = value;
+			},
+			paste: function () {
+				var input = this;
+				var value = input.value;
+
+				var oldPrice = _temp['price'];
+				if (oldPrice == value) {
+					return;
+				}
+
+				// Get current selection end
+				var selectionEnd = value.length - input.selectionEnd;
+
+				value = moneyFormat(intFormat(value), ',');
+				input.value = value;
+				selectionEnd = value.length - selectionEnd;
+				input.setSelectionRange(selectionEnd, selectionEnd);
+
+				_temp['price'] = value;
+			}
+		}).keyup();
+	}
+
+	/*
+		/ Price format
+	*/
 
 	/*
 		Constraint
 	*/
 
 	// function initConstraintFormGroup($formGroups) {
-	// 	$formGroups.filter(function () {
-	// 		var ok = false;
+	//  $formGroups.filter(function () {
+	//    var ok = false;
 
-	// 		$(this).find('[data-constraint~="required"]').each(function () {
-	// 			if (!this.value) {
-	// 				$(this).data('invalid', ok = true);
-	// 				return false;
-	// 			}
-	// 		});
+	//    $(this).find('[data-constraint~="required"]').each(function () {
+	//      if (!this.value) {
+	//        $(this).data('invalid', ok = true);
+	//        return false;
+	//      }
+	//    });
 
-	// 		return ok;
-	// 	}).addClass('has-error');
+	//    return ok;
+	//  }).addClass('has-error');
 	// }
 
 	function initConstraint() {
@@ -638,7 +873,7 @@ function initForm($form, params) {
 			'change': function () {
 				var $input = $(this);
 				if ($input.data('invalid')) {
-					checkInvalidInput($(this));	
+					checkInvalidInput($(this)); 
 				}
 			}
 		});
@@ -710,15 +945,15 @@ function initForm($form, params) {
 			}
 		});
 
-    // Email
-    $form.find('[data-constraint~="email"]').on({
-      'focusout': function () {
-        var $input = $(this);
-        if ($input.val() && !/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test($input.val())) {
-          $input.val('').change();
-        }
-      }
-    });
+		// Email
+		$form.find('[data-constraint~="email"]').on({
+			'focusout': function () {
+				var $input = $(this);
+				if ($input.val() && !/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test($input.val())) {
+					$input.val('').change();
+				}
+			}
+		});
 
 		// Range
 		$form.find('[data-constraint~="range"]').on({
@@ -740,11 +975,11 @@ function initForm($form, params) {
 		});
 
 		// $form.find('[data-constraint~="required"]').on({
-		// 	change: function () {
-		// 		if (!this.value) {
-		// 			$(this).data('invalid', true).closest('.form-group').addClass('has-error');
-		// 		}
-		// 	}
+		//  change: function () {
+		//    if (!this.value) {
+		//      $(this).data('invalid', true).closest('.form-group').addClass('has-error');
+		//    }
+		//  }
 		// });
 	};
 
@@ -854,19 +1089,19 @@ function initForm($form, params) {
 	function initEnterKey() {
 		$form.find(':input').on({
 			keypress: function (e) {
-		    if (e.keyCode == 13 && !e.shiftKey) {
-		    	e.preventDefault();
+				if (e.keyCode == 13 && !e.shiftKey) {
+					e.preventDefault();
 
-	        var inputs = $form.find(":input:focusable");
-	        var idx = inputs.index(this);
+					var inputs = $form.find(":input:focusable");
+					var idx = inputs.index(this);
 
-	        if (idx == inputs.length - 1) {
-	          inputs[0].focus();
-	        } 
-	        else {
-	          inputs[idx + 1].focus();
-	        }
-	      }
+					if (idx == inputs.length - 1) {
+						inputs[0].focus();
+					} 
+					else {
+						inputs[idx + 1].focus();
+					}
+				}
 			}
 		});
 	}
@@ -887,16 +1122,16 @@ function initForm($form, params) {
 			$form.find('[data-constraint]:enabled').each(function () {
 				var $input = $(this);
 				if (!$input.data('invalid')) {
-					checkInvalidInput($input);	
+					checkInvalidInput($input);  
 				}
 			})
 
 			var $dangerBox = $form.find('.box-danger');
 			if ($dangerBox.length) {
-	    	$body.animate({
-	    		scrollTop: $dangerBox.offset().top - 20 
-	    	});	
-				return;	
+				$body.animate({
+					scrollTop: $dangerBox.offset().top - 20 
+				}); 
+				return; 
 			}
 
 			//Submit
