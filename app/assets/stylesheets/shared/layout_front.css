@@ -36,12 +36,18 @@ header {
 		pading: 0 10px;
 		height: 100%;
 		display: flex;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -o-flex;
 	}
 	
 		/*start logo*/
 		.logo {
 			height: 100%;
 			display: flex;
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -o-flex;
 		}
 			.logo img {
 				height: 100%;
@@ -56,6 +62,9 @@ header {
 		}        
 			.sitemap > ul {
 				display: flex;
+				display: -webkit-flex;
+				display: -moz-flex;
+				display: -o-flex;
 			}
 				.sitemap > ul > li {
 					padding: 0 10px;
