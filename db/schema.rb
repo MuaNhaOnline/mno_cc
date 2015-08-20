@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814022551) do
+ActiveRecord::Schema.define(version: 20150817075451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -322,6 +322,10 @@ ActiveRecord::Schema.define(version: 20150814022551) do
     t.text     "lat"
     t.text     "long"
     t.text     "meta_search"
+    t.integer  "user_id"
+    t.integer  "appraisal_purpose"
+    t.integer  "appraisal_type",              default: 0
+    t.text     "appraisal_price"
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|
@@ -367,21 +371,26 @@ ActiveRecord::Schema.define(version: 20150814022551) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.text    "account"
-    t.text    "password"
-    t.text    "email"
-    t.text    "full_name"
-    t.date    "birthday"
-    t.text    "business_name"
-    t.text    "phone_number"
-    t.text    "address"
-    t.integer "avatar_image_id"
-    t.boolean "is_system_manager",      default: false
-    t.boolean "is_real_estate_manager", default: false
-    t.boolean "is_project_manager",     default: false
-    t.boolean "is_user_manager",        default: false
-    t.boolean "is_appraiser",           default: false
-    t.boolean "is_statistician",        default: false
+    t.text     "account"
+    t.text     "password"
+    t.text     "email"
+    t.text     "full_name"
+    t.date     "birthday"
+    t.text     "business_name"
+    t.text     "phone_number"
+    t.text     "address"
+    t.integer  "avatar_image_id"
+    t.boolean  "is_system_manager",      default: false
+    t.boolean  "is_real_estate_manager", default: false
+    t.boolean  "is_project_manager",     default: false
+    t.boolean  "is_user_manager",        default: false
+    t.boolean  "is_appraiser",           default: false
+    t.boolean  "is_statistician",        default: false
+    t.boolean  "is_admin",               default: false
+    t.text     "provider"
+    t.text     "provider_user_id"
+    t.text     "provider_token"
+    t.datetime "provider_expires_at"
   end
 
   create_table "wards", force: :cascade do |t|

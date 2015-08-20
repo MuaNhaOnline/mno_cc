@@ -4,7 +4,7 @@ class HomeController < ApplicationController
     	
   end
   
-  def register
+  def back
   	render layout: 'layout_back'
   end
 end

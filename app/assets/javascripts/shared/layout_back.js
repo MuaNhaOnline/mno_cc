@@ -70,6 +70,22 @@ function canSee($item) {
   return false;
 }
 
+function dataURLToBlob(dataURL, type) {
+  var 
+    byteString = atob(dataURL.split(",")[1]),
+    ab = new ArrayBuffer(byteString.length),
+    ia = new Uint8Array(ab),
+    i;
+
+  for (i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([ab], {
+    type: type
+  });
+}
+
 /*
   / Helper
 */
@@ -121,26 +137,80 @@ function getPopup(params) {
   }
 
   $popup.on = function () {
-      $popup.addClass('on');
-      $(document).on('keydown.turn_off_popup_' + id, function (e) {
-        if ($popup.is('[aria-esc]')) {
-          if (e.keyCode == 27) {
-            $popup.off();
-          }
+    $popup.addClass('on');
+    $(document).on('keydown.turn_off_popup_' + id, function (e) {
+      if ($popup.is('[aria-esc]')) {
+        if (e.keyCode == 27) {
+          $popup.off();
         }
-      });
-      $body.addClass('no-scroll');
+      }
+    });
+    $body.addClass('no-scroll');
   }
 
   $popup.off = function () {
-      $popup.removeClass('on');
-      $(document).off('keydown.turn_off_popup_' + id);
-      $body.removeClass('no-scroll');
+    $popup.removeClass('on');
+    $(document).off('keydown.turn_off_popup_' + id);
+    $body.removeClass('no-scroll');
 
-      $popup.trigger('onEscape');
+    // $popup.trigger('onEscape');
+    if ($popup.data('onEscape')) {
+      $popup.data('onEscape')();
+    }
   };
 
   return $popup;
+}
+
+/*
+  *
+    html: (* or url)
+      popup content
+  OR
+    url: (* or html)
+      url to load popup content
+    success:
+    always:
+    fail:
+
+  esc: (true)
+    allow escape popup with click outside or 'esc' key
+  id: (popup_full)
+    id of popup.
+    if wanna show two popup, ids must different
+  z-index: (30)
+    z-index of popup
+  onEscape:
+    handle on popup escape
+*/
+function popupFull(params) {
+  if (typeof params === 'undefined' || !('url' in params || 'html' in params)) {
+    return;
+  }
+
+  // Get popup
+  var popupParams = {};
+  popupParams.esc = !('esc' in params) || params.esc;
+  popupParams.id = 'id' in params ? params.id : 'popup_full';
+  popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
+
+  var $popup = getPopup(popupParams);
+
+  $popup.data('onEscape', params.onEscape);
+
+  var $popupContent = $popup.find('.popup-content');
+
+  if ('html' in params) {
+    $popupContent.html(params.html);
+
+    // Turn on popup    
+    $popup.on();
+
+    return $popup
+  }
+  else {
+    // URL
+  }
 }
 
 /*
@@ -172,7 +242,7 @@ function getPopup(params) {
 */
 function popupPrompt(params) {
   if (typeof params === 'undefined') {
-      params = {};
+    params = {};
   }
 
   // Get popup
@@ -182,17 +252,13 @@ function popupPrompt(params) {
   popupParams.id = 'id' in params ? params.id : 'popup_prompt';
   popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '31';
 
-  $popup = getPopup(popupParams);
+  var $popup = getPopup(popupParams);
 
-  if ('onEscape' in params) {
-    $popup.one('onEscape', function () {
-      params.onEscape();
-    });
-  }
+  $popup.data('onEscape', params.onEscape);
 
   // Get popup content
 
-  $popupContent = $popup.find('.popup-content');
+  var $popupContent = $popup.find('.popup-content');
 
   $popupContent.css({
       width: 'auto',
@@ -295,7 +361,7 @@ var listString = {};
 
 listString.has = function (key, string) {
   if (string) {
-    return string.indexOf(key) != -1; 
+    return string.split(' ').indexOf(key) != -1; 
   }
   else {
     return false;

@@ -8,7 +8,8 @@ $(function () {
 		$appraiserBox = $('#appraiser'),
 		$statisticianBox = $('#statistician');
 
-	initBox($systemMangerBox, 'system_manager');
+		$systemMangerBox.hide();
+	// initBox($systemMangerBox, 'system_manager');
 	initBox($userManagerBox, 'user_manager');
 	initBox($realEstateManagerBox, 'real_estate_manager');
 	initBox($projectManagerBox, 'project_manager');
@@ -24,9 +25,7 @@ $(function () {
 			$modeToggle = $box.find('[aria-object="mode-toggle"]'),
 			$list = $box.find('[aria-object="list"]'),
 			$search = $box.find('[aria-object="search"]'),
-			$pagination = $box.find('[aria-object="pagination"]'),
-			defaultList = $list.html(),
-			defaultPagination = $pagination.html();
+			$pagination = $box.find('[aria-object="pagination"]');
 
 		$box.data('is_add', false);
 		$modeToggle.text('Chế độ thêm');
@@ -134,7 +133,7 @@ $(function () {
 						dataType: 'JSON'
 					}).done(function (data) {
 						if (data.status === 0) {
-							defaultList = false;
+							$item.remove();
 							$search.search({
 								note: 'change'
 							});
@@ -170,7 +169,7 @@ $(function () {
 						dataType: 'JSON'
 					}).done(function (data) {
 						if (data.status === 0) {
-							defaultList = false;
+							$item.remove();
 							$search.search({
 								note: 'change'
 							});

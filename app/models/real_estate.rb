@@ -28,6 +28,7 @@ class RealEstate < ActiveRecord::Base
 
 # Validates
 
+  validates :user_id, presence: { message: 'Người đăng không thể bỏ trống' }
   validates :title, presence: { message: 'Tiêu đề không được bỏ trống' }
   validates :description, presence: { message: 'Mô tả không được bỏ trống' }
   validates :purpose_id, presence: { message: 'Mục tiêu không được bỏ trống' }
@@ -43,6 +44,9 @@ class RealEstate < ActiveRecord::Base
   validate :custom_validate
 
   def custom_validate
+    # Appraisal
+    errors.add(:appraisal_purpose, 'Mục đích thẩm định không thể bỏ trống') if appraisal_type != 0 && appraisal_purpose.blank?
+
     fields = []
 
     real_estate_type = RealEstateType.find real_estate_type_id
@@ -165,7 +169,7 @@ class RealEstate < ActiveRecord::Base
       :address_number, :street_type, :is_alley, :real_estate_type_id, :width_x, :width_y,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
-      :lat, :long,
+      :lat, :long, :user_id, :appraisal_purpose, :appraisal_type,
       :advantage_ids => [], :disadvantage_ids => [], :property_utility_ids => [], :region_utility_ids => [],
       :image_ids => []
     ]
@@ -200,15 +204,29 @@ class RealEstate < ActiveRecord::Base
   # Save with params
 
   def save_with_params params, is_draft = false
+    # Author
+    if new_record?
+      return { status: 6 } if User.current_user.cannot? :create, RealEstate
+    else
+      return { status: 6 } if User.current_user.cannot? :edit, self
+    end
+
     params[:is_draft] = is_draft ? 1 : 0
 
     real_estate_params = RealEstate.get_params params
 
     assign_attributes real_estate_params
-    is_pending = 1
-    meta_search = RealEstate.get_meta_search(self) unless is_draft
+
+    other_params = { 
+      is_pending: 1,
+      meta_search: RealEstate.get_meta_search(self)
+    }
+
+    assign_attributes other_params
 
     save validate: !is_draft
+
+    { status: 0 }
   end
 
   # / Save with params
@@ -232,11 +250,15 @@ class RealEstate < ActiveRecord::Base
   # Update pending status
 
   def self.update_pending_status id, is_pending
+    return { status: 6 } if User.current_user.cannot? :approve, RealEstate
+
     real_estate = find id
 
     real_estate.is_pending = is_pending
 
     real_estate.save validate: false
+
+    { status: 0 }
   end
 
   # / Update pending status
@@ -254,7 +276,7 @@ class RealEstate < ActiveRecord::Base
     tempLocale = I18n.locale
     I18n.locale = 'vi'
 
-    meta_search = "#{I18n.t 'real_estate_type.text.' + re.real_estate_type.name} #{I18n.t 'purpose.text.' + re.purpose.name} đường #{re.street.name} quận #{re.district.name} #{re.province.name} #{re.title}"
+    meta_search = "#{I18n.t('real_estate_type.text.' + re.real_estate_type.name) unless re.real_estate_type.nil?} #{I18n.t('purpose.text.' + re.purpose.name) unless re.purpose.nil?} đường #{re.street.name unless re.street.nil?} quận #{re.district.name unless re.district.nil?} #{re.province.name unless re.province.nil?} #{re.title}"
     
     I18n.locale = tempLocale
 
@@ -267,10 +289,21 @@ class RealEstate < ActiveRecord::Base
 # / Helper
 
 
+# Delete
+  
+  def self.delete_by_id id
+    real_estate = find id
 
+    return { status: 1 } if real_estate.nil?
 
+    return { status: 6 } if User.current_user.cannot? :delete, real_estate
 
-# / Updates
+    delete id
+
+    { status: 0 }
+  end
+
+# / Delete
 
   #Get keyword
   def keyword

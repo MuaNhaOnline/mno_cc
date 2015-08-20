@@ -246,16 +246,14 @@ function initForm($form, params) {
 			var $fileUpload = $(this),
 				amount = $fileUpload.data('amount'),
 				size = $fileUpload.data('size'),
-				types = $fileUpload.data('type');
+				types = $fileUpload.data('type'),
+				ratio = $fileUpload.data('ratio');
 
 			if (types) {
 				types = types.split(' ');
 			}
 
 			var isMulti = $fileUpload.is('[multiple]');
-
-			// Get type of image
-			var type = $fileUpload;
 
 			// Get wrapper
 			var $wrapper = $fileUpload.parent();
@@ -265,6 +263,177 @@ function initForm($form, params) {
 			// Check amount
 			var currentAmount = $hiddenInput.val().split(',').length;
 
+			/* 
+				Init for read file
+			*/
+
+			var $html = $('<article class="cropper-container"><section class="image-cropper"></section><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.cancel_tooltip + '" class="btn btn-link pull-left"><span class="fa fa-close"></span></button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right"><span class="fa fa-crop"></span></button></section></article>');
+			var fileReader = new FileReader();
+			var currentIndex = 0;
+			fileReader.onload = function (e, i) {
+
+				/*
+					Crop
+				*/
+
+				var $img = $('<img src="' + e.target.result + '" />');
+
+				$html.find('.image-cropper').html($img);
+
+				var $popup = popupFull({
+					html: $html,
+					esc: false
+				});
+
+				// Create image cropper
+				$img.cropper({
+				  aspectRatio: ratio
+				});
+
+				/*
+					Set button event
+				*/
+
+				$html.find('[aria-click="close"]').on('click', function () {
+					$popup.off();
+					readNext();
+				});
+
+				$html.find('[aria-click="crop"]').on('click', function () {
+					$popup.off();
+					readNext();
+
+					currentIndex++;
+
+					var imageData = $img.cropper('getCroppedCanvas').toDataURL();
+
+					var $item = $('<article class="preview"></article>');
+					$item.html('<img src="' + imageData + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+
+					if (!isMulti) {
+						$wrapper.children('.preview').remove();
+					}
+					$wrapper.prepend($item);
+
+					// Get data
+					var data = new FormData();
+					data.append('file', dataURLToBlob(imageData, fileReader.fileType));
+					data.append('file_name', fileReader.fileName);
+
+					// Preparing upload
+					var $progressBar = $item.find('.progress-bar');
+					$item.attr('data-status', 'uploading');
+					$item.find('img').css('opacity', '.5');
+
+					// Upload file
+					$.ajax({
+							url: '/images/upload',
+							type: 'POST',
+							data: data,
+							processData: false,
+							contentType: false,
+							dataType: 'JSON',
+							xhr: function() {
+									var xhr = $.ajaxSettings.xhr();
+									if(xhr.upload){ //Check if upload property exists
+											xhr.upload.addEventListener('progress', function(e) {
+													if(e.lengthComputable){
+															$progressBar.css('width', Math.ceil(e.loaded/e.total) * 100 + '%');
+													}
+											}, false); //For handling the progress of the upload
+									}
+									return xhr;
+							}
+					}).done(function(data) {
+						if (data.status == 0) {
+							// Display
+							$item.attr('data-status', 'done');
+							$item.find('img').css('opacity', '1');
+							$progressBar.parent().remove();
+
+							// Value
+							if (isMulti) {
+								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change();	
+							}
+							else {
+								$hiddenInput.val(data.result).change();
+							}
+							$item.data('value', data.result);
+						}
+						else {
+							$item.attr('data-status', 'error');
+						}
+					}).fail(function() {
+						$item.attr('data-status', 'error');
+					});
+
+					// Remove event
+					$item.find('[aria-click="remove"]').on('click', function (e) {
+						e.preventDefault();
+
+						var itemValue = $item.data('value');
+						$item.remove();
+
+						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
+						hiddenInput.value = '';
+
+						if (itemValue) {
+							$wrapper.find('.preview').each(function () {
+								var value = $(this).data('value');
+
+								if (value) {
+									hiddenInput.value += ',' + value;
+								}
+							});
+						}
+
+						if (hiddenInput.value) {
+							hiddenInput.value = hiddenInput.value.substr(1);
+						}
+
+						$(hiddenInput).change();
+					});
+				});
+
+				/*
+					/ Set button event
+				*/
+
+				/*
+					Crop
+				*/
+			}
+
+			/* 
+				/ Init for read file
+			*/
+
+			// Read files
+			var files = this.files;
+			function readNext() {
+				// Check index & amount
+				if (currentIndex >= files.length || (amount && currentAmount > amount)) {
+					return false;
+				}
+
+				// Get file
+				var file = files[currentIndex++];
+
+				// Check type
+				if (types && $.inArray(file.name.split('.').pop(), types) === -1) {
+					return;
+				}
+
+				// Set info
+				fileReader.fileName = file.name;
+				fileReader.fileType = file.type;
+
+				// Read file
+				fileReader.readAsDataURL(file);
+			}
+			readNext();
+
+			/*
 			// Process files
 			$(this.files).each(function () {
 				var file = this;
@@ -285,8 +454,11 @@ function initForm($form, params) {
 				}
 
 
+
+
 				var fileReader = new FileReader();
 
+				return;
 				fileReader.onload = function (e) {
 					// Create item
 					var $item = $('<article class="preview"></article>');
@@ -378,7 +550,7 @@ function initForm($form, params) {
 				}
 
 				fileReader.readAsDataURL(file);
-			});
+			});*/
 		});
 	}
 

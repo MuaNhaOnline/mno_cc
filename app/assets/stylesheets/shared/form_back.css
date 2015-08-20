@@ -126,3 +126,21 @@
 /*
 	/ File input
 */
+
+/*
+	Cropper
+*/
+
+.cropper-container {
+	background-color: #fff;
+}
+
+	.cropper-container .image-cropper {
+		padding: 5px;
+		max-width: 70vw;
+		max-height: 70vh;
+	}
+
+/*
+	Cropper
+*/

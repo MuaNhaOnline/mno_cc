@@ -22,11 +22,12 @@ $(function () {
           else {
             popupPrompt({
               title: _t.form.success_title,
-              content: _t.real_estate.create.success_content,
+              content: _t.real_estate.view.create.success_content,
               type: 'success',
+              esc: false,
               buttons: [
                 {
-                  text: _t.real_estate.create['continue'],
+                  text: _t.real_estate.view.create['continue'],
                   type: 'primary',
                   handle: function () {
                     // Hidden id input
@@ -42,7 +43,7 @@ $(function () {
                     collapseBoxes($form.find('.input-box:not(.until-full) .box:not(.collapse-box)'));
                   }
                 }, {
-                  text: _t.real_estate.create.view,
+                  text: _t.real_estate.view.create.view,
                   handle: function () {
                     window.location = '/real_estates/' + data.result;
                   }
@@ -324,7 +325,7 @@ $(function () {
         if (data.status == 0) {
           popupPrompt({
             title: _t.form.success_title,
-            content: _t.real_estate.create.save_draft_success_content,
+            content: _t.real_estate.view.create.save_draft_success_content,
             type: 'success'
           })
         }

@@ -1,6 +1,13 @@
+<% 
+=begin
+  params: @re, @is_appraisal
+=end
+%>
+
 <% content_for :stylesheets do %>
   <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
   <link rel="stylesheet" type="text/css" href="/assets/real_estates/create.css">
+  <link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
 <% end %>
 
 <% content_for :scripts do %>
@@ -8,6 +15,7 @@
   <script type="text/javascript" src="/assets/real_estates/create.js"></script>
   <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
   <script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+  <script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -88,6 +96,59 @@
   <% end %>
 
   <!-- / Id (if edit) -->
+
+  <!-- Appraisal -->
+
+  <% if @is_appraisal %>
+
+    <div class="col-md-12">
+      <article class="box box-default">
+        <section class="box-header with-border">
+          <h2 class="box-title">
+            <%= t 'real_estate.attribute.appraisal_box' %>
+          </h2>
+          <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </section>
+        <section class="box-body">
+
+          <div class="row">
+
+            <!-- Appraisal purpose -->
+              
+            <article class="form-group col-md-6">
+              <label for="appraisal_purpose"><%= t 'real_estate.attribute.appraisal_purpose' %></label>
+              <select name="real_estate[appraisal_purpose]" class="form-control input-toggle" id="appraisal_purpose">
+                <option value="1" <%= 'selected' if @re.new_record? || @re.appraisal_purpose === 1 %>><%= t 'real_estate.attribute.trade' %></option>
+                <option value="2" <%= 'selected' if @re.appraisal_purpose === 2 %>><%= t 'real_estate.attribute.borrow' %></option>
+                <option value="3" <%= 'selected' if @re.appraisal_purpose === 3 %>><%= t 'real_estate.attribute.valuation' %></option>
+              </select>
+            </article>
+
+            <!-- / Appraisal purpose -->
+
+            <!-- Appraisal type -->
+              
+            <article class="form-group col-md-6">
+              <label for="appraisal_type"><%= t 'real_estate.attribute.appraisal_type' %></label>
+              <select name="real_estate[appraisal_type]" class="form-control input-toggle" id="appraisal_type">
+                <option value="1" <%= 'selected' if @re.new_record? || @re.appraisal_type === 1 %>><%= t 'real_estate.attribute.advisory' %></option>
+                <option value="2" <%= 'selected' if @re.appraisal_type === 2 %>><%= t 'real_estate.attribute.appraisal' %></option>
+              </select>
+            </article>
+
+            <!-- / Appraisal type -->
+
+          </div>
+
+        </section>
+      </article>
+    </div>
+
+  <% end %>
+
+  <!-- / Appraisal -->
 
   <!-- Purpose -->
 
@@ -792,7 +853,7 @@
       <section class="box-body">
         <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình với kích thước 3Mb.</p>
         <article class="form-group margin-0">
-          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="7" data-size="3145728" data-type="jpg jpeg png" data-init-value="<%= image_ids %>" />
+          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="7" data-size="3145728" data-type="jpg jpeg png" data-ratio="<%= 1.25 %>" data-init-value="<%= image_ids %>" />
         </article>
       </section>
     </article>

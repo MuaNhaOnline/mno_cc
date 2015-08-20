@@ -7,7 +7,9 @@ var _t = {
 		yes: 'Có',
 		no: 'Không',
 		label_image_upload: 'Đăng hình ảnh tại đây',
-		search_no_result: 'Không tìm thấy kết quả phù hợp'
+		search_no_result: 'Không tìm thấy kết quả phù hợp',
+		crop_tooltip: 'Cắt',
+		cancel_tooltip: 'Bỏ qua'
 	},
 	user: {
 		validate: {
@@ -31,6 +33,8 @@ var _t = {
 	real_estate: {
 		attribute: {
 			draft_status: 'Nháp',
+			appraised_status: 'Đã thẩm định',
+			not_appraised_status: 'Chờ thẩm định',
 			pending_status: 'Chờ duyệt',
 			show_status: 'Hiển thị',
 			hide_status: 'Ẩn'
@@ -52,18 +56,20 @@ var _t = {
 			'real_estate[custom_planning_status_type]_required': 'Tình trạng khác không thể bỏ trống',
 			'real_estate[image_ids]_required': 'Hình ảnh không thể bỏ trống'
 		},
-		create: {
-			success_content: 'Tin đăng thành công. Đăng hình ảnh và nhận xét về bất động sản của bạn tại đây',
-			save_draft_success_content: 'Lưu tạm thành công',
-			'continue': 'Bổ sung',
-			view: 'Xem kết quả'
-		},
-		manager: {
-			hide: 'Ẩn',
-			show: 'Hiển thị',
-			'continue': 'Tiếp tục',
-			edit: 'Sửa',
-			delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+		view: {
+			create: {
+				success_content: 'Tin đăng thành công. Đăng hình ảnh và nhận xét về bất động sản của bạn tại đây',
+				save_draft_success_content: 'Lưu tạm thành công',
+				'continue': 'Bổ sung',
+				view: 'Xem kết quả'
+			},
+			my: {
+				hide: 'Ẩn',
+				show: 'Hiển thị',
+				'continue': 'Tiếp tục',
+				edit: 'Sửa',
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			}
 		}
 	}
 };

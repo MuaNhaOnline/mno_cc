@@ -7,8 +7,8 @@
 	<script type="text/javascript" src="/assets/users/signin.js"></script>
 <% end %>
 
-<form class="row form" id="signin_form">
-	<div class="col-md-6 col-md-offset-3">
+<div class="row">
+	<form class="form col-md-4 col-md-offset-3" id="signin_form">
 		<article class="box box-default">
 			<section class="box-header with-border">
 				<h2 class="box-title">
@@ -47,21 +47,26 @@
 
 				<!-- Remember -->
 
-				<article class="form-group">
-					<div class="checkbox">
+				<article class="form-group pull-left">
+					<div class="checkbox no-margin">
 						<label><input type="checkbox" name="remember" />Ghi nhớ</label>
 					</div>
 				</article>
 
+				<article class="form-group pull-right">
+					<a href="">Quên mật khẩu</a>
+				</article>
+
 				<!-- / Remember -->
 
+				<div class="social-auth-links text-center">
+	        <a aria-click="facebook-login" href="javascript:void(0)" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Đăng nhập bằng <b>Facebook</b></a>
+	        <a href="javascript:void(0)" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Đăng nhập bằng <b>Google+</b></a>
+	      </div>
+
 			</section>
+
 		</article>	
-	</div>
-
-	<div class="clearfix"></div>
-
-	<div class="col-md-6 col-md-offset-3">
 
 		<!-- Button -->
 
@@ -75,5 +80,5 @@
 
 		<!-- /Button -->
 
-	</div>
-</form>
+	</form>
+</div>

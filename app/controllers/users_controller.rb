@@ -4,14 +4,20 @@ class UsersController < ApplicationController
 
 # Sign up
   
+  # View
   def create
-  	
+    # Author
+  	authorize! :signup, nil
   end
 
+  # Handle
+  # params: form user
   def save
     user = User.new
 
-    user.save_with_params params[:user]
+    result = user.save_with_params params[:user]
+
+    return render json: result if result[:status] != 0
 
     if user.errors.any?
       render json: { status: 3, result: user.errors.full_messages }
@@ -20,30 +26,30 @@ class UsersController < ApplicationController
     end
   end
 
+  # Handle
+  # params: account(*)
   def check_unique_account
-    begin
-      render json: { status: 0, result: !User.exists?(account: params[:account]) }
-    rescue 
-      render json: { status: 2 }
-    end
+    render json: { status: 0, result: !User.exists?(account: params[:account]) }
   end
 
+  # Handle
+  # params: email(*)
   def check_unique_email
-    begin
-      render json: { status: 0, result: !User.exists?(email: params[:email]) }
-    rescue 
-      render json: { status: 2 }
-    end
+    render json: { status: 0, result: !User.exists?(email: params[:email]) }
   end
 
 # / Sign up
 
-# Sign in
+# Sign in, out
 
+  # View
   def signin
-    
+    # Author
+    authorize! :signin, nil
   end
 
+  # Handle
+  # params: user form: account(*), password(*), remember
   def signin_handle
     result = User.check_signin params[:user][:account], params[:user][:password]
 
@@ -76,11 +82,36 @@ class UsersController < ApplicationController
     render json: { status: 0, result: user.id }
   end
 
-# / Sign in
+  # Handle
+  def signout
+    session[:user_id] = nil
+    cookies.delete :user_account
+    cookies.delete :user_password
+
+    redirect_to '/'
+  end
+
+  # Facebook signin
+  
+  def facebook_signin
+    return render json: request.env['omniauth.auth']
+    user = User.from_omniauth request.env['omniauth.auth']
+    session[:user_id] = user.id
+    redirect_to 'home/back'
+  end
+
+  # / Facebook signin
+
+
+# / Sign in, out
 
 # Manager
 
+  # View
   def manager
+    # Author
+    authorize! :manage, User
+
     @system_managers = User.search_by_type '', 'system_manager', true
     @user_managers = User.search_by_type '', 'user_manager', true
     @real_estate_managers = User.search_by_type '', 'real_estate_manager', true
@@ -89,8 +120,12 @@ class UsersController < ApplicationController
     @statisticians = User.search_by_type '', 'statistician', true
   end
 
+  # Partial view
   # params: is_add(*), type(*), page, keyword
   def _manager_list
+    # Author
+    return render json: { status: 6 } if cannot? :manage, User
+    
     # Check unless exists is_add, type
     return render json: { status: 3 } unless params.has_key?(:is_add) && params.has_key?(:type)
 
@@ -116,9 +151,7 @@ class UsersController < ApplicationController
 
   # params: id(*), type(*), is(*)
   def change_type
-    User.update_type_by_id params[:id], params[:type], params[:is]
-
-    render json: { status: 0 }
+    render json: User.update_type_by_id(params[:id], params[:type], params[:is])
   end
 
 # / Manager
