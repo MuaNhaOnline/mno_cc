@@ -29,7 +29,9 @@ Rails.application.routes.draw do
   put 'real_estates/approve/:id' => 'real_estates#approve'
 
   # User
+  get 'users/autocomplete'
   get 'signup' => 'users#create'
+  get 'users/create/:id' => 'users#create'  
   get 'users/check_unique_account'
   get 'users/check_unique_email'
   get 'signin' => 'users#signin'
@@ -40,6 +42,13 @@ Rails.application.routes.draw do
   post 'register' => 'users#save'
   post 'signin' => 'users#signin_handle'
   put 'users/change_type'
+
+  # Appraisal company
+  get 'appraisal_companies/create(/:id)' => 'appraisal_companies#create'
+  get 'appraisal_companies/manager'
+  get 'appraisal_companies/_manager_list'
+  post 'appraisal_companies/create' => 'appraisal_companies#save'
+  delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
 
   # Project
   get 'projects/index'

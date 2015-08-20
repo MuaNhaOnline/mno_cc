@@ -1,0 +1,19 @@
+<% acs.each do |ac| %>
+  <tr data-value="<%= ac.id %>">
+    <td class="name"><%= appraisal_company_avatar ac %><span><%= ac.name %></span></td>
+    <td class="representative"><%= user_avatar ac.representative %><span><span><%= ac.representative.full_name %></span></td>
+    <td>
+      <div class="dropdown">
+        <button id="drop_down_button_<%= ac.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+          <%= t 'real_estate.view.pending.control' %>
+        </button>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= ac.id %>">
+          <li role="presentation">
+            <a href="/appraisal_companies/create/<%= ac.id %>"><%= t 'appraisal_company.view.manager.edit' %></a>
+            <a aria-click="delete" href="javascript:void(0)"><%= t 'appraisal_company.view.manager.delete' %></a>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+<% end %>

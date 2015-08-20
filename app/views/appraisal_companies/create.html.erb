@@ -1,0 +1,89 @@
+<% 
+=begin
+	@ac
+=end 
+%>
+
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
+  <link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
+<% end %>
+
+<% content_for :scripts do %>`
+  <script type="text/javascript" src="/assets/shared/form_back.js"></script>
+  <script type="text/javascript" src="/assets/appraisal_companies/create.js"></script>
+  <script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+  <%= t 'appraisal_company.view.create.page_title' %>
+<% end %>
+
+<% content_for :navigator do %>
+  <li class="active"><%= t 'appraisal_company.view.create.page_title' %></li>
+<% end %>
+
+<form class="row form" id="create_ac" data-entertotab>
+	<% unless @ac.new_record? %>
+		<input type="hidden" name="ac[id]" value="<%= @ac.id %>" />
+	<% end %>
+	<div class="col-md-6">
+		<article class="box box-default">
+			<section class="box-header with-border">
+				<h2 class="box-title">
+					<%= t 'appraisal_company.attribute.info_box' %>
+				</h2>
+			</section>
+			<section class="box-body">
+
+				<!-- Name -->
+
+		    <article class="form-group">
+		      <label for="name"><%= t 'appraisal_company.attribute.name' %></label>
+          <sup class="required-label"></sup>
+          <input value="<%= @ac.name %>" name="ac[name]" data-constraint="required" type="text" class="form-control" id="name" />
+		    </article>
+
+				<!-- / Name -->
+
+				<!-- Representative -->
+
+		    <article class="form-group">
+		      <label for="representative_id"><%= t 'appraisal_company.attribute.representative' %></label>
+          <sup class="required-label"></sup>
+          <input data-value="<%= @ac.representative_id unless @ac.representative.nil? %>" value="<%= @ac.representative.full_name unless @ac.representative.nil? %>" data-url="/users/autocomplete" aria-input-type="autocomplete" name="ac[representative_id]" data-constraint="required" type="text" class="form-control" id="representative_id" />
+		    </article>
+
+				<!-- / Representative -->
+
+		    <!-- Avatar -->
+
+		    <article class="form-group">
+		      <label><%= t 'appraisal_company.attribute.avatar_image' %></label>
+          <input data-init-value="<%= @ac.avatar_image_id %>" name="ac[avatar_image_id]" class="file-upload" type="file" data-type="jpg jpeg png" data-ratio="1.25" />
+		    </article>
+
+		    <!-- / Avatar -->
+
+			</section>
+		</article>	
+	</div>
+
+	<div class="clearfix"></div>
+
+	<div class="col-md-6">
+
+		<!-- Button -->
+
+    <article class="box box-solid">
+      <section class="box-body row">
+        <div class="margin-top-bottom-5 col-md-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'user.view.create.finish' %></b></button>
+        </div>
+      </section>
+    </article>
+
+    <!-- /Button -->
+
+	</div>
+</form>

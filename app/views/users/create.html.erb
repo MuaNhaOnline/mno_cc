@@ -18,6 +18,9 @@
 <% end %>
 
 <form class="row form" id="create_user" data-entertotab>
+	<% unless @user.new_record? %>
+		<input type="hidden" name="user[id]" value="<%= @user.id %>" />
+	<% end %>
 	<div class="col-md-6">
 		<article class="box box-default">
 			<section class="box-header with-border">
@@ -27,47 +30,51 @@
 			</section>
 			<section class="box-body">
 
-				<!-- Account name -->
+				<% if @user.new_record? %>
 
-		    <article class="form-group">
-		      <label for="account"><%= t 'user.attribute.account' %></label>
-          <sup class="required-label"></sup>
-		      <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fa fa-user"></i>
-            </div>
-            <input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" />
-          </div>
-		    </article>
+					<!-- Account name -->
 
-				<!-- / Account name -->
-
-				<!-- Password -->
-
-				<div class="row">
-			    <article class="form-group col-md-6">
-			      <label for="password"><%= t 'user.attribute.password' %></label>
-          	<sup class="required-label"></sup>
+			    <article class="form-group">
+			      <label for="account"><%= t 'user.attribute.account' %></label>
+	          <sup class="required-label"></sup>
 			      <div class="input-group">
 	            <div class="input-group-addon">
-	              <i class="fa fa-lock"></i>
+	              <i class="fa fa-user"></i>
 	            </div>
-	            <input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
+	            <input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" />
 	          </div>
 			    </article>
-			    <article class="form-group col-md-6">
-			      <label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
-         	 <sup class="required-label"></sup>
-			      <div class="input-group">
-	            <div class="input-group-addon">
-	              <i class="fa fa-lock"></i>
-	            </div>
-	            <input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" />
-	          </div>
-			    </article>
-				</div>
 
-		    <!-- / Password -->
+					<!-- / Account name -->
+
+					<!-- Password -->
+
+					<div class="row">
+				    <article class="form-group col-md-6">
+				      <label for="password"><%= t 'user.attribute.password' %></label>
+	          	<sup class="required-label"></sup>
+				      <div class="input-group">
+		            <div class="input-group-addon">
+		              <i class="fa fa-lock"></i>
+		            </div>
+		            <input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
+		          </div>
+				    </article>
+				    <article class="form-group col-md-6">
+				      <label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
+	         	 <sup class="required-label"></sup>
+				      <div class="input-group">
+		            <div class="input-group-addon">
+		              <i class="fa fa-lock"></i>
+		            </div>
+		            <input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" />
+		          </div>
+				    </article>
+					</div>
+
+			    <!-- / Password -->
+
+				<% end %>
 
 		    <!-- Email -->
 
@@ -78,7 +85,7 @@
             <div class="input-group-addon">
               <i class="fa fa-envelope"></i>
             </div>
-            <input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+            <input value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
           </div>
 		    </article>
 
@@ -93,7 +100,7 @@
             <div class="input-group-addon">
               <i class="fa fa-font"></i>
             </div>
-            <input name="user[full_name]" data-constraint="required" type="text" class="form-control" id="full_name" />
+            <input value="<%= @user.full_name %>" name="user[full_name]" data-constraint="required" type="text" class="form-control" id="full_name" />
           </div>
 		    </article>
 
@@ -108,7 +115,7 @@
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <input name="user[birthday]" data-constraint="required" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="birthday" />
+            <input value="<%= @user.birthday.strftime('%d/%m/%Y') unless @user.birthday.nil? %>" name="user[birthday]" data-constraint="required" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="birthday" />
           </div>
 		    </article>
 
@@ -118,21 +125,25 @@
 		</article>	
 	</div>
 
-	<div class="col-md-12 hidden-md hidden-lg">
+	<% unless @user.new_record? %>
 
-		<!-- Button -->
+		<div class="col-md-12 hidden-md hidden-lg">
 
-    <article class="box box-solid">
-      <section class="box-body row">
-        <div class="margin-top-bottom-5 col-md-12">
-          <button type="submit" class="btn btn-default btn-block btn-flat"><%= t('user.view.create.half_finish').html_safe %></button>
-        </div>
-      </section>
-    </article>
+			<!-- Button -->
 
-    <!-- /Button -->
+	    <article class="box box-solid">
+	      <section class="box-body row">
+	        <div class="margin-top-bottom-5 col-md-12">
+	          <button type="submit" class="btn btn-default btn-block btn-flat"><%= t('user.view.create.half_finish').html_safe %></button>
+	        </div>
+	      </section>
+	    </article>
 
-	</div>
+	    <!-- /Button -->
+
+		</div>
+
+	<% end %>
 
 	<div class="col-md-6">
 		<article class="box box-default">
@@ -143,7 +154,7 @@
 			</section>
 			<section class="box-body">
 
-		    <!-- Bussiness name -->
+		    <!-- Business name -->
 
 		    <article class="form-group">
 		      <label for="business_name"><%= t 'user.attribute.business_name' %></label>
@@ -151,11 +162,11 @@
             <div class="input-group-addon">
               <i class="fa fa-group"></i>
             </div>
-            <input name="user[business_name]" type="text" class="form-control" id="business_name" />
+            <input value="<%= @user.business_name %>" name="user[business_name]" type="text" class="form-control" id="business_name" />
           </div>
 		    </article>
 
-		    <!-- / Bussiness name -->
+		    <!-- / Business name -->
 
 		    <!-- Phone number -->
 
@@ -165,7 +176,7 @@
             <div class="input-group-addon">
               <i class="fa fa-phone"></i>
             </div>
-            <input name="user[phone_number]" data-constraint="integer" type="text" class="form-control" id="phone_number" />
+            <input value="<%= @user.phone_number %>" name="user[phone_number]" data-constraint="integer" type="text" class="form-control" id="phone_number" />
           </div>
 		    </article>
 
@@ -179,7 +190,7 @@
             <div class="input-group-addon">
               <i class="fa fa-home"></i>
             </div>
-            <textarea name="user[address]" class="form-control" id="address"></textarea>
+            <textarea name="user[address]" class="form-control" id="address"><%= @user.address %></textarea>
           </div>
 		    </article>
 
@@ -189,7 +200,7 @@
 
 		    <article class="form-group">
 		      <label><%= t 'user.attribute.avatar_image' %></label>
-          <input name="user[avatar_image_id]" class="file-upload" type="file" data-type="jpg jpeg png" data-ratio="1" />
+          <input data-init-value="<%= @user.avatar_image_id %>" name="user[avatar_image_id]" class="file-upload" type="file" data-type="jpg jpeg png" data-ratio="1" />
 		    </article>
 
 		    <!-- / Avatar -->

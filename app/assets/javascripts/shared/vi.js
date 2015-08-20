@@ -8,6 +8,7 @@ var _t = {
 		no: 'Không',
 		label_image_upload: 'Đăng hình ảnh tại đây',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
+		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
 		crop_tooltip: 'Cắt',
 		cancel_tooltip: 'Bỏ qua'
 	},
@@ -69,6 +70,17 @@ var _t = {
 				'continue': 'Tiếp tục',
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			}
+		}
+	},
+	appraisal_company: {
+		validate: {
+			'ac[name]_required': 'Tên công ty không thể bỏ trống',
+			'ac[representative_id]_ac_required': 'Thành viên đại diện không thể bỏ trống'
+		},
+		view: {
+			manager: {
+				delete_confirm: 'Bạn có chắc muốn xóa công ty này?'
 			}
 		}
 	}

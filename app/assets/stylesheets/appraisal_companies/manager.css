@@ -1,0 +1,32 @@
+.ac-content {
+
+}
+
+.ac-content th {
+	text-align: center;
+	white-space: nowrap;
+}
+
+.ac-content td:nth-child(1) {
+
+}
+
+.ac-content td:nth-child(2) {
+	width: 1%;
+	white-space: nowrap;
+}
+
+.ac-content td:nth-child(3) {
+	width: 1%;
+	white-space: nowrap;
+}
+
+.ac-content .name img {
+	height: 100px;
+	margin-right: 5px;
+}
+
+.ac-content .representative img {
+	height: 50px;
+	margin-right: 5px;
+}

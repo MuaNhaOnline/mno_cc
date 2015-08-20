@@ -6,14 +6,35 @@ class UsersController < ApplicationController
   
   # View
   def create
+    if (params.has_key?(:id))
+      begin
+        @user = User.find(params[:id])
+      rescue
+        @user = User.new
+      end
+    else
+      @user = User.new
+    end
+    
     # Author
-  	authorize! :signup, nil
+    if @user.new_record?
+      authorize! :signup, nil
+    else  
+      authorize! :edit, @user
+    end
   end
 
   # Handle
   # params: form user
   def save
-    user = User.new
+    if params[:user][:id].blank?
+      user = User.new
+    else 
+      user = User.find(params[:user][:id])
+      if user.nil?
+        return render json: { status: 1 }
+      end
+    end
 
     result = user.save_with_params params[:user]
 
@@ -102,7 +123,6 @@ class UsersController < ApplicationController
 
   # / Facebook signin
 
-
 # / Sign in, out
 
 # Manager
@@ -155,5 +175,20 @@ class UsersController < ApplicationController
   end
 
 # / Manager
+
+# Autocomplete
+
+  def autocomplete
+    users = User.search(params[:keyword]).limit(10)
+
+    list = []
+    users.each do |user|
+      list << { value: user.id, text: user.full_name }
+    end
+
+    render json: { status: 0, result: list }
+  end
+
+# / Autocomplete
 
 end
