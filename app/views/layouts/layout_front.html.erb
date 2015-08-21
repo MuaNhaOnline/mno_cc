@@ -22,11 +22,11 @@
 	<section class="navbar-fixed-top header-fixed" style="background-color: #fff">
 		<div class="container header">
 			 <!-- start logo -->
-			 <a href="/">
-				<article class="logo">
-					<img src="/assets/logo/logo.png" class="img-responsive">
-				</article>
-			 </a>
+			<article class="logo">
+				<a href="/">
+					<img src="/assets/logo/logo.png">
+				</a>
+			</article>
 			 <!-- end logo -->
 
 			<!-- start sitemap -->
@@ -38,8 +38,21 @@
 								Bất động sản <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href="/real_estates">Bán</a></li>
-								<li><a href="/real_estates">Cho thuê</a></li>
+								<li><a href="/real_estates">Nhà phố</a></li>
+								<li><a href="/real_estates">Villa - Biệt thự</a></li>
+								<li><a href="/real_estates">Nhà tạm</a></li>
+								<li><a href="/real_estates">Căn hộ cao cấp</a></li>
+								<li><a href="/real_estates">Căn hộ chung cư</a></li>
+								<li><a href="/real_estates">Đất dự án - Quy hoạch</a></li>
+								<li><a href="/real_estates">Đất ở - Đất thổ cư</a></li>
+								<li><a href="/real_estates">Đất lâm nghiệp</a></li>
+								<li><a href="/real_estates">Đất nông nghiệp</a></li>
+								<li><a href="/real_estates">Đất cho sản xuất</a></li>
+								<li><a href="/real_estates">Văn phòng</a></li>
+								<li><a href="/real_estates">Phòng trọ</a></li>
+								<li><a href="/real_estates">Mặt bằng - Cửa hàng</a></li>
+								<li><a href="/real_estates">Nhà hàng - Khách sạn</a></li>
+								<li><a href="/real_estates">Nhà kho - Xưởng</a></li>
 							</ul>
 						</div>
 					</li>
@@ -49,8 +62,12 @@
 								Dự án <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href="/projects">Bán</a></li>
-								<li><a href="/projects">Cho thuê</a></li>
+								<li><a href="/projects">Cao ốc văn phòng</a></li>
+								<li><a href="/projects">Khu căn hộ</a></li>
+								<li><a href="/projects">Khu dân cư - đô thị mới</a></li>
+								<li><a href="/projects">Khu phức hợp - thương mại</a></li>
+								<li><a href="/projects">Khu du lịch - nghĩ dưỡng</a></li>
+								<li><a href="/projects">Khu công nghiệp</a></li>
 							</ul>
 						</div>
 					</li>
@@ -68,15 +85,35 @@
 							</button>
 						</div>
 					</li>
+					<li>
+						<div class="btn-group">
+							<button type="button" class="btn btn-link">
+							Định giá
+							</button>
+						</div>
+					</li>
 				</ul>
 			</article>
 			<!-- end sitemap -->
-
+			
+			<!-- start swich button -->
+			<article class="switch-button">
+				<label>
+					<input type="radio" name="switchType" id="sale" checked>
+					<span>Bán</span>
+				</label>
+				<label>
+					<input type="radio" name="switchType" id="rent">
+					<span>Cho thuê</span>
+				</label>
+			</article>
+			<!-- end -->
+			 
 			 <!-- start function button -->
 			<article class="function-button hidden-xs hidden-sm">
 				<div class="btn-group">
-					<button type="button" class="btn btn-danger">Đăng tin</button>
-					<button type="button" style="border-left-color:#FF7A12" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-danger btn-sm">Đăng tin</button>
+					<button type="button" style="border-left-color:#FF7A12" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="caret"></span>
 						<span class="sr-only">Toggle Dropdown</span>
 					</button>
@@ -178,13 +215,27 @@
 				</ul>
 			</div>
 			<div class="col-md-3 item">
-				<div class="title">Bạn cần chúng tôi hỗ trợ gì</div>
-				<form>
-					<div class="form-group">
-						<input class="form-control">
-						<button class="btn btn-success btn-sm">Gửi yêu cầu</button>
-					</div>
-				</form>
+				<div class="title">Theo dõi chúng tôi trên</div>
+				<ul class="social">
+					<li>
+						<a href="#">
+							<i class="icon icon-facebook"></i>
+							<span>Facebook</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="icon icon-googleplus"></i>
+							<span>Google+</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="icon icon-youtube"></i>
+							<span>Youtube</span>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="information">
@@ -194,14 +245,7 @@
 				Tầng 1, Tòa nhà Rosana, số 60 Nguyễn Đình Chiểu, phường Đa Kao, Quận 1, TPHCM<br>
 				ĐT: (84-8) 2221 1906 - Fax: (84-8) 222 02201<br>
 				Email: info@muanhaonline.vn
-			</p>
-			<p>
-				<span>theo dõi chúng tôi trên</span>
-				<a href="#"><i class="icon icon-facebook"></i></a>
-				<a href="#"><i class="icon icon-twitter"></i></a>
-				<a href="#"><i class="icon icon-youtube"></i></a>
-				<a href="#"><i class="icon icon-googleplus"></i></a>
-			</p>
+			</p>			
 		</div>
 	</div>
 	<!-- <div class="information">

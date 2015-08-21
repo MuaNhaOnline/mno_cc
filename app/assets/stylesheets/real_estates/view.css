@@ -44,20 +44,10 @@
 	}
 		.basic-info > li:not(:last-child) {
 			margin-bottom: 12px;
-		}
-		
-		/*start function*/
-		.basic-info .function {
-			display: flex;
-		}
-			.basic-info .function .btn-favor {
-				margin-right: 30px;
-			}
-		/*end*/
+		}				
 		
 		/*start slide-picture*/
 		.basic-info .slide-picture {
-			margin-bottom: 24px !important;
 		}
 			.basic-info .slide-picture ul {
 				display: flex;
@@ -82,6 +72,10 @@
 				margin-right: 0;
 			}
 		/*end*/
+		/*start share*/
+		.share {
+		}
+		/*end*/
 	/*end*/
 
 	/*start price*/
@@ -94,12 +88,14 @@
 		margin-bottom: 10px;
 		display: flex;
 		flex-direction: column;
+		transition: 0.3s;
 	}
 		.price select {
 			border: 0px;
 			outline: none;
 			background-color: transparent;
 		}
+
 		/*start custom-tab*/
 		.price-tab {
 			margin-bottom: -1px;
@@ -113,13 +109,22 @@
 				color: #ddd;
 				position: absolute;
 			}
+			.price-tab > li > a {
+				background-color: transparent !important;
+				border: 0px !important;
+			}
 			.price-tab > li.active > a {
-				border: none;
+				border-color: 0px !important;
 				font-weight: bold;
 				color: #666;
-			}
-				.price-tab > li.active > a:hover {
-					border: none;
+				background-color: transparent !important;
+			}			
+				.price-tab > li.active > a:hover,
+				.price-tab > li.active > a:active,
+				.price-tab > li.active > a:visited {
+					border: 0px !important;
+					border-radius: none;
+					background-color: none !important;
 				}
 			.price-tab li a {
 				padding: 2px 5px;
@@ -133,12 +138,16 @@
 		}
 		/*end*/
 	/*end price*/
-	/*start share*/
-	.share {
-		text-align: center;
+	
+	/*start function*/
+	.standard-info .function {
+		display: flex;
+		justify-content: center;
 	}
+		.standard-info .function .btn-favor {
+			margin-right: 30px;
+		}
 	/*end*/
-
 /*end*/
 
 /*start description*/
@@ -237,6 +246,24 @@
 				margin-right: 10px;
 			}
 	/*end*/
+	
+	/*start request-box*/
+	.request-box {		
+		text-align: left;
+	}
+		.request-box input {
+			margin-bottom: 7px;
+			border-radius: 2px;
+		}
+		.request-box textarea {			
+			max-height: 97px;
+			border-radius: 2px;
+			max-width: 263px;
+			margin-bottom: 7px;
+			color: #666;
+		}
+	/*end*/
+
 	/*start distributor-other*/
 	.distributor-other {
 		display: flex;
