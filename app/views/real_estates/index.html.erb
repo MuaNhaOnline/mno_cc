@@ -32,7 +32,7 @@
 				<div class="separator">
 					<span>|</span>
 				</div>
-				<div class="btn-search" data-toggle="tooltip" data-placement="left" title="Tìm kiếm">
+				<div class="btn-search">
 					<button type="submit"></button>
 					<div class="btn-more" data-function="show-search-plus">
 						<span class="caret"></span>
@@ -120,7 +120,7 @@
 <!-- end navigator -->
 
 <!-- start favorite-property -->
-<section class="container favorite-property block">
+<section class="container block">
 	<article class="title">
 		<a href="#" class="link">
 			<i class="icon-link"></i>
@@ -128,339 +128,666 @@
 		</a>
 	</article>
 	<article class="content item-lg">
-		<section class="row">
-			<div class="col-md-8 picture col-md-push-4">
-				<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
+		<section class="favorite-property">
+			<div class="row">
+				<div class="col-md-8 picture col-md-push-4">
+					<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
+				</div>
+				<div class="col-md-4 col-md-pull-8">
+					<div class="name">
+						Tên bất động sản
+					</div>
+					<div class="convenient">
+						<div class="area">
+							<i class="icon-area"></i>
+							<span>2</span>
+						</div>
+						<div class="bathroom">
+							<i class="icon-bathroom"></i>
+							<span>4</span>						
+						</div>
+						<div class="bedroom">
+							<i class="icon-bedroom"></i>
+							<span>3</span>
+						</div>
+					</div>
+					<div class="address">
+						Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7
+					</div>
+					<div class="price">
+						750 triệu
+					</div>
+					<div class="detail">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div class="btn-more">
+						<a href="#">Xem chi tiết</a>
+					</div>				
+				</div>
 			</div>
-			<div class="col-md-4 col-md-pull-8">
-				<div class="name">
-					Tên bất động sản
-				</div>
-				<div class="convenient">
-					<div class="area">
-						<i class="icon-area"></i>
-						<span>2</span>
+		</section>
+		<section class="user-property">		
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="active">
+					<a href="#suggest_property" role="tab" data-toggle="tab">
+						Có thể bạn quan tâm
+					</a>
+				</li>
+				<li>
+					<a href="#new_property" role="tab" data-toggle="tab">
+						Căn hộ mới rao bán
+					</a>
+				</li>
+			</ul>
+			<!-- end -->
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="suggest_property">
+					<div class="link">
+						<a href="#">Xem tất cả</a>
 					</div>
-					<div class="bathroom">
-						<i class="icon-bathroom"></i>
-						<span>4</span>						
+					<div class="row">					
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
 					</div>
-					<div class="bedroom">
-						<i class="icon-bedroom"></i>
-						<span>3</span>
+					<div class="paging">
+						<div class="left">
+							<i class="pe-7s-angle-left"></i>
+						</div>
+						<div class="number">
+							<span>5/10</span>
+						</div>
+						<div class="right">
+							<i class="pe-7s-angle-right"></i>
+						</div>
 					</div>
 				</div>
-				<div class="address">
-					Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7
+				<div class="tab-pane fade" id="new_property">
+					<div class="link">
+						<a href="#">Xem tất cả</a>
+					</div>
+					<div class="row">					
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+					</div>
+					<div class="paging">
+						<div class="left">
+							<i class="pe-7s-angle-left"></i>
+						</div>
+						<div class="number">
+							<span>5/10</span>
+						</div>
+						<div class="right">
+							<i class="pe-7s-angle-right"></i>
+						</div>
+					</div>
 				</div>
-				<div class="price">
-					750 triệu
-				</div>
-				<div class="detail">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</div>
-				<div class="btn-more">
-					<a href="#">Xem chi tiết</a>
-				</div>				
 			</div>
-		</div>
+			<!-- end -->
+		</section>
 	</article>
 </section>
 <!-- end favorite-property -->
 
-<!-- start list sale property -->
-<section class="container sale-property block">
+<!-- start structure-property -->
+<section class="container structure-property block">
 	<article class="title">
-		<a>			
-			<span>Danh sách căn hộ được rao bán</span>
+		<a href="#" class="link">
+			<i class="icon-link"></i>
+			<span>Các loại Bất động sản khác</span>
 		</a>
 	</article>
-	<article class="content other-property">
-		<div class="list">
-			<a class="btn btn-success btn-sm">Căn hộ chung cư cao cấp</a>
-			<a class="btn btn-success btn-sm">Villa - Biệt thự vừa hoàn thành</a>
-			<a class="btn btn-success btn-sm">Đất thổ cư cần bán</a>
-			<a class="btn btn-success btn-sm">Căn hộ chung cư giá rẻ</a>
-			<a class="btn btn-success btn-sm">Nhà tạm</a>
-			<a class="btn btn-success btn-sm">Mặt bằng - Cửa hàng</a>
-			<a class="btn btn-success btn-sm">Nhà kho - Xưởng</a>
-		</div>
+	<article class="content">
+		<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="active">
+					<a href="#property" role="tab" data-toggle="tab">
+						Nhà phố
+					</a>
+				</li>
+				<li>
+					<a href="#villa" role="tab" data-toggle="tab">
+						Villa - Biệt thự
+					</a>
+				</li>
+				<li>
+					<a href="#apartment" role="tab" data-toggle="tab">
+						Căn hộ
+					</a>
+				</li>
+				<li>
+					<a href="#ground" role="tab" data-toggle="tab">
+						Mặt bằng
+					</a>
+				</li>
+				<li>
+					<a href="#land" role="tab" data-toggle="tab">
+						Đất
+					</a>
+				</li>
+			</ul>
+			<!-- end -->
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="property">
+					<div class="link">
+						<a href="#">Xem tất cả</a>
+					</div>
+					<div class="row">					
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+					</div>
+					<div class="paging">
+						<div class="left">
+							<i class="pe-7s-angle-left"></i>
+						</div>
+						<div class="number">
+							<span>5/10</span>
+						</div>
+						<div class="right">
+							<i class="pe-7s-angle-right"></i>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="villa">
+					<div class="link">
+						<a href="#">Xem tất cả</a>
+					</div>
+					<div class="row">					
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+							<li class="item-sm">
+								<div class="picture">
+									<img src="/assets/product/BDS06.jpg">
+								</div>
+								<a href="/real_estates/view">
+									<div class="title">
+										<span>Tên bất động sản</span>
+									</div>
+									<div class="status">
+										<img src="/assets/icon/done.png">
+										<span>Đã hoàn thành</span>
+									</div>
+									<div class="address">
+										<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
+									</div>
+									<div class="price">
+										850 triệu
+									</div>
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+					</div>
+					<div class="paging">
+						<div class="left">
+							<i class="pe-7s-angle-left"></i>
+						</div>
+						<div class="number">
+							<span>5/10</span>
+						</div>
+						<div class="right">
+							<i class="pe-7s-angle-right"></i>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="apartment">
+				</div>
+				<div class="tab-pane fade" id="ground">
+				</div>
+				<div class="tab-pane fade" id="land">
+				</div>
+			</div>
+			<!-- end -->
 	</article>
 </section>
-<!-- end list sale property -->
-
-<!-- start suggest property -->
-<section class="suggest-property container">
-	<div class="title">
-		<span>Có thể bạn quan tâm</span>
-		<a href="#">xem thêm</a>
-	</div>
-	<div class="content">
-		<ul class="row">
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="/real_estates/view">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							850 triệu
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="/real_estates/view">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							900 triệu
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="/real_estates/view">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							500 triệu
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="/real_estates/view">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							1 tỷ 2
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>	
-		</ul>		
-	</div>
-</section>
-<!-- end suggest property -->
-
-<!-- start new property -->
-<section class="new-property container">
-	<div class="title">
-		<span>Căn hộ mới rao bán</span>
-		<a href="#">xem thêm</a>
-	</div>
-	<div class="content">
-		<ul class="row">
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							850 triệu
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							900 triệu
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							500 triệu
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS06.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>Tên bất động sản</span>
-						</div>
-						<div class="status">
-							<img src="/assets/icon/done.png">
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address">
-							<span>Số 40 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-						</div>
-						<div class="price">
-							1 tỷ 2
-						</div>
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>	
-		</ul>		
-	</div>
-</section>
-<!-- end new property -->
+<!-- end -->
 
 <!-- start position property -->
 <section class="container position-property block">
 	<article class="title">
 		<a href="#" class="link">
 			<i class="icon-link"></i>
-			<span>Tìm căn hộ theo vị trí</span>
+			<span>Tìm nhà theo vị trí</span>
 		</a>
 	</article>
 	<article class="content">
-		<div class="tab-position">
-			<ul>
-				<li class="active"><a href="#">Tất cả</a></li>
-				<li><a href="#">Quận 1</a></li>
-				<li><a href="#">Quận 2</a></li>
-				<li><a href="#">Quận 3</a></li>
-				<li><input class="input-position" type="text" placeholder="...Nhập vị trí"></li>
-			</ul>
+		<div class="title-position">			
+			Xem bất động sản tại
+			<div class="btn-group">
+				<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Quận 1 <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					Hiển thị tất cả các Quận
+				</ul>
+			</div>
 		</div>
 		<ul class="row">
 			<div class="col-lg-3 col-md-4 col-sm-6">
@@ -576,9 +903,39 @@
 				</li>
 			</div>
 		</ul>
+		<div class="paging">
+			<div class="left">
+				<i class="pe-7s-angle-left"></i>
+			</div>
+			<div class="number">
+				<span>5/10</span>
+			</div>
+			<div class="right">
+				<i class="pe-7s-angle-right"></i>
+			</div>
+		</div>
 	</article>
 </section>
 <!-- end position property -->
+
+<!-- start price property -->
+<section class="container price-property block">
+	<article class="title">
+		<a href="#" class="link">
+			<i class="icon-link"></i>
+			<span>Tìm nhà theo khoảng giá</span>
+		</a>
+	</article>
+	<article class="content">
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</article>
+</section>
+<!-- end -->
 
 <!-- start short property -->
 <section class="container short-property block">
@@ -587,9 +944,6 @@
 			<i class="icon-link"></i>
 			<span>Tin nhanh</span>
 		</a>
-	</article>
-	<article class="link">
-		<a href="#">Xem thêm</a>
 	</article>
 	<article class="content">
 		<ul>
