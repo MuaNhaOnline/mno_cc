@@ -1,21 +1,25 @@
 <% 
-  @title = 'Quản lý bất động sản'
+=begin
+  params: @res
+=end
+
+  @title = 'Thẩm định bất động sản'
 %>
 
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/real_estates/pending.css" />
+  <link rel="stylesheet" href="/assets/appraisal_companies/appraise.css" />
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/pending.js"></script>
+  <script type="text/javascript" src="/assets/appraisal_companies/appraise.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.view.pending.page_title' %>
+  <%= t 'appraisal_company.view.appraise.page_title' %>
 <% end %>
 
 <% content_for :navigator do %>
-  <li class="active"><%= t 'real_estate.view.pending.page_title_nav' %></li>
+  <li class="active"><%= t 'appraisal_company.view.appraise.page_title' %></li>
 <% end %>
 
 <%
@@ -27,9 +31,9 @@
   <section class="box-body">
     <form id="search_form">
       <div class="input-group margin">
-        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'real_estate.view.pending.search_placeholder' %>">
+        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'form.search_placeholder' %>">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><%= t 'real_estate.view.pending.search' %></button>
+          <button class="btn btn-default" type="submit"><%= t 'form.search' %></button>
         </span>
       </div>
     </form>
@@ -44,10 +48,12 @@
         <th><%= t 'real_estate.attribute.name' %></th>
         <th><%= t 'real_estate.attribute.purpose' %></th>
         <th><%= t 'real_estate.attribute.real_estate_type' %></th>
+        <th><%= t 'real_estate.attribute.appraisal_sell_price' %></th>
+        <th><%= t 'real_estate.attribute.appraisal_rent_price' %></th>
         <th>&nbsp;</th>
       </thead>
       <tbody id="re_list">
-        <%= render partial: 'real_estates/pending_list', locals: { res: @res.page(1, per) } %>
+        <%= render partial: 'appraisal_companies/appraise_list', locals: { res: @res.page(1, per) } %>
       </tbody>
     </table>
   </section>

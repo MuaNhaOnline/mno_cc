@@ -18,13 +18,17 @@ class RealEstate < ActiveRecord::Base
   belongs_to :planning_status_type
   belongs_to :constructional_level
 
+  has_many :appraisal_companies_real_estates
+  has_many :appraisal_companies, through: :appraisal_companies_real_estates
+  has_many :assigned_appraisal_companies, -> { where("appraisal_companies_real_estates.is_assigned" => true) }, through: :appraisal_companies_real_estates,
+            source: :appraisal_company,
+            class_name: 'AppraisalCompany'
+
   has_and_belongs_to_many :property_utilities
   has_and_belongs_to_many :region_utilities
   has_and_belongs_to_many :advantages
   has_and_belongs_to_many :disadvantages
   has_and_belongs_to_many :images
-  has_and_belongs_to_many :appraisal_companies
-
 # / Associates
 
 # Validates

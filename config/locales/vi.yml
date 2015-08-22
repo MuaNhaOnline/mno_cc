@@ -3,6 +3,9 @@ vi:
     header:
       user_profile: 'Thông tin'
       signout: 'Đăng xuất'
+  form:
+    search_placeholder: 'Nhập từ khóa để tìm kiếm'
+    search: 'Tìm kiếm'
   real_estate:
     attribute:
       appraisal_box: 'Thông tin thẩm định'
@@ -22,6 +25,8 @@ vi:
       currency: 'Loại tiền tệ'
       sell_price: 'Giá bán mong muốn'
       rent_price: 'Giá cho thuê mong muốn'
+      appraisal_sell_price: 'Giá bán thẩm định'
+      appraisal_rent_price: 'Giá mua cho thuê định'
       negotiable: 'Có thể thương lượng'
       real_estate_type_box: 'Loại bất động sản'
       real_estate_type: 'Loại bất động sản'
@@ -238,6 +243,11 @@ vi:
         page_title: 'Quản lý công ty thẩm định'
         search_placeholder: 'Nhập từ khóa để tìm kiếm'
         search: 'Tìm kiếm'
+      appraise:
+        page_title: 'Thẩm định bất động sản'
+        appraise: 'Thẩm định'
+        deny: 'Từ chối'
+        report: 'Phản hồi'
   project:
     attribute:
       position_box: 'Vị trí'

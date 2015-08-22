@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820073638) do
+ActiveRecord::Schema.define(version: 20150821095745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,9 +40,14 @@ ActiveRecord::Schema.define(version: 20150820073638) do
   end
 
   create_table "appraisal_companies_real_estates", force: :cascade do |t|
-    t.integer "appraisal_company_id"
-    t.integer "integer"
-    t.integer "real_estate_id"
+    t.integer  "appraisal_company_id"
+    t.integer  "integer"
+    t.integer  "real_estate_id"
+    t.datetime "assigned_time",        default: '2015-08-20 13:53:23'
+    t.text     "sell_price"
+    t.boolean  "is_selected",          default: false
+    t.boolean  "is_assigned"
+    t.text     "rent_price"
   end
 
   create_table "appraisal_companies_users", force: :cascade do |t|

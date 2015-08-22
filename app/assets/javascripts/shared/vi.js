@@ -10,7 +10,9 @@ var _t = {
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
 		crop_tooltip: 'Cắt',
-		cancel_tooltip: 'Bỏ qua'
+		cancel_tooltip: 'Bỏ qua',
+		finish: 'Hoàn thành',
+		cancel: 'Bỏ qua'
 	},
 	user: {
 		validate: {
@@ -70,6 +72,9 @@ var _t = {
 				'continue': 'Tiếp tục',
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			},
+			appraise: {
+        appraisal_company_placeholder: 'Tên công ty thẩm định...'
 			}
 		}
 	},

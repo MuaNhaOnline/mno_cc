@@ -86,10 +86,41 @@ class AppraisalCompaniesController < ApplicationController
 
 # / Manager
 
+# Autocomplete
+
+  def autocomplete
+    acs = AppraisalCompany.search(params[:keyword]).limit(10)
+
+    list = []
+    acs.each do |ac|
+      list << { value: ac.id, text: ac.name }
+    end
+
+    render json: { status: 0, result: list }
+  end
+
+# / Autocomplete
+
+# Delete
+
   # Handle
   # params: id(*)
   def delete
     render json: AppraisalCompany.delete_by_id(params[:id])
   end
+
+# / Delete
+
+# Appraise
+
+  # View
+  def appraise
+    # Author
+    authorize! :view_assigned_list, AppraisalCompany
+
+    @res = AppraisalCompany.get_assigned_real_estates_by_current_user
+  end
+
+# / Appraise
 
 end

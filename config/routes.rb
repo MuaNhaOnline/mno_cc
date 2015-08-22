@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'
   post 'real_estates/create' => 'real_estates#save'
+  post 'real_estates/set_appraisal_company'
   delete 'real_estates/:id' => 'real_estates#delete'
   put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
   put 'real_estates/approve/:id' => 'real_estates#approve'
@@ -44,9 +45,11 @@ Rails.application.routes.draw do
   put 'users/change_type'
 
   # Appraisal company
+  get 'appraisal_companies/autocomplete'
   get 'appraisal_companies/create(/:id)' => 'appraisal_companies#create'
   get 'appraisal_companies/manager'
   get 'appraisal_companies/_manager_list'
+  get 'appraisal_companies/appraise'
   post 'appraisal_companies/create' => 'appraisal_companies#save'
   delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
 

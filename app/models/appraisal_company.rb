@@ -7,9 +7,11 @@ class AppraisalCompany < ActiveRecord::Base
 
 	belongs_to :avatar_image, class_name: 'Image'
 	belongs_to :representative, class_name: 'User'
+
+  has_many :appraisal_companies_real_estates
+  has_many :real_estates, through: :appraisal_companies_real_estates
   
   has_and_belongs_to_many :users
-  has_and_belongs_to_many :real_estates
 
 # / Associate
 
@@ -56,6 +58,20 @@ class AppraisalCompany < ActiveRecord::Base
 	# / Save with params
 
 # / Insert
+
+# Get
+
+	def self.get_assigned_real_estates_by_current_user
+		@current_appraisal_company ||= where(representative_id: User.current_user.id).first
+
+
+		RealEstate.joins(:appraisal_companies_real_estates).where({
+			'appraisal_companies_real_estates.appraisal_company_id' => @current_appraisal_company.id,
+			'appraisal_companies_real_estates.is_assigned' => true
+		})
+	end
+
+# / Get
 
 # Delete
   

@@ -12,7 +12,7 @@ class Ability
 
       can [:signup, :signin]
 
-# /User
+# / User
 
     else
 
@@ -47,6 +47,10 @@ class Ability
 # / User
 
 # Appraisal company
+
+      if AppraisalCompany.exists?(representative_id: user.id)
+        can [:view_assigned_list], AppraisalCompany
+      end
 
       if user.is_appraiser
         can [:manager, :create, :edit, :delete], AppraisalCompany

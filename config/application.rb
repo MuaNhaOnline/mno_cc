@@ -29,6 +29,10 @@ module Mno
     I18n.available_locales = [:vi, :en]
     I18n.default_locale = :vi
 
+    # Timezone
+    config.time_zone = 'Hanoi'
+    # config.active_record.default_timezone = 'Hanoi'
+
     config.item_per_page = 8
   end
 end
