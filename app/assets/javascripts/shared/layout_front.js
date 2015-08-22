@@ -25,18 +25,17 @@ $(function () {
 function initHeader() {
 	var header = $('.header-fixed');
 	var logo = $('.logo');
-	var imgLogo = $('.logo > img');
 
 	$(window).scroll(function() {
 		var scroll = $(window).scrollTop();
 		
 		if (scroll != 0) {
 			$(header).css('height', '46px');
-			$(imgLogo).css('padding', '12px 0');
+			$(logo).css('width', '180px');		
 		}
 		else {
 			$(header).css('height', '60px');
-			$(imgLogo).css('padding', '17px 0px');
+			$(logo).css('width', '220px');
 		}
 	});
 }

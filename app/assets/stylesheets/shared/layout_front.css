@@ -33,7 +33,7 @@ header {
 
 	/*start fixed header*/
 	.header {            
-		pading: 0 10px;
+		padding: 0 10px;
 		height: 100%;
 		display: flex;
 	}
@@ -41,11 +41,16 @@ header {
 		/*start logo*/
 		.logo {
 			height: 100%;
+			width: 220px;
 			display: flex;
+			transition: 0.3s;
 		}
+			.logo a {
+				display: block;
+				align-self: center;
+			}
 			.logo img {
-				height: 100%;
-				padding: 17px 0;
+				width: 100%;
 				transition: 0.3s;
 			}
 		/*end logo*/
@@ -56,6 +61,9 @@ header {
 		}        
 			.sitemap > ul {
 				display: flex;
+				display: -webkit-flex;
+				display: -moz-flex;
+				display: -o-flex;
 			}
 				.sitemap > ul > li {
 					padding: 0 10px;
@@ -82,6 +90,40 @@ header {
 		}        
 		/*end sitemap*/
 
+		/*start switch-button*/
+		.switch-button {
+			margin: auto 0;
+			margin-left: auto;
+			margin-right: 10px;
+		}
+			.switch-button label {
+				cursor: pointer;
+				margin: 0;
+				font-weight: normal;
+			}
+			.switch-button span {
+				color: #666;
+				padding: 4px 7px;
+				background-color: none;
+				border-radius: 4px;
+			}
+				.switch-button span a {
+					color: #666;
+				}
+			.switch-button input {
+				position: absolute;
+				left: -99999px;
+			}
+			.switch-button input:checked ~ span {
+				background-color: #ff6511;
+				color: #fff;				
+			}
+			.switch-button label:last-child input:checked ~ span {
+				background-color: #038ed1;
+				color: #fff;
+			}
+		/*end*/
+		
 		/*start function-button*/
 		.function-button {            
 			margin: auto 0;
@@ -98,7 +140,7 @@ header {
 					border-color: #ac440b;
 				}
 			.function-button .dropdown-menu {
-				margin-top: 8px;
+				margin-top: 10px;
 			}
 				.function-button .dropdown-menu a:hover {
 					background-color: #ff6511;
@@ -248,7 +290,6 @@ footer {
 						color: #54b40d;
 					}
 	footer .information {
-		margin-bottom: 20px;
 	}
 		footer .information hr {
 			border-color: #ccc;
@@ -261,9 +302,12 @@ footer {
 			text-align: center;
 			color: #333;
 		}
-	footer .icon {
-		vertical-align: -3px;
-	}
+	footer .social {
+		margin-top: 14px;
+	}		
+		footer .social li {
+			margin-bottom: 10px;
+		}
 /*end footer
 
 /*--------------------------------------------------------*/
@@ -761,48 +805,17 @@ footer {
 
 }
 	.block-info > .title {
-		text-align: center;
+		text-align: left;
 		text-transform: uppercase;
-		margin-bottom: 10px;
+		margin-bottom: 20px;
 		position: relative;
 		transition: 0.2s;
-		color: #666;
-		display: flex;
-		flex-direction: column;
+		color: #666;		
 	}
 	.block-info > .title .text {
-		max-width: 400px;
-		position: relative;
-		margin: 0 auto;
 		color: #666;
 		font-size: 20px;
 	}
-		.block-info > .title .text:before {
-			content: '';
-			position: absolute;
-			width: 300px;
-			height: 5px;
-			background: url('/assets/icon/line.png') no-repeat center center;
-			right: 100%;
-			display: block;
-			top: calc(50% - 2.5px);
-			margin-right: 20px;			
-		}
-		.block-info > .title .text:after {
-			content: '';
-			position: absolute;
-			width: 300px;
-			height: 5px;
-			background: url('/assets/icon/line.png') no-repeat center center;
-			left: 100%;
-			display: block;
-			top: calc(50% - 2.5px);
-			transform: rotate(180deg);
-			-o-transform: rotate(180deg);
-			-moz-transform: rotate(180deg);
-			-webkit-transform: rotate(180deg);
-			margin-left: 20px;
-		}
 	.block-info .date {
 		font-size: 12px;
 		color: #999;
@@ -867,6 +880,24 @@ footer {
 /*end*/
 
 /*--------------------------------------------------------*/
+/*Tab*/
+/*--------------------------------------------------------*/
+.nav-tabs {
+
+}
+	.nav-tabs > li {		
+	}
+	.nav-tabs > li > a {
+		color: #666;
+		padding: 4px 7px;
+	}
+		.nav-tabs > li.active > a:link,
+		.nav-tabs > li.active > a:active {
+			color: #fff;
+			background-color: #54b40d;
+		}
+
+/*--------------------------------------------------------*/
 /*Icon*/
 /*--------------------------------------------------------*/
 
@@ -876,38 +907,6 @@ footer {
 	vertical-align: middle;
 	margin: 0 5px;
 }
-.icon-facebook {
-	background: url('/assets/icon/social.png') no-repeat;
-	width: 16px;
-	height: 16px;
-}
-	.icon-facebook:hover {
-		background-position: 0 -16px;
-	}
-.icon-twitter {
-	background: url('/assets/icon/social.png') no-repeat 0 -32px;
-	width: 16px;
-	height: 16px;
-}
-	.icon-twitter:hover {
-		background-position: 0 -48px;
-	}
-.icon-youtube {
-	background: url('/assets/icon/social.png') no-repeat 0 -64px;
-	width: 16px;
-	height: 16px;
-}
-	.icon-youtube:hover {
-		background-position: 0 -80px;
-	}
-.icon-googleplus {
-	background: url('/assets/icon/social.png') no-repeat 0 -96px;
-	width: 16px;
-	height: 16px;
-}
-	.icon-googleplus:hover {
-		background-position: 0 -112px;
-	}
 .icon-favor {
 	background: url('/assets/icon/icon-favor.png') no-repeat;
 	width: 16px;
@@ -969,5 +968,20 @@ footer {
 	background: url('/assets/icon/icon-check.png') no-repeat;
 	width: 15px;
 	height: 15px;
+}
+.icon-facebook {
+	background: url('/assets/icon/icon-facebook.png') no-repeat;
+	width: 32px;
+	height: 32px;
+}
+.icon-googleplus {
+	background: url('/assets/icon/icon-googleplus.png') no-repeat;
+	width: 32px;
+	height: 32px;
+}
+.icon-youtube {
+	background: url('/assets/icon/icon-youtube.png') no-repeat;
+	width: 32px;
+	height: 32px;
 }
 /*end icon*/

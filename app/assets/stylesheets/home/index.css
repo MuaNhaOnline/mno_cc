@@ -120,7 +120,7 @@
 	.propensity-property li {
 		border: 1px solid #ccc;
 		position: relative;
-		height: 180px;
+		height: 160px;
 		width: calc(50% - 3px);
 		border-radius: 2px;
 	}
@@ -132,6 +132,7 @@
 		width: 100%;
 		display: block;
 		margin-bottom: 10px;
+		height: 250px;
 	}
 	.propensity-property .col2 {
 		display: flex;
