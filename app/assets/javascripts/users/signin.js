@@ -52,12 +52,12 @@ $(function () {
 
 	function initFacebook() {
 		$('[aria-click="facebook-login"]').on('click', function () {
-			FB.login(function (response) {
-				if (response.authResponse) {
-					window.location = '/auth/facebook/callback';
-				}
+			FB.login(function () {
+				FB.api('/me', function(response) {
+			    console.log(JSON.stringify(response));
+				});
 			}, {
-				scope: 'public_profile,email,user_likes'
+				scope: 'public_profile,email'
 			});
 		});
 	}

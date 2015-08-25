@@ -50,8 +50,17 @@ Rails.application.routes.draw do
   get 'appraisal_companies/manager'
   get 'appraisal_companies/_manager_list'
   get 'appraisal_companies/appraise'
+  get 'appraisal_companies/_appraise_list'
   post 'appraisal_companies/create' => 'appraisal_companies#save'
+  post 'appraisal_companies/set_price'
   delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
+
+  # Mail box
+  get 'mail_boxes/compose'
+  get 'mail_boxes/inbox'
+  get 'mail_boxes/_inbox_list'
+  get 'mail_boxes/read/:id' => 'mail_boxes#read'
+  post 'mail_boxes/send_mail'
 
   # Project
   get 'projects/index'

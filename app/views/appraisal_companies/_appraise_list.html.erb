@@ -10,10 +10,10 @@
     <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
     <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
     <% 
-      info = re.appraisal_companies_real_estates.where(appraisal_company_id: @current_appraisal_company).first
+      info = re.appraisal_companies_real_estates.where(appraisal_company_id: AppraisalCompany.current.id).first
     %>
-    <td><%= info.sell_price unless info.nil? %></td>
-    <td><%= info.rent_price unless info.nil? %></td>
+    <td aria-object="sell_price"><%= info.sell_price unless info.nil? %></td>
+    <td aria-object="rent_price"><%= info.rent_price unless info.nil? %></td>
     <td>
       <div class="dropdown">
         <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
@@ -21,7 +21,7 @@
         </button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
           <li role="presentation">
-            <a aria-click="appraise" href="javascript:void(0)"><%= t 'appraisal_company.view.appraise.appraise' %></a>
+            <a data-type="<%= re.purpose.code %>" aria-click="appraise" href="javascript:void(0)"><%= t 'appraisal_company.view.appraise.appraise' %></a>
           </li>
           <li role="presentation">
             <a aria-click="report" href="javascript:void(0)"><%= t 'appraisal_company.view.appraise.report' %></a>

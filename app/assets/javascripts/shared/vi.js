@@ -86,7 +86,17 @@ var _t = {
 		view: {
 			manager: {
 				delete_confirm: 'Bạn có chắc muốn xóa công ty này?'
+			},
+			appraise: {
+        sell_price: 'Giá bán',
+        rent_price: 'Giá cho thuê'
 			}
+		}
+	},
+	mail_box: {
+		validate: {
+			'mail[to_id]_ac_required': 'Người nhận không thể bỏ trống',
+			'mail[subject]_required': 'Chủ đề không thể bỏ trống',
 		}
 	}
 };

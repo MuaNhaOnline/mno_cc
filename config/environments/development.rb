@@ -16,16 +16,16 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
 
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #   address: 'smtp.gmail.com',
-  #   port: 587,
-  #   authentication: 'plain',
-  #   enable_starttls_auto: true,
-  #   user_name: 'buseo9x@gmail.com',
-  #   password: 'heocon264',
-  #   domain: 'http://myapp.herokuapp.com/'
-  # }
+  config.action_mailer.default_url_options = { host: '27.0.15.181:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    authentication: 'plain',
+    enable_starttls_auto: true,
+    user_name: 'buseo9x@gmail.com',
+    password: 'heocon264'
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

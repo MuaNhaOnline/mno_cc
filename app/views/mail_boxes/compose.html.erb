@@ -1,0 +1,61 @@
+<% 
+=begin
+=end
+%>
+
+<% content_for :stylesheets do %>
+  <link href="/assets/layout_back/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/mail_boxes/compose.js"></script>
+  <script src="/assets/layout_back/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+<% end %>
+
+<article class="row">
+  <article class="col-md-3">
+    <a href="/mail_boxes/compose" class="btn btn-primary btn-block margin-bottom"><%= t 'mail_box.view.read.reply' %></a>
+    <article class="box box-default">
+      <section class="box-header with-border">
+        <h2 class="box-title"><%= t 'mail_box.view.layout.folder' %></h2>
+        <article class="box-tools">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </article>
+      </section>
+      <section class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="/mail_boxes/inbox"><i class="fa fa-inbox"></i> <%= t 'mail_box.view.layout.inbox' %></a></li>
+          <li><a href="#"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
+          <li><a href="#"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.layout.draft' %></a></li>
+        </ul>
+      </section>
+    </article>
+  </article>
+  <form class="col-md-9 form" id="compose_form">
+    <article class="box box-primary">
+      <section class="box-header with-border">
+        <h2 class="box-title"><%= t 'mail_box.view.layout.compose' %></h2>
+      </section>
+      <section class="box-body">
+        <article class="form-group">
+          <input data-constraint="required" name="mail[to_id]" class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="to" placeholder="<%= t 'mail_box.attribute.to' %>" />
+        </article>
+        <article class="form-group">
+          <input data-constraint="required" name="mail[subject]" class="form-control" placeholder="<%= t 'mail_box.attribute.subject' %>" />
+        </article>
+        <article class="form-group">
+          <textarea name="mail[content]" class="form-control" style="height: 300px"></textarea>
+        </article>
+        <article class="form-group">
+          <input name="mail[attachment_file_id]" data-label="<%= t 'mail_box.attribute.attachment_file' %>" class="file-upload-2" type="file" />
+        </article>
+      </section>
+      <section class="box-footer">
+        <article class="pull-right">
+          <button type="button" aria-click="save-draft" class="btn btn-default"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.compose.save_draft' %></button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.compose.send' %></button>
+        </article>
+      </section>
+    </article>
+  </form>
+</article>

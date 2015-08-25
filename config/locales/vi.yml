@@ -26,7 +26,7 @@ vi:
       sell_price: 'Giá bán mong muốn'
       rent_price: 'Giá cho thuê mong muốn'
       appraisal_sell_price: 'Giá bán thẩm định'
-      appraisal_rent_price: 'Giá mua cho thuê định'
+      appraisal_rent_price: 'Giá cho thuê thẩm định'
       negotiable: 'Có thể thương lượng'
       real_estate_type_box: 'Loại bất động sản'
       real_estate_type: 'Loại bất động sản'
@@ -248,6 +248,8 @@ vi:
         appraise: 'Thẩm định'
         deny: 'Từ chối'
         report: 'Phản hồi'
+        sell_price: 'Giá bán'
+        rent_price: 'Giá cho thuê'
   project:
     attribute:
       position_box: 'Vị trí'
@@ -286,3 +288,25 @@ vi:
         finish: 'Hoàn tất'
         save_draft: 'Lưu tạm'
         area_alert: 'Kích thước không thỏa'
+  mail_box:
+    attribute:
+      to: 'Đến'
+      from: 'Từ'
+      subject: 'Chủ đề'
+      content: 'Nội dung'
+      attachment_file: 'Đính kèm'
+    view:
+      layout:
+        folder: 'Danh mục'
+        inbox: 'Thư đến'
+        compose: 'Soạn thư'
+        sent: 'Thư đã gửi'
+        draft: 'Thư nháp'
+      inbox:
+      compose:
+        send: 'Gửi'
+        save_draft: 'Lưu tạm'
+        reply: 'Trả lời'
+      read:
+        save_draft: 'Lưu tạm'
+        reply: 'Trả lời'

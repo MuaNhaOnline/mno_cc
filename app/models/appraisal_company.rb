@@ -61,12 +61,15 @@ class AppraisalCompany < ActiveRecord::Base
 
 # Get
 
-	def self.get_assigned_real_estates_by_current_user
-		@current_appraisal_company ||= where(representative_id: User.current_user.id).first
+	def self.current
+  	@current_appraisal_company ||= AppraisalCompany.where(representative_id: User.current_user.id).first
+  end
 
+	def self.get_assigned_real_estates_by_current_user
+		ac = current
 
 		RealEstate.joins(:appraisal_companies_real_estates).where({
-			'appraisal_companies_real_estates.appraisal_company_id' => @current_appraisal_company.id,
+			'appraisal_companies_real_estates.appraisal_company_id' => ac.id,
 			'appraisal_companies_real_estates.is_assigned' => true
 		})
 	end

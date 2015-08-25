@@ -29,6 +29,7 @@ class RealEstate < ActiveRecord::Base
   has_and_belongs_to_many :advantages
   has_and_belongs_to_many :disadvantages
   has_and_belongs_to_many :images
+  
 # / Associates
 
 # Validates

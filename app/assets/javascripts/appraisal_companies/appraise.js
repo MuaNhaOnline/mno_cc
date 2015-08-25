@@ -1,98 +1,94 @@
 $(function () {
   var $list = $('#re_list');
 
-  initApprove();
-  initDelete();
+  initDisplay();
+  initAppraise();
   initPagination();
 
   /*
-    Approve
+    Display
   */
 
-  function initApprove() {
-    $list.find('[aria-click="approve"]').on('click', function () {
-      var $row = $(this).closest('tr');
+  function initDisplay() {
+    $list.find('tr').each(function () {
+      var 
+        $row = $(this),
+        $sell_price = $row.find('[aria-object="sell_price"]'),
+        $rent_price = $row.find('[aria-object="rent_price"]');
 
-      $.ajax({
-          url: '/real_estates/approve/' + $row.data('value'),
-          type: 'PUT',
-          contentType: 'JSON'
-      }).done(function (data) {
-        if (data.status == 0) {
-          $row.remove();
-        }
-        else {
-          popupPrompt({
-            title: _t.form.error_title,
-            content: _t.form.error_content,
-            type: 'danger'
+      $sell_price.text(moneyFormat($sell_price.text()));
+      $rent_price.text(moneyFormat($rent_price.text()));
+    });
+  }
+
+  /*
+    / Display
+  */
+
+  /*
+    Appraise
+  */
+
+  function initAppraise() {
+    $list.find('[aria-click="appraise"]').on('click', function () {
+      var 
+        $button = $(this),
+        $row = $button.closest('tr'),
+        $html = $('<article style="width: 300px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><input type="hidden" name="real_estate_id" value="' + $row.data('value') + '" /><div></div><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">' + _t.form.finish + '</button> <button type="button" class="btn btn-default btn-flat">' + _t.form.cancel + '</button></article></form></article>'),
+        $form = $html.find('form'),
+        $inputs = $form.find('div'),
+        purpose = $button.data('type');
+
+      if (purpose === 'sell' || purpose === 'sell_rent') {
+        $inputs.append('<article class="form-group"><label for="sell_price">' + _t.appraisal_company.view.appraise.sell_price + '</label><input name="sell_price" value="' + $row.find('[aria-object="sell_price"]').text() + '" data-constraint="integer" class="form-control separate-number" id="sell_price" /></article>');
+      }
+      if (purpose === 'rent' || purpose === 'sell_rent') {
+        $inputs.append('<article class="form-group"><label for="rent_price">' + _t.appraisal_company.view.appraise.rent_price + '</label><input name="rent_price" value="' + $row.find('[aria-object="rent_price"]').text() + '" data-constraint="integer" class="form-control separate-number" id="rent_price" /></article>');
+      }
+
+      var $popup = popupFull({
+        html: $html
+      });
+
+      $html.find('button[type="button"]').on('click', function () {
+        $popup.off();
+      });
+
+      initForm($form, {
+        submit: function () {
+          $.ajax({
+            url: '/appraisal_companies/set_price',
+            method: 'POST',
+            data: $form.serialize(),
+            dataType: 'JSON'
+          }).done(function (data) {
+            if (data.status === 0) {
+              $popup.off();
+
+              $row.find('[aria-object="rent_price"]').text($form.find('[name="sell_price"]').val());
+              $row.find('[aria-object="sell_price"]').text($form.find('[name="rent_price"]').val());
+            }
+            else {
+              popupPrompt({
+                title: _t.form.error_title,
+                type: 'danger',
+                content: _t.form.error_content
+              });
+            }
+          }).fail(function () {
+            popupPrompt({
+              title: _t.form.error_title,
+              type: 'danger',
+              content: _t.form.error_content
+            })
           });
         }
-      }).fail(function () {
-        popupPrompt({
-          title: _t.form.error_title,
-          content: _t.form.error_content,
-          type: 'danger'
-        });
       });
     });
   }
 
   /*
-    / Approve
-  */
-
-  /*
-    Delete buttons
-  */
-
-  function initDelete() {
-    $list.find('[aria-click="delete"]').on('click', function () {
-      var $row = $(this).closest('tr');
-
-      popupPrompt({
-        title: _t.form.confirm_title,
-        content: _t.real_estate.manager.delete_confirm,
-        type: 'warning',
-        buttons: [
-          {
-            text: _t.form.yes,
-            type: 'warning',
-            handle: function () {
-              $.ajax({
-                url: '/real_estates/' + $row.data('value'),
-                type: 'DELETE',
-                contentType: 'JSON'
-              }).done(function (data) {
-                if (data.status == 0) {
-                  $row.remove();
-                }
-                else {
-                  popupPrompt({
-                    title: _t.form.error_title,
-                    content: _t.form.error_content,
-                    type: 'danger'
-                  });
-                }
-              }).fail(function () {
-                popupPrompt({
-                  title: _t.form.error_title,
-                  content: _t.form.error_content,
-                  type: 'danger'
-                });
-              });
-            }
-          },
-          {
-            text: _t.form.no
-          }
-        ]
-      })
-    });
-  }
-
-  /*
-    / Delete buttons
+    / Appraise
   */
 
   /*
@@ -105,12 +101,12 @@ $(function () {
       $('#search_form'),
       $('#pagination'), 
       {
-        url: '/real_estates/_pending_list',
+        url: '/appraisal_companies/_appraise_list',
         afterLoad: function (content) {
           $list.html(content);
-          initDelete();
+        }
       }
-    });
+    );
   }
 
   /*

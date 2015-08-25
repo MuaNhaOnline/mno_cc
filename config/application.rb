@@ -34,5 +34,6 @@ module Mno
     # config.active_record.default_timezone = 'Hanoi'
 
     config.item_per_page = 8
+    config.mail_item_per_page = 20
   end
 end

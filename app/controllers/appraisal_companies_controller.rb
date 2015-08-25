@@ -121,6 +121,39 @@ class AppraisalCompaniesController < ApplicationController
     @res = AppraisalCompany.get_assigned_real_estates_by_current_user
   end
 
+  # Partial view
+  def _appraise_list
+    # Author
+    return render json: { staus: 6 } if cannot? :view_assigned_list, AppraisalCompany
+
+    per = Rails.application.config.item_per_page
+
+    if params[:keyword].blank?
+      res = AppraisalCompany.get_assigned_real_estates_by_current_user
+    else
+      res = AppraisalCompany.get_assigned_real_estates_by_current_user.search(params[:keyword])
+    end
+
+    count = res.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'appraisal_companies/appraise_list', locals: { res: res.page(params[:page].to_i, per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+      }
+    }
+  end
+
+  # Handle
+  def set_price
+    result = AppraisalCompaniesRealEstate.update_price params
+
+    render json: result
+  end
+
 # / Appraise
 
 end

@@ -334,15 +334,19 @@ function popupPrompt(params) {
   Format
 */
 
-function moneyFormat(number, separate){
-    return insertSeparate(number, separate);
+function moneyFormat(number, separate) {
+  if (typeof separate === 'undefined') {
+    separate = ',';
+  }
+
+  return insertSeparate(number, separate);
 }
 
 function insertSeparate(number, separate) {
-    if (number.length > 3) {
-        return insertSeparate(number.slice(0, number.length - 3), separate) + separate + number.slice(number.length - 3);
-    }
-    return number;
+  if (number.length > 3) {
+    return insertSeparate(number.slice(0, number.length - 3), separate) + separate + number.slice(number.length - 3);
+  }
+  return number;
 }
 
 function intFormat(string) {
