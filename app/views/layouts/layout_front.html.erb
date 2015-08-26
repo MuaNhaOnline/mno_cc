@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap-datepicker3.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/layout_front.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/icon.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/form_custom.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/Pe-icon-7-stroke.css">	
 	<%= yield :stylesheets %>
@@ -37,7 +38,7 @@
 							<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Bất động sản <span class="caret"></span>
 							</button>
-							<ul class="dropdown-menu">
+							<!-- <ul class="dropdown-menu">
 								<li><a href="/real_estates">Xem tất cả</a></li>
 								<li role="separator" class="divider"></li>
 								<li><a href="/real_estates">Nhà phố</a></li>
@@ -55,6 +56,37 @@
 								<li><a href="/real_estates">Mặt bằng - Cửa hàng</a></li>
 								<li><a href="/real_estates">Nhà hàng - Khách sạn</a></li>
 								<li><a href="/real_estates">Nhà kho - Xưởng</a></li>
+							</ul> -->
+							<ul class="dropdown-menu">
+								<li><a href="/real_estates">Xem tất cả</a></li>
+								<li class="divider"></li>
+								<li>
+									<div class="row-fluid" style="width: 400px">
+										<div class="col-md-6">
+											<ul class="unstyled span4">
+												<li><a href="/real_estates">Nhà phố</a></li>
+												<li><a href="/real_estates">Villa - Biệt thự</a></li>
+												<li><a href="/real_estates">Nhà tạm</a></li>
+												<li><a href="/real_estates">Căn hộ cao cấp</a></li>
+												<li><a href="/real_estates">Căn hộ chung cư</a></li>
+												<li><a href="/real_estates">Đất dự án - Quy hoạch</a></li>
+												<li><a href="/real_estates">Đất ở - Đất thổ cư</a></li>
+												<li><a href="/real_estates">Đất lâm nghiệp</a></li>
+											</ul>
+										</div>
+										<div class="col-md-6">
+											<ul class="unstyled span4">
+												<li><a href="/real_estates">Đất nông nghiệp</a></li>
+												<li><a href="/real_estates">Đất cho sản xuất</a></li>
+												<li><a href="/real_estates">Văn phòng</a></li>
+												<li><a href="/real_estates">Phòng trọ</a></li>
+												<li><a href="/real_estates">Mặt bằng - Cửa hàng</a></li>
+												<li><a href="/real_estates">Nhà hàng - Khách sạn</a></li>
+												<li><a href="/real_estates">Nhà kho - Xưởng</a></li>
+											</ul>
+										</div>
+									</div>
+								</li>
 							</ul>
 						</div>
 					</li>
@@ -381,5 +413,6 @@
 <script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
 <script type="text/javascript" src="/assets/shared/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="/assets/shared/layout_front.js"></script>
+<script type="text/javascript" src="/assets/shared/jquery.dotdotdot.min.js"></script>
 <%= yield :scripts %>
 </html>

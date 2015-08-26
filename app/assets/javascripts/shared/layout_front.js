@@ -14,8 +14,6 @@ $(function () {
 
 	//init datepicker
 	$('.datepicker').datepicker();
-
-	// init tab
 	
 });
 
