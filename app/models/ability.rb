@@ -12,7 +12,7 @@ class Ability
 
       can [:signup, :signin]
 
-# /User
+# / User
 
     else
 
@@ -48,11 +48,35 @@ class Ability
 
 # Appraisal company
 
+      ac = AppraisalCompany.current
+
+      unless ac.nil?
+        can :view_assigned_list, AppraisalCompany
+
+        can :update_appraisal_price, RealEstate, appraisal_companies_real_estates: {
+          appraisal_company_id: ac.id,
+          is_assigned: true
+        }
+      end
+
       if user.is_appraiser
         can [:manager, :create, :edit, :delete], AppraisalCompany
       end
 
 # / Appraisal company
+
+# Mail box
+
+      can [:create, :view_inbox], MailBox
+
+      can [:read, :reply], MailBox do |m|
+        m.from_id === user.id || m.to_id === user.id
+      end
+
+      can :remove_from, MailBox
+      can :remove_to, MailBox
+
+# / Mail box
 
     end
   end

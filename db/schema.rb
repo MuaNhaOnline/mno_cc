@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820073638) do
+ActiveRecord::Schema.define(version: 20150824061159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,9 +40,17 @@ ActiveRecord::Schema.define(version: 20150820073638) do
   end
 
   create_table "appraisal_companies_real_estates", force: :cascade do |t|
-    t.integer "appraisal_company_id"
-    t.integer "integer"
-    t.integer "real_estate_id"
+    t.integer  "appraisal_company_id"
+    t.integer  "real_estate_id"
+    t.datetime "assigned_time",        default: '2015-08-20 13:53:23'
+    t.text     "sell_price"
+    t.boolean  "is_selected",          default: false
+    t.boolean  "is_assigned"
+    t.text     "rent_price"
+    t.text     "status"
+    t.text     "analysis"
+    t.text     "note"
+    t.text     "params"
   end
 
   create_table "appraisal_companies_users", force: :cascade do |t|
@@ -170,6 +178,21 @@ ActiveRecord::Schema.define(version: 20150820073638) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "order"
+  end
+
+  create_table "mail_boxes", force: :cascade do |t|
+    t.integer  "to_id"
+    t.integer  "from_id"
+    t.text     "subject"
+    t.text     "content"
+    t.integer  "attachment_file_id"
+    t.boolean  "is_draft"
+    t.datetime "created_at"
+    t.text     "type"
+    t.integer  "reply_id"
+    t.boolean  "is_from_remove"
+    t.boolean  "is_to_remove"
+    t.text     "params"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|

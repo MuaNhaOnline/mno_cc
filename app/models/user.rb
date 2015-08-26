@@ -9,11 +9,11 @@ class User < ActiveRecord::Base
 
 	delegate :can?, :cannot?, to: :ability
 
-	def self.current_user
+	def self.current
 		@current_user
 	end
 
-	def self.current_user= user
+	def self.current= user
 		@current_user = user
 	end
 
@@ -81,9 +81,9 @@ class User < ActiveRecord::Base
 	def save_with_params params
 		# Author
 		if new_record?
-			return { status: 6 } if User.current_user.cannot? :signup, nil
+			return { status: 6 } if User.current.cannot? :signup, nil
 		else
-			return { status: 6 } if User.current_user.cannot? :edit, self
+			return { status: 6 } if User.current.cannot? :edit, self
 		end
 
 		user_params = User.get_params params
@@ -144,7 +144,7 @@ class User < ActiveRecord::Base
 
 	def self.check_signin account, password
 		# Author
-		return { status: 6 } if User.current_user.cannot? :signin, nil
+		return { status: 6 } if User.current.cannot? :signin, nil
 
 		user = find_by_account account
 

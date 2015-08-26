@@ -5,13 +5,11 @@
 %>
 
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
   <link rel="stylesheet" type="text/css" href="/assets/real_estates/create.css">
   <link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/shared/form_back.js"></script>
   <script type="text/javascript" src="/assets/real_estates/create.js"></script>
   <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
   <script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
@@ -853,7 +851,7 @@
       <section class="box-body">
         <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình với kích thước 3Mb.</p>
         <article class="form-group margin-0">
-          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="7" data-size="3145728" data-type="jpg jpeg png" data-ratio="<%= 1.25 %>" data-init-value="<%= image_ids %>" />
+          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="7" data-size="3145728" data-type="jpg jpeg png" data-ratio="1.25" data-init-value="<%= image_ids %>" />
         </article>
       </section>
     </article>

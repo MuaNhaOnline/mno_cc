@@ -203,6 +203,18 @@ class RealEstatesController < ApplicationController
       }
     }
   end
+
+  # Handle
+  # params: id(*), ac_id(*)
+  def set_appraisal_company
+    result = AppraisalCompaniesRealEstate.assign params[:id], params[:ac_id]
+
+    if result[:status] != 0
+      render json: result
+    else
+      render json: { status: 0 }
+    end
+  end
   
 # / Appraise
 

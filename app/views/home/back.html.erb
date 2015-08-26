@@ -1,1 +1,1 @@
-<%= current_user.id %>
+<%= User.current.can? 'view_my', RealEstate %>

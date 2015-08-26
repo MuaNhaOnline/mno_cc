@@ -1,0 +1,108 @@
+<% 
+=begin
+  params: @mail
+=end
+%>
+
+<% content_for :stylesheets do %>
+  <link href="/assets/layout_back/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/mail_boxes/read.js"></script>
+  <script src="/assets/layout_back/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+<% end %>
+
+<article class="row">
+  <article class="col-md-3">
+    <a href="/mail_boxes/compose" class="btn btn-primary btn-block margin-bottom"><%= t 'mail_box.view.read.reply' %></a>
+    <article class="box box-default">
+      <section class="box-header with-border">
+        <h2 class="box-title"><%= t 'mail_box.view.layout.folder' %></h2>
+        <article class="box-tools">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </article>
+      </section>
+      <section class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="/mail_boxes/inbox"><i class="fa fa-inbox"></i> <%= t 'mail_box.view.layout.inbox' %></a></li>
+          <li><a href="#"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
+          <li><a href="#"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.layout.draft' %></a></li>
+        </ul>
+      </section>
+    </article>
+  </article>
+  <article class="col-md-9">
+    <article class="box box-primary">
+      <section class="box-header padding-bottom-0 ">
+        <h3 class="box-title"><%= @mail.subject %></h3>
+      </section>
+      <section class="box-body no-padding">
+        <div class="mailbox-read-info">
+          <div><%= t 'mail_box.attribute.from' %>: <%= @mail.from.full_name %> <span class="mailbox-read-time pull-right"><%= @mail.created_at.strftime '%d/%m/%Y %H:%M' %></span></div>
+        </div>
+        <div class="mailbox-read-message">
+          <% unless @mail.content.nil? %>
+            <%= @mail.content.safe_html %>
+          <% end %>
+        </div>
+      </section>
+      <% unless @mail.attachment_file.nil? %>
+        <section class="box-footer">
+          <ul class="mailbox-attachments clearfix">
+            <li>
+              <span class="mailbox-attachment-icon"><i class="fa fa-file"></i></span>
+              <div class="mailbox-attachment-info">
+                <a href="/images/<%= @mail.attachment_file.id %>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <%= @mail.attachment_file.name %></a>
+                <span class="mailbox-attachment-size">
+                  <a href="/images/<%= @mail.attachment_file.id %>" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                </span>
+              </div>
+            </li>
+          </ul>
+        </section>
+      <% end %>
+      <section class="box-footer">
+        <div class="pull-right">
+          <button class="btn btn-default"><i class="fa fa-reply"></i> <%= t 'mail_box.view.read.reply' %></button>
+        </div>
+        <button class="btn btn-default"><i class="fa fa-trash-o"></i> Delete</button>
+      </section>
+    </article>
+
+    <form class="form" id="reply_form">
+      <input type="hidden" name="mail[reply_id]" value="<%= @mail.id %>" />
+      <article class="box box-primary collapsed-box">
+        <section class="box-header with-border">
+          <h2 class="box-title"><%= t 'mail_box.view.read.reply' %></h2>
+          <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+          </div>
+        </section>
+        <section class="box-body">
+          <article class="form-group">
+            <% 
+              subject = @mail.subject
+              if subject.index('RE: ') != 0
+                subject = 'RE: ' + subject
+              end
+            %>
+            <input data-constraint="required" name="mail[subject]" value="<%= subject %>" class="form-control" placeholder="<%= t 'mail_box.attribute.subject' %>" />
+          </article>
+          <article class="form-group">
+            <textarea name="mail[content]" class="form-control" style="height: 300px" id="content" placeholder="<%= t 'mail_box.attribute.content' %>"></textarea>
+          </article>
+          <article class="form-group">
+            <input name="mail[attachment_file_id]" data-label="<%= t 'mail_box.attribute.attachment_file' %>" class="file-upload-2" type="file" />
+          </article>
+        </section>
+        <section class="box-footer">
+          <article class="pull-right">
+            <button type="button" aria-click="save-draft" class="btn btn-default"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.read.save_draft' %></button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.read.reply' %></button>
+          </article>
+        </section>
+      </article>
+    </form>
+  </article>
+</article>

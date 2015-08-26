@@ -29,7 +29,7 @@
 	<!-- Daterange picker -->
 	<!-- <link href="/assets/layout_back/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" /> -->
 	<!-- bootstrap wysihtml5 - text editor -->
-	<link href="/assets/layout_back/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+	<!-- <link href="/assets/layout_back/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" /> -->
 	
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,6 +39,7 @@
 	<![endif]-->
 	
   <link rel="stylesheet" type="text/css" href="/assets/shared/layout_back.css">
+  <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
 
 	<%= yield :stylesheets %>
 </head>
@@ -164,20 +165,25 @@
               <% end %>
               <% if can? :manage, RealEstate %>
                 <li><a href="/real_estates/pending"><i class="fa fa-circle-o"></i> Duyệt</a></li>
-                <li><a href="/real_estates/appraise"><i class="fa fa-circle-o"></i> Danh sách thẩm định</a></li>
               <% end %>
             </ul>
           </li>
           <li class="treeview">
             <a href="#">
-              <i class="fa fa-yelp"></i> <span>Công ty thẩm định</span> <i class="fa fa-angle-left pull-right"></i>
+              <i class="fa fa-yelp"></i> <span>Thẩm định</span> <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
               <% if can? :create, AppraisalCompany %>
-                <li><a href="/appraisal_companies/create"><i class="fa fa-circle-o"></i> Tạo</a></li>
+                <li><a href="/appraisal_companies/create"><i class="fa fa-circle-o"></i> Tạo công ty</a></li>
               <% end %>
               <% if can? :manager, AppraisalCompany %>
-                <li><a href="/appraisal_companies/manager"><i class="fa fa-circle-o"></i> Quản lý</a></li>
+                <li><a href="/appraisal_companies/manager"><i class="fa fa-circle-o"></i> Quản lý công ty</a></li>
+              <% end %>
+              <% if can? :manage, RealEstate %>
+                <li><a href="/real_estates/appraise"><i class="fa fa-circle-o"></i> Danh sách BĐS thẩm định</a></li>
+              <% end %>
+              <% if can? :view_assigned_list, AppraisalCompany %>
+                <li><a href="/appraisal_companies/appraise"><i class="fa fa-circle-o"></i> Thẩm định</a></li>
               <% end %>
             </ul>
           </li>
@@ -258,6 +264,7 @@
 
   <script type="text/javascript" src="/assets/shared/<%= I18n.locale %>.js"></script>
   <script type="text/javascript" src="/assets/shared/layout_back.js"></script>
+  <script type="text/javascript" src="/assets/shared/form_back.js"></script>
 	<%= yield :scripts %>
 </body>
 </html>

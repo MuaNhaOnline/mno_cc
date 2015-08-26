@@ -1,0 +1,80 @@
+<% 
+=begin
+  params: @mails
+=end
+%>
+
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/mail_boxes/inbox.js"></script>
+<% end %>
+
+<div class="row">
+  <div class="col-md-3">
+    <a href="/mail_boxes/compose" class="btn btn-primary btn-block margin-bottom"><%= t 'mail_box.view.layout.compose' %></a>
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h2 class="box-title"><%= t 'mail_box.view.layout.folder' %></h2>
+        <div class="box-tools">
+          <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+      </div>
+      <div class="box-body no-padding">
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active"><a href="/mail_boxes/inbox"><i class="fa fa-inbox"></i> <%= t 'mail_box.view.layout.inbox' %></a></li>
+          <li><a href="#"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
+          <li><a href="#"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.layout.draft' %></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div id="mail_box" class="box box-primary">
+      <div class="box-header with-border">
+        <h2 class="box-title"><%= t 'mail_box.view.layout.inbox' %></h2>
+        <div class="box-tools pull-right">
+          <div class="has-feedback">
+            <input type="text" class="form-control input-sm" placeholder="Search Mail" />
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+          </div>
+        </div>
+      </div>
+      <div class="box-body no-padding">
+        <div class="mailbox-controls">
+          <button aria-click="check-toggle" class="btn btn-default btn-sm"><i class="fa fa-square-o"></i></button>
+          <button aria-click="remove" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+        </div>
+
+        <%
+          total = @mails.count
+          per = Rails.application.config.mail_item_per_page
+        %>
+
+        <div class="table-responsive mailbox-messages">
+          <table class="table table-hover table-striped">
+            <tbody id="mails_list">
+
+              <!-- List -->
+
+              <% if total != 0 %>
+                <%= render partial: 'mail_boxes/inbox_list', locals: { mails: @mails.page(1, per) } %>
+              <% end %></ul>
+
+              <!-- / List -->
+
+            </tbody>
+          </table>
+        </div>
+        <nav class="pull-right" aria-object="pagination">
+
+          <% if total != 0 %>
+            <%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>
+          <% end %>
+
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

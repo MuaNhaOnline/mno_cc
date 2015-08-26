@@ -36,21 +36,21 @@ class ApplicationController < ActionController::Base
   private
   def get_current_user
     # if exists session user_id
-    return User.current_user = @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
+    return User.current = @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
 
     # if exists cookie user_account
     if cookies.has_key? :user_account
       result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
       
       if result[:status] === 0
-        User.current_user = User.current_user = @current_user = result[:result]
+        User.current_user = @current_user = result[:result]
         session[:user_id] = result[:result].id
         return
       end
     end
 
     session[:user_id] = nil
-    return User.current_user = @current_user = User.new
+    return User.current = @current_user = User.new
   end
 
   def signed?

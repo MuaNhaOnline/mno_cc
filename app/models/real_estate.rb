@@ -18,13 +18,18 @@ class RealEstate < ActiveRecord::Base
   belongs_to :planning_status_type
   belongs_to :constructional_level
 
+  has_many :appraisal_companies_real_estates
+  has_many :appraisal_companies, through: :appraisal_companies_real_estates
+  has_many :assigned_appraisal_companies, -> { where("appraisal_companies_real_estates.is_assigned" => true) }, through: :appraisal_companies_real_estates,
+            source: :appraisal_company,
+            class_name: 'AppraisalCompany'
+
   has_and_belongs_to_many :property_utilities
   has_and_belongs_to_many :region_utilities
   has_and_belongs_to_many :advantages
   has_and_belongs_to_many :disadvantages
   has_and_belongs_to_many :images
-  has_and_belongs_to_many :appraisal_companies
-
+  
 # / Associates
 
 # Validates
@@ -207,9 +212,9 @@ class RealEstate < ActiveRecord::Base
   def save_with_params params, is_draft = false
     # Author
     if new_record?
-      return { status: 6 } if User.current_user.cannot? :create, RealEstate
+      return { status: 6 } if User.current.cannot? :create, RealEstate
     else
-      return { status: 6 } if User.current_user.cannot? :edit, self
+      return { status: 6 } if User.current.cannot? :edit, self
     end
 
     params[:is_draft] = is_draft ? 1 : 0
@@ -253,7 +258,7 @@ class RealEstate < ActiveRecord::Base
   # Update pending status
 
   def self.update_pending_status id, is_pending
-    return { status: 6 } if User.current_user.cannot? :approve, RealEstate
+    return { status: 6 } if User.current.cannot? :approve, RealEstate
 
     real_estate = find id
 
@@ -298,7 +303,7 @@ class RealEstate < ActiveRecord::Base
 
     return { status: 1 } if real_estate.nil?
 
-    return { status: 6 } if User.current_user.cannot? :delete, real_estate
+    return { status: 6 } if User.current.cannot? :delete, real_estate
 
     delete id
 

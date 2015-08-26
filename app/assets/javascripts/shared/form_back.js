@@ -11,6 +11,7 @@ function initForm($form, params) {
 
 	initToggle();
 	initFileInput();
+	initFileInput_2();
 	initAutoComplete();
 	initSeparateNumber();
 	initConstraint();
@@ -339,7 +340,7 @@ function initForm($form, params) {
 									if(xhr.upload){ //Check if upload property exists
 											xhr.upload.addEventListener('progress', function(e) {
 													if(e.lengthComputable){
-															$progressBar.css('width', Math.ceil(e.loaded/e.total) * 100 + '%');
+															$progressBar.css('width', (e.loaded/e.total * 100) + '%');
 													}
 											}, false); //For handling the progress of the upload
 									}
@@ -555,6 +556,94 @@ function initForm($form, params) {
 		});
 	}
 
+	function initFileInput_2() {
+		$form.find('.file-upload-2').each(function () {
+			var 
+				$fileUpload = $(this),
+				$wrapper = $('<button class="btn btn-default btn-file"></button>'),
+				size = $fileUpload.data('size');
+
+			$fileUpload.after($wrapper);
+			$fileUpload.appendTo($wrapper);
+			$wrapper.append($fileUpload.data('label'));
+			$wrapper.after('<button style="display: none; position: relative;" class="btn btn-default margin-left-5">&times;<div class="progress progress-xxs progress-inside"><div class="progress-bar progress-bar-primary" role="progressbar"></div></div></button><span class="margin-left-5"></span>');
+
+			var constraint = $fileUpload.attr('data-constraint');
+			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
+
+			$wrapper.append('<input type="hidden" ' + constraint + ' name="' + $fileUpload.attr('name') + '" />');
+
+			$fileUpload.removeAttr('name data-constraint');
+
+			$wrapper.next().on('click', function () {
+				$wrapper.find('[type="hidden"]').val('').change();
+        $wrapper.show().next().hide().next().text('');
+			});
+
+			$fileUpload.on('change', function () {
+				if (this.files.length == 0) { 
+					return; 
+				}
+
+				var file = this.files[0];
+
+				$wrapper.find('[type="hidden"]').val('').change();
+				$wrapper.hide().next().show().next().text(file.name);
+
+				// Get data
+				var data = new FormData();
+				data.append('file', file);
+
+				// Preparing upload
+				var $progressBar = $wrapper.next().find('.progress-bar');
+
+				// Upload file
+				$.ajax({
+						url: '/images/upload',
+						type: 'POST',
+						data: data,
+						processData: false,
+						contentType: false,
+						dataType: 'JSON',
+						xhr: function() {
+							var xhr = $.ajaxSettings.xhr();
+							if(xhr.upload){ //Check if upload property exists
+								xhr.upload.addEventListener('progress', function(e) {
+									if(e.lengthComputable){
+										$progressBar.css('width', (e.loaded/e.total * 100) + '%');
+									}
+								}, false); //For handling the progress of the upload
+							}
+							return xhr;
+						}
+				}).done(function(data) {
+					if (data.status == 0) {
+						// Display
+						$wrapper.hide();
+						$progressBar.css('width', '0%');
+
+						$wrapper.children('[type="hidden"]').val(data.result).change();
+					}
+					else {
+		        popupPrompt({
+		          title: _t.form.error_title,
+		          type: 'danger',
+		          content: _t.form.error_content
+		        });
+		        $wrapper.next().hide().next('.file-name').text('');
+					}
+				}).fail(function() {
+	        popupPrompt({
+	          title: _t.form.error_title,
+	          type: 'danger',
+	          content: _t.form.error_content
+	        });
+	        $wrapper.next().hide().next('.file-name').text('');
+				});
+			});
+		});
+	}
+
 	/*
 		/ File input
 	*/
@@ -628,25 +717,30 @@ function initForm($form, params) {
 						var data = $.parseJSON($currentInput.data('data') || '{}');
 						data.keyword = $currentInput.val();
 
-						$.ajax({
-							url: $input.data('url'),
-							data: data,
-							dataType: 'JSON'
-						}).done(function (data) {
-							if (data.status != 0 || data.result.length == 0) {
+						if (data.keyword) {
+							$.ajax({
+								url: $input.data('url'),
+								data: data,
+								dataType: 'JSON'
+							}).done(function (data) {
+								if (data.status != 0 || data.result.length == 0) {
+									$list.empty().next().text(_t.form.search_no_result);
+								}
+								else {
+									var html = create_auto_complete(data.result);
+									$list.html(html);
+
+									initAutoCompleteList()
+
+									$list.children(':first-child').addClass('selected');
+								}
+							}).fail(function () {
 								$list.empty().next().text(_t.form.search_no_result);
-							}
-							else {
-								var html = create_auto_complete(data.result);
-								$list.html(html);
-
-								initAutoCompleteList()
-
-								$list.children(':first-child').addClass('selected');
-							}
-						}).fail(function () {
-							$list.empty().next().text(_t.form.search_no_result);
-						});
+							});
+						}
+						else {
+							$list.empty().next().text(_t.form.keyword_for_search);
+						}
 					}, 200)
 				},
 				keydown: function (e) {
@@ -1133,6 +1227,7 @@ function initForm($form, params) {
 				}); 
 				return; 
 			}
+
 
 			//Submit
 			if ('submit' in params) {

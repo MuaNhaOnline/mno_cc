@@ -66,6 +66,10 @@
   margin-left: 5px;
 }
 
+.padding-bottom-0 {
+  padding-bottom: 0;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -81,6 +85,24 @@
   *:empty + .if-before-empty {
     display: initial;
   }
+
+.progress-inside {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 0;
+  background-color: transparent;
+}
+
+.min-width-cell {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
 
 /*
   / Custom layout

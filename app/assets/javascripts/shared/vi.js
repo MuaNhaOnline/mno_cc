@@ -4,13 +4,16 @@ var _t = {
 		error_content: 'Có lỗi xảy ra',
 		success_title: 'Thành công',
 		confirm_title: 'Xác nhận',
+		info_title: 'Thông tin',
 		yes: 'Có',
 		no: 'Không',
 		label_image_upload: 'Đăng hình ảnh tại đây',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
 		crop_tooltip: 'Cắt',
-		cancel_tooltip: 'Bỏ qua'
+		cancel_tooltip: 'Bỏ qua',
+		finish: 'Hoàn thành',
+		cancel: 'Bỏ qua'
 	},
 	user: {
 		validate: {
@@ -70,6 +73,9 @@ var _t = {
 				'continue': 'Tiếp tục',
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			},
+			appraise: {
+        appraisal_company_placeholder: 'Tên công ty thẩm định...'
 			}
 		}
 	},
@@ -81,6 +87,21 @@ var _t = {
 		view: {
 			manager: {
 				delete_confirm: 'Bạn có chắc muốn xóa công ty này?'
+			},
+			appraise: {
+        sell_price: 'Giá bán',
+        rent_price: 'Giá cho thuê'
+			}
+		}
+	},
+	mail_box: {
+		validate: {
+			'mail[to_id]_ac_required': 'Người nhận không thể bỏ trống',
+			'mail[subject]_required': 'Chủ đề không thể bỏ trống',
+		},
+		view: {
+			inbox: {
+				select_for_remove: 'Hãy chọn thư mà bạn muốn xóa'
 			}
 		}
 	}
