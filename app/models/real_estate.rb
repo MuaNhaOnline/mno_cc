@@ -5,6 +5,7 @@ class RealEstate < ActiveRecord::Base
 
 # Associates
 
+  belongs_to :user
   belongs_to :real_estate_type
   belongs_to :street
   belongs_to :ward
@@ -17,6 +18,7 @@ class RealEstate < ActiveRecord::Base
   belongs_to :legal_record_type
   belongs_to :planning_status_type
   belongs_to :constructional_level
+  belongs_to :direction
 
   has_many :appraisal_companies_real_estates
   has_many :appraisal_companies, through: :appraisal_companies_real_estates
@@ -53,33 +55,7 @@ class RealEstate < ActiveRecord::Base
     # Appraisal
     errors.add(:appraisal_purpose, 'Mục đích thẩm định không thể bỏ trống') if appraisal_type != 0 && appraisal_purpose.blank?
 
-    fields = []
-
-    real_estate_type = RealEstateType.find real_estate_type_id
-    case real_estate_type.options_hash['group']
-      when 'land'
-        fields << :campus_area << :shape
-      when 'space', 'house'
-        fields << :campus_area << :using_area << :constructional_area << :restroom_number <<
-            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality <<
-            :direction_id << :shape
-        if real_estate_type.options_hash['group'] == 'house'
-          fields << :floor_number
-          if real_estate_type.code == 'villa'
-            fields.delete :constructional_level_id
-          end
-        end
-      when 'apartment'
-        fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
-          :build_year << :constructional_quality << :direction_id
-        if real_estate_type.code == 'building-apartment'
-          fields << :constructional_level_id
-        end
-    end
-    fields << :alley_width if is_alley == 1
-    fields << :shape_width if fields.include?(:shape) && shape != 0
-    fields << :custom_legal_record_type if legal_record_type_id == 0
-    fields << :custom_planning_status_type if planning_status_type_id == 0
+    fields = RealEstate.get_fields self
 
     # if sell
     if purpose.code === 'sell' || purpose.code === 'sell_rent'
@@ -275,6 +251,45 @@ class RealEstate < ActiveRecord::Base
 
 # Helper
 
+  # Get fields
+
+  def self.get_fields re
+    fields = []
+
+    fields << :sell_price if re.purpose.code === 'sell' || re.purpose.code === 'sell_rent'
+    fields << :rent_price if re.purpose.code === 'rent' || re.purpose.code === 'sell_rent'
+
+    real_estate_type = RealEstateType.find re.real_estate_type_id
+    case real_estate_type.options_hash['group']
+      when 'land'
+        fields << :campus_area << :shape
+      when 'space', 'house'
+        fields << :campus_area << :using_area << :constructional_area << :restroom_number <<
+            :bedroom_number << :build_year << :constructional_level_id << :constructional_quality <<
+            :direction_id << :shape
+        if real_estate_type.options_hash['group'] == 'house'
+          fields << :floor_number
+          if real_estate_type.code == 'villa'
+            fields.delete :constructional_level_id
+          end
+        end
+      when 'apartment'
+        fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
+          :build_year << :constructional_quality << :direction_id
+        if real_estate_type.code == 'building-apartment'
+          fields << :constructional_level_id
+        end
+    end
+    fields << :alley_width if re.is_alley == 1
+    fields << :shape_width if fields.include?(:shape) && re.shape != 0
+    fields << :custom_legal_record_type if re.legal_record_type_id == 0
+    fields << :custom_planning_status_type if re.planning_status_type_id == 0
+
+    fields
+  end
+
+  # / Get fields
+
   # Get meta search
 
   def self.get_meta_search re
@@ -312,7 +327,22 @@ class RealEstate < ActiveRecord::Base
 
 # / Delete
 
-  #Get keyword
+# Attributes
+
+  # Name
+
+  def name
+    @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?}. #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}"
+  end
+
+  # / Name
+
+# / Attributes
+
+
+
+  # Get keyword
+
   def keyword
     legal = legal_record_type_id == 0 ? legal_record_type.name : custom_legal_record_type
     alley = is_alley == 1 ? 'Hẻm' : 'Mặt tiền'
@@ -321,21 +351,6 @@ class RealEstate < ActiveRecord::Base
       "#{name}, #{purpose.name} #{real_estate_type.name} quận #{district.name}, #{real_estate_type.name} #{legal}, #{real_estate_type.name} #{alley}, #{alley} quận #{district.name}, #{street.name} quận #{district.name}, #{purpose.name}, #{province.name}, #{real_estate_type.name}, #{legal}"
   end
 
-  #endregion
-
-  # Name
-
-  def name
-    purpose.name + ' ' +
-      real_estate_type.name + ' ' +
-      (is_alley == 1 ? 'Hẻm' : 'Mặt tiền') + ' ' +
-      street.name + ' ' +
-      'Quận ' + district.name + ' ' +
-      province.name + ' ' +
-      (legal_record_type.code != 'Custom' ? legal_record_type.name : custom_legal_record_type)
-  end
-
-  # / Name
-# / Temp
+  # / Get keyword
 
 end

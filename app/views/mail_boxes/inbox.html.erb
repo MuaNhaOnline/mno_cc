@@ -35,15 +35,15 @@
       <div class="box-header with-border">
         <h2 class="box-title"><%= t 'mail_box.view.layout.inbox' %></h2>
         <div class="box-tools pull-right">
-          <div class="has-feedback">
-            <input type="text" class="form-control input-sm" placeholder="Search Mail" />
-            <span class="glyphicon glyphicon-search form-control-feedback"></span>
-          </div>
+          <form class="has-feedback mini-search" id="search">
+            <input name="keyword" type="text" class="form-control input-sm" placeholder="<%= t 'user.view.manager.search_placeholder' %>">
+            <button type="submit" class="glyphicon glyphicon-search form-control-feedback btn-link no-underline"></button>
+          </form>
         </div>
       </div>
       <div class="box-body no-padding">
         <div class="mailbox-controls">
-          <button aria-click="check-toggle" class="btn btn-default btn-sm"><i class="fa fa-square-o"></i></button>
+          <button aria-click="check-toggle" class="btn btn-default btn-sm btn-check-toggle"><i class="fa fa-square-o"></i></button>
           <button aria-click="remove" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
         </div>
 
@@ -67,7 +67,7 @@
             </tbody>
           </table>
         </div>
-        <nav class="pull-right" aria-object="pagination">
+        <nav class="pull-right" id="pagination">
 
           <% if total != 0 %>
             <%= render partial: 'shared/pagination', locals: { total: total, per: per, class_style: 'no-margin' } %>

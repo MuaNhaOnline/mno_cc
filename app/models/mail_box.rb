@@ -1,5 +1,11 @@
 class MailBox < ActiveRecord::Base
 
+  include PgSearch
+  pg_search_scope :search, against: [:subject, :content], :associated_against => {
+    :from => [:full_name],
+    :to => [:full_name]
+  }
+
 # Associates
 
 	belongs_to :from, class_name: 'User'
@@ -106,7 +112,7 @@ class MailBox < ActiveRecord::Base
 	# Get inbox of current user
 
 	def self.get_current_inbox
-		where to_id: User.current.id #, is_to_remove: false)
+		where to_id: User.current.id#, is_to_remove: false
 	end
 
 	# / Get inbox of current user
@@ -125,10 +131,15 @@ class MailBox < ActiveRecord::Base
 		mails = find ids
 
 		# Author
-		# key = 'remove_' + type
-		# mails.each do |m|
-		# 	return { status: 6 } if User.current.cannot?(key, m)
-		# end
+		if type === 'to'
+			mails.each do |m|
+				return { status: 6 } if User.current.cannot?(:remove_to, m)
+			end
+		else
+			mails.each do |m|
+				return { status: 6 } if User.current.cannot?(:remove_from, m)
+			end
+		end
 
 		if where('id IN (' + ids.join(',') + ')').update_all 'is_' + type + '_remove' => true
 			{ status: 0 }

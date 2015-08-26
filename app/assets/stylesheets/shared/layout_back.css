@@ -104,6 +104,10 @@
   cursor: pointer;
 }
 
+.btn-check-toggle {
+  width: 31px;
+}
+
 /*
   / Custom layout
 */

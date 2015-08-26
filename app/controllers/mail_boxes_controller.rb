@@ -44,6 +44,32 @@ class MailBoxesController < ApplicationController
     @mails = MailBox.get_current_inbox
   end
 
+  # View
+  def _inbox_list
+    # Author
+    return render json: { status: 6 } if cannot? :view_inbox, MailBox
+
+    per = Rails.application.config.mail_item_per_page
+
+    if params[:keyword].blank?
+      mails = MailBox.get_current_inbox
+    else
+      mails = MailBox.get_current_inbox.search(params[:keyword])
+    end
+
+    count = mails.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'mail_boxes/inbox_list', locals: { mails: mails.page(params[:page].to_i, per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+      }
+    }
+  end
+
 # / Inbox
 
 # Read, reply

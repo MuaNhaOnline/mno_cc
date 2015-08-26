@@ -4,8 +4,10 @@ $(function () {
 		$box = $('#mail_box');
 
 	initRead();
-	initCheckToggle();
 	initRemove();
+
+	initCheckToggle();
+	initPagination();
 
 	/*
 		Read
@@ -82,7 +84,7 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function (data) {
 				if (data.status === 0) {
-					alert('OK');
+					$items.remove();
 				}
 				else {
 	        popupPrompt({
@@ -104,4 +106,28 @@ $(function () {
 	/*
 		/ Remove
 	*/
+	
+  /*
+    Pagination
+  */
+
+  function initPagination() {
+    _initSearchablePagination(
+      $list,
+      $('#search'),
+      $('#pagination'), 
+      {
+        url: '/mail_boxes/_inbox_list',
+        afterLoad: function (content) {
+          $list.html(content);
+					initRead();
+					initRemove();
+        }
+      }
+    );
+  }
+
+  /*
+    / Pagination
+  */
 });
