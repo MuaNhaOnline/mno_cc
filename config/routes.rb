@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   # Real estate
   get 'real_estates/index'
-  get 'real_estates/view'
+  get 'real_estates/view/:id' => 'real_estates#view'
   get 'real_estates/category'
   get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/my'

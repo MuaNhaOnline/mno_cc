@@ -10,17 +10,28 @@ class RealEstatesController < ApplicationController
 
   end
 
+# View
+  
+  # View
+  # params: id(*)
   def view
+    begin
+      @re = RealEstate.find params[:id]
+    rescue
+      redirect_to '/'
+    end
   end
+
+# /View
 
 # Create
 
   # View
   # params: id (if edit)
   def create
-    if (params.has_key?('id'))
+    if params.has_key? :id
       begin
-        @re = RealEstate.find(params['id'])
+        @re = RealEstate.find params[:id]
       rescue
         @re = RealEstate.new
       end

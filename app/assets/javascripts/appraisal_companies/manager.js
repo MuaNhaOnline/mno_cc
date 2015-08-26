@@ -69,7 +69,6 @@ $(function () {
       {
         url: '/appraisal_companies/_manager_list',
         afterLoad: function (content) {
-          console.log(content);
           $list.html(content);
           initDelete();
         }
