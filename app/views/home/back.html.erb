@@ -1,1 +1,1 @@
-<%= AppraisalCompany.get_assigned_real_estates_list_by_current_user.count %>
+<%= User.current.can? 'view_my', RealEstate %>

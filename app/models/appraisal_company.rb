@@ -39,9 +39,9 @@ class AppraisalCompany < ActiveRecord::Base
 	def save_with_params params
 		# Author
 		if new_record?
-			return { status: 6 } if User.current_user.cannot? :create, AppraisalCompany
+			return { status: 6 } if User.current.cannot? :create, AppraisalCompany
 		else
-			return { status: 6 } if User.current_user.cannot? :edit, self
+			return { status: 6 } if User.current.cannot? :edit, self
 		end
 
 		ac_params = AppraisalCompany.get_params params
@@ -62,7 +62,7 @@ class AppraisalCompany < ActiveRecord::Base
 # Get
 
 	def self.current
-  	@current_appraisal_company ||= AppraisalCompany.where(representative_id: User.current_user.id).first
+  	@current_appraisal_company ||= AppraisalCompany.where(representative_id: User.current.id).first
   end
 
 	def self.get_assigned_real_estates_by_current_user
@@ -83,7 +83,7 @@ class AppraisalCompany < ActiveRecord::Base
 
     return { status: 1 } if ac.nil?
 
-    return { status: 6 } if User.current_user.cannot? :delete, ac
+    return { status: 6 } if User.current.cannot? :delete, ac
 
     delete id
 

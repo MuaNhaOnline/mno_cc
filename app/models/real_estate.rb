@@ -212,9 +212,9 @@ class RealEstate < ActiveRecord::Base
   def save_with_params params, is_draft = false
     # Author
     if new_record?
-      return { status: 6 } if User.current_user.cannot? :create, RealEstate
+      return { status: 6 } if User.current.cannot? :create, RealEstate
     else
-      return { status: 6 } if User.current_user.cannot? :edit, self
+      return { status: 6 } if User.current.cannot? :edit, self
     end
 
     params[:is_draft] = is_draft ? 1 : 0
@@ -258,7 +258,7 @@ class RealEstate < ActiveRecord::Base
   # Update pending status
 
   def self.update_pending_status id, is_pending
-    return { status: 6 } if User.current_user.cannot? :approve, RealEstate
+    return { status: 6 } if User.current.cannot? :approve, RealEstate
 
     real_estate = find id
 
@@ -303,7 +303,7 @@ class RealEstate < ActiveRecord::Base
 
     return { status: 1 } if real_estate.nil?
 
-    return { status: 6 } if User.current_user.cannot? :delete, real_estate
+    return { status: 6 } if User.current.cannot? :delete, real_estate
 
     delete id
 

@@ -4,6 +4,7 @@ var _t = {
 		error_content: 'Có lỗi xảy ra',
 		success_title: 'Thành công',
 		confirm_title: 'Xác nhận',
+		info_title: 'Thông tin',
 		yes: 'Có',
 		no: 'Không',
 		label_image_upload: 'Đăng hình ảnh tại đây',
@@ -97,6 +98,11 @@ var _t = {
 		validate: {
 			'mail[to_id]_ac_required': 'Người nhận không thể bỏ trống',
 			'mail[subject]_required': 'Chủ đề không thể bỏ trống',
+		},
+		view: {
+			inbox: {
+				select_for_remove: 'Hãy chọn thư mà bạn muốn xóa'
+			}
 		}
 	}
 };

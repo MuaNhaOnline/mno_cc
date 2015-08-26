@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div class="box box-primary">
+    <div id="mail_box" class="box box-primary">
       <div class="box-header with-border">
         <h2 class="box-title"><%= t 'mail_box.view.layout.inbox' %></h2>
         <div class="box-tools pull-right">
@@ -42,8 +42,12 @@
         </div>
       </div>
       <div class="box-body no-padding">
+        <div class="mailbox-controls">
+          <button aria-click="check-toggle" class="btn btn-default btn-sm"><i class="fa fa-square-o"></i></button>
+          <button aria-click="remove" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+        </div>
 
-        <% 
+        <%
           total = @mails.count
           per = Rails.application.config.mail_item_per_page
         %>

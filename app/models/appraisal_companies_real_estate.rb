@@ -37,7 +37,7 @@ class AppraisalCompaniesRealEstate < ActiveRecord::Base
     return { status: 1 } if re.nil?
 
     # Author
-    return { status: 6 } if User.current_user.cannot? :update_appraisal_price, re
+    return { status: 6 } if User.current.cannot? :update_appraisal_price, re
 
     # Update price
     ac = AppraisalCompany.current

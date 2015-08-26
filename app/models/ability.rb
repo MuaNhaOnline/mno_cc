@@ -73,6 +73,9 @@ class Ability
         m.from_id === user.id || m.to_id === user.id
       end
 
+      can :remove_from, MailBox
+      can :remove_to, MailBox
+
 # / Mail box
 
     end

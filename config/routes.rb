@@ -61,6 +61,8 @@ Rails.application.routes.draw do
   get 'mail_boxes/_inbox_list'
   get 'mail_boxes/read/:id' => 'mail_boxes#read'
   post 'mail_boxes/send_mail'
+  put 'mail_boxes/inbox_remove'
+  put 'mail_boxes/sent_remove'
 
   # Project
   get 'projects/index'
