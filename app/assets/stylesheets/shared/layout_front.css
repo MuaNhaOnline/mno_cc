@@ -298,9 +298,9 @@ footer {
 			margin-bottom: 20px;
 		}
 		footer .information p {
-			font-size: 12px;
+			font-size: 13px;
 			text-align: center;
-			color: #333;
+			color: #666;
 		}
 	footer .social {
 		margin-top: 14px;
@@ -527,7 +527,6 @@ footer {
 		/*start convenient*/
 		.item-lg .convenient {
 			display: flex;
-			margin: 5px 0;
 		}
 			.item-lg .convenient div {
 				margin-right: 15px;
@@ -559,7 +558,7 @@ footer {
 		/*end*/
 
 		/*start ticker*/
-		.item-lg .price {
+		.item-lg > .price {
 			margin-bottom: 10px;
 			border: 1px dashed #ccc;
 			text-align: center;
@@ -605,22 +604,45 @@ footer {
 	}
 	.item-sm a {
 		color: #666;
-		padding: 10px 10px 0 10px;
+		font-size: 13px;
+		padding: 17px 10px 0 10px;
 		display: flex;
 		flex-direction: column;
 	}
 		.item-sm a:hover {
 			text-decoration: none;
 		}
+
+	/*start img*/
+	.item-sm > .picture {
+		position: relative;
+	}
 		.item-sm img {
 			width: 100%;
 			height: 170px;
 		}
+		.item-sm .badge-new {
+			position: absolute;
+			height: 32px;
+			width: 75px;
+			right: -9px;
+			top: 6px;
+			background: url('/assets/icon/icon-badge.png') no-repeat center center;
+		}
+	/*end*/
+
+	/*start title*/
 	.item-sm a > .title {
-		margin-top: 5px;
-		margin-bottom: 5px;
-		font-size: 17px;	
+		margin-bottom: 10px;
+		font-size: 16px;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
+	/*end*/
+
+	/*start status*/
 	.item-sm .status {
 		margin-bottom: 10px;
 	}
@@ -633,15 +655,21 @@ footer {
 			font-size: 12px;
 			color: #aaa;
 		}
+	/*end*/
+
+	/*start address*/
 	.item-sm .address {
 		text-align: justify;
 		margin-bottom: 10px;
+		max-height: 36px;
+		overflow: hidden;
 	}
+	/*end*/
 
 	/*start convenient*/
 	.item-sm .convenient {
 		display: flex;
-		margin: 5px 0;
+		margin-bottom: 10px;
 	}
 		.item-sm .convenient div {
 			margin-right: 15px;
@@ -651,6 +679,7 @@ footer {
 			height: 16px;
 			display: inline-block;
 			vertical-align: -2px;
+			margin-right: 4px;
 		}
 			.item-sm .convenient i.icon-area {
 				background: url('/assets/icon/icon_dientich.png') no-repeat center center;
@@ -666,14 +695,43 @@ footer {
 			}
 	/*end convenient*/
 
+	/*start price*/
 	.item-sm .price {
-		margin-bottom: 10px;
-		border: 1px dashed #ccc;
-		text-align: center;
-		color: #ff6511;	
-		height: 25px;
-		line-height: 25px;
-	}	
+		font-size: 13px;		
+	}
+		.item-sm .price > .number {
+			display: inline-block;
+			border-radius: 30px;
+			font-weight: bolder;
+			font-size: 15px;			
+		}
+		.item-sm .price > .number.sale {
+			color: #ff6511;
+		}
+		.item-sm .price > .number.rent {
+			color: #038ed1;
+		}
+		.item-sm .price > .number.zestimate {
+			color: #54b40d;
+		}
+	/*end*/
+
+	/*start promotion*/
+	.promotion {
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		color: #fff;
+		background-color: rgba(0,0,0,0.7);
+		padding: 5px;
+		border-radius: 5px;
+	}
+		.promotion i {
+
+		}
+	/*end*/
+
+	/*start function*/
 	.item-sm .function {
 		display: flex;
 		margin: 0 10px 10px 10px;
@@ -690,6 +748,7 @@ footer {
 			.item-sm .function a:hover {
 				color: #ff6511;
 			}
+	/*end*/
 /*end item-sm*/
 
 /*start distributor-item*/
@@ -898,90 +957,110 @@ footer {
 		}
 
 /*--------------------------------------------------------*/
+/*Custom menu*/
+/*--------------------------------------------------------*/
+
+
+/*--------------------------------------------------------*/
 /*Icon*/
 /*--------------------------------------------------------*/
 
 /*start icon*/
 .icon {
 	display: inline-block;
-	vertical-align: middle;
-	margin: 0 5px;
+	vertical-align: -3px;
+	margin-right: 7px;
 }
-.icon-favor {
-	background: url('/assets/icon/icon-favor.png') no-repeat;
-	width: 16px;
-	height: 16px;
-}
-	.icon-favor:hover {
-		background-position: 0 -16px;
+	.icon-favor {
+		background: url('/assets/icon/icon-favor.png') no-repeat;
+		width: 16px;
+		height: 16px;
 	}
-.icon-buy {
-	background: url('/assets/icon/icon-buy.png') no-repeat;
-	width: 16px;
-	height: 16px;
-}
-	.icon-buy:hover {
-		background-position: 0 -16px;
+		.icon-favor:hover {
+			background-position: 0 -16px;
+		}
+	.icon-buy {
+		background: url('/assets/icon/icon-buy.png') no-repeat;
+		width: 16px;
+		height: 16px;
 	}
-.icon-share {
-	background: url('/assets/icon/icon-share.png') no-repeat;
-	width: 16px;
-	height: 16px;
-}
-	.icon-share:hover {
-		background-position: 0 -16px;
+		.icon-buy:hover {
+			background-position: 0 -16px;
+		}
+	.icon-share {
+		background: url('/assets/icon/icon-share.png') no-repeat;
+		width: 16px;
+		height: 16px;
 	}
-.icon-zestimate {
-	background: url('/assets/icon/icon-zestimate.png') no-repeat;
-	width: 20px;
-	height: 16px;
-}
-	.icon-zestimate:hover {
-		background-position: 0 -16px;
+		.icon-share:hover {
+			background-position: 0 -16px;
+		}
+	.icon-zestimate {
+		background: url('/assets/icon/icon-zestimate.png') no-repeat;
+		width: 20px;
+		height: 16px;
 	}
-.icon-mini-menu {
-	background: url('/assets/icon/menu.png') no-repeat;
-	width: 30px;
-	height: 30px;
-}
-.icon-phone {
-	background: url('/assets/icon/icon-phone.png') no-repeat;
-	width: 15px;
-	height: 15px;
-}
-.icon-address {
-	background: url('/assets/icon/icon-address.png') no-repeat;
-	width: 15px;
-	height: 15px;
-}
-.icon-skype {
-	background: url('/assets/icon/icon-skype.png') no-repeat;
-	width: 15px;
-	height: 15px;
-}
-.icon-mail {
-	background: url('/assets/icon/icon-mail.png') no-repeat;
-	width: 16px;
-	height: 15px;
-}
-.icon-check {
-	background: url('/assets/icon/icon-check.png') no-repeat;
-	width: 15px;
-	height: 15px;
-}
-.icon-facebook {
-	background: url('/assets/icon/icon-facebook.png') no-repeat;
-	width: 32px;
-	height: 32px;
-}
-.icon-googleplus {
-	background: url('/assets/icon/icon-googleplus.png') no-repeat;
-	width: 32px;
-	height: 32px;
-}
-.icon-youtube {
-	background: url('/assets/icon/icon-youtube.png') no-repeat;
-	width: 32px;
-	height: 32px;
-}
-/*end icon*/
+		.icon-zestimate:hover {
+			background-position: 0 -16px;
+		}
+	.icon-mini-menu {
+		background: url('/assets/icon/menu.png') no-repeat;
+		width: 30px;
+		height: 30px;
+	}
+	.icon-phone {
+		background: url('/assets/icon/icon-phone.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-address {
+		background: url('/assets/icon/icon-address.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-skype {
+		background: url('/assets/icon/icon-skype.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-mail {
+		background: url('/assets/icon/icon-mail.png') no-repeat;
+		width: 16px;
+		height: 15px;
+	}
+	.icon-check {
+		background: url('/assets/icon/icon-check.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-facebook {
+		background: url('/assets/icon/icon-facebook.png') no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.icon-googleplus {
+		background: url('/assets/icon/icon-googleplus.png') no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.icon-youtube {
+		background: url('/assets/icon/icon-youtube.png') no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.icon-gift {
+		background: url('/assets/icon/icon-gift.png') no-repeat;
+		width: 16px;
+		height: 16px;
+	}
+	.icon-position {
+		background: url('/assets/icon/icon-position.png') no-repeat center center;
+		width: 16px;
+		height: 16px;
+	}
+	.icon-price {
+		background: url('/assets/icon/icon-price.png') no-repeat center center;
+		width: 16px;
+		height: 16px;
+	}
+	/*end icon*/
