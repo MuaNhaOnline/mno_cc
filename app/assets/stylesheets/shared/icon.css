@@ -1,0 +1,103 @@
+/*--------------------------------------------------------*/
+/*Icon*/
+/*--------------------------------------------------------*/
+
+/*start icon*/
+.icon {
+	display: inline-block;
+	vertical-align: -3px;
+	margin-right: 7px;
+}
+	.icon-favor {
+		background: url('/assets/icon/icon-favor.png') no-repeat;
+		width: 16px;
+		height: 16px;
+	}
+		.icon-favor:hover {
+			background-position: 0 -16px;
+		}
+	.icon-buy {
+		background: url('/assets/icon/icon-buy.png') no-repeat;
+		width: 16px;
+		height: 16px;
+	}
+		.icon-buy:hover {
+			background-position: 0 -16px;
+		}
+	.icon-share {
+		background: url('/assets/icon/icon-share.png') no-repeat;
+		width: 16px;
+		height: 16px;
+	}
+		.icon-share:hover {
+			background-position: 0 -16px;
+		}
+	.icon-zestimate {
+		background: url('/assets/icon/icon-zestimate.png') no-repeat;
+		width: 20px;
+		height: 16px;
+	}
+		.icon-zestimate:hover {
+			background-position: 0 -16px;
+		}
+	.icon-mini-menu {
+		background: url('/assets/icon/menu.png') no-repeat;
+		width: 30px;
+		height: 30px;
+	}
+	.icon-phone {
+		background: url('/assets/icon/icon-phone.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-address {
+		background: url('/assets/icon/icon-address.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-skype {
+		background: url('/assets/icon/icon-skype.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-mail {
+		background: url('/assets/icon/icon-mail.png') no-repeat;
+		width: 16px;
+		height: 15px;
+	}
+	.icon-check {
+		background: url('/assets/icon/icon-check.png') no-repeat;
+		width: 15px;
+		height: 15px;
+	}
+	.icon-facebook {
+		background: url('/assets/icon/icon-facebook.png') no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.icon-googleplus {
+		background: url('/assets/icon/icon-googleplus.png') no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.icon-youtube {
+		background: url('/assets/icon/icon-youtube.png') no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.icon-gift {
+		background: url('/assets/icon/icon-gift.png') no-repeat;
+		width: 16px;
+		height: 16px;
+	}
+	.icon-position {
+		background: url('/assets/icon/icon-position.png') no-repeat center center;
+		width: 16px;
+		height: 16px;
+	}
+	.icon-price {
+		background: url('/assets/icon/icon-price.png') no-repeat center center;
+		width: 16px;
+		height: 16px;
+	}
+	/*end icon*/

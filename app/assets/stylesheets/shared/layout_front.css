@@ -494,48 +494,56 @@ footer {
 		/*start picture*/
 		.item-lg .picture img {
 			max-height: 350px;
-			margin-bottom: 5px;
+			margin-bottom: 10px;
 			width: 100%;
 		}
 		/*end picture*/
 
 		/*start name*/
 		.item-lg .name {
-			font-size: 21px;
+			font-size: 18px;
 			color: #666;
+			margin-bottom: 10px;
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 		/*end*/
 
 		/*start status*/
 		.item-lg .status {            
-			margin-bottom: 5px;
+			margin-bottom: 10px;
 		}
-		.item-lg .status i.done {
-			vertical-align: middle;
-			display: inline-block;
-			width: 8px;
-			height: 8px;
-			background: url('/assets/icon/done.png') no-repeat center center;
-		}
-		.item-lg .status span {
-			color: #666;
-			margin-left: 5px;
-			font-size: 12px;
-		}
+			.item-lg .status i.done {
+				vertical-align: middle;
+				display: inline-block;
+				width: 8px;
+				height: 8px;
+				background: url('/assets/icon/done.png') no-repeat center center;
+			}
+			.item-lg .status span {
+				color: #666;
+				margin-left: 5px;
+				font-size: 12px;
+			}
 		/*end*/
 
 		/*start convenient*/
 		.item-lg .convenient {
-			display: flex;
+			display: block;
+			margin-bottom: 10px;
 		}
 			.item-lg .convenient div {
 				margin-right: 15px;
+				display: inline-block;
 			}
 			.item-lg .convenient i {
 				width: 16px;
 				height: 16px;
 				display: inline-block;
 				vertical-align: -2px;
+				margin-right: 4px;
 			}
 				.item-lg .convenient i.icon-area {
 					background: url('/assets/icon/icon_dientich.png') no-repeat center center;
@@ -553,25 +561,37 @@ footer {
 
 		/*start address*/
 		.item-lg .address {
-			margin-bottom: 5px;
+			margin-bottom: 10px;
+			overflow: hidden;
 		}
 		/*end*/
 
-		/*start ticker*/
-		.item-lg > .price {
-			margin-bottom: 10px;
-			border: 1px dashed #ccc;
-			text-align: center;
-			color: #ff6511;	
-			height: 25px;
-			line-height: 25px;
+		/*start price*/
+		.item-lg .price {
+			font-size: 13px;
 		}
+			.item-lg .price > .number {
+				display: inline-block;
+				border-radius: 30px;
+				font-weight: bolder;
+				font-size: 15px;
+			}
+			.item-lg .price > .number.sale {
+				color: #ff6511;
+			}
+			.item-lg .price > .number.rent {
+				color: #038ed1;
+			}
+			.item-lg .price > .number.zestimate {
+				color: #54b40d;
+			}
 		/*end*/
 
 		/*start detail*/
 		.item-lg .detail {
 			text-align: justify;
 			margin-bottom: 10px;
+			max-height: 90px;
 		}
 		/*end*/
 
@@ -586,6 +606,25 @@ footer {
 				color: #ff6511;
 			}
 		/*end*/
+
+		/*start function*/
+		.item-lg .function {
+			border-top: 1px solid #eee;
+			border-bottom: 1px solid #eee;
+			padding: 10px 0;
+			margin-bottom: 10px;
+		}
+			.item-lg .function a {
+				display: inline-block;
+				margin-right: 20px;
+				padding: 0;
+				vertical-align: middle;
+			}
+				.item-lg .function a:hover {
+					color: #ff6511;
+				}
+		/*end*/
+
 	/*end content*/
 /*end item-lg*/
 
@@ -606,8 +645,7 @@ footer {
 		color: #666;
 		font-size: 13px;
 		padding: 17px 10px 0 10px;
-		display: flex;
-		flex-direction: column;
+		display: block;
 	}
 		.item-sm a:hover {
 			text-decoration: none;
@@ -732,20 +770,19 @@ footer {
 	/*end*/
 
 	/*start function*/
-	.item-sm .function {
-		display: flex;
+	.item-sm > .function {
 		margin: 0 10px 10px 10px;
-		border-top: 1px solid #ccc;
+		border-top: 1px solid #ddd;
 		padding-top: 10px;
-		justify-content: center;
+		text-align: center;
 	}
-		.item-sm .function a {
-			display: block;
+		.item-sm > .function a {
+			display: inline-block;
 			margin: 0 10px;
 			padding: 0;
 			vertical-align: middle;
 		}
-			.item-sm .function a:hover {
+			.item-sm > .function a:hover {
 				color: #ff6511;
 			}
 	/*end*/
@@ -957,110 +994,28 @@ footer {
 		}
 
 /*--------------------------------------------------------*/
-/*Custom menu*/
+/*Custom Dropdown-menu*/
 /*--------------------------------------------------------*/
-
-
-/*--------------------------------------------------------*/
-/*Icon*/
-/*--------------------------------------------------------*/
-
-/*start icon*/
-.icon {
-	display: inline-block;
-	vertical-align: -3px;
-	margin-right: 7px;
+.dropdown-menu .row-fluid div {
+	padding: 0;
 }
-	.icon-favor {
-		background: url('/assets/icon/icon-favor.png') no-repeat;
-		width: 16px;
-		height: 16px;
+	.dropdown-menu .row-fluid a {
+		display: block;
+		padding: 3px 20px;
+		color: #333;
 	}
-		.icon-favor:hover {
-			background-position: 0 -16px;
-		}
-	.icon-buy {
-		background: url('/assets/icon/icon-buy.png') no-repeat;
-		width: 16px;
-		height: 16px;
+
+/*--------------------------------------------------------*/
+/*Custom slick*/
+/*--------------------------------------------------------*/
+.slider-control {
+	position: absolute;
+	left: -10px;
+	top: 50%;
+	height: 32px;
+	width: 32px;
+	background: url('/assets/icon/icon-arrow.png') no-repeat;
+}
+	.prev {
+		
 	}
-		.icon-buy:hover {
-			background-position: 0 -16px;
-		}
-	.icon-share {
-		background: url('/assets/icon/icon-share.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-		.icon-share:hover {
-			background-position: 0 -16px;
-		}
-	.icon-zestimate {
-		background: url('/assets/icon/icon-zestimate.png') no-repeat;
-		width: 20px;
-		height: 16px;
-	}
-		.icon-zestimate:hover {
-			background-position: 0 -16px;
-		}
-	.icon-mini-menu {
-		background: url('/assets/icon/menu.png') no-repeat;
-		width: 30px;
-		height: 30px;
-	}
-	.icon-phone {
-		background: url('/assets/icon/icon-phone.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-address {
-		background: url('/assets/icon/icon-address.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-skype {
-		background: url('/assets/icon/icon-skype.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-mail {
-		background: url('/assets/icon/icon-mail.png') no-repeat;
-		width: 16px;
-		height: 15px;
-	}
-	.icon-check {
-		background: url('/assets/icon/icon-check.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-facebook {
-		background: url('/assets/icon/icon-facebook.png') no-repeat;
-		width: 32px;
-		height: 32px;
-	}
-	.icon-googleplus {
-		background: url('/assets/icon/icon-googleplus.png') no-repeat;
-		width: 32px;
-		height: 32px;
-	}
-	.icon-youtube {
-		background: url('/assets/icon/icon-youtube.png') no-repeat;
-		width: 32px;
-		height: 32px;
-	}
-	.icon-gift {
-		background: url('/assets/icon/icon-gift.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-	.icon-position {
-		background: url('/assets/icon/icon-position.png') no-repeat center center;
-		width: 16px;
-		height: 16px;
-	}
-	.icon-price {
-		background: url('/assets/icon/icon-price.png') no-repeat center center;
-		width: 16px;
-		height: 16px;
-	}
-	/*end icon*/
