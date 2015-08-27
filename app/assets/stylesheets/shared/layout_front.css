@@ -772,7 +772,7 @@ footer {
 	/*start function*/
 	.item-sm > .function {
 		margin: 0 10px 10px 10px;
-		border-top: 1px solid #ccc;
+		border-top: 1px solid #ddd;
 		padding-top: 10px;
 		text-align: center;
 	}
@@ -999,9 +999,23 @@ footer {
 .dropdown-menu .row-fluid div {
 	padding: 0;
 }
-.dropdown-menu .row-fluid a {
-	display: block;
-	padding: 3px 20px;
-	color: #333;
-}
+	.dropdown-menu .row-fluid a {
+		display: block;
+		padding: 3px 20px;
+		color: #333;
+	}
 
+/*--------------------------------------------------------*/
+/*Custom slick*/
+/*--------------------------------------------------------*/
+.slider-control {
+	position: absolute;
+	left: -10px;
+	top: 50%;
+	height: 32px;
+	width: 32px;
+	background: url('/assets/icon/icon-arrow.png') no-repeat;
+}
+	.prev {
+		
+	}
