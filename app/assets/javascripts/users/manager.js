@@ -8,13 +8,15 @@ $(function () {
 		$appraiserBox = $('#appraiser'),
 		$statisticianBox = $('#statistician');
 
-		$systemMangerBox.hide();
+	$systemMangerBox.hide();
+	$statisticianBox.hide();
+	
 	// initBox($systemMangerBox, 'system_manager');
 	initBox($userManagerBox, 'user_manager');
 	initBox($realEstateManagerBox, 'real_estate_manager');
 	initBox($projectManagerBox, 'project_manager');
 	initBox($appraiserBox, 'appraiser');
-	initBox($statisticianBox, 'statistician');
+	// initBox($statisticianBox, 'statistician');
 
 	/*
 		Box

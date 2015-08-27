@@ -108,9 +108,11 @@ $(function () {
         url: '/real_estates/_pending_list',
         afterLoad: function (content) {
           $list.html(content);
+          initApprove();
           initDelete();
+        }
       }
-    });
+    );
   }
 
   /*

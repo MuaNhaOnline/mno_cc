@@ -315,13 +315,13 @@
 					<% if fields.include? :restroom_number %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
-							<span>Phòng tắm: <b><%= @re.restroom_number %></b></span>
+							<span>Phòng tắm: <b><%= @re.restroom_number == 4 ? 'Hơn 4' : @re.restroom_number %></b></span>
 						</div>
 					<% end %>
 					<% if fields.include? :bedroom_number %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
-							<span>Phòng ngủ: <b><%= @re.bedroom_number %></b></span>
+							<span>Phòng ngủ: <b><%= @re.bedroom_number == 4 ? 'Hơn 4' : @re.bedroom_number %></b></span>
 						</div>
 					<% end %>
 					<% if fields.include? :direction_id %>

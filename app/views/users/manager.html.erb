@@ -8,12 +8,16 @@
 <% end %>
 
 <% content_for :content_header do %>
-	<%= t 'user.view.manager.page_title' %>
+	<%= t 'user.view.manager.form_title' %>
 <% end %>
 
-<%
-	# params: @system_managers(*)
-
+<% 
+=begin
+	params: 
+		@system_managers(*), @real_estate_managers(*), @project_managers(*),
+		@appraises(*), @user_managers(*), @statisticians(*)
+=end
+	@title = t 'user.view.manager.page_title'
 	per = Rails.application.config.item_per_page
 %>
 

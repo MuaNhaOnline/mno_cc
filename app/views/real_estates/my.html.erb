@@ -1,5 +1,5 @@
 <% 
-  @title = 'Quản lý bất động sản'
+  @title = t 'real_estate.view.my.page_title'
 %>
 
 <% content_for :stylesheets do %>
@@ -11,11 +11,7 @@
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.view.my.page_title' %>
-<% end %>
-
-<% content_for :navigator do %>
-  <li class="active"><%= t 'real_estate.view.my.page_title_nav' %></li>
+  <%= t 'real_estate.view.my.form_title' %>
 <% end %>
 
 <%

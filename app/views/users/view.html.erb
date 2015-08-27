@@ -1,0 +1,53 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/users/view.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
+<% end %>
+
+<% 
+=begin
+	params: @user
+=end
+
+	@title = @user.full_name 
+%>
+
+<article class="row">
+	<article class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+		<article class="box box-primary">
+		  <div class="box-body box-profile">
+		    <%= user_avatar @user, style_class: 'avatar img-responsive' %>
+		    <h3 class="name text-center"><%= @user.full_name %></h3>
+
+		    <ul class="list-group list-group-unbordered">
+					<% unless @user.phone_number.blank? %>
+						<li class="list-group-item">
+							<b><%= t 'user.attribute.phone_number' %></b>
+							<span class="pull-right"><%= @user.phone_number %></span>
+						</li>
+					<% end %>
+					<li class="list-group-item">
+						<b><%= t 'user.attribute.email' %></b>
+						<span class="pull-right"><%= @user.email %></span>
+					</li>
+					<!-- <li class="list-group-item">
+							<b>Skype</b>
+						<span class="pull-right">Đang cập nhật</span>
+					</li> -->
+					<% unless @user.address.blank? %>
+						<li class="list-group-item">
+							<b><%= t 'user.attribute.address' %></b>
+							<span class="pull-right"><%= @user.address %></span>
+						</li>
+					<% end %>
+		    </ul>
+
+		    <% if can? :edit, @user %>
+		    	<a href="/users/create/<%= @user.id %>" class="btn btn-primary btn-block"><b>Cập nhật thông tin</b></a>
+		    <% end %>
+		  </div>
+		</article>
+	</article>
+</article>

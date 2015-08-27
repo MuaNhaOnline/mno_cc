@@ -1,28 +1,30 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/shared/form_back.js"></script>
   <script type="text/javascript" src="/assets/users/create.js"></script>
 	<script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'user.view.create.page_title' %>
+  <%= t 'user.view.create.form_title' %>
 <% end %>
 
-<% content_for :navigator do %>
-  <li class="active"><%= t 'user.view.create.page_title' %></li>
-<% end %>
+<% 
+=begin
+	params: @user
+=end
+
+	@title = t 'user.view.create.page_title'
+%>
 
 <form class="row form" id="create_user" data-entertotab>
 	<% unless @user.new_record? %>
 		<input type="hidden" name="user[id]" value="<%= @user.id %>" />
 	<% end %>
 	<div class="col-md-6">
-		<article class="box box-default">
+		<article class="box box-default box-primary">
 			<section class="box-header with-border">
 				<h2 class="box-title">
 					<%= t 'user.attribute.account_box' %>
@@ -125,7 +127,7 @@
 		</article>	
 	</div>
 
-	<% unless @user.new_record? %>
+	<% if @user.new_record? %>
 
 		<div class="col-md-12 hidden-md hidden-lg">
 
@@ -134,7 +136,7 @@
 	    <article class="box box-solid">
 	      <section class="box-body row">
 	        <div class="margin-top-bottom-5 col-md-12">
-	          <button type="submit" class="btn btn-default btn-block btn-flat"><%= t('user.view.create.half_finish').html_safe %></button>
+          	<button type="submit" class="btn btn-default btn-block btn-flat animate-icon"><span class="icon pull-right fa fa-arrow-down"></span><%= t('user.view.create.half_finish_1').html_safe %></button>
 	        </div>
 	      </section>
 	    </article>
@@ -215,9 +217,18 @@
 
     <article class="box box-solid">
       <section class="box-body row">
-        <div class="margin-top-bottom-5 col-md-12">
-          <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'user.view.create.finish' %></b></button>
-        </div>
+      	<% if @user.new_record? %>
+	        <div class="margin-top-bottom-5 col-md-6 hidden-xs hidden-sm">
+	          <button type="submit" class="btn btn-default btn-block btn-flat"><span class="icon pull-right fa fa-arrow-up" style="transform: rotate(45deg)"></span><%= t('user.view.create.half_finish_2').html_safe %></button>
+	        </div>
+	        <div class="margin-top-bottom-5 col-md-6">
+	          <button type="submit" class="btn btn-primary btn-block btn-flat animate-icon"><span class="icon pull-left fa fa-check"></span><b><%= t 'user.view.create.finish' %></b></button>
+	        </div>
+	     	<% else %>
+	        <div class="margin-top-bottom-5 col-md-12">
+	          <button type="submit" class="btn btn-primary btn-block btn-flat animate-icon"><span class="icon pull-left fa fa-check"></span><b><%= t 'user.view.create.finish' %></b></button>
+	        </div>
+	      <% end %>
       </section>
     </article>
 

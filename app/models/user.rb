@@ -123,7 +123,7 @@ class User < ActiveRecord::Base
 	# Update type by id
 	def self.update_type_by_id id, type, is
 		# Author
-		return { status: 6 } if current_user.cannot? :manager, User
+		return { status: 6 } if User.current.cannot? :manager, User
 
     user = find id
 

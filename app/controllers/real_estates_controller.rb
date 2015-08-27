@@ -138,7 +138,7 @@ class RealEstatesController < ApplicationController
     # Author
     return render json: { staus: 6 } if cannot? :approve, RealEstate
 
-    @res = RealEstate.where(is_pending: 1).order(updated_at: 'asc')
+    @res = RealEstate.get_pending.order(updated_at: 'asc')
 
     render layout: 'layout_back'
   end
@@ -151,9 +151,9 @@ class RealEstatesController < ApplicationController
     per = Rails.application.config.item_per_page
 
     if params[:keyword].blank?
-      res = RealEstate.where(is_pending: 1).order(updated_at: 'asc')
+      res = RealEstate.get_pending.order(updated_at: 'asc')
     else
-      res = RealEstate.where(is_pending: 1).search(params[:keyword])
+      res = RealEstate.get_pending.search(params[:keyword])
     end
 
     count = res.count

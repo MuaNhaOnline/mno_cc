@@ -1,9 +1,3 @@
-<% 
-=begin
-  params: @re, @is_appraisal
-=end
-%>
-
 <% content_for :stylesheets do %>
   <link rel="stylesheet" type="text/css" href="/assets/real_estates/create.css">
   <link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
@@ -17,14 +11,16 @@
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.view.create.page_title' %>
-<% end %>
-
-<% content_for :navigator do %>
-  <li class="active"><%= t 'real_estate.view.create.page_title_nav' %></li>
+  <%= t 'real_estate.view.create.form_title' %>
 <% end %>
 
 <% 
+=begin
+  params: @re, @is_appraisal
+=end
+
+  @title = t 'real_estate.view.create.page_title'
+
   # Unit options
   sell_unit_html = rent_unit_html = ''
   current_sell_unit = current_rent_unit = nil
@@ -507,7 +503,7 @@
               <option <%= 'selected' if @re.restroom_number == 1 %> value="1">1</option>
               <option <%= 'selected' if @re.restroom_number == 2 %> value="2">2</option>
               <option <%= 'selected' if @re.restroom_number == 3 %> value="3">3</option>
-              <option <%= 'selected' if @re.restroom_number == 4 %> value="4">&gt;4</option>
+              <option <%= 'selected' if @re.restroom_number == 4 %> value="4">Hơn 4</option>
             </select>
           </article>
           <article class="form-group col-md-6" data-toggled-element="un-land house apartment space">
@@ -517,7 +513,7 @@
               <option <%= 'selected' if @re.bedroom_number == 1 %> value="1">1</option>
               <option <%= 'selected' if @re.bedroom_number == 2 %> value="2">2</option>
               <option <%= 'selected' if @re.bedroom_number == 3 %> value="3">3</option>
-              <option <%= 'selected' if @re.bedroom_number == 4 %> value="4">&gt;4</option>
+              <option <%= 'selected' if @re.bedroom_number == 4 %> value="4">Hơn 4</option>
             </select>
           </article>
         </div>
@@ -691,19 +687,25 @@
     </article>
 
   </div>
+    
+  <!-- / Description -->
 
   <div class="col-md-6">
     <article class="box" style="background-color: transparent; box-shadow: none; border: 0;">
       <section class="box-body text-center">
-        <a href="javascript:void(0)" aria-click="turn-on-until-full" style="display: inline-block; padding: 10px; text-align: center; background-color: #fff;border: 1px solid #ddd;border-radius: 3px;box-shadow: 0 1px 1px rgba(0,0,0,0.1)">
-          <div class="fa fa-plus-square" style="font-size: 40px;"></div>
-          <div>Đăng hình ảnh và thông tin chi tiết khác</div>
+        <a class="additional" href="javascript:void(0)" aria-click="turn-on-until-full">
+          <!-- <div>
+            <div class="fa fa-plus"></div>
+            <div class="fa fa-picture-o"></div>
+          </div> -->
+          <div class="fa fa-camera"></div>
+          <div class="text">
+            Thêm hình ảnh và thông tin khác
+          </div>
         </a>
       </section>
     </article>
   </div>
-    
-  <!-- / Description -->
 
   <div class="clearfix"></div>
 
@@ -849,7 +851,7 @@
         </div>
       </section>
       <section class="box-body">
-        <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình với kích thước 3Mb.</p>
+        <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình.</p>
         <article class="form-group margin-0">
           <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="7" data-size="3145728" data-type="jpg jpeg png" data-ratio="1.25" data-init-value="<%= image_ids %>" />
         </article>

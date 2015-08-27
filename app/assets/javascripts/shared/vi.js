@@ -10,10 +10,12 @@ var _t = {
 		label_image_upload: 'Đăng hình ảnh tại đây',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
+		crop_title: 'Điều chỉnh kích thước ảnh',
+		crop: 'Cắt',
 		crop_tooltip: 'Cắt',
+		cancel: 'Bỏ qua',
 		cancel_tooltip: 'Bỏ qua',
-		finish: 'Hoàn thành',
-		cancel: 'Bỏ qua'
+		finish: 'Hoàn thành'
 	},
 	user: {
 		validate: {

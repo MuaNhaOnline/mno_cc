@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   # Real estate
   get 'real_estates/index'
-  get 'real_estates/view/:id' => 'real_estates#view'
   get 'real_estates/category'
   get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/my'
@@ -20,8 +19,8 @@ Rails.application.routes.draw do
   get 'real_estates/_pending_list'
   get 'real_estates/appraise'
   get 'real_estates/_appraise_list'
-  get 'real_estates/:id' => 'real_estates#view'
   get 'real_estates' => 'real_estates#index'
+  get 'real_estates/:id' => 'real_estates#view'
   post 'real_estates/preview' => 'real_estates#preview'
   post 'real_estates/create' => 'real_estates#save'
   post 'real_estates/set_appraisal_company'
@@ -40,6 +39,7 @@ Rails.application.routes.draw do
   get 'users/manager'
   get 'users/_manager_list'
   get 'signout' => 'users#signout'
+  get 'users/:id' => 'users#view'
   post 'register' => 'users#save'
   post 'signin' => 'users#signin_handle'
   put 'users/change_type'

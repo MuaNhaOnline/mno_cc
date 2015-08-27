@@ -9,6 +9,11 @@ function initForm($form, params) {
 		params = {};
 	}
 
+	// <a class="fa fa-info pull-right" data-toggle="popover" data-trigger="focus hover" data-placement="left" data-content=""></a>
+	$form.find('[data-toggle="popover"]').popover({
+		html: true
+	});
+
 	initToggle();
 	initFileInput();
 	initFileInput_2();
@@ -269,7 +274,7 @@ function initForm($form, params) {
 				Init for read file
 			*/
 
-			var $html = $('<article class="cropper-container"><section class="image-cropper"></section><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.cancel_tooltip + '" class="btn btn-link pull-left"><span class="fa fa-close"></span></button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right"><span class="fa fa-crop"></span></button></section></article>');
+			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.cancel_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.cancel + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
 			var fileReader = new FileReader();
 			var currentIndex = 0;
 			fileReader.onload = function (e, i) {
@@ -1124,17 +1129,20 @@ function initForm($form, params) {
 			}
 
 			// Remove error message, remove error class from box
+
 			var 
 				$box = $input.closest('.box'),
-				$callout = $box.find('.callout-error');
+				$callout = $formGroup.find('.callout-error');
 
 			// Remove error message
 			$callout.find('[aria-name="' + name + '"]').remove();
 
 			// Check if not exist error => remove error class
 			if ($callout.children().length == 0) {
-				$box.removeClass('box-danger');
 				$callout.remove();
+			}
+			if ($box.find('.callout-error').length == 0) {
+				$box.removeClass('box-danger');
 			}
 		}
 		else {
@@ -1147,18 +1155,19 @@ function initForm($form, params) {
 			$input.data('invalid', constraint);
 
 			// Add error class to form group
-			$input.closest('.form-group').addClass('has-error');
+			var $formGroup = $input.closest('.form-group');
+			$formGroup.addClass('has-error');
 
 			// Add error class to box
-			var $box = $input.closest('.box');
+			var $box = $formGroup.closest('.box');
 			$box.addClass('box-danger');
 
 			// Add error message
 			// Get callout
-			var $callout = $box.find('.callout-error');
+			var $callout = $formGroup.find('.callout-error');
 			if ($callout.length == 0) {
 				$callout = $('<section class="callout-error"></section>');
-				$box.find('.box-body').prepend($callout);
+				$formGroup.append($callout);
 			}
 
 			// Get error message

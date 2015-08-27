@@ -4,20 +4,14 @@
     status = '';
     if re.is_draft == 1
       status = 'draft '
-    elsif re.is_pending == 1
-      status = 'pending '
-    end
-
-    if re.appraisal_type != 0
-      if re.appraisal_price.blank?
-        status = 'not_appraised '
-      else
-        status = 'appraised '
+    else
+      if re.is_pending == 1
+        status = 'pending '
       end
-    end
 
-    if re.is_show == 1
-      status += 'show'
+      if re.is_show == 1
+        status += 'show'
+      end
     end
   %>
 
@@ -25,7 +19,7 @@
     <td>
       <a class="view" href="/real_estates/<%= re.id %>">
         <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
-        <img src="<%= re.images.length != 0 ? "/images/#{re.images[0].id}" : '/assets/product/BDS01.jpg' %>" width="100px" height="100px">
+        <%= real_estate_avatar re %>
       </a>
     </td>
     <td><%= re.title %></td>

@@ -130,7 +130,7 @@ class UsersController < ApplicationController
   # View
   def manager
     # Author
-    authorize! :manage, User
+    authorize! :manage, user
 
     @system_managers = User.search_by_type '', 'system_manager', true
     @user_managers = User.search_by_type '', 'user_manager', true
@@ -175,6 +175,20 @@ class UsersController < ApplicationController
   end
 
 # / Manager
+
+# View
+
+  # View
+  # params: id(*)
+  def view
+    begin
+      @user = User.find(params[:id])
+    rescue
+      redirect_to '/'
+    end    
+  end
+
+# / View
 
 # Autocomplete
 

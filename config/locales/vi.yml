@@ -71,8 +71,8 @@ vi:
       appraisal_company: 'Công ty thẩm định'
     view:
       create:
-        page_title_nav: 'Đăng bất động sản'
-        page_title: 'Thông tin bất động sản cần đăng'
+        page_title: 'Đăng bất động sản'
+        form_title: 'Thông tin bất động sản cần đăng'
         finish: 'Hoàn tất'
         save_draft_preview: 'Lưu tạm và xem trước'
         other_legal_record_type_placeholder: 'Giấy tờ khác'
@@ -80,15 +80,15 @@ vi:
         area_alert: 'Kích thước không thỏa'
         uncheck: 'Bỏ chọn'
       my:
-        page_title_nav: 'Quản lý'
-        page_title: 'Quản lý bất động sản'
+        page_title: 'Danh sách của tôi'
+        form_title: 'Danh sách bất động sản của tôi'
         search: 'Tìm'
         search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
         delete: 'Xóa'
       pending:
-        page_title_nav: 'Quản lý'
         page_title: 'Quản lý bất động sản'
+        form_title: 'Quản lý bất động sản'
         search: 'Tìm'
         search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
@@ -208,21 +208,22 @@ vi:
       phone_number: 'Số điện thoại'
       address: 'Địa chỉ'
       avatar_image: 'Ảnh đại diện'
-    validate:
-      account_not_exist: 'Tên tài khoản không tồn tại'
-      password_not_correct: 'Mật khẩu không đúng'
     view:
       create:
-        page_title: 'Đăng ký thành viên'
+        page_title: 'Đăng ký tài khoản'
+        form_title: 'Đăng ký tài khoản'
         repeat_password: 'Mật khẩu xác nhận'
         addition_box: 'Thông tin bổ sung'
-        half_finish: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên dưới'
+        half_finish_1: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên dưới'
+        half_finish_2: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên cạnh'
         finish: 'Hoàn tất'
       signin:
-        box_title: 'Đăng nhập'
+        page_title: 'Đăng nhập'
+        form_title: 'Đăng nhập'
         finish: 'Đăng nhập'
       manager:
         page_title: 'Quản lý nhóm người dùng'
+        form_title: 'Quản lý nhóm người dùng'
         search_placeholder: 'Tìm kiếm...'
         system_manager: 'Quản lý hệ thống'
         user_manager: 'Quản lý người dùng'
@@ -230,6 +231,7 @@ vi:
         project_manager: 'Quản lý dự án'
         appraiser: 'Thẩm định viên'
         statistician: 'Thống kê viên'
+      view:
   appraisal_company:
     attribute:
       info_box: 'Thông tin'

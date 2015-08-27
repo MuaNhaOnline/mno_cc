@@ -217,6 +217,18 @@ class RealEstate < ActiveRecord::Base
 
 # / Insert
 
+# Get
+
+  # Get pending
+
+  def self.get_pending
+    where(is_pending: 1, is_draft: 0)
+  end
+
+  # / Get pending
+
+# / Get
+
 # Updates
 
   # Update show status
@@ -307,7 +319,6 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Get meta search
-
 
 # / Helper
 
