@@ -208,6 +208,9 @@ vi:
       phone_number: 'Số điện thoại'
       address: 'Địa chỉ'
       avatar_image: 'Ảnh đại diện'
+    validate:
+      account_not_exist: 'Tên tài khoản không tồn tại'
+      password_not_correct: 'Mật khẩu chưa chính xác'
     view:
       create:
         page_title: 'Đăng ký tài khoản'

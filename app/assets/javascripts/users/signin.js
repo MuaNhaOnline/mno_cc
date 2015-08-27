@@ -4,6 +4,8 @@ $(function () {
 	initForm($form, {
 		object: 'user',
 		submit: function () {
+			$form.find('.callout-danger').remove();
+
 			$.ajax({
 				url: '/signin',
 				method: 'POST',
@@ -11,7 +13,7 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function (data) {
 				if (data.status === 0) {
-          location = '/home/back'
+          location = '/'
 				}
 				else if (data.status === 5) {
           popupPrompt({

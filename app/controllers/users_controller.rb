@@ -76,7 +76,11 @@ class UsersController < ApplicationController
 
     # Return if not correct
     if result[:status] != 0
-      return render json: result
+      return redirect_to '/' if result[:status] === 6
+      return respond_to do |format|
+        format.html { render 'users/signin', locals: { error: result[:result][:result] } }
+        format.json { render json: result }
+      end
     end
 
     user = result[:result]
@@ -100,7 +104,11 @@ class UsersController < ApplicationController
       cookies.delete :user_password
     end
 
-    render json: { status: 0, result: user.id }
+    render json: 
+    respond_to do |format|
+        format.html { redirect_to '/' }
+        format.json { render json: { status: 0, result: user.id } }
+      end
   end
 
   # Handle

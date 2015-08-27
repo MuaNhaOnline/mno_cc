@@ -165,39 +165,41 @@
 			 <!-- end function button -->
 
 			<!-- start user-box -->
-			<article class="user-box hidden-xs hidden-sm">
-				<div class="btn-group">
-					 <a href="#" class="btn-link dropdown-toggle" data-toggle="dropdown">
-						<span>Đăng nhập</span>
-					 </a>
-					 <ul class="dropdown-menu">
-						<li><a href="#" data-toggle="modal" data-target="#dang_nhap">Đăng nhập</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#dang_ky">Đăng ký</a></li>                      
-						<li role="separator" class="divider"></li>
-						<li class="title">Đăng nhập bằng:</li>
-						<li class="social-link">
-							 <a href="#"><img src="/assets/logo/facebook-32.png"></a>
-							 <a href="#"><img src="/assets/logo/google_plus-32.png"></a>	 
-						</li>
-					</ul>
-				</div>
-			</article>
-
-			<article class="user-box-login hidden-xs hidden-sm" style="display:none">
-				<div class="btn-group">
-					<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
-						<img src="/assets/icon/avatar.jpg">
-						<span>PenguinBlue-Chip</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Thông tin tài khoản</a></li>
-						<li><a href="#">Đổi mật khẩu</a></li>
-						<li><a href="#">Nâng cấp VIP</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">Đăng xuất</a></li>
-					</ul>
-				</div>
-			</article>
+			<% if signed? %>
+				<article class="user-box-login hidden-xs hidden-sm">
+					<div class="btn-group">
+						<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+							<%= user_avatar current_user %>
+							<span><%= current_user.full_name %></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/users/<%= current_user.id %>">Thông tin tài khoản</a></li>
+							<li><a href="#">Đổi mật khẩu</a></li>
+							<li><a href="#">Nâng cấp VIP</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/signout">Đăng xuất</a></li>
+						</ul>
+					</div>
+				</article>
+			<% else %>
+				<article class="user-box hidden-xs hidden-sm">
+					<div class="btn-group">
+						 <a href="#" class="btn-link dropdown-toggle" data-toggle="dropdown">
+							<span>Đăng nhập</span>
+						 </a>
+						 <ul class="dropdown-menu">
+							<li><a href="#" data-toggle="modal" data-target="#signin">Đăng nhập</a></li>
+							<li><a href="/signup">Đăng ký</a></li>                      
+							<li role="separator" class="divider"></li>
+							<li class="title">Đăng nhập bằng:</li>
+							<li class="social-link">
+								 <a href="#"><img src="/assets/logo/facebook-32.png"></a>
+								 <a href="#"><img src="/assets/logo/google_plus-32.png"></a>	 
+							</li>
+						</ul>
+					</div>
+				</article>
+			<% end %>
 			<!-- end user -->
 
 			<!-- start mini menu -->
@@ -306,104 +308,33 @@
 <!-- start modal -->
 
 <!-- Đăng nhập Modal -->
-<div class="modal fade" id="dang_nhap">
+<div class="modal fade" id="signin">
 	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
+		<form class="modal-content" action="/signin" method="POST">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">Đăng nhập</h4>
 			</div>
 			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<label for="username">Email</label>
-						<input class="form-control" type="text" id="username">
-					</div>
-					<div class="form-group">
-						<label for="password">Mật khẩu</label>
-						<input class="form-control" type="password" id="password">
-					</div>
-					<div class="form-group">
-						<div class="checkbox">
-							 <label><input type="checkbox">Ghi nhớ</label>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default">Quên mật khẩu</button>
-				<button type="button" class="btn btn-primary">Đăng nhập</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- Đăng ký Modal -->
-<div class="modal fade" id="dang_ky">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Đăng ký</h4>
-			</div>
-			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<label for="Email">Email</label>
-						<input class="form-control" type="text" id="Email">
-					</div>
-					<div class="form-group">
-						<label for="pass">Mật khẩu</label>
-						<input class="form-control" type="password" id="pass">
-					</div>
-					<div class="form-group">
-						<label for="repeat_password">Xác nhận mật khẩu</label>
-						<input class="form-control" type="password" id="repeat_password">
-					</div>
-					<div class="form-group">
-						<label for="fullname">Họ tên</label>
-						<input class="form-control" type="text" id="fullname">
-					</div>					
-					<div class="form-group">
-						<div class="radio">
-							 <label><input type="radio" name="Gender" checked>Nam</label>
-							 <label><input type="radio" name="Gender">Nữ</label>
-							 <label><input type="radio" name="Gender">Khác</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="birthday">Ngày sinh</label>
-						<input class="form-control datepicker" data-provide="datepicker" type="text" id="birthday">
-					</div>
-					<div class="form-group">
-						<label for="enterprise">Doanh nghiệp</label>
-						<input class="form-control" type="text" id="enterprise">
-					</div>
-					<div class="form-group">
-						<label for="mobile">Điện thoại di động</label>
-						<input class="form-control" type="text" id="mobile">
-					</div>
-					<div class="form-group">
-						<label for="home_phone">Điện thoại cố định</label>
-						<input class="form-control" type="text" id="home_phone">
-					</div>
-					<div class="form-group">
-						<label for="address">Địa chỉ</label>
-						<input class="form-control" type="text" id="address">
-					</div>
-					<div class="form-group">
-						<label for="avatar">Ảnh cá nhân</label>
-						<input class="form-control" type="file" id="avatar">
-					</div>
+				<div class="form-group">
+					<label for="account">Tên tài khoản</label>
+					<input name="user[account]" class="form-control" type="text" id="account">
+				</div>
+				<div class="form-group">
+					<label for="password">Mật khẩu</label>
+					<input name="user[password]" class="form-control" type="password" id="password">
+				</div>
+				<div class="form-group">
 					<div class="checkbox">
-					<label for="regulation"><input type="checkbox" id="regulation">Đọc và chấp nhận <a href="#" target="_blank">Quy định</a> của chúng tôi</label>
+						 <label><input name="remember" type="checkbox">Ghi nhớ</label>
 					</div>
-				</form>
+				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary">Đăng ký thành viên</button>
+				<a href="#" class="btn btn-default">Quên mật khẩu</a>
+				<button type="submit" class="btn btn-primary">Đăng nhập</button>
 			</div>
-		</div><!-- /.modal-content -->
+		</form><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
