@@ -31,6 +31,11 @@ Rails.application.routes.draw do
   # User
   get 'users/autocomplete'
   get 'signup' => 'users#create'
+  get 'users/active_callout/:id' => 'users#active_callout'
+  get 'users/active_account/:id' => 'users#active_account'
+  get 'active_account_signin' => 'users#active_account_signin'
+  get 'users/resend_active_account/:id' => 'users#resend_active_account'
+  get 'users/forgot_password'
   get 'users/create/:id' => 'users#create'  
   get 'users/check_unique_account'
   get 'users/check_unique_email'
@@ -42,7 +47,9 @@ Rails.application.routes.draw do
   get 'users/:id' => 'users#view'
   post 'register' => 'users#save'
   post 'signin' => 'users#signin_handle'
+  post 'users/forgot_password' => 'users#forgot_password_handle'
   put 'users/change_type'
+  put 'users/change_password'
 
   # Appraisal company
   get 'appraisal_companies/autocomplete'

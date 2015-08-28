@@ -9,7 +9,7 @@ $(function () {
         popupPrompt({
           title: _t.form.error_title,
           type: 'danger',
-          content: 'Đang kiểm tra tên tài khoản, vui lòng thử lại sau'
+          content: 'Đang kiểm tra tên tài khoản, vui lòng thực hiện lại sau'
         });
 
         return;
@@ -18,7 +18,7 @@ $(function () {
         popupPrompt({
           title: _t.form.error_title,
           type: 'danger',
-          content: 'Đang kiểm tra email, vui lòng thử lại sau'
+          content: 'Đang kiểm tra email, vui lòng thực hiện lại sau'
         });
 
         return;
@@ -28,14 +28,16 @@ $(function () {
 				url: '/register',
 				method: 'POST',
 				data: $form.serialize(),
-				dataType: 'JSON'
+				dataType: 'JSON',
+				async: false
 			}).done(function (data) {
 				if (data.status == 0) {
-          popupPrompt({
-            title: _t.form.success,
-            type: 'success',
-            content: 'Đăng ký thành công'
-          });
+					if ($form.find('[name="user[id]"]').length == 0) {
+	          window.location = '/users/active_callout/' + data.result + '/?status=success';
+					}
+					else {
+						window.location = '/users/' + data.result;
+					}
 				}
 				else {
           var result = data.result;
@@ -62,6 +64,7 @@ $(function () {
 	initCheckAccount();
 	initCheckEmail();
 	initCheckRepeatPassword();
+	initChangePassword();
 
 	/*
 		Check account
@@ -207,6 +210,102 @@ $(function () {
 
 	/*
 		/ Check repeat password
+	*/
+
+	/*
+		Change password
+	*/
+
+	function initChangePassword() {
+		$form.find('[aria-click="change-password"]').on('click', function () {
+			var 
+        $html = $('<article style="width: 300px; max-width: 80vw" class="box box-primary"><section class="box-header"><h3 class="box-title">Đổi mật khẩu</h3></section><form class="form box-body"><input type="hidden" name="user[id]" value="' + $form.find('[name="user[id]"]').val() + '" /><article class="form-group"><label for="old_password">Mật khẩu cũ</label><input name="user[old_password]" data-constraint="required" class="form-control" type="password" id="user[old_password]" /></article><article class="form-group"><label for="password">Mật khẩu mới</label><input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" /></article><article class="form-group"><label for="repeat_password">Nhập lại mật khẩu mới</label><input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">' + _t.form.finish + '</button> <button type="button" class="btn btn-default btn-flat">' + _t.form.cancel + '</button></article></form></article>'),
+        $form2 = $html.find('form');
+
+      var $popup = popupFull({
+        html: $html
+      });
+
+      $html.find('button[type="button"]').on('click', function () {
+        $popup.off();
+      });
+
+      initForm($form2, {
+      	object: 'user',
+      	submit: function () {
+      		$.ajax({
+      			url: '/users/change_password',
+						method: 'PUT',
+      			data: $form2.serialize(),
+      			dataType: 'JSON'
+      		}).done(function (data) {
+      			if (data.status == 0) {
+      				$popup.off();
+			        popupPrompt({
+			          title: _t.form.success_title,
+			          type: 'success',
+			          content: 'Đổi mật khẩu thành công'
+			        });
+      			}
+      			else {
+      				if (data.status == 5) {
+				        popupPrompt({
+				          title: _t.form.error_title,
+				          type: 'danger',
+				          content: 'Mật khẩu cũ không đúng'
+				        });
+      					return;
+      				}
+
+      				$popup.off();
+			        popupPrompt({
+			          title: _t.form.error_title,
+			          type: 'danger',
+			          content: _t.form.error_content
+			        })
+      			}
+      		}).fail(function () {
+    				$popup.off();
+		        popupPrompt({
+		          title: _t.form.error_title,
+		          type: 'danger',
+		          content: _t.form.error_content
+		        })
+      		});
+      	}
+      });
+
+      initCheckRepeatPassword_2();
+
+			/*
+				Check repeat password
+			*/
+
+			function initCheckRepeatPassword_2() {
+				var 
+					$password = $form2.find('#password'), 
+					$repeatPassword = $form2.find('#repeat_password');
+
+				$password.add($repeatPassword).on('change', function () {
+					if ($password.val() && $repeatPassword.val()) {
+						if ($password.val() === $repeatPassword.val()) {
+							$form2.toggleValidInput($repeatPassword, true, 'same');
+						}
+						else {
+							$form2.toggleValidInput($repeatPassword, false, 'same');	
+						}
+					}
+				});
+			}
+
+			/*
+				/ Check repeat password
+			*/
+		});
+	}
+
+	/*
+		/ Change password
 	*/
 
 });

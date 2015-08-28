@@ -12,7 +12,7 @@ $(function () {
 				data: $form.serialize(),
 				dataType: 'JSON'
 			}).done(function (data) {
-				if (data.status === 0) {
+				if (data.status == 0) {
 					alert('OK')
 				}
 				else {
@@ -45,7 +45,7 @@ $(function () {
 				data: $form.serialize() + '&draft',
 				dataType: 'JSON'
 			}).done(function (data) {
-				if (data.status === 0) {
+				if (data.status == 0) {
 					alert('OK')
 				}
 				else {

@@ -1,11 +1,2 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  </head>
-  <body>
-    <h1>Thông tin kích hoạt tài khoản</h1>
-    <p>Mã kích hoạt: <b>123123123</b></p>
-    <p>Đường dẫn kích hoạt: <a href="http://google.com">abc</a></p>
-  </body>
-</html>
+<h3>Chào mừng bạn đến với hệ thống MuaNhaOnline</h3>
+<p>Hãy nhấn vào <a href="<%= Rails.application.config.base_url %>users/active_account/<%= @user.id %>?<%= { code: @user._params['active_code'] }.to_query %>">đây</a> để hoàn tất kích hoạt</p>

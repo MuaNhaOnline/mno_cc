@@ -15,12 +15,16 @@ var _t = {
 		crop_tooltip: 'Cắt',
 		cancel: 'Bỏ qua',
 		cancel_tooltip: 'Bỏ qua',
-		finish: 'Hoàn thành'
+		finish: 'Hoàn thành',
+		validate: {
+			'email_required': 'Email không thể bỏ trống'
+		}
 	},
 	user: {
 		validate: {
 			'user[account]_required': 'Tên tài khoản không thể bỏ trống',
 			'user[account]_unique': 'Tên tài khoản đã được sử dụng',
+			'user[old_password]_required': 'Mật khẩu cũ không thể bỏ trống',
 			'user[password]_required': 'Mật khẩu không thể bỏ trống',
 			'repeat_password_required': 'Mật khẩu xác nhận không thể bỏ trống',
 			'repeat_password_same': 'Mật khẩu không trùng khớp',

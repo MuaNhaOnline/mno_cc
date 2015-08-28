@@ -5,8 +5,12 @@
 		function will be implement after submit
 */
 function initForm($form, params) {
-	if (typeof(params) === 'undefined') {
+	if (typeof params == 'undefined') {
 		params = {};
+	}
+
+	if (!('object' in params)) {
+		params.object = 'form';
 	}
 
 	// <a class="fa fa-info pull-right" data-toggle="popover" data-trigger="focus hover" data-placement="left" data-content=""></a>

@@ -7,8 +7,10 @@
 	<script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
 <% end %>
 
-<% content_for :content_header do %>
-  <%= t 'user.view.create.form_title' %>
+<% if @user.new_record? 
+	content_for :content_header do %>
+  	<%= t 'user.view.create.form_title' %>
+  <% end %>
 <% end %>
 
 <% 
@@ -16,7 +18,11 @@
 	params: @user
 =end
 
-	@title = t 'user.view.create.page_title'
+	if @user.new_record?
+		@title = t 'user.view.create.page_title'
+	else
+		@title = @user.full_name
+	end
 %>
 
 <form class="row form" id="create_user" data-entertotab>
@@ -64,7 +70,7 @@
 				    </article>
 				    <article class="form-group col-md-6">
 				      <label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
-	         	 <sup class="required-label"></sup>
+	         	 	<sup class="required-label"></sup>
 				      <div class="input-group">
 		            <div class="input-group-addon">
 		              <i class="fa fa-lock"></i>
@@ -75,6 +81,16 @@
 					</div>
 
 			    <!-- / Password -->
+
+			  <% else %>
+
+			    <!-- Change password -->
+
+			    <article class="form-group">
+			    	<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-block">Đổi mật khẩu</a>
+			    </article>
+
+			    <!-- / Change password -->
 
 				<% end %>
 
@@ -87,7 +103,7 @@
             <div class="input-group-addon">
               <i class="fa fa-envelope"></i>
             </div>
-            <input value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+            <input <% unless @user.new_record? %> data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" <% end %> value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
           </div>
 		    </article>
 

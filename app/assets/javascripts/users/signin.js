@@ -12,10 +12,15 @@ $(function () {
 				data: $form.serialize(),
 				dataType: 'JSON'
 			}).done(function (data) {
-				if (data.status === 0) {
-          location = '/'
+				if (data.status == 0) {
+          window.location = '/';
 				}
-				else if (data.status === 5) {
+				else if (data.status == 5) {
+					if (data.result.status == 3) {
+						window.location = '/users/active_callout/' + data.result.result + '?status=unactive';
+						return;
+					}
+
           popupPrompt({
             title: _t.form.error_title,
             content: data.result.result,

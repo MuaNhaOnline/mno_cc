@@ -39,10 +39,10 @@ $(function () {
         $inputs = $form.find('div'),
         purpose = $button.data('type');
 
-      if (purpose === 'sell' || purpose === 'sell_rent') {
+      if (purpose == 'sell' || purpose == 'sell_rent') {
         $inputs.append('<article class="form-group"><label for="sell_price">' + _t.appraisal_company.view.appraise.sell_price + '</label><input name="sell_price" value="' + $row.find('[aria-object="sell_price"]').text() + '" data-constraint="integer" class="form-control separate-number" id="sell_price" /></article>');
       }
-      if (purpose === 'rent' || purpose === 'sell_rent') {
+      if (purpose == 'rent' || purpose == 'sell_rent') {
         $inputs.append('<article class="form-group"><label for="rent_price">' + _t.appraisal_company.view.appraise.rent_price + '</label><input name="rent_price" value="' + $row.find('[aria-object="rent_price"]').text() + '" data-constraint="integer" class="form-control separate-number" id="rent_price" /></article>');
       }
 
@@ -62,7 +62,7 @@ $(function () {
             data: $form.serialize(),
             dataType: 'JSON'
           }).done(function (data) {
-            if (data.status === 0) {
+            if (data.status == 0) {
               $popup.off();
 
               $row.find('[aria-object="rent_price"]').text($form.find('[name="sell_price"]').val());
