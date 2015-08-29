@@ -311,10 +311,9 @@ function initForm($form, params) {
 				});
 
 				$html.find('[aria-click="crop"]').on('click', function () {
+					currentAmount++;
 					$popup.off();
 					readNext();
-
-					currentIndex++;
 
 					var imageData = $img.cropper('getCroppedCanvas').toDataURL();
 

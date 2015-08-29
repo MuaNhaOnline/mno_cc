@@ -587,8 +587,6 @@ function _initSearchablePagination($list, $search, $pagination, params) {
     }).done(function (data) {
       if (data.status == 0) {
         currentPage = page;
-        console.log(data);
-
         if ('afterLoad' in params) {
           var result = params.afterLoad(data.result.list, searchParams.note);
 
