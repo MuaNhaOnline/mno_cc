@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20150828043954) do
   create_table "appraisal_companies_real_estates", force: :cascade do |t|
     t.integer  "appraisal_company_id"
     t.integer  "real_estate_id"
-    t.datetime "assigned_time",        default: '2015-08-20 13:53:23'
+    t.datetime "assigned_time"
     t.text     "sell_price"
     t.boolean  "is_selected",          default: false
     t.boolean  "is_assigned"
@@ -190,8 +190,8 @@ ActiveRecord::Schema.define(version: 20150828043954) do
     t.datetime "created_at"
     t.text     "type"
     t.integer  "reply_id"
-    t.boolean  "is_from_remove"
-    t.boolean  "is_to_remove"
+    t.boolean  "is_from_remove",     default: false
+    t.boolean  "is_to_remove",       default: false
     t.text     "params"
   end
 
