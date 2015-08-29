@@ -36,7 +36,11 @@ class ApplicationController < ActionController::Base
   private
   def get_current_user
     # if exists session user_id
-    return User.current = @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
+    begin
+      return User.current = @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
+    rescue
+      
+    end
 
     # if exists cookie user_account
     if cookies.has_key? :user_account
