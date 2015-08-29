@@ -211,7 +211,7 @@
           <div class="input-group">
             <input data-constraint="integer" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
             <div class="input-group-btn">
-              <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id unless current_sell_unit.nil? %>" />
+              <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
               <ul class="dropdown-menu pull-right">
                 <%= sell_unit_html.html_safe %>
@@ -225,7 +225,7 @@
           <div class="input-group">
             <input data-constraint="integer" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
             <div class="input-group-btn">
-              <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id unless current_rent_unit.nil? %>" />
+              <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
               <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
               <ul class="dropdown-menu pull-right">
                 <%= rent_unit_html.html_safe %>

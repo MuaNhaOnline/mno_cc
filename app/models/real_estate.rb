@@ -226,6 +226,14 @@ class RealEstate < ActiveRecord::Base
 
   # / Get pending
 
+  # Get random
+
+  def self.get_random
+    order('RANDOM()')
+  end
+
+  # / Get random
+
 # / Get
 
 # Updates
@@ -339,16 +347,44 @@ class RealEstate < ActiveRecord::Base
 
 # Attributes
 
-  # Name
+  # Fields
+  def fields
+    @fields ||= RealEstate.get_fields self
+  end
 
+  # Name
   def name
     @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}."
   end
 
-  # / Name
+  # Full address
+  def display_address
+    @display_address ||= "#{address_number} #{street.name unless street.nil?}, #{ward.name unless ward.nil?}, #{district.name unless district.nil?}, #{province.name unless province.nil?}".titleize
+  end
 
-  def full_address
-    @full_address ||= "#{address_number} #{street.name unless street.nil?}, #{ward.name unless ward.nil?}, #{district.name unless district.nil?}, #{province.name unless province.nil?}".titleize
+  # Restroom
+  def display_restroom
+    @display_restroom ||= restroom_number == 4 ? 'Hơn 4' : restroom_number
+  end
+
+  # Bedroom
+  def display_bedroom
+    @display_bedroom ||= bedroom_number == 4 ? 'Hơn 4' : bedroom_number
+  end
+
+  # Area
+  def display_area
+    fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
+  end
+
+  # Sell price
+  def display_sell_price
+    sell_price || 'Giá thỏa thuận'
+  end
+
+  # Rent price
+  def display_rent_price
+    rent_price || 'Giá thỏa thuận'
   end
 
 # / Attributes
