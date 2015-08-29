@@ -342,10 +342,14 @@ class RealEstate < ActiveRecord::Base
   # Name
 
   def name
-    @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?}. #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}"
+    @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}."
   end
 
   # / Name
+
+  def full_address
+    @full_address ||= "#{address_number} #{street.name unless street.nil?}, #{ward.name unless ward.nil?}, #{district.name unless district.nil?}, #{province.name unless province.nil?}".titleize
+  end
 
 # / Attributes
 
