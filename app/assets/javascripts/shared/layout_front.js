@@ -14,7 +14,6 @@ $(function () {
 
 	//init datepicker
 	$('.datepicker').datepicker();
-	
 });
 
 //endregion

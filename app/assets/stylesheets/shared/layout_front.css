@@ -518,8 +518,8 @@ footer {
 			.item-lg .status i.done {
 				vertical-align: middle;
 				display: inline-block;
-				width: 8px;
-				height: 8px;
+				width: 16px;
+				height: 16px;
 				background: url('/assets/icon/done.png') no-repeat center center;
 			}
 			.item-lg .status span {
@@ -1008,14 +1008,46 @@ footer {
 /*--------------------------------------------------------*/
 /*Custom slick*/
 /*--------------------------------------------------------*/
-.slider-control {
-	position: absolute;
-	left: -10px;
-	top: 50%;
-	height: 32px;
-	width: 32px;
-	background: url('/assets/icon/icon-arrow.png') no-repeat;
+.slick {
+	position: relative;
 }
-	.prev {
-		
+	.slider-control {
+		position: absolute;
+		top: calc(50% - 20px);
+		height: 32px;
+		width: 32px;
+		border: 0px;
+		outline: none;
+		background: url('/assets/icon/icon-arrow.png') no-repeat;
 	}
+		.slider-control.prev {
+			left: -50px;
+		}
+			.slider-control.prev:hover {
+				background-position: 0 -32px;
+			}
+		.slider-control.next {
+			background-position: -32px 0;
+			right: -50px;
+		}
+			.slider-control.next:hover {
+				background-position: -32px -32px;
+			}
+	.slick-slide {
+		outline: none;
+	}
+	.slick-dots {
+		bottom: -10px !important;
+	}
+		.slick-dots > li > i {
+			width: 6px;
+			height: 6px;
+			display: block;
+			margin: 5px auto;
+			background: url('/assets/icon/circle.png') no-repeat;
+			border: 0px solid;
+			outline: none;
+		}
+		.slick-dots > li.slick-active > i {
+			background-position: -6px 0;
+		}

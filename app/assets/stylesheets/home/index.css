@@ -96,9 +96,9 @@
 .propensity-property {
 
 }
-.propensity-property .content {
-	margin-bottom: 40px;
-}
+	.propensity-property .content {
+		margin-bottom: 40px;
+	}
 	/*start title*/
 	.propensity-property .title {
 		margin-bottom: 12px;
