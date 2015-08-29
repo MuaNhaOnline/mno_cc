@@ -45,9 +45,11 @@ class UsersController < ApplicationController
     case user.active_status
       when 1
         UserMailer.active_account(user).deliver_now
+      when 2
+        UserMailer.active_old_email(user).deliver_now
     end
 
-    render json: { status: 0, result: user.id }
+    render json: { status: 0, result: user.id, email_changed: result[:email_changed] }
   end
 
   # Handle
@@ -61,6 +63,10 @@ class UsersController < ApplicationController
   def check_unique_email
     render json: { status: 0, result: !User.exists?(email: params[:email]) }
   end
+
+# / Sign up
+
+# Active account
 
   # View
   # params: id(*)
@@ -82,7 +88,13 @@ class UsersController < ApplicationController
       return redirect_to '/?' + result[:status].to_s
     end
 
-    session[:recently_active_id] = params[:id]
+    case @status = result[:result]
+      when 1
+        session[:recently_active_id] = params[:id]
+      when 2
+        @user = result[:user]
+        UserMailer.active_new_email(@user).deliver_now
+    end
   end
 
   # Handle redirect to view
@@ -99,6 +111,8 @@ class UsersController < ApplicationController
     case user.active_status
       when 1
         UserMailer.active_account(user).deliver_now
+      when 2
+        UserMailer.active_old_email(user).deliver_now
     end
 
     redirect_to "/users/active_callout/#{user.id}?status=resend"
@@ -132,7 +146,7 @@ class UsersController < ApplicationController
     redirect_to '/'
   end
 
-# / Sign up
+# / Active account
 
 # Sign in, out
 

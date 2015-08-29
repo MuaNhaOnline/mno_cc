@@ -9,15 +9,18 @@ $(function () {
   initForm($form, {
     object: 'real_estate',
     submit: function () {
+      toggleLoadStatus(true);
       $.ajax({
         url: '/real_estates/create',
         type: 'POST',
         data: $form.serialize(),
         dataType: 'JSON'
+      }).always(function () {
+        toggleLoadStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           if ($form.data('full')) {
-            window.location = '/real_estates/' + data.result;
+            window.location = '/real_estates/my';
           }
           else {
             popupPrompt({
@@ -45,7 +48,7 @@ $(function () {
                 }, {
                   text: _t.real_estate.view.create.view,
                   handle: function () {
-                    window.location = '/real_estates/' + data.result;
+                    window.location = '/real_estates/my';
                   }
                 }
               ]
@@ -53,15 +56,10 @@ $(function () {
           }
         }
         else {
-          var result = data.result;
-          var errors = '';
-          for (var i = 0; i < result.length; i++) {
-            errors += result[i] + '<br />';
-          }
           popupPrompt({
             title: _t.form.error_title,
             type: 'danger',
-            content: errors
+            content: _t.form.error_content
           })
         }
       }).fail(function () {
@@ -316,13 +314,17 @@ $(function () {
 
   function initSaveDraft() {
     $form.find('[aria-click="save-draft"]').on('click', function () {
+      toggleLoadStatus(false);
       $.ajax({
         url: '/real_estates/create',
         type: 'POST',
         data: $form.serialize() + '&draft',
         dataType: 'JSON'
+      }).always(function () {
+        toggleLoadStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
+          $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
           popupPrompt({
             title: _t.form.success_title,
             content: _t.real_estate.view.create.save_draft_success_content,

@@ -16,25 +16,27 @@
   %>
 
   <tr data-value="<%= re.id %>" data-status="<%= status %>">
-    <td>
+    <td class="min-width-cell">
       <a class="view" href="/real_estates/<%= re.id %>">
         <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
         <%= real_estate_avatar re %>
       </a>
     </td>
     <td><%= re.title %></td>
-    <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
-    <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
-    <td aria-object="status"></td>
-    <td>
+    <td class="min-width-cell"><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
+    <td class="min-width-cell"><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
+    <td class="min-width-cell" aria-object="status"></td>
+    <td class="min-width-cell">
       <div class="dropdown">
         <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
           <%= t 'real_estate.view.my.control' %>
         </button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
-          <li role="presentation">
-            <a aria-click="change-show-status" href="javascript:void(0)"></a>
-          </li>
+          <% unless re.is_draft %>
+            <li role="presentation">
+              <a aria-click="change-show-status" href="javascript:void(0)"></a>
+            </li>
+          <% end %>
           <li role="presentation">
             <a aria-click="edit" href="/real_estates/create/<%= re.id %>"></a>
           </li>

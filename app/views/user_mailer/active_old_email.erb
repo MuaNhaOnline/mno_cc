@@ -1,0 +1,5 @@
+<h3>Email của bạn vừa được thay đổi</h3>
+<%= @user.to_json %>
+<br />
+<%= @user._params %>
+<p>Để xác nhận thay đổi hãy nhấn vào <a href="<%= Rails.application.config.base_url %>users/active_account/<%= @user.id %>?<%= { code: @user._params['active_code'] }.to_query %>">đây</a>.</p>

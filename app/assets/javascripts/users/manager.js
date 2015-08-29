@@ -124,6 +124,7 @@ $(function () {
 				$list.find('[aria-click="add"]').on('click', function () {
 					var $item = $(this).closest('[aria-object="item"]');
 
+					toggleLoadStatus(true);
 					$.ajax({
 						url: '/users/change_type',
 						method: 'PUT',
@@ -133,6 +134,8 @@ $(function () {
 							is: true
 						},
 						dataType: 'JSON'
+					}).always(function () { 
+						toggleLoadStatus(false);
 					}).done(function (data) {
 						if (data.status === 0) {
 							$item.remove();
@@ -160,6 +163,7 @@ $(function () {
 				$list.find('[aria-click="remove"]').on('click', function () {
 					var $item = $(this).closest('[aria-object="item"]');
 
+					toggleLoadStatus(true);
 					$.ajax({
 						url: '/users/change_type',
 						method: 'PUT',
@@ -169,6 +173,8 @@ $(function () {
 							is: false
 						},
 						dataType: 'JSON'
+					}).always(function () {
+						toggleLoadStatus(false);
 					}).done(function (data) {
 						if (data.status === 0) {
 							$item.remove();

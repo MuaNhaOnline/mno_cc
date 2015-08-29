@@ -54,6 +54,9 @@
   ">
     <i class="fa fa-refresh fa-spin"></i>
   </div>
+  <div class="loading-page">
+    <i class="fa fa-circle-o-notch fa-spin"></i>
+  </div>
 	<article class="wrapper">
     <header class="main-header">
       <!-- Logo -->
@@ -205,11 +208,11 @@
         <strong>Version</strong>: 1.1.0.
       </article>
       <article class="pull-right">
-        <% if I18n.locale.to_s === 'vi' %>
-          <a class="language" href="?l=en">English<img src="/assets/layout/lang/en.png" /></a>
-        <% else %>
-          <a class="language" href="?l=vi">Tiếng việt<img src="/assets/layout/lang/vi.png" /></a>
-        <% end %>
+        <% #if I18n.locale.to_s === 'vi' %>
+          <!-- <a class="language" href="?l=en">English<img src="/assets/layout/lang/en.png" /></a> -->
+        <% #else %>
+          <!-- <a class="language" href="?l=vi">Tiếng việt<img src="/assets/layout/lang/vi.png" /></a> -->
+        <% #end %>
       </article>
     </footer>
 	</article>

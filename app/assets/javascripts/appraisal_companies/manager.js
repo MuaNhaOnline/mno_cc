@@ -21,10 +21,13 @@ $(function () {
             text: _t.form.yes,
             type: 'warning',
             handle: function () {
+              toggleLoadStatus(true);
               $.ajax({
                 url: '/appraisal_companies/' + $row.data('value'),
                 type: 'DELETE',
                 contentType: 'JSON'
+              }).always(function () {
+                toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
                   $row.remove();

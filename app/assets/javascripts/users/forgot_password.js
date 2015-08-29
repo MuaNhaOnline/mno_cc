@@ -3,12 +3,14 @@ $(function () {
 
 	initForm($form, {
 		submit: function () {
+			toggleLoadStatus(true);
 			$.ajax({
 				url: '/users/forgot_password',
 				method: 'POST',
 				data: $form.serialize(),
-				dataType: 'JSON',
-				async: false
+				dataType: 'JSON'
+			}).always(function () {
+				toggleLoadStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
           window.location = '/users/active_callout/' + data.result + '/?status=forgot_password';

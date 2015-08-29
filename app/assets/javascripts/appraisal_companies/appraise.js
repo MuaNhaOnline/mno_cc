@@ -55,12 +55,15 @@ $(function () {
       });
 
       initForm($form, {
+        toggleLoadStatus(true);
         submit: function () {
           $.ajax({
             url: '/appraisal_companies/set_price',
             method: 'POST',
             data: $form.serialize(),
             dataType: 'JSON'
+          }).always(function () {
+            toggleLoadStatus(false);
           }).done(function (data) {
             if (data.status == 0) {
               $popup.off();

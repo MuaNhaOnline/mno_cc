@@ -3,6 +3,8 @@
 		active_status:
 			0: OK
 			1: unactive
+			2: wait old email active (email_changed)
+			3: wait new email active (email_changed)
 		params:
 			active_code
 
@@ -66,11 +68,11 @@ class User < ActiveRecord::Base
 # / Validates
 
 # Attribute
-	
+
 	# Hash params
 
 	def _params
-    @_params ||= JSON.parse params
+	  @_params ||= params.blank? ? {} : JSON.parse(params)
 	end
 
 	# / Hash params
@@ -114,12 +116,25 @@ class User < ActiveRecord::Base
 		if new_record?
 			user_params[:active_status] = 1 
 			user_params[:params] = { active_code: SecureRandom.base64 }.to_json
+		# Check if change email
+		else
+			if email_changed = user_params[:email] != email
+				# Set active status to email change, wait old email active
+				user_params[:active_status] = 2
+				# Create active code
+				_params['active_code'] = SecureRandom.base64
+				_params['new_email'] = user_params[:email]
+				user_params[:params] = _params.to_json
+
+				# Not change new email
+				user_params.delete :email
+			end
 		end
 
 		assign_attributes user_params
 
 		if save
-			{ status: 0 }
+			{ status: 0, email_changed: email_changed }
 		else
 			{ status: 3 }
 		end
@@ -169,22 +184,52 @@ class User < ActiveRecord::Base
 		user = find id
 		
 		# If not exist or active status is ok
-		return { status: 1 } if user.nil? || user.active_status === 0
+		return { status: 1 } if user.nil? || user.active_status == 0
 
 		case user.active_status
 			when 1
 				if user._params['active_code'] == code
 					user.active_status = 0
 					user._params.delete 'active_code'
-					user.params = user._params
+					user.params = user._params.to_json
 
 					user.save validate: false
 
-					return { status: 0 }
+					return { status: 0, result: 1 }
 				else
-					return { status: user._params['active_code'].equal?(code) }
+					return { status: 3 }
+				end
+			when 2
+				if user._params['active_code'] == code
+					user.active_status = 3
+					user._params['active_code'] = SecureRandom.base64
+					user.params = user._params.to_json
+
+					user.save validate: false
+
+					return { status: 0, result: 2, user: user }
+				else
+					return { status: 3 }
+				end
+			when 3
+				if user._params['active_code'] == code
+					user.active_status = 0
+					user.email = user._params['new_email']
+
+					user._params.delete 'active_code'
+					user._params.delete 'new_email'
+
+					user.params = user._params.to_json
+
+					user.save validate: false
+
+					return { status: 0, result: 3 }
+				else
+					return { status: 3 }
 				end
 		end
+
+		{ status: 1 }
 	end
 
 	# Change password

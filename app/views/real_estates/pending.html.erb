@@ -40,11 +40,16 @@
         <th>&nbsp;</th>
       </thead>
       <tbody id="re_list">
-        <%= render partial: 'real_estates/pending_list', locals: { res: @res.page(1, per) } %>
+        <% if total != 0 %>
+          <%= render partial: 'real_estates/pending_list', locals: { res: @res.page(1, per) } %>
+        <% end %>
       </tbody>
     </table>
+    <div><% if total == 0 %>Không có tin đang chờ duyệt<% end %></div>
   </section>
   <nav class="text-center" id="pagination">
-    <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+    <% if total != 0 %>
+      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+    <% end %>
   </nav>
 </section>

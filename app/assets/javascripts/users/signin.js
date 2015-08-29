@@ -6,11 +6,14 @@ $(function () {
 		submit: function () {
 			$form.find('.callout-danger').remove();
 
+			toggleLoadStatus(true);
 			$.ajax({
 				url: '/signin',
 				method: 'POST',
 				data: $form.serialize(),
 				dataType: 'JSON'
+			}).always(function () {
+				toggleLoadStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
           window.location = '/';

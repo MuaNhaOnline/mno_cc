@@ -1,0 +1,2 @@
+<h3>Email của bạn vừa được sử dụng</h3>
+<p>Để xác nhận hãy nhấn vào <a href="<%= Rails.application.config.base_url %>users/active_account/<%= @user.id %>?<%= { code: @user._params['active_code'] }.to_query %>">đây</a>.</p>

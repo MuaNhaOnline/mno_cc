@@ -89,10 +89,13 @@ $(function () {
       var status = $row.data('status');
       var isShow = listString.has('show', status);
 
+      toggleLoadStatus(true);
       $.ajax({
-          url: '/real_estates/change_show_status/' + $row.data('value') + '/' + (isShow ? 0 : 1),
-          type: 'PUT',
-          contentType: 'JSON'
+        url: '/real_estates/change_show_status/' + $row.data('value') + '/' + (isShow ? 0 : 1),
+        type: 'PUT',
+        contentType: 'JSON'
+      }).always(function () {
+        toggleLoadStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           if (isShow) {
@@ -141,10 +144,13 @@ $(function () {
             text: _t.form.yes,
             type: 'warning',
             handle: function () {
+              toggleLoadStatus(true);
               $.ajax({
                 url: '/real_estates/' + $row.data('value'),
                 type: 'DELETE',
                 contentType: 'JSON'
+              }).always(function () {
+                toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
                   $row.remove();

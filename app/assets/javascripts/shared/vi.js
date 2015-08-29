@@ -80,6 +80,9 @@ var _t = {
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
 			},
+			pending: {
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			},
 			appraise: {
         appraisal_company_placeholder: 'Tên công ty thẩm định...'
 			}

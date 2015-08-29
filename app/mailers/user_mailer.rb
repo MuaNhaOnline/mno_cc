@@ -11,4 +11,14 @@ class UserMailer < ApplicationMailer
   	@new_password = new_password
   	mail to: @user.email, subject: 'Khôi phục mật khẩu'
   end
+
+  def active_old_email user
+    @user = user
+    mail to: @user.email, subject: 'Xác nhận thay đổi email'
+  end
+
+  def active_new_email user
+    @user = user
+    mail to: @user._params['new_email'], subject: 'Xác nhận thay đổi email'
+  end
 end

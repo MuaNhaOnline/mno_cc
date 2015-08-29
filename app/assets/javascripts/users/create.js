@@ -24,19 +24,26 @@ $(function () {
         return;
 			}
 
+			toggleLoadStatus(true);
 			$.ajax({
 				url: '/register',
 				method: 'POST',
 				data: $form.serialize(),
-				dataType: 'JSON',
-				async: false
+				dataType: 'JSON'
+			}).always(function () {
+				toggleLoadStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
 					if ($form.find('[name="user[id]"]').length == 0) {
 	          window.location = '/users/active_callout/' + data.result + '/?status=success';
 					}
 					else {
-						window.location = '/users/' + data.result;
+						if (data.email_changed) {
+	          	window.location = '/users/active_callout/' + data.result + '/?status=old_email';
+						}
+						else {
+							window.location = '/users/' + data.result;	
+						}
 					}
 				}
 				else {
@@ -233,11 +240,14 @@ $(function () {
       initForm($form2, {
       	object: 'user',
       	submit: function () {
+      		toggleLoadStatus(true);
       		$.ajax({
       			url: '/users/change_password',
 						method: 'PUT',
       			data: $form2.serialize(),
       			dataType: 'JSON'
+      		}).always(function () {
+      			toggleLoadStatus(false);
       		}).done(function (data) {
       			if (data.status == 0) {
       				$popup.off();

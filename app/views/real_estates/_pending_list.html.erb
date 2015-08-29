@@ -3,7 +3,7 @@
     <td class="min-width-cell">
       <a class="view" href="/real_estates/<%= re.id %>">
         <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
-        <img src="<%= re.images.length != 0 ? "/images/#{re.images[0].id}" : '/assets/product/BDS01.jpg' %>" width="100px" height="100px">
+        <%= real_estate_avatar re %>
       </a>
     </td>
     <td><%= re.title %></td>
