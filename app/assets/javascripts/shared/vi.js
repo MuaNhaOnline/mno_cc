@@ -10,15 +10,21 @@ var _t = {
 		label_image_upload: 'Đăng hình ảnh tại đây',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
+		crop_title: 'Điều chỉnh kích thước ảnh',
+		crop: 'Cắt',
 		crop_tooltip: 'Cắt',
+		cancel: 'Bỏ qua',
 		cancel_tooltip: 'Bỏ qua',
 		finish: 'Hoàn thành',
-		cancel: 'Bỏ qua'
+		validate: {
+			'email_required': 'Email không thể bỏ trống'
+		}
 	},
 	user: {
 		validate: {
 			'user[account]_required': 'Tên tài khoản không thể bỏ trống',
 			'user[account]_unique': 'Tên tài khoản đã được sử dụng',
+			'user[old_password]_required': 'Mật khẩu cũ không thể bỏ trống',
 			'user[password]_required': 'Mật khẩu không thể bỏ trống',
 			'repeat_password_required': 'Mật khẩu xác nhận không thể bỏ trống',
 			'repeat_password_same': 'Mật khẩu không trùng khớp',
@@ -72,6 +78,9 @@ var _t = {
 				show: 'Hiển thị',
 				'continue': 'Tiếp tục',
 				edit: 'Sửa',
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			},
+			pending: {
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
 			},
 			appraise: {

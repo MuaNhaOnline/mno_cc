@@ -82,7 +82,6 @@ class RealEstate < ActiveRecord::Base
     errors.add(:using_area, 'Diện tích sử dụng không được bỏ trống') if fields.include?(:using_area) && using_area .blank?
     errors.add(:constructional_level, 'Diện tích xây dựng không được bỏ trống') if fields.include?(:constructional_area) && constructional_area.blank?
     errors.add(:constructional_quality, 'Chất lượng còn lại không được bỏ trống') if fields.include?(:constructional_quality) && constructional_quality.blank?
-    errors.add(:images, 'Có tối thiểu 1 hình ảnh') if !id.blank? && images.length == 0    
   end
 
 # / Validates
@@ -217,6 +216,18 @@ class RealEstate < ActiveRecord::Base
 
 # / Insert
 
+# Get
+
+  # Get pending
+
+  def self.get_pending
+    where(is_pending: 1, is_draft: 0)
+  end
+
+  # / Get pending
+
+# / Get
+
 # Updates
 
   # Update show status
@@ -307,7 +318,6 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Get meta search
-
 
 # / Helper
 

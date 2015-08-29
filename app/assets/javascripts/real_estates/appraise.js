@@ -31,7 +31,7 @@ $(function () {
             data: $form.serialize(),
             dataType: 'JSON'
           }).done(function (data) {
-            if (data.status === 0) {
+            if (data.status == 0) {
               $popup.off();
 
               $row.find('[aria-object="ac"]').text($form.find('[name="ac_id_ac"]').val());

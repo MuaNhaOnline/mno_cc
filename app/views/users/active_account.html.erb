@@ -1,0 +1,62 @@
+<% 
+=begin
+	params: @status(*), @user
+=end
+
+%>
+
+<% if @status == 1 %>
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<section class="box-header">
+					<h4 class="box-title">Chúc mừng. Bạn vừa kích hoạt tài khoản thành công</h4>
+				</section>
+				<section class="box-body">
+					<p class="text-center">
+						<span class="btn-group">
+							<a href="/active_account_signin" class="btn btn-primary">Đăng nhập</a>
+							<a href="/active_account_signin?remember" class="btn btn-default">và ghi nhớ</a>
+						</span>
+						<a href="/" class="btn btn-default">Về trang chủ</a>
+					</p>
+				</section>
+			</article>
+		</article>
+	</article>
+<% elsif @status == 2 %>
+	<%
+		if !@user.email.index('@gmail.com').nil?
+			mail = 'http://mail.google.com'
+		elsif !@user.email.index('@yahoo.com').nil?
+			mail = 'http://mail.yahoo.com'
+		end 
+	%>
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<section class="box-header">
+					<h4 class="box-title">Chúc mừng. Bạn vừa xác nhận thành công</h4>
+				</section>
+				<section class="box-body">
+					<p>Hãy vào địa chỉ <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> mới để xác nhận.</p>						
+				</section>
+			</article>
+		</article>
+	</article>
+<% elsif @status == 3 %>
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<section class="box-header">
+					<h4 class="box-title">Chúc mừng. Bạn đã hoàn tất việc thay đổi email</h4>
+				</section>
+				<section class="box-body">
+					<p class="text-center">
+						<a href="/" class="btn btn-default">Về trang chủ</a>
+					</p>
+				</section>
+			</article>
+		</article>
+	</article>
+<% end %>

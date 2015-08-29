@@ -8,11 +8,14 @@ $(function () {
   initForm($form, {
     object: 'appraisal_company',
     submit: function () {
+      toggleLoadStatus(true);
       $.ajax({
         url: '/appraisal_companies/create',
         type: 'POST',
         data: $form.serialize(),
         dataType: 'JSON'
+      }).always(function () {
+        toggleLoadStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           alert('OK');

@@ -1,3 +1,15 @@
+=begin
+	attribute:
+		active_status:
+			0: OK
+			1: unactive
+			2: wait old email active (email_changed)
+			3: wait new email active (email_changed)
+		params:
+			active_code
+
+=end
+
 class User < ActiveRecord::Base
 
   include PgSearch
@@ -55,6 +67,18 @@ class User < ActiveRecord::Base
 
 # / Validates
 
+# Attribute
+
+	# Hash params
+
+	def _params
+	  @_params ||= params.blank? ? {} : JSON.parse(params)
+	end
+
+	# / Hash params
+
+# / Attribute
+
 # Insert
 
 	# Get params
@@ -78,7 +102,7 @@ class User < ActiveRecord::Base
 
 	# Save with params
 
-	def save_with_params params
+	def save_with_params form_params
 		# Author
 		if new_record?
 			return { status: 6 } if User.current.cannot? :signup, nil
@@ -86,12 +110,31 @@ class User < ActiveRecord::Base
 			return { status: 6 } if User.current.cannot? :edit, self
 		end
 
-		user_params = User.get_params params
+		user_params = User.get_params form_params
+		
+		# Active code
+		if new_record?
+			user_params[:active_status] = 1 
+			user_params[:params] = { active_code: SecureRandom.base64 }.to_json
+		# Check if change email
+		else
+			if email_changed = user_params[:email] != email
+				# Set active status to email change, wait old email active
+				user_params[:active_status] = 2
+				# Create active code
+				_params['active_code'] = SecureRandom.base64
+				_params['new_email'] = user_params[:email]
+				user_params[:params] = _params.to_json
+
+				# Not change new email
+				user_params.delete :email
+			end
+		end
 
 		assign_attributes user_params
 
 		if save
-			{ status: 0 }
+			{ status: 0, email_changed: email_changed }
 		else
 			{ status: 3 }
 		end
@@ -123,7 +166,7 @@ class User < ActiveRecord::Base
 	# Update type by id
 	def self.update_type_by_id id, type, is
 		# Author
-		return { status: 6 } if current_user.cannot? :manager, User
+		return { status: 6 } if User.current.cannot? :manager, User
 
     user = find id
 
@@ -136,12 +179,108 @@ class User < ActiveRecord::Base
     { status: 0 }
 	end
 
+	# Active
+	def self.active_account id, code
+		user = find id
+		
+		# If not exist or active status is ok
+		return { status: 1 } if user.nil? || user.active_status == 0
+
+		case user.active_status
+			when 1
+				if user._params['active_code'] == code
+					user.active_status = 0
+					user._params.delete 'active_code'
+					user.params = user._params.to_json
+
+					user.save validate: false
+
+					return { status: 0, result: 1 }
+				else
+					return { status: 3 }
+				end
+			when 2
+				if user._params['active_code'] == code
+					user.active_status = 3
+					user._params['active_code'] = SecureRandom.base64
+					user.params = user._params.to_json
+
+					user.save validate: false
+
+					return { status: 0, result: 2, user: user }
+				else
+					return { status: 3 }
+				end
+			when 3
+				if user._params['active_code'] == code
+					user.active_status = 0
+					user.email = user._params['new_email']
+
+					user._params.delete 'active_code'
+					user._params.delete 'new_email'
+
+					user.params = user._params.to_json
+
+					user.save validate: false
+
+					return { status: 0, result: 3 }
+				else
+					return { status: 3 }
+				end
+		end
+
+		{ status: 1 }
+	end
+
+	# Change password
+	# return
+	# 	error status:
+	# 		1: uncorress old password
+	def self.change_password params
+		user = find params[:id]
+
+		return { status: 6 } if current.cannot? :edit, user
+
+		# If not exist
+		return { status: 1 } if user.nil?
+
+		# Check old password
+		return { status: 5, result: 'Mật khẩu cũ không đúng' } if user.password != ApplicationHelper.md5_encode(params[:old_password])
+
+		user.password = ApplicationHelper.md5_encode params[:password]
+		if user.save validate: false
+			{ status: 0 }
+		else
+			{ status: 3 }
+		end
+	end
+
+	# Restore password
+	def self.restore_password email
+		user = User.where(email: email).first
+
+		return { status: 1 } if user.nil?
+
+		new_password = SecureRandom.hex(4)
+
+		user.password = ApplicationHelper.md5_encode new_password
+		if user.save validate: false
+			{ status: 0, result: { user: user, new_password: new_password } }
+		else
+			{ status: 2 }
+		end
+	end
+
 # / Update
 
 # Handle
 
 	# Signin
 
+  # return:
+  #   error status 
+  #     1: id is not exist
+  #     2: password is not correct
 	def self.check_signin account, password
 		# Author
 		return { status: 6 } if User.current.cannot? :signin, nil

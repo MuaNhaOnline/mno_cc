@@ -13,10 +13,13 @@ $(function () {
     $list.find('[aria-click="approve"]').on('click', function () {
       var $row = $(this).closest('tr');
 
+      toggleLoadStatus(true);
       $.ajax({
           url: '/real_estates/approve/' + $row.data('value'),
           type: 'PUT',
           contentType: 'JSON'
+      }).done(function () {
+        toggleLoadStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           $row.remove();
@@ -52,17 +55,20 @@ $(function () {
 
       popupPrompt({
         title: _t.form.confirm_title,
-        content: _t.real_estate.manager.delete_confirm,
+        content: _t.real_estate.view.pending.delete_confirm,
         type: 'warning',
         buttons: [
           {
             text: _t.form.yes,
             type: 'warning',
             handle: function () {
+              toggleLoadStatus(true);
               $.ajax({
                 url: '/real_estates/' + $row.data('value'),
                 type: 'DELETE',
                 contentType: 'JSON'
+              }).always(function () {
+                toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
                   $row.remove();
@@ -108,9 +114,11 @@ $(function () {
         url: '/real_estates/_pending_list',
         afterLoad: function (content) {
           $list.html(content);
+          initApprove();
           initDelete();
+        }
       }
-    });
+    );
   }
 
   /*

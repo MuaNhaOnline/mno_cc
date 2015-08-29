@@ -1,1 +1,9 @@
-<%= User.current.can? 'view_my', RealEstate %>
+<% 
+	user = User.find 14
+
+	user.active_status = 3
+	user._params['active_code'] = SecureRandom.base64
+	user.params = user._params.to_json
+%>
+
+<%= user._params %>

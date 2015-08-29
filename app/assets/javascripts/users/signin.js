@@ -4,16 +4,26 @@ $(function () {
 	initForm($form, {
 		object: 'user',
 		submit: function () {
+			$form.find('.callout-danger').remove();
+
+			toggleLoadStatus(true);
 			$.ajax({
 				url: '/signin',
 				method: 'POST',
 				data: $form.serialize(),
 				dataType: 'JSON'
+			}).always(function () {
+				toggleLoadStatus(false);
 			}).done(function (data) {
-				if (data.status === 0) {
-          location = '/home/back'
+				if (data.status == 0) {
+          window.location = '/';
 				}
-				else if (data.status === 5) {
+				else if (data.status == 5) {
+					if (data.result.status == 3) {
+						window.location = '/users/active_callout/' + data.result.result + '?status=unactive';
+						return;
+					}
+
           popupPrompt({
             title: _t.form.error_title,
             content: data.result.result,

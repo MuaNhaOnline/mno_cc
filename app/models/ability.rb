@@ -41,7 +41,7 @@ class Ability
       can :edit, User, id: user.id
 
       if user.is_user_manager
-        can [:manage, :edit], User
+        can [:manage], User
       end
 
 # / User

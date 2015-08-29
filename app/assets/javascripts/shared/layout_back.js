@@ -47,6 +47,15 @@ function customJquery() {
   Helper
 */
 
+function toggleLoadStatus(on) {
+  if (on) {
+    $body.addClass('loading');
+  }
+  else {
+    $body.removeClass('loading');
+  }
+}
+
 function canSee($item) {
   var topW = $body.scrollTop();
   var heightW = window.innerHeight;
@@ -449,10 +458,13 @@ function _initPagination($list, $pagination, params) {
 
     data.page = $button.data('page');
 
+    toggleLoadStatus(true);
     $.ajax({
       url: params.url,
       data: data,
       dataType: 'JSON'
+    }).always(function () {
+      toggleLoadStatus(false);
     }).done(function (data) {
       if (data.status == 0) {
         if ('afterLoad' in params) {
@@ -575,6 +587,7 @@ function _initSearchablePagination($list, $search, $pagination, params) {
     }).done(function (data) {
       if (data.status == 0) {
         currentPage = page;
+        console.log(data);
 
         if ('afterLoad' in params) {
           var result = params.afterLoad(data.result.list, searchParams.note);
@@ -589,15 +602,17 @@ function _initSearchablePagination($list, $search, $pagination, params) {
 
         $pagination.html(data.result.pagination);
         initPagination();
+
+        search_no_result(true);
       }
       else {
         if ('ifEmpty' in params) {
           if (params.ifEmpty(searchParams.note) === false) {
-            $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');
+            search_no_result();
           }
         }
         else {
-          $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');
+          search_no_result();
         }
         $pagination.empty();
       }
@@ -607,11 +622,28 @@ function _initSearchablePagination($list, $search, $pagination, params) {
           params.ifEmpty(searchParams.note);
         }
         else {
-          $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');          
+          search_no_result();
         }
         $pagination.empty();
       }
     });
+
+    function search_no_result(off) {
+      if (off) {
+        if ($list.is('tbody')) {
+          $list.closest('table').next().text('');
+        }
+      }
+      else {
+        if ($list.is('tbody')) {
+          $list.html('');
+          $list.closest('table').next().text(_t.form.search_no_result);
+        }
+        else {
+          $list.html('<section class="callout callout-default no-margin">' + _t.form.search_no_result + '</section>');  
+        } 
+      }
+    }
   }
 
   $pagination.update = function () {

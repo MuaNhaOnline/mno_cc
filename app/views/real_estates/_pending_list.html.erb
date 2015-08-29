@@ -1,15 +1,15 @@
 <% res.each do |re| %>
   <tr data-value="<%= re.id %>">
-    <td>
+    <td class="min-width-cell">
       <a class="view" href="/real_estates/<%= re.id %>">
         <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
-        <img src="<%= re.images.length != 0 ? "/images/#{re.images[0].id}" : '/assets/product/BDS01.jpg' %>" width="100px" height="100px">
+        <%= real_estate_avatar re %>
       </a>
     </td>
     <td><%= re.title %></td>
-    <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
-    <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
-    <td>
+    <td class="min-width-cell"><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
+    <td class="min-width-cell"><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
+    <td class="min-width-cell">
       <div class="dropdown">
         <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
           <%= t 'real_estate.view.pending.control' %>

@@ -54,11 +54,37 @@
 	*/
 
 	.form .callout-error {
+		text-align: right;
 		color: #dd4b39;
+		font-size: 13px;
+		margin-top: 5px;
 	}
 
 	/*
 		/ Error callout
+	*/
+
+	/*
+		Icon button
+	*/
+
+	.form .btn .icon {
+		font-size: 20px;
+	}
+
+		@keyframes animate-button-icon {
+		  0% { -transform: rotate(0deg); }
+		  25% { transform: rotate(-10deg); }
+		  75% { transform: rotate(10deg); }
+		  100% { transform: rotate(0deg); }
+		}
+
+		.form .btn.animate-icon:hover .icon {
+			animation: animate-button-icon .5s .5s;
+		}
+
+	/*
+		/ Icon button
 	*/
 
 /*

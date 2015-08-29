@@ -60,7 +60,7 @@ $(function () {
 			var $items = $list.find('[type="checkbox"]:checked').closest('tr');
 			
 			// Check if user not select
-			if ($items.length === 0) {
+			if ($items.length == 0) {
 				popupPrompt({
 					title: _t.form.info_title,
 					content: _t.mail_box.view.inbox.select_for_remove,
@@ -83,7 +83,7 @@ $(function () {
 				data: { ids: ids },
 				dataType: 'JSON'
 			}).done(function (data) {
-				if (data.status === 0) {
+				if (data.status == 0) {
 					$items.remove();
 				}
 				else {

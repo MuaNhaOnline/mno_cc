@@ -1,0 +1,100 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="#">
+<% end %>
+
+<% 
+=begin
+	params: @user
+=end
+
+	if !@user.email.index('@gmail.com').nil?
+		mail = 'http://mail.google.com'
+	elsif !@user.email.index('@yahoo.com').nil?
+		mail = 'http://mail.yahoo.com'
+	end
+%>
+
+<% if @status == 'unactive' %>
+	
+	<% @title = 'Kích hoạt tài khoản' %>
+
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<article class="box-body">
+					<h4>Tài khoản của bạn chưa được kích hoạt, hãy kích hoạt để tham gia hệ thống</h4>
+					<p>Để kích hoạt bạn hãy vào <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> để nhận mail.</p>
+					<br />
+					<p>Nếu bạn chưa nhận được mail hãy nhấn vào <a href="/users/resend_active_account/<%= @user.id %>">đây</a></p>
+				</article>
+			</article>
+		</article>
+	</article>
+
+<% elsif @status == 'resend' %>
+	
+	<% @title = 'Gửi lại email' %>
+
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<article class="box-body">
+					<h4>Hệ thống đã gửi mail lại cho bạn</h4>
+					<p>Bạn hãy vào <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> để kiểm tra lại.</p>
+					<br />
+					<p>Nếu bạn chưa nhận được mail hãy nhấn vào <a href="/users/resend_active_account/<%= @user.id %>">đây</a></p>
+				</article>
+			</article>
+		</article>
+	</article>
+
+<% elsif @status == 'forgot_password' %>
+	
+	<% @title = 'Khôi phục mật khẩu thành công' %>
+
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<article class="box-body">
+					<h4>Khôi phục mật khẩu thành công</h4>
+					<p>Bạn hãy vào <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> để nhận mật khẩu mới.</p>
+				</article>
+			</article>
+		</article>
+	</article>
+
+<% elsif @status == 'old_email' %>
+	
+	<% @title = 'Thay đổi email' %>
+
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<article class="box-body">
+					<h4>Thay đổi email thành công</h4>
+					<p>Bạn hãy vào <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> để xác nhận thay đổi.</p>
+					<br />
+					<p>Nếu bạn chưa nhận được mail hãy nhấn vào <a href="/users/resend_active_account/<%= @user.id %>">đây</a></p>
+				</article>
+			</article>
+		</article>
+	</article>
+
+<% else %>
+	
+	<% @title = 'Chào, ' + @user.full_name %>
+
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<article class="box-body">
+					<h4>Chào mừng bạn đến với hệ thống <b>MuaNhaOnline</b></h4>
+					<p>Để hoàn thành đăng ký bạn hãy vào <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> để nhận thư kích hoạt.</p>
+					<br />
+					<p>Nếu bạn chưa nhận được mail hãy nhấn vào <a href="/users/resend_active_account/<%= @user.id %>">đây</a></p>
+				</article>
+			</article>
+		</article>
+	</article>
+
+<% end %>

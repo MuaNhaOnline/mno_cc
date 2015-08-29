@@ -8,13 +8,15 @@ $(function () {
 		$appraiserBox = $('#appraiser'),
 		$statisticianBox = $('#statistician');
 
-		$systemMangerBox.hide();
+	$systemMangerBox.hide();
+	$statisticianBox.hide();
+	
 	// initBox($systemMangerBox, 'system_manager');
 	initBox($userManagerBox, 'user_manager');
 	initBox($realEstateManagerBox, 'real_estate_manager');
 	initBox($projectManagerBox, 'project_manager');
 	initBox($appraiserBox, 'appraiser');
-	initBox($statisticianBox, 'statistician');
+	// initBox($statisticianBox, 'statistician');
 
 	/*
 		Box
@@ -122,6 +124,7 @@ $(function () {
 				$list.find('[aria-click="add"]').on('click', function () {
 					var $item = $(this).closest('[aria-object="item"]');
 
+					toggleLoadStatus(true);
 					$.ajax({
 						url: '/users/change_type',
 						method: 'PUT',
@@ -131,6 +134,8 @@ $(function () {
 							is: true
 						},
 						dataType: 'JSON'
+					}).always(function () { 
+						toggleLoadStatus(false);
 					}).done(function (data) {
 						if (data.status === 0) {
 							$item.remove();
@@ -158,6 +163,7 @@ $(function () {
 				$list.find('[aria-click="remove"]').on('click', function () {
 					var $item = $(this).closest('[aria-object="item"]');
 
+					toggleLoadStatus(true);
 					$.ajax({
 						url: '/users/change_type',
 						method: 'PUT',
@@ -167,6 +173,8 @@ $(function () {
 							is: false
 						},
 						dataType: 'JSON'
+					}).always(function () {
+						toggleLoadStatus(false);
 					}).done(function (data) {
 						if (data.status === 0) {
 							$item.remove();
