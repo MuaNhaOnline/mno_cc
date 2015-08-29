@@ -130,12 +130,12 @@ header {
 			margin-left: auto;
 			margin-right: 10px;
 		}
-			.function-button button {
+			.function-button .btn {
 				background-color: #ff6511;
 				border-color: #ff6511;
 				transition: 0.2s;
 			}
-				.function-button button:hover {
+				.function-button .btn:hover {
 					background-color: #ac440b;
 					border-color: #ac440b;
 				}
@@ -204,7 +204,7 @@ header {
 
 		/*start user-box-login*/
 		.user-box-login {
-
+			margin: auto 0;
 		}
 			.user-box-login a {
 				padding-left: 0;
@@ -218,7 +218,7 @@ header {
 					color: #54b40d;
 				}
 			.user-box-login .dropdown-menu {
-				margin-top: 4px;
+				margin-top: 4px;				
 			}
 				.user-box-login .dropdown-menu a:hover {
 					background-color: #54b40d;
@@ -304,9 +304,15 @@ footer {
 		}
 	footer .social {
 		margin-top: 14px;
-	}		
+	}
 		footer .social li {
 			margin-bottom: 10px;
+		}
+		footer .social li a {
+			display: block;			
+		}
+		footer .social li a i {
+			vertical-align: -10px;
 		}
 /*end footer
 

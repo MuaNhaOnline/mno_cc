@@ -147,7 +147,7 @@
 				<ul class="basic-info">
 					<li>Loại: <b><%= t 'real_estate_type.text.' + @re.real_estate_type.name unless @re.real_estate_type.nil? %></b></li>
 					<li>Diện tích: <b><%= fields.include?(:campus_area) ? @re.campus_area : (fields.include?(:constructional_area) ? @re.constructional_area : @re.using_area)%>m<sup>2</sup></b></li>
-					<li>Địa chỉ: <b><%= @re.full_address %></b></li>
+					<li>Địa chỉ: <b><%= @re.display_address %></b></li>
 					<li><i>Thời gian đăng: <%= @re.created_at.strftime '%d/%m/%Y %H:%M' %></i></li>
 					<% if @re.images.count > 1 %>
 						<li class="slide-picture">
@@ -532,7 +532,7 @@
 							</div>
 							<div class="address">
 								<i class="icon icon-address"></i>
-								<span><%= re.full_address %></span>
+								<span><%= re.display_address %></span>
 							</div>
 							<% if fields_.include? :sell_price %>
 								<div class="price">

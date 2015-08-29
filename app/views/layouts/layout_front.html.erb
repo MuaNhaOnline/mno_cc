@@ -150,7 +150,7 @@
 			 <!-- start function button -->
 			<article class="function-button hidden-xs hidden-sm">
 				<div class="btn-group">
-					<button type="button" class="btn btn-danger btn-sm">Đăng tin</button>
+					<a href="/real_estates/create" class="btn btn-danger btn-sm">Đăng tin</a>
 					<button type="button" style="border-left-color:#FF7A12" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="caret"></span>
 						<span class="sr-only">Toggle Dropdown</span>
@@ -171,11 +171,9 @@
 					<div class="btn-group">
 						<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
 							<%= user_avatar current_user %>
-							<span><%= current_user.full_name %></span>
 						</a>
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu pull-right">
 							<li><a href="/users/<%= current_user.id %>">Thông tin tài khoản</a></li>
-							<li><a href="#">Đổi mật khẩu</a></li>
 							<li><a href="#">Nâng cấp VIP</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="/signout">Đăng xuất</a></li>
