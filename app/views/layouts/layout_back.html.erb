@@ -43,7 +43,7 @@
 
 	<%= yield :stylesheets %>
 </head>
-<body class="skin-blue sidebar-mini">
+<body class="skin-blue sidebar-mini <%= 'sidebar-collapse' if cookies[:sidebar_collapse] == 'true' %>">
   <div id="loading_page" style="
       position: fixed;
       width: 100%;
@@ -254,6 +254,7 @@
   <!-- iCheck -->
   <!-- <script src="/assets/layout_back/plugins/iCheck/icheck.min.js" type="text/javascript"></script>-->
 
+  <script type="text/javascript" src="/assets/shared/jquery.cookie.js"></script>
   <script type="text/javascript" src="/assets/shared/<%= I18n.locale %>.js"></script>
   <script type="text/javascript" src="/assets/shared/layout_back.js"></script>
   <script type="text/javascript" src="/assets/shared/form_back.js"></script>

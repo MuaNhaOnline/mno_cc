@@ -4,9 +4,25 @@ $(function () {
 	$body = $('body');
 
   $('#loading_page').remove();
+
+  init();
   
   customPrototype();
   customJquery();
+
+  /*
+    Init
+  */
+
+  function init() {
+    $('[data-toggle="offcanvas"]').on('click', function () {
+      $.cookie('sidebar_collapse', $body.is('.sidebar-collapse'));
+    });
+  }
+
+  /*
+    / Init
+  */
 });
 
 /*
