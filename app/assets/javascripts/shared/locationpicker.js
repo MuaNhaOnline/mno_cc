@@ -479,7 +479,9 @@
 				});
 			});
 			GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
-				updateInputValues(settings.inputBinding, gmapContext);
+				if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+					updateInputValues(settings.inputBinding, gmapContext);	
+				}
 				// Set  input bindings if needed
 				setupInputListenersInput(settings.inputBinding, gmapContext);
 				context.settings.oninitialized($target);

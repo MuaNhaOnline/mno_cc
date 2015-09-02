@@ -1,0 +1,22 @@
+.project-content {
+
+}
+
+.project-content th {
+	text-align: center;
+	white-space: nowrap;
+}
+
+.project-content .view div {
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+	.project-content .view div span {
+		display: inline-block;
+		font-size: 100%;
+	}
+
+.project-content .view img {
+	height: 100px;
+}

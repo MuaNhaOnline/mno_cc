@@ -48,7 +48,7 @@ vi:
       constructional_quality: 'Chất lượng xây dựng còn lại'
       position_box: 'Vị trí'
       address_number: 'Số nhà'
-      address: 'Đường - Phường - Quận/Huyện - Tỉnh/Thành'
+      address: 'Đường, Phường, Quận/Huyện, Tỉnh/Thành'
       street_type: 'Loại đường'
       private_street: 'Nội bộ'
       public_street: 'Chính'
@@ -74,7 +74,7 @@ vi:
         page_title: 'Đăng bất động sản'
         form_title: 'Thông tin bất động sản cần đăng'
         finish: 'Hoàn tất'
-        save_draft_preview: 'Lưu tạm và xem trước'
+        save_draft_preview: 'Lưu tạm'
         other_legal_record_type_placeholder: 'Giấy tờ khác'
         other_planning_status_type_placeholder: 'Trạng thái khác'
         area_alert: 'Kích thước không thỏa'
@@ -120,11 +120,14 @@ vi:
       house_group: 'Nhà'
       villa: 'Biệt thự'
       town_house: 'Nhà phố'
+  project_type:
+    text:
+      apartment_group: 'Căn hộ'
   purpose:
     text:
       sell: 'Bán'
       rent: 'Cho thuê'
-      sell_rent: 'Bán hoặc cho thuê'
+      sell_rent: 'Bán/Cho thuê'
   direction:
     text:
       east: 'Đông'
@@ -257,6 +260,8 @@ vi:
         rent_price: 'Giá cho thuê'
   project:
     attribute:
+      id: 'Mã'
+      name: 'Tên'
       position_box: 'Vị trí'
       address: 'Địa chỉ'
       address_number: 'Số nhà'
@@ -282,17 +287,46 @@ vi:
       currency: 'Loại tiền tệ'
       unit_price: 'Đơn giá'
       payment_method: 'Phương thức thanh toán'
-      description_box: 'Mô tả dự án'
+      description_box: 'Mô tả'
       title: 'Tiêu đề'
       description: 'Mô tả'
       image: 'Hình ảnh'
+      status: 'Trạng thái'
     view:
       create:
-        page_title_nav: 'Đăng dư án'
-        page_title: 'Thông tin dự án cần đăng'
+        page_title: 'Đăng dư án'
+        form_title: 'Thông tin dự án cần đăng'
         finish: 'Hoàn tất'
         save_draft: 'Lưu tạm'
         area_alert: 'Kích thước không thỏa'
+      my:
+        page_title: 'Danh sách của tôi'
+        form_title: 'Danh sách dự án của tôi'
+        search: 'Tìm'
+        search_placeholder: 'Bạn đang cần tìm gì?'
+        control: 'Điều khiển'
+        delete: 'Xóa'
+      pending:
+        page_title: 'Quản lý dự án'
+        form_title: 'Quản lý dự án'
+        search: 'Tìm'
+        search_placeholder: 'Bạn đang cần tìm gì?'
+        control: 'Điều khiển'
+        approve: 'Duyệt'
+        delete: 'Xóa'
+  investor:
+    attribute:
+      id: 'Mã'
+      name: 'Tên'
+    view:
+      manager:
+        page_title: 'Quản lý nhà đầu tư'
+        form_title: 'Quản lý nhà đầu tư'
+        search: 'Tìm'
+        search_placeholder: 'Bạn đang cần tìm gì?'
+        control: 'Điều khiển'
+        delete: 'Xóa'
+        rename: 'Đổi tên'
   mail_box:
     attribute:
       to: 'Đến'

@@ -155,7 +155,7 @@ Street.create [
 ProjectType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE project_types_id_seq RESTART WITH 1')
 ProjectType.create [
-	{ name: 'Căn hộ', code: 'CanHo', options: '{"default":""}' }
+	{ name: 'apartment_group', code: 'apartment_group', options: '{"default":""}' }
 ]
 
 Investor.delete_all

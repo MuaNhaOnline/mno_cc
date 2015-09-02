@@ -1,0 +1,22 @@
+.re-content {
+
+}
+
+.re-content th {
+	text-align: center;
+	white-space: nowrap;
+}
+
+.re-content .view div {
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+	.re-content .view div span {
+		display: inline-block;
+		font-size: 100%;
+	}
+
+.re-content .view img {
+	height: 100px;
+}

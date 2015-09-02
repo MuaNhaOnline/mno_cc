@@ -1,0 +1,57 @@
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" href="/assets/investors/manager.css" />
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/investors/manager.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+  <%= t 'investor.view.manager.form_title' %>
+<% end %>
+
+<%
+=begin
+  params: @investor
+=end
+
+  @title = t 'investor.view.manager.page_title'
+
+  total = @investors.count
+  per = Rails.application.config.item_per_page
+%>
+
+<section class="box box-solid">
+  <section class="box-body">
+    <form id="search_form">
+      <div class="input-group margin">
+        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'investor.view.manager.search_placeholder' %>">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit"><%= t 'investor.view.manager.search' %></button>
+        </span>
+      </div>
+    </form>
+  </section>
+</section>
+
+<section class="box box-default">
+  <section class="box-body no-padding">
+    <table class="table table-striped investor-content">
+      <thead>
+        <th><%= t 'investor.attribute.name' %></th>
+        <th>&nbsp;</th>
+      </thead>
+      <tbody id="investor_list">
+        <% if total != 0 %>
+          <%= render partial: 'investors/manager_list', locals: { investors: @investors.page(1, per) } %>
+        <% end %>
+      </tbody>
+    </table>
+    <div><% if total == 0 %>Chưa có nhà đầu tư nào<% end %></div>
+  </section>
+  <nav class="text-center" id="pagination">
+    <% if total != 0 %>
+      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+    <% end %>
+  </nav>
+</section>

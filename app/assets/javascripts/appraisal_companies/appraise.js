@@ -55,8 +55,8 @@ $(function () {
       });
 
       initForm($form, {
-        toggleLoadStatus(true);
         submit: function () {
+          toggleLoadStatus(true);
           $.ajax({
             url: '/appraisal_companies/set_price',
             method: 'POST',

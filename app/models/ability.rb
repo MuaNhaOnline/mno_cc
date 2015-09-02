@@ -14,27 +14,53 @@ class Ability
 
 # / User
 
+# Admin
+
     else
 
       can [:signout]
 
       if user.is_admin
-        can [:manage, :approve, :appraise, :edit], RealEstate
+        can [:manage, :approve, :appraise, :change_show_status], RealEstate
+        can [:manage, :approve, :appraise, :change_show_status], Project
+        can [:manage, :rename, :delete], Investor
         can :manage, User
         can [:manager, :create, :edit, :delete], AppraisalCompany
       end
+
+# / Admin
 
 # Real estate
 
       can [:create, :view_my], RealEstate
 
-      can [:edit, :delete], RealEstate, user_id: user.id
+      can [:edit, :delete, :change_show_status], RealEstate, user_id: user.id
 
       if user.is_real_estate_manager
         can [:manage, :approve, :appraise, :edit], RealEstate
       end
 
 # / Real estate
+
+# Project
+      
+      can [:create, :view_my], Project
+
+      can [:edit, :delete, :change_show_status], Project, user_id: user.id
+
+      if user.is_project_manager
+        can [:manage, :approve, :appraise, :edit], Project
+      end
+
+# / Project
+
+# Investor
+
+      if user.is_project_manager
+        can [:manage, :rename, :delete], Investor
+      end
+
+# / Investor
 
 # User
       
@@ -80,4 +106,5 @@ class Ability
 
     end
   end
+
 end

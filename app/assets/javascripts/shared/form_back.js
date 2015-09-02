@@ -663,18 +663,28 @@ function initForm($form, params) {
 	function initAutoComplete() {
 		var prefix = 'ac_';
 		var $currentList, $currentInput;
+		_temp[prefix + 'ajax'] = false;
 
 		$form.find('[aria-input-type="autocomplete"]').each(function () {
+			var 
+				$input = $(this),
+				isFree = $input.is('[data-free]');
 
-			var $input = $(this);
 			// Create full element
       $input.wrap('<article class="autocomplete-container"></article>');
       var 
-      	name = $input.attr('name'),
+      	acName = name = $input.attr('name'),
       	value = $input.data('value');
 
-      $input.attr('name', name + '_ac');
-      $input.after('<input type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span></span></section>');
+      if (name[name.length - 1] == ']') {
+      	acName = acName.substr(0, acName.length - 1) + '_ac]';
+      }
+      else {
+      	acName = name + '_ac'
+      }
+
+      $input.attr('name', acName);
+      $input.after('<input type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
 			var $listContainer = $input.find('~ .autocomplete-list-container');
 			var $list = $listContainer.children('ul');
 
@@ -682,6 +692,17 @@ function initForm($form, params) {
 			$listContainer.on('click', function (e) {
 				e.stopPropagation();
 			});
+
+			$list.next().on({
+				click: function () {
+					$currentInput.removeClass('focus');
+					$(document).off('click.off');
+
+					if (_temp[prefix + 'change']) {
+						closeAutoComplete();
+					}
+				}
+			})
 
 			$input.on({
 				focus: function () {
@@ -693,7 +714,7 @@ function initForm($form, params) {
 					}
 
 					$currentInput.addClass('focus');
-					$list.empty().next().text(_t.form.keyword_for_search);
+					$list.empty().next().text(isFree ? _t.form.keyword_for_search_or_new : _t.form.keyword_for_search);	
 					_temp[prefix + 'old'] = $currentInput.val();
 
 					// For click outside
@@ -726,13 +747,16 @@ function initForm($form, params) {
 						data.keyword = $currentInput.val();
 
 						if (data.keyword) {
-							$.ajax({
+							if (_temp[prefix + 'ajax']) {
+								_temp[prefix + 'ajax'].abort();	
+							}
+							_temp[prefix + 'ajax'] = $.ajax({
 								url: $input.data('url'),
 								data: data,
 								dataType: 'JSON'
 							}).done(function (data) {
 								if (data.status != 0 || data.result.length == 0) {
-									$list.empty().next().text(_t.form.search_no_result);
+									searchNoResult();
 								}
 								else {
 									var html = create_auto_complete(data.result);
@@ -742,12 +766,14 @@ function initForm($form, params) {
 
 									$list.children(':first-child').addClass('selected');
 								}
-							}).fail(function () {
-								$list.empty().next().text(_t.form.search_no_result);
+							}).fail(function (xhr, status) {
+								if (status != 'abort') {
+									searchNoResult();
+								}
 							});
 						}
 						else {
-							$list.empty().next().text(_t.form.keyword_for_search);
+							searchNoResult();
 						}
 					}, 200)
 				},
@@ -847,15 +873,30 @@ function initForm($form, params) {
 			}
 		}
 
+		function searchNoResult() {
+			if ($currentInput.is('[data-free]')) {
+				$currentList.empty().next().text(_t.form.add_new);
+			}
+			else {
+				$currentList.empty().next().text(_t.form.keyword_for_search);	
+			}
+		}
+
 		function closeAutoComplete() {
 			var 
 				$input = $currentInput;
 
-			$input.next().val('').change();
-			$input.removeClass('focus').val('');
+			if ($input.is('[data-free]') && $input.val()) {
+				$input.next().val('0').change();
+				$input.removeClass('focus');	
+			}
+			else {
+				$input.next().val('').change();
+				$input.removeClass('focus').val('');	
+				_temp[prefix + 'value'] = '';
+			}
 
 			_temp[prefix + 'change'] = false;
-			_temp[prefix + 'value'] = '';
 			clearTimeout(_temp[prefix + 'to']);
 		}
 
@@ -1176,10 +1217,9 @@ function initForm($form, params) {
 			// Get error message
 			var $errorMessage = $callout.find('[aria-name="' + name + '"]');
 			if ($errorMessage.length == 0) {
-				$errorMessage = $('<p aria-name="' + name + '"></p>');
+				$errorMessage = $('<p class="no-margin" aria-name="' + name + '"></p>');
 				$callout.append($errorMessage);
 			}
-
 			$errorMessage.text(_t[params.object]['validate'][name + '_' + constraint]);
 		}
 	}

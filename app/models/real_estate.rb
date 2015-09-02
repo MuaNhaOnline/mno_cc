@@ -243,9 +243,16 @@ class RealEstate < ActiveRecord::Base
   def self.update_show_status id, is_show
     real_estate = find id
 
+    # Author
+    return { status: 6 } if User.current.cannot? :change_show_status, real_estate
+
     real_estate.is_show = is_show
 
-    real_estate.save validate: false
+    if real_estate.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
   end
 
   # / Update show status
@@ -253,15 +260,18 @@ class RealEstate < ActiveRecord::Base
   # Update pending status
 
   def self.update_pending_status id, is_pending
+    # Author
     return { status: 6 } if User.current.cannot? :approve, RealEstate
 
     real_estate = find id
 
     real_estate.is_pending = is_pending
 
-    real_estate.save validate: false
-
-    { status: 0 }
+    if real_estate.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
   end
 
   # / Update pending status
@@ -336,11 +346,14 @@ class RealEstate < ActiveRecord::Base
 
     return { status: 1 } if real_estate.nil?
 
+    # Author
     return { status: 6 } if User.current.cannot? :delete, real_estate
 
-    delete id
-
-    { status: 0 }
+    if delete id
+      { status: 0 }
+    else
+      { status: 2 }
+    end
   end
 
 # / Delete
@@ -359,7 +372,7 @@ class RealEstate < ActiveRecord::Base
 
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?}, #{ward.name unless ward.nil?}, #{district.name unless district.nil?}, #{province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?}, #{ward.name unless ward.nil?}, #{district.name unless district.nil?}, #{(province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
   end
 
   # Restroom
