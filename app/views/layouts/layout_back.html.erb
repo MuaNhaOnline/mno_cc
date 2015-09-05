@@ -156,9 +156,26 @@
                 <% end %>
                 <% if can? :manage, RealEstate %>
                   <li><a href="/real_estates/pending"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
-                <% end %>
-                <% if can? :manage, RealEstate %>
                   <li style="display: none"><a href="/real_estates/appraise"><i class="fa fa-circle-o"></i> Danh sách thẩm định</a></li>
+                <% end %>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-yelp"></i> <span>Dự án</span> <i class="fa fa-caret-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <% if can? :view_my, Project %>
+                  <li><a href="/projects/my"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
+                <% end %>
+                <% if can? :create, Project %>
+                  <li><a href="/projects/create"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
+                <% end %>
+                <% if can? :manage, Project %>
+                  <li><a href="/projects/pending"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
+                <% end %>
+                <% if can? :manage, Investor %>
+                  <li><a href="/investors/manager"><i class="fa fa-circle-o"></i> Quản lý nhà đầu tư</a></li>
                 <% end %>
               </ul>
             </li>

@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   get 'real_estates/_pending_list'
   get 'real_estates/appraise'
   get 'real_estates/_appraise_list'
-  get 'real_estates' => 'real_estates#index'
   get 'real_estates/:id' => 'real_estates#view'
+  get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'
   post 'real_estates/create' => 'real_estates#save'
   post 'real_estates/set_appraisal_company'
@@ -72,15 +72,26 @@ Rails.application.routes.draw do
   put 'mail_boxes/sent_remove'
 
   # Project
+  get 'projects/view'
   get 'projects/index'
-  get 'projects/manager'
   get 'projects/create(/:id)' => 'projects#create'
-  get 'projects/build/:id' => 'projects#build'
+  get 'projects/my'
+  get 'projects/_my_list'
+  get 'projects/pending'
+  get 'projects/_pending_list'
   get 'projects/:id' => 'projects#view'
   get 'projects' => 'projects#index'
   post 'projects/create' => 'projects#save'
   delete 'projects/:id' => 'projects#delete'
   put 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
+  put 'projects/approve/:id' => 'projects#approve'
+
+  # Investor
+  get 'investors/autocomplete'
+  get 'investors/manager'
+  get 'investors/_manager_list'
+  delete 'investors/:id' => 'investors#delete'
+  put 'investors/rename'
 
   # Block
   get 'blocks/create/:project_id' => 'blocks#create'

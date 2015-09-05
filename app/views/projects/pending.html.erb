@@ -1,18 +1,23 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/real_estates/pending.css" />
+  <link rel="stylesheet" href="/assets/projects/pending.css" />
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/pending.js"></script>
+  <script type="text/javascript" src="/assets/projects/pending.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.view.pending.form_title' %>
+  <%= t 'project.view.pending.form_title' %>
 <% end %>
-<%
-  @title = t 'real_estate.view.pending.page_title'
 
-  total = @res.count
+<%
+=begin
+  params: @projects
+=end
+
+  @title = t 'project.view.pending.page_title'
+
+  total = @projects.count
   per = Rails.application.config.item_per_page
 %>
 
@@ -20,9 +25,9 @@
   <section class="box-body">
     <form id="search_form">
       <div class="input-group margin">
-        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'real_estate.view.pending.search_placeholder' %>">
+        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'project.view.pending.search_placeholder' %>">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><%= t 'real_estate.view.pending.search' %></button>
+          <button class="btn btn-default" type="submit"><%= t 'project.view.pending.search' %></button>
         </span>
       </div>
     </form>
@@ -33,15 +38,15 @@
   <section class="box-body no-padding table-responsive">
     <table class="table table-striped re-content">
       <thead>
-        <th><%= t 'real_estate.attribute.id' %></th>
-        <th><%= t 'real_estate.attribute.name' %></th>
-        <th><%= t 'real_estate.attribute.purpose' %></th>
-        <th><%= t 'real_estate.attribute.real_estate_type' %></th>
+        <th><%= t 'project.attribute.id' %></th>
+        <th><%= t 'project.attribute.name' %></th>
+        <th><%= t 'project.attribute.investor' %></th>
+        <th><%= t 'project.attribute.project_type' %></th>
         <th>&nbsp;</th>
       </thead>
-      <tbody id="re_list">
+      <tbody id="project_list">
         <% if total != 0 %>
-          <%= render partial: 'real_estates/pending_list', locals: { res: @res.page(1, per) } %>
+          <%= render partial: 'projects/pending_list', locals: { projects: @projects.page(1, per) } %>
         <% end %>
       </tbody>
     </table>

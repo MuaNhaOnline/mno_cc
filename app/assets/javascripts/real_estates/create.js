@@ -239,6 +239,8 @@ $(function () {
         provinceInput: $form.find('#province')
       },
       enableAutocomplete: true
+    }, {
+      'isNew': $form.find('#location').data('new')
     });
   }
 

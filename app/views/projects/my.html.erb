@@ -1,21 +1,21 @@
 <% 
-  @title = t 'real_estate.view.my.page_title'
+  @title = t 'project.view.my.page_title'
 %>
 
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/real_estates/my.css" />
+  <link rel="stylesheet" href="/assets/projects/my.css" />
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/my.js"></script>
+  <script type="text/javascript" src="/assets/projects/my.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.view.my.form_title' %>
+  <%= t 'project.view.my.form_title' %>
 <% end %>
 
 <%
-  total = @res.count
+  total = @projects.count
   per = Rails.application.config.item_per_page
 %>
 
@@ -23,9 +23,9 @@
   <section class="box-body">
     <form id="search_form">
       <div class="input-group margin">
-        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'real_estate.view.my.search_placeholder' %>">
+        <input name="keyword" type="text" class="form-control" placeholder="<%= t 'project.view.my.search_placeholder' %>">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><%= t 'real_estate.view.my.search' %></button>
+          <button class="btn btn-default" type="submit"><%= t 'project.view.my.search' %></button>
         </span>
       </div>
     </form>
@@ -34,18 +34,18 @@
 
 <section class="box box-default">
   <section class="box-body no-padding table-responsive">
-    <table class="table table-striped re-content">
+    <table class="table table-striped project-content">
       <thead>
-        <th><%= t 'real_estate.attribute.id' %></th>
-        <th><%= t 'real_estate.attribute.title' %></th>
-        <th><%= t 'real_estate.attribute.purpose' %></th>
-        <th><%= t 'real_estate.attribute.real_estate_type' %></th>
-        <th><%= t 'real_estate.attribute.status' %></th>
+        <th><%= t 'project.attribute.id' %></th>
+        <th><%= t 'project.attribute.title' %></th>
+        <th><%= t 'project.attribute.investor' %></th>
+        <th><%= t 'project.attribute.project_type' %></th>
+        <th><%= t 'project.attribute.status' %></th>
         <th>&nbsp;</th>
       </thead>
-      <tbody id="re_list">
+      <tbody id="project_list">
         <% if total != 0 %>
-          <%= render partial: 'real_estates/my_list', locals: { res: @res.page(1, per) } %>
+          <%= render partial: 'projects/my_list', locals: { projects: @projects.page(1, per) } %>
         <% end %>
       </tbody>
     </table>

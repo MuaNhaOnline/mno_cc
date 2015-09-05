@@ -72,13 +72,6 @@
   end
   build_year_html += "<option #{'selected' if @re.build_year == 20} value=20>Hơn 20 năm</option>"
   build_year_html += "<option #{'selected' if @re.build_year == 50} value=50>Hơn 50 năm</option>"
-
-  # Init image
-  image_ids = ''
-  @re.images.each do |i|
-    image_ids += ',' + i.id.to_s
-  end  
-  image_ids[0] = '' unless image_ids === ''
 %>
 
 <form id="create_re" class="row form create-form-re" data-entertotab <%= 'data-full="true"' unless @re.id.blank? %>>
@@ -275,7 +268,7 @@
         <article class="form-group">
           <label for="location"><%= t 'real_estate.attribute.address' %></label>
           <sup class="required-label"></sup>
-          <input data-constraint="required" class="form-control" id="location" type="text" /> 
+          <input data-constraint="required" name="location" class="form-control" id="location" type="text" placeholder="" data-new="<%= @re.new_record? %>" /> 
           <input value="<%= @re.street.name unless @re.street.nil? %>" name="real_estate[street]" type="hidden" id="street" />
           <input value="<%= @re.ward.name unless @re.ward.nil? %>" name="real_estate[ward]" type="hidden" id="ward" />
           <input value="<%= @re.district.name unless @re.district.nil? %>" name="real_estate[district]" type="hidden" id="district" />
@@ -853,7 +846,7 @@
       <section class="box-body">
         <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình.</p>
         <article class="form-group margin-0">
-          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="5" data-size="3145728" data-type="jpg jpeg png" data-ratio="1.25" data-init-value="<%= image_ids %>" />
+          <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[image_ids]" data-amount="5" data-type="jpg jpeg png" data-ratio="1.25" data-init-value="<%= @re.image_ids.join(',') %>" />
         </article>
       </section>
     </article>

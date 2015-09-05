@@ -1,0 +1,20 @@
+<% investors.each do |i| %>
+  <tr data-value="<%= i.id %>">
+    <td aria-object="name"><%= i.name %></td>
+    <td class="min-width-cell">
+      <div class="dropdown">
+        <button id="drop_down_button_<%= i.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+          <%= t 'investor.view.manager.control' %>
+        </button>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= i.id %>">
+          <li role="presentation">
+            <a aria-click="rename" href="javascript:void(0)"><%= t 'investor.view.manager.rename' %></a>
+          </li>
+          <li role="presentation">
+            <a aria-click="delete" href="javascript:void(0)"><%= t 'investor.view.manager.delete' %></a>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+<% end %>

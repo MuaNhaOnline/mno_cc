@@ -205,7 +205,7 @@ $(function () {
 
 		$password.add($repeatPassword).on('change', function () {
 			if ($password.val() && $repeatPassword.val()) {
-				if ($password.val() === $repeatPassword.val()) {
+				if ($password.val() == $repeatPassword.val()) {
 					$form.toggleValidInput($repeatPassword, true, 'same');
 				}
 				else {

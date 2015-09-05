@@ -10,6 +10,8 @@ var _t = {
 		label_image_upload: 'Đăng hình ảnh tại đây',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
+		keyword_for_search_or_new: 'Nhập từ khóa để tìm kiếm hoặc thêm mới',
+		add_new: 'Thêm mới',
 		crop_title: 'Điều chỉnh kích thước ảnh',
 		crop: 'Cắt',
 		crop_tooltip: 'Cắt',
@@ -50,21 +52,22 @@ var _t = {
 			hide_status: 'Ẩn'
 		},
 		validate: {
-			'real_estate[alley_width]_required': 'Độ rộng của hẻm không thể bỏ trống',
-			'real_estate[constructional_area]_required': 'Diện tích xây dựng không thể bỏ trống',
-			'real_estate[using_area]_required': 'Diện tích sử dụng không thể bỏ trống',
-			'real_estate[campus_area]_required': 'Diện tích khuôn viên không thể bỏ trống',
-			'real_estate[width_x]_required': 'Chiều ngang không thể bỏ trống',
-			'real_estate[width_y]_required': 'Chiều dài không thể bỏ trống',
-			'real_estate[shape_width]_required': 'Mặt hậu không thể bỏ trống',
-			'real_estate[shape_width]_width': 'Kích thước mặt hậu không hợp lệ',
-			'real_estate[floor_number]_required': 'Tầng không thể bỏ trống',
-			'real_estate[constructional_quality]_required': 'Chất lượng xây dựng còn lại không thể bỏ trống',
-			'real_estate[title]_required': 'Tiêu đề không thể bỏ trống',
-			'real_estate[description]_required': 'Mô tả không thể bỏ trống',
-			'real_estate[custom_legal_record_type]_required': 'Giấy tờ khác không thể bỏ trống',
-			'real_estate[custom_planning_status_type]_required': 'Tình trạng khác không thể bỏ trống',
-			'real_estate[image_ids]_required': 'Hình ảnh không thể bỏ trống'
+			'location_required': 'Không thể bỏ trống',
+			'real_estate[alley_width]_required': 'Không thể bỏ trống',
+			'real_estate[constructional_area]_required': 'Không thể bỏ trống',
+			'real_estate[using_area]_required': 'Không thể bỏ trống',
+			'real_estate[campus_area]_required': 'Không thể bỏ trống',
+			'real_estate[width_x]_required': 'Không thể bỏ trống',
+			'real_estate[width_y]_required': 'Không thể bỏ trống',
+			'real_estate[shape_width]_required': 'Không thể bỏ trống',
+			'real_estate[shape_width]_width': 'Không hợp lệ',
+			'real_estate[floor_number]_required': 'Không thể bỏ trống',
+			'real_estate[constructional_quality]_required': 'Không thể bỏ trống',
+			'real_estate[title]_required': 'Không thể bỏ trống',
+			'real_estate[description]_required': 'Không thể bỏ trống',
+			'real_estate[custom_legal_record_type]_required': 'Không thể bỏ trống',
+			'real_estate[custom_planning_status_type]_required': 'Không thể bỏ trống',
+			'real_estate[image_ids]_required': 'Không thể bỏ trống'
 		},
 		view: {
 			create: {
@@ -91,7 +94,7 @@ var _t = {
 	appraisal_company: {
 		validate: {
 			'ac[name]_required': 'Tên công ty không thể bỏ trống',
-			'ac[representative_id]_ac_required': 'Thành viên đại diện không thể bỏ trống'
+			'ac[representative_id_ac]_required': 'Thành viên đại diện không thể bỏ trống'
 		},
 		view: {
 			manager: {
@@ -105,12 +108,65 @@ var _t = {
 	},
 	mail_box: {
 		validate: {
-			'mail[to_id]_ac_required': 'Người nhận không thể bỏ trống',
+			'mail[to_id_ac]_required': 'Người nhận không thể bỏ trống',
 			'mail[subject]_required': 'Chủ đề không thể bỏ trống',
 		},
 		view: {
 			inbox: {
 				select_for_remove: 'Hãy chọn thư mà bạn muốn xóa'
+			}
+		}
+	},
+	project: {
+		attribute: {
+			draft_status: 'Nháp',
+			appraised_status: 'Đã thẩm định',
+			not_appraised_status: 'Chờ thẩm định',
+			pending_status: 'Chờ duyệt',
+			show_status: 'Hiển thị',
+			hide_status: 'Ẩn'
+		},
+		validate: {
+			'location_required': 'Không thể bỏ trống',
+			'project[campus_area]_required': 'Không thể bỏ trống',
+			'project[width_x]_required': 'Không thể bỏ trống',
+			'project[width_y]_required': 'Không thể bỏ trống',
+			'project[using_ratio]_required': 'Không thể bỏ trống',
+			'project[estimate_starting_date]_required': 'Không thể bỏ trống',
+			'project[estimate_finishing_date]_required': 'Không thể bỏ trống',
+			'project[estimate_finishing_date]_greater_start': 'Phải sau ngày khởi công',
+			'project[starting_date]_required': 'Không thể bỏ trống',
+			'project[finished_base_date]_required': 'Không thể bỏ trống',
+			'project[finished_base_date]_greater_start': 'Phải sau ngày khởi công',
+			'project[transfer_date]_required': 'Không thể bỏ trống',
+			'project[transfer_date]_greater_finish': 'Phải sau ngày hoàn thành móng',
+			'project[docs_issue_date]_required': 'Không thể bỏ trống',
+			'project[docs_issue_date]_greater_finish': 'Phải sau ngày hoàn thành móng',
+			'project[unit_price]_required': 'Không thể bỏ trống',
+			'project[title]_required': 'Không thể bỏ trống',
+			'project[description]_required': 'Không thể bỏ trống',
+			'project[image_ids]_required': 'Không thể bỏ trống'
+		},
+		view: {
+			create: {
+				save_draft_success_content: 'Lưu tạm thành công',
+			},
+			my: {
+				hide: 'Ẩn',
+				show: 'Hiển thị',
+				'continue': 'Tiếp tục',
+				edit: 'Sửa',
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			},
+			pending: {
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			}
+		}
+	},
+	investor: {
+		view: {
+			manager: {
+				delete_confirm: 'Bạn có chắc muốn xóa nhà đầu tư này?'
 			}
 		}
 	}

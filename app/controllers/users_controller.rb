@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
 	layout 'layout_back'
-  skip_before_filter :verify_authenticity_token
 
 # Sign up
   

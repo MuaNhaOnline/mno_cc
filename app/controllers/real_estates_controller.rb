@@ -1,6 +1,5 @@
 class RealEstatesController < ApplicationController
   layout 'layout_front'
-  skip_before_filter :verify_authenticity_token
 
   def index
   end
@@ -69,11 +68,7 @@ class RealEstatesController < ApplicationController
 
     return render json: result if result[:status] != 0
 
-    if real_estate.errors.any? && !is_draft
-      render json: { status: 3, result: real_estate.errors.full_messages }
-    else
-      render json: { status: 0, result: real_estate.id }
-    end
+    render json: { status: 0, result: real_estate.id }
   end
 
 # / Create
@@ -97,6 +92,7 @@ class RealEstatesController < ApplicationController
   end
 
   # Partial view
+  # params: keyword
   def _my_list
     # Author
     return render json: { status: 6 } if cannot? :view_my, RealEstate
@@ -135,7 +131,7 @@ class RealEstatesController < ApplicationController
   # View
   def pending
     # Author
-    return render json: { staus: 6 } if cannot? :approve, RealEstate
+    authorize! :approve, RealEstate
 
     @res = RealEstate.get_pending.order(updated_at: 'asc')
 
@@ -143,6 +139,7 @@ class RealEstatesController < ApplicationController
   end
 
   # Partial view
+  # params: keyword
   def _pending_list
     # Author
     return render json: { staus: 6 } if cannot? :approve, RealEstate
@@ -228,9 +225,13 @@ class RealEstatesController < ApplicationController
   
 # / Appraise
 
+# Delete
+
   # Handle
   # params: id(*)
   def delete
     render json: RealEstate.delete_by_id(params[:id])
   end
+
+# / Delete
 end
