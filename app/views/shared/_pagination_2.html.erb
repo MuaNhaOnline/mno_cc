@@ -1,0 +1,16 @@
+<!-- per, total, page = 1 -->
+<%
+	pageCount = (total + per - 1) / per
+
+	return if pageCount <= 1
+%>
+
+<div class="left">
+	<i aria-click="prev-page" class="pe-7s-angle-left"></i>
+</div>
+<div class="number">
+	<span><%= defined?(page) ? page : 1 %>/<%= pageCount %></span>
+</div>
+<div class="right">
+	<i aria-click="next-page" class="pe-7s-angle-right"></i>
+</div>
