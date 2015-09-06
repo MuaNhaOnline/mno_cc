@@ -163,7 +163,7 @@
 	/*start custom slick-distrubutor*/
 	.wrapper-distributor .slick-slide {
 		margin: 0 70px;
-		opacity: 0.1;
+		opacity: 0.2;
 	}
 		.wrapper-distributor .slick-slide.slick-current {
 			opacity: 1;
