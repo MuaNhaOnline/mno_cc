@@ -706,7 +706,10 @@ footer {
 		text-align: justify;
 		margin-bottom: 10px;
 		max-height: 36px;
+		width: 100%;
 		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	/*end*/
 

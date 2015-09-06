@@ -3,75 +3,960 @@
 <% end %>
 
 <% content_for :scripts do %>
-
+	<script type="text/javascript" src="/assets/projects/index.js"></script>
 <% end %>
 
-<!-- start list general project -->
-<section class="container general-project block">
-	<article class="content">
-		<br><br><br><br><br><br><br><br><br>
-		<section class="position-property block">
-			<article class="content">
-				<div class="tab-position">
-					<ul>
-						<li class="active"><a href="#">Tất cả</a></li>
-						<li><a href="#">Dự án nhà phố liên kế</a></li>
-						<li><a href="#">Dự án đất nền</a></li>
-						<li><a href="#">Dự án căn hộ giá rẻ</a></li>
-						<li><a href="#">Dự án chung cư cao cấp</a></li>
-						<li><a href="#">Dự án nhà ở xã hội</a></li>
+<!--start Search Box -->
+<section class="search">
+	<div class="search-box">
+		<div class="title">
+			<h3>Hãy để MuanhaOnline tìm nhà giúp bạn.</h3>
+		</div>
+		<form>
+			<div class="tab">
+				<label><input type="radio" name="typeTab" checked><i class="sale"></i><span>Nhà Bán</span></label>
+				<label><input type="radio" name="typeTab"><i class="rent"></i><span>Nhà Thuê</span></label>       
+			</div>
+			<div class="form-group-custom">
+				<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
+				<div class="btn-group history-search">
+					<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						từ khóa
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Từ khóa 01</a></li>
+						<li><a href="#">Từ khóa 02</a></li>
+						<li><a href="#">Từ khóa 03</a></li>
 					</ul>
 				</div>
-				<ul class="row">
-					<div class="col-lg-3 col-md-4 col-sm-6">
-						<li class="item-sm">
-							<div class="picture">
-								<img src="/assets/product/BDS06.jpg">
-								<i class="badge-new"></i>
-								<div class="promotion">
-									<i class="icon icon-gift"></i>
-									<span>Tặng bộ bàn ghế cao cấp</span>
-								</div>
+				<div class="separator">
+					<span>|</span>
+				</div>
+				<div class="btn-search">
+					<button type="submit"></button>
+					<div class="btn-more" data-function="show-search-plus">
+						<span class="caret"></span>
+					</div>
+				</div>
+			</div>			
+			<section class="more-search" id="more_search" style="display:none">
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+						<select class="form-control input-sm">
+						<option>--Chọn thành phố/Tỉnh--</option>
+						<option>Thành phố Hồ Chí Minh</option>
+						<option>Hà Nội</option>
+						<option>Bà Rịa - Vũng Tàu</option>
+						</select>
+						</div>
+						<div class="col-md-6">
+						<select class="form-control input-sm">
+						<option>--Chọn quận/huyện--</option>
+						<option>Quận 1</option>
+						<option>Quận 5</option>
+						</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>--Chọn giá tiền--</option>
+						<option>1 tỷ - 3 tỷ</option>
+						<option>3 tỷ - 5 tỷ</option>
+						<option>trên 5 tỷ</option>
+					</select>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>--Chọn diện tích--</option>
+						<option>50m2 - 100m2</option>
+						<option>100m2 - 200m2</option>
+						<option>trên 200m2</option>
+					</select>
+				</div>
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn loại dự án--</option>
+								<option>Dự án căn hộ liên kế</option>
+								<option>Dự án biệt thự cao cấp</option>
+								<option>Dự án nhà ở xã hội</option>
+							</select>
+						</div>
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn tình trạng dự án--</option>
+								<option>Dự án đã hoàn thành</option>
+								<option>Dự án đang hoàn thành</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					
+				</div>
+			</section>
+			<div class="btn-plus">
+				<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+					<img src="/assets/icon/search-plus.png">
+					Tìm nâng cao
+				</button>
+				<button type="button" class="btn btn-success btn-sm" data-function="zestimate">Định giá khu vực này</button>
+			</div>
+		</form>
+	</div>
+</section>
+<!-- end Search Box-->
+
+<!-- start navigator -->
+<section class="navigator container">
+	<ol class="breadcrumb">
+		<li><a href="/">Trang chủ</a></li>
+		<li class="active">Danh sách dự án</li>
+	</ol>
+</section>
+<!-- end navigator -->
+
+<!-- start favorite-property -->
+<section class="container block">
+	<article class="title">
+		<a href="#" class="link">
+			<i class="icon-link"></i>
+			<span>Bất động sản được yêu thích</span>
+		</a>
+	</article>
+	<article class="content">
+		<section class="slick favorite-projects">
+			<div class="content">
+				<%
+					res = RealEstate.get_random.limit 4
+				%>
+				<% res.each do |re| %>
+					<div class="item-lg">
+						<div class="row">
+							<div class="col-md-8 picture">
+								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail' %>
 							</div>
-							<a href="#">
-								<div class="title">
-									<span>Cần bán căn hộ ven sông Quận 2, có sổ đỏ</span>
-								</div>						
-								<div class="convenient">							
+							<div class="col-md-4">
+								<div class="name">
+									<%= re.title %>
+								</div>
+								<div class="convenient">
 									<div class="bathroom">
 										<i class="icon-bathroom"></i>
-										<span>4</span>						
+										<span><%= re.display_restroom %></span>
 									</div>
 									<div class="bedroom">
 										<i class="icon-bedroom"></i>
-										<span>3</span>
+										<span><%= re.display_bedroom %></span>
 									</div>
 									<div class="area">
 										<i class="icon-area"></i>
-										<span>80m<sup>2</sup></span>
+										<span><%= re.display_area %>m<sup>2</sup></span>
 									</div>
 								</div>
 								<div class="address">
 									<i class="icon icon-address"></i>
-									<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
+									<span><%= re.display_address %></span>
 								</div>
-								<div class="price">
-									<i class="icon icon-price"></i>
-									<p class="number sale">850 triệu bởi Cty Việt Home</p>
+								<% if re.fields.include? :sell_price %>
+									<div class="price">
+										<i class="icon icon-price"></i>
+										<p class="number sale"><%= re.display_sell_price %></p>
+									</div>
+								<% end %>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
 								</div>
-								
-							</a>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								<div class="detail" data-dot>
+									<%= re.description %>
+								</div>
+								<div class="btn-more">
+									<a href="/real_estates/<%= re.id %>">Xem chi tiết</a>
+								</div>
 							</div>
-						</li>
+						</div>
 					</div>
-				</ul>
-			</article>
-		</section>	
+				<% end %>
+			</div>
+			<button class="slider-control prev" id="favor-prev"></button>
+			<button class="slider-control next" id="favor-next"></button>
+		</section>
+		<section class="user-projects">		
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="active">
+					<a href="#suggest_property" role="tab" data-toggle="tab">
+						Có thể bạn quan tâm
+					</a>
+				</li>
+				<li>
+					<a href="#new_property" role="tab" data-toggle="tab">
+						Dự án gần bạn nhất
+					</a>
+				</li>
+			</ul>
+			<!-- end -->
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="suggest_property">
+					<div class="link">
+						<a href="#">Xem tất cả</a>
+					</div>
+					<div class="row">		
+						<%
+							res = RealEstate.get_random.limit 4
+						%>
+						<% res.each do |re| %>
+							<div class="col-lg-3 col-md-4 col-sm-6">
+								<li class="item-sm">
+									<div class="picture">
+										<%= real_estate_avatar re %>
+									</div>
+									<a href="#">
+										<div class="title">
+											<span><%= re.title %></span>
+										</div>						
+										<div class="convenient">							
+											<div class="bathroom">
+												<i class="icon-bathroom"></i>
+												<span><%= re.display_restroom %></span>						
+											</div>
+											<div class="bedroom">
+												<i class="icon-bedroom"></i>
+												<span><%= re.display_bedroom %></span>
+											</div>
+											<div class="area">
+												<i class="icon-area"></i>
+												<span><%= re.display_area %>m<sup>2</sup></span>
+											</div>
+										</div>
+										<div class="address">
+											<i class="icon icon-address"></i>
+											<span><%= re.display_address %></span>
+										</div>
+										<% if re.fields.include? :sell_price %>
+											<div class="price">
+												<i class="icon icon-price"></i>
+												<p class="number sale"><%= re.display_sell_price %></p>
+											</div>	
+										<% end %>									
+									</a>
+									<div class="function">
+										<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+										<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+										<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+										<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+									</div>
+								</li>
+							</div>
+						<% end %>
+					</div>
+					<!-- <div class="paging">
+						<div class="left">
+							<i class="pe-7s-angle-left"></i>
+						</div>
+						<div class="number">
+							<span>5/10</span>
+						</div>
+						<div class="right">
+							<i class="pe-7s-angle-right"></i>
+						</div>
+					</div> -->
+				</div>
+				<div class="tab-pane fade" id="new_property">
+					<div class="link">
+						<a href="#">Xem tất cả</a>
+					</div>
+					<div class="row">			
+						<%
+							res = RealEstate.get_random.limit 4
+						%>
+						<% res.each do |re| %>
+							<div class="col-lg-3 col-md-4 col-sm-6">
+								<li class="item-sm">
+									<div class="picture">
+										<%= real_estate_avatar re %>
+									</div>
+									<a href="#">
+										<div class="title">
+											<span><%= re.title %></span>
+										</div>						
+										<div class="convenient">							
+											<div class="bathroom">
+												<i class="icon-bathroom"></i>
+												<span><%= re.display_restroom %></span>						
+											</div>
+											<div class="bedroom">
+												<i class="icon-bedroom"></i>
+												<span><%= re.display_bedroom %></span>
+											</div>
+											<div class="area">
+												<i class="icon-area"></i>
+												<span><%= re.display_area %>m<sup>2</sup></span>
+											</div>
+										</div>
+										<div class="address">
+											<i class="icon icon-address"></i>
+											<span><%= re.display_address %></span>
+										</div>
+										<% if re.fields.include? :sell_price %>
+											<div class="price">
+												<i class="icon icon-price"></i>
+												<p class="number sale"><%= re.display_sell_price %></p>
+											</div>	
+										<% end %>									
+									</a>
+									<div class="function">
+										<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+										<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+										<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+										<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+									</div>
+								</li>
+							</div>
+						<% end %>
+					</div>
+					<!-- <div class="paging">
+						<div class="left">
+							<i class="pe-7s-angle-left"></i>
+						</div>
+						<div class="number">
+							<span>5/10</span>
+						</div>
+						<div class="right">
+							<i class="pe-7s-angle-right"></i>
+						</div>
+					</div> -->
+				</div>
+			</div>
+			<!-- end -->
+		</section>
 	</article>
 </section>
-<!-- end list general project -->
+<!-- end favorite-property -->
+
+<!-- start content -->
+<section class="container">
+	<div class="row">
+		<div class="col-md-2">
+			<article class="fix-table">
+				<ul>
+					<li class="active"><a href="#">Dự án mới nhất</a></li>
+					<li><a href="#">Giá</a></li>
+					<li><a href="#">Tỉnh thành</a></li>
+					<li><a href="#">Chủ đầu tư</a></li>
+				</ul>
+			</article>
+		</div>
+		<div class="col-md-10">
+			<!-- start type project -->
+			<section class="type-projects">		
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active">
+						<a href="#building-projects" role="tab" data-toggle="tab">
+							Cao ốc văn phòng
+						</a>
+					</li>
+					<li>
+						<a href="#apartment-projects" role="tab" data-toggle="tab">
+							Khu căn hộ
+						</a>
+					</li>
+					<li>
+						<a href="#residential-projects" role="tab" data-toggle="tab">
+							Khu dân cư - Đô thị mới
+						</a>
+					</li>
+					<li>
+						<a href="#complex-projects" role="tab" data-toggle="tab">
+							Khu phức hợp - Thương mại
+						</a>
+					</li>
+					<li>
+						<a href="#tourist-projects" role="tab" data-toggle="tab">
+							Khu du lịch - Nghĩ dưỡng
+						</a>
+					</li>
+					<li>
+						<a href="#industrial-projects" role="tab" data-toggle="tab">
+							Khu công nghiệp
+						</a>
+					</li>
+				</ul>
+				<!-- end -->
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="building-projects">
+						<div class="row">		
+							<%
+								res = RealEstate.get_random.limit 6
+							%>
+							<% res.each do |re| %>
+								<div class="col-md-4 col-sm-6 col-custom">
+									<li class="item-sm">
+										<div class="picture">
+											<%= real_estate_avatar re %>
+										</div>
+										<a href="#">
+											<div class="title">
+												<span><%= re.title %></span>
+											</div>						
+											<div class="convenient">							
+												<div class="bathroom">
+													<i class="icon-bathroom"></i>
+													<span><%= re.display_restroom %></span>						
+												</div>
+												<div class="bedroom">
+													<i class="icon-bedroom"></i>
+													<span><%= re.display_bedroom %></span>
+												</div>
+												<div class="area">
+													<i class="icon-area"></i>
+													<span><%= re.display_area %>m<sup>2</sup></span>
+												</div>
+											</div>
+											<div class="address">
+												<i class="icon icon-address"></i>
+												<span><%= re.display_address %></span>
+											</div>
+											<% if re.fields.include? :sell_price %>
+												<div class="price">
+													<i class="icon icon-price"></i>
+													<p class="number sale"><%= re.display_sell_price %></p>
+												</div>	
+											<% end %>									
+										</a>
+										<div class="function">
+											<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+											<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+											<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+											<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+										</div>
+									</li>
+								</div>
+							<% end %>
+						</div>
+						<div class="link">
+							<a href="#">Xem tất cả</a>
+						</div>
+						<!-- <div class="paging">
+							<div class="left">
+								<i class="pe-7s-angle-left"></i>
+							</div>
+							<div class="number">
+								<span>5/10</span>
+							</div>
+							<div class="right">
+								<i class="pe-7s-angle-right"></i>
+							</div>
+						</div> -->
+					</div>
+					<div class="tab-pane fade" id="apartment-projects">
+						<div class="row">			
+							<%
+								res = RealEstate.get_random.limit 6
+							%>
+							<% res.each do |re| %>
+								<div class="col-md-4 col-sm-6 col-custom">
+									<li class="item-sm">
+										<div class="picture">
+											<%= real_estate_avatar re %>
+										</div>
+										<a href="#">
+											<div class="title">
+												<span><%= re.title %></span>
+											</div>						
+											<div class="convenient">							
+												<div class="bathroom">
+													<i class="icon-bathroom"></i>
+													<span><%= re.display_restroom %></span>						
+												</div>
+												<div class="bedroom">
+													<i class="icon-bedroom"></i>
+													<span><%= re.display_bedroom %></span>
+												</div>
+												<div class="area">
+													<i class="icon-area"></i>
+													<span><%= re.display_area %>m<sup>2</sup></span>
+												</div>
+											</div>
+											<div class="address">
+												<i class="icon icon-address"></i>
+												<span><%= re.display_address %></span>
+											</div>
+											<% if re.fields.include? :sell_price %>
+												<div class="price">
+													<i class="icon icon-price"></i>
+													<p class="number sale"><%= re.display_sell_price %></p>
+												</div>	
+											<% end %>									
+										</a>
+										<div class="function">
+											<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+											<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+											<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+											<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+										</div>
+									</li>
+								</div>
+							<% end %>
+						</div>
+						<div class="link">
+							<a href="#">Xem tất cả</a>
+						</div>
+						<!-- <div class="paging">
+							<div class="left">
+								<i class="pe-7s-angle-left"></i>
+							</div>
+							<div class="number">
+								<span>5/10</span>
+							</div>
+							<div class="right">
+								<i class="pe-7s-angle-right"></i>
+							</div>
+						</div> -->
+					</div>
+					<div class="tab-pane fade" id="residential-projects">
+						<div class="row">			
+							<%
+								res = RealEstate.get_random.limit 6
+							%>
+							<% res.each do |re| %>
+								<div class="col-md-4 col-sm-6 col-custom">
+									<li class="item-sm">
+										<div class="picture">
+											<%= real_estate_avatar re %>
+										</div>
+										<a href="#">
+											<div class="title">
+												<span><%= re.title %></span>
+											</div>						
+											<div class="convenient">							
+												<div class="bathroom">
+													<i class="icon-bathroom"></i>
+													<span><%= re.display_restroom %></span>						
+												</div>
+												<div class="bedroom">
+													<i class="icon-bedroom"></i>
+													<span><%= re.display_bedroom %></span>
+												</div>
+												<div class="area">
+													<i class="icon-area"></i>
+													<span><%= re.display_area %>m<sup>2</sup></span>
+												</div>
+											</div>
+											<div class="address">
+												<i class="icon icon-address"></i>
+												<span><%= re.display_address %></span>
+											</div>
+											<% if re.fields.include? :sell_price %>
+												<div class="price">
+													<i class="icon icon-price"></i>
+													<p class="number sale"><%= re.display_sell_price %></p>
+												</div>	
+											<% end %>									
+										</a>
+										<div class="function">
+											<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+											<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+											<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+											<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+										</div>
+									</li>
+								</div>
+							<% end %>
+						</div>
+						<div class="link">
+							<a href="#">Xem tất cả</a>
+						</div>
+						<!-- <div class="paging">
+							<div class="left">
+								<i class="pe-7s-angle-left"></i>
+							</div>
+							<div class="number">
+								<span>5/10</span>
+							</div>
+							<div class="right">
+								<i class="pe-7s-angle-right"></i>
+							</div>
+						</div> -->
+					</div>
+					<div class="tab-pane fade" id="complex-projects">
+						<div class="row">			
+							<%
+								res = RealEstate.get_random.limit 6
+							%>
+							<% res.each do |re| %>
+								<div class="col-md-4 col-sm-6 col-custom">
+									<li class="item-sm">
+										<div class="picture">
+											<%= real_estate_avatar re %>
+										</div>
+										<a href="#">
+											<div class="title">
+												<span><%= re.title %></span>
+											</div>						
+											<div class="convenient">							
+												<div class="bathroom">
+													<i class="icon-bathroom"></i>
+													<span><%= re.display_restroom %></span>						
+												</div>
+												<div class="bedroom">
+													<i class="icon-bedroom"></i>
+													<span><%= re.display_bedroom %></span>
+												</div>
+												<div class="area">
+													<i class="icon-area"></i>
+													<span><%= re.display_area %>m<sup>2</sup></span>
+												</div>
+											</div>
+											<div class="address">
+												<i class="icon icon-address"></i>
+												<span><%= re.display_address %></span>
+											</div>
+											<% if re.fields.include? :sell_price %>
+												<div class="price">
+													<i class="icon icon-price"></i>
+													<p class="number sale"><%= re.display_sell_price %></p>
+												</div>	
+											<% end %>									
+										</a>
+										<div class="function">
+											<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+											<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+											<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+											<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+										</div>
+									</li>
+								</div>
+							<% end %>
+						</div>
+						<div class="link">
+							<a href="#">Xem tất cả</a>
+						</div>
+						<!-- <div class="paging">
+							<div class="left">
+								<i class="pe-7s-angle-left"></i>
+							</div>
+							<div class="number">
+								<span>5/10</span>
+							</div>
+							<div class="right">
+								<i class="pe-7s-angle-right"></i>
+							</div>
+						</div> -->
+					</div>
+					<div class="tab-pane fade" id="tourist-projects">
+						<div class="row">			
+							<%
+								res = RealEstate.get_random.limit 6
+							%>
+							<% res.each do |re| %>
+								<div class="col-md-4 col-sm-6 col-custom">
+									<li class="item-sm">
+										<div class="picture">
+											<%= real_estate_avatar re %>
+										</div>
+										<a href="#">
+											<div class="title">
+												<span><%= re.title %></span>
+											</div>						
+											<div class="convenient">							
+												<div class="bathroom">
+													<i class="icon-bathroom"></i>
+													<span><%= re.display_restroom %></span>						
+												</div>
+												<div class="bedroom">
+													<i class="icon-bedroom"></i>
+													<span><%= re.display_bedroom %></span>
+												</div>
+												<div class="area">
+													<i class="icon-area"></i>
+													<span><%= re.display_area %>m<sup>2</sup></span>
+												</div>
+											</div>
+											<div class="address">
+												<i class="icon icon-address"></i>
+												<span><%= re.display_address %></span>
+											</div>
+											<% if re.fields.include? :sell_price %>
+												<div class="price">
+													<i class="icon icon-price"></i>
+													<p class="number sale"><%= re.display_sell_price %></p>
+												</div>	
+											<% end %>									
+										</a>
+										<div class="function">
+											<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+											<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+											<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+											<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+										</div>
+									</li>
+								</div>
+							<% end %>
+						</div>
+						<div class="link">
+							<a href="#">Xem tất cả</a>
+						</div>
+						<!-- <div class="paging">
+							<div class="left">
+								<i class="pe-7s-angle-left"></i>
+							</div>
+							<div class="number">
+								<span>5/10</span>
+							</div>
+							<div class="right">
+								<i class="pe-7s-angle-right"></i>
+							</div>
+						</div> -->
+					</div>
+					<div class="tab-pane fade" id="industrial-projects">
+						<div class="row">			
+							<%
+								res = RealEstate.get_random.limit 6
+							%>
+							<% res.each do |re| %>
+								<div class="col-md-4 col-sm-6 col-custom">
+									<li class="item-sm">
+										<div class="picture">
+											<%= real_estate_avatar re %>
+										</div>
+										<a href="#">
+											<div class="title">
+												<span><%= re.title %></span>
+											</div>						
+											<div class="convenient">							
+												<div class="bathroom">
+													<i class="icon-bathroom"></i>
+													<span><%= re.display_restroom %></span>						
+												</div>
+												<div class="bedroom">
+													<i class="icon-bedroom"></i>
+													<span><%= re.display_bedroom %></span>
+												</div>
+												<div class="area">
+													<i class="icon-area"></i>
+													<span><%= re.display_area %>m<sup>2</sup></span>
+												</div>
+											</div>
+											<div class="address">
+												<i class="icon icon-address"></i>
+												<span><%= re.display_address %></span>
+											</div>
+											<% if re.fields.include? :sell_price %>
+												<div class="price">
+													<i class="icon icon-price"></i>
+													<p class="number sale"><%= re.display_sell_price %></p>
+												</div>	
+											<% end %>									
+										</a>
+										<div class="function">
+											<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+											<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+											<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+											<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+										</div>
+									</li>
+								</div>
+							<% end %>
+						</div>
+						<div class="link">
+							<a href="#">Xem tất cả</a>
+						</div>
+						<!-- <div class="paging">
+							<div class="left">
+								<i class="pe-7s-angle-left"></i>
+							</div>
+							<div class="number">
+								<span>5/10</span>
+							</div>
+							<div class="right">
+								<i class="pe-7s-angle-right"></i>
+							</div>
+						</div> -->
+					</div>
+				</div>
+				<!-- end -->
+			</section>
+			<!-- end -->
+			
+			<!-- start seo-word -->
+			<section class="seo-word">
+				<ul>
+					<li>
+						<a href="#" class="thumbnail">
+							<img src="/assets/projects/default.png">
+							<span>Dự án giá 1 tỷ</span>
+						</a>
+					</li>
+					<li>
+						<a href="#" class="thumbnail">
+							<img src="/assets/projects/default.png">
+							<span>Biệt thự nghĩ dưỡng</span>
+						</a>
+					</li>
+					<li>
+						<a href="#" class="thumbnail">
+							<img src="/assets/projects/default.png">
+							<span>Dự án cao cấp</span>
+						</a>
+					</li>
+				</ul>
+			</section>
+			<!-- end -->
+			
+			<!-- start position -->
+			<section class="position-projects">			
+				<div class="title-position">			
+					<span>Xem bất động sản tại</span>
+					<div class="btn-group">
+						<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							TPHCM <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							Hiển thị tất cả các Quận
+						</ul>
+					</div>					
+				</div>
+				<div class="row">						
+					<%
+						res = RealEstate.get_random.limit 3
+					%>
+					<% res.each do |re| %>
+						<div class="col-md-4 col-sm-6">
+							<li class="item-sm">
+								<div class="picture">
+									<%= real_estate_avatar re %>
+								</div>
+								<a href="#">
+									<div class="title">
+										<span><%= re.title %></span>
+									</div>						
+									<div class="convenient">							
+										<div class="bathroom">
+											<i class="icon-bathroom"></i>
+											<span><%= re.display_restroom %></span>						
+										</div>
+										<div class="bedroom">
+											<i class="icon-bedroom"></i>
+											<span><%= re.display_bedroom %></span>
+										</div>
+										<div class="area">
+											<i class="icon-area"></i>
+											<span><%= re.display_area %>m<sup>2</sup></span>
+										</div>
+									</div>
+									<div class="address">
+										<i class="icon icon-address"></i>
+										<span><%= re.display_address %></span>
+									</div>
+									<% if re.fields.include? :sell_price %>
+										<div class="price">
+											<i class="icon icon-price"></i>
+											<p class="number sale"><%= re.display_sell_price %></p>
+										</div>	
+									<% end %>									
+								</a>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+							</li>
+						</div>
+					<% end %>						
+				</div>
+				<div class="paging">
+					<div class="left">
+						<i class="pe-7s-angle-left"></i>
+					</div>
+					<div class="number">
+						<span>5/10</span>
+					</div>
+					<div class="right">
+						<i class="pe-7s-angle-right"></i>
+					</div>
+				</div>
+			</section>
+			<!-- end -->
+
+			<!-- start distributor -->
+			<section class="block distributor-projects">
+				<article class="title">
+					<a href="#" class="link">
+						<i class="icon-link"></i>
+						<span>Dự án chủ đầu tư</span>
+					</a>
+				</article>
+				<article class="content">
+					<div class="row">
+						<div class="col-md-2 title">
+							<ul>
+								<li class="active">Sunrise City</li>
+								<li>Grand</li>
+								<li>Lucky Palace</li>
+								<li>Rivergate</li>
+							</ul>
+						</div>
+						<div class="col-md-10 pictured">
+							<img src="/assets/product/landscape05.jpg">
+							<table class="table">								
+								<tr>
+									<td>Vị trí</td>
+									<td>Mặt tiền đường Nguyễn Hữu Thọ. P Tân Hưng. Q7 HCM</td>
+								</tr>
+								<tr class="odd">
+									<td>Diện tích</td>
+									<td>15.152m<sup>2</sup></td>
+								</tr>
+								<tr>
+									<td>Số tầng</td>
+									<td>37 tầng</td>
+								</tr>
+								<tr class="odd">
+									<td>Tiện ích</td>
+									<td>Trung tâm thương mại, shopping, café, hồ bơi, Gym, khu vui chơi trẻ em,….</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</article>				
+				<article class="wrapper-distributor">
+					<div class="list">
+						<div>
+							<img src="/assets/logo/logo-vingroup.png">
+						</div>
+						<div>
+							<img src="/assets/logo/logo-novaland.png">
+						</div>
+						<div>
+							<img src="/assets/logo/logo-khaihoan.png">
+						</div>
+						<div>
+							<img src="/assets/logo/logo-vingroup.png">
+						</div>
+						<div>
+							<img src="/assets/logo/logo-novaland.png">
+						</div>
+						<div>
+							<img src="/assets/logo/logo-khaihoan.png">
+						</div>	
+					</div>
+				</article>
+			</section>
+			<!-- end -->
+		</div>
+	</div>
+</section>
+<!-- end -->
