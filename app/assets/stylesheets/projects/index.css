@@ -1,18 +1,17 @@
-/*start search*/
+/*start search-box*/
 .search {
 	background: url('/assets/background/background-search.jpg') no-repeat center center;
 	height: 550px;
 	display: flex;
-	margin-bottom: 25px;
+	margin-bottom: 20px;
 }	
 	.search .search-box {
 		margin: auto;
 	}
-/*end search*/
+/*end search-box*/
 
 /*start navigator*/
 .navigator {
-
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
@@ -20,146 +19,154 @@
 	}
 /*end navigator*/
 
-/*start Interested Project*/
-.project-is-interested {
+/*start user-property*/
+.user-projects {
+	margin-bottom: 30px;
 }
-/*end Interested Project*/
-
-/*start distribution*/
-.distribution {
-	margin-bottom: 20px;
-}
-	/*start distribution-block*/
-	.distribution-block {
-		margin-bottom: 20px;
+	/*Tab panes*/
+	.user-projects .tab-content > div {
+		padding: 10px 0;
 	}
-		/*start menu*/
-		.distribution-block .menu {
-			text-align: right;
-			display: flex;
-			justify-content: flex-end;
+
+		/*start link*/
+		.user-projects .tab-content .link {
 			margin-bottom: 10px;
-			margin-right: 80px;
+			text-align: right;
 		}
-			.distribution-block .menu select {
-				width: 185px;
-				border-radius: 2px;
-			}
-			.distribution-block .menu .link {
-				margin-left: 10px;
-				align-self: center;
-			}
-		/*end menu*/
-		/*start details*/
-		.distribution-block .details {
-			display: flex;
+		/*end*/
+
+		/*start paging*/
+		.user-projects .tab-content .paging {
+			margin-bottom: 10px;
 		}
-			.distribution-block .details .name {
-				padding: 5px;
-				align-self: center;
-				text-align: center;
-				width: 100px;
-				font-size: 15px;
-				font-weight: bold;
-			}
-			.distribution-block .details  ul.wrapper {
-				display: flex;
-				border-left: 1px solid #ccc;
-				width: 100%;
-				justify-content: center;
-			}
-			.distribution-block .details li {
-				margin: 0 30px;
-			}
-		/*end details*/
-	/*end distribution-block*/
-/*end distribution*/
+		/*end*/
 
-/*start agent*/
-.agent {
-	margin-bottom: 40px;
-}
-.agent ul {
-	text-align: center;
-}
-.agent li {
-	display: inline-block;
-	margin: 0 10px;
-	height: 150px;
-	width: 150px;
-	border: 1px solid #ccc;	
-}
-/*end agent*/
+	/*end*/
+/*end*/
 
-/*start general list*/
-.general-project {
+/*start type-property*/
+.type-projects {
+	margin-bottom: 30px;
+}
+	/*Tab panes*/
+	.type-projects .tab-content > div {
+		padding: 10px 0;
+	}
+
+		/*start link*/
+		.type-projects .tab-content .link {
+			margin-bottom: 10px;
+			text-align: center;
+			width: 840px;
+		}
+		/*end*/
+
+		/*start paging*/
+		.type-projects .tab-content .paging {
+			margin-bottom: 10px;
+		}
+		/*end*/
+
+		/*start col-custom*/
+		.type-projects .tab-content .col-custom {
+			width: auto !important;
+		}
+		/*end*/
+	/*end*/
+/*end*/
+
+/*start seo-word*/
+.seo-word {
+	margin-bottom: 30px;
+}
+	.seo-word ul {
+
+	}
+	.seo-word ul li a {
+		display: block;
+		text-align: center;
+	}
+	.seo-word ul li {
+		display: inline-block;
+		width: 280px;
+		margin-right: 32px;
+	}
+		.seo-word li img {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+		.seo-word li span {
+
+		}
+/*end*/
+
+/*start position projects*/
+.position-projects {
 	margin-bottom: 20px;
 }
-	/*start content*/
-		/*start position property*/
-		.position-property {
-			margin-bottom: 15px;
-		}	
-			/*start tab-position*/
-			.tab-position {
-				margin-bottom: 15px;
-			}
-			.tab-position ul {
-				display: flex;
-			}
-			.tab-position li.active {
-				border: 1px solid #54b40d;
-				border-radius: 2px;
-				background-color: #54b40d;		
-				font-size: 12px;
-				padding: 0 12px;
-			}
-				.tab-position li.active a {
-					display: block;
-					color: #fff;
-				}
-				.tab-position li.active:after {
-					content: '';
-				}
-			.tab-position li {
-				position: relative;
-				padding: 0 10px;
-				font-size: 12px;
-				align-self: center;
-			}
-				.tab-position li:after {
-					position: absolute;
-					content: '|';
-					top: -2px;
-					right: 0;
-					display: block;
-					color: #ccc;
-				}
-			.tab-position li:last-child:after {
-				content: '';
-			}
-			.tab-position li .input-position {
-				vertical-align: middle;
-				font-size: 12px;
-				color: #999;
-				outline: none;
-			}
-			/*end tab-position*/
-		/*end position property*/
+	/*start title*/
+	.position-projects .title-position {
+		font-size: 100%;
+		font-weight: bold;
+		margin-bottom: 10px;		
+	}
+		.position-projects .btn-group {
+			vertical-align: -6px;
+		}
+		.position-projects button {
+			padding: 0 10px;
+		}
+	/*end*/
+/*end position property*/
 
-	/*end content*/
-/*end general list*/
+/*start distributor-projects*/
+.distributor-projects {
 
-/*start contact*/
-.contact {
-	margin-bottom: 20px;
 }
-.contact img {
+	.distributor-projects .content .title {
+		text-align: center;
+		padding-right: 0 !important;
+	}
+	.distributor-projects .content .title span {
+		text-transform: uppercase;
+	}
+	.distributor-projects .content .title ul {
+		text-align: left;
+	}
+		.distributor-projects .content .title ul li {
+			padding: 5px;
+			cursor: pointer;
+		}
+		.distributor-projects .content .title ul li.active {
+			background-color: #54b40d;
+			color: #fff;
+		}
+	.distributor-projects .content .pictured {
+		max-width: 100%;
+		padding-left: 0 !important;
+	}
+		.distributor-projects .content .pictured img {
+			width: 100%;
+		}
+	.distributor-projects .content .wrap-table {
+		padding-left: 0 !important;
+	}
+	.odd {
+		background-color: #eee;
+	}
+
+	/*start slide*/
+	.list img {
+		max-width: 275px;
+	}
+	/*end*/
+/*end*/
+
+/*fix table*/
+.fix-table {
+	border: 1px solid #ccc;
 	width: 100%;
+	margin-left: 11px;
 }
-.contact li {
-	font-size: 13px;
-	color: #999;
-	margin: 5px 0;
-}
-/*end contact*/
+/*end*/
+
