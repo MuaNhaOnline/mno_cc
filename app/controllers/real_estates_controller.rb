@@ -200,7 +200,7 @@ class RealEstatesController < ApplicationController
 
     count = res.count
 
-    return render json: { status: 1 } if count === 0
+    return render json: { status: 1 } if count == 0
 
     render json: {
       status: 0,
@@ -234,4 +234,33 @@ class RealEstatesController < ApplicationController
   end
 
 # / Delete
+
+# Search
+
+  # Partial view
+  # params: page, price(x;y)
+  def search
+    per = Rails.application.config.item_per_page
+
+    params[:page] ||= 1
+
+    where = 'TRUE'
+    if params.has_key? :price
+      price_range = params[:price].split(';')
+      where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+    end
+
+    res = RealEstate.where(where)
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page].to_i, per) }),
+        pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: per })
+      }
+    }
+  end
+
+# / Search
+
 end

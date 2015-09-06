@@ -1,9 +1,13 @@
 <% content_for :stylesheets do %>
-    <link rel="stylesheet" href="/assets/real_estates/index.css" />
+		<link rel="stylesheet" href="/assets/real_estates/index.css" />
+		<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.skinFlat.css" />
+		<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.css" />
+		<link rel="stylesheet" href="/assets/shared/normalize.css" />
 <% end %>
 
 <% content_for :scripts do %>
-    <script src="/assets/real_estates/index.js"></script>
+	<script src="/assets/real_estates/index.js"></script>
+	<script src="/assets/shared/ion.rangeSlider.min.js"></script>
 <% end %>
 
 <!--start Search Box -->
@@ -771,7 +775,7 @@
 <!-- end position property -->
 
 <!-- start price property -->
-<!-- <section class="container price-property block">
+<section class="container price-property block">
 	<article class="title">
 		<a href="#" class="link">
 			<i class="icon-link"></i>
@@ -779,14 +783,15 @@
 		</a>
 	</article>
 	<article class="content">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<input type="text" id="slider" name="example_name" value="" />
+		<ul id="list" class="row" style="margin-top: 15px;">			
+			<%= render partial: 'real_estates/item_list', locals: { res: RealEstate.get_random.limit(4) } %>
+		</ul>
+		<div class="paging" id="pagination">
+			<%= render partial: 'shared/pagination_2', locals: { per: 2, total: 10 } %>
+		</div>
 	</article>
-</section> -->
+</section>
 <!-- end -->
 
 <!-- start short property -->
@@ -1037,7 +1042,7 @@
 								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						  	</div>
+								</div>
 						</div>
 					</div>
 					<div class="panel panel-default">

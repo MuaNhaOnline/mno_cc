@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'real_estates/_pending_list'
   get 'real_estates/appraise'
   get 'real_estates/_appraise_list'
+  get 'real_estates/search'
   get 'real_estates/:id' => 'real_estates#view'
   get 'real_estates' => 'real_estates#index'
   post 'real_estates/preview' => 'real_estates#preview'
