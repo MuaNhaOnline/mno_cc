@@ -62,16 +62,24 @@
   margin-bottom: 5px;
 }
 
+.margin-top-0 {
+  margin-top: 0;
+}
+
 .margin-left-5 {
   margin-left: 5px;
 }
 
-.padding-bottom-0 {
-  padding-bottom: 0;
+.margin-bottom-15 {
+  margin-bottom: 15px;
 }
 
 .inline-block {
-  display: inline-block;
+  display: inline-block !important;
+}
+
+.font-size-12 {
+  font-size: 12px !important;
 }
 
 .no-underline {

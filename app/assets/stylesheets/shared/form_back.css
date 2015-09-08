@@ -1,3 +1,10 @@
+@keyframes animate-shake-icon {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .form {
 
 }
@@ -41,12 +48,32 @@
     -moz-osx-font-smoothing: grayscale;
 	}
 
+		.form .has-success .required-label {
+			display: none;
+		}
+
 		.form .required-label:before {
 	    content: "\f069";
 		}
 
 	/*
 		/ Required label
+	*/
+
+	/*
+		Success label
+	*/
+
+	.form .success-label {
+		color: #00a65a;
+	}
+
+		.form .success-label i {
+			animation: animate-shake-icon .5s .5s;
+		}
+
+	/*
+		/ Success label
 	*/
 
 	/*
@@ -72,15 +99,8 @@
 		font-size: 20px;
 	}
 
-		@keyframes animate-button-icon {
-		  0% { -transform: rotate(0deg); }
-		  25% { transform: rotate(-10deg); }
-		  75% { transform: rotate(10deg); }
-		  100% { transform: rotate(0deg); }
-		}
-
 		.form .btn.animate-icon:hover .icon {
-			animation: animate-button-icon .5s .5s;
+			animation: animate-shake-icon .5s .5s;
 		}
 
 	/*

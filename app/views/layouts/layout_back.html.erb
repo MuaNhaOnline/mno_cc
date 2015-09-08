@@ -39,6 +39,7 @@
 	<![endif]-->
 	
   <link rel="stylesheet" type="text/css" href="/assets/shared/layout_back.css">
+  <link rel="stylesheet" type="text/css" href="/assets/shared/layout.css">
   <link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
 
 	<%= yield :stylesheets %>
@@ -93,10 +94,10 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="/users/<%= current_user.id %>" class="btn btn-default btn-flat"><%= t 'layout.header.user_profile' %></a>
+                      <a href="/users/<%= current_user.id %>" class="btn btn-primary btn-flat"><%= t 'layout.header.user_profile' %></a>
                     </div>
                     <div class="pull-right">
-                      <a href="/signout" class="btn btn-default btn-flat"><%= t 'layout.header.signout' %></a>
+                      <a href="/signout" class="btn btn-primary btn-flat"><%= t 'layout.header.signout' %></a>
                     </div>
                   </li>
                 </ul>
@@ -273,6 +274,7 @@
 
   <script type="text/javascript" src="/assets/shared/jquery.cookie.js"></script>
   <script type="text/javascript" src="/assets/shared/<%= I18n.locale %>.js"></script>
+  <script type="text/javascript" src="/assets/shared/layout.js"></script>
   <script type="text/javascript" src="/assets/shared/layout_back.js"></script>
   <script type="text/javascript" src="/assets/shared/form_back.js"></script>
 	<%= yield :scripts %>

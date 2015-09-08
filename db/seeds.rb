@@ -100,8 +100,9 @@ RealEstateType.create [
 	{ name: 'store', options: '{"group":"space"}' },
 	{ name: 'restaurant_hotel', options: '{"group":"space"}' },
 	{ name: 'storage_workshop', options: '{"group":"space"}' },
-	{ name: 'building_apartment', options: '{"html":{"attributes":"data-on=building-apartment data-off=un-building-apartment"},"group":"apartment","default":""}' },
-	{ name: 'luxury_apartment', options: '{"html":{"attributes":"data-on=luxury-apartment data-off=un-luxury-apartment"},"group":"apartment"}' },
+	{ name: 'high_apartment', options: '{"group":"apartment"}' },
+	{ name: 'medium_apartment', options: '{"group":"apartment"}' },
+	{ name: 'low_apartment', options: '{"group":"apartment"}' },
 	{ name: 'villa', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
 	{ name: 'town_house', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
 ]
@@ -138,18 +139,6 @@ District.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE districts_id_seq RESTART WITH 1')
 District.create [
 	{ name: '1', province_id: 1, options: '{"default":""}' }
-]
-
-Ward.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE wards_id_seq RESTART WITH 1')
-Ward.create [
-	{ name: 'Bến Nghé', province_id: 1, options: '{"default":""}' }
-]
-
-Street.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE streets_id_seq RESTART WITH 1')
-Street.create [
-	{ name: 'Lê Lợi', province_id: 1, options: '{"default":""}' }
 ]
 
 ProjectType.delete_all

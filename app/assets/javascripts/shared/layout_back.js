@@ -1,7 +1,8 @@
-var $body, _temp = {};
+var $body, $window, _temp = {};
 
 $(function () {
 	$body = $('body');
+  $window = $(window);
 
   $('#loading_page').remove();
 
@@ -72,14 +73,24 @@ function toggleLoadStatus(on) {
   }
 }
 
-function canSee($item) {
-  var topW = $body.scrollTop();
-  var heightW = window.innerHeight;
-  var bottomW = topW + heightW;
+/*
+  params:
+    addBottom
+    addHeight
+    addTop
+*/
+function canSee($item, params) {
+  if (typeof params == 'undefined') {
+    params = {};
+  }
 
-  var topI = $item.offset().top;
-  var heightI = $item.height()
-  var bottomI = topI + heightI;
+  var 
+    topW = $window.scrollTop(),
+    heightW = window.innerHeight,
+    bottomW = topW + heightW,
+    topI = $item.offset().top + (params['addTop'] || 0),
+    heightI = $item.height() + (params['addHeight'] || 0),
+    bottomI = topI + heightI + (params['addBottom'] || 0);
 
   if (heightW > heightI) {
     if ((topW < topI && topI < bottomW) ||
@@ -173,14 +184,14 @@ function getPopup(params) {
     $body.addClass('no-scroll');
   }
 
-  $popup.off = function () {
+  $popup.off = function (isButtonClick) {
     $popup.removeClass('on');
     $(document).off('keydown.turn_off_popup_' + id);
     $body.removeClass('no-scroll');
 
     // $popup.trigger('onEscape');
     if ($popup.data('onEscape')) {
-      $popup.data('onEscape')();
+      $popup.data('onEscape')(isButtonClick);
     }
   };
 
@@ -323,7 +334,7 @@ function popupPrompt(params) {
   			type = 'type' in button ? button.type : 'default',
   			handle = 'handle' in button ? button.handle : null;
 
-    	var $button = $('<button class="btn btn-' + type + ' margin-5">' + text + '</button>');
+    	var $button = $('<button class="btn btn-flat btn-' + type + ' margin-5">' + text + '</button>');
 
       $button.on('click', function () {
         if (handle) {
@@ -331,17 +342,17 @@ function popupPrompt(params) {
             return;
           }
         }
-        $popup.off();
+        $popup.off(true);
       });
 
     	$buttonContainter.append($button);
   	});
   }
   else {
-    var $button = $('<button type="button" class="btn btn-default margin-5">Close</button>');
+    var $button = $('<button type="button" class="btn btn-flat btn-default margin-5">' + _t.form.close + '</button>');
 
     $button.on('click', function () {
-      $popup.off();
+      $popup.off(true);
     });
 
     $buttonContainter.append($button);
