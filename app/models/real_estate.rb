@@ -289,7 +289,7 @@ class RealEstate < ActiveRecord::Base
 
     other_params = {
       is_draft: is_draft,
-      is_full: is_full || params[:is_full],
+      is_full: new_record? ? params[:is_full] : (is_full || params[:is_full]),
       is_pending: false,
       meta_search: RealEstate.get_meta_search(self)
     }

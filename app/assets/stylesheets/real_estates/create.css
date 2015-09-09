@@ -79,7 +79,7 @@
 
         .create-re-container .form-navigator .item:hover .text {
           display: block;
-          animation: animate-show-text .5s;
+          animation: animate-show-text .3s;
         }
 
   .create-re-container .create-form-re {
