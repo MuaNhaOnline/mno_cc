@@ -281,7 +281,10 @@ $(function () {
 
   function initUntilFull() {
     var $isFull = $form.find('#is_full');
-    if (!$isFull.val()) {
+    if ($isFull.val() == 'false') {
+      toggleUntilFull();
+    }
+    else if ($isFull.val() == '') {
       popupPrompt({
         title: 'Xác nhận',
         content: 'Bạn muốn đăng thông tin cơ bản hay chi tiết?',
