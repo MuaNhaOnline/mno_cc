@@ -38,17 +38,21 @@ class ApplicationController < ActionController::Base
   private
   def get_current_user
     # if exists session user_id
-    begin
-      return User.current = @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
-    rescue
-      
+    unless session[:user_id].nil?
+      u = User.find_by id: session[:user_id]
+      unless u.nil?
+        u.remote_ip = request.remote_ip
+        User.current = @current_user = u
+        return
+      end
     end
 
     # if exists cookie user_account
     if cookies.has_key? :user_account
       result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
       
-      if result[:status] === 0
+      if result[:status] == 0
+        result[:result].remote_ip = request.remote_ip
         User.current = @current_user = result[:result]
         session[:user_id] = result[:result].id
         return
@@ -56,7 +60,7 @@ class ApplicationController < ActionController::Base
     end
 
     session[:user_id] = nil
-    return User.current = @current_user = User.new
+    return User.current = @current_user = User.new(remote_ip: request.remote_ip)
   end
 
   def signed?

@@ -4,6 +4,11 @@ class Ability
 
   def initialize user
     user ||= User.new
+    
+    can :create, RealEstate
+    can :edit, RealEstate do |re|
+      re.user_id == 0 && re.params['remote_ip'] == user.remote_ip
+    end
 
     # Not sign
     if user.new_record?
@@ -32,7 +37,7 @@ class Ability
 
 # Real estate
 
-      can [:create, :view_my], RealEstate
+      can [:view_my], RealEstate
 
       can [:edit, :delete, :change_show_status], RealEstate, user_id: user.id
 

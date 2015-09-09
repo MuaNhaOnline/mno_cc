@@ -3,6 +3,8 @@ class RealEstate < ActiveRecord::Base
   include PgSearch
   pg_search_scope :search, against: [:meta_search]
 
+  serialize :params, JSON
+
 # Associates
 
   belongs_to :user
@@ -277,6 +279,7 @@ class RealEstate < ActiveRecord::Base
 
   def save_with_params params, is_draft = false
     # Author
+    return { status: 6 } if is_draft == true && !User.signed?
     if new_record?
       return { status: 6 } if User.current.cannot? :create, RealEstate
     else
@@ -290,9 +293,14 @@ class RealEstate < ActiveRecord::Base
     other_params = {
       is_draft: is_draft,
       is_full: params[:is_full],
-      is_pending: false,
+      is_pending: true,
       meta_search: RealEstate.get_meta_search(self)
     }
+
+    if user_id == 0
+      other_params = other_params.merge params.permit(:user_full_name, :user_email, :user_phone_number)
+      other_params[:params] = { 'remote_ip': params[:remote_ip] }
+    end
 
     assign_attributes other_params
 
@@ -312,7 +320,7 @@ class RealEstate < ActiveRecord::Base
   # Get pending
 
   def self.get_pending
-    where(is_pending: 1, is_draft: 0)
+    where(is_pending: true, is_draft: false)
   end
 
   # / Get pending

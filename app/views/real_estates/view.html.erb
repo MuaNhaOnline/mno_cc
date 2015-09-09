@@ -413,37 +413,62 @@
 			</article>
 			<article class="content information">
 				<div class="user-info row">
-					<div class="col-md-2">
-						<%= user_avatar @re.user %>
-						<span><%= @re.user.full_name %></span>
-					</div>
-					<div class="col-md-3">
-						<ul class="info">
-							<% unless @re.user.phone_number.blank? %>
-								<li>
-									<i class="icon-phone"></i>
-									<span><%= @re.user.phone_number %></span>
-								</li>
-							<% end %>
-							<li>
-								<i class="icon-mail"></i>
-								<span><%= @re.user.email %></span>
-							</li>
-							<!-- <li>
-								<i class="icon-skype"></i>
-								<span>Đang cập nhật</span>
-							</li> -->
-							<% unless @re.user.address.blank? %>
-								<li>
-									<i class="icon-address"></i>
-									<span><%= @re.user.address %></span>
-								</li>
-							<% end %>
-						</ul>
-						<div class="btn-contact">
-							
+					<% if @re.user_id != 0 %>
+						<div class="col-md-2">
+							<%= user_avatar @re.user %>
+							<span><%= @re.user.full_name %></span>
 						</div>
-					</div>
+						<div class="col-md-3">
+							<ul class="info">
+								<% unless @re.user.phone_number.blank? %>
+									<li>
+										<i class="icon-phone"></i>
+										<span><%= @re.user.phone_number %></span>
+									</li>
+								<% end %>
+								<li>
+									<i class="icon-mail"></i>
+									<span><%= @re.user.email %></span>
+								</li>
+								<!-- <li>
+									<i class="icon-skype"></i>
+									<span>Đang cập nhật</span>
+								</li> -->
+								<% unless @re.user.address.blank? %>
+									<li>
+										<i class="icon-address"></i>
+										<span><%= @re.user.address %></span>
+									</li>
+								<% end %>
+							</ul>
+							<div class="btn-contact">
+								
+							</div>
+						</div>
+					<% else %>
+						<% u = User.new full_name: @re.user_full_name, phone_number: @re.user_phone_number, email: @re.user_email %>
+						<div class="col-md-2">
+							<%= user_avatar u %>
+							<span><%= u.full_name %></span>
+						</div>
+						<div class="col-md-3">
+							<ul class="info">
+								<% unless u.phone_number.blank? %>
+									<li>
+										<i class="icon-phone"></i>
+										<span><%= u.phone_number %></span>
+									</li>
+								<% end %>
+								<li>
+									<i class="icon-mail"></i>
+									<span><%= u.email %></span>
+								</li>
+							</ul>
+							<div class="btn-contact">
+								
+							</div>
+						</div>
+					<% end %>
 					<div class="col-md-3">
 						<div class="request-box">
 							<form>

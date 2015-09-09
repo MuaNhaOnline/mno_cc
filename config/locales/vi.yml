@@ -71,6 +71,10 @@ vi:
       floor_number_1: 'Số tầng'
       floor_number_2: 'Tầng thứ'
       appraisal_company: 'Công ty thẩm định'
+      contact_box: 'Thông tin liên lạc'
+      user_full_name: 'Họ tên'
+      user_email: 'Email'
+      user_phone_number: 'Điện thoại'
     view:
       create:
         page_title: 'Đăng bất động sản'

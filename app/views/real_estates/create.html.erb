@@ -112,6 +112,11 @@
       <a aria-name="aspect" href="javascript:void(0)" class="item until-full">
         <div class="icon"><i class="fa fa-thumbs-o-up fa-lg "></i></div><div class="text"><%= t 'real_estate.attribute.aspect_box' %></div>
       </a>
+      <% unless signed? %>
+        <a aria-name="contact" href="javascript:void(0)" class="item">
+          <div class="icon"><i class="fa fa-user fa-lg "></i></div><div class="text"><%= t 'real_estate.attribute.contact_box' %></div>
+        </a>
+      <% end %>
       <a aria-name="button" href="javascript:void(0)" class="item">
         <div class="icon"><i class="fa fa-check fa-lg "></i></div><div class="text">
       </a>
@@ -850,17 +855,80 @@
 
     <!-- / Aspect -->
 
+    <!-- Contact info -->
+
+    <% unless signed? %>
+
+        <div class="col-md-7">
+          <article aria-name="contact" class="box box-default">
+            <section class="box-header with-border">
+              <h2 class="box-title">
+                <%= t 'real_estate.attribute.contact_box' %>
+              </h2>
+            </section>
+            <section class="box-body hide-until-full">
+
+              <!-- User full name -->
+                
+              <article class="form-group">
+                <label class="control-label" for="user_full_name">
+                  <%= t 'real_estate.attribute.user_full_name' %>
+                  <sup class="required-label"></sup>
+                </label>
+                <input data-constraint="required" class="form-control" name="real_estate[user_full_name]" id="user_full_name" />
+              </article>
+
+              <!-- / User full name -->
+
+              <div class="row">
+
+                <!-- User email -->
+                  
+                <article class="form-group col-sm-6">
+                  <label class="control-label" for="user_email">
+                    <%= t 'real_estate.attribute.user_email' %>
+                    <sup class="required-label email"></sup>
+                  </label>
+                  <input data-constraint="required email" class="form-control" name="real_estate[user_email]" id="user_email" />
+                </article>
+
+                <!-- / User email -->
+
+                <!-- User phone number -->
+                  
+                <article class="form-group col-sm-6">
+                  <label class="control-label" for="user_phone_number">
+                    <%= t 'real_estate.attribute.user_phone_number' %>
+                    <sup class="required-label"></sup>
+                  </label>
+                  <input data-constraint="required integer" class="form-control" name="real_estate[user_phone_number]" id="user_phone_number" />
+                </article>
+
+                <!-- / User phone number -->
+
+              </div>
+
+            </section>
+          </article>
+        </div>
+
+    <% end %>
+
+    <!-- / Contact info -->
+
     <!-- Button -->
 
     <div aria-name="button" class="col-md-7">
       <article class="box box-solid">
         <section class="box-body row">
-          <div class="margin-top-bottom-5 col-sm-6">
+          <div class="margin-top-bottom-5 col-sm-<%= signed? ? 6 : 12 %>">
             <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'real_estate.view.create.finish' %></b></button>
           </div>
-          <div class="margin-top-bottom-5 col-sm-6">
-            <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft_preview' %></b></button>
-          </div>
+          <% if signed? %>
+            <div class="margin-top-bottom-5 col-sm-6">
+              <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft_preview' %></b></button>
+            </div>
+          <% end %>
         </section>
       </article>
     </div>

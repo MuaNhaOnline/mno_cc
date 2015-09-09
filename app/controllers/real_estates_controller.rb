@@ -55,13 +55,17 @@ class RealEstatesController < ApplicationController
     is_draft = params.has_key? :draft
 
     if params[:real_estate][:id].blank?
-      params[:real_estate][:user_id] = current_user.id
+      params[:real_estate][:user_id] = signed? ? current_user.id : 0
       real_estate = RealEstate.new
     else 
       real_estate = RealEstate.find(params[:real_estate][:id])
       if real_estate.nil?
         return render json: Hash[status: 1]
       end
+    end
+
+    unless signed?
+      params[:real_estate][:remote_ip] = request.remote_ip
     end
 
     result = real_estate.save_with_params(params[:real_estate], is_draft)
