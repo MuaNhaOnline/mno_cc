@@ -10,7 +10,7 @@
     .create-re-container .items-container {
       position: absolute;
       z-index: 3;
-      transition: 0.5s;
+      transition: 0.2s;
     }
 
     .create-re-container .form-navigator .item {
