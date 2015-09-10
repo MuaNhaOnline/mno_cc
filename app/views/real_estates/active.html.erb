@@ -1,0 +1,38 @@
+<% 
+=begin
+	params: @status(*)
+=end
+
+%>
+
+<% if @status == 0 %>
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<section class="box-header">
+					<h4 class="box-title">Chúc mừng. Bạn vừa kích hoạt tin thành công</h4>
+				</section>
+				<section class="box-body">
+					<p class="text-center">
+						Bạn vui lòng chờ quản lý duyệt tin để hiển thị.
+					</p>
+				</section>
+			</article>
+		</article>
+	</article>
+<% else %>
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-danger">
+				<section class="box-header">
+					<h4 class="box-title">Kích hoạt tin thất bại</h4>
+				</section>
+				<section class="box-body">
+					<p class="text-center">
+						Bạn vui lòng liên hệ quản lý để biết thêm chi tiết.
+					</p>
+				</section>
+			</article>
+		</article>
+	</article>
+<% end %>

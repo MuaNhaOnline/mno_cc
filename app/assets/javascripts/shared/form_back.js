@@ -29,11 +29,11 @@ function initForm($form, params) {
 		initEnterKey(); 
 	}
 
-	$form.find('.box').on('click', function (e) {
-		if ($(e.target).is('.box, .box-header, .box-body, .box-footer, .form-group, .checkbox, .radio')) {
-			$(this).find('[data-widget="collapse"]').click();
-		}
-	});
+	// $form.find('.box').on('click', function (e) {
+	// 	if ($(e.target).is('.box, .box-header, .box-body, .box-footer, .form-group, .checkbox, .radio')) {
+	// 		$(this).find('[data-widget="collapse"]').click();
+	// 	}
+	// });
 
 	/*
 		Toggle
@@ -104,7 +104,7 @@ function initForm($form, params) {
 				// Create elements list
 				var offElementsList = '';
 				$(offElements.split(' ')).each(function () {
-						offElementsList += ',[data-toggled-element~="' + this + '"]';
+					offElementsList += ',[data-toggled-element~="' + this + '"]';
 				});
 
 				// Turn off all elements & process their child
@@ -115,14 +115,14 @@ function initForm($form, params) {
 					toggleElement($element, false)
 
 					// Process this element
-					if ($element.is('.input-toggle')) {
-						// toggle($element);
-					}
+					// if ($element.is('.input-toggle')) {
+					// 	// toggle($element);
+					// }
 
-					// Process element's child if exists
-					$element.find('.input-toggle').each(function () {
-						// toggle($(this));
-					});
+					// // Process element's child if exists
+					// $element.find('.input-toggle').each(function () {
+					// 	// toggle($(this));
+					// });
 				});
 			}
 		}
@@ -132,7 +132,7 @@ function initForm($form, params) {
 				if (on) {
 					$element.removeClass('off');
 
-					$element.find(':input').prop('disabled', false).trigger('enable');
+					$element.find(':input:disabled').prop('disabled', false).trigger('enable');
 					// .each(function () {
 					//  var $input = $(this);
 					//  var invalid = checkInvalidInput($input);
@@ -144,10 +144,11 @@ function initForm($form, params) {
 				else {
 					$element.addClass('off');
 
-					$element.find(':input').prop('disabled', true).trigger('disable').each(function () {
+					$element.find(':input:enabled').prop('disabled', true).trigger('disable').each(function () {
 						var $input = $(this);
 
-						toggleValidInput($input, true);
+						removeSuccessLabel($input);
+						toggleValidInput($input, 1);
 					});
 				}
 
@@ -159,9 +160,13 @@ function initForm($form, params) {
 				// }
 			}
 			else {
+				if ($element.prop('disabled') == !on) {
+					return;
+				}
+
 				$element.prop('disabled', !on);
 				if (on) {
-					$element.removeClass('off').trigger('enable');
+					removeSuccessLabel($element.removeClass('off').trigger('enable'));
 
 					// var invalid = checkInvalidInput($element);
 					// if (invalid) {
@@ -171,7 +176,8 @@ function initForm($form, params) {
 				else {
 					$element.addClass('off').trigger('disable');;
 
-					toggleValidInput($element, true);   
+					removeSuccessLabel($element);
+					toggleValidInput($element, 1);   
 				}
 
 				// initConstraintFormGroup($element.closest('.form-group'));
@@ -949,34 +955,45 @@ function initForm($form, params) {
 				var input = this;
 				var value = input.value;
 
-				var oldPrice = _temp['price'];
-				if (oldPrice == value) {
+				if (_temp['price'] == value) {
 					return;
 				}
 
 				// Get current selection end
 				var selectionEnd = value.length - input.selectionEnd;
 
-				value = moneyFormat(intFormat(value), ',');
-				input.value = value;
+				var value_ = value.split('.');
+				value_[0] = moneyFormat(intFormat(value_[0]), ',');
+				value = value_.join('.');
+
+				this.value = value;
 				selectionEnd = value.length - selectionEnd;
 				input.setSelectionRange(selectionEnd, selectionEnd);
 
 				_temp['price'] = value;
+				_temp['is_changed'] = true;
 			},
-			paste: function () {
+			focusout: function () {
+				if (_temp['is_changed']) {
+					$(this).change();
+					_temp['is_changed'] = false;
+				}
+			},
+			'paste change': function () {
 				var input = this;
 				var value = input.value;
 
-				var oldPrice = _temp['price'];
-				if (oldPrice == value) {
+				if (_temp['price'] == value) {
 					return;
 				}
 
 				// Get current selection end
 				var selectionEnd = value.length - input.selectionEnd;
 
-				value = moneyFormat(intFormat(value), ',');
+				var value_ = value.split('.');
+				value_[0] = moneyFormat(intFormat(value_[0]), ',');
+				value = value_.join('.');
+				
 				input.value = value;
 				selectionEnd = value.length - selectionEnd;
 				input.setSelectionRange(selectionEnd, selectionEnd);
@@ -1012,12 +1029,9 @@ function initForm($form, params) {
 	function initConstraint() {
 		// initConstraintFormGroup($form.find('.form-group'));
 
-		$form.find('[data-constraint]').on({
+		$form.find(':input').on({
 			'change': function () {
-				var $input = $(this);
-				if ($input.data('invalid')) {
-					checkInvalidInput($(this)); 
-				}
+				checkInvalidInput($(this));
 			}
 		});
 
@@ -1100,18 +1114,19 @@ function initForm($form, params) {
 
 		// Range
 		$form.find('[data-constraint~="range"]').on({
-			'change': function () {
+			change: function () {
 				var $input = $(this);
 
 				var 
 					minValue = $input.data('minvalue'),
 					maxValue = $input.data('maxvalue');
 
-				if (minValue && this.value < minValue) {
+				value = $input.val().replace(/\D/g, '');
+				if (minValue && value < minValue) {
 					$(this).val(minValue).change();
 				}
 
-				if (maxValue && maxValue < this.value) {
+				if (maxValue && maxValue < value) {
 					$(this).val(maxValue).change();
 				}
 			}
@@ -1135,18 +1150,20 @@ function initForm($form, params) {
 			}
 		}
 
-		if (typeof $input.data('validate') === 'function') {
+		if (typeof $input.data('validate') == 'function') {
 			var result = $input.data('validate')();
 
-			if (result.status === true) {
-				var $validInput = result.input || $input;
-				toggleValidInput($validInput, true, result.constraint || 'custom');
+			if (typeof result != 'undefined') {
+				if (result.status) {
+					var $validInput = result.input || $input;
+					toggleValidInput($validInput, true, result.constraint || 'custom');
+				}
+				else {
+					var $invalidInput = result.input || $input;
+					toggleValidInput($invalidInput, false, result.constraint || 'custom');
+					return;
+				}	
 			}
-			else {
-				var $invalidInput = result.input || $input;
-				toggleValidInput($invalidInput, false, result.constraint || 'custom');
-			}
-			return;
 		}
 
 		toggleValidInput($input, true);
@@ -1159,7 +1176,18 @@ function initForm($form, params) {
 		toggleValidInput($input, isValid, constraint, name);
 	};
 
-	function toggleValidInput($input, isValid, constraint, name) {
+	function removeSuccessLabel($input) {
+		$input.closest('.form-group').removeClass('has-success').find('.success-label').remove();
+
+		var 
+			$box = $input.closest('.box');
+
+		if ($box.data('status') == 'success') {
+			$box.removeClass('box-success').data('status', 'normal').trigger('changeStatus');
+		}
+	}
+
+	function toggleValidInput($input, isValid, constraint, name, isNotCheckSuccess) {
 		var name = name || $input.attr('name');
 
 		if (isValid) {
@@ -1168,30 +1196,48 @@ function initForm($form, params) {
 
 			// Remove error class from form group if all input in valid
 			var $formGroup = $input.closest('.form-group');
-			if ($formGroup.find('[data-constraint]').filter(function () { return $(this).data('invalid'); }).length == 0) {
-				$formGroup.removeClass('has-error');
-			}
+			// if ($formGroup.find('[data-constraint]').filter(function () { return $(this).data('invalid'); }).length == 0) {
+			// 	$formGroup.removeClass('has-error');
+			// }
 
 			// Remove error message, remove error class from box
 
-			var 
-				$box = $input.closest('.box'),
-				$callout = $formGroup.find('.callout-error');
+			var $box = $input.closest('.box');
 
-			// Remove error message
-			$callout.find('[aria-name="' + name + '"]').remove();
+			// Callout success
+			if (isValid !== 1 && $formGroup.find('.success-label').length == 0) {
+				$formGroup.addClass('has-success').append('<section class="success-label text-right"><i class="fa fa-check fa-lg"></i></section>');
+			}	
 
-			// Check if not exist error => remove error class
-			if ($callout.children().length == 0) {
-				$callout.remove();
-			}
-			if ($box.find('.callout-error').length == 0) {
+			// Remove callout error
+			$formGroup.removeClass('has-error').find('.callout-error').remove();
+
+			currentStatus = $box.data('status');
+			if (currentStatus == 'error' && $box.find('.callout-error').length == 0) {
 				$box.removeClass('box-danger');
+				$box.data('status', 'normal');
 			}
+			if (currentStatus != 'success' && $box.find('.form-group:not(.has-success):visible').length == 0) {
+				$box.addClass('box-success');
+				$box.data('status', 'success');
+			}
+			if (currentStatus != $box.data('status')) {
+				$box.trigger('changeStatus');
+			}
+
+			// 	$callout = $formGroup.find('.callout-error');
+
+			// // Remove error message
+			// $callout.find('[aria-name="' + name + '"]').remove();
+
+			// // Check if not exist error => remove error class
+			// if ($callout.children().length == 0) {
+			// 	$callout.remove();
+			// }
 		}
 		else {
 			// Check if input was invalid with this constraint => return
-			if ($input.data('invalid') === constraint) {
+			if ($input.data('invalid') == constraint) {
 				return;
 			}
 
@@ -1203,8 +1249,12 @@ function initForm($form, params) {
 			$formGroup.addClass('has-error');
 
 			// Add error class to box
-			var $box = $formGroup.closest('.box');
-			$box.addClass('box-danger');
+			var 
+				$box = $formGroup.closest('.box');
+
+			if ($box.data('status') != 'error') {
+				$box.addClass('box-danger').removeClass('box-success').data('status', 'error').trigger('changeStatus');	
+			}
 
 			// Add error message
 			// Get callout
@@ -1214,13 +1264,18 @@ function initForm($form, params) {
 				$formGroup.append($callout);
 			}
 
+			$callout.text(_t[params.object]['validate'][name + '_' + constraint]);
+
+			// Remove success label
+			$formGroup.find('.success-label').remove();
+
 			// Get error message
-			var $errorMessage = $callout.find('[aria-name="' + name + '"]');
-			if ($errorMessage.length == 0) {
-				$errorMessage = $('<p class="no-margin" aria-name="' + name + '"></p>');
-				$callout.append($errorMessage);
-			}
-			$errorMessage.text(_t[params.object]['validate'][name + '_' + constraint]);
+			// var $errorMessage = $callout.find('[aria-name="' + name + '"]');
+			// if ($errorMessage.length == 0) {
+			// 	$errorMessage = $('<p class="no-margin" aria-name="' + name + '"></p>');
+			// 	$callout.append($errorMessage);
+			// }
+			// $errorMessage.text(_t[params.object]['validate'][name + '_' + constraint]);
 		}
 	}
 

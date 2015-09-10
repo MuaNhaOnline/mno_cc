@@ -7,6 +7,7 @@ var _t = {
 		info_title: 'Thông tin',
 		yes: 'Có',
 		no: 'Không',
+		close: 'Đóng',
 		label_image_upload: 'Đăng hình ảnh tại đây',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
@@ -33,7 +34,6 @@ var _t = {
 			'user[email]_required': 'Email không thể bỏ trống',
 			'user[email]_unique': 'Email đã được sử dụng',
 			'user[full_name]_required': 'Họ và tên không thể bỏ trống',
-			'user[birthday]_required': 'Ngày sinh không thể bỏ trống'
 		},
 		view: {
 			manager: {
@@ -71,7 +71,7 @@ var _t = {
 		},
 		view: {
 			create: {
-				success_content: 'Tin đăng thành công. Đăng hình ảnh và nhận xét về bất động sản của bạn tại đây',
+				success_content: 'Tin đăng thành công. Bạn có muốn bổ sung thông tin chi tiết không?',
 				save_draft_success_content: 'Lưu tạm thành công',
 				'continue': 'Bổ sung',
 				view: 'Xem kết quả'

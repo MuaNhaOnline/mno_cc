@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901072431) do
+ActiveRecord::Schema.define(version: 20150910073312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -314,22 +314,20 @@ ActiveRecord::Schema.define(version: 20150901072431) do
   end
 
   create_table "real_estates", force: :cascade do |t|
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.text     "title"
     t.text     "description"
     t.integer  "purpose_id"
     t.decimal  "rent_price"
     t.integer  "currency_id"
     t.integer  "rent_unit_id"
-    t.integer  "is_negotiable"
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "ward_id"
     t.integer  "street_id"
     t.text     "address_number"
     t.integer  "street_type"
-    t.integer  "is_alley"
     t.decimal  "alley_width"
     t.integer  "real_estate_type_id"
     t.decimal  "campus_area"
@@ -352,13 +350,9 @@ ActiveRecord::Schema.define(version: 20150901072431) do
     t.text     "custom_planning_status_type"
     t.text     "custom_advantages"
     t.text     "custom_disadvantages"
-    t.integer  "is_show",                     default: 1
     t.datetime "expired_time"
     t.decimal  "ads_cost"
-    t.integer  "is_paid",                     default: 1
-    t.text     "options"
-    t.integer  "is_pending",                  default: 1
-    t.integer  "is_draft",                    default: 0
+    t.text     "params"
     t.decimal  "sell_price"
     t.integer  "sell_unit_id"
     t.text     "lat"
@@ -368,6 +362,19 @@ ActiveRecord::Schema.define(version: 20150901072431) do
     t.integer  "appraisal_purpose"
     t.integer  "appraisal_type",              default: 0
     t.text     "appraisal_price"
+    t.boolean  "is_full"
+    t.text     "sell_price_text"
+    t.text     "rent_price_text"
+    t.boolean  "is_negotiable"
+    t.boolean  "is_alley"
+    t.boolean  "is_show",                     default: true
+    t.boolean  "is_paid",                     default: true
+    t.boolean  "is_pending",                  default: true
+    t.boolean  "is_draft",                    default: true
+    t.text     "user_full_name"
+    t.text     "user_email"
+    t.text     "user_phone_number"
+    t.boolean  "is_active",                   default: true
   end
 
   create_table "real_estates_region_utilities", force: :cascade do |t|

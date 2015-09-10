@@ -1,0 +1,17 @@
+<h3>Chúc mừng bạn đã đăng tin thành công tại MuaNhaOnline.vn</h3>
+
+<% 
+	query = { secure_code: @re.params['secure_code'] }.to_query
+%>
+
+<ol>
+	<li>
+		Kích hoạt tin tại <a href="<%= Rails.application.config.base_url %>real_estates/active/<%= @re.id %>?<%= query %>">đây</a>.
+	</li>
+	<li>
+		Sửa tin tại <a href="<%= Rails.application.config.base_url %>real_estates/create/<%= @re.id %>?<%= query %>">đây</a>.
+	</li>
+	<li>
+		Xóa tin tại <a href="<%= Rails.application.config.base_url %>real_estates/delete/<%= @re.id %>?<%= query %>">đây</a>.
+	</li>
+</ol>

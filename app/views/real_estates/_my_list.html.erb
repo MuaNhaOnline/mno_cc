@@ -2,14 +2,14 @@
   <!-- Get status -->
   <% 
     status = '';
-    if re.is_draft == 1
+    if re.is_draft
       status = 'draft '
     else
-      if re.is_pending == 1
+      if re.is_pending
         status = 'pending '
       end
 
-      if re.is_show == 1
+      if re.is_show
         status += 'show'
       end
     end

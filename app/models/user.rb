@@ -16,7 +16,16 @@ class User < ActiveRecord::Base
   pg_search_scope :search, against: [:full_name]
 
   def ability
-	  @ability ||= Ability.new(self)
+	  @ability ||= User.ability
+	end
+
+  def self.ability
+	  @ability # always have
+	end
+
+	# Run with before_action (in application controller)
+  def self.ability= ability
+	  @ability = ability
 	end
 
 	delegate :can?, :cannot?, to: :ability
@@ -91,7 +100,7 @@ class User < ActiveRecord::Base
 		end
 
 		# Birthday
-		params[:birthday] = Date.strptime(params[:birthday], '%d/%m/%Y')
+		params[:birthday] = Date.strptime(params[:birthday], '%Y')
 
 		params.permit [
 			:account, :password, :email, :full_name, :birthday, :business_name,

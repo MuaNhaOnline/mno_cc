@@ -44,6 +44,11 @@ class RealEstatesController < ApplicationController
     else
       authorize! :edit, @re
       @is_appraisal = @re.appraisal_type != 0
+
+      if @re.user_id == 0
+        @re.params['remote_ip'] = request.remote_ip
+        @re.save
+      end
     end
 
     render layout: 'layout_back'
@@ -55,7 +60,7 @@ class RealEstatesController < ApplicationController
     is_draft = params.has_key? :draft
 
     if params[:real_estate][:id].blank?
-      params[:real_estate][:user_id] = current_user.id
+      params[:real_estate][:user_id] = signed? ? current_user.id : 0
       real_estate = RealEstate.new
     else 
       real_estate = RealEstate.find(params[:real_estate][:id])
@@ -64,11 +69,30 @@ class RealEstatesController < ApplicationController
       end
     end
 
+    unless signed?
+      params[:real_estate][:remote_ip] = request.remote_ip
+    end
+
     result = real_estate.save_with_params(params[:real_estate], is_draft)
 
     return render json: result if result[:status] != 0
 
+    if params[:real_estate][:id].blank?
+      RealEstateMailer.active(real_estate).deliver_later
+    end
+
     render json: { status: 0, result: real_estate.id }
+  end
+
+  # Handle => View
+  # params: id, secure_code
+  def active
+    result = RealEstate.active params[:id], params[:secure_code]
+
+    return redirect_to '/' if result[:status] != 0
+
+    @status = result[:result]
+    render layout: 'layout_back'
   end
 
 # / Create
@@ -230,7 +254,12 @@ class RealEstatesController < ApplicationController
   # Handle
   # params: id(*)
   def delete
-    render json: RealEstate.delete_by_id(params[:id])
+    result = RealEstate.delete_by_id(params[:id])
+
+    respond_to do |format|
+      format.html { redirect_to '/' }
+      format.json { render json: result }
+    end
   end
 
 # / Delete

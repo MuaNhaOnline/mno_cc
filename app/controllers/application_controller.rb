@@ -16,11 +16,15 @@ class ApplicationController < ActionController::Base
   
   skip_before_filter :verify_authenticity_token
 
-  before_action :set_locale, :get_current_user
+  before_action :get_current_user, :init, :set_locale
   helper_method :signed?, :current_user
 
   rescue_from CanCan::AccessDenied do |e|
     redirect_to '/'
+  end
+
+  def init
+    @current_ability = User.ability = Ability.new(current_user, request)
   end
  
 	def set_locale
@@ -38,17 +42,19 @@ class ApplicationController < ActionController::Base
   private
   def get_current_user
     # if exists session user_id
-    begin
-      return User.current = @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
-    rescue
-      
+    unless session[:user_id].nil?
+      u = User.find_by id: session[:user_id]
+      unless u.nil?
+        User.current = @current_user = u
+        return
+      end
     end
 
     # if exists cookie user_account
     if cookies.has_key? :user_account
       result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
       
-      if result[:status] === 0
+      if result[:status] == 0
         User.current = @current_user = result[:result]
         session[:user_id] = result[:result].id
         return
@@ -65,5 +71,9 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user
+  end
+
+  def current_ability
+    @current_ability # Always have (run in before_action (init))
   end
 end
