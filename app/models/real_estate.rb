@@ -200,6 +200,18 @@ class RealEstate < ActiveRecord::Base
         return
       end
     end
+
+    # User contact
+    if user_id == 0
+      if user_full_name.blank?
+        errors.add :user_full_name, 'Họ tên liên lạc không thể bỏ trống'
+        return
+      end
+      if user_email.blank?
+        errors.add :user_email, 'Email liên lạc không thể bỏ trống'
+        return
+      end
+    end
   end
 
 # / Validates
@@ -298,8 +310,14 @@ class RealEstate < ActiveRecord::Base
     }
 
     if user_id == 0
-      other_params = other_params.merge params.permit(:user_full_name, :user_email, :user_phone_number)
+      other_params = other_params.merge params.permit(:user_full_name, :user_phone_number)
       other_params[:params] = { 'remote_ip': params[:remote_ip] }
+
+      if new_record?
+        other_params[:user_email] = params[:user_email]
+        other_params[:is_active] = false
+        other_params[:params]['secure_code'] = SecureRandom.base64
+      end
     end
 
     assign_attributes other_params

@@ -249,13 +249,13 @@
               <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
               <div class="input-group-btn">
                 <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
-                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_sell_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
+                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_sell_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
                 <ul class="dropdown-menu pull-right">
                   <%= sell_unit_html.html_safe %>
                 </ul>
               </div>
             </div>
-            <section class="money-text font-size-12"></section>
+            <section class="money-text font-size-12"><%= @re.new_record? || @re.sell_price.blank? ? 'Giá thỏa thuận' : @re.sell_price_text %></section>
           </article>
 
           <article class="form-group" data-toggled-element="rent un-sell">
@@ -264,13 +264,13 @@
               <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
               <div class="input-group-btn">
                 <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
-                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><%= t 'unit.text.' + current_rent_unit.name %><span class="fa fa-caret-down margin-left-5"></span></button>
+                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_rent_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
                 <ul class="dropdown-menu pull-right">
                   <%= rent_unit_html.html_safe %>
                 </ul>
               </div>
             </div>
-            <section class="money-text font-size-12"></section>
+            <section class="money-text font-size-12"><%= @re.new_record? || @re.rent_price.blank? ? 'Giá thỏa thuận' : @re.rent_price_text %></section>
           </article>
 
           <!-- / Price -->
@@ -609,22 +609,22 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="radio margin-top-0">
-                  <label><input type="radio" name="real_estate[constructional_quality]" value="4" <%= 'selected' if @re.constructional_quality == 3 %> />Rất mới</label>
+                  <label><input type="radio" name="real_estate[constructional_quality]" value="4" <%= 'checked' if @re.constructional_quality == 3 %> />Rất mới</label>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="radio margin-top-0">
-                  <label><input type="radio" name="real_estate[constructional_quality]" value="3" <%= 'selected' if @re.new_record? || @re.constructional_quality == 3 %> />Mới</label>
+                  <label><input type="radio" name="real_estate[constructional_quality]" value="3" <%= 'checked' if @re.new_record? || @re.constructional_quality == 3 %> />Mới</label>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="radio margin-top-0">
-                  <label><input type="radio" name="real_estate[constructional_quality]" value="2" <%= 'selected' if @re.constructional_quality == 2 %> />Còn sử dụng tốt</label>
+                  <label><input type="radio" name="real_estate[constructional_quality]" value="2" <%= 'checked' if @re.constructional_quality == 2 %> />Còn sử dụng tốt</label>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="radio margin-top-0">
-                  <label><input type="radio" name="real_estate[constructional_quality]" value="1" <%= 'selected' if @re.constructional_quality == 1 %> />Đang xuống cấp</label>
+                  <label><input type="radio" name="real_estate[constructional_quality]" value="1" <%= 'checked' if @re.constructional_quality == 1 %> />Đang xuống cấp</label>
                 </div>
               </div>
             </div>
@@ -899,9 +899,8 @@
                 <article class="form-group col-sm-6">
                   <label class="control-label" for="user_phone_number">
                     <%= t 'real_estate.attribute.user_phone_number' %>
-                    <sup class="required-label"></sup>
                   </label>
-                  <input data-constraint="required integer" class="form-control" name="real_estate[user_phone_number]" id="user_phone_number" />
+                  <input data-constraint="integer" class="form-control" name="real_estate[user_phone_number]" id="user_phone_number" />
                 </article>
 
                 <!-- / User phone number -->

@@ -41,6 +41,10 @@ $(function () {
                     $form.find('#is_full').val(true);
                     toggleUntilFull(1);
 
+                    $form.find('#constructional_area, #using_area').val($form.find('#campus_area').val());
+
+                    $form.find('#user_email').prop('disabled', true)
+
                     // Init toggled input
                     $form.inputToggle();
                   }
@@ -168,7 +172,7 @@ $(function () {
   		var $button = $(this);
 
 		// Change text
-		$button.closest('ul').siblings('button').html($button.text() + '<span class="fa fa-caret-down margin-left-5"></span>');
+		$button.closest('ul').siblings('button').find('.text').text($button.text());
 
 		// Change value
 		$button.closest('ul').siblings('input[type="hidden"]').val($button.data('value')).change();
@@ -395,7 +399,7 @@ $(function () {
       name = $box.attr('aria-name');
     }
 
-    if ($box.data('focusing')) {
+    if ($box.data('focusing') || $box.is('[aria-name="button"]')) {
       return;
     }
 
@@ -502,7 +506,7 @@ $(function () {
 
         $input.data('old-value', $input.val());
       }
-    })
+    });
   }
 
   /*
