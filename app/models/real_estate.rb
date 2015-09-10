@@ -338,7 +338,7 @@ class RealEstate < ActiveRecord::Base
   # Get pending
 
   def self.get_pending
-    where(is_pending: true, is_draft: false)
+    where(is_pending: true, is_active: true, is_draft: false)
   end
 
   # / Get pending
@@ -392,6 +392,22 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Update pending status
+
+  # Active
+
+  def self.active id, secure_code
+    re = find id
+
+    return { status: 1 } if re.is_active
+
+    return { status: 0, result: 1 } if re.params['secure_code'] != secure_code
+
+    re.is_active = true
+    re.save
+    { status: 0, result: 0 }
+  end
+
+  # / Active
 
 # / Update
 

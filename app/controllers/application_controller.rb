@@ -16,11 +16,15 @@ class ApplicationController < ActionController::Base
   
   skip_before_filter :verify_authenticity_token
 
-  before_action :set_locale, :get_current_user
+  before_action :init, :set_locale, :get_current_user
   helper_method :signed?, :current_user
 
   rescue_from CanCan::AccessDenied do |e|
     redirect_to '/'
+  end
+
+  def init
+    @current_ability = User.ability = Ability.new(current_user, request)
   end
  
 	def set_locale
@@ -60,7 +64,7 @@ class ApplicationController < ActionController::Base
     end
 
     session[:user_id] = nil
-    return User.current = @current_user = User.new(remote_ip: request.remote_ip)
+    return User.current = @current_user = User.new
   end
 
   def signed?
@@ -69,5 +73,9 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user
+  end
+
+  def current_ability
+    @current_ability # Always have (run in before_action (init))
   end
 end

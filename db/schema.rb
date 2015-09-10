@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910044354) do
+ActiveRecord::Schema.define(version: 20150910073312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -442,7 +442,6 @@ ActiveRecord::Schema.define(version: 20150910044354) do
     t.datetime "provider_expires_at"
     t.integer  "active_status"
     t.text     "params"
-    t.text     "remote_ip"
   end
 
   create_table "wards", force: :cascade do |t|

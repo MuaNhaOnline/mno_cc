@@ -2,12 +2,12 @@ class Ability
 
   include CanCan::Ability
 
-  def initialize user
+  def initialize user, request
     user ||= User.new
     
     can :create, RealEstate
-    can :edit, RealEstate do |re|
-      re.user_id == 0 && re.params['remote_ip'] == user.remote_ip
+    can [:edit, :delete], RealEstate do |re|
+      re.user_id == 0 && (re.params['remote_ip'] == request.remote_ip || request[:secure_code] == re.params['secure_code'])
     end
 
     # Not sign

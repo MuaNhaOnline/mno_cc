@@ -399,15 +399,22 @@ $(function () {
       name = $box.attr('aria-name');
     }
 
-    if ($box.data('focusing') || $box.is('[aria-name="button"]')) {
+    if ($box.data('focusing')) {
       return;
     }
 
+    var topReach;
+    if ($box.is('[aria-name="button"]')) {
+      topReach = $box.offset().top;
+    }
+    else {
+      topReach = $box.find('.box-header').offset().top;
+    }
     var $navItem = $formNavigator.find('[aria-name="' + name + '"]');
 
     $box.data('focusing', true);
     $focusingBox = $box;
-    $formNavigator.css('top', $box.find('.box-header').offset().top - ($navItem.offset().top - $formNavigator.offset().top));
+    $formNavigator.css('top', topReach - ($navItem.offset().top - $formNavigator.offset().top));
 
     $formNavigator.find('.active').removeClass('active');
     $navItem.addClass('active');
@@ -442,7 +449,7 @@ $(function () {
       _temp['focus_scroll'] = setTimeout(function () {
         currentScrollTop = $window.scrollTop();
 
-        if (!canSee($focusingBox.find('.box-header'), {
+        if (!canSee($focusingBox.is('[aria-name="button"]') ? $focusingBox : $focusingBox.find('.box-header'), {
               // Scroll down => -
               addTop: lastScrollTop < currentScrollTop ? 0 : 300
             })) {

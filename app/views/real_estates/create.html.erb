@@ -875,7 +875,7 @@
                   <%= t 'real_estate.attribute.user_full_name' %>
                   <sup class="required-label"></sup>
                 </label>
-                <input data-constraint="required" class="form-control" name="real_estate[user_full_name]" id="user_full_name" />
+                <input data-constraint="required" class="form-control" name="real_estate[user_full_name]" id="user_full_name" value="<%= @re.user_full_name %>" />
               </article>
 
               <!-- / User full name -->
@@ -889,7 +889,7 @@
                     <%= t 'real_estate.attribute.user_email' %>
                     <sup class="required-label email"></sup>
                   </label>
-                  <input data-constraint="required email" class="form-control" name="real_estate[user_email]" id="user_email" />
+                  <input data-toggle="popover" data-trigger="focus" data-content="Hãy sử dụng email thật để có thể <b>kích hoạt</b> tin và nhận thông báo." data-placement="auto" data-constraint="required email" class="form-control" name="real_estate[user_email]" id="user_email" value="<%= @re.user_email %>" <%= 'disabled="true"' unless @re.new_record? %> />
                 </article>
 
                 <!-- / User email -->
@@ -900,7 +900,7 @@
                   <label class="control-label" for="user_phone_number">
                     <%= t 'real_estate.attribute.user_phone_number' %>
                   </label>
-                  <input data-constraint="integer" class="form-control" name="real_estate[user_phone_number]" id="user_phone_number" />
+                  <input data-constraint="integer" class="form-control" name="real_estate[user_phone_number]" id="user_phone_number" value="<%= @re.user_phone_number %>" />
                 </article>
 
                 <!-- / User phone number -->
@@ -917,8 +917,8 @@
 
     <!-- Button -->
 
-    <div aria-name="button" class="col-md-7">
-      <article class="box box-solid">
+    <div class="col-md-7">
+      <article aria-name="button" class="box box-solid">
         <section class="box-body row">
           <div class="margin-top-bottom-5 col-sm-<%= signed? ? 6 : 12 %>">
             <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'real_estate.view.create.finish' %></b></button>
