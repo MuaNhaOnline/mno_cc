@@ -1115,7 +1115,6 @@ function initForm($form, params) {
 		// Range
 		$form.find('[data-constraint~="range"]').on({
 			change: function () {
-				console.log(123);
 				var $input = $(this);
 
 				var 

@@ -351,17 +351,25 @@ function read_money (number) {
     var text = ''
     var position = block * 3
 
+    var noNumBefore = true;
     for (i = position; i < position + 3; i++) {
-      var t = read_number(i);
+      // var t = read_number(i);
 
-      if (typeof t == 'object') {
-        return t;
-      }
-      else {
-        text += t;
+      // if (typeof t == 'object') {
+      //   return t;
+      // }
+      // else {
+      //   text += t;
+      // }
+      if (!(number[i] == '0' && noNumBefore)) {
+        text += number[i];
+        noNumBefore = false;
       }
     }
 
+    if (text != '') {
+      text += ' ';
+    }
     return text;
   }
 

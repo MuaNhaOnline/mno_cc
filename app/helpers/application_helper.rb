@@ -164,15 +164,23 @@ module ApplicationHelper
       text = ''
       position = block * 3
 
+      noNumBefore = true
       (position...(position + 3)).each do |p|
-        t = read_number p
-        if t.class == Array
-          return t
-        else
-          text += t
+        # t = read_number p
+        # if t.class == Array
+        #   return t
+        # else
+        #   text += t
+        # end
+        if !(@number[p] == '0' && noNumBefore)
+          text += @number[p]
+          noNumBefore = false
         end
       end
 
+      if text != ''
+        text += ' '
+      end
       text
     end
 
