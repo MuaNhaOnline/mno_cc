@@ -34,7 +34,6 @@ var _t = {
 			'user[email]_required': 'Email không thể bỏ trống',
 			'user[email]_unique': 'Email đã được sử dụng',
 			'user[full_name]_required': 'Họ và tên không thể bỏ trống',
-			'user[birthday]_required': 'Ngày sinh không thể bỏ trống'
 		},
 		view: {
 			manager: {

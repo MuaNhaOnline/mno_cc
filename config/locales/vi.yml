@@ -213,7 +213,7 @@ vi:
       password: 'Mật khẩu'
       email: 'Email'
       full_name: 'Họ và tên'
-      birthday: 'Ngày sinh'
+      birthday: 'Năm sinh'
       business_name: 'Tên doanh nghiệp'
       phone_number: 'Số điện thoại'
       address: 'Địa chỉ'

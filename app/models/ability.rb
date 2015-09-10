@@ -9,7 +9,6 @@ class Ability
     can [:edit, :delete], RealEstate do |re|
       re.user_id == 0 && (re.params['remote_ip'] == request.remote_ip || request[:secure_code] == re.params['secure_code'])
     end
-
     # Not sign
     if user.new_record?
 

@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   
   skip_before_filter :verify_authenticity_token
 
-  before_action :init, :set_locale, :get_current_user
+  before_action :get_current_user, :init, :set_locale
   helper_method :signed?, :current_user
 
   rescue_from CanCan::AccessDenied do |e|
@@ -45,7 +45,6 @@ class ApplicationController < ActionController::Base
     unless session[:user_id].nil?
       u = User.find_by id: session[:user_id]
       unless u.nil?
-        u.remote_ip = request.remote_ip
         User.current = @current_user = u
         return
       end
@@ -56,7 +55,6 @@ class ApplicationController < ActionController::Base
       result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
       
       if result[:status] == 0
-        result[:result].remote_ip = request.remote_ip
         User.current = @current_user = result[:result]
         session[:user_id] = result[:result].id
         return

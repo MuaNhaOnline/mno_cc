@@ -128,12 +128,11 @@
 
 		    <article class="form-group">
 		      <label for="birthday"><%= t 'user.attribute.birthday' %></label>
-          <sup class="required-label"></sup>
 		      <div class="input-group">
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <input value="<%= @user.birthday.strftime('%d/%m/%Y') unless @user.birthday.nil? %>" name="user[birthday]" data-constraint="required" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="birthday" />
+            <input value="<%= @user.birthday.strftime('%Y') unless @user.birthday.nil? %>" data-constraint="integer range" data-minvalue="1900" data-maxvalue="<%= Date.today.strftime('%Y') %>" class="form-control" type="text" name="user[birthday]" />
           </div>
 		    </article>
 

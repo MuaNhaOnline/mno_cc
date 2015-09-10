@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
 		end
 
 		# Birthday
-		params[:birthday] = Date.strptime(params[:birthday], '%d/%m/%Y')
+		params[:birthday] = Date.strptime(params[:birthday], '%Y')
 
 		params.permit [
 			:account, :password, :email, :full_name, :birthday, :business_name,
