@@ -1,6 +1,65 @@
 /*--------------------------------------------------------*/
 /*Icon*/
 /*--------------------------------------------------------*/
+/*start icon size*/
+.icon-16 {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url('/assets/icon/icon.png') no-repeat;
+	vertical-align: middle;
+}
+.icon-24 {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background: url('/assets/icon/icon.png') no-repeat;
+	vertical-align: middle;
+}
+.icon-32 {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background: url('/assets/icon/icon.png') no-repeat;
+	vertical-align: middle;
+}
+/*end*/
+
+/*start icon-16*/
+
+/*end*/
+
+/*start icon-24*/
+
+/*end*/
+
+/*start icon-32*/
+.icon-home-sale {
+	background-position: -40px 0; 	
+}
+.icon-home-rent {
+	background-position: -40px -32px; 
+}
+/*end*/
+
+
+/*start icon-24*/
+.icon-search {
+	background-position: -16px 0;
+}
+/*end*/
+
+/*start icon-16*/
+.icon-done {
+	background-position: 0 0;	
+}
+.icon-position {
+	background-position: 0 -16px;	
+}
+.icon-dollar {
+	background-position: 0 -32px;
+}
+/*end*/
 
 /*start icon*/
 .icon {
@@ -87,16 +146,6 @@
 	}
 	.icon-gift {
 		background: url('/assets/icon/icon-gift.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-	.icon-position {
-		background: url('/assets/icon/icon-position.png') no-repeat center center;
-		width: 16px;
-		height: 16px;
-	}
-	.icon-price {
-		background: url('/assets/icon/icon-price.png') no-repeat center center;
 		width: 16px;
 		height: 16px;
 	}

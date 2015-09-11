@@ -9,7 +9,7 @@ li {
 	margin: 0;
 	padding: 0;
 }
-a:hover {
+a:hover, a:visited, a:focus {
 	text-decoration: none;
 }
 .dropdown-menu {
@@ -360,24 +360,9 @@ footer {
 			.search-box .tab label input:focus ~ span {
 				color: #ff6511;
 			}
-			.search-box .tab label input ~ .sale {
-				display: inline-block;
-				width: 32px;
-				height: 32px;
-				vertical-align: -10px;                          
-				background: url('/assets/icon/Real_Estate_Investment-32-hover.png') no-repeat center center;                          
+			.search-box .tab label input ~ i {
 				margin-right: 10px;
-				transition: 0.2s;
 			}
-			.search-box .tab label input ~ .rent {
-				display: inline-block;
-				width: 32px;
-				height: 32px;
-				vertical-align: -10px;                          
-				background: url('/assets/icon/Rent_Home-32-hover.png') no-repeat center center;                           
-				margin-right: 10px;
-				transition: 0.2s;
-			}				
 	.search-box form {
 		padding: 0 70px;
 	}
@@ -399,18 +384,18 @@ footer {
 			display: flex;
 		}
 			.search-box form .btn-search button {
-				height: 100%;
+				height: 24px;
 				width: 24px;
-				transition: 0.5s;
 				border: none;
+				align-self: center;
 				text-decoration: none;
 				outline: none;
 				vertical-align: middle;
 				padding: 0;
-				background: url('/assets/icon/search-home.png') no-repeat center center;
+				background: url('/assets/icon/icon.png') no-repeat -16px 0;
 			}
 				.search-box form .btn-search button:hover {
-					background: url('/assets/icon/search-home-hover.png') no-repeat center center;
+					background-position: -16px -24px ;
 				}
 			.search-box form .btn-search .btn-more {
 				font-size: 12px;				
@@ -490,7 +475,6 @@ footer {
 
 /*start item-lg*/
 .item-lg {
-	font-size: 13px;
 	margin-bottom: 20px;
 }
 	/*start content*/
@@ -499,21 +483,21 @@ footer {
 	}
 		/*start picture*/
 		.item-lg .picture img {
-			max-height: 350px;
-			margin-bottom: 10px;
-			width: 100%;
+			max-width: 750px;
+			width: 100%;			
 		}
 		/*end picture*/
 
 		/*start name*/
 		.item-lg .name {
-			font-size: 18px;
+			font-size: 153.85%;
 			color: #666;
 			margin-bottom: 10px;
 			width: 100%;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			text-transform: uppercase;
 		}
 		/*end*/
 
@@ -521,17 +505,21 @@ footer {
 		.item-lg .status {            
 			margin-bottom: 10px;
 		}
-			.item-lg .status i.done {
-				vertical-align: middle;
-				display: inline-block;
-				width: 16px;
+			.item-lg .status i {
+				margin-right: 9px;
 				height: 16px;
-				background: url('/assets/icon/done.png') no-repeat center center;
+				width: 16px;
+				text-align: center;
+				line-height: 16px;
 			}
+				.item-lg .status i.done {
+					color: #54b40d;
+				}
+				.item-lg .status i.working {
+					color: #d41212;
+				}
 			.item-lg .status span {
 				color: #666;
-				margin-left: 5px;
-				font-size: 12px;
 			}
 		/*end*/
 
@@ -569,18 +557,25 @@ footer {
 		.item-lg .address {
 			margin-bottom: 10px;
 			overflow: hidden;
+			color: #666;
 		}
+			.item-lg .address i {
+				margin-right: 9px;
+			}
 		/*end*/
 
 		/*start price*/
 		.item-lg .price {
 			font-size: 13px;
 		}
+			.item-lg .price i {
+				margin-right: 9px;
+			}
 			.item-lg .price > .number {
 				display: inline-block;
 				border-radius: 30px;
 				font-weight: bolder;
-				font-size: 15px;
+				font-size: 100%;
 			}
 			.item-lg .price > .number.sale {
 				color: #ff6511;
@@ -597,7 +592,9 @@ footer {
 		.item-lg .detail {
 			text-align: justify;
 			margin-bottom: 10px;
-			max-height: 90px;
+			display: block;
+			height: 90px;
+			color: #666;
 		}
 		/*end*/
 
@@ -638,8 +635,7 @@ footer {
 .item-sm {
 	border: 1px solid #ddd;
 	width: 260px;
-	font-size: 13px;
-	color: #888;
+	color: #666;
 	border-radius: 2px;
 	margin-bottom: 20px;
 }
@@ -678,11 +674,14 @@ footer {
 	/*start title*/
 	.item-sm a > .title {
 		margin-bottom: 10px;
-		font-size: 16px;
+		font-size: 123.08%;
 		width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		padding: 0 3px;
+		color: #666;
+		text-transform: uppercase;
 	}
 	/*end*/
 
@@ -690,15 +689,22 @@ footer {
 	.item-sm .status {
 		margin-bottom: 10px;
 	}
-		.item-sm .status img {
-			width: 8px;
-			height: 8px;
-			vertical-align: middle;
+	.item-sm .status i {
+		margin-right: 5px;
+		height: 16px;
+		width: 16px;
+		text-align: center;
+		line-height: 16px;
+	}
+		.item-sm .status i.done {
+			color: #54b40d;
 		}
-		.item-sm .status span {		
-			font-size: 12px;
-			color: #aaa;
+		.item-sm .status i.working {
+			color: #d41212;
 		}
+	.item-sm .status span {		
+		color: #666;
+	}
 	/*end*/
 
 	/*start address*/
@@ -710,7 +716,11 @@ footer {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		color: #666;
 	}
+		.item-sm .address i {
+			margin-right: 5px;
+		}
 	/*end*/
 
 	/*start convenient*/
@@ -746,12 +756,15 @@ footer {
 	.item-sm .price {
 		font-size: 13px;		
 	}
+		.item-sm .price i {
+			margin-right: 5px;
+		}
 		.item-sm .price > .number {
 			display: inline-block;
 			border-radius: 30px;
 			font-weight: bolder;
 			font-size: 15px;			
-		}
+		}			
 		.item-sm .price > .number.sale {
 			color: #ff6511;
 		}
@@ -883,18 +896,9 @@ footer {
 		.block a.link:hover {
 			text-decoration: none;
 			color: #54b40d;
-		}
-		.block a.link:hover i.icon-link {
-			background: url('/assets/icon/link-12-hover.png') no-repeat center center;
-		}
-	.block i.icon-link {
-		position: relative;
-		vertical-align: middle;
-		width: 12px;
-		height: 12px;
-		background: url('/assets/icon/link-12.png') no-repeat center center;
-		display: inline-block;
-		transition: 0.2s;
+		}		
+	.block i {
+		font-size: 86%;
 	}
 	/*end Title*/
 
