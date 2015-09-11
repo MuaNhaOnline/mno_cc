@@ -72,10 +72,6 @@ class RealEstate < ActiveRecord::Base
       errors.add :district, 'Quận không thể bỏ trống'
       return
     end
-    if fields.include?(:ward) && province.blank?
-      errors.add :ward, 'Phường không thể bỏ trống'
-      return
-    end
     if fields.include?(:street) && province.blank?
       errors.add :street, 'Đường không thể bỏ trống'
       return
