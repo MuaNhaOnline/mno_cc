@@ -342,7 +342,7 @@ function popupPrompt(params) {
             return;
           }
         }
-        $popup.off(true);
+        $popup.off($(this));
       });
 
     	$buttonContainter.append($button);
@@ -352,7 +352,7 @@ function popupPrompt(params) {
     var $button = $('<button type="button" class="btn btn-flat btn-default margin-5">' + _t.form.close + '</button>');
 
     $button.on('click', function () {
-      $popup.off(true);
+      $popup.off($(this));
     });
 
     $buttonContainter.append($button);

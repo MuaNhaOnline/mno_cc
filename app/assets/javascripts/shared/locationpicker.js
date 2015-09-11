@@ -99,6 +99,8 @@
 		},
 		address_component_from_google_geocode: function(address_components) {
 			var result = {};
+
+			var district_locality;
 			for (var i = address_components.length-1; i>=0; i--) {
 
 				/*
@@ -123,6 +125,9 @@
 					case 'administrative_area_level_2':
 						result.district = component.long_name.toSentenceCase();
 						break;
+					case 'locality':
+						district_locality = component.long_name.toSentenceCase();
+						break;
 					// Thành phố
 					case 'administrative_area_level_1':
 						result.province = component.long_name.toSentenceCase();
@@ -135,6 +140,10 @@
 					/Custom
 				*/
 
+			}
+
+			if (!result.district) {
+				result.district = district_locality;
 			}
 
 			return result;
@@ -159,7 +168,7 @@
 		var address = gmapContext.addressComponents;
 
 		if (
-			address.street && address.ward && address.district && address.province
+			address.street && address.district && address.province
 		) {
 			var currentLocation = GmUtility.locationFromLatLng(gmapContext.location);
 			if (inputBinding.latitudeInput) {
@@ -172,7 +181,7 @@
 				inputBinding.radiusInput.val(gmapContext.radius).change();
 			}
 			if (inputBinding.locationNameInput) {
-				inputBinding.locationNameInput.val(/*(address.streetNumber ? address.streetNumber + ' ' : '') + */address.street + ', ' + address.ward + ', ' + address.district + ', ' + address.province).trigger('change', [ true ]);
+				inputBinding.locationNameInput.val(/*(address.streetNumber ? address.streetNumber + ' ' : '') + */address.street + (address.ward ? ', ' + address.ward : '') + ', ' + address.district + ', ' + address.province).trigger('change', [ true ]);
 			}
 			if (inputBinding.streetNumberInput) {
 				inputBinding.streetNumberInput.val(address.streetNumber).change();
@@ -188,7 +197,7 @@
 			}
 			if (inputBinding.provinceInput) {
 				inputBinding.provinceInput.val(address.province).change();
-			}     
+			}
 		}
 		else {
 			if (inputBinding.latitudeInput) {
@@ -217,7 +226,7 @@
 			}
 			if (inputBinding.provinceInput) {
 				inputBinding.provinceInput.val('').change();
-			}     
+			}    
 		}
 
 		/*

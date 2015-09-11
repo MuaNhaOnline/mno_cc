@@ -82,6 +82,10 @@
   font-size: 12px !important;
 }
 
+.font-normal {
+  font-weight: normal !important;
+}
+
 .no-underline {
   text-decoration: none !important;
 }

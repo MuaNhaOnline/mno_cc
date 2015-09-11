@@ -1,5 +1,5 @@
 class RealEstateMailer < ApplicationMailer
-	default from: 'buseo9x@gmail.com'
+	default from: 'admin@muanhaonline.com.vn'
 
 	def active re
     @re = re

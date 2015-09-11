@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-	default from: 'buseo9x@gmail.com'
+	default from: 'admin@muanhaonline.com.vn'
 
 	def active_account user
     @user = user
