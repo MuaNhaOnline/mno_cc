@@ -768,9 +768,6 @@
             <h2 class="box-title">
               <%= t 'real_estate.attribute.utility_box' %>
             </h2>
-            <div class="box-tools pull-right">
-              <a class="btn btn-box-tool" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
-            </div>
           </section>
           <section class="box-body">
               
@@ -780,6 +777,7 @@
               <label class="control-label">
                 <%= t 'real_estate.attribute.property_utility' %>
               </label>
+              <a href="javascript:void(0)" class="pull-right text-muted small" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
               <% PropertyUtility.get_options.each do |u| %>
                 <div class="checkbox">
                   <label><input <%= 'checked' if @re.property_utilities.exists?(id: u.id) %> type="checkbox" name="real_estate[property_utility_ids][]" value="<%= u.id %>"><%= t 'property_utility.text.' + u.name %></label>
@@ -795,6 +793,7 @@
               <label class="control-label">
                 <%= t 'real_estate.attribute.region_utility' %>
               </label>
+              <a href="javascript:void(0)" class="pull-right text-muted small" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
               <% RegionUtility.get_options.each do |u| %>
                 <div class="checkbox">
                   <label><input <%= 'checked' if @re.region_utilities.exists?(id: u.id) %> type="checkbox" name="real_estate[region_utility_ids][]" value="<%= u.id %>"><%= t 'region_utility.text.' + u.name %></label>
@@ -818,9 +817,6 @@
             <h2 class="box-title">
               <%= t 'real_estate.attribute.aspect_box' %>
             </h2>
-            <div class="box-tools pull-right">
-              <a class="btn btn-box-tool" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
-            </div>
           </section>
           <section class="box-body">
 
@@ -830,6 +826,7 @@
               <label class="control-label">
                 <%= t 'real_estate.attribute.advantage' %>
               </label>
+              <a href="javascript:void(0)" class="pull-right text-muted small" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
               <% Advantage.get_options.each do |a| %>
                 <div class="checkbox">
                   <label><input <%= 'checked' if @re.advantages.exists?(id: a.id) %> type="checkbox" name="real_estate[advantage_ids][]" value="<%= a.id %>"><%= t 'advantage.text.' + a.name %></label>
@@ -846,6 +843,7 @@
               <label class="control-label">
                 <%= t 'real_estate.attribute.disadvantage' %>
               </label>
+              <a href="javascript:void(0)" class="pull-right text-muted small" aria-click="uncheck"><%= t 'real_estate.view.create.uncheck' %></a>
               <% Disadvantage.get_options.each do |d| %>
                 <div class="checkbox">
                   <label><input <%= 'checked' if @re.disadvantages.exists?(id: d.id) %> type="checkbox" name="real_estate[disadvantage_ids][]" value="<%= d.id %>"><%= t 'disadvantage.text.' + d.name %></label>

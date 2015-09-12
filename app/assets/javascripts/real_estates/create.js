@@ -238,7 +238,7 @@ $(function () {
 
   function initUncheck() {
     $form.find('[aria-click="uncheck"]').on('click', function () {
-      $(this).closest('.box').find('[type="checkbox"]').prop('checked', false);
+      $(this).closest('.form-group').find('[type="checkbox"]').prop('checked', false);
     });
   }
 
