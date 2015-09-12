@@ -236,7 +236,7 @@ class UsersController < ApplicationController
   # View
   def manager
     # Author
-    authorize! :manage, user
+    authorize! :manage, User
 
     @system_managers = User.search_by_type '', 'system_manager', true
     @user_managers = User.search_by_type '', 'user_manager', true

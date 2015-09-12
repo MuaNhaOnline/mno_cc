@@ -307,7 +307,7 @@ class RealEstate < ActiveRecord::Base
 
     if user_id == 0
       other_params = other_params.merge params.permit(:user_full_name, :user_phone_number)
-      other_params[:params] = { 'remote_ip': params[:remote_ip] }
+      other_params[:params] = { 'remote_ip' => params[:remote_ip] }
 
       if new_record?
         other_params[:user_email] = params[:user_email]
