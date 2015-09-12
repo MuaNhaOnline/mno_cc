@@ -301,8 +301,7 @@ class RealEstate < ActiveRecord::Base
     other_params = {
       is_draft: is_draft,
       is_full: params[:is_full],
-      is_pending: true,
-      meta_search: RealEstate.get_meta_search(self)
+      is_pending: true
     }
 
     if user_id == 0
@@ -317,6 +316,8 @@ class RealEstate < ActiveRecord::Base
     end
 
     assign_attributes other_params
+
+    assign_attributes meta_search: RealEstate.get_meta_search(self)
 
     if save validate: !is_draft
       { status: 0 }
@@ -436,7 +437,7 @@ class RealEstate < ActiveRecord::Base
           fields << :campus_area << :shape << :width_x << :width_y
         when 'space', 'house'
           fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
-            :constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << {:property_utility => []}
+            :constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
           if real_estate_type.options_hash['group'] == 'house'
             fields << :floor_number
             if real_estate_type.code == 'villa'
@@ -445,7 +446,7 @@ class RealEstate < ActiveRecord::Base
           end
         when 'apartment'
           fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
-            :build_year << :constructional_quality << :direction << {:property_utility => []}
+            :build_year << :constructional_quality << :direction << :property_utility
       end
     else
       fields << :campus_area
