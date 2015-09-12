@@ -440,7 +440,7 @@ class RealEstate < ActiveRecord::Base
             :constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
           if real_estate_type.options_hash['group'] == 'house'
             fields << :floor_number
-            if real_estate_type.code == 'villa'
+            if real_estate_type.name == 'villa'
               fields.delete :constructional_level
             end
           end

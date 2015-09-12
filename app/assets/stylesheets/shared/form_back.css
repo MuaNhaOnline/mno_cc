@@ -291,3 +291,39 @@
 /*
 	Mini search
 */
+
+/*
+	Helper
+*/
+
+.form .helper-label {
+	margin-top: 5px;
+}
+
+.form .helper-container {
+	
+}
+
+@keyframes helper_show {
+	0% {
+		opacity: 0;
+		transform: scale(0);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+	.form .helper-container .helper-content {
+		transform-origin: -40px 20px;
+		position: absolute;
+	}
+
+	.form .helper-container .helper-content.show {
+		animation: helper_show .3s;
+	}
+
+/*
+	/ Helper
+*/

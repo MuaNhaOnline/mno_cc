@@ -391,7 +391,7 @@ $(function () {
 
     if (typeof params == 'string') {
       name = params;
-      $box = $($form.find('[aria-name="' + name + '"]'));
+      $box = $($form.find('.box[aria-name="' + name + '"]'));
       $body.animate({ scrollTop: $box.offset().top - 40 + 'px' }, 200);
     }
     else {

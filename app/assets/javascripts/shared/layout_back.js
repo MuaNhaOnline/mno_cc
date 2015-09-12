@@ -7,7 +7,7 @@ $(function () {
   $('#loading_page').remove();
 
   init();
-  
+  initSize();
   customPrototype();
   customJquery();
 
@@ -24,41 +24,92 @@ $(function () {
   /*
     / Init
   */
-});
 
-/*
-  Custom property
-*/
+  /*
+    Size
+  */
 
-function customPrototype() {
-  String.prototype.format = function(replace) {
-    var string = this;
-    for (var key in replace) {
-      string = string.replace(new RegExp("\\{" + key + "\\}", "g"), replace[key]);
+  function initSize() {
+    _temp['resizing'] = null;
+    $window.on('resize', function () {
+      clearTimeout(_temp['resizing']);
+      _temp['resizing'] = setTimeout(function () {
+        var width = $window.width();
+
+        if (width >= 1200) {
+          $body.data('width', 'lg');
+        }
+        else if (width >= 992) {
+          $body.data('width', 'md');
+        }
+        else if (width >= 768) {
+          $body.data('width', 'sm');
+        }
+        else {
+          $body.data('width', 'xs');
+        }
+      }, 500);
+    });
+
+    var width = $window.width();
+
+    if (width >= 1200) {
+      $body.data('width', 'lg');
     }
-    return string;
+    else if (width >= 992) {
+      $body.data('width', 'md');
+    }
+    else if (width >= 768) {
+      $body.data('width', 'sm');
+    }
+    else {
+      $body.data('width', 'xs');
+    }
+
+    $window.isWidthType = function (arrayType) {
+      return arrayType.indexOf($body.data('width')) != -1;
+    }
   }
 
-  String.prototype.toSentenceCase = function() {
-    return this.toLowerCase().replace(/^(.)|\s(.)/g, function(char) { return char.toUpperCase(); });
+  /*
+    / Size
+  */
+
+  /*
+    Custom property
+  */
+
+  function customPrototype() {
+    String.prototype.format = function(replace) {
+      var string = this;
+      for (var key in replace) {
+        string = string.replace(new RegExp("\\{" + key + "\\}", "g"), replace[key]);
+      }
+      return string;
+    }
+
+    String.prototype.toSentenceCase = function() {
+      return this.toLowerCase().replace(/^(.)|\s(.)/g, function(char) { return char.toUpperCase(); });
+    }
   }
-}
 
-/*
-  / Custom property
-*/
+  /*
+    / Custom property
+  */
 
-/*
-  Custom jquery
-*/
+  /*
+    Custom jquery
+  */
 
-function customJquery() {
+  function customJquery() {
 
-}
+  }
 
-/*
-  / Custom jquery
-*/
+  /*
+    / Custom jquery
+  */
+
+});
 
 /*
   Helper

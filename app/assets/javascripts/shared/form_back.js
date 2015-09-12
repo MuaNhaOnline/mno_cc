@@ -25,6 +25,7 @@ function initForm($form, params) {
 	initSeparateNumber();
 	initConstraint();
 	initSubmit();
+	initHelper();
 	if ($form.is('[data-entertotab]')) {
 		initEnterKey(); 
 	}
@@ -67,7 +68,6 @@ function initForm($form, params) {
 			}
 			else if ($input.is('select')) {
 				var $option = $input.children(':selected');
-
 				onElements = $option.attr('data-on');
 				offElements = $option.attr('data-off');
 			}
@@ -83,6 +83,10 @@ function initForm($form, params) {
 				// Turn on all elements & process their child
 				$form.find(onElementsList.substr(1)).each(function () {
 					var $element = $(this);
+
+					// if ($element.is('#level')) {
+					// 	console.log($input);	
+					// }
 
 					// Turn on element
 					toggleElement($element, true)
@@ -129,6 +133,9 @@ function initForm($form, params) {
 
 		function toggleElement($element, on) {
 			if (!$element.is(':input')) {
+				// if ($element.is('#level')) {
+				// 	console.log(on);	
+				// }
 				if (on) {
 					$element.removeClass('off');
 
@@ -950,6 +957,7 @@ function initForm($form, params) {
 		$form.find('.separate-number').on({
 			focus: function () {
 				_temp['price'] = this.value;
+				_temp['is_changed'] = false;
 			},
 			keyup: function () {
 				var input = this;
@@ -1309,6 +1317,55 @@ function initForm($form, params) {
 
 	/*
 		/Enter key
+	*/
+
+	/*
+		Helper
+	*/
+
+	function initHelper() {
+		if ($window.isWidthType(['xs'])) {
+			$form.find('.helper-label').popover({
+				placement: 'left',
+				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+				html: true,
+				trigger: 'focus'
+			});
+		}
+		else {
+			var 
+				$content = $form.find('.helper-container .helper-content'),
+				fixedTop = $form.offset().top + 20;
+			var $labels = $form.find('.helper-label');
+
+			$labels.on('click mouseenter', function () {
+				showHelper($(this));
+			});
+
+			$labels.closest('.form-group').find(':input').on({
+				focus: function () {
+					showHelper($(this).closest('.form-group').find('.helper-label'));
+				}
+			});
+
+			function showHelper($label) {
+				if ($label.is($content.data('current'))) {
+					return;
+				}
+
+				$content.data('current', $label);
+				$content.html($label.data('content'));
+				$content.css('top', $label.offset().top - fixedTop);
+				$content.addClass('show');
+				setTimeout(function () {
+					$content.removeClass('show');
+				}, 400)	
+			}	
+		}
+	}
+
+	/*
+		/ Helper
 	*/
 
 	/*
