@@ -356,3 +356,4 @@ vi:
       read:
         save_draft: 'Lưu tạm'
         reply: 'Trả lời'
+        delete: 'Xóa'

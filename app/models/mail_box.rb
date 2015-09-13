@@ -32,23 +32,24 @@ class MailBox < ActiveRecord::Base
 	# Get params
 
 	def self.get_params params
-		params.permit [ :to_id, :from_id, :reply_id, :content, :subject, :attachment_file_id, :is_draft ]
+		params.permit [ :to_id, :from_id, :reply_id, :content, :subject, :attachment_file_id ]
 	end
 
 	# / Get params
 
-	# Save draft
+	# Save with params
 
-	def save_draft params
+	def save_with_params params, is_draft = false
 		# Is reply
 		if params.has_key? :reply_id
+			# Check reply mail exist
 			reply_mail = MailBox.find params[:reply_id]
 			if reply_mail.nil?
 				params.delete :reply_id
 			else
 				# Author
 				return { status: 6 } if User.current.cannot? :reply, reply_mail
-				params[:to_id] = reply_mail.from_id === User.current.id ? reply_mail.to_id : reply_mail.from_id
+				params[:to_id] = reply_mail.from_id == User.current.id ? reply_mail.to_id : reply_mail.from_id
 			end
 		# Is send new
 		else
@@ -56,54 +57,20 @@ class MailBox < ActiveRecord::Base
 			return { status: 6 } if User.current.cannot? :create, MailBox
 		end
 
-		params[:is_draft] = true
-
 		mail_params = MailBox.get_params params
+
+		mail_params[:is_draft] = is_draft
 
 		assign_attributes mail_params
 
-		if save validate: false
+		if save validate: !is_draft
 			{ status: 0 }
 		else
-			{ status: 3, result: errors.full_messages }
+			{ status: 3 }
 		end
 	end
 
 	# / Save draft
-
-	# Send mail
-
-	def send_mail params
-		# Is reply
-		if params.has_key? :reply_id
-			reply_mail = MailBox.find params[:reply_id]
-			if reply_mail.nil?
-				params.delete :reply_id
-			else
-				# Author
-				return { status: 6 } if User.current.cannot? :reply, reply_mail
-				params[:to_id] = reply_mail.from_id === User.currentuser.id ? reply_mail.to_id : reply_mail.from_id
-			end
-		# Is send new
-		else
-			# Author
-			return { status: 6 } if User.current.cannot? :create, MailBox
-		end
-
-    params[:is_draft] = false
-
-		mail_params = MailBox.get_params params
-
-		assign_attributes mail_params
-
-		if save
-			{ status: 0 }
-		else
-			{ status: 3, result: errors.full_messages }
-		end
-	end
-
-	# / Send mail
 
 # / Insert
 
@@ -112,11 +79,26 @@ class MailBox < ActiveRecord::Base
 	# Get inbox of current user
 
 	def self.get_current_inbox
-		where to_id: User.current.id#, is_to_remove: false
+		where(to_id: User.current.id).order(created_at: 'desc')#, is_to_remove: false
 	end
 
 	# / Get inbox of current user
 
+	# Get sent of current user
+
+	def self.get_current_sent
+		where(from_id: User.current.id).order(created_at: 'desc')#, is_to_remove: false
+	end
+
+	# / Get sent of current user
+
+	# Get draft of current user
+
+	def self.get_current_draft
+		where(from_id: User.current.id, is_draft: true).order(created_at: 'desc')#, is_to_remove: false
+	end
+
+	# / Get draft of current user
 
 # / Get
 

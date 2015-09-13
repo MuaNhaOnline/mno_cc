@@ -8,7 +8,7 @@
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/mail_boxes/inbox.js"></script>
+  <script type="text/javascript" src="/assets/mail_boxes/sent.js"></script>
 <% end %>
 
 <div class="row">
@@ -23,8 +23,8 @@
       </div>
       <div class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="/mail_boxes/inbox"><i class="fa fa-inbox"></i> <%= t 'mail_box.view.layout.inbox' %></a></li>
-          <li><a href="/mail_boxes/sent"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
+          <li><a href="/mail_boxes/inbox"><i class="fa fa-inbox"></i> <%= t 'mail_box.view.layout.inbox' %></a></li>
+          <li class="active"><a href="/mail_boxes/sent"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
           <li><a href="/mail_boxes/draft"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.layout.draft' %></a></li>
         </ul>
       </div>
@@ -59,7 +59,7 @@
               <!-- List -->
 
               <% if total != 0 %>
-                <%= render partial: 'mail_boxes/inbox_list', locals: { mails: @mails.page(1, per) } %>
+                <%= render partial: 'mail_boxes/sent_list', locals: { mails: @mails.page(1, per) } %>
               <% end %></ul>
 
               <!-- / List -->

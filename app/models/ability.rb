@@ -97,11 +97,13 @@ class Ability
 
 # Mail box
 
-      can [:create, :view_inbox], MailBox
+      can [:create, :view_inbox, :view_sent, :view_draft], MailBox
 
       can [:read, :reply], MailBox do |m|
-        m.from_id === user.id || m.to_id === user.id
+        m.from_id == user.id || m.to_id == user.id
       end
+
+      can :continue, MailBox, is_draft: true, from_id: user.id
 
       can :remove_from, MailBox
       can :remove_to, MailBox
