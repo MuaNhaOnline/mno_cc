@@ -30,7 +30,7 @@
 
 		/*start link*/
 		.user-projects .tab-content .link {
-			margin-bottom: 10px;
+			margin: 10px 0;
 			text-align: center;
 		}
 		/*end*/
@@ -84,6 +84,12 @@
 			color: #54b40d;
 		}
 	/*end*/
+
+	/*start seo item*/
+	.seo-word .seo-item {
+		margin-bottom: 30px;
+	}
+	/*end*/
 /*end*/
 
 /*start list-project*/
@@ -113,6 +119,12 @@
 	padding-top: 40px;
 	margin-bottom: 30px;
 }
+	@media screen and (max-width: 992px) {
+		.price-project {
+			border-top: 0px;
+			padding-top: 0;
+		}
+	}
 /*end*/
 
 /*start position-project*/
@@ -120,6 +132,12 @@
 	border-top: 1px solid #ddd;
 	padding-top: 30px;
 }
+	@media screen and (max-width: 992px) {
+		.position-project {
+			border-top: 0px;
+			padding-top: 0;
+		}
+	}
 	.position-project .title {
 		margin-bottom: 10px;
 		font-size: 115.38%;
@@ -233,7 +251,28 @@
 /*start fix-list*/
 .fix-list {
 	padding: 0 30px;
+	width: 262px;	
 }
+	.fixed {
+		position: fixed;
+		top: 90px;
+	}
+	@media screen and (max-width: 1200px) {
+		.fix-list {
+			width: 213px;
+		}
+		.fix-list label a {
+			font-size: 100%;
+		}
+		.fix-list label input:checked ~ span,
+		.fix-list label input:hover ~ span,
+		.fix-list label input:focus ~ span {
+			color: #54b40d;
+			display: block;
+			font-size: 115.38% !important;
+			font-weight: bold;
+		}
+	}
 	.fix-list label {
 		display: block;		
 		padding: 15px 10px;
@@ -275,6 +314,11 @@
 .content-list {
 	position: relative;
 }
+	@media screen and (max-width: 991px) {
+		.content-list:after {
+			display: none !important;
+		}
+	}
 	.content-list:after {
 		content: '';
 		display: block;
@@ -284,4 +328,19 @@
 		top: 0;
 		border-left: 1px solid #ccc;
 	}
+
+	/*start title*/
+	.content-list .title {
+		display: none;
+		font-size: 138.46%;
+		margin-bottom: 15px;
+		text-transform: uppercase;
+		color: #999;
+	}
+	@media screen and (max-width: 768px) {
+		.content-list .title {
+			margin-bottom: 0;
+		}
+	}
+	/*end*/
 /*end*/

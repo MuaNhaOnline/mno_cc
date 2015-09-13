@@ -28,31 +28,41 @@ $(function() {
 	});
 
 	// initScrollBox();
+	initFixList();
 });
 // end
 
 // start Scroll Box
-function initScrollBox() {
-	$(window).on('scroll', function() {
-		var scroll = $(window).scrollTop();
-		if (scroll >= 2100) {
-			$('#wrapper-fix-list').addClass('fix')
-			$('.content-list').addClass('col-md-offset-3');
-		}
-		else {
-			$('#wrapper-fix-list').removeClass('fix');			
-			$('.content-list').removeClass('col-md-offset-3');
-		}
-	});
-}
+// function initScrollBox() {
+	
+// }
 // end
 
-// start fix-table Select
-function initFixTable() {
-	var itemli = $('.fix-table').find('li');
+// start fix-list Select
+function initFixList() {
+	//Event click item
+	var itemli = $('.fix-list').find('label');
 	$(itemli).on('click', function() {
 		$(itemli).removeClass('active');
 		$(this).addClass('active');
+
+		var target = $(this).attr('data-target');
+		$('html, body').animate({
+			scrollTop: $(target).offset().top - 50
+		}, 500);
+	});
+
+	//scroll event
+	var topListContent = $('.content-list').offset().top;
+
+	$(window).on('scroll', function() {
+		var scroll = $(window).scrollTop();
+		if (scroll >= topListContent) {
+			$('.fix-list').addClass('fixed');
+		}
+		else {
+			$('.fix-list').removeClass('fixed');
+		}
 	});
 }
 // end

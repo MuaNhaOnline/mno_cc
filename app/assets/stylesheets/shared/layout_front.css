@@ -637,7 +637,8 @@ footer {
 	width: 260px;
 	color: #666;
 	border-radius: 2px;
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
+	margin: 15px auto;
 }
 	.item-sm:hover {
 		border: 1px solid #54b40d;
