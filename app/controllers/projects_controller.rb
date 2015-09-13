@@ -15,11 +15,7 @@ class ProjectsController < ApplicationController
   # View
   # params: id(*)
   def view
-    begin
-      @project = Project.find(params['id'])
-    rescue
-      redirect_to '/projects/index'
-    end
+  
   end
 
 # / View
