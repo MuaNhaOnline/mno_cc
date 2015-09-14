@@ -134,7 +134,7 @@ $(function () {
       $form.find('.until-full').show().find(':input').prop('disabled', false);
       $formNavigator.find('.until-full').show();
       $form.find('.until-full').closest('.box').removeClass('box-primary').data('status', 'normal').trigger('changeStatus');
-      var $box = $form.find('.until-full:eq(0)').closest('.box');
+      var $box = $form.find('.box .until-full:eq(0)').closest('.box');
       if (!canSee($box.find('.box-header'))) {
         $body.animate({ scrollTop: $box.offset().top - 40 }, function () {
           focusBox($box);
