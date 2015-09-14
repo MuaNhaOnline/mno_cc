@@ -1,5 +1,6 @@
 <% content_for :stylesheets do %>
   <link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/projects/create.css">
 <% end %>
 
 <% content_for :scripts do %>
@@ -18,13 +19,51 @@
   params: @p
 =end
 
+  # Unit options
+  price_unit_html = ''
+  current_price_unit = nil
+  Unit.get_options.each do |u|
+    if u.options_hash['group'] == 'project'
+      if u.id == @p.price_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @p.price_unit_id.blank?)
+        current_price_unit = u
+      end
+
+      price_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' aria-click='change-unit'>#{t 'unit.text.' + u.name}</a>"
+    end
+  end
+
 %>
 
 
-<form id="create_p" class="form" data-entertotab>
+<form id="create_p" class="form create-form-project" data-entertotab>
 
   <section class="form-navigator">
-    
+    <article id="form_navigator" class="items-container">
+      <a aria-name="position" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-map-marker fa-lg "></i></div><div class="text"><%= t 'project.attribute.position_box' %></div>
+      </a>
+      <a aria-name="architecture" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-home fa-lg "></i></div><div class="text"><%= t 'project.attribute.architecture_box' %></div>
+      </a>
+      <a aria-name="progress" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-calendar fa-lg "></i></div><div class="text"><%= t 'project.attribute.progress_box' %></div>
+      </a>
+      <a aria-name="human_resource" href="javascript:void(0)" class="item until-full">
+        <div class="icon"><i class="fa fa-users fa-lg "></i></div><div class="text"><%= t 'project.attribute.human_resource_box' %></div>
+      </a>
+      <a aria-name="payment_info" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-money fa-lg "></i></div><div class="text"><%= t 'project.attribute.payment_info_box' %></div>
+      </a>
+      <a aria-name="content" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-bookmark-o fa-lg "></i></div><div class="text"><%= t 'project.attribute.content_box' %></div>
+      </a>
+      <a aria-name="image" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-picture-o fa-lg "></i></div><div class="text"><%= t 'project.attribute.image' %></div>
+      </a>
+      <a aria-name="button" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-check fa-lg "></i></div><div class="text">
+      </a>
+    </article>
   </section>
 
   <section class="row">
@@ -41,7 +80,7 @@
         
       <!-- Position -->
 
-      <article class="box box-default">
+      <article aria-name="position" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title"><%= t 'project.attribute.position_box' %></h2>
         </section>
@@ -83,7 +122,7 @@
         
       <!-- Architecture -->
 
-      <article class="box box-default">
+      <article aria-name="architecture" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title"><%= t 'project.attribute.architecture_box' %></h2>
         </section>
@@ -138,7 +177,7 @@
 
       <!-- Progress -->
 
-      <article class="box box-default">
+      <article aria-name="progress" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title"><%= t 'project.attribute.progress_box' %></h2>
         </section>
@@ -175,7 +214,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
                 </div>
-                <input name="project[estimate_finishing_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.estimate_starting_date.strftime '%d/%m/%Y' unless @p.estimate_starting_date.blank? %>" id="estimate_finishing_date" />
+                <input name="project[estimate_finishing_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.estimate_finishing_date.strftime '%d/%m/%Y' unless @p.estimate_finishing_date.blank? %>" id="estimate_finishing_date" />
               </div>
             </article>
 
@@ -254,7 +293,7 @@
 
       <!-- Human resource -->
 
-      <article class="box box-default">
+      <article aria-name="human_resource" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title"><%= t 'project.attribute.human_resource_box' %></h2>
         </section>
@@ -303,7 +342,7 @@
 
       <!-- Payment info -->
 
-      <article class="box box-default">
+      <article aria-name="payment_info" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title"><%= t 'project.attribute.payment_info_box' %></h2>
         </section>
@@ -324,11 +363,17 @@
 
           <!-- Price -->
 
-          <article class="form-group">
+          <article class="form-group" data-toggled-element="sell un-rent">
             <label for="unit_price"><%= t 'project.attribute.unit_price' %></label>
             <div class="input-group">
-              <input data-constraint="required integer" value="<%= @p.unit_price %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
-              <div class="input-group-addon" id="currency_display"></div>
+              <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @p.unit_price.to_i unless @p.unit_price.blank? %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
+              <div class="input-group-btn">
+                <input type="hidden" name="project[price_unit_id]" value="<%= current_price_unit.id %>" />
+                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_price_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
+                <ul class="dropdown-menu pull-right">
+                  <%= price_unit_html.html_safe %>
+                </ul>
+              </div>
             </div>
           </article>
 
@@ -348,11 +393,11 @@
 
       <!-- / Payment info -->
 
-      <!-- Description -->
+      <!-- Content -->
 
-      <article class="box box-default">
+      <article aria-name="content" class="box box-default">
         <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.description_box' %></h2>
+          <h2 class="box-title"><%= t 'project.attribute.content_box' %></h2>
         </section>
         <section class="box-body">
 
@@ -379,11 +424,11 @@
         </section>
       </article>
 
-      <!-- / Description -->
+      <!-- / Content -->
 
       <!-- Images -->
 
-      <article class="box box-default">
+      <article aria-name="image" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title">
             <%= t 'project.attribute.image' %>
@@ -403,7 +448,7 @@
 
       <!-- Button -->
 
-      <article class="box box-solid">
+      <article aria-name="button" class="box box-solid">
         <section class="box-body row">
           <div class="margin-top-bottom-5 col-sm-6">
             <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'project.view.create.finish' %></b></button>

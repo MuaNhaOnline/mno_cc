@@ -97,7 +97,7 @@
       <a aria-name="real_estate_type" href="javascript:void(0)" class="item">
         <div class="icon"><i class="fa fa-home fa-lg "></i></div><div class="text"><%= t 'real_estate.attribute.real_estate_type_box' %></div>
       </a>
-      <a aria-name="description" href="javascript:void(0)" class="item">
+      <a aria-name="content" href="javascript:void(0)" class="item">
         <div class="icon"><i class="fa fa-bookmark-o fa-lg "></i></div><div class="text"><%= t 'real_estate.attribute.content_box' %></div>
       </a>
       <a aria-name="image" href="javascript:void(0)" class="item">
@@ -243,7 +243,7 @@
           <article class="form-group" data-toggled-element="sell un-rent">
             <label class="control-label" for="sell_price"><%= t 'real_estate.attribute.sell_price' %></label>
             <div class="input-group">
-              <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.sell_price unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
+              <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.sell_price.to_i unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
               <div class="input-group-btn">
                 <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
                 <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_sell_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -258,7 +258,7 @@
           <article class="form-group" data-toggled-element="rent un-sell">
             <label class="control-label" for="rent_price"><%= t 'real_estate.attribute.rent_price' %></label>
             <div class="input-group">
-              <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.rent_price unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
+              <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.rent_price.to_i unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
               <div class="input-group-btn">
                 <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
                 <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_rent_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
@@ -635,9 +635,9 @@
 
       <!-- / Real-estate info -->
 
-      <!-- Description -->
+      <!-- Content -->
 
-      <article aria-name="description" class="box box-default">
+      <article aria-name="content" class="box box-default">
         <section class="box-header with-border">
           <h2 class="box-title">
             <%= t 'real_estate.attribute.content_box' %>
@@ -661,7 +661,7 @@
         </section>
       </article>
 
-      <!-- / Description -->
+      <!-- / Content -->
 
       <!-- Images -->
 

@@ -126,7 +126,9 @@ Unit.create [
 	{ name: 'area', options: '{"group":"sell","default":""}' },
 	{ name: 'square_meter', options: '{"group":"sell"}' },
 	{ name: 'month', options: '{"group":"rent","default":""}' },
-	{ name: 'year', options: '{"group":"rent"}' }
+	{ name: 'year', options: '{"group":"rent"}' },
+	{ name: 'square_meter', options: '{"group":"project","default":""}' },
+	{ name: 'per', options: '{"group":"project"}' }
 ]
 
 Province.delete_all

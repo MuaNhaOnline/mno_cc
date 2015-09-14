@@ -206,6 +206,8 @@ vi:
       square_meter: 'Mét vuông'
       month: 'Tháng'
       year: 'Năm'
+      per: 'Căn'
+      square_meter: 'Mét vuông'
   user:
     attribute:
       account_box: 'Thông tin tài khoản'
@@ -295,7 +297,7 @@ vi:
       currency: 'Loại tiền tệ'
       unit_price: 'Đơn giá'
       payment_method: 'Phương thức thanh toán'
-      description_box: 'Mô tả'
+      content_box: 'Nội dung'
       title: 'Tiêu đề'
       description: 'Mô tả'
       image: 'Hình ảnh'

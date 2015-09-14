@@ -12,6 +12,7 @@ class Project < ActiveRecord::Base
   belongs_to :district
   belongs_to :province
   belongs_to :currency
+  belongs_to :price_unit, class_name: 'Unit'
   belongs_to :investor
 
   has_and_belongs_to_many :images
@@ -27,6 +28,7 @@ class Project < ActiveRecord::Base
   validates :street_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :campus_area, presence: { message: 'Diện tích khuôn viên không được bỏ trống' }
   validates :date_display_type, presence: { message: 'Cách hiển thị không được bỏ trống' }
+  validates :price_unit_id, presence: { message: 'Đơn vị tính không được bỏ trống' }
 
   validate :custom_validate
 
@@ -90,7 +92,7 @@ class Project < ActiveRecord::Base
     # Get field
 
     fields = [
-      :title, :description, :unit_price, :currency_id, :payment_method,
+      :title, :description, :unit_price, :currency_id, :payment_method, :price_unit_id,
       :lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
       :project_type_id, :campus_area, :width_x, :width_y, :is_draft,
       :using_ratio, :estimate_starting_date, :estimate_finishing_date,

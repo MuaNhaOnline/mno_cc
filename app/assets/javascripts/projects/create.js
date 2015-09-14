@@ -1,5 +1,8 @@
 $(function () {
-  var $form = $('#create_p');
+  var 
+    $form = $('#create_p'),
+    $formNavigator = $('#form_navigator'),
+    $focusingBox;
 
   initForm($form, {
     object: 'project',
@@ -38,6 +41,8 @@ $(function () {
   initChangeCurrency();
   initSaveDraft();
   initCheckDates();
+  initNavigator();
+  initUnitInput();
 
   /*
     Init location
@@ -210,5 +215,140 @@ $(function () {
 
   /*
     / Check dates
+  */
+
+  /*
+    Unit format
+  */
+
+  function initUnitInput() {
+    changeCurrency();
+
+    $form.find('#currency_id').on('change', function () {
+      changeCurrency();
+    });
+    
+    function changeCurrency() {
+      $form.find('.unit-label').attr('data-currency', $form.find('#currency_id :selected').text());
+    }
+
+    $form.find('[aria-click="change-unit"]').on('click', function () {
+      var $button = $(this);
+
+    // Change text
+    $button.closest('ul').siblings('button').find('.text').text($button.text());
+
+    // Change value
+    $button.closest('ul').siblings('input[type="hidden"]').val($button.data('value')).change();
+    });
+  }
+
+  /*
+    / Unit format
+  */
+
+  /*
+    Init navigator
+  */
+
+  function focusBox(params) {
+    var name, $box;
+
+    if (typeof params == 'string') {
+      name = params;
+      $box = $($form.find('.box[aria-name="' + name + '"]'));
+      $body.animate({ scrollTop: $box.offset().top - 40 + 'px' }, 200);
+    }
+    else {
+      $box = params;
+      name = $box.attr('aria-name');
+    }
+
+    if ($box.data('focusing')) {
+      return;
+    }
+
+    var topReach;
+    if ($box.is('[aria-name="button"]')) {
+      topReach = $box.offset().top;
+    }
+    else {
+      topReach = $box.find('.box-header').offset().top;
+    }
+    var $navItem = $formNavigator.find('[aria-name="' + name + '"]');
+
+    $box.data('focusing', true);
+    $focusingBox = $box;
+    $formNavigator.css('top', topReach - ($navItem.offset().top - $formNavigator.offset().top));
+
+    $formNavigator.find('.active').removeClass('active');
+    $navItem.addClass('active');
+
+    $form.find('.box[aria-name].box-primary').removeClass('box-primary').data('focusing', false);
+    $box.addClass('box-primary');
+  }
+
+  function initNavigator() {
+    focusBox($form.find('.box[aria-name]:visible:eq(0)'));
+
+    $('.box[aria-name]').on('changeStatus', function () {
+      var $box = $(this);
+
+      $formNavigator.find('[aria-name="' + $box.attr('aria-name') + '"]').attr('data-status', $box.data('status'));
+    });
+
+    $('.box[aria-name] :input').on('focus', function () {
+      var $box = $(this).closest('.box');
+
+      if (!$box.data('focusing')) {
+        focusBox($box);
+      }
+    });
+
+    _temp['focus_scroll'] = null;
+    var 
+      lastScrollTop = $window.scrollTop(),
+      currentScrollTop;
+    $window.on('scroll', function (e) {
+      clearTimeout(_temp['focus_scroll']);
+      _temp['focus_scroll'] = setTimeout(function () {
+        currentScrollTop = $window.scrollTop();
+
+        if (!canSee($focusingBox.is('[aria-name="button"]') ? $focusingBox : $focusingBox.find('.box-header'), {
+              // Scroll down => -
+              addTop: lastScrollTop < currentScrollTop ? 0 : 300
+            })) {
+          $form.find('.box[aria-name] .box-header').each(function () {
+            if (canSee($(this))) {
+              focusBox($(this).closest('.box'));
+              return false;
+            }
+          });
+        }
+
+        lastScrollTop = currentScrollTop;
+      }, 100);
+    });
+
+    $formNavigator.on('mousewheel', function (e) {
+      e.preventDefault();
+      e = e.originalEvent;
+      // Down
+      if (e.wheelDeltaY < 0) {
+        $formNavigator.css('top', '+=80');
+      }
+      // Up
+      else {
+        $formNavigator.css('top', '-=80');
+      }
+    });
+
+    $formNavigator.find('.item').on('click', function () {
+      focusBox($(this).attr('aria-name'));
+    });
+  }
+
+  /*
+    / Init navigator
   */
 })
