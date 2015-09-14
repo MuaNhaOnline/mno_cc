@@ -65,9 +65,7 @@ class RealEstatesController < ApplicationController
       real_estate = RealEstate.new
     else 
       real_estate = RealEstate.find(params[:real_estate][:id])
-      if real_estate.nil?
-        return render json: Hash[status: 1]
-      end
+      return render json: { status: 1 } if real_estate.nil?
     end
 
     unless signed?

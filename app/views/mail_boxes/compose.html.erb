@@ -1,5 +1,6 @@
 <% 
 =begin
+  @mail
 =end
 %>
 
@@ -25,29 +26,32 @@
       <section class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
           <li><a href="/mail_boxes/inbox"><i class="fa fa-inbox"></i> <%= t 'mail_box.view.layout.inbox' %></a></li>
-          <li><a href="#"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
-          <li><a href="#"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.layout.draft' %></a></li>
+          <li><a href="/mail_boxes/sent"><i class="fa fa-envelope-o"></i> <%= t 'mail_box.view.layout.sent' %></a></li>
+          <li><a href="/mail_boxes/draft"><i class="fa fa-file-text-o"></i> <%= t 'mail_box.view.layout.draft' %></a></li>
         </ul>
       </section>
     </article>
   </article>
   <form class="col-md-9 form" id="compose_form">
+    <% if @mail.present? %>
+      <input type="hidden" name="mail[id]" value="<%= @mail.id %>" />
+    <% end %>
     <article class="box box-primary">
       <section class="box-header with-border">
         <h2 class="box-title"><%= t 'mail_box.view.layout.compose' %></h2>
       </section>
       <section class="box-body">
         <article class="form-group">
-          <input data-constraint="required" name="mail[to_id]" class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="to" placeholder="<%= t 'mail_box.attribute.to' %>" />
+          <input data-constraint="required" <%= "value=\"#{@mail.to.full_name}\" data-value=\"#{@mail.to.id}\"".html_safe if @mail.present? && @mail.to.present? %> name="mail[to_id]" class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="to" placeholder="<%= t 'mail_box.attribute.to' %>" />
         </article>
         <article class="form-group">
-          <input data-constraint="required" name="mail[subject]" class="form-control" placeholder="<%= t 'mail_box.attribute.subject' %>" />
+          <input value="<%= @mail.subject %>" data-constraint="required" name="mail[subject]" class="form-control" placeholder="<%= t 'mail_box.attribute.subject' %>" />
         </article>
         <article class="form-group">
-          <textarea name="mail[content]" class="form-control" style="height: 300px" id="content"></textarea>
+          <textarea value="@mail.subject.html_safe" name="mail[content]" class="form-control" style="height: 300px" id="content"></textarea>
         </article>
         <article class="form-group">
-          <input name="mail[attachment_file_id]" data-label="<%= t 'mail_box.attribute.attachment_file' %>" class="file-upload-2" type="file" />
+          <input name="mail[attachment_file_id]" <%= "data-value=\"#{@mail.attachment_file.id}\" data-text=\"#{@mail.attachment_file.name}\"".html_safe if @mail.present? && @mail.attachment_file.present? %> data-label="<%= t 'mail_box.attribute.attachment_file' %>" class="file-upload-2" type="file" />
         </article>
       </section>
       <section class="box-footer">

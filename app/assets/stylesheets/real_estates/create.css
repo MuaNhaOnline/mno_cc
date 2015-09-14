@@ -1,26 +1,31 @@
-.create-re-container {
+.create-form-re {
   display: flex;
+  width: 100%;
 }
 
-  .create-re-container .form-navigator {
+/*
+  Navigator
+*/
+
+  .create-form-re .form-navigator {
     min-width: 40px;
     max-width: 40px;
   }
 
-    .create-re-container .items-container {
+    .create-form-re .items-container {
       position: absolute;
       z-index: 3;
       transition: 0.2s;
     }
 
-    .create-re-container .form-navigator .item {
+    .create-form-re .form-navigator .item {
       display: flex;
       white-space: nowrap;
       width: 40px;
       height: 40px;
     }
 
-      .create-re-container .form-navigator .item .icon {
+      .create-form-re .form-navigator .item .icon {
         display: block;
         height: 40px;
         line-height: 40px;
@@ -29,19 +34,19 @@
         color: #aaa;
       }
 
-        .create-re-container .form-navigator .item.active .icon {
+        .create-form-re .form-navigator .item.active .icon {
           color: #3c8cbc;
         }
 
-        .create-re-container .form-navigator .item[data-status="success"] .icon {
+        .create-form-re .form-navigator .item[data-status="success"] .icon {
           color: #00a65a;
         }
 
-        .create-re-container .form-navigator .item[data-status="error"]  .icon {
+        .create-form-re .form-navigator .item[data-status="error"]  .icon {
           color: #f56954;
         }
 
-        .create-re-container .form-navigator .item:hover .icon {
+        .create-form-re .form-navigator .item:hover .icon {
           background-color: #3c8cbc;
           color: #ffffff;
         }
@@ -66,7 +71,7 @@
         }
       }
 
-      .create-re-container .form-navigator .item .text {
+      .create-form-re .form-navigator .item .text {
         font-size: 18px;
         border-left: 2px solid #085b8c;
         padding: 0 12px 0px 8px;
@@ -77,30 +82,30 @@
         font-weight: 500;
       }
 
-        .create-re-container .form-navigator .item:hover .text {
+        .create-form-re .form-navigator .item:hover .text {
           display: block;
           animation: animate-show-text .3s;
         }
 
-  .create-re-container .create-form-re {
-    width: 100%;
-  }
+/*
+  / Navigator
+*/
 
-    .create-form-re .unit-label:before {
-    	content: attr(data-currency) ' / ';
-    }
+.create-form-re .unit-label:before {
+	content: attr(data-currency) ' / ';
+}
 
-    .create-form-re .show-hide-until-full {
-      font-size: 40px;
-      color: #ddd;
-      height: 20px;
-      line-height: 0px;
-      display: block;
-      text-align: center;	
-      transition: 0.5s;
-    }
+.create-form-re .show-hide-until-full {
+  font-size: 40px;
+  color: #ddd;
+  height: 20px;
+  line-height: 0px;
+  display: block;
+  text-align: center;	
+  transition: 0.5s;
+}
 
-    	.create-form-re .show-hide-until-full:hover {
-    		color: #72afd2;
-    		letter-spacing: 3px;
-    	}
+	.create-form-re .show-hide-until-full:hover {
+		color: #72afd2;
+		letter-spacing: 3px;
+	}

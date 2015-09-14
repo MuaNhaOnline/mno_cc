@@ -435,7 +435,7 @@ function initForm($form, params) {
 			var files = this.files;
 			function readNext() {
 				// Check index & amount
-				if (currentIndex >= files.length || (amount && currentAmount > amount)) {
+				if (currentIndex >= files.length || (amount && currentAmount >= amount)) {
 					return false;
 				}
 
@@ -587,7 +587,7 @@ function initForm($form, params) {
 			$fileUpload.after($wrapper);
 			$fileUpload.appendTo($wrapper);
 			$wrapper.append($fileUpload.data('label'));
-			$wrapper.after('<button style="display: none; position: relative;" class="btn btn-default margin-left-5">&times;<div class="progress progress-xxs progress-inside"><div class="progress-bar progress-bar-primary" role="progressbar"></div></div></button><span class="margin-left-5"></span>');
+			$wrapper.after('<button type="button" style="display: none; position: relative;" class="btn btn-default margin-left-5">&times;<div class="progress progress-xxs progress-inside"><div class="progress-bar progress-bar-primary" role="progressbar"></div></div></button><span class="margin-left-5"></span>');
 
 			var constraint = $fileUpload.attr('data-constraint');
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
@@ -600,6 +600,11 @@ function initForm($form, params) {
 				$wrapper.find('[type="hidden"]').val('').change();
         $wrapper.show().next().hide().next().text('');
 			});
+
+			if ($fileUpload.data('value')) {
+				$wrapper.find('[type="hidden"]').val($fileUpload.data('value'));
+				$wrapper.hide().next().show().next().text($fileUpload.data('text'));
+			}
 
 			$fileUpload.on('change', function () {
 				if (this.files.length == 0) { 
@@ -1254,7 +1259,7 @@ function initForm($form, params) {
 
 			// Add error class to form group
 			var $formGroup = $input.closest('.form-group');
-			$formGroup.addClass('has-error');
+			$formGroup.removeClass('has-success').addClass('has-error');
 
 			// Add error class to box
 			var 

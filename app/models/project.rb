@@ -12,6 +12,7 @@ class Project < ActiveRecord::Base
   belongs_to :district
   belongs_to :province
   belongs_to :currency
+  belongs_to :price_unit, class_name: 'Unit'
   belongs_to :investor
 
   has_and_belongs_to_many :images
@@ -24,18 +25,10 @@ class Project < ActiveRecord::Base
   validates :description, presence: { message: 'Mô tả không được bỏ trống' }
   validates :province_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :district_id, presence: { message: 'Địa chỉ không được bỏ trống' }
-  validates :ward_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :street_id, presence: { message: 'Địa chỉ không được bỏ trống' }
   validates :campus_area, presence: { message: 'Diện tích khuôn viên không được bỏ trống' }
-  validates :width_x, presence: { message: 'Chiều ngang không được bỏ trống' }
-  validates :width_y, presence: { message: 'Chiều dài không được bỏ trống' }
-  validates :estimate_starting_date, presence: { message: 'Ngày khởi công dự kiến không được bỏ trống' }
-  validates :estimate_finishing_date, presence: { message: 'Ngày kết thúc dự kiến không được bỏ trống' }
-  validates :starting_date, presence: { message: 'Ngày khởi công không được bỏ trống' }
-  validates :finished_base_date, presence: { message: 'Ngày hoàn thành móng không được bỏ trống' }
-  validates :transfer_date, presence: { message: 'Ngày bàn giao nhà không được bỏ trống' }
-  validates :docs_issue_date, presence: { message: 'Ngày cấp sổ không được bỏ tr' }
-  validates :unit_price, presence: { message: 'Đơn giá không được bỏ trống' }
+  validates :date_display_type, presence: { message: 'Cách hiển thị không được bỏ trống' }
+  validates :price_unit_id, presence: { message: 'Đơn vị tính không được bỏ trống' }
 
   validate :custom_validate
 
@@ -51,16 +44,18 @@ class Project < ActiveRecord::Base
 
   def self.get_params params
     # Get price
-    params[:unit_price] = ApplicationHelper.format_i(params[:unit_price])
+    params[:unit_price] = ApplicationHelper.format_i(params[:unit_price]) if params.has_key? :unit_price
 
     # Area
-    params[:campus_area] = ApplicationHelper.format_f params[:campus_area]
-    params[:width_x] = ApplicationHelper.format_f params[:width_x]
-    params[:width_y] = ApplicationHelper.format_f params[:width_y]
+    params[:campus_area] = ApplicationHelper.format_f params[:campus_area] if params.has_key? :campus_area
+    params[:width_x] = ApplicationHelper.format_f params[:width_x] if params.has_key? :width_x
+    params[:width_y] = ApplicationHelper.format_f params[:width_y] if params.has_key? :width_y
 
     # Constructional quality
-    using_ratio = ApplicationHelper.format_i(params[:using_ratio]).to_i
-    params[:using_ratio] = using_ratio < 0 ? 0 : (using_ratio > 100 ? 100 : using_ratio)
+    if params.has_key? :using_ratio
+      using_ratio = ApplicationHelper.format_i(params[:using_ratio]).to_i
+      params[:using_ratio] = using_ratio < 0 ? 0 : (using_ratio > 100 ? 100 : using_ratio)
+    end
 
     # Investor
     if params[:investor_id] == '0' && !params[:investor_id_ac].blank?
@@ -92,17 +87,17 @@ class Project < ActiveRecord::Base
     end
 
     # Images 
-    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',').take(5)
+    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',').take(10) if params.has_key? :image_ids
 
     # Get field
 
     fields = [
-      :title, :description, :unit_price, :currency_id, :payment_method,
+      :title, :description, :unit_price, :currency_id, :payment_method, :price_unit_id,
       :lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
       :project_type_id, :campus_area, :width_x, :width_y, :is_draft,
       :using_ratio, :estimate_starting_date, :estimate_finishing_date,
       :starting_date, :finished_base_date, :transfer_date, :docs_issue_date,
-      :investor_id, :execute_unit, :design_unit, :manage_unit, :user_id,
+      :investor_id, :execute_unit, :design_unit, :manage_unit, :user_id, :date_display_type,
       :image_ids => []
     ]
 
@@ -121,14 +116,13 @@ class Project < ActiveRecord::Base
       return { status: 6 } if User.current.cannot? :edit, self
     end
 
-    params[:is_draft] = is_draft ? 1 : 0
-
     project_params = Project.get_params params
 
     assign_attributes project_params
 
-    other_params = { 
-      is_pending: 1,
+    other_params = {
+      is_draft: is_draft,
+      is_pending: true,
       meta_search: Project.get_meta_search(self)
     }
 
@@ -137,7 +131,7 @@ class Project < ActiveRecord::Base
     if save validate: !is_draft
       { status: 0 }
     else 
-      { status: 3 }
+      { status: project_params[:date_display_type] }
     end
   end
 
@@ -209,7 +203,7 @@ class Project < ActiveRecord::Base
   # Get pending
 
   def self.get_pending
-    where(is_pending: 1, is_draft: 0)
+    where(is_pending: true, is_draft: false)
   end
 
   # / Get pending
@@ -217,6 +211,14 @@ class Project < ActiveRecord::Base
 # / Get
 
 # Helper
+
+  # Get fields
+
+  def self.get_fields p
+    []
+  end
+
+  # / Get fields
 
   # Get meta search
 

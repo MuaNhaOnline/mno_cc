@@ -66,13 +66,19 @@ Rails.application.routes.draw do
   delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
 
   # Mail box
-  get 'mail_boxes/compose'
+  get 'mail_boxes/compose(/:id)' => 'mail_boxes#compose'
   get 'mail_boxes/inbox'
   get 'mail_boxes/_inbox_list'
+  get 'mail_boxes/sent'
+  get 'mail_boxes/_sent_list'
+  get 'mail_boxes/draft'
+  get 'mail_boxes/_draft_list'
   get 'mail_boxes/read/:id' => 'mail_boxes#read'
+  get 'mail_boxes' => 'mail_boxes#inbox'
   post 'mail_boxes/send_mail'
   put 'mail_boxes/inbox_remove'
   put 'mail_boxes/sent_remove'
+  delete 'mail_boxes/' => 'mail_boxes#delete'
 
   # Project
   get 'projects/view'

@@ -1,0 +1,15 @@
+<% 
+=begin
+  params: mails
+=end
+%>
+
+<% mails.each do |m| %>
+  <tr class="pointer-cursor" data-value="<%= m.id %>">
+    <td class="min-width-cell"><input type="checkbox" /></td>
+    <td class="mailbox-name min-width-cell"><%= m.to.full_name if m.to.present? %></td>
+    <td class="mailbox-subject"><%= m.subject %></td>
+    <td class="mailbox-attachment min-width-cell"><% unless m.attachment_file.nil? %><i class="fa fa-paperclip"></i><% end %></td>
+    <td class="mailbox-date min-width-cell"><%= m.created_at.strftime '%d/%m/%Y' %></td>
+  </tr>
+<% end %>

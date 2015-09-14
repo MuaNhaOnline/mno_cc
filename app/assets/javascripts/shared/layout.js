@@ -380,7 +380,9 @@ function read_money (number) {
   // Get array number (string)
   number = number.toString();
   if (number.length % 3 != 0) {
-    var padLeft = new Array(3 - number.length % 3).fill('0');
+    var padLeft = new Array(3 - number.length % 3);
+    for (var i = padLeft.length - 1; i >= 0; i--) { padLeft[i] = '0'; }
+
     number = padLeft.join('') + number;
   }
 
