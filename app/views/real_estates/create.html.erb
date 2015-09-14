@@ -201,7 +201,7 @@
             
           <article class="form-group">
             <label class="control-label" for="purpose"><%= t 'real_estate.attribute.purpose' %></label>
-            <select name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose">
+            <select name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose" autofocus>
               <% Purpose.get_options.each do |p| %>
                   <option value="<%= p.id %>" <%= 'selected' if p.id == @re.purpose_id || (!p.options_hash.nil? && p.options_hash.has_key?('default')  && @re.purpose_id.blank?) %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
               <% end %>
