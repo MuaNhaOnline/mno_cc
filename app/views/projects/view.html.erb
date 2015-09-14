@@ -1,149 +1,550 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/projects/view.css" />
+	<link rel="stylesheet" href="/assets/projects/view.css" />
 <% end %>
 
 <% content_for :scripts do %>
 
 <% end %>
 
-<% content_for :aside do %>
-    <article class="block-box highlight">
-      <section class="block-title">
-        <span>Đơn vị phân phối</span>
-      </section>
-      <section class="block-content poster">
-        <article class="left">
-          <div class="picture">
-            <img src="/assets/product/avatar.JPG">
-          </div>
-          <span>Mrs.Chi</span>
-        </article>
-        <article class="right">
-          <ul>
-            <li>
-              <span><img src="/assets/icon/icon_phone.png">01682197651</span>
-            </li>
-            <li>
-              <span class="ellipsis"><img src="/assets/icon/icon_mail.png">muanhaonline@yahoo.comasdasd</span>
-            </li>
-            <li>
-              <span><img src="/assets/icon/icon_skype.png">Penguinblue.chip</span>
-            </li>
-            <li>
-              <span><img src="/assets/icon/icon_contact.png">53 Cô Giang, Phường Cầu Ông Lãnh, Quận 1</span>
-            </li>
-            <li>
-              <button class="btn btn-primary btn-xs">Nhắn tin</button>
-              <button class="btn btn-primary btn-xs">Xem tất cả BĐS</button>
-            </li>
-          </ul>
-        </article>
-      </section>
-    </article>
-<% end %>
+<!--start Search Box -->
+<section class="search">
+	<div class="search-box">
+		<div class="title">
+			<h3>Hãy để MuanhaOnline tìm nhà giúp bạn.</h3>
+		</div>
+		<form>
+			<div class="tab">
+				<label><input type="radio" name="typeTab"><i class="icon-32 icon-home-sale"></i><span>Nhà Bán</span></label>
+				<label><input type="radio" name="typeTab"><i class="icon-32 icon-home-rent"></i><span>Nhà Thuê</span></label>
+			</div>
+			<div class="form-group-custom">
+				<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
+				<div class="btn-group history-search">
+					<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						từ khóa
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Từ khóa 01</a></li>
+						<li><a href="#">Từ khóa 02</a></li>
+						<li><a href="#">Từ khóa 03</a></li>
+					</ul>
+				</div>
+				<div class="separator">
+					<span>|</span>
+				</div>
+				<div class="btn-search">
+					<button type="submit"></button>
+					<div class="btn-more" data-function="show-search-plus">
+						<span class="caret"></span>
+					</div>
+				</div>
+			</div>			
+			<section class="more-search" id="more_search" style="display:none">
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+						<select class="form-control input-sm">
+						<option>--Chọn thành phố/Tỉnh--</option>
+						<option>Thành phố Hồ Chí Minh</option>
+						<option>Hà Nội</option>
+						<option>Bà Rịa - Vũng Tàu</option>
+						</select>
+						</div>
+						<div class="col-md-6">
+						<select class="form-control input-sm">
+						<option>--Chọn quận/huyện--</option>
+						<option>Quận 1</option>
+						<option>Quận 5</option>
+						</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>--Chọn giá tiền--</option>
+						<option>1 tỷ - 3 tỷ</option>
+						<option>3 tỷ - 5 tỷ</option>
+						<option>trên 5 tỷ</option>
+					</select>
+				</div>
+				<div class="form-group-custom">
+					<select class="form-control input-sm">
+						<option>--Chọn diện tích--</option>
+						<option>50m2 - 100m2</option>
+						<option>100m2 - 200m2</option>
+						<option>trên 200m2</option>
+					</select>
+				</div>
+				<div class="form-group-custom container-fluid">
+					<div class="row">
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn loại dự án--</option>
+								<option>Dự án căn hộ liên kế</option>
+								<option>Dự án biệt thự cao cấp</option>
+								<option>Dự án nhà ở xã hội</option>
+							</select>
+						</div>
+						<div class="col-md-6 input-inline">
+							<select class="form-control input-sm">
+								<option>--Chọn tình trạng dự án--</option>
+								<option>Dự án đã hoàn thành</option>
+								<option>Dự án đang hoàn thành</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					
+				</div>
+			</section>
+			<div class="btn-plus">
+				<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+					<img src="/assets/icon/search-plus.png">
+					Tìm nâng cao
+				</button>
+				<button type="button" class="btn btn-success btn-sm" data-function="zestimate">Định giá khu vực này</button>
+			</div>
+		</form>
+	</div>
+</section>
+<!-- end Search Box-->
 
-<!-- #start general infos -->
-<section class="block-box highlight">
-  <section class="block-title" data-after="Thời gian đăng: ">
-    <span>lorem</span>
-  </section>
-  <section class="block-content general-infos row">
-    <section class="image">
-      <img alt="Hình ảnh" title="Hình ảnh" src="/assets/product/Project01.jpg" class="img-responsive">
-    </section>
-    <section class="infos">
-      <ul class="image-infos">
-            <li class="item">
-              <img alt="Hình ảnh" title="Hình ảnh" src="/assets/product/Project01.jpg">
-            </li>
-      </ul>
-    </section>
-  </section>
+<!-- start navigator -->
+<section class="navigator container">
+	<ol class="breadcrumb">
+		<li><a href="/">Trang chủ</a></li>
+		<li><a href="/">Dự án căn hộ cao cấp</a></li>
+		<li class="active">#REF01778</li>
+	</ol>
 </section>
-<!-- #end general infos -->
-<!-- #start address info -->
-<section class="address-info">
-  <span>Địa chỉ: <b>Nguyễn Hữu Thọ, Quận 7</b></span>
+<!-- end navigator -->
+
+<!-- #start image infos -->
+<section class="block container highlight">
+	<article class="title">
+		<a class="link">			
+			<span>SUNRISE CITY</span>
+		</a>
+	</article>
+	<article class="content">
+		<section class="image-info">
+			<div class="main-image">
+				<img src="/assets/projects/default.png">
+			</div>
+			<div class="other-image">
+				<ul>
+					<li>
+						<img src="/assets/product/BDS06.jpg" class="img-thumbnail">
+					</li>
+					<li>
+						<img src="/assets/product/BDS06.jpg" class="img-thumbnail">
+					</li>
+					<li>
+						<img src="/assets/product/BDS06.jpg" class="img-thumbnail">
+					</li>
+					<li>
+						<img src="/assets/product/BDS06.jpg" class="img-thumbnail">
+					</li>
+				</ul>
+			</div>
+		</section>
+	</article>
 </section>
-<!-- #end address infos -->
-<!-- #start share box -->
-<section class="share-box row">
-  <div class="col-sm-6">
-    <span class="description">Chia sẻ trên:</span>
-    <a href="#" class="button"><img src="/assets/logo/facebook.png" /></a>
-    <a href="#" class="button"><img src="/assets/logo/google.png" /></a>
-    <a href="#" class="button"><img src="/assets/logo/youtube.png" /></a>
-    <a href="#" class="button"><img src="/assets/logo/twitter.png" /></a>
-  </div>
-  <div class="col-sm-6">
-    <button class="btn btn-primary show-product pull-right">Xem tất cả BĐS</button>
-  </div>
+<!-- #end image infos -->
+
+<!-- #start standard-info -->
+<section class="standard-info container">
+	<div class="row">
+		<div class="col-md-4 col-md-push-8">
+			<div class="price" id="price_box">
+				<div>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs price-tab" role="tablist">
+						<li role="SalePrice" class="active"><a href="#price-sale" aria-controls="price-sale" role="tab" data-toggle="tab">Giá bán</a></li>	
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
+							<p style="margin: 5px 0;">
+								Giá rao: <span style="color: #ff6511; font-size: 18px;">850 triệu</span> 
+								<select>
+									<option>VNĐ</option>
+									<option>USD</option>
+									<option>SJC</option>
+								</select>/ căn
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="function">
+				<button class="btn-icon-top btn-favor">
+					<i class="icon-favor"></i>
+					<span>Quan tâm</span>
+				</button>
+				<button class="btn-icon-top">
+					<i class="icon-buy"></i>
+					<span>Đăng ký mua</span>
+				</button>
+			</div>
+		</div>
+		<div class="col-md-8 col-md-pull-4">
+			<ul class="detail">
+				<li>
+					<span>Mã tin: REF01778</span>					
+				</li>
+				<li>
+					<i class="icon-16 icon-done"></i>
+					<span>Đã hoàn thành</span>
+				</li>
+				<li>
+					<span>Địa chỉ: 53 Nguyễn Hữu Thọ, Quận 7</span>
+				</li>
+				<li>
+					<span>Chia sẻ: </span>
+					<i class="icon icon-facebook"></i>
+					<i class="icon icon-googleplus"></i>
+					<i class="icon icon-youtube"></i>
+				</li>
+			</ul>
+		</div>
+	</div>
 </section>
-<!-- #end share box -->
-<!-- #start detail infos -->
-<section class="block-box">
-  <section class="block-title">
-    Thông tin dự án
-  </section>
-  <section class="block-content content-detail-infos">
-    <ul class="row">
-      <li class="col-sm-6">
-        Ngang: <b>50m</b>
-      </li>
-      <li class="col-sm-6">
-        Dài: <b>30m</b>
-      </li>
-      <li class="col-sm-6">
-        Diện tích: <b>10m<sup>2</sup></b>
-      </li>
-      <li class="col-sm-6">
-        Tỉ lệ sử dụng: <b>5%</b>
-      </li>
-      <li class="col-sm-6">
-        Thời gian khởi công (dự kiến): <b>5/9/2015</b>
-      </li>
-      <li class="col-sm-6">
-        Thời gian hoàn thành (dự kiến): <b>5/12/2015</b>
-      </li>
-      <li class="col-sm-6">
-        Ngày khởi công: <b>5/9/2015</b>
-      </li>
-      <li class="col-sm-6">
-        Ngày hoàn thành móng: <b></b>
-      </li>
-      <li class="col-sm-6">
-        Ngày bàn giao: <b>5/12/2015</b>
-      </li>
-      <li class="col-sm-6">
-        Ngày cấp sổ: <b>5/12/2015</b>
-      </li>
-      <li class="col-sm-6">
-        Chủ đầu tư: <b>Novaland</b>
-      </li>
-      <li class="col-sm-6">
-        Đơn vị thi công: <b>Novaland</b>
-      </li>
-      <li class="col-sm-6">
-        Đơn vị thiết kế: <b>Novalnd</b>
-      </li>
-      <li class="col-sm-6">
-        Đơn vị quản lý dự án: <b>Novaland</b>
-      </li>
-    </ul>
-  </section>
+<!-- #end standard-info -->
+
+<!-- start info-project -->
+<section class="info-project line-block container">
+	<article class="title">
+		<span>Thông tin dự án</span>
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-md-6">
+				<ul>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<ul>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+					<li>
+						<i class="fa fa-circle"></i>
+						<span>Diện tích xây dựng: <b>200m<sup>2</sup></b></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</article>
 </section>
-<section class="block-box">
-  <section class="block-title">
-    Mô tả
-  </section>
-  <section class="block-content content-detail-infos">
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-  </section>
+<!-- end -->
+
+<!-- start describe -->
+<section class="describe line-block container">
+	<article class="title">
+		<span>Mô tả</span>
+	</article>
+	<article class="content">
+		<div class="large">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua.
+		</div>
+		<div class="small">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</article>
 </section>
+<!-- end -->
+
+<!-- start convenient -->
+<section class="convenient line-block container">
+	<article class="title">
+		<span>Tiện nghi</span>
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-md-4 item">
+				<i class="fa fa-check"></i>
+				<span>Gần trung tâm mua sắm</span>
+			</div>
+			<div class="col-md-4 item">
+				<i class="fa fa-check"></i>
+				<span>Gần bệnh viện</span>
+			</div>
+			<div class="col-md-4 item">
+				<i class="fa fa-check"></i>
+				<span>Gần coop mart</span>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->
+
+<!-- start utility -->
+<section class="utility line-block container">
+	<article class="title">
+		<span>Tiện ích khu vực</span>
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-md-4 item">
+				<i class="fa fa-check"></i>
+				<span>Gần trung tâm mua sắm</span>
+			</div>
+			<div class="col-md-4 item">
+				<i class="fa fa-check"></i>
+				<span>Gần bệnh viện</span>
+			</div>
+			<div class="col-md-4 item">
+				<i class="fa fa-check"></i>
+				<span>Gần coop mart</span>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->
+
+<!-- start map -->
+<section class="line-block map container">
+	<article class="title">
+		<span>Vị trí trên bản đồ</span>
+	</article>
+	<article class="content map" style="padding: 0;">
+		<div id="map" tabindex="0" style="outline: 0;" data-lat="" data-long="">
+		</div>
+	</article>
+</section>
+<!-- end -->
+
+<!-- start contact -->
+<section class="line-block contact container">
+	<article class="title">
+		<span>Thông tin liên lạc</span>
+	</article>
+	<article class="content information" style="padding: 0;">
+		<div class="user-info row">
+			<div class="col-md-2">
+				<img src="/assets/users/default.png">
+				<span>Nguyễn Kim Chi</span>
+			</div>
+			<div class="col-md-3">
+				<ul class="info">
+					<li>
+						<i class="icon-phone"></i>
+						<span>01682197651</span>
+					</li>
+					<li>
+						<i class="icon-mail"></i>
+						<span>penguinbluechip@gmail.com</span>
+					</li>
+					<li>
+						<i class="icon-address"></i>
+						<span>53 Cô Giang, Quận 1</span>
+					</li>
+				</ul>
+				<div class="btn-contact">
+					
+				</div>
+			</div>							
+			<div class="col-md-3">
+				<div class="request-box">
+					<form>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Email của bạn">
+							<textarea class="form-control">Tôi cảm thấy thích căn hộ này và muốn có thêm thông tin.</textarea>
+							<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
+							<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->
+
+<!-- start other project -->
+<section class="container other-project block">
+	<article class="title">
+		<a class="link" href="#">
+			<i class="icon-link"></i>
+			<span>Gợi ý cho bạn</span>
+		</a>
+	</article>
+	<article class="content">
+		<ul class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>tresor</span>
+						</div>						
+						<div class="status">							
+							<i class="fa fa-circle done"></i>
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>tresor</span>
+						</div>						
+						<div class="status">							
+							<i class="fa fa-circle done"></i>
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>tresor</span>
+						</div>						
+						<div class="status">							
+							<i class="fa fa-circle done"></i>
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>tresor</span>
+						</div>						
+						<div class="status">							
+							<i class="fa fa-circle done"></i>
+							<span>Đã hoàn thành</span>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+		</ul>
+		<div class="paging">
+			<div class="left">
+				<i class="pe-7s-angle-left"></i>
+			</div>
+			<div class="number">
+				<span>5/10</span>
+			</div>
+			<div class="right">
+				<i class="pe-7s-angle-right"></i>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end other project -->

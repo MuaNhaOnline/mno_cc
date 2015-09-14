@@ -940,14 +940,14 @@ footer {
 	.line-block > .title {
 		font-size: 20px;
 		border-bottom: 1px solid #eee;
-		margin-bottom: 7px;
-		color: #666;
+		margin-bottom: 20px;
+		color: #666;		
 	}
 	/*end*/
 	
 	/*start content*/
 	.line-block > .content {
-		
+		padding: 0 20px;
 	}
 	/*end*/
 /*end*/
