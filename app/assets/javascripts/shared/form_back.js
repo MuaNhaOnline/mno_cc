@@ -435,7 +435,7 @@ function initForm($form, params) {
 			var files = this.files;
 			function readNext() {
 				// Check index & amount
-				if (currentIndex >= files.length || (amount && currentAmount > amount)) {
+				if (currentIndex >= files.length || (amount && currentAmount >= amount)) {
 					return false;
 				}
 
@@ -1259,7 +1259,7 @@ function initForm($form, params) {
 
 			// Add error class to form group
 			var $formGroup = $input.closest('.form-group');
-			$formGroup.addClass('has-error');
+			$formGroup.removeClass('has-success').addClass('has-error');
 
 			// Add error class to box
 			var 

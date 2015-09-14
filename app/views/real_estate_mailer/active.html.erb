@@ -1,4 +1,4 @@
-<h3>Chúc mừng bạn đã đăng tin thành công tại MuaNhaOnline.vn</h3>
+<h3>Chào <b><%= @re.user_full_name %></b>, chúc mừng bạn đã đăng tin thành công tại MuaNhaOnline.vn</h3>
 
 <% 
 	query = { secure_code: @re.params['secure_code'] }.to_query

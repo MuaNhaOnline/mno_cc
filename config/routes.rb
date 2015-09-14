@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   post 'mail_boxes/send_mail'
   put 'mail_boxes/inbox_remove'
   put 'mail_boxes/sent_remove'
+  delete 'mail_boxes/' => 'mail_boxes#delete'
 
   # Project
   get 'projects/view'

@@ -40,8 +40,11 @@ class MailBox < ActiveRecord::Base
 	# Save with params
 
 	def save_with_params params, is_draft = false
+		# Continue draft
+		if !new_record? && self.is_draft
+			return { status: 6 } if User.current.cannot? :continue, self
 		# Is reply
-		if params.has_key? :reply_id
+		elsif params.has_key? :reply_id
 			# Check reply mail exist
 			reply_mail = MailBox.find params[:reply_id]
 			if reply_mail.nil?
@@ -79,7 +82,7 @@ class MailBox < ActiveRecord::Base
 	# Get inbox of current user
 
 	def self.get_current_inbox
-		where(to_id: User.current.id).order(created_at: 'desc')#, is_to_remove: false
+		where(to_id: User.current.id, is_to_remove: false).order(created_at: 'desc')
 	end
 
 	# / Get inbox of current user
@@ -87,7 +90,7 @@ class MailBox < ActiveRecord::Base
 	# Get sent of current user
 
 	def self.get_current_sent
-		where(from_id: User.current.id).order(created_at: 'desc')#, is_to_remove: false
+		where(from_id: User.current.id, is_from_remove: false).order(created_at: 'desc')
 	end
 
 	# / Get sent of current user
@@ -95,7 +98,7 @@ class MailBox < ActiveRecord::Base
 	# Get draft of current user
 
 	def self.get_current_draft
-		where(from_id: User.current.id, is_draft: true).order(created_at: 'desc')#, is_to_remove: false
+		where(from_id: User.current.id, is_draft: true).order(created_at: 'desc')
 	end
 
 	# / Get draft of current user
@@ -104,7 +107,7 @@ class MailBox < ActiveRecord::Base
 
 # Remove
 
-	# Remove mail form inbox/send
+	# Remove mail form inbox/sent
 
 	# params
 	# 	ids: [1,2,3]
@@ -113,7 +116,7 @@ class MailBox < ActiveRecord::Base
 		mails = find ids
 
 		# Author
-		if type === 'to'
+		if type == 'to'
 			mails.each do |m|
 				return { status: 6 } if User.current.cannot?(:remove_to, m)
 			end
@@ -132,7 +135,24 @@ class MailBox < ActiveRecord::Base
 
 	# / Remove mail form inbox/send
 
-
 # / Remove
+
+# Delete
+
+	def self.delete_by_id id
+    mail = where(id: id).first
+    return { status: 1 } if mail.nil?
+
+    # Author
+    return { status: 6 } if User.current.cannot? :delete, mail
+
+    if delete id
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+	end
+
+# / Delete
 
 end

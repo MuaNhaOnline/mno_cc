@@ -35,7 +35,6 @@ $(function () {
     }
   });
   initLocation();
-  initCheckArea();
   initChangeCurrency();
   initSaveDraft();
   initCheckDates();
@@ -74,38 +73,6 @@ $(function () {
   */
 
   /*
-    Check area
-  */
-
-  function initCheckArea() {
-    var 
-      $campusArea = $form.find('#campus_area'),
-      $widthX = $form.find('#width_x'),
-      $widthY = $form.find('#width_y'),
-      $areaAlert = $form.find('#area_alert');
-
-    $campusArea.add($widthX).add($widthY).on({
-      'change': function () {
-        // If empty => valid too
-        if ($campusArea.val() && $widthX.val() && $widthY.val() && !isValidArea($campusArea.val(), $widthX.val(), $widthY.val())) {
-          $areaAlert.show();
-        }
-        else {
-          $areaAlert.hide();
-        }
-      }
-    }).change();
-
-    function isValidArea(area, widthX, widthY) {
-      return widthX * widthY <= area;
-    }
-  }
-
-  /*
-    / Check area
-  */
-
-  /*
     Change currency
   */
 
@@ -114,9 +81,15 @@ $(function () {
       $currency = $('#currency_id'),
       $display = $('#currency_display');
 
-    $currency.on('change', function () {
+    changeCurrency();
+
+    $form.find('#currency_id').on('change', function () {
+      changeCurrency();
+    });
+    
+    function changeCurrency() {
       $display.text($currency.children(':selected').text());
-    }).change();
+    }
   }
 
   /*

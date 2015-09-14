@@ -105,8 +105,12 @@ class Ability
 
       can :continue, MailBox, is_draft: true, from_id: user.id
 
-      can :remove_from, MailBox
-      can :remove_to, MailBox
+      # Sent
+      can :remove_from, MailBox, from_id: user.id
+      # Inbox
+      can :remove_to, MailBox, to_id: user.id
+
+      can :delete, MailBox, is_draft: true, from_id: user.id
 
 # / Mail box
 

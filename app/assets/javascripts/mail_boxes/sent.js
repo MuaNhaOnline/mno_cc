@@ -78,7 +78,7 @@ $(function () {
 			ids = ids.substr(1);
 
 			$.ajax({
-				url: '/mail_boxes/inbox_remove',
+				url: '/mail_boxes/sent_remove',
 				method: 'PUT',
 				data: { ids: ids },
 				dataType: 'JSON'

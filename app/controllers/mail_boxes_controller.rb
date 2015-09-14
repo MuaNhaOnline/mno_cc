@@ -174,7 +174,7 @@ class MailBoxesController < ApplicationController
 # Remove
 
   # Handle
-  # params: id(*),
+  # params: ids(*),
   def sent_remove
     result = MailBox.remove_by_ids params[:ids].split(','), 'from'
 
@@ -182,11 +182,17 @@ class MailBoxesController < ApplicationController
   end
 
   # Handle
-  # params: id(*),
+  # params: ids(*),
   def inbox_remove
     result = MailBox.remove_by_ids params[:ids].split(','), 'to'
 
     render json: result
+  end
+
+  # Handle
+  # params: ids(*)
+  def delete
+    render json: MailBox.delete_by_id(params[:ids].split(','))
   end
 
 # / Remove

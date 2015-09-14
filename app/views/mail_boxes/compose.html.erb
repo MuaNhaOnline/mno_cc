@@ -51,7 +51,7 @@
           <textarea value="@mail.subject.html_safe" name="mail[content]" class="form-control" style="height: 300px" id="content"></textarea>
         </article>
         <article class="form-group">
-          <input name="mail[attachment_file_id]" <%= "data-value=\"#{@mail.attachment_file.id}\" data-text=\"#{@mail.attachment_file.name}\"".html_safe if @mail.present? %> data-label="<%= t 'mail_box.attribute.attachment_file' %>" class="file-upload-2" type="file" />
+          <input name="mail[attachment_file_id]" <%= "data-value=\"#{@mail.attachment_file.id}\" data-text=\"#{@mail.attachment_file.name}\"".html_safe if @mail.present? && @mail.attachment_file.present? %> data-label="<%= t 'mail_box.attribute.attachment_file' %>" class="file-upload-2" type="file" />
         </article>
       </section>
       <section class="box-footer">

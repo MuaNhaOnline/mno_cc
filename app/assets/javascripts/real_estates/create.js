@@ -160,10 +160,7 @@ $(function () {
   	$form.find('#currency_id').on('change', function () {
   		changeCurrency();
   	});
-
-  	/*
-		Change currency
-  	*/
+    
   	function changeCurrency() {
   		$form.find('.unit-label').attr('data-currency', $form.find('#currency_id :selected').text());
   	}
