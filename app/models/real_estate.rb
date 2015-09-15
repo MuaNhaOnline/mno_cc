@@ -525,6 +525,11 @@ class RealEstate < ActiveRecord::Base
     fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
   end
 
+  # Purpose
+  def display_purpose
+    I18n.t 'purpose.text.' + purpose.name if purpose.present?
+  end
+
   # Sell price
   def display_sell_price
     sell_price || 'Giá thỏa thuận'
