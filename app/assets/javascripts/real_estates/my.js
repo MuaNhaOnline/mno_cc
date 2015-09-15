@@ -10,68 +10,70 @@ $(function () {
     Display with status
   */
 
-  function initStatus($row) {
-    if ($row) {
-      setStatus($row);
+  function initStatus($item) {
+    if ($item) {
+      setStatus($item);
     }
     else {
-      $list.children().each(function () {
+      $list.find('.item').each(function () {
         setStatus($(this));
-      }); 
+      });
     }
 
-    function setStatus($row) {
+    function setStatus($item) {
       var 
-        status = $row.data('status'),
+        status = $item.data('status'),
         isDraft = listString.has('draft', status),
         isPending = listString.has('pending', status),
         isShow = listString.has('show', status),
-        isAppraised = listString.has('appraised', status),
-        isNotAppraised = listString.has('not_appraised', status);
+        // isAppraised = listString.has('appraised', status),
+        // isNotAppraised = listString.has('not_appraised', status);
+        $status = $item.find('[aria-name="status"]');
 
-      // Status
+      $status.html('');
 
-      var statusHtml = '';
       if (isDraft) {
-        statusHtml += '<span class="label label-default">' + _t.real_estate.attribute.draft_status + '</span><br />';
+        if ($status.children('[aria-name="draft"]').length == 0) {
+          $status.append('<article class="node status-animation node-default"><div class="text"><span>' + _t.real_estate.attribute.draft_status + '</span></div><div class="fa fa-file-text-o"></div></article>')
+        }
       }
       else {
-        if (isAppraised) {
-          statusHtml += '<span class="label label-success">' + _t.real_estate.attribute.appraised_status + '</span><br />';
-        }
-        else if (isNotAppraised) {
-          statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.not_appraised_status + '</span><br />';
-        }
+        // if (isAppraised) {
+        //   statusHtml += '<span class="label label-success">' + _t.real_estate.attribute.appraised_status + '</span><br />';
+        // }
+        // else if (isNotAppraised) {
+        //   statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.not_appraised_status + '</span><br />';
+        // }
 
         if (isPending) {
-          statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.pending_status + '</span><br />';
+          $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.real_estate.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
         }
 
         if (isShow) {
-          statusHtml += '<span class="label label-primary">' + _t.real_estate.attribute.show_status + '</span>';
+          $status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.real_estate.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
         }
         else {
-          statusHtml += '<span class="label label-danger">' + _t.real_estate.attribute.hide_status + '</span>';
+          $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.real_estate.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
         }
       }
-
-      $row.find('[aria-object="status"]').html(statusHtml);
 
       // Constrol buttons
 
       if (isShow) {
-        $row.find('[aria-click="change-show-status"]').text(_t.real_estate.view.my.hide);
+        $item.find('[aria-click="change-show-status"]').attr('title', _t.real_estate.view.my.hide).removeClass('fa-eye').addClass('fa-eye-slash');
       }
       else {
-        $row.find('[aria-click="change-show-status"]').text(_t.real_estate.view.my.show);
+        $item.find('[aria-click="change-show-status"]').attr('title', _t.real_estate.view.my.show).removeClass('fa-eye-slash').addClass('fa-eye');
       }
 
       if (isDraft) {
-        $row.find('[aria-click="edit"]').text(_t.real_estate.view.my['continue']);
+        $item.find('[aria-click="edit"]').attr('title', _t.real_estate.view.my['continue']);
       }
       else {
-        $row.find('[aria-click="edit"]').text(_t.real_estate.view.my.edit);
+        $item.find('[aria-click="edit"]').attr('title', _t.real_estate.view.my.edit);
       }
+
+      initStatusAnimation($item);
     }
   }
 
@@ -85,13 +87,13 @@ $(function () {
 
   function initChangeShowStatus() {
     $list.find('[aria-click="change-show-status"]').on('click', function () {
-      var $row = $(this).closest('tr');
-      var status = $row.data('status');
+      var $item = $(this).closest('.item');
+      var status = $item.data('status');
       var isShow = listString.has('show', status);
 
       toggleLoadStatus(true);
       $.ajax({
-        url: '/real_estates/change_show_status/' + $row.data('value') + '/' + (isShow ? 0 : 1),
+        url: '/real_estates/change_show_status/' + $item.data('value') + '/' + (isShow ? 0 : 1),
         type: 'PUT',
         contentType: 'JSON'
       }).always(function () {
@@ -99,12 +101,12 @@ $(function () {
       }).done(function (data) {
         if (data.status == 0) {
           if (isShow) {
-            $row.data('status', listString.remove('show', status));
+            $item.data('status', listString.remove('show', status));
           }
           else {
-            $row.data('status', listString.add('show', status));
+            $item.data('status', listString.add('show', status));
           }
-          initStatus($row);
+          initStatus($item);
         }
         else {
           popupPrompt({
@@ -133,7 +135,7 @@ $(function () {
 
   function initDelete() {
     $list.find('[aria-click="delete"]').on('click', function () {
-      var $row = $(this).closest('tr');
+      var $item = $(this).closest('.item');
 
       popupPrompt({
         title: _t.form.confirm_title,
@@ -146,14 +148,14 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/real_estates/' + $row.data('value'),
+                url: '/real_estates/' + $item.data('value'),
                 type: 'DELETE',
-                contentType: 'JSON'
+                dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
-                  $row.remove();
+                  $item.remove();
                 }
                 else {
                   popupPrompt({
@@ -205,5 +207,31 @@ $(function () {
 
   /*
     / Pagination
+  */
+
+  /*
+    Status animation
+  */
+
+  function initStatusAnimation($item) {
+    $item.find('.status-animation').on({
+      mouseenter: function () {
+        var $node = $(this);
+        $node.find('.text').animate({
+          width: $node.find('.text span').width() + 12.5
+        }, 300);
+      },
+      mouseleave: function () {
+        var $node = $(this);
+        $node.find('.text').animate({
+          width: 0
+        }, 300);
+
+      }
+    })
+  }
+
+  /*
+    / Status animation
   */
 });

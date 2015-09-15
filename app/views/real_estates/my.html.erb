@@ -32,25 +32,13 @@
   </section>
 </section>
 
-<section class="box box-default">
-  <section class="box-body no-padding table-responsive">
-    <table class="table table-striped re-content">
-      <thead>
-        <th><%= t 'real_estate.attribute.id' %></th>
-        <th><%= t 'real_estate.attribute.title' %></th>
-        <th><%= t 'real_estate.attribute.purpose' %></th>
-        <th><%= t 'real_estate.attribute.real_estate_type' %></th>
-        <th><%= t 'real_estate.attribute.status' %></th>
-        <th>&nbsp;</th>
-      </thead>
-      <tbody id="re_list">
-        <% if total != 0 %>
-          <%= render partial: 'real_estates/my_list', locals: { res: @res.page(1, per) } %>
-        <% end %>
-      </tbody>
-    </table>
+<section class="re-content">
+  <article id="re_list" class="row">
+    <% if total != 0 %>
+      <%= render partial: 'real_estates/my_list', locals: { res: @res.page(1, per) } %>
+    <% end %>
     <div><% if total == 0 %>Bạn chưa đăng tin nào<% end %></div>
-  </section>
+  </article>
   <nav class="text-center" id="pagination">
     <% if total != 0 %>
       <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>

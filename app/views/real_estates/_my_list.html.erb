@@ -14,35 +14,47 @@
       end
     end
   %>
-
-  <tr data-value="<%= re.id %>" data-status="<%= status %>">
-    <td class="min-width-cell">
-      <a class="view" href="/real_estates/<%= re.id %>">
-        <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
+  <article class="col-md-3 col-sm-4 col-xs-6">
+    <article class="item" data-value="<%= re.id %>" data-status="<%= status %>">
+      <section class="top">
         <%= real_estate_avatar re %>
-      </a>
-    </td>
-    <td><%= re.title %></td>
-    <td class="min-width-cell"><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
-    <td class="min-width-cell"><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
-    <td class="min-width-cell text-center" aria-object="status"></td>
-    <td class="min-width-cell">
-      <div class="dropdown">
-        <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-          <%= t 'real_estate.view.my.control' %>
-        </button>
-        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
-          <li role="presentation">
-            <a aria-click="change-show-status" href="javascript:void(0)"></a>
-          </li>
-          <li role="presentation">
-            <a aria-click="edit" href="/real_estates/create/<%= re.id %>"></a>
-          </li>
-          <li role="presentation">
-            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.my.delete' %></a>
-          </li>
-        </ul>
-      </div>
-    </td>
-  </tr>
+        <section class="left">
+          <article class="node">
+            <span><b><%= ApplicationHelper.id_format re.id, 'RE'%></b></span>
+          </article>
+        </section>
+        <section class="right" aria-name="status">
+          <!-- <article class="node status-animation">
+            <div class="text"><span>Chờ duyệt</span></div>
+            <div class="fa fa-tag"></div>
+          </article> -->
+        </section>
+      </section>
+      <section class="bottom">
+        <p class="title">
+          <%= re.title %>
+        </p>
+        <p>
+          <span class="fa fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %>
+        </p>
+        <p>
+          <span class="fa fa-tag"></span> <%= re.display_purpose %>
+        </p>
+        <p>
+          <span class="fa fa-map-marker"></span> <%= re.display_address %>
+        </p>
+      </section>
+      <section class="control">
+        <span class="node">
+          <a aria-click="change-show-status" href="javascript:void(0)" class="fa fa-lg"></a>
+        </span>
+        <span class="node">
+          <a aria-click="edit" href="/real_estates/create/<%= re.id %>" class="fa fa-pencil fa-lg"></a>
+        </span>
+        <span class="node">
+          <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+        </span>
+      </section>
+    </article>
+  </article>
 <% end %>

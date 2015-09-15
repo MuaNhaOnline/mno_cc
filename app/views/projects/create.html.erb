@@ -11,13 +11,15 @@
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'project.view.create.page_title' %>
+  <%= t 'project.view.create.form_title' %>
 <% end %>
 
 <% 
 =begin
   params: @p
 =end
+
+  @title = t 'project.view.create.page_title'
 
   # Unit options
   price_unit_html = ''
@@ -134,7 +136,7 @@
             <label for="project_type"><%= t 'project.attribute.project_type' %></label>
             <select class="form-control" id="project_type" name="project[project_type_id]">
               <% ProjectType.get_options.each do |t| %>
-                <option value="<%= t.id %>" <%= 'selected' if @p.project_type_id === t.id %>><%= t 'project_type.text.' + t.name %></option>
+                <option value="<%= t.id %>" <%= 'selected' if @p.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
               <% end %>
             </select>
           </article>
@@ -149,7 +151,7 @@
               <label for="campus_area"><%= t 'project.attribute.campus_area' %></label>
               <sup class="required-label"></sup>
               <div class="input-group">
-                <input dât-constraint="required real" class="form-control" name="project[campus_area]" id="campus_area" value="<%= @p.campus_area %>" />
+                <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @p.campus_area %>" />
                 <div class="input-group-addon">m<sup>2</sup></div>
               </div>
             </article>
