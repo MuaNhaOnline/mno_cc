@@ -486,6 +486,11 @@ footer {
 			max-width: 750px;
 			width: 100%;			
 		}
+		@media screen and (max-width: 767px) {
+			.item-lg .picture img {
+				margin-bottom: 10px;
+			}
+		}
 		/*end picture*/
 
 		/*start name*/
@@ -893,6 +898,12 @@ footer {
 			-moz-transform: rotate(180deg);
 			-webkit-transform: rotate(180deg);
 			margin-left: 20px;
+		}
+		@media screen and (max-width: 767px) {
+			.block > .title > a:before,
+			.block > .title > a:after {
+				width: 0;
+			}
 		}
 		.block a.link:hover {
 			text-decoration: none;

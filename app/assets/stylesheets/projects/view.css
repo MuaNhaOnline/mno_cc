@@ -37,13 +37,18 @@
 		text-align: center;
 	}
 		.image-info .other-image ul {
-			border: 1px solid #eee;
 			padding: 10px;
 			display: block;
 		}
 		.image-info .other-image li {			
 			max-width: 8%;
 			display: inline-block;
+		}
+		@media screen and (max-width: 767px) {
+			.image-info .other-image li {			
+				max-width: 15%;
+				display: inline-block;
+			}
 		}
 			.image-info .other-image li:not(:last-child) {
 				margin-right: 10px;
@@ -70,6 +75,11 @@
 		flex-direction: column;
 		transition: 0.3s;
 	}
+		@media screen and (max-width: 767px) {
+			.standard-info .price {
+				max-width: 100%;
+			}
+		}
 		.price select {
 			border: 0px;
 			outline: none;
@@ -127,6 +137,7 @@
 	.standard-info .function {
 		display: flex;
 		justify-content: center;
+		margin-bottom: 10px;
 	}
 		.standard-info .function .btn-favor {
 			margin-right: 30px;
@@ -153,6 +164,11 @@
 }
 	.info-project ul {
 		text-align: center;
+	}
+	@media screen and (max-width: 767px) {
+		.info-project ul {
+			text-align: left;
+		}
 	}
 	.info-project li {
 		margin-bottom: 15px;
@@ -183,8 +199,13 @@
 
 }
 	.convenient .item {
-		text-align: left;
+		text-align: center;
 		padding: 0 10px;
+	}
+	@media screen and (max-width: 766px) {
+		.convenient .item {
+			text-align: left;
+		}
 	}
 /*end*/
 
@@ -193,8 +214,13 @@
 
 }
 	.utility .item {
-		text-align: left;
+		text-align: center;
 		padding: 0 10px;
+	}
+	@media screen and (max-width: 766px) {
+		.utility .item {
+			text-align: left;
+		}
 	}
 /*end*/
 
@@ -229,7 +255,7 @@
 			width: 100%;
 		}
 			.user-info .info li {
-				margin-bottom: 12px;
+				margin-bottom: 20px;
 			}
 			.user-info .info i {
 				display: inline-block;
@@ -253,7 +279,7 @@
 			border-radius: 2px;
 		}
 		.request-box textarea {			
-			max-height: 97px;
+			max-height: 120px;
 			border-radius: 2px;
 			max-width: 263px;
 			margin-bottom: 7px;
