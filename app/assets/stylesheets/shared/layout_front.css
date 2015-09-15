@@ -31,6 +31,25 @@ header {
 		transition: 0.3s;
 	}
 
+	/*start mini menu*/
+	.mini-menu {
+		margin: auto 0 auto auto;
+	}
+		.mini-menu i {
+			font-size: 130.77%
+		}
+		.mini-menu a {
+			display: block;
+			padding: 10px;
+		}
+		.mini-menu .dropdown-menu {
+			margin-top: 10px;
+			left: -160%;
+			border: 0;
+			padding: 10px;
+		}		
+	/*end*/
+
 	/*start fixed header*/
 	.header {            
 		padding: 0 10px;
@@ -41,9 +60,14 @@ header {
 		/*start logo*/
 		.logo {
 			height: 100%;
-			width: 220px;
+			width: 200px;
 			display: flex;
 			transition: 0.3s;
+		}
+		@media screen and (max-width: 767px) {
+			.logo {
+				width: 180px;
+			}
 		}
 			.logo a {
 				display: block;
@@ -329,6 +353,24 @@ footer {
 	text-align: center;
 	padding-bottom: 10px;
 }
+	@media screen and (max-width: 600px) {
+		.search {
+			height: auto !important;
+			padding: 70px 10px;
+		}
+		.search-box .title {			
+			padding: 0 10px;
+		}
+			.search-box .title h3 {
+				font-size: 138.46% !important;
+			}
+		.search-box form {
+			padding: 0 20px !important;
+		}
+		.search-box .btn-plus .btn {			
+			margin-bottom: 10px;
+		}
+	}
 	.search-box .title {
 		text-align: center;
 		color: #ff6511;		
@@ -495,7 +537,7 @@ footer {
 
 		/*start name*/
 		.item-lg .name {
-			font-size: 153.85%;
+			font-size: 123.08%;
 			color: #666;
 			margin-bottom: 10px;
 			width: 100%;
@@ -1076,3 +1118,11 @@ footer {
 		.slick-dots > li.slick-active > i {
 			background-position: -6px 0;
 		}
+
+/*--------------------------------------------------------*/
+/*Custom button*/
+/*--------------------------------------------------------*/
+.btn-custom-default {
+	background-color: #eee;
+	color: #666;
+}
