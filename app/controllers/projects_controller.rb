@@ -149,7 +149,7 @@ class ProjectsController < ApplicationController
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'projects/pending_list', locals: { ps: ps.page(params[:page].to_i, per) }),
+        list: render_to_string(partial: 'projects/pending_list', locals: { projects: ps.page(params[:page].to_i, per) }),
         pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
       }
     }

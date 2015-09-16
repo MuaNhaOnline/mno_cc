@@ -1,26 +1,35 @@
 <% projects.each do |p| %>
-  <tr data-value="<%= p.id %>">
-    <td class="min-width-cell">
-      <a class="view" href="/project/<%= p.id %>">
-        <div><span class="label label-primary"><%= ApplicationHelper.id_format p.id, 'PR'%></span></div>                
-        <%= project_avatar p %>
-      </a>
-    </td>
-    <td><%= p.title %></td>
-    <td class="min-width-cell"><%= p.investor.name unless p.investor.nil? %></td>
-    <td class="min-width-cell"><%= t 'project_type.text.' + p.project_type.name unless p.project_type.nil? %></td>
-    <td class="min-width-cell">
-      <div class="dropdown">
-        <button id="drop_down_button_<%= p.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-          <%= t 'project.view.pending.control' %>
-        </button>
-        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= p.id %>">
-          <li role="presentation">
-            <a aria-click="approve" href="javascript:void(0)"><%= t 'project.view.pending.approve' %></a>
-            <a aria-click="delete" href="javascript:void(0)"><%= t 'project.view.pending.delete' %></a>
-          </li>
-        </ul>
-      </div>
-    </td>
-  </tr>
+  <article class="col-md-3 col-sm-4 col-xs-6">
+    <article class="item" data-value="<%= p.id %>">
+      <section class="top">
+        <a href="/projects/<%= p.id %>">
+          <%= project_avatar p %>
+        </a>
+        <section class="left">
+          <article class="node">
+            <span><b><%= p.display_id %></b></span>
+          </article>
+        </section>
+      </section>
+      <section class="bottom">
+        <p class="title">
+          <%= p.title %>
+        </p>
+        <p>
+          <span class="fa fa-user"></span> <a href="/users/#{p.user.id}"><%= p.user.full_name %></a>
+        </p>
+        <p aria-name="address">
+          <span class="fa fa-map-marker"></span> <%= p.display_address %>
+        </p>
+      </section>
+      <section class="control">
+        <span class="node">
+          <a aria-click="approve" href="javascript:void(0)" class="fa fa-check"></a>
+        </span>
+        <span class="node">
+          <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+        </span>
+      </section>
+    </article>
+  </article>
 <% end %>

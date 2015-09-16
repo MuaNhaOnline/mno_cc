@@ -1,7 +1,7 @@
 $(function () {
-  var $list = $('#project_list');
+  var $list = $('#project_list'), find;
 
-  initStatus();
+  initItem();
   initChangeShowStatus();
   initDelete();
   initPagination();
@@ -10,68 +10,75 @@ $(function () {
     Display with status
   */
 
-  function initStatus($row) {
-    if ($row) {
-      setStatus($row);
+  function initItem($item) {
+    if ($item) {
+      setItem($item);
     }
     else {
-      $list.children().each(function () {
-        setStatus($(this));
-      }); 
+      $list.find('.item').each(function () {
+        setItem($(this));
+      });
     }
 
-    function setStatus($row) {
+    function setItem($item) {
+
+      $item.find('[aria-name="address"]').dotdotdot({
+        height: 40,
+        watch: true
+      });
+
+      /*
+        Status
+      */
+
       var 
-        status = $row.data('status'),
+        status = $item.data('status'),
         isDraft = listString.has('draft', status),
         isPending = listString.has('pending', status),
         isShow = listString.has('show', status),
-        isAppraised = listString.has('appraised', status),
-        isNotAppraised = listString.has('not_appraised', status);
+        $status = $item.find('[aria-name="status"]');
 
-      // Status
+      $status.html('');
 
-      var statusHtml = '';
       if (isDraft) {
-        statusHtml += '<span class="label label-default">' + _t.project.attribute.draft_status + '</span><br />';
+        if ($status.children('[aria-name="draft"]').length == 0) {
+          $status.append('<article class="node status-animation node-default"><div class="text"><span>' + _t.project.attribute.draft_status + '</span></div><div class="fa fa-file-text-o"></div></article>')
+        }
       }
       else {
-        if (isAppraised) {
-          statusHtml += '<span class="label label-success">' + _t.project.attribute.appraised_status + '</span><br />';
-        }
-        else if (isNotAppraised) {
-          statusHtml += '<span class="label label-warning">' + _t.project.attribute.not_appraised_status + '</span><br />';
-        }
-
         if (isPending) {
-          statusHtml += '<span class="label label-warning">' + _t.project.attribute.pending_status + '</span><br />';
+          $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.project.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
         }
 
         if (isShow) {
-          statusHtml += '<span class="label label-primary">' + _t.project.attribute.show_status + '</span>';
+          $status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.project.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
         }
         else {
-          statusHtml += '<span class="label label-danger">' + _t.project.attribute.hide_status + '</span>';
+          $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.project.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
         }
       }
-
-      $row.find('[aria-object="status"]').html(statusHtml);
 
       // Constrol buttons
 
       if (isShow) {
-        $row.find('[aria-click="change-show-status"]').text(_t.project.view.my.hide);
+        $item.find('[aria-click="change-show-status"]').attr('title', _t.project.view.my.hide).removeClass('fa-eye').addClass('fa-eye-slash');
       }
       else {
-        $row.find('[aria-click="change-show-status"]').text(_t.project.view.my.show);
+        $item.find('[aria-click="change-show-status"]').attr('title', _t.project.view.my.show).removeClass('fa-eye-slash').addClass('fa-eye');
       }
 
       if (isDraft) {
-        $row.find('[aria-click="edit"]').text(_t.project.view.my['continue']);
+        $item.find('[aria-click="edit"]').attr('title', _t.project.view.my['continue']);
       }
       else {
-        $row.find('[aria-click="edit"]').text(_t.project.view.my.edit);
+        $item.find('[aria-click="edit"]').attr('title', _t.project.view.my.edit);
       }
+
+      _initStatusAnimation($item);
+
+      /*
+        / Status
+      */
     }
   }
 
@@ -85,13 +92,13 @@ $(function () {
 
   function initChangeShowStatus() {
     $list.find('[aria-click="change-show-status"]').on('click', function () {
-      var $row = $(this).closest('tr');
-      var status = $row.data('status');
+      var $item = $(this).closest('.item');
+      var status = $item.data('status');
       var isShow = listString.has('show', status);
 
       toggleLoadStatus(true);
       $.ajax({
-        url: '/projects/change_show_status/' + $row.data('value') + '/' + (isShow ? 0 : 1),
+        url: '/projects/change_show_status/' + $item.data('value') + '/' + (isShow ? 0 : 1),
         type: 'PUT',
         contentType: 'JSON'
       }).always(function () {
@@ -99,12 +106,12 @@ $(function () {
       }).done(function (data) {
         if (data.status == 0) {
           if (isShow) {
-            $row.data('status', listString.remove('show', status));
+            $item.data('status', listString.remove('show', status));
           }
           else {
-            $row.data('status', listString.add('show', status));
+            $item.data('status', listString.add('show', status));
           }
-          initStatus($row);
+          initItem($item);
         }
         else {
           popupPrompt({
@@ -133,7 +140,7 @@ $(function () {
 
   function initDelete() {
     $list.find('[aria-click="delete"]').on('click', function () {
-      var $row = $(this).closest('tr');
+      var $item = $(this).closest('.item');
 
       popupPrompt({
         title: _t.form.confirm_title,
@@ -146,14 +153,15 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/projects/' + $row.data('value'),
+                url: '/projects/' + $item.data('value'),
                 type: 'DELETE',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
-                  $row.remove();
+                  $item.remove();
+                  find();
                 }
                 else {
                   popupPrompt({
@@ -188,17 +196,26 @@ $(function () {
   */
 
   function initPagination() {
-    _initSearchablePagination(
-      $list,
-      $('#search_form'),
-      $('#pagination'), 
-      {
-        url: '/projects/_my_list',
-        afterLoad: function (content) {
-          $list.html(content);
-          initStatus();
-          initChangeShowStatus();
-          initDelete();
+    find = _initPagination({
+      url: '/projects/_my_list',
+      list: $list,
+      pagination: $('#pagination'),
+      done: function (content) {
+        $list.html(content);
+        initItem();
+        initChangeShowStatus();
+        initDelete();
+      }
+    });
+
+    var searchForm = document.getElementById('search_form');
+    initForm($(searchForm), {
+      submit: function () {
+        find({
+          data: {
+            keyword: searchForm.elements['keyword'].value
+          }
+        });
       }
     });
   }

@@ -418,8 +418,8 @@ class RealEstate < ActiveRecord::Base
       :address_number, :province, :district, :ward, :street, :lat, :long,
       :title, :description, :image]
 
-    fields << :sell_price << :sell_unit if re.purpose.code === 'sell' || re.purpose.code === 'sell_rent'
-    fields << :rent_price << :rent_unit if re.purpose.code === 'rent' || re.purpose.code === 'sell_rent'
+    fields << :sell_price << :sell_unit if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
+    fields << :rent_price << :rent_unit if re.purpose.code == 'rent' || re.purpose.code == 'sell_rent'
 
     if re.is_full
       fields << :street_type << :is_alley
@@ -438,9 +438,9 @@ class RealEstate < ActiveRecord::Base
         when 'space', 'house'
           fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
             :constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
-          if real_estate_type.options_hash['group'] == 'house'
+          if re.real_estate_type.options_hash['group'] == 'house'
             fields << :floor_number
-            if real_estate_type.name == 'villa'
+            if re.real_estate_type.name == 'villa'
               fields.delete :constructional_level
             end
           end
@@ -505,9 +505,19 @@ class RealEstate < ActiveRecord::Base
     @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}."
   end
 
+  # ID
+  def display_id
+    @id ||= ApplicationHelper.id_format id, 'RE'
+  end
+
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?}, #{ward.name unless ward.nil?}, #{district.name unless district.nil?}, #{(province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?} #{', ' + ward.name unless ward.nil?} #{', ' + district.name unless district.nil?} #{', ' + (province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+  end
+
+  # Real estate type
+  def display_real_estate_type
+    @display_real_estate_type ||= I18n.t 'real_estate_type.text.' + real_estate_type.name unless real_estate_type.nil?
   end
 
   # Restroom
@@ -522,22 +532,22 @@ class RealEstate < ActiveRecord::Base
 
   # Area
   def display_area
-    fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
+    @display_area ||= fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
   end
 
   # Purpose
   def display_purpose
-    I18n.t 'purpose.text.' + purpose.name if purpose.present?
+    @display_purpose ||= I18n.t 'purpose.text.' + purpose.name if purpose.present?
   end
 
   # Sell price
   def display_sell_price
-    sell_price || 'Giá thỏa thuận'
+    @display_sell_price ||= sell_price || 'Giá thỏa thuận'
   end
 
   # Rent price
   def display_rent_price
-    rent_price || 'Giá thỏa thuận'
+    @display_rent_price ||= rent_price || 'Giá thỏa thuận'
   end
 
 # / Attributes

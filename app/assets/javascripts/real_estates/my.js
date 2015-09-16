@@ -1,7 +1,7 @@
 $(function () {
-  var $list = $('#re_list');
+  var $list = $('#re_list'), find;
 
-  initStatus();
+  initItem();
   initChangeShowStatus();
   initDelete();
   initPagination();
@@ -10,17 +10,27 @@ $(function () {
     Display with status
   */
 
-  function initStatus($item) {
+  function initItem($item) {
     if ($item) {
-      setStatus($item);
+      setItem($item);
     }
     else {
       $list.find('.item').each(function () {
-        setStatus($(this));
+        setItem($(this));
       });
     }
 
-    function setStatus($item) {
+    function setItem($item) {
+
+      $item.find('[aria-name="address"]').dotdotdot({
+        height: 40,
+        watch: true
+      });
+
+      /*
+        Status
+      */
+
       var 
         status = $item.data('status'),
         isDraft = listString.has('draft', status),
@@ -73,7 +83,11 @@ $(function () {
         $item.find('[aria-click="edit"]').attr('title', _t.real_estate.view.my.edit);
       }
 
-      initStatusAnimation($item);
+      _initStatusAnimation($item);
+
+      /*
+        / Status
+      */
     }
   }
 
@@ -106,7 +120,7 @@ $(function () {
           else {
             $item.data('status', listString.add('show', status));
           }
-          initStatus($item);
+          initItem($item);
         }
         else {
           popupPrompt({
@@ -156,6 +170,7 @@ $(function () {
               }).done(function (data) {
                 if (data.status == 0) {
                   $item.remove();
+                  find();
                 }
                 else {
                   popupPrompt({
@@ -190,48 +205,31 @@ $(function () {
   */
 
   function initPagination() {
-    _initSearchablePagination(
-      $list,
-      $('#search_form'),
-      $('#pagination'), 
-      {
-        url: '/real_estates/_my_list',
-        afterLoad: function (content) {
-          $list.html(content);
-          initStatus();
-          initChangeShowStatus();
-          initDelete();
+    find = _initPagination({
+      url: '/real_estates/_my_list',
+      list: $list,
+      pagination: $('#pagination'),
+      done: function (content) {
+        $list.html(content);
+        initItem();
+        initChangeShowStatus();
+        initDelete();
+      }
+    });
+
+    var searchForm = document.getElementById('search_form');
+    initForm($(searchForm), {
+      submit: function () {
+        find({
+          data: {
+            keyword: searchForm.elements['keyword'].value
+          }
+        });
       }
     });
   }
 
   /*
     / Pagination
-  */
-
-  /*
-    Status animation
-  */
-
-  function initStatusAnimation($item) {
-    $item.find('.status-animation').on({
-      mouseenter: function () {
-        var $node = $(this);
-        $node.find('.text').animate({
-          width: $node.find('.text span').width() + 12.5
-        }, 300);
-      },
-      mouseleave: function () {
-        var $node = $(this);
-        $node.find('.text').animate({
-          width: 0
-        }, 300);
-
-      }
-    })
-  }
-
-  /*
-    / Status animation
   */
 });

@@ -1,6 +1,6 @@
 <% res.each do |re| %>
-  <!-- Get status -->
   <% 
+    # Get status
     status = '';
     if re.is_draft
       status = 'draft '
@@ -14,20 +14,19 @@
       end
     end
   %>
+
   <article class="col-md-3 col-sm-4 col-xs-6">
     <article class="item" data-value="<%= re.id %>" data-status="<%= status %>">
       <section class="top">
-        <%= real_estate_avatar re %>
+        <a href="/real_estates/<%= re.id %>">
+          <%= real_estate_avatar re %>
+        </a>
         <section class="left">
           <article class="node">
-            <span><b><%= ApplicationHelper.id_format re.id, 'RE'%></b></span>
+            <span><b><%= re.display_id %></b></span>
           </article>
         </section>
-        <section class="right" aria-name="status">
-          <!-- <article class="node status-animation">
-            <div class="text"><span>Chờ duyệt</span></div>
-            <div class="fa fa-tag"></div>
-          </article> -->
+        <section class="right circle-node" aria-name="status">
         </section>
       </section>
       <section class="bottom">
@@ -40,7 +39,7 @@
         <p>
           <span class="fa fa-tag"></span> <%= re.display_purpose %>
         </p>
-        <p>
+        <p aria-name="address">
           <span class="fa fa-map-marker"></span> <%= re.display_address %>
         </p>
       </section>

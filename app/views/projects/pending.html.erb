@@ -34,24 +34,14 @@
   </section>
 </section>
 
-<section class="box box-default">
-  <section class="box-body no-padding table-responsive">
-    <table class="table table-striped re-content">
-      <thead>
-        <th><%= t 'project.attribute.id' %></th>
-        <th><%= t 'project.attribute.name' %></th>
-        <th><%= t 'project.attribute.investor' %></th>
-        <th><%= t 'project.attribute.project_type' %></th>
-        <th>&nbsp;</th>
-      </thead>
-      <tbody id="project_list">
-        <% if total != 0 %>
-          <%= render partial: 'projects/pending_list', locals: { projects: @projects.page(1, per) } %>
-        <% end %>
-      </tbody>
-    </table>
-    <div><% if total == 0 %>Không có tin đang chờ duyệt<% end %></div>
-  </section>
+<section>
+  <article id="project_list" class="row item-list">
+    <% if total != 0 %>
+      <%= render partial: 'projects/pending_list', locals: { projects: @projects.page(1, per) } %>
+    <% else %>
+      <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có tin nào</h4></div>
+    <% end %>
+  </article>
   <nav class="text-center" id="pagination">
     <% if total != 0 %>
       <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
