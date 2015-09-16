@@ -27,7 +27,7 @@
 
 /*start user-property*/
 .user-property {
-
+	margin-bottom: 20px
 }
 	/*Tab panes*/
 	.user-property .tab-content > div {
@@ -89,10 +89,26 @@
 		.title-position button:hover {
 			text-decoration: none;
 		}
+	
 	/*start link*/
 	.link {
 		text-align: right;		
 	}
+	/*end*/
+
+	/*start sub-title*/
+	.sub-title {
+
+	}
+		.sub-title span {
+			font-size: 130.77%;
+		}
+		.sub-title .btn-group {
+			vertical-align: -13px;
+		}
+		.sub-title .btn-group a {
+			font-size: 123.07%;
+		}
 	/*end*/
 /*end position property*/
 

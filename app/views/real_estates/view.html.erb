@@ -25,8 +25,8 @@
 		</div>
 		<form>
 			<div class="tab">
-				<label><input type="radio" name="typeTab"><i class="sale"></i><span>Nhà Bán</span></label>
-				<label><input type="radio" name="typeTab"><i class="rent"></i><span>Nhà Thuê</span></label>       
+				<label><input type="radio" name="typeTab"><i class="icon-32 icon-home-sale"></i><span>Nhà Bán</span></label>
+				<label><input type="radio" name="typeTab"><i class="icon-32 icon-home-rent"></i><span>Nhà Thuê</span></label>       
 			</div>
 			<div class="form-group-custom">
 				<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
@@ -401,120 +401,59 @@
 			<article class="title">
 				<span>Vị trí trên bản đồ</span>
 			</article>
-      <article class="content map">
+      <article class="content map img-responsive">
       	<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @re.lat %>" data-long="<%= @re.long %>">
       		
       	</div>
       </article>
 		</section>
-		<section class="line-block">
-			<article class="title">
-				<span>Thông tin liên lạc</span>
-			</article>
-			<article class="content information">
-				<div class="user-info row">
-					<% if @re.user_id != 0 %>
-						<div class="col-md-2">
-							<%= user_avatar @re.user %>
-							<span><%= @re.user.full_name %></span>
-						</div>
-						<div class="col-md-3">
-							<ul class="info">
-								<% unless @re.user.phone_number.blank? %>
-									<li>
-										<i class="icon-phone"></i>
-										<span><%= @re.user.phone_number %></span>
-									</li>
-								<% end %>
-								<li>
-									<i class="icon-mail"></i>
-									<span><%= @re.user.email %></span>
-								</li>
-								<!-- <li>
-									<i class="icon-skype"></i>
-									<span>Đang cập nhật</span>
-								</li> -->
-								<% unless @re.user.address.blank? %>
-									<li>
-										<i class="icon-address"></i>
-										<span><%= @re.user.address %></span>
-									</li>
-								<% end %>
-							</ul>
-							<div class="btn-contact">
-								
-							</div>
-						</div>
-					<% else %>
-						<% u = User.new full_name: @re.user_full_name, phone_number: @re.user_phone_number, email: @re.user_email %>
-						<div class="col-md-2">
-							<%= user_avatar u %>
-							<span><%= u.full_name %></span>
-						</div>
-						<div class="col-md-3">
-							<ul class="info">
-								<% unless u.phone_number.blank? %>
-									<li>
-										<i class="icon-phone"></i>
-										<span><%= u.phone_number %></span>
-									</li>
-								<% end %>
-								<li>
-									<i class="icon-mail"></i>
-									<span><%= u.email %></span>
-								</li>
-							</ul>
-							<div class="btn-contact">
-								
-							</div>
-						</div>
-					<% end %>
-					<div class="col-md-3">
-						<div class="request-box">
-							<form>
-								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Email của bạn">
-									<textarea class="form-control">Tôi cảm thấy thích căn hộ này và muốn có thêm thông tin.</textarea>
-									<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
-									<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
-								</div>
-							</form>
-						</div>
-					</div>
+		<!-- start contact -->
+<section class="line-block contact container">
+	<article class="title">
+		<span>Thông tin liên lạc</span>
+	</article>
+	<article class="content information" style="padding: 0;">
+		<div class="user-info row">
+			<div class="col-xs-4 col-sm-2 avatar">
+				<img src="/assets/users/default.png">
+				<span>Nguyễn Kim Chi</span>
+			</div>
+			<div class="col-xs-8 col-sm-4">
+				<ul class="info">
+					<li>
+						<i class="icon-phone"></i>
+						<span>01682197651</span>
+					</li>
+					<li>
+						<i class="icon-mail"></i>
+						<span>penguinbluechip@gmail.com</span>
+					</li>
+					<li>
+						<i class="icon-address"></i>
+						<span>53 Cô Giang, Quận 1</span>
+					</li>
+					<li>
+						<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
+					</li>
+				</ul>
+				<div class="btn-contact">
+					
 				</div>
-				<!-- <div class="normal-block">
-					<article class="title">
-						<span>Các đơn vị cùng phân phối BĐS này</span>
-					</article>
-					<article class="content distributor-other">
-						<div class="distributor-item">
-							<div class="picture"><img src="/assets/icon/avatarDefault.png"></div>
-							<div class="name"><span>Lê Bình Chiêu</span></div>
-							<div class="price">2 tỷ 8</div>
-							<div class="function"><a href="#">Xem tin</a></div>
+			</div>							
+			<div class="col-sm-4 col-xs-12">
+				<div class="request-box">
+					<form>
+						<div class="form-group">
+							<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
+							<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
 						</div>
-						<div class="distributor-item">
-							<div class="picture"><img src="/assets/icon/avatarDefault.png"></div>
-							<div class="name"><span>Lê Bình Chiêu</span></div>
-							<div class="price">2 tỷ 8</div>
-							<div class="function"><a href="#">Xem tin</a></div>
-						</div>
-						<div class="distributor-item">
-							<div class="picture"><img src="/assets/icon/avatarDefault.png"></div>
-							<div class="name"><span>Lê Bình Chiêu</span></div>
-							<div class="price">2 tỷ 8</div>
-							<div class="function"><a href="#">Xem tin</a></div>
-						</div>
-						<div class="distributor-item">
-							<div class="picture"><img src="/assets/icon/avatarDefault.png"></div>
-							<div class="name"><span>Lê Bình Chiêu</span></div>
-							<div class="price">2 tỷ 8</div>
-							<div class="function"><a href="#">Xem tin</a></div>
-						</div>
-					</article>
-				</div> -->
-			</article>
-		</section>
+					</form>
+				</div>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->
 	</article>
 </section>
 <!-- end details of Property -->
@@ -529,59 +468,178 @@
 	</article>
 	<article class="content">
 		<ul class="row">
-			<%
-				res_ = RealEstate.limit(4)
-			%>
-			<% res_.each do |re| %>			
-				<% 
-					fields_ = RealEstate.get_fields re 
-				%>	
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<li class="item-sm">
-						<div class="picture">
-							<%= real_estate_avatar re %>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+						<i class="badge-new"></i>
+						<div class="promotion">
+							<i class="icon icon-gift"></i>
+							<span>Tặng bộ bàn ghế cao cấp</span>
 						</div>
-						<a href="#">
-							<div class="title">
-								<span><%= re.title %></span>
-							</div>						
-							<div class="convenient">							
-								<div class="bathroom">
-									<i class="icon-bathroom"></i>
-									<span><%= re.display_restroom %></span>						
-								</div>
-								<div class="bedroom">
-									<i class="icon-bedroom"></i>
-									<span><%= re.display_bedroom %></span>
-								</div>
-								<div class="area">
-									<i class="icon-area"></i>
-									<span><%= fields_.include?(:campus_area) ? @re.campus_area : (fields_.include?(:constructional_area) ? @re.constructional_area : @re.using_area)%>m<sup>2</sup></span>
-								</div>
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>RIVERGATE</span>
+						</div>						
+						<div class="convenient">							
+							<div class="bathroom">
+								<i class="icon-bathroom"></i>
+								<span>4</span>						
 							</div>
-							<div class="address">
-								<i class="icon icon-address"></i>
-								<span><%= re.display_address %></span>
+							<div class="bedroom">
+								<i class="icon-bedroom"></i>
+								<span>3</span>
 							</div>
-							<% if fields_.include? :sell_price %>
-								<div class="price">
-									<i class="icon icon-price"></i>
-									<p class="number sale"><%= re[:sell_price] || 'Giá thỏa thuận' %></p>
-								</div>
-							<% end %>
-							
-						</a>
-						<div class="function">
-							<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-							<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-							<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-							<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+							<div class="area">
+								<i class="icon-area"></i>
+								<span>80m<sup>2</sup></span>
+							</div>
 						</div>
-					</li>
-				</div>
-			<% end %>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+						<i class="badge-new"></i>
+						<div class="promotion">
+							<i class="icon icon-gift"></i>
+							<span>Tặng bộ bàn ghế cao cấp</span>
+						</div>
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>RIVERGATE</span>
+						</div>						
+						<div class="convenient">							
+							<div class="bathroom">
+								<i class="icon-bathroom"></i>
+								<span>4</span>						
+							</div>
+							<div class="bedroom">
+								<i class="icon-bedroom"></i>
+								<span>3</span>
+							</div>
+							<div class="area">
+								<i class="icon-area"></i>
+								<span>80m<sup>2</sup></span>
+							</div>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>RIVERGATE</span>
+						</div>						
+						<div class="convenient">							
+							<div class="bathroom">
+								<i class="icon-bathroom"></i>
+								<span>4</span>						
+							</div>
+							<div class="bedroom">
+								<i class="icon-bedroom"></i>
+								<span>3</span>
+							</div>
+							<div class="area">
+								<i class="icon-area"></i>
+								<span>80m<sup>2</sup></span>
+							</div>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+				<li class="item-sm">
+					<div class="picture">
+						<img src="/assets/product/BDS01.jpg">
+					</div>
+					<a href="#">
+						<div class="title">
+							<span>RIVERGATE</span>
+						</div>						
+						<div class="convenient">							
+							<div class="bathroom">
+								<i class="icon-bathroom"></i>
+								<span>4</span>						
+							</div>
+							<div class="bedroom">
+								<i class="icon-bedroom"></i>
+								<span>3</span>
+							</div>
+							<div class="area">
+								<i class="icon-area"></i>
+								<span>80m<sup>2</sup></span>
+							</div>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+							<i class="icon-16 icon-position"></i>
+							<span>Nguyễn Văn Linh, Quận 7</span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale">900 triệu / căn</p>
+						</div>	
+					</a>
+					<div class="function">
+						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
 		</ul>
-		<!-- <div class="paging">
+		<div class="paging">
 			<div class="left">
 				<i class="pe-7s-angle-left"></i>
 			</div>
@@ -591,7 +649,7 @@
 			<div class="right">
 				<i class="pe-7s-angle-right"></i>
 			</div>
-		</div> -->
+		</div>
 	</article>
 </section>
 <!-- end other property -->

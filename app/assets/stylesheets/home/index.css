@@ -193,14 +193,14 @@
 .agent {
 	margin-bottom: 40px;
 }
-.agent ul {
-	text-align: center;
-}
-.agent li {
-	display: inline-block;
-	margin: 0 10px;
-	height: 150px;
-	width: 150px;
-	border: 1px solid #ccc;	
-}
+	.agent ul {
+	}
+	.agent .item-agent {
+		height: 150px;
+		width: 150px;
+		border: 1px solid #ccc;	
+	}
+	.agent .slick-slide {
+		margin: 0 20px;
+	}
 /*end agent*/

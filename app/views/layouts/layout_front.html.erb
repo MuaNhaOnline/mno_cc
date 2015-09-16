@@ -46,7 +46,7 @@
 								<li class="divider"></li>
 								<li>
 									<div class="row-fluid" style="width: 400px">
-										<div class="col-md-6">
+										<div class="col-sm-6">
 											<ul class="unstyled span4">
 												<li><a href="/real_estates">Nhà phố</a></li>
 												<li><a href="/real_estates">Villa - Biệt thự</a></li>
@@ -58,7 +58,7 @@
 												<li><a href="/real_estates">Đất lâm nghiệp</a></li>
 											</ul>
 										</div>
-										<div class="col-md-6">
+										<div class="col-sm-6">
 											<ul class="unstyled span4">
 												<li><a href="/real_estates">Đất nông nghiệp</a></li>
 												<li><a href="/real_estates">Đất cho sản xuất</a></li>
@@ -130,12 +130,12 @@
 			<!-- end -->
 
 			<!-- start mini menu -->
-			<article class="mini-menu hidden-lg">
+			<article class="mini-menu hidden-lg hidden-sm hidden-xs">
 				<div class="btn-group">
 					<a href="#" class="mini-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<i class="icon-16 icon-menu"></i>
 					</a>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu hidden-lg hidden-sm hidden-xs">
 						<div style="text-align: center">
 							<article class="switch-button">
 								<label>
@@ -148,8 +148,14 @@
 								</label>
 							</article>
 						</div>							
-					</ul>
-				</div>
+					</ul>				
+			</article>
+
+			<article class="mini-menu-1 hidden-lg hidden-md">
+				<div class="btn-group">
+					<a class="mini-menu" data-toggle-object="mini-menu">
+						<i class="icon-16 icon-menu"></i>
+					</a>					
 			</article>
 			<!-- end -->
 			 
@@ -304,8 +310,76 @@
 </footer>
 <!-- #end footer -->
 
-<!-- start modal -->
+<!-- start mini menu -->
+<section class="cover-wall hidden-md hidden-lg" data-object="mini-menu">
+	<div class="mini-menu-content">
+		<section class="mini-user-box">			
+			<a href="/signin" class="btn btn-primary btn-sm">Đăng nhập</a>
+			<a class="btn btn-primary btn-sm">Đăng ký</a>			
+			<div class="sign-with-social">
+				<span>Đăng nhập với:</span>
+				<i class="icon icon-facebook"></i>
+				<i class="icon icon-googleplus"></i>
+			</div>
+		</section>
+		<section class="mini-sitemap hidden-sm">
+			<ul>
+				<li>
+					<a data-toggle-object="bds-dropdownmenu">Bất động sản</a>
+				</li>
+				<li data-object="bds-dropdownmenu" style="display: none">
+					<ul>
+						<li class="all"><a href="/real_estates">Xem tất cả</a></li>
+						<li><a href="/real_estates">Nhà phố</a></li>
+						<li><a href="/real_estates">Villa - Biệt thự</a></li>
+						<li><a href="/real_estates">Nhà tạm</a></li>
+						<li><a href="/real_estates">Căn hộ cao cấp</a></li>
+						<li><a href="/real_estates">Căn hộ chung cư</a></li>
+						<li><a href="/real_estates">Đất dự án - Quy hoạch</a></li>
+						<li><a href="/real_estates">Đất ở - Đất thổ cư</a></li>
+						<li><a href="/real_estates">Đất lâm nghiệp</a></li>
+						<li><a href="/real_estates">Đất nông nghiệp</a></li>
+						<li><a href="/real_estates">Đất cho sản xuất</a></li>
+						<li><a href="/real_estates">Văn phòng</a></li>
+						<li><a href="/real_estates">Phòng trọ</a></li>
+						<li><a href="/real_estates">Mặt bằng - Cửa hàng</a></li>
+						<li><a href="/real_estates">Nhà hàng - Khách sạn</a></li>
+						<li><a href="/real_estates">Nhà kho - Xưởng</a></li>
+					</ul>
+				</li>
+				<li>
+					<a data-toggle-object="du-an-dropdownmenu">Dự án</a>
+				</li>
+				<li data-object="du-an-dropdownmenu" style="display: none">
+					<ul>
+						<li class="all"><a href="/projects">Xem tất cả</a></li>
+						<li><a href="/projects">Cao ốc văn phòng</a></li>
+						<li><a href="/projects">Khu căn hộ</a></li>
+						<li><a href="/projects">Khu dân cư - đô thị mới</a></li>
+						<li><a href="/projects">Khu phức hợp - thương mại</a></li>
+						<li><a href="/projects">Khu du lịch - nghĩ dưỡng</a></li>
+						<li><a href="/projects">Khu công nghiệp</a></li>
+					</ul>
+				</li>
+				<li>
+					<a>Doanh nghiệp</a>
+				</li>
+				<li>
+					<a>Tin tức</a>
+				</li>
+				<li>
+					<a>Liên hệ</a>
+				</li>
+				<li>
+					<a>Nhà định giá</a>
+				</li>
+			</ul>
+		</section>
+	</div>	
+</section>
+<!-- end -->
 
+<!-- start modal -->
 <!-- Đăng nhập Modal -->
 <div class="modal fade" id="signin">
 	<div class="modal-dialog modal-sm">
@@ -328,6 +402,9 @@
 						 <label><input name="remember" type="checkbox">Ghi nhớ</label>
 					</div>
 				</div>
+				<div style="margin-top: 20px">
+					<span>Bạn chưa có tài khoản? <a href="/signup">Đăng ký ngay</a></span>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-default">Quên mật khẩu</a>
@@ -336,7 +413,6 @@
 		</form><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- end modal -->
 </body>
 

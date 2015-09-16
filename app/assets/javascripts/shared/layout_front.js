@@ -14,6 +14,8 @@ $(function () {
 
 	//init datepicker
 	$('.datepicker').datepicker();
+
+	initToggleElement($('[data-toggle-object]'), false);
 });
 
 //endregion
@@ -23,18 +25,33 @@ function initHeader() {
 	var header = $('.header-fixed');
 	var logo = $('.logo');
 	var widthLogo = $(logo).width();
+	var miniMenu = $('.mini-menu-content');
+	var heightHeader = $(header).height();	
+	var scroll = $(window).scrollTop();
 
-	$(window).scroll(function() {
-		var scroll = $(window).scrollTop();
-		
-		if (scroll != 0) {
-			$(header).css('height', '46px');
-			$(logo).css('width', '180px');		
+	$(window).on('scroll', function(e) {
+		var currentScroll = $(window).scrollTop();
+		if (scroll < currentScroll) {
+			//Window is scroll down
+			$(header).hide();
 		}
 		else {
-			$(header).css('height', '60px');
-			$(logo).css('width', widthLogo + 'px');
+			//Window is scroll up
+
+			$(header).show();
+			
+			if (currentScroll != 0) {
+				$(header).css('height', '46px');
+				$(logo).css('width', '150px');	
+				$(miniMenu).css('margin-top', '46px');
+			}
+			else {
+				$(header).css('height', '60px');
+				$(logo).css('width', widthLogo + 'px');
+				$(miniMenu).css('margin-top', '60px');
+			}
 		}
+		scroll = currentScroll;
 	});
 }
 // end
@@ -49,6 +66,40 @@ function initMore() {
 	});
 }
 //end
+
+// start ToggleElement
+function initToggleElement($listObject, isFunction) {
+    $listObject.off('click.on_off').on('click.on_off', function (e) {
+        //Lấy đối tượng 
+        // $btn: nút nhấn
+        // $object: đối tượng popup sẽ được hiển thị
+        var $btn = $(this);
+        var $object = $('[data-object="' + $btn.attr('data-toggle-object') + '"]');
+        
+        //Xử lý sự kiện click của nút nhấn
+        if ($object.is(':visible')) {
+            $object.hide().removeClass('on');
+            return;
+        }
+        
+        $object.show().addClass('on');
+        if (isFunction !== true) {
+            $object.on('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+
+        //Xử lý sự kiện nhấn chuột ra ngoài đối tượng
+        setTimeout(function () {
+            $(document).one('click', function (e) {
+                $object.hide().removeClass('on');
+            })
+        });
+
+        $('.dropdown-toggle').dropdown();
+    });
+}
+// end
 
 
 
