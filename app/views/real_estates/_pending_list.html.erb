@@ -1,26 +1,41 @@
 <% res.each do |re| %>
-  <tr data-value="<%= re.id %>">
-    <td class="min-width-cell">
-      <a class="view" href="/real_estates/<%= re.id %>">
-        <div><span class="label label-primary"><%= ApplicationHelper.id_format re.id, 'RE'%></span></div>                
-        <%= real_estate_avatar re %>
-      </a>
-    </td>
-    <td><%= re.title %></td>
-    <td class="min-width-cell"><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
-    <td class="min-width-cell"><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
-    <td class="min-width-cell">
-      <div class="dropdown">
-        <button id="drop_down_button_<%= re.id %>" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-          <%= t 'real_estate.view.pending.control' %>
-        </button>
-        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="drop_down_button_<%= re.id %>">
-          <li role="presentation">
-            <a aria-click="approve" href="javascript:void(0)"><%= t 'real_estate.view.pending.approve' %></a>
-            <a aria-click="delete" href="javascript:void(0)"><%= t 'real_estate.view.pending.delete' %></a>
-          </li>
-        </ul>
-      </div>
-    </td>
-  </tr>
+  <article class="col-md-3 col-sm-4 col-xs-6">
+    <article class="item" data-value="<%= re.id %>">
+      <section class="top">
+        <a href="/real_estates/<%= re.id %>">
+          <%= real_estate_avatar re %>
+        </a>
+        <section class="left">
+          <article class="node">
+            <span><b><%= re.display_id %></b></span>
+          </article>
+        </section>
+      </section>
+      <section class="bottom">
+        <p class="title">
+          <%= re.title %>
+        </p>
+        <p>
+          <span class="fa fa-user"></span> <%= re.user_id == 0 ? re.user_full_name : "<a href=\"/users/#{re.user.id}\">#{re.user.full_name}</a>".html_safe %>
+        </p>
+        <p>
+          <span class="fa fa-home"></span> <%= re.display_real_estate_type %>
+        </p>
+        <p>
+          <span class="fa fa-tag"></span> <%= re.display_purpose %>
+        </p>
+        <p aria-name="address">
+          <span class="fa fa-map-marker"></span> <%= re.display_address %>
+        </p>
+      </section>
+      <section class="control">
+        <span class="node">
+          <a aria-click="approve" href="javascript:void(0)" class="fa fa-check"></a>
+        </span>
+        <span class="node">
+          <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+        </span>
+      </section>
+    </article>
+  </article>
 <% end %>

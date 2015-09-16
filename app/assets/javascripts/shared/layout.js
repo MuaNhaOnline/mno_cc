@@ -52,7 +52,7 @@ function _initPagination(params) {
     // data of params
     var data;
     if ('data' in params) {
-      if (typeof params.data === 'function') {
+      if (typeof params.data == 'function') {
         data = params.data();
       }
       else {
@@ -62,6 +62,7 @@ function _initPagination(params) {
     if (typeof data !== 'object') {
       data = {}
     }
+    data['page'] = 1;
 
     // data of find params
 
@@ -114,6 +115,10 @@ function _initPagination(params) {
         if ('pagination' in params) {
           params['pagination'].empty();
         }
+        // empty list
+        if ('list' in params) {
+          params['list'].html('<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả</h4></div>')
+        }
       }
     }).fail(function (xhr, status) {
       if (status != 'abort') {
@@ -123,6 +128,10 @@ function _initPagination(params) {
         // empty pagination
         if ('pagination' in params) {
           params['pagination'].empty();
+        }
+        // empty list
+        if ('list' in params) {
+          params['list'].html('<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả</h4></div>')
         }
       }
     });

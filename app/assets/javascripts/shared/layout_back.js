@@ -177,6 +177,31 @@ function dataURLToBlob(dataURL, type) {
   / Helper
 */
 
+/*
+  Status animation
+*/
+
+function _initStatusAnimation($item) {
+  $item.find('.status-animation').on({
+    mouseenter: function () {
+      var $node = $(this);
+      $node.find('.text').stop().animate({
+        width: $node.find('.text span').width() + 12.5
+      }, 300);
+    },
+    mouseleave: function () {
+      var $node = $(this);
+      $node.find('.text').stop().animate({
+        width: 0
+      }, 300);
+    }
+  })
+}
+
+/*
+  / Status animation
+*/
+
 /* 
 	Popup 
 */
@@ -504,7 +529,7 @@ listString.remove = function (key, string) {
     page: 1
       default page
 */
-function _initPagination($list, $pagination, params) {
+function _initPagination0($list, $pagination, params) {
   if (typeof params === 'undefined' || typeof params.url === 'undefined') {
     return;
   }

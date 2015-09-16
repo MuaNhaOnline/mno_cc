@@ -1,5 +1,5 @@
 $(function () {
-  var $list = $('#re_list');
+  var $list = $('#re_list'), find;
 
   initApprove();
   initDelete();
@@ -11,18 +11,19 @@ $(function () {
 
   function initApprove() {
     $list.find('[aria-click="approve"]').on('click', function () {
-      var $row = $(this).closest('tr');
+      var $item = $(this).closest('.item');
 
       toggleLoadStatus(true);
       $.ajax({
-          url: '/real_estates/approve/' + $row.data('value'),
+          url: '/real_estates/approve/' + $item.data('value'),
           type: 'PUT',
           contentType: 'JSON'
       }).done(function () {
         toggleLoadStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
-          $row.remove();
+          $item.remove();
+          find();
         }
         else {
           popupPrompt({
@@ -51,7 +52,7 @@ $(function () {
 
   function initDelete() {
     $list.find('[aria-click="delete"]').on('click', function () {
-      var $row = $(this).closest('tr');
+      var $item = $(this).closest('.item');
 
       popupPrompt({
         title: _t.form.confirm_title,
@@ -64,14 +65,15 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/real_estates/' + $row.data('value'),
+                url: '/real_estates/' + $item.data('value'),
                 type: 'DELETE',
-                contentType: 'JSON'
+                dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
-                  $row.remove();
+                  $item.remove();
+                  find();
                 }
                 else {
                   popupPrompt({
@@ -106,19 +108,27 @@ $(function () {
   */
 
   function initPagination() {
-    _initSearchablePagination(
-      $list,
-      $('#search_form'),
-      $('#pagination'), 
-      {
-        url: '/real_estates/_pending_list',
-        afterLoad: function (content) {
-          $list.html(content);
-          initApprove();
-          initDelete();
-        }
+    find = _initPagination({
+      url: '/real_estates/_pending_list',
+      list: $list,
+      pagination: $('#pagination'),
+      done: function (content) {
+        $list.html(content);
+        initApprove();
+        initDelete();
       }
-    );
+    });
+
+    var searchForm = document.getElementById('search_form');
+    initForm($(searchForm), {
+      submit: function () {
+        find({
+          data: {
+            keyword: searchForm.elements['keyword'].value
+          }
+        });
+      }
+    });
   }
 
   /*

@@ -236,4 +236,19 @@ class Project < ActiveRecord::Base
   # / Get meta search
 
 # / Helper
+
+# Attributes
+
+  # ID
+  def display_id
+    @id ||= ApplicationHelper.id_format id, 'PR'
+  end
+
+  # Full address
+  def display_address
+    @display_address ||= "#{address_number} #{street.name unless street.nil?} #{', ' + ward.name unless ward.nil?} #{', ' + district.name unless district.nil?} #{', ' + (province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+  end
+
+# / Attributes
+
 end
