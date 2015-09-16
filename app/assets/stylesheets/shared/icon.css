@@ -26,6 +26,9 @@
 /*end*/
 
 /*start icon-16*/
+.icon-menu {
+	background-position: 0 -112px; 
+}
 /*end*/
 
 /*start icon-24*/
@@ -39,6 +42,7 @@
 .icon-home-rent {
 	background-position: -40px -32px; 
 }
+
 /*end*/
 
 

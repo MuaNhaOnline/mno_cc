@@ -22,6 +22,7 @@ $(function () {
 function initHeader() {
 	var header = $('.header-fixed');
 	var logo = $('.logo');
+	var widthLogo = $(logo).width();
 
 	$(window).scroll(function() {
 		var scroll = $(window).scrollTop();
@@ -32,7 +33,7 @@ function initHeader() {
 		}
 		else {
 			$(header).css('height', '60px');
-			$(logo).css('width', '220px');
+			$(logo).css('width', widthLogo + 'px');
 		}
 	});
 }

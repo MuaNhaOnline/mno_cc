@@ -1,7 +1,9 @@
 // Initilization
 $(function() {
 	//init dot dot dot
-	$('[data-dot]').dotdotdot();
+	$('[data-dot]').dotdotdot({
+		watch: 'window'
+	});
 
 	//init slick	
 	$('.favorite-property').find('.content').slick({

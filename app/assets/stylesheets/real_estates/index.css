@@ -36,7 +36,6 @@
 
 		/*start link*/
 		.user-property .tab-content .link {
-			margin-bottom: 10px;
 			text-align: right;
 		}
 		/*end*/
@@ -61,7 +60,6 @@
 
 		/*start link*/
 		.structure-property .tab-content .link {
-			margin-bottom: 10px;
 			text-align: right;
 		}
 		/*end*/
@@ -91,6 +89,11 @@
 		.title-position button:hover {
 			text-decoration: none;
 		}
+	/*start link*/
+	.link {
+		text-align: right;		
+	}
+	/*end*/
 /*end position property*/
 
 /*start price property*/
@@ -242,12 +245,17 @@
 .contact {
 	margin-bottom: 20px;
 }
-.contact img {
-	width: 100%;
-}
-.contact li {
-	font-size: 13px;
-	color: #999;
-	margin: 5px 0;
-}
+	.contact img {
+		width: 100%;
+		max-width: 165px;
+		max-height: 249px;
+	}
+	.contact li {
+		font-size: 13px;
+		color: #999;
+		margin: 5px 0;
+	}
+	.contact textarea {
+		max-width: 263px;
+	}
 /*end contact*/
