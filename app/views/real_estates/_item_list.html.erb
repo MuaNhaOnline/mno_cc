@@ -9,11 +9,16 @@
 	<div class="col-lg-3 col-md-4 col-sm-6">
 		<li class="item-sm">
 			<div class="picture">
-				<%= real_estate_avatar re %>
+				<img src="/assets/product/BDS01.jpg">
+				<i class="badge-new"></i>
+				<div class="promotion">
+					<i class="icon icon-gift"></i>
+					<span>Tặng bộ bàn ghế cao cấp</span>
+				</div>
 			</div>
 			<a href="#">
 				<div class="title">
-					<span><%= re.title %></span>
+					<span><%= real_estate_avatar re %></span>
 				</div>						
 				<div class="convenient">							
 					<div class="bathroom">
@@ -29,8 +34,8 @@
 						<span><%= re.display_area %>m<sup>2</sup></span>
 					</div>
 				</div>
-				<div class="address">
-					<i class="icon icon-address"></i>
+				<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+					<i class="icon-16 icon-position"></i>
 					<span><%= re.display_address %></span>
 				</div>
 				<% if re.fields.include? :sell_price %>
@@ -38,7 +43,7 @@
 						<i class="icon icon-price"></i>
 						<p class="number sale"><%= re.display_sell_price %></p>
 					</div>	
-				<% end %>									
+				<% end %>	
 			</a>
 			<div class="function">
 				<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>

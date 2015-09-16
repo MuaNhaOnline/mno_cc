@@ -5,12 +5,14 @@
 	return if pageCount <= 1
 %>
 
-<div class="left">
-	<i aria-click="prev-page" class="pe-7s-angle-left"></i>
-</div>
-<div class="number">
-	<span><%= defined?(page) ? page : 1 %>/<%= pageCount %></span>
-</div>
-<div class="right">
-	<i aria-click="next-page" class="pe-7s-angle-right"></i>
+<div class="paging">
+	<div class="left" aria-click="prev-page">
+		<i class="pe-7s-angle-left"></i>
+	</div>
+	<div class="number">
+		<span><%= defined?(page) ? page : 1 %>/<%= pageCount %></span>
+	</div>
+	<div class="right" aria-click="next-page">
+		<i class="pe-7s-angle-right"></i>
+	</div>						
 </div>

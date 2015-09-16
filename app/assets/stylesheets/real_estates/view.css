@@ -75,6 +75,9 @@
 		/*start share*/
 		.share {
 		}
+			.share i {
+				vertical-align: middle;
+			}
 		/*end*/
 	/*end*/
 

@@ -11,7 +11,6 @@ li {
 }
 .on {
 	display: block;
-	transition: 0.2s;
 }
 a:hover, a:visited, a:focus {
 	text-decoration: none;

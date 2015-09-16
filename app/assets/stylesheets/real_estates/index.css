@@ -132,7 +132,7 @@
 	/*start item-xs*/
 	.item-xs {
 		margin-bottom: 10px;
-		width: 500px;
+		width: 100%;
 	}
 	.item-xs .title {
 		margin-bottom: 10px;
@@ -159,14 +159,16 @@
 		display: flex;
 		border-top: 1px solid #ccc;
 		border-bottom: 1px solid #ccc;
-		padding: 5px 0;
+		padding: 5px 0;		
 	}
 		.item-xs .button {
+			float: left;
 			width: 80px;
 			align-self: center;
 			text-align: center;
 		}
-		.item-xs .details .text {			
+		.item-xs .details .text {
+			float: right;
 			width: 418px;
 			text-align: justify;
 			margin-left: 10px;

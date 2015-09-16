@@ -54,10 +54,11 @@ function initFixList() {
 
 	//scroll event
 	var topListContent = $('.content-list').offset().top;
+	var bottomListContent = $('.distributor-project').offset().top;
 
 	$(window).on('scroll', function() {
 		var scroll = $(window).scrollTop();
-		if (scroll >= topListContent) {
+		if (scroll >= topListContent && scroll <= bottomListContent) {
 			$('.fix-list').addClass('fixed');
 		}
 		else {
