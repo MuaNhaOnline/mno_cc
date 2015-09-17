@@ -1,5 +1,9 @@
 var _temp = {};
 
+$(function () {
+  _temp['pagination_count'] = 0;
+});
+
 /*
   Pagination
 */
@@ -29,7 +33,11 @@ function _initPagination(params) {
     return;
   }
 
-  _temp['is_finding'] = false;
+  var 
+    no = _temp['pagination_count']++
+    keyFind = 'is_finding_' + no;
+
+  _temp[keyFind] = false;
 
   var lastData = { page: params['page'] || 1 };
 
@@ -76,19 +84,19 @@ function _initPagination(params) {
       / Get data
     */
 
-    if (_temp.isSearching) {
-      _temp.isSearching.abort();
+    if (_temp[keyFind]) {
+      _temp[keyFind].abort();
     }
 
     // Get url
     var url = findParams['url'] || params['url'];
 
-    _temp.isSearching = $.ajax({
+    _temp[keyFind] = $.ajax({
         url: url,
         data: data,
         dataType: 'JSON'
     }).always(function () {
-      _temp.isSearching = false;
+      _temp[keyFind] = false;
     }).done(function (data) {
       if (data.status == 0) {
         // callback afterLoad or replace list
