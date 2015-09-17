@@ -15,44 +15,6 @@ class User < ActiveRecord::Base
   include PgSearch
   pg_search_scope :search, against: [:full_name]
 
-  def ability
-	  @ability ||= User.ability
-	end
-
-  def self.ability
-	  @ability # always have
-	end
-
-	# Run with before_action (in application controller)
-  def self.ability= ability
-	  @ability = ability
-	end
-
-	delegate :can?, :cannot?, to: :ability
-
-	def self.current
-		@current_user
-	end
-
-	def self.current= user
-		@current_user = user
-	end
-
-	def self.signed?
-		!@current_user.new_record?
-	end
-
-	def self.from_omniauth auth
-	  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-	    user.provider = auth.provider
-	    user.provider_user_id = auth.uid
-	    user.full_name = auth.info.name
-	    user.provider_token = auth.credentials.token
-	    user.provider_expires_at = Time.at(auth.credentials.expires_at)
-	    user.save
-	  end
-	end
-
 # Associates
 
 	belongs_to :avatar_image, class_name: 'Image'
@@ -77,6 +39,65 @@ class User < ActiveRecord::Base
 # / Validates
 
 # Attribute
+
+	# Ability
+
+	  def ability
+		  @ability ||= User.ability
+		end
+
+	  def self.ability
+		  @ability # always have
+		end
+
+		# Run with before_action (in application controller)
+	  def self.ability= ability
+		  @ability = ability
+		end
+
+		delegate :can?, :cannot?, to: :ability
+
+	# / Ability
+
+	# Current user
+
+		def self.current
+			@current_user
+		end
+
+		def self.current= user
+			@current_user = user
+		end
+
+		def self.signed?
+			!@current_user.new_record?
+		end
+
+		def self.from_omniauth auth
+		  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+		    user.provider = auth.provider
+		    user.provider_user_id = auth.uid
+		    user.full_name = auth.info.name
+		    user.provider_token = auth.credentials.token
+		    user.provider_expires_at = Time.at(auth.credentials.expires_at)
+		    user.save
+		  end
+		end
+
+	# / Current user
+
+	# Options
+
+	  def self.options
+		  @options # always have
+		end
+
+		# Run with before_action (in application controller)
+	  def self.options= options
+		  @options = options
+		end
+
+	# / Options
 
 	# Hash params
 
