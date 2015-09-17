@@ -368,7 +368,7 @@ class RealEstate < ActiveRecord::Base
   #   page, price(x;y), real_estate_type, is_full
   #   newest, cheapest
   def self.search_with_params params = {}
-    where = 'TRUE'
+    where = 'is_pending = false'
     joins = []
     order = {}
 
