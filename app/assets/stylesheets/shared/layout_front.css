@@ -233,12 +233,16 @@ header {
 			}
 			.switch-button input:checked ~ span {
 				background-color: #ff6511;
-				color: #fff;				
 			}
+				.switch-button input:checked ~ span a {
+					color: #fff;				
+				}
 			.switch-button label:last-child input:checked ~ span {
 				background-color: #038ed1;
-				color: #fff;
 			}
+				.switch-button label:last-child input:checked ~ span a {
+					color: #fff;
+				}
 		/*end*/
 		
 		/*start function-button*/

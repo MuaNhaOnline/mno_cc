@@ -340,6 +340,22 @@ class RealEstate < ActiveRecord::Base
 
   # / Get pending
 
+  # Get by current purpose
+
+  def self.get_by_current_purpose
+    purpose_condition = nil
+
+    case User.options[:current_purpose]
+    when 'r'
+      purpose = 'purpose.code = "sell" OR purpose.code = "sell_rent"'
+    else
+      purpose = 'purpose.code = "rent" OR purpose.code = "sell_rent"'
+    end
+    joins(:purpose).where(purpose_condition)
+  end
+
+  # / Get by current purpose
+
   # Get random
 
   def self.get_random

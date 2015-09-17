@@ -119,12 +119,28 @@
 			<!-- start switch button -->
 			<article class="switch-button hidden-md hidden-sm hidden-xs">
 				<label>
-					<input type="radio" name="switchType" id="sale" checked>
-					<span>Bán</span>
+					<% if current_purpose != 's' %>
+						<% 
+							request.GET['purpose'] = 's'
+						%>
+						<input type="radio" name="switchType" id="sale">
+						<span><a href="?<%= request.GET.map { |k,v| "#{k}=#{v}" }.join('&') %>">Bán</a></span>
+					<% else %>
+						<input type="radio" name="switchType" id="sale" checked>
+						<span><a>Bán</a></span>
+					<% end %>
 				</label>
 				<label>
-					<input type="radio" name="switchType" id="rent">
-					<span>Cho thuê</span>
+					<% if current_purpose != 'r' %>
+						<% 
+							request.GET['purpose'] = 'r'
+						%>
+						<input type="radio" name="switchType" id="rent">
+						<span><a href="?<%= request.GET.map { |k,v| "#{k}=#{v}" }.join('&') %>">Cho thuê</a></span>
+					<% else %>
+						<input type="radio" name="switchType" id="rent" checked>
+						<span><a>Cho thuê</a></span>
+					<% end %>
 				</label>
 			</article>
 			<!-- end -->

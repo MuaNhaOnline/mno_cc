@@ -1,1 +1,6 @@
-<%= ApplicationHelper.read_money 1200000003 %>
+<% 
+	request.GET['ddd'] = 13333111
+%>
+<%= request.GET.map { |k,v|
+	"#{k}=#{v}" 
+}.join('&') %>
