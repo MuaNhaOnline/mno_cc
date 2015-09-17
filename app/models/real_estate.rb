@@ -558,12 +558,18 @@ class RealEstate < ActiveRecord::Base
 
   # Sell price
   def display_sell_price
-    @display_sell_price ||= sell_price || 'Giá thỏa thuận'
+    @display_sell_price ||= (sell_price.blank? ? 'Giá thỏa thuận' : sell_price)
+  end
+  def display_sell_price_text
+    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text)
   end
 
   # Rent price
   def display_rent_price
-    @display_rent_price ||= rent_price || 'Giá thỏa thuận'
+    @display_rent_price ||= (rent_price.blank? ? 'Giá thỏa thuận' : rent_price)
+  end
+  def display_rent_price_text
+    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text)
   end
 
   # Legal record type
