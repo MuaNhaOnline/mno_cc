@@ -57,12 +57,21 @@ $(function() {
 // end
 
 // start initPaging
-function initPaging() {	
-	find = _initPagination({
+function initPaging() {
+
+	// suggest property
+	paging_suggest_property = _initPagination({
 		url: '/real_estates/search',
-		pagination: $('#pagination'),
-		list: $('#list')	
-	});
-	find();
+		pagination: $('#pagination_suggest_property'),
+		list: $('#list_suggest_property')	
+	});	
+
+	// new property
+	paging_new_property = _initPagination({
+		url: '/real_estates/search',
+		pagination: $('#pagination_new_property'),
+		list: $('#list_new_property')	
+	});	
+
 }
 // end
