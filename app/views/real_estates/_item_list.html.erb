@@ -9,16 +9,11 @@
 	<div class="col-lg-3 col-md-4 col-sm-6">
 		<li class="item-sm">
 			<div class="picture">
-				<img src="/assets/product/BDS01.jpg">
-				<i class="badge-new"></i>
-				<div class="promotion">
-					<i class="icon icon-gift"></i>
-					<span>Tặng bộ bàn ghế cao cấp</span>
-				</div>
+				<%= real_estate_avatar re %>
 			</div>
-			<a href="#">
+			<a href="/real_estates/<%= re.id %>">
 				<div class="title">
-					<span><%= real_estate_avatar re %></span>
+					<span><%= re.title %></span>
 				</div>						
 				<div class="convenient">							
 					<div class="bathroom">
@@ -40,9 +35,9 @@
 				</div>
 				<% if re.fields.include? :sell_price %>
 					<div class="price">
-						<i class="icon icon-price"></i>
+						<i class="icon-16 icon-dollar"></i>
 						<p class="number sale"><%= re.display_sell_price %></p>
-					</div>	
+					</div>
 				<% end %>	
 			</a>
 			<div class="function">
@@ -54,3 +49,5 @@
 		</li>
 	</div>
 <% end %>
+
+

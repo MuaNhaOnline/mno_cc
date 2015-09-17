@@ -53,8 +53,8 @@ function initFixList() {
 	});
 
 	//scroll event
-	var topListContent = $('.content-list').offset().top;
-	var bottomListContent = $('.distributor-project').offset().top;
+	var topListContent = $('.content-list').offset().top + 30;
+	var bottomListContent = $('.distributor-project').offset().top - 60;
 
 	$(window).on('scroll', function() {
 		var scroll = $(window).scrollTop();

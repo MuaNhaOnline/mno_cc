@@ -50,5 +50,19 @@ $(function() {
 			}
 		]
 	});
+
+	//initPaging
+	initPaging();
 });
+// end
+
+// start initPaging
+function initPaging() {	
+	find = _initPagination({
+		url: '/real_estates/search',
+		pagination: $('#pagination'),
+		list: $('#list')	
+	});
+	find();
+}
 // end

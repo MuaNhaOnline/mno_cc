@@ -267,7 +267,7 @@ class RealEstatesController < ApplicationController
   # Partial view
   # params: page, price(x;y)
   def search
-    per = Rails.application.config.item_per_page
+    per = Rails.application.config.real_estate_item_per_page
 
     params[:page] ||= 1
 
@@ -283,7 +283,7 @@ class RealEstatesController < ApplicationController
       status: 0,
       result: {
         list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page].to_i, per) }),
-        pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: per })
+        pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: per, page: params[:page].to_i })
       }
     }
   end

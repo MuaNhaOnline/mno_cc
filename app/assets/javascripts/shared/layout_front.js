@@ -15,6 +15,7 @@ $(function () {
 	//init datepicker
 	$('.datepicker').datepicker();
 
+	//init toggle object
 	initToggleElement($('[data-toggle-object]'), false);
 });
 
@@ -70,6 +71,7 @@ function initMore() {
 // start ToggleElement
 function initToggleElement($listObject, isFunction) {
 	$listObject.off('click.on_off').on('click.on_off', function (e) {
+		console.log(123);
 		//Lấy đối tượng 
 		// $btn: nút nhấn
 		// $object: đối tượng popup sẽ được hiển thị
@@ -88,7 +90,9 @@ function initToggleElement($listObject, isFunction) {
 				$object.fadeIn('fast');
 				if (isFunction !== true) {
 					$object.on('click', function (e) {
-						e.stopPropagation();
+						if ($object.is(':visible')) {
+							e.stopPropagation();												
+						}
 					});
 				}
 				//Xử lý sự kiện nhấn chuột ra ngoài đối tượng
@@ -107,7 +111,7 @@ function initToggleElement($listObject, isFunction) {
 				$object.show();
 				if (isFunction !== true) {
 					$object.on('click', function (e) {
-						e.stopPropagation();
+						e.stopPropagation();												
 					});
 				}
 				//Xử lý sự kiện nhấn chuột ra ngoài đối tượng
@@ -119,14 +123,10 @@ function initToggleElement($listObject, isFunction) {
 			}
 		}
 
-		
-
 		$('.dropdown-toggle').dropdown();
 	});
 }
 // end
-
-
 
 /*
 	Map (Chiêu)
