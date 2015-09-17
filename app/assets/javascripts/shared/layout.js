@@ -2,6 +2,7 @@ var _temp = {};
 
 $(function () {
   _temp['pagination_count'] = 0;
+  _startPagination();
 });
 
 /*
@@ -17,14 +18,20 @@ $(function () {
     list to display
   pagination
     pagination display
+  page(1)
+    page display
   done
     handle after load success
     function(content, note)
   fail
     handle after load empty or fail
     function()
-  page(1)
-    page display
+  return find(findParams)
+    findParams:
+      url
+      data
+        data pass to find
+      note
 */
 
 function _initPagination(params) {
@@ -42,12 +49,6 @@ function _initPagination(params) {
   var lastData = { page: params['page'] || 1 };
 
   // Find function
-  /*
-    url
-    data
-      data pass to find
-    note
-  */
   var find = function (findParams) {
     if (typeof findParams === 'undefined') {
       findParams = {};
@@ -167,6 +168,62 @@ function _initPagination(params) {
   }
 
   return find;
+}
+
+/*
+  aria-pagination
+  data:
+    url
+    list
+    pagination
+    page
+    done
+    fail
+    data
+*/
+function _startPagination() {
+  $('[aria-pagination]').each(function () {
+    var 
+      $pagination = $(this),
+      params = {};
+
+    if ($pagination.data('url')) {
+      params['url'] = $pagination.data('url');
+    }
+
+    if ($pagination.data('list')) {
+      params['list'] = $($pagination.data('list'));
+    }
+
+    if ($pagination.data('pagination')) {
+      params['pagination'] = $($pagination.data('pagination'));
+    }
+
+    if ($pagination.data('page')) {
+      params['page'] = $($pagination.data('page'));
+    }
+
+    if ($pagination.data('done') && typeof window[$pagination.data('done')] == 'function') {
+      params['done'] = window[$pagination.data('done')];
+    }
+
+    if ($pagination.data('fail') && typeof window[$pagination.data('fail')] == 'function') {
+      params['fail'] = window[$pagination.data('fail')];
+    }
+
+    if ($pagination.data('data')) {
+      data = $pagination.data('data');
+
+      if (typeof data == 'object') {
+        params['data'] = data;
+      }
+      else if (typeof window[data] == 'function') {
+        params['data'] = window[data];
+      }
+    }
+
+    _initPagination(params);
+  })
 }
 
 /*

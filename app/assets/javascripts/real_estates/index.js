@@ -23,21 +23,21 @@ $(function() {
 	*/
 
 	function initPriceRangeSearch() {
-		var slider, find;
+		var slider, find, $slider = $("#slider");
 
-		$("#slider").ionRangeSlider({
+		$slider.ionRangeSlider({
 			keyboard: true,
-			min: 0,
-			max: 3000000000,
-			from: 1000000000,
-			to: 2000000000,
+			min: $slider.data('min') || 0,
+			max: $slider.data('max') || 3000000000,
+			from: $slider.data('from') || 1000000000,
+			to: $slider.data('to') || 2000000000,
 			type: 'double',
-			step: 1000000,
-			keyboard_step: 500000000,
+			step: $slider.data('step') || 1000000,
+			keyboard_step: $slider.data('keyboard_step') || 500000000,
 			grid: true,
-			grid_num: 10,
-			values_separator: " đến ",
-			min_interval: 500000000,
+			grid_num: $slider.data('grid_num') || 10,
+			values_separator: $slider.data('values_separator') || " đến ",
+			min_interval: $slider.data('min_interval') || 500000000,
 			drag_interval: true,
 			onFinish: function (data) {
 				find();

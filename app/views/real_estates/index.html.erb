@@ -135,7 +135,7 @@
 		<section class="slick favorite-property">
 			<div class="content">
 				<%
-					res = RealEstate.get_by_current_purpose.get_random.limit 3
+					res = RealEstate.get_by_current_purpose.search_with_params.limit 3
 				%>
 				<% res.each do |re| %>
 					<div class="item-lg">
@@ -215,9 +215,9 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane fade in active" id="suggest_property">
+				<div aria-pagination data-url="/real_estates/search" data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" class="tab-pane fade in active" id="suggest_property">
 					<%
-						res = RealEstate.get_by_current_purpose
+						res = RealEstate.search_with_params
 					%>
 					<div class="row">
 						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
@@ -226,9 +226,9 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div class="tab-pane fade in active" id="new_property">
+				<div aria-pagination data-url="/real_estates/search" data-list="#new_property > .row" data-pagination="#new_property > .paging" class="tab-pane fade" id="new_property">
 					<%
-						res = RealEstate.get_by_current_purpose
+						res = RealEstate.search_with_params
 					%>
 					<div class="row">
 						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
@@ -279,201 +279,60 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane fade in active" id="property">
-					<div class="link">
-						<a class="btn btn-default btn-sm btn-custom-default">Xem nhiều hơn</a>
-					</div>
-					<div class="row">			
-						<div class="col-lg-3 col-md-4 col-sm-6">
-							<li class="item-sm">
-								<div class="picture">
-									<img src="/assets/product/BDS01.jpg">
-									<i class="badge-new"></i>
-									<div class="promotion">
-										<i class="icon icon-gift"></i>
-										<span>Tặng bộ bàn ghế cao cấp</span>
-									</div>
-								</div>
-								<a href="#">
-									<div class="title">
-										<span>RIVERGATE</span>
-									</div>						
-									<div class="convenient">							
-										<div class="bathroom">
-											<i class="icon-bathroom"></i>
-											<span>4</span>						
-										</div>
-										<div class="bedroom">
-											<i class="icon-bedroom"></i>
-											<span>3</span>
-										</div>
-										<div class="area">
-											<i class="icon-area"></i>
-											<span>80m<sup>2</sup></span>
-										</div>
-									</div>
-									<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-										<i class="icon-16 icon-position"></i>
-										<span>Nguyễn Văn Linh, Quận 7</span>
-									</div>
-									<div class="price">
-										<i class="icon-16 icon-dollar"></i>
-										<p class="number sale">900 triệu / căn</p>
-									</div>	
-								</a>
-								<div class="function">
-									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-								</div>
-							</li>
-						</div>
-						<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-							<li class="item-sm">
-								<div class="picture">
-									<img src="/assets/product/BDS01.jpg">
-									<i class="badge-new"></i>
-									<div class="promotion">
-										<i class="icon icon-gift"></i>
-										<span>Tặng bộ bàn ghế cao cấp</span>
-									</div>
-								</div>
-								<a href="#">
-									<div class="title">
-										<span>RIVERGATE</span>
-									</div>						
-									<div class="convenient">							
-										<div class="bathroom">
-											<i class="icon-bathroom"></i>
-											<span>4</span>						
-										</div>
-										<div class="bedroom">
-											<i class="icon-bedroom"></i>
-											<span>3</span>
-										</div>
-										<div class="area">
-											<i class="icon-area"></i>
-											<span>80m<sup>2</sup></span>
-										</div>
-									</div>
-									<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-										<i class="icon-16 icon-position"></i>
-										<span>Nguyễn Văn Linh, Quận 7</span>
-									</div>
-									<div class="price">
-										<i class="icon-16 icon-dollar"></i>
-										<p class="number sale">900 triệu / căn</p>
-									</div>	
-								</a>
-								<div class="function">
-									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-								</div>
-							</li>
-						</div>
-						<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
-							<li class="item-sm">
-								<div class="picture">
-									<img src="/assets/product/BDS01.jpg">
-								</div>
-								<a href="#">
-									<div class="title">
-										<span>RIVERGATE</span>
-									</div>						
-									<div class="convenient">							
-										<div class="bathroom">
-											<i class="icon-bathroom"></i>
-											<span>4</span>						
-										</div>
-										<div class="bedroom">
-											<i class="icon-bedroom"></i>
-											<span>3</span>
-										</div>
-										<div class="area">
-											<i class="icon-area"></i>
-											<span>80m<sup>2</sup></span>
-										</div>
-									</div>
-									<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-										<i class="icon-16 icon-position"></i>
-										<span>Nguyễn Văn Linh, Quận 7</span>
-									</div>
-									<div class="price">
-										<i class="icon-16 icon-dollar"></i>
-										<p class="number sale">900 triệu / căn</p>
-									</div>	
-								</a>
-								<div class="function">
-									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-								</div>
-							</li>
-						</div>
-						<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
-							<li class="item-sm">
-								<div class="picture">
-									<img src="/assets/product/BDS01.jpg">
-								</div>
-								<a href="#">
-									<div class="title">
-										<span>RIVERGATE</span>
-									</div>						
-									<div class="convenient">							
-										<div class="bathroom">
-											<i class="icon-bathroom"></i>
-											<span>4</span>						
-										</div>
-										<div class="bedroom">
-											<i class="icon-bedroom"></i>
-											<span>3</span>
-										</div>
-										<div class="area">
-											<i class="icon-area"></i>
-											<span>80m<sup>2</sup></span>
-										</div>
-									</div>
-									<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-										<i class="icon-16 icon-position"></i>
-										<span>Nguyễn Văn Linh, Quận 7</span>
-									</div>
-									<div class="price">
-										<i class="icon-16 icon-dollar"></i>
-										<p class="number sale">900 triệu / căn</p>
-									</div>	
-								</a>
-								<div class="function">
-									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-								</div>
-							</li>
-						</div>
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"town_house"}' data-list="#property > .row" data-pagination="#property > .paging" class="tab-pane fade in active" id="property">
+					<%
+						res = RealEstate.search_with_params real_estate_type: 'town_house'
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
 					</div>
 					<div class="paging">
-						<div class="left">
-							<i class="pe-7s-angle-left"></i>
-						</div>
-						<div class="number">
-							<span>5/10</span>
-						</div>
-						<div class="right">
-							<i class="pe-7s-angle-right"></i>
-						</div>
+						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div class="tab-pane fade" id="villa">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"villa"}' data-list="#villa > .row" data-pagination="#villa > .paging" class="tab-pane fade" id="villa">
+					<%
+						res = RealEstate.search_with_params real_estate_type: 'villa'
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+					</div>
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+					</div>
 				</div>
-				<div class="tab-pane fade" id="apartment">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"apartment"}' data-list="#apartment > .row" data-pagination="#apartment > .paging" class="tab-pane fade" id="apartment">
+					<%
+						res = RealEstate.search_with_params real_estate_type: 'apartment'
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+					</div>
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+					</div>
 				</div>
-				<div class="tab-pane fade" id="ground">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"space"}' data-list="#ground > .row" data-pagination="#ground > .paging" class="tab-pane fade" id="ground">
+					<%
+						res = RealEstate.search_with_params real_estate_type: 'space'
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+					</div>
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+					</div>
 				</div>
-				<div class="tab-pane fade" id="land">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"land"}' data-list="#land > .row" data-pagination="#land > .paging" class="tab-pane fade" id="land">
+					<%
+						res = RealEstate.search_with_params real_estate_type: 'land'
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+					</div>
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+					</div>
 				</div>
 			</div>
 			<!-- end -->
@@ -481,7 +340,7 @@
 </section>
 <!-- end -->
 
-<!-- start position property -->
+<!-- start position property --><!--
 <section class="container position-property block">
 	<article class="sub-title">
 		<div class="row">
@@ -701,17 +560,26 @@
 		</div>
 	</article>
 </section>
-<!-- end position property -->
+--><!-- end position property -->
 
 <!-- start price property -->
 <section class="container price-property block">
+	<article class="title">
+		<a href="#" class="link">
+			<i class="fa fa-link"></i>
+			<span>Tìm kiếm theo giá</span>
+		</a>
+	</article>
 	<article class="content">
 		<input type="text" id="slider" name="example_name" value="" />
+		<% 
+			res = RealEstate.search_with_params price: '1000000000;3000000000'
+		%>
 		<ul id="list" class="row" style="margin-top: 15px;">			
-			<%= render partial: 'real_estates/item_list', locals: { res: RealEstate.get_random.limit(4) } %>
+			<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
 		</ul>
 		<div id="pagination">
-			<%= render partial: 'shared/pagination_2', locals: { per: 2, total: 10 } %>
+			<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count } %>
 		</div>
 	</article>
 </section>
@@ -726,150 +594,40 @@
 		</a>
 	</article>
 	<article class="content">
-		<ul class="row">
+		<%
+			res = RealEstate.search_with_params(is_full: 'false').limit(6)
+		%>
+		<% res.each_with_index do |re, i| %>
+			<% if i % 2 == 0 %>
+				<ul class="row">
+			<% end %>
+
 			<div class="col-md-6">
 				<li class="item-xs">
-					<div class="title" data-toggle-object="MaTin01">
+					<div class="title" data-toggle-object="short_re_<%= re.id %>">
 						<div class="date">Hôm nay</div>
-						<div class="text">Tiêu đề</div>
+						<div class="text"><%= re.title %></div>
 					</div>
-					<div data-object="MaTin01" style="display: none;">
+					<div data-object="short_re_<%= re.id %>" style="display: none;">
 						<div class="details">
 							<div class="button">
-								<a href="" class="btn btn-primary btn-sm">Xem</a>
+								<a href="/real_estates/<%= re.id %>" class="btn btn-primary btn-sm">Xem</a>
 							</div>
 							<div class="text">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								<%= re.description %>
 							</div>
 						</div>
 					</div>
 				</li>
 			</div>
-			<div class="col-md-6">
-				<li class="item-xs">
-					<div class="title" data-toggle-object="MaTin02">
-						<div class="date">Hôm nay</div>
-						<div class="text">Tiêu đề</div>
-					</div>
-					<div data-object="MaTin02" style="display: none;">
-						<div class="details">
-							<div class="button">
-								<a href="" class="btn btn-primary btn-sm">Xem</a>
-							</div>
-							<div class="text">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-						</div>
-					</div>
-				</li>
-			</div>
-		</ul>
-		<ul class="row">
-			<div class="col-md-6">
-				<li class="item-xs">
-					<div class="title" data-toggle-object="MaTin03">
-						<div class="date">Hôm nay</div>
-						<div class="text">Tiêu đề</div>
-					</div>
-					<div data-object="MaTin03" style="display: none;">
-						<div class="details">
-							<div class="button">
-								<a href="" class="btn btn-primary btn-sm">Xem</a>
-							</div>
-							<div class="text">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-						</div>
-					</div>
-				</li>
-			</div>
-			<div class="col-md-6">
-				<li class="item-xs">
-					<div class="title" data-toggle-object="MaTin04">
-						<div class="date">Hôm nay</div>
-						<div class="text">Tiêu đề</div>
-					</div>
-					<div data-object="MaTin04" style="display: none;">
-						<div class="details">
-							<div class="button">
-								<a href="" class="btn btn-primary btn-sm">Xem</a>
-							</div>
-							<div class="text">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-						</div>
-					</div>
-				</li>
-			</div>
-		</ul>
-		<ul class="row">
-			<div class="col-md-6">
-				<li class="item-xs">
-					<div class="title" data-toggle-object="MaTin05">
-						<div class="date">Hôm nay</div>
-						<div class="text">Tiêu đề</div>
-					</div>
-					<div data-object="MaTin05" style="display: none;">
-						<div class="details">
-							<div class="button">
-								<a href="" class="btn btn-primary btn-sm">Xem</a>
-							</div>
-							<div class="text">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-						</div>
-					</div>
-				</li>
-			</div>
-			<div class="col-md-6">
-				<li class="item-xs">
-					<div class="title" data-toggle-object="MaTin06">
-						<div class="date">Hôm nay</div>
-						<div class="text">Tiêu đề</div>
-					</div>
-					<div data-object="MaTin06" style="display: none;">
-						<div class="details">
-							<div class="button">
-								<a href="" class="btn btn-primary btn-sm">Xem</a>
-							</div>
-							<div class="text">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-						</div>
-					</div>
-				</li>
-			</div>
-		</ul>
+
+			<% if i % 2 == 1 %>
+				</ul>
+			<% end %>			
+		<% end %>
+		<% if res.count % 2 == 1 %>
+			</ul>
+		<% end %>
 	</article>
 </section>
 <!-- end short property -->
@@ -888,32 +646,38 @@
 			</div>
 			<ul class="content">
 				<%
-					res = RealEstate.get_random.limit 3
+					res = RealEstate.search_with_params.search_with_params.limit 3
 				%>
 				<a href="#">
-					<li class="col1">
-						<%= real_estate_avatar res[0] %>
-						<div class="wrapper">
-							<span class="price"><%= res[0].display_sell_price %></span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<%= real_estate_avatar res[1] %>
-							<div class="wrapper">
-								<span class="price"><%= res[1].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-							</div>
-						</li>
-						<li>
-							<%= real_estate_avatar res[2] %>
-							<div class="wrapper">
-								<span class="price"><%= res[2].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>
@@ -922,30 +686,39 @@
 				<a href="#">Danh sách mới</a>
 			</div>
 			<ul class="content">
+				<%
+					res = RealEstate.search_with_params(newest: nil).limit(3)
+				%>
 				<a href="#">
-					<li class="col1">
-						<%= real_estate_avatar res[0] %>
-						<div class="wrapper">
-							<span class="price"><%= res[0].display_sell_price %></span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<%= real_estate_avatar res[1] %>
-							<div class="wrapper">
-								<span class="price"><%= res[1].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-							</div>
-						</li>
-						<li>
-							<%= real_estate_avatar res[2] %>
-							<div class="wrapper">
-								<span class="price"><%= res[2].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>
@@ -954,30 +727,39 @@
 				<a href="#">Biệt thự giá rẻ</a>
 			</div>
 			<ul class="content">
+				<%
+					res = RealEstate.search_with_params(real_estate_type: 'villa', cheapest: nil).limit 3
+				%>
 				<a href="#">
-					<li class="col1">
-						<%= real_estate_avatar res[0] %>
-						<div class="wrapper">
-							<span class="price"><%= res[0].display_sell_price %></span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<%= real_estate_avatar res[1] %>
-							<div class="wrapper">
-								<span class="price"><%= res[1].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-							</div>
-						</li>
-						<li>
-							<%= real_estate_avatar res[2] %>
-							<div class="wrapper">
-								<span class="price"><%= res[2].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>
@@ -986,30 +768,39 @@
 				<a href="#">Nhà ở xã hội</a>
 			</div>
 			<ul class="content">
+				<%
+					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
+				%>
 				<a href="#">
-					<li class="col1">
-						<%= real_estate_avatar res[0] %>
-						<div class="wrapper">
-							<span class="price"><%= res[0].display_sell_price %></span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<%= real_estate_avatar res[1] %>
-							<div class="wrapper">
-								<span class="price"><%= res[1].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-							</div>
-						</li>
-						<li>
-							<%= real_estate_avatar res[2] %>
-							<div class="wrapper">
-								<span class="price"><%= res[2].display_sell_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>

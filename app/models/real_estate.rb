@@ -347,9 +347,9 @@ class RealEstate < ActiveRecord::Base
 
     case User.options[:current_purpose]
     when 'r'
-      purpose = 'purpose.code = "sell" OR purpose.code = "sell_rent"'
+      purpose = 'purposes.code = "sell" OR purposes.code = "sell_rent"'
     else
-      purpose = 'purpose.code = "rent" OR purpose.code = "sell_rent"'
+      purpose = 'purposes.code = "rent" OR purposes.code = "sell_rent"'
     end
     joins(:purpose).where(purpose_condition)
   end
@@ -363,6 +363,36 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Get random
+
+  # params: 
+  #   page, price(x;y), real_estate_type, is_full
+  #   newest, cheapest
+  def self.search_with_params params = {}
+    where = 'TRUE'
+    joins = []
+    order = {}
+
+    if params.has_key? :price
+      price_range = params[:price].split(';')
+      where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+    end
+    if params.has_key? :real_estate_type
+      joins << :real_estate_type
+      where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
+    end
+
+    if params.has_key? :newest
+      order[:created_at] = 'asc'
+    end
+
+    if params.has_key? :cheapest
+      order[:price] = 'asc'
+    end
+
+    where += " AND is_full = #{params[:is_full] || 'true'}"
+
+    joins(joins).get_by_current_purpose.get_by_current_purpose.where(where).order(order)
+  end
 
 # / Get
 

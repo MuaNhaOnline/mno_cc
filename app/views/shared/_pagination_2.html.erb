@@ -1,6 +1,6 @@
 <!-- per, total, page = 1 -->
 <%
-	page = defined?(page) ? page : 1
+	page ||= 1
 	page_count = (total + per - 1) / per
 
 	return if page_count <= 1

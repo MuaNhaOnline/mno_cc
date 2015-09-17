@@ -265,19 +265,15 @@ class RealEstatesController < ApplicationController
 # Search
 
   # Partial view
-  # params: page, price(x;y)
+  # params: 
+  #   page, price(x;y), real_estate_type, is_full
+  #   newest, cheapest
   def search
+    res = RealEstate.search_with_params params
+    
     per = Rails.application.config.real_estate_item_per_page
 
     params[:page] ||= 1
-
-    where = 'TRUE'
-    if params.has_key? :price
-      price_range = params[:price].split(';')
-      where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
-    end
-
-    res = RealEstate.where(where)
 
     render json: {
       status: 0,

@@ -1,6 +1,1 @@
-<% 
-	request.GET['ddd'] = 13333111
-%>
-<%= request.GET.map { |k,v|
-	"#{k}=#{v}" 
-}.join('&') %>
+<%= { real_estate_type: '|' }.to_json %>

@@ -92,19 +92,19 @@ Purpose.create [
 RealEstateType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
 RealEstateType.create [
-	{ name: 'residential_land', options: '{"group":"land","default":""}' },
-	{ name: 'vacant_land', options: '{"group":"land"}' },
-	{ name: 'other_land', options: '{"group":"land"}' },
-	{ name: 'office', options: '{"group":"space","default":""}' },
-	{ name: 'motel', options: '{"group":"space"}' },
-	{ name: 'store', options: '{"group":"space"}' },
-	{ name: 'restaurant_hotel', options: '{"group":"space"}' },
-	{ name: 'storage_workshop', options: '{"group":"space"}' },
-	{ name: 'high_apartment', options: '{"group":"apartment"}' },
-	{ name: 'medium_apartment', options: '{"group":"apartment"}' },
-	{ name: 'low_apartment', options: '{"group":"apartment"}' },
-	{ name: 'villa', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
-	{ name: 'town_house', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
+	{ name: 'residential_land', code: '|land|', options: '{"group":"land","default":""}' },
+	{ name: 'vacant_land', code: '|land|', options: '{"group":"land"}' },
+	{ name: 'other_land', code: '|land|', options: '{"group":"land"}' },
+	{ name: 'office', code: '|space|', options: '{"group":"space","default":""}' },
+	{ name: 'motel', code: '|space|', options: '{"group":"space"}' },
+	{ name: 'store', code: '|space|', options: '{"group":"space"}' },
+	{ name: 'restaurant_hotel', code: '|space|', options: '{"group":"space"}' },
+	{ name: 'storage_workshop', code: '|space|', options: '{"group":"space"}' },
+	{ name: 'high_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
+	{ name: 'medium_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
+	{ name: 'low_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
+	{ name: 'villa', code: '|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
+	{ name: 'town_house', code: '|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
 ]
 
 RegionUtility.delete_all
