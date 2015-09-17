@@ -38,8 +38,7 @@
 
 	/*start basic-info*/
 	.basic-info {
-		display: flex;
-		flex-direction: column;
+		display: block;
 		color: #666;
 	}
 		.basic-info > li:not(:last-child) {
@@ -50,19 +49,19 @@
 		.basic-info .slide-picture {
 		}
 			.basic-info .slide-picture ul {
-				display: flex;
+				display: inline-block;
 				border: 1px solid #ccc;
 				border-radius:  2px;
 				padding: 5px;
 				max-height: 72px;
 				max-width: 400px;
-				width: 265px;
 			}
 			.basic-info .slide-picture li {		
 				margin-right: 5px;				
 				width: 60px;
 				height: 60px;
 				border: 1px solid #ccc;
+				display: inline-block;
 			}
 				.basic-info .slide-picture li img {
 					width: 100%;

@@ -1,19 +1,24 @@
 <!-- per, total, page = 1 -->
 <%
-	pageCount = (total + per - 1) / per
+	page = defined?(page) ? page : 1
+	page_count = (total + per - 1) / per
 
-	return if pageCount <= 1
+	return if page_count <= 1
 %>
 
 <div class="paging">
 	<div class="left" aria-click="prev-page">
-		<i class="pe-7s-angle-left"></i>
+		<% if page != 1 %>
+			<i class="pe-7s-angle-left"></i>
+		<% end %>
 	</div>
 	<div class="number">
-		<span><%= defined?(page) ? page : 1 %>/<%= pageCount %></span>
+		<span><%= page %>/<%= page_count %></span>
 	</div>
 	<div class="right" aria-click="next-page">
-		<i class="pe-7s-angle-right"></i>
-	</div>						
+		<% if page != page_count %>
+			<i class="pe-7s-angle-right"></i>
+		<% end %>					
+	</div>	
 </div>
 <!-- aria-click="paging" data-page="3" -->
