@@ -938,7 +938,17 @@
 							Thành phố Hồ Chí Minh<span class="caret" style="margin-left: 5px; vertical-align: 2px"></span>
 						</a>
 						<ul class="dropdown-menu">
-							Hiển thị các Quận/Huyện
+							<div>
+								<div class="country">Thành phố Hồ Chí Minh</div>
+								<div class="district">
+									<div class="row">
+										<div class="col-md-3">Quận 1</div>
+										<div class="col-md-3">Quận 2</div>
+										<div class="col-md-3">Quận 3</div>
+										<div class="col-md-3">Quận 4</div>
+									</div>
+								</div>
+							</div>							
 						</ul>
 					</div>
 				</div>
@@ -1145,7 +1155,7 @@
 		<ul id="list" class="row" style="margin-top: 15px;">			
 			<%= render partial: 'real_estates/item_list', locals: { res: RealEstate.get_random.limit(4) } %>
 		</ul>
-		<div class="paging" id="pagination">
+		<div id="pagination">
 			<%= render partial: 'shared/pagination_2', locals: { per: 2, total: 10 } %>
 		</div>
 	</article>

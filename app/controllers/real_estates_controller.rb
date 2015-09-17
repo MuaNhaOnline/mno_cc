@@ -15,7 +15,6 @@ class RealEstatesController < ApplicationController
   def view
     begin
       @re = RealEstate.find params[:id]
-      redirect_to '/' unless @re.is_full
     rescue
       redirect_to '/'
     end

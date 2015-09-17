@@ -313,15 +313,17 @@
 <!-- start mini menu -->
 <section class="cover-wall hidden-md hidden-lg" data-object="mini-menu">
 	<div class="mini-menu-content">
-		<section class="mini-user-box">			
-			<a href="/signin" class="btn btn-primary btn-sm">Đăng nhập</a>
-			<a class="btn btn-primary btn-sm">Đăng ký</a>			
-			<div class="sign-with-social">
-				<span>Đăng nhập với:</span>
-				<i class="icon icon-facebook"></i>
-				<i class="icon icon-googleplus"></i>
-			</div>
-		</section>
+		<% unless signed? %>
+			<section class="mini-user-box">			
+				<a href="/signin" class="btn btn-primary btn-sm">Đăng nhập</a>
+				<a class="btn btn-primary btn-sm">Đăng ký</a>			
+				<div class="sign-with-social">
+					<span>Đăng nhập với:</span>
+					<i class="icon icon-facebook"></i>
+					<i class="icon icon-googleplus"></i>
+				</div>
+			</section>
+		<% end %>
 		<section class="mini-sitemap hidden-sm">
 			<ul>
 				<li>

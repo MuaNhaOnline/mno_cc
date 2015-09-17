@@ -537,7 +537,7 @@ class RealEstate < ActiveRecord::Base
 
   # Purpose
   def display_purpose
-    @display_purpose ||= I18n.t 'purpose.text.' + purpose.name if purpose.present?
+    @display_purpose ||= (I18n.t 'purpose.text.' + purpose.name if purpose.present?)
   end
 
   # Sell price
@@ -548,6 +548,16 @@ class RealEstate < ActiveRecord::Base
   # Rent price
   def display_rent_price
     @display_rent_price ||= rent_price || 'Giá thỏa thuận'
+  end
+
+  # Legal record type
+  def display_legal_record_type
+    @display_legal_record_type ||= (fields.include?(:custom_legal_record_type) ? custom_legal_record_type : (I18n.t 'legal_record_type.text.' + legal_record_type.name) if fields.include? :legal_record_type)
+  end
+
+  # Planning status type
+  def display_planning_status_type
+    @display_planning_status_type ||= (fields.include?(:custom_planning_status_type) ? custom_planning_status_type : (I18n.t 'planning_status_type.text.' + planning_status_type.name) if fields.include? :planning_status_type)
   end
 
 # / Attributes
