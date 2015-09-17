@@ -349,6 +349,9 @@ body.no-scroll {
 
     .item-list .item .bottom p {
       margin-bottom: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .item-list .item .bottom .fa {
@@ -360,6 +363,10 @@ body.no-scroll {
 
     .item-list .item .bottom .title {
       font-size: 17px;
+    }
+
+    .item-list .item .bottom .address {
+      height: 40px;
     }
 
   /*

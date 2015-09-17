@@ -1,9 +1,36 @@
 $(function () {
   var $list = $('#project_list'), find;
 
+  initItem();
   initApprove();
   initDelete();
   initPagination();
+
+  /*
+    Item
+  */
+
+  function initItem($item) {
+    if ($item) {
+      setItem($item);
+    }
+    else {
+      $list.find('.item').each(function () {
+        setItem($(this));
+      });
+    }
+
+    function setItem($item) {
+      $item.find('.address').dotdotdot({
+        height: 40,
+        watch: true
+      });
+    }
+  }
+  
+  /*
+    / Item
+  */
 
   /*
     Approve
@@ -114,6 +141,7 @@ $(function () {
       pagination: $('#pagination'),
       done: function (content) {
         $list.html(content);
+        initItem();
         initApprove();
         initDelete();
       }

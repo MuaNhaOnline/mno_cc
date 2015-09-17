@@ -7,7 +7,7 @@ $(function () {
   initPagination();
 
   /*
-    Display with status
+    Item
   */
 
   function initItem($item) {
@@ -22,7 +22,7 @@ $(function () {
 
     function setItem($item) {
 
-      $item.find('[aria-name="address"]').dotdotdot({
+      $item.find('.address').dotdotdot({
         height: 40,
         watch: true
       });
@@ -92,7 +92,7 @@ $(function () {
   }
 
   /*
-    / Display with status
+    / Item
   */
 
   /*
