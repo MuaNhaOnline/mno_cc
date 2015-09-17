@@ -15,30 +15,43 @@
 				<div class="title">
 					<span><%= re.title %></span>
 				</div>						
-				<div class="convenient">							
-					<div class="bathroom">
-						<i class="icon-bathroom"></i>
-						<span><%= re.display_restroom %></span>						
-					</div>
-					<div class="bedroom">
-						<i class="icon-bedroom"></i>
-						<span><%= re.display_bedroom %></span>
-					</div>
+				<div class="convenient">
+					<% if re.fields.include? :restroom %>
+						<div class="bathroom">
+							<i class="icon-bathroom"></i>
+							<span><%= re.display_restroom %></span>						
+						</div>
+					<% end %>
+					<% if re.fields.include? :bedroom %>
+						<div class="bedroom">
+							<i class="icon-bedroom"></i>
+							<span><%= re.display_bedroom %></span>
+						</div>
+					<% end %>
 					<div class="area">
 						<i class="icon-area"></i>
 						<span><%= re.display_area %>m<sup>2</sup></span>
 					</div>
 				</div>
-				<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
+				<div class="address" data-toggle="tooltip" data-placement="top" title="<%= re.display_address %>">
 					<i class="icon-16 icon-position"></i>
 					<span><%= re.display_address %></span>
 				</div>
-				<% if re.fields.include? :sell_price %>
-					<div class="price">
-						<i class="icon-16 icon-dollar"></i>
-						<p class="number sale"><%= re.display_sell_price %></p>
-					</div>
-				<% end %>	
+				<% if current_purpose == 'r' %>
+					<% if re.fields.include? :rent_price %>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number rent"><%= re.display_rent_price_text %></p>
+						</div>
+					<% end %>	
+				<% else %>
+					<% if re.fields.include? :sell_price %>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale"><%= re.display_sell_price_text %></p>
+						</div>
+					<% end %>	
+				<% end %>
 			</a>
 			<div class="function">
 				<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
