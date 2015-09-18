@@ -1,4 +1,6 @@
 .create-form-project {
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
@@ -19,6 +21,8 @@
     }
 
     .create-form-project .form-navigator .item {
+      display: -webkit-flex;
+      display: -ms-flexbox;
       display: flex;
       white-space: nowrap;
       width: 40px;
