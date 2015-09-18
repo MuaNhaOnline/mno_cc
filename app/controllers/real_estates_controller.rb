@@ -271,15 +271,17 @@ class RealEstatesController < ApplicationController
   def search
     res = RealEstate.search_with_params params
     
-    per = Rails.application.config.real_estate_item_per_page
+    params[:per] ||= Rails.application.config.real_estate_item_per_page
+    params[:per] = params[:per].to_i
 
     params[:page] ||= 1
+    params[:page] = params[:page].to_i
 
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page].to_i, per) }),
-        pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: per, page: params[:page].to_i })
+        list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]) }),
+        pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: params[:per], page: params[:page] })
       }
     }
   end

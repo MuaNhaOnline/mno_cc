@@ -1,9 +1,58 @@
-var _temp = {};
+var $body, $window, _temp = {};
 
 $(function () {
+  $body = $('body');
+  $window = $(window);
+
   _temp['pagination_count'] = 0;
+  initSize();
   _startPagination();
 });
+
+/*
+  Size
+*/
+
+function initSize() {
+  _temp['resizing'] = null;
+  $window.on('resize', function () {
+    clearTimeout(_temp['resizing']);
+    _temp['resizing'] = setTimeout(function () {
+      var width = $(window).width(), widthType, oldWidthType = $body.data('width');
+
+      if (width >= 1200) {
+        widthType = 'lg';
+      }
+      else if (width >= 992) {
+        widthType = 'md';
+      }
+      else if (width >= 768) {
+        widthType = 'sm';
+      }
+      else {
+        widthType = 'xs';
+      }
+
+      if (widthType == oldWidthType) {
+        return;
+      }
+
+      $body.data('width', widthType);
+      $.ajax({
+        url: '/set_width/' + widthType,
+        method: 'POST'
+      });
+    }, 500);
+  });
+
+  $window.isWidthType = function (arrayType) {
+    return arrayType.indexOf($body.data('width')) != -1;
+  }
+}
+
+/*
+  / Size
+*/
 
 /*
   Pagination
@@ -50,7 +99,7 @@ function _initPagination(params) {
 
   // Find function
   var find = function (findParams) {
-    if (typeof findParams === 'undefined') {
+    if (typeof findParams == 'undefined') {
       findParams = {};
     }
 
@@ -68,15 +117,15 @@ function _initPagination(params) {
         data = params.data;
       }
     }
-    if (typeof data !== 'object') {
+    if (typeof data != 'object') {
       data = {}
     }
-    data['page'] = 1;
+    data['page'] = data['page'] || 1;
 
     // data of find params
 
     if ('data' in findParams) {
-      data = $.extend(data, findParams['data']);
+      $.extend(data, findParams['data']);
     }
 
     lastData = data;
@@ -113,6 +162,7 @@ function _initPagination(params) {
         // replace pagination
         if ('pagination' in params) {
           params['pagination'].html(data.result.pagination);
+          console.log(params.data);
           initPagination(); 
         }
       }
@@ -163,7 +213,6 @@ function _initPagination(params) {
         find({ data: lastData });
       });
     }
-
     initPagination(params['page'] || 1);
   }
 

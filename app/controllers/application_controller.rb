@@ -17,19 +17,33 @@ class ApplicationController < ActionController::Base
 	skip_before_filter :verify_authenticity_token
 
 	before_action :init
-	helper_method :signed?, :current_user, :current_purpose
+	helper_method :signed?, :current_user, :current_purpose, :current_width_type
 
 	rescue_from CanCan::AccessDenied do |e|
 		redirect_to '/'
 	end
 
 	def init
+		unless cookies.has_key? :width_type
+			if params.has_key? :width_type
+				cookies[:width_type] = params[:width_type]
+  			render plain: '0'
+  		else
+				@location = request.path
+				render 'home/get_width', layout: false
+			end
+			return
+		end
+
 		User.options = {}
 
 		@current_user = User.current = get_current_user
 		session[:user_id] = current_user.id
 
 		@current_ability = User.ability = Ability.new(current_user, request)
+
+		@current_width_type = User.options[:current_width_type] = get_current_width_type
+		cookies[:width_type] = current_width_type
 
 		@current_purpose = User.options[:current_purpose] = get_current_purpose
 		cookies[:purpose] = current_purpose
@@ -57,6 +71,19 @@ class ApplicationController < ActionController::Base
 	# 		I18n.locale = cookies[:locale] = I18n.default_locale
 	# 	end
 	# end
+
+# Current width type
+
+	private
+	def get_current_width_type
+		cookies[:width_type]
+	end
+
+	def current_width_type
+		@current_width_type # Always have (run in before_action (init))
+	end
+
+# / Current width type
 
 # Current purpose
 	

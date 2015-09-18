@@ -1,0 +1,34 @@
+<script src="/assets/layout_back/plugins/jQuery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+	$(function () {
+		var width = $(window).width(), widthType;
+
+    if (width >= 1200) {
+      widthType = 'lg';
+    }
+    else if (width >= 992) {
+      widthType = 'md';
+    }
+    else if (width >= 768) {
+      widthType = 'sm';
+    }
+    else {
+      widthType = 'xs';
+    }
+
+		$.ajax({
+			url: '/set_width/' + widthType,
+			method: 'POST',
+			dataType: 'TEXT'
+		}).done(function (data) {
+			if (data == '0') {
+				window.location = '<%= @location %>';
+			}
+			else {
+				alert('Lấy dữ liệu thất bại');
+			}
+		}).fail(function () {
+			alert('Lấy dữ liệu thất bại');
+		});
+	});
+</script>

@@ -1,4 +1,4 @@
-var $body, $window, _temp = {};
+var _temp = {};
 
 $(function () {
 	$body = $('body');
@@ -23,56 +23,6 @@ $(function () {
 
   /*
     / Init
-  */
-
-  /*
-    Size
-  */
-
-  function initSize() {
-    _temp['resizing'] = null;
-    $window.on('resize', function () {
-      clearTimeout(_temp['resizing']);
-      _temp['resizing'] = setTimeout(function () {
-        var width = $window.width();
-
-        if (width >= 1200) {
-          $body.data('width', 'lg');
-        }
-        else if (width >= 992) {
-          $body.data('width', 'md');
-        }
-        else if (width >= 768) {
-          $body.data('width', 'sm');
-        }
-        else {
-          $body.data('width', 'xs');
-        }
-      }, 500);
-    });
-
-    var width = $window.width();
-
-    if (width >= 1200) {
-      $body.data('width', 'lg');
-    }
-    else if (width >= 992) {
-      $body.data('width', 'md');
-    }
-    else if (width >= 768) {
-      $body.data('width', 'sm');
-    }
-    else {
-      $body.data('width', 'xs');
-    }
-
-    $window.isWidthType = function (arrayType) {
-      return arrayType.indexOf($body.data('width')) != -1;
-    }
-  }
-
-  /*
-    / Size
   */
 
   /*
