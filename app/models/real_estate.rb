@@ -391,7 +391,7 @@ class RealEstate < ActiveRecord::Base
 
     where += " AND is_full = #{params[:is_full] || 'true'}"
 
-    joins(joins).get_by_current_purpose.get_by_current_purpose.where(where).order(order)
+    joins(joins).get_by_current_purpose.where(where).order(order)
   end
 
 # / Get
