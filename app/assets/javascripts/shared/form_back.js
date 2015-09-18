@@ -202,7 +202,7 @@ function initForm($form, params) {
 
 	function initFileInput() {
 		//Get element
-		var $fileUploads = $form.find('.file-upload');
+		var $fileUploads = $form.find('.file-upload'), currentAmount;
 
 		/*
 			Progress on choose new file
@@ -231,13 +231,13 @@ function initForm($form, params) {
 			var $hiddenInput = $wrapper.find('input[type="hidden"]');
 
 			// Check amount
-			var currentAmount = $hiddenInput.val().split(',').length;
+			currentAmount = $hiddenInput.val().split(',').length;
 
 			/* 
 				Init for read file
 			*/
 
-			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.cancel + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
+			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
 			var fileReader = new FileReader();
 			var currentIndex = 0;
 			fileReader.onload = function (e, i) {
