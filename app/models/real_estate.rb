@@ -364,8 +364,10 @@ class RealEstate < ActiveRecord::Base
 
   # / Get random
 
+  # Search with params
+
   # params: 
-  #   page, price(x;y), real_estate_type, is_full
+  #   price(x;y), real_estate_type, is_full
   #   newest, cheapest
   def self.search_with_params params = {}
     where = 'is_pending = false AND is_show = true'
@@ -393,6 +395,8 @@ class RealEstate < ActiveRecord::Base
 
     joins(joins).get_by_current_purpose.where(where).order(order)
   end
+
+  # / Search with params
 
 # / Get
 

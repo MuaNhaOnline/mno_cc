@@ -1,63 +1,38 @@
 <% 
 =begin
-	params: res
+	params: projects
 =end
 
 %>
 
-<% res.each do |re| %>
+<% projects.each do |p| %>
 	<div class="col-lg-3 col-md-4 col-sm-6">
 		<li class="item-sm">
 			<div class="picture">
-				<%= real_estate_avatar re %>
+				<%= project_avatar p %>
 			</div>
-			<a href="/real_estates/<%= re.id %>">
+			<a href="#">
 				<div class="title">
-					<span><%= re.title %></span>
+					<span><%= p.title %></span>
 				</div>						
-				<div class="convenient">
-					<% if re.fields.include? :restroom %>
-						<div class="bathroom">
-							<i class="icon-bathroom"></i>
-							<span><%= re.display_restroom %></span>						
-						</div>
-					<% end %>
-					<% if re.fields.include? :bedroom %>
-						<div class="bedroom">
-							<i class="icon-bedroom"></i>
-							<span><%= re.display_bedroom %></span>
-						</div>
-					<% end %>
-					<div class="area">
-						<i class="icon-area"></i>
-						<span><%= re.display_area %>m<sup>2</sup></span>
-					</div>
+				<div class="status">							
+					<i class="fa fa-circle working"></i>
+					<span><%= p.display_deadline %></span>
 				</div>
-				<div class="address" data-toggle="tooltip" data-placement="top" title="<%= re.display_address %>">
+				<div class="address" data-toggle="tooltip" data-placement="top" title="<%= p.display_address %>">
 					<i class="icon-16 icon-position"></i>
-					<span><%= re.display_address %></span>
+					<span><%= p.display_address %></span>
 				</div>
-				<% if current_purpose == 'r' %>
-					<% if re.fields.include? :rent_price %>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number rent"><%= re.display_rent_price_text %></p>
-						</div>
-					<% end %>	
-				<% else %>
-					<% if re.fields.include? :sell_price %>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale"><%= re.display_sell_price_text %></p>
-						</div>
-					<% end %>	
-				<% end %>
+				<div class="price">
+					<i class="icon-16 icon-dollar"></i>
+					<p class="number sale"><%= p.display_unit_price %></p>
+				</div>	
 			</a>
 			<div class="function">
 				<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
 				<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
 				<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-				<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+				<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định gía căn nhà này"></a>
 			</div>
 		</li>
 	</div>

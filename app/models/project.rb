@@ -44,7 +44,10 @@ class Project < ActiveRecord::Base
 
   def self.get_params params
     # Get price
-    params[:unit_price] = ApplicationHelper.format_i(params[:unit_price]) if params.has_key? :unit_price
+    if params.has_key? :unit_price
+      params[:unit_price] = ApplicationHelper.format_i(params[:unit_price])
+      params[:unit_price_text] = ApplicationHelper.read_money params[:unit_price]
+    end
 
     # Area
     params[:campus_area] = ApplicationHelper.format_f params[:campus_area] if params.has_key? :campus_area
@@ -92,7 +95,7 @@ class Project < ActiveRecord::Base
     # Get field
 
     fields = [
-      :title, :description, :unit_price, :currency_id, :payment_method, :price_unit_id,
+      :title, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, :price_unit_id,
       :lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
       :project_type_id, :campus_area, :width_x, :width_y, :is_draft,
       :using_ratio, :estimate_starting_date, :estimate_finishing_date,
@@ -208,6 +211,25 @@ class Project < ActiveRecord::Base
 
   # / Get pending
 
+  # Search with params
+
+  # params: 
+  #   page
+  #   newest, cheapest
+  def self.search_with_params params = {}
+    where = 'is_pending = false AND is_show = true'
+    joins = []
+    order = {}
+
+    if params.has_key? :newest
+      order[:created_at] = 'asc'
+    end
+
+    joins(joins).where(where).order(order)
+  end
+
+  # / Search with params
+
 # / Get
 
 # Helper
@@ -247,6 +269,65 @@ class Project < ActiveRecord::Base
   # Full address
   def display_address
     @display_address ||= "#{address_number} #{street.name unless street.nil?} #{', ' + ward.name unless ward.nil?} #{', ' + district.name unless district.nil?} #{', ' + (province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+  end
+
+  # Deadline
+  private
+  def get_deadline
+    date = nil
+    if finished_base_date.present?
+      date = finished_base_date
+    elsif transfer_date.present?
+      date = transfer_date
+    elsif docs_issue_date.present?
+      date = docs_issue_date
+    elsif estimate_finishing_date.present?
+      date = estimate_finishing_date
+    end
+
+    unless date.nil?
+      case date_display_type
+      when 1
+        date = date.strftime '%d/%m/%Y'
+      when 2
+        date = 'Năm ' + date.year.to_s
+      when 3
+        case date.month
+        when [1..3]
+          date = 'Quý 1'
+        when [4..6]
+          date = 'Quý 2'
+        when [7..9]
+          date = 'Quý 3'
+        when [10..12]
+          date = 'Quý 4'
+        end
+      end
+    end
+
+    if date.nil?
+      date = ''
+    end
+
+    date
+  end
+
+  def display_deadline
+    @display_deadline ||= get_deadline
+  end
+
+  # Unit price
+  private 
+  def get_unit_price
+    if unit_price.present?
+      return ''
+    end
+
+    unit_price_text + '/' + I18n.t 'unit.text.' + price_unit.name
+  end
+
+  def display_unit_price
+    @display_deadline ||= get_unit_price
   end
 
 # / Attributes
