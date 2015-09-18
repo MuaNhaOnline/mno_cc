@@ -455,6 +455,7 @@ footer {
 		.search {
 			height: auto !important;
 			padding: 70px 10px;
+			width: 80%;
 		}
 		.search-box .title {			
 			padding: 0 10px;
@@ -663,7 +664,7 @@ footer {
 				height: 16px;
 				width: 16px;
 				text-align: center;
-				line-height: 16px;
+				line-height: 16px;				
 			}
 				.item-lg .status i.done {
 					color: #54b40d;
@@ -711,6 +712,9 @@ footer {
 			margin-bottom: 10px;
 			overflow: hidden;
 			color: #666;
+			width: 100%;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 			.item-lg .address i {
 				margin-right: 9px;
