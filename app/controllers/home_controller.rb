@@ -7,4 +7,11 @@ class HomeController < ApplicationController
   def back
   	render layout: 'layout_back'
   end
+
+  # Handle
+  # params: width_type
+  def set_width
+  	cookies[:width_type] = params[:width_type]
+  	render plain: '0'
+  end
 end

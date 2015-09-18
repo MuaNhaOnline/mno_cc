@@ -44,7 +44,7 @@
 
 	<%= yield :stylesheets %>
 </head>
-<body class="skin-blue sidebar-mini <%= 'sidebar-collapse' if cookies[:sidebar_collapse] == 'true' %>">
+<body data-width="<%= current_width_type %>" class="skin-blue sidebar-mini <%= 'sidebar-collapse' if cookies[:sidebar_collapse] == 'true' %>">
   <div id="loading_page" style="
       position: fixed;
       width: 100%;

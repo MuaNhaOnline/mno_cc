@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get 'home/back'
+  post 'set_width/:width_type' => 'home#set_width'
 
   # Real estate
   get 'real_estates/index'

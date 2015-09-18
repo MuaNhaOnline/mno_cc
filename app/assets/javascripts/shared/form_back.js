@@ -204,60 +204,6 @@ function initForm($form, params) {
 		//Get element
 		var $fileUploads = $form.find('.file-upload');
 
-		//Create element
-		$fileUploads.each(function () {
-			var $fileUpload = $(this);
-
-			var $wrapper = $('<label class="file-uploader form-control"></label>');
-
-			var $label = $('<div class="file-upload-label"><div class="fa fa-photo"></div><div>' + _t.form.label_image_upload + '</div></div>');
-
-			$fileUpload.after($wrapper);
-			$fileUpload.appendTo($wrapper);
-			$label.appendTo($wrapper);
-
-			var initValue = $fileUpload.attr('data-init-value') || '';
-			var constraint = $fileUpload.attr('data-constraint');
-			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
-			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + ($fileUpload.attr('data-init-value') || '') + '" />');
-
-			$fileUpload.removeAttr('name data-init-value data-constraint');
-
-			if (initValue) {
-				$(initValue.split(',')).each(function () {
-					var $item = $('<article class="preview"></article>');
-					$item.html('<img src="/images/' + this + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section>');
-					$item.data('value', this);
-					$item.find('[aria-click="remove"]').on('click', function (e) {
-						e.preventDefault();
-						var itemValue = $item.data('value');
-						$item.remove();
-
-						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
-						hiddenInput.value = '';
-
-						if (itemValue) {
-							$wrapper.find('.preview').each(function () {
-								var value = $(this).data('value');
-
-								if (value) {
-									hiddenInput.value += ',' + value;
-								}
-							});
-						}
-
-						if (hiddenInput.value) {
-							hiddenInput.value = hiddenInput.value.substr(1);
-						}
-
-						$(hiddenInput).change();
-					});
-
-					$wrapper.prepend($item);
-				});
-			}
-		});
-
 		/*
 			Progress on choose new file
 		*/
@@ -291,7 +237,7 @@ function initForm($form, params) {
 				Init for read file
 			*/
 
-			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.cancel_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.cancel + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
+			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.cancel + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
 			var fileReader = new FileReader();
 			var currentIndex = 0;
 			fileReader.onload = function (e, i) {
@@ -414,6 +360,7 @@ function initForm($form, params) {
 							hiddenInput.value = hiddenInput.value.substr(1);
 						}
 
+						currentAmount--;
 						$(hiddenInput).change();
 					});
 				});
@@ -455,99 +402,34 @@ function initForm($form, params) {
 				fileReader.readAsDataURL(file);
 			}
 			readNext();
+		});
 
-			/*
-			// Process files
-			$(this.files).each(function () {
-				var file = this;
+		//Create element
+		$fileUploads.each(function () {
+			var $fileUpload = $(this);
 
-				// Check type
-				if (types && $.inArray(file.name.split('.').pop(), types) === -1) {
-					return;
-				}
+			var $wrapper = $('<label class="file-uploader form-control"></label>');
 
-				// Check size
-				if (size && file.size > size) {
-					return;
-				}
+			var $label = $('<div class="file-upload-label"><div class="fa fa-photo"></div><div>' + _t.form.label_image_upload + '</div></div>');
 
-				// Check amount
-				if (amount && ++currentAmount > amount) {
-					return false;
-				}
+			$fileUpload.after($wrapper);
+			$fileUpload.appendTo($wrapper);
+			$label.appendTo($wrapper);
 
+			var initValue = $fileUpload.attr('data-init-value') || '';
+			var constraint = $fileUpload.attr('data-constraint');
+			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
+			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + ($fileUpload.attr('data-init-value') || '') + '" />');
 
+			$fileUpload.removeAttr('name data-init-value data-constraint');
 
-
-				var fileReader = new FileReader();
-
-				return;
-				fileReader.onload = function (e) {
-					// Create item
+			if (initValue) {
+				$(initValue.split(',')).each(function () {
 					var $item = $('<article class="preview"></article>');
-					$item.html('<img src="' + e.target.result + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section><section class="progress"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
-
-					if (!isMulti) {
-						$wrapper.children('.preview').remove();
-					}
-					$wrapper.prepend($item);
-
-					// Get data
-					var data = new FormData();
-					data.append('file', file);
-					data.append('type', type);
-
-					// Preparing upload
-					var $progressBar = $item.find('.progress-bar');
-					$item.attr('data-status', 'uploading');
-					$item.find('img').css('opacity', '.5');
-
-					// Upload file
-					$.ajax({
-							url: '/images/upload',
-							type: 'POST',
-							data: data,
-							processData: false,
-							contentType: false,
-							dataType: 'JSON',
-							xhr: function() {
-									var xhr = $.ajaxSettings.xhr();
-									if(xhr.upload){ //Check if upload property exists
-											xhr.upload.addEventListener('progress', function(e) {
-													if(e.lengthComputable){
-															$progressBar.css('width', Math.ceil(e.loaded/e.total) * 100 + '%');
-													}
-											}, false); //For handling the progress of the upload
-									}
-									return xhr;
-							}
-					}).done(function(data) {
-						if (data.status == 0) {
-							// Display
-							$item.attr('data-status', 'done');
-							$item.find('img').css('opacity', '1');
-							$progressBar.parent().remove();
-
-							// Value
-							if (isMulti) {
-								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change(); 
-							}
-							else {
-								$hiddenInput.val(data.result).change();
-							}
-							$item.data('value', data.result);
-						}
-						else {
-							$item.attr('data-status', 'error');
-						}
-					}).fail(function() {
-						$item.attr('data-status', 'error');
-					});
-
-					// Remove event
+					$item.html('<img src="/images/' + this + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section>');
+					$item.data('value', this);
 					$item.find('[aria-click="remove"]').on('click', function (e) {
 						e.preventDefault();
-
 						var itemValue = $item.data('value');
 						$item.remove();
 
@@ -568,12 +450,13 @@ function initForm($form, params) {
 							hiddenInput.value = hiddenInput.value.substr(1);
 						}
 
+						currentAmount--;
 						$(hiddenInput).change();
 					});
-				}
 
-				fileReader.readAsDataURL(file);
-			});*/
+					$wrapper.prepend($item);
+				});
+			}
 		});
 	}
 

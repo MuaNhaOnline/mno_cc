@@ -10,6 +10,20 @@
 	<script src="/assets/shared/ion.rangeSlider.min.js"></script>
 <% end %>
 
+<% 
+	per = nil
+	case current_width_type 
+	when 'xs'
+		per = 1
+	when 'sm'
+		per = 2
+	when 'md'
+		per = 3
+	when 'lg'
+		per = 4
+	end
+%>
+
 <!--start Search Box -->
 <section class="search">
 	<div class="search-box">
@@ -215,26 +229,26 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" class="tab-pane fade in active" id="suggest_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" class="tab-pane fade in active" id="suggest_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-list="#new_property > .row" data-pagination="#new_property > .paging" class="tab-pane fade" id="new_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" class="tab-pane fade" id="new_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
 			</div>
@@ -279,59 +293,59 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"town_house"}' data-list="#property > .row" data-pagination="#property > .paging" class="tab-pane fade in active" id="property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"town_house","per":<%= per %>}' data-list="#property > .row" data-pagination="#property > .paging" class="tab-pane fade in active" id="property">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'town_house'
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"villa"}' data-list="#villa > .row" data-pagination="#villa > .paging" class="tab-pane fade" id="villa">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"villa","per":<%= per %>}' data-list="#villa > .row" data-pagination="#villa > .paging" class="tab-pane fade" id="villa">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'villa'
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"apartment"}' data-list="#apartment > .row" data-pagination="#apartment > .paging" class="tab-pane fade" id="apartment">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"apartment","per":<%= per %>}' data-list="#apartment > .row" data-pagination="#apartment > .paging" class="tab-pane fade" id="apartment">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'apartment'
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"space"}' data-list="#ground > .row" data-pagination="#ground > .paging" class="tab-pane fade" id="ground">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"space","per":<%= per %>}' data-list="#ground > .row" data-pagination="#ground > .paging" class="tab-pane fade" id="ground">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'space'
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"land"}' data-list="#land > .row" data-pagination="#land > .paging" class="tab-pane fade" id="land">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"land","per":<%= per %>}' data-list="#land > .row" data-pagination="#land > .paging" class="tab-pane fade" id="land">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'land'
 					%>
 					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
 					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count, page: 1 } %>						
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
 			</div>
@@ -573,7 +587,7 @@
 	<article class="content">
 		<input type="text" id="slider" name="example_name" value="" />
 		<% 
-			res = RealEstate.search_with_params price: '1000000000;3000000000'
+			res = RealEstate.search_with_params price_range: '1000000000;3000000000'
 		%>
 		<ul id="list" class="row" style="margin-top: 15px;">			
 			<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
