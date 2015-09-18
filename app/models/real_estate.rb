@@ -347,9 +347,9 @@ class RealEstate < ActiveRecord::Base
 
     case User.options[:current_purpose]
     when 'r'
-      purpose = 'purposes.code = "sell" OR purposes.code = "sell_rent"'
+      purpose_condition = 'purposes.code = \'sell\' OR purposes.code = \'sell_rent\''
     else
-      purpose = 'purposes.code = "rent" OR purposes.code = "sell_rent"'
+      purpose_condition = 'purposes.code = \'rent\' OR purposes.code = \'sell_rent\''
     end
     joins(:purpose).where(purpose_condition)
   end
