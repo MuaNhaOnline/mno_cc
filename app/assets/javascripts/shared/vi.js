@@ -16,6 +16,8 @@ var _t = {
 		crop_title: 'Điều chỉnh kích thước ảnh',
 		crop: 'Cắt',
 		crop_tooltip: 'Cắt',
+		delete: 'Xóa'
+		delete_tolltip: 'Xóa'
 		cancel: 'Bỏ qua',
 		cancel_tooltip: 'Bỏ qua',
 		finish: 'Hoàn thành',
