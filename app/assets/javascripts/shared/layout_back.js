@@ -1,4 +1,4 @@
-var _temp = {};
+var _temp = {}, _popupContent = {};
 
 $(function () {
 	$body = $('body');
@@ -8,6 +8,7 @@ $(function () {
 
   init();
   initSize();
+  _getPopupContent();
   customPrototype();
   customJquery();
 
@@ -155,6 +156,13 @@ function _initStatusAnimation($item) {
 /* 
 	Popup 
 */
+
+function _getPopupContent() {
+  $('[aria-popupcontent]').each(function () {
+    _popupContent[this.getAttribute('aria-popupcontent')] = this.outerHTML;
+    this.remove();
+  });
+}
 
 /*
 	params:

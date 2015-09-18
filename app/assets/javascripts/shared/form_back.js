@@ -252,6 +252,8 @@ function initForm($form, params) {
 
 				var $popup = popupFull({
 					html: $html,
+					id: 'image_cropper',
+					'z-index': 35,
 					esc: false
 				});
 

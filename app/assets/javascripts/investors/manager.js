@@ -1,5 +1,6 @@
 $(function () {
-  var $list = $('#investor_list');
+  var 
+    $list = $('#investor_list');
 
   initDelete();
   initPagination();
@@ -11,7 +12,7 @@ $(function () {
 
   function initDelete() {
     $list.find('[aria-click="delete"]').on('click', function () {
-      var $row = $(this).closest('tr');
+      var $item = $(this).closest('.item');
 
       popupPrompt({
         title: _t.form.confirm_title,
@@ -24,14 +25,14 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/investors/' + $row.data('value'),
+                url: '/investors/' + $item.data('value'),
                 type: 'DELETE',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
               }).done(function (data) {
                 if (data.status == 0) {
-                  $row.remove();
+                  $item.parent().remove();
                 }
                 else {
                   popupPrompt({
@@ -69,9 +70,14 @@ $(function () {
     $list.find('[aria-click="rename"]').on('click', function () {
       var 
         $button = $(this),
-        $row = $button.closest('tr'),
-        $html = $('<article style="width: 300px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><input type="hidden" name="id" value="' + $row.data('value') + '" /><article class="form-group"><input class="form-control" value="' + $row.find('[aria-object="name"]').text() + '" name="name" /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">' + _t.form.finish + '</button> <button type="button" class="btn btn-default btn-flat">' + _t.form.cancel + '</button></article></form></article>'),
-        $form = $html.find('form');
+        $item = $button.closest('.item'),
+        $html = $(_popupContent['edit_form']),
+        $form = $html.find('form'),
+        form = $form[0];
+      
+      form.elements['id'].value = $item.data('value');
+      form.elements['name'].value = $item.find('[aria-object="name"]').text();
+      $(form.elements['avatar_image_id']).attr('data-init-value', $item.data('avatar-image-id'));
 
       var $popup = popupFull({
         html: $html
@@ -95,7 +101,17 @@ $(function () {
             if (data.status == 0) {
               $popup.off();
 
-              $row.find('[aria-object="name"]').text($form.find('[name="name"]').val());
+              $item.find('[aria-object="name"]').text(form.elements['name'].value);
+
+              var avatarImageId = form.elements['avatar_image_id'];
+              if (avatarImageId.value) {
+                $item.find('[aria-object="avatar"]').attr('src', '/images/' + avatarImageId.value);
+                $item.data('avatar-image-id', avatarImageId.value);
+              }
+              else {
+                $item.find('[aria-object="avatar"]').attr('src', '/assets/investor/default.png');
+                $item.data('avatar-image-id', '');
+              }
             }
             else {
               popupPrompt({
@@ -125,18 +141,27 @@ $(function () {
   */
 
   function initPagination() {
-    _initSearchablePagination(
-      $list,
-      $('#search_form'),
-      $('#pagination'), 
-      {
-        url: '/investors/_manager_list',
-        afterLoad: function (content) {
-          $list.html(content);
-          initDelete();
-        }
+    find = _initPagination({
+      url: '/investors/_manager_list',
+      list: $list,
+      pagination: $('#pagination'),
+      done: function (content) {
+        $list.html(content);
+        initDelete();
+        initRename();
       }
-    );
+    });
+
+    var searchForm = document.getElementById('search_form');
+    initForm($(searchForm), {
+      submit: function () {
+        find({
+          data: {
+            keyword: searchForm.elements['keyword'].value
+          }
+        });
+      }
+    });
   }
 
   /*

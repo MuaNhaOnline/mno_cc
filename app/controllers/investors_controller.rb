@@ -42,7 +42,7 @@ class InvestorsController < ApplicationController
   # Handle
   # params: id(*), name(*)
   def rename
-    render json: Investor.update_name(params[:id], params[:name])
+    render json: Investor.update_name(params[:id], params[:name], params[:avatar_image_id])
   end
 
 # / Manager

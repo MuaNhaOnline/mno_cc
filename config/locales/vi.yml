@@ -6,6 +6,8 @@ vi:
   form:
     search_placeholder: 'Nhập từ khóa để tìm kiếm'
     search: 'Tìm kiếm'
+    finish: 'Hoàn tất'
+    cancel: 'Bỏ qua'
   real_estate:
     attribute:
       appraisal_box: 'Thông tin thẩm định'
