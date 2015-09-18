@@ -278,6 +278,9 @@ body.no-scroll {
   border: 1px solid #dddddd;
   background-color: #ffffff;
   margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 250px;
 }
 
   /*
