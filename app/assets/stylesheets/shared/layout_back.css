@@ -297,6 +297,7 @@ body.no-scroll {
 
     .item-list .item .top img {
       width: 100%;
+      height: 200px;
     }
 
     .item-list .item .top .left,

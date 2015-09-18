@@ -18,7 +18,7 @@ $(function () {
 
   function init() {
     $('[data-toggle="offcanvas"]').on('click', function () {
-      $.cookie('sidebar_collapse', $body.is('.sidebar-collapse'));
+      $.cookie('sidebar_collapse', $body.is('.sidebar-collapse') ? '1' : '0');
     });
   }
 
