@@ -162,7 +162,6 @@ function _initPagination(params) {
         // replace pagination
         if ('pagination' in params) {
           params['pagination'].html(data.result.pagination);
-          console.log(params.data);
           initPagination(); 
         }
       }
