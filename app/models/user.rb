@@ -114,6 +114,9 @@ class User < ActiveRecord::Base
 	# Get params
 
 	def self.get_params params
+		# Account
+		params[:account] = params[:account].downcase if params.has_key? :account
+
 		# Password
 		if params.has_key? :password
 			require 'digest/md5'
@@ -315,7 +318,7 @@ class User < ActiveRecord::Base
 		# Author
 		return { status: 6 } if User.current.cannot? :signin, nil
 
-		user = find_by_account account
+		user = find_by_account account.downcase
 
 		# Check if user exist with account
 		if user.nil?
@@ -331,7 +334,7 @@ class User < ActiveRecord::Base
 	end
 
 	def self.check_signin_without_encode account, password
-		user = find_by_account account
+		user = find_by_account account.downcase
 
 		# Check if user exist with account
 		if user.nil?
