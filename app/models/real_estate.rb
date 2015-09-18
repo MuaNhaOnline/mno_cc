@@ -347,9 +347,9 @@ class RealEstate < ActiveRecord::Base
 
     case User.options[:current_purpose]
     when 'r'
-      purpose_condition = 'purposes.code = \'sell\' OR purposes.code = \'sell_rent\''
-    else
       purpose_condition = 'purposes.code = \'rent\' OR purposes.code = \'sell_rent\''
+    else
+      purpose_condition = 'purposes.code = \'sell\' OR purposes.code = \'sell_rent\''
     end
     joins(:purpose).where(purpose_condition)
   end
@@ -389,7 +389,7 @@ class RealEstate < ActiveRecord::Base
       order[:price] = 'asc'
     end
 
-    where += " AND is_full = #{params[:is_full] || 'true'}"
+    # where += " AND is_full = #{params[:is_full] || 'true'}"
 
     joins(joins).get_by_current_purpose.where(where).order(order)
   end
@@ -610,6 +610,24 @@ class RealEstate < ActiveRecord::Base
   # Planning status type
   def display_planning_status_type
     @display_planning_status_type ||= (fields.include?(:custom_planning_status_type) ? custom_planning_status_type : (I18n.t 'planning_status_type.text.' + planning_status_type.name) if fields.include? :planning_status_type)
+  end
+
+  # Constructional quality
+  private
+  def get_constructional_quality
+    case constructional_quality
+      when 1
+        'Đang xuống cấp'
+      when 2
+        'Còn sử dụng tốt'
+      when 3
+        'Mới'
+      else
+        'Rất mới'
+    end
+  end
+  def display_constructional_quality
+    @display_constructional_quality ||= get_constructional_quality
   end
 
 # / Attributes
