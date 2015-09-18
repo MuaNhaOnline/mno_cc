@@ -323,7 +323,7 @@ class Project < ActiveRecord::Base
       return ''
     end
 
-    unit_price_text + '/' + I18n.t 'unit.text.' + price_unit.name
+    unit_price_text + '/' + I18n.t('unit.text.' + price_unit.name)
   end
 
   def display_unit_price
