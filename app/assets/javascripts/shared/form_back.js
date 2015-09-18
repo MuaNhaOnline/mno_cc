@@ -390,7 +390,7 @@ function initForm($form, params) {
 				var file = files[currentIndex++];
 
 				// Check type
-				if (types && $.inArray(file.name.split('.').pop(), types) === -1) {
+				if (types && $.inArray(file.name.split('.').pop().toLowerCase(), types) == -1) {
 					return;
 				}
 
