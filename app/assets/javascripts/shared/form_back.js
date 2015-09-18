@@ -421,7 +421,7 @@ function initForm($form, params) {
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
 			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + ($fileUpload.attr('data-init-value') || '') + '" />');
 
-			$fileUpload.removeAttr('name data-init-value data-constraint');
+			$fileUpload.removeAttr('name data-init-value data-constraint').attr('data-nonvalid', '');
 
 			if (initValue) {
 				$(initValue.split(',')).each(function () {
@@ -584,8 +584,13 @@ function initForm($form, params) {
       	acName = name + '_ac'
       }
 
-      $input.attr('name', acName);
-      $input.after('<input type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
+      $input.after('<input data-constraint="' + $input.attr('data-constraint') + '" type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
+      $input.removeAttr('data-constraint');
+      $input.attr({
+      	'name': acName,
+      	'data-nonvalid': ''
+      });
+
 			var $listContainer = $input.find('~ .autocomplete-list-container');
 			var $list = $listContainer.children('ul');
 
@@ -925,7 +930,7 @@ function initForm($form, params) {
 	function initConstraint() {
 		// initConstraintFormGroup($form.find('.form-group'));
 
-		$form.find(':input').on({
+		$form.find(':input:not([data-nonvalid])').on({
 			'change': function () {
 				checkInvalidInput($(this));
 			}
