@@ -368,7 +368,7 @@ class RealEstate < ActiveRecord::Base
   #   page, price(x;y), real_estate_type, is_full
   #   newest, cheapest
   def self.search_with_params params = {}
-    where = 'is_pending = false'
+    where = 'is_pending = false AND is_show = true'
     joins = []
     order = {}
 
@@ -389,7 +389,7 @@ class RealEstate < ActiveRecord::Base
       order[:price] = 'asc'
     end
 
-    # where += " AND is_full = #{params[:is_full] || 'true'}"
+    where += " AND is_full = #{params[:is_full] || 'true'}"
 
     joins(joins).get_by_current_purpose.where(where).order(order)
   end
@@ -613,7 +613,6 @@ class RealEstate < ActiveRecord::Base
   end
 
   # Constructional quality
-  private
   def get_constructional_quality
     case constructional_quality
       when 1
