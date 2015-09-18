@@ -90,6 +90,7 @@
         color: #ffffff;
         display: none;
         font-weight: 500;
+        width: auto;
       }
 
         .create-form-re .form-navigator .item:hover .text {
