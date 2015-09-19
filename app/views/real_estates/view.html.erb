@@ -216,7 +216,7 @@
 								</div>
 							<% end %>
 							<% if @re.fields.include? :rent_price %>
-								<div role="tabpanel" class="tab-pane fade <%= 'in active' unless @re.fields.include? :rent_price %>" id="price-rent">
+								<div role="tabpanel" class="tab-pane fade <%= 'in active' unless @re.fields.include? :sell_price %>" id="price-rent">
 									<% if @re.rent_price %>
 										<p style="margin: 5px 0;">
 											Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.rent_price_text %></span> 
