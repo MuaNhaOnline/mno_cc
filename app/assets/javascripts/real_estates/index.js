@@ -29,7 +29,7 @@ $(function() {
 			keyboard: true,
 			min: $slider.data('min') || 0,
 			max: $slider.data('max') || 3000000000,
-			from: $slider.data('from') || 1000000000,
+			from: $slider.data('from') || 0,
 			to: $slider.data('to') || 2000000000,
 			type: 'double',
 			step: $slider.data('step') || 1000000,
@@ -93,10 +93,10 @@ $(function() {
 		find = _initPagination({
 			url: '/real_estates/search',
 			data: function () {
-				return { price: $('#slider').val() };
+				return { price: $('#slider').val(), per: $slider.data('per') };
 			},
-			pagination: $('#pagination'),
-			list: $('#list')
+			pagination: $('#price_pagination'),
+			list: $('#price_list')
 		});
 	}
 

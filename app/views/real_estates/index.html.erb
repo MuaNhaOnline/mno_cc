@@ -597,14 +597,14 @@
 		</a>
 	</article>
 	<article class="content">
-		<input type="text" id="slider" name="example_name" value="" />
+		<input type="text" id="slider" data-per="<%= per %>" name="example_name" value="" />
 		<% 
-			res = RealEstate.search_with_params price: '1000000000;3000000000'
+			res = RealEstate.search_with_params price: '0;2000000000'
 		%>
-		<ul id="list" class="row" style="margin-top: 15px;">			
+		<ul id="price_list" class="row" style="margin-top: 15px;">			
 			<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
 		</ul>
-		<div id="pagination">
+		<div id="price_pagination">
 			<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count } %>
 		</div>
 	</article>
