@@ -387,7 +387,7 @@ class RealEstate < ActiveRecord::Base
       order[:created_at] = 'asc'
     end
 
-    if params.has_key? :cheapest
+    if params.has_key?(:cheapest) || params.has_key?(:price)
       order[:price] = 'asc'
     end
 
