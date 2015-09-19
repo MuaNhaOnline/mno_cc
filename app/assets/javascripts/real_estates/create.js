@@ -96,6 +96,10 @@ $(function () {
     if (typeof type == 'undefined') {
       $form.find('.until-full').hide().find(':input').prop('disabled', true);
       $formNavigator.find('.until-full').hide();
+
+      $form.find('[aria-click="detail-toggle"]').on('click', function () {
+        toggleUntilFull(0);
+      });
     }
     else {        
       // as addition
@@ -131,18 +135,27 @@ $(function () {
         });
       }
 
+      $form.find('[aria-click="detail-toggle"]').remove();
+
       // on
       $form.find('.until-full').show().find(':input').prop('disabled', false);
       $formNavigator.find('.until-full').show();
       $form.find('.until-full').closest('.box').removeClass('box-primary').data('status', 'normal').trigger('changeStatus');
-      var $box = $form.find('.box .until-full:eq(0)').closest('.box');
-      if (!canSee($box.find('.box-header'))) {
-        $body.animate({ scrollTop: $box.offset().top - 40 }, function () {
+
+      if (type == 1) {
+        var $box = $form.find('.box .until-full:eq(0)').closest('.box');
+        if (!canSee($box.find('.box-header'))) {
+          $body.animate({ scrollTop: $box.offset().top - 40 }, function () {
+            focusBox($box);
+          });
+        }
+        else {
           focusBox($box);
-        });
+        }
       }
       else {
-        focusBox($box);
+        var $box = $form.find('.box[aria-name]:eq(0)');
+        focusBox($box.data('focusing', false));
       }
     }
   }

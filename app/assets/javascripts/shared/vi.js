@@ -50,6 +50,7 @@ var _t = {
 			appraised_status: 'Đã thẩm định',
 			not_appraised_status: 'Chờ thẩm định',
 			pending_status: 'Chờ duyệt',
+			success_status: 'Đã xác nhận',
 			show_status: 'Hiển thị',
 			hide_status: 'Ẩn'
 		},
@@ -125,6 +126,7 @@ var _t = {
 			appraised_status: 'Đã thẩm định',
 			not_appraised_status: 'Chờ thẩm định',
 			pending_status: 'Chờ duyệt',
+			success_status: 'Đã xác nhận',
 			show_status: 'Hiển thị',
 			hide_status: 'Ẩn'
 		},
