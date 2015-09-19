@@ -16,13 +16,13 @@
 					<span><%= re.title %></span>
 				</div>						
 				<div class="convenient">
-					<% if re.fields.include? :restroom %>
+					<% if re.fields.include? :restroom_number %>
 						<div class="bathroom">
 							<i class="icon-bathroom"></i>
 							<span><%= re.display_restroom %></span>						
 						</div>
 					<% end %>
-					<% if re.fields.include? :bedroom %>
+					<% if re.fields.include? :bedroom_number %>
 						<div class="bedroom">
 							<i class="icon-bedroom"></i>
 							<span><%= re.display_bedroom %></span>
