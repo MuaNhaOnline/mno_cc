@@ -1,4 +1,4 @@
-var _temp = {};
+var _temp = {}, _popupContent = {};
 
 $(function () {
 	$body = $('body');
@@ -8,6 +8,7 @@ $(function () {
 
   init();
   initSize();
+  _getPopupContent();
   customPrototype();
   customJquery();
 
@@ -17,7 +18,7 @@ $(function () {
 
   function init() {
     $('[data-toggle="offcanvas"]').on('click', function () {
-      $.cookie('sidebar_collapse', $body.is('.sidebar-collapse'));
+      $.cookie('sidebar_collapse', $body.is('.sidebar-collapse') ? '1' : '0');
     });
   }
 
@@ -155,6 +156,13 @@ function _initStatusAnimation($item) {
 /* 
 	Popup 
 */
+
+function _getPopupContent() {
+  $('[aria-popupcontent]').each(function () {
+    _popupContent[this.getAttribute('aria-popupcontent')] = this.outerHTML;
+    this.remove();
+  });
+}
 
 /*
 	params:

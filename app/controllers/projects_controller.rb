@@ -175,4 +175,30 @@ end
   end
 
 # / Delete
+
+# Search
+
+  # Partial view
+  # params: 
+  #   per, page
+  #   newest
+  def search
+    projects = Project.search_with_params params
+    
+    params[:per] ||= Rails.application.config.real_estate_item_per_page
+    params[:per] = params[:per].to_i
+
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'projects/item_list', locals: { projects: projects.page(params[:page], params[:per]) }),
+        pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: projects.count, per: params[:per], page: params[:page] })
+      }
+    }
+  end
+
+# / Search
 end

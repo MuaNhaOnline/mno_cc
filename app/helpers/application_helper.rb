@@ -241,4 +241,8 @@ module ApplicationHelper
 
 # / Read money
 
+  def plain_content content
+    content.gsub(/\n/, '<br />').html_safe
+  end
+
 end

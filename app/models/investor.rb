@@ -3,6 +3,12 @@ class Investor < ActiveRecord::Base
   include PgSearch
   pg_search_scope :search, against: [:name]
 
+# Associates
+
+  belongs_to :avatar_image, class_name: 'Image'
+
+# / Associates
+
 # Delete
   
   def self.delete_by_id id
@@ -24,7 +30,7 @@ class Investor < ActiveRecord::Base
 
 # Update
 
-  def self.update_name id, new_name
+  def self.update_name id, new_name, avatar_image_id
     investor = find id
 
     return { status: 1 } if investor.nil?
@@ -32,7 +38,7 @@ class Investor < ActiveRecord::Base
     # Author
     return { status: 6 } if User.current.cannot? :rename, investor
 
-    investor.name = new_name
+    investor.assign_attributes name: new_name, avatar_image_id: avatar_image_id
 
     if investor.save
       { status: 0 }

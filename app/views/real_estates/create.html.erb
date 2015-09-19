@@ -125,7 +125,7 @@
 
   <section class="row">
 
-    <section class="col-md-6">
+    <section class="col-md-6 col-sm-8">
 
       <!-- Id (if edit) -->
 
@@ -309,7 +309,7 @@
 
           <article class="form-group hide-until-full">
             <label class="control-label" for="address_number"><%= t 'real_estate.attribute.address_number' %></label>
-            <input value="<%= @re.address_number %>" class="form-control" name="real_estate[street_number]" type="text" id="address_number" />
+            <input value="<%= @re.address_number %>" class="form-control" name="real_estate[address_number]" type="text" id="address_number" />
           </article>
 
           <article class="form-group hide-until-full">
@@ -612,7 +612,7 @@
               </div>
               <div class="col-sm-6">
                 <div class="radio margin-top-0">
-                  <label><input type="radio" name="real_estate[constructional_quality]" value="3" <%= 'checked' if @re.new_record? || @re.constructional_quality == 3 %> />Mới</label>
+                  <label><input type="radio" name="real_estate[constructional_quality]" value="3" <%= 'checked' if @re.new_record? || !@re.is_full || @re.constructional_quality == 3 %> />Mới</label>
                 </div>
               </div>
               <div class="col-sm-6">
@@ -915,7 +915,7 @@
       
     </section>
 
-    <section class="helper-container col-md-5">
+    <section class="helper-container col-md-5 col-sm-4">
       <article class="helper-content callout callout-info" style="top: -9999px">
 
       </article>

@@ -202,7 +202,7 @@ function initForm($form, params) {
 
 	function initFileInput() {
 		//Get element
-		var $fileUploads = $form.find('.file-upload');
+		var $fileUploads = $form.find('.file-upload'), currentAmount;
 
 		/*
 			Progress on choose new file
@@ -231,13 +231,13 @@ function initForm($form, params) {
 			var $hiddenInput = $wrapper.find('input[type="hidden"]');
 
 			// Check amount
-			var currentAmount = $hiddenInput.val().split(',').length;
+			currentAmount = $hiddenInput.val().split(',').length;
 
 			/* 
 				Init for read file
 			*/
 
-			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.cancel + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
+			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
 			var fileReader = new FileReader();
 			var currentIndex = 0;
 			fileReader.onload = function (e, i) {
@@ -252,6 +252,8 @@ function initForm($form, params) {
 
 				var $popup = popupFull({
 					html: $html,
+					id: 'image_cropper',
+					'z-index': 35,
 					esc: false
 				});
 
@@ -390,7 +392,7 @@ function initForm($form, params) {
 				var file = files[currentIndex++];
 
 				// Check type
-				if (types && $.inArray(file.name.split('.').pop(), types) === -1) {
+				if (types && $.inArray(file.name.split('.').pop().toLowerCase(), types) == -1) {
 					return;
 				}
 
@@ -421,7 +423,7 @@ function initForm($form, params) {
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
 			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + ($fileUpload.attr('data-init-value') || '') + '" />');
 
-			$fileUpload.removeAttr('name data-init-value data-constraint');
+			$fileUpload.removeAttr('name data-init-value data-constraint').attr('data-nonvalid', '');
 
 			if (initValue) {
 				$(initValue.split(',')).each(function () {
@@ -584,8 +586,13 @@ function initForm($form, params) {
       	acName = name + '_ac'
       }
 
-      $input.attr('name', acName);
-      $input.after('<input type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
+      $input.after('<input data-constraint="' + $input.attr('data-constraint') + '" type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
+      $input.removeAttr('data-constraint');
+      $input.attr({
+      	'name': acName,
+      	'data-nonvalid': ''
+      });
+
 			var $listContainer = $input.find('~ .autocomplete-list-container');
 			var $list = $listContainer.children('ul');
 
@@ -925,7 +932,7 @@ function initForm($form, params) {
 	function initConstraint() {
 		// initConstraintFormGroup($form.find('.form-group'));
 
-		$form.find(':input').on({
+		$form.find(':input:not([data-nonvalid])').on({
 			'change': function () {
 				checkInvalidInput($(this));
 			}

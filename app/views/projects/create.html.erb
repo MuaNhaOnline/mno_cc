@@ -72,7 +72,7 @@
 
   <section class="row">
 
-    <section class="col-md-6">
+    <section class="col-md-6 col-sm-8">
 
       <!-- Id (if edit) -->
 
@@ -306,8 +306,8 @@
           <!-- Currency -->
 
           <article class="form-group">
-            <label for="currency_id"><%= t 'project.attribute.investor' %></label>
-            <input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@p.investor.name}\" data-value=\"#{@p.investor.id}\"".html_safe if @p.investor.present? %> data-free name="project[investor_id]" />
+            <label for="investor_id"><%= t 'project.attribute.investor' %></label>
+            <input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@p.investor.name}\" data-value=\"#{@p.investor.id}\"".html_safe if @p.investor.present? %> data-free name="project[investor_id]" id="investor_id" />
           </article>
 
           <!-- / Currency -->
