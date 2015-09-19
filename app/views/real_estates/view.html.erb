@@ -418,24 +418,33 @@
 	</article>
 	<article class="content information" style="padding: 0;">
 		<div class="user-info row">
+			<% 
+				u = @re.user_id == 0 ? User.new(full_name: @re.user_full_name, phone_number: @re.user_phone_number, email: @re.user_email) : @re.user
+			%>
 			<div class="col-xs-4 col-sm-2 avatar">
-				<img src="/assets/users/default.png" class="img-circle">
-				<span>Nguyễn Kim Chi</span>
+				<%= user_avatar u %>
+				<span><%= u.full_name %></span>
 			</div>
 			<div class="col-xs-8 col-sm-4">
 				<ul class="info">
-					<li>
-						<i class="icon-phone"></i>
-						<span>01682197651</span>
-					</li>
+					<% if u.phone_number.present? %>
+						<li>
+							<i class="icon-phone"></i>
+							<span><%= u.phone_number %></span>
+						</li>
+					<% end %>
+					<% if u.email.present? %>
 					<li>
 						<i class="icon-mail"></i>
-						<span>penguinbluechip@gmail.com</span>
+						<span><%= u.email %></span>
 					</li>
+					<% end %>
+					<% if u.address.present? %>
 					<li>
 						<i class="icon-address"></i>
-						<span>53 Cô Giang, Quận 1</span>
+						<span>u.address</span>
 					</li>
+					<% end %>
 					<li>
 						<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
 					</li>
@@ -443,7 +452,7 @@
 				<div class="btn-contact">
 					
 				</div>
-			</div>							
+			</div>	
 			<div class="col-sm-4 col-xs-12">
 				<div class="request-box">
 					<form>
