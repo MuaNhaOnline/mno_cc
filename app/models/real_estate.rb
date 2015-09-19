@@ -388,7 +388,11 @@ class RealEstate < ActiveRecord::Base
     end
 
     if params.has_key?(:cheapest) || params.has_key?(:price)
-      order[:price] = 'asc'
+      if User.options[:current_purpose] == 'r'
+        order[:rent_price] = 'asc'
+      else
+        order[:sell_price] = 'asc'
+      end
     end
 
     where += " AND is_full = #{params[:is_full] || 'true'}"
