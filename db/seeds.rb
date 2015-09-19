@@ -146,11 +146,7 @@ District.create [
 ProjectType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE project_types_id_seq RESTART WITH 1')
 ProjectType.create [
-	{ name: 'apartment_group', code: 'apartment_group', options: '{"default":""}' }
-]
-
-Investor.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE investors_id_seq RESTART WITH 1')
-Investor.create [
-	{ name: 'Chủ đầu tư A', options: '{"default":""}' }
+	{ name: 'apartment', options: '{"default":""}' },
+	{ name: 'office' },
+	{ name: 'complex' }
 ]

@@ -41,9 +41,10 @@ $(function () {
                     $form.find('#is_full').val(true);
                     toggleUntilFull(1);
 
-                    $form.find('#constructional_area, #using_area').val($form.find('#campus_area').val());
+                    $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
+                    $form.find('#user_email').prop('disabled', true);
 
-                    $form.find('#user_email').prop('disabled', true)
+                    $form.find('[aria-name="basic"]').remove(); 
 
                     // Init toggled input
                     $form.inputToggle();
@@ -96,7 +97,7 @@ $(function () {
       $form.find('.until-full').hide().find(':input').prop('disabled', true);
       $formNavigator.find('.until-full').hide();
     }
-    else {
+    else {        
       // as addition
       if (type == 1) {
         $form.find('.hide-until-full').each(function () {
@@ -304,12 +305,13 @@ $(function () {
             type: 'primary',
             handle: function () {
               $isFull.val(true);
+              $form.find('[aria-name="basic"]').remove(); 
             }
           }
         ],
         onEscape: function (isButtonClick) {
           if (!isButtonClick) {
-            toggleUntilFull(); 
+            toggleUntilFull();
             $isFull.val(false);
           }
           initNavigator();

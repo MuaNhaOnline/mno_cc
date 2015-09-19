@@ -131,7 +131,9 @@ vi:
       town_house: 'Nhà phố'
   project_type:
     text:
-      apartment_group: 'Căn hộ'
+      apartment: 'Căn hộ'
+      office: 'Cao ốc văn phòng'
+      complex: 'Phức hợp'
   purpose:
     text:
       sell: 'Bán'

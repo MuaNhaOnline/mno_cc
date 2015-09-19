@@ -503,7 +503,7 @@ class RealEstate < ActiveRecord::Base
             :build_year << :constructional_quality << :direction << :property_utility
       end
     else
-      fields << :campus_area
+      fields << :real_estate_type << :campus_area
     end
 
     fields
