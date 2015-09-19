@@ -599,7 +599,7 @@
 	<article class="content">
 		<input type="text" id="slider" name="example_name" value="" />
 		<% 
-			res = RealEstate.search_with_params price_range: '1000000000;3000000000'
+			res = RealEstate.search_with_params price: '1000000000;3000000000'
 		%>
 		<ul id="list" class="row" style="margin-top: 15px;">			
 			<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
