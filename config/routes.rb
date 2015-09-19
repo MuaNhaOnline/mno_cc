@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # Real estate
   get 'real_estates/index'
+  get 'real_estates/demo'
   get 'real_estates/category'
   get 'real_estates/create(/:id)' => 'real_estates#create'
   get 'real_estates/active/:id' => 'real_estates#active'
@@ -83,6 +84,7 @@ Rails.application.routes.draw do
 
   # Project
   get 'projects/view'
+  get 'projects/demo'
   get 'projects/index'
   get 'projects/create(/:id)' => 'projects#create'
   get 'projects/my'

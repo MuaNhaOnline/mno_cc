@@ -4,6 +4,9 @@ class RealEstatesController < ApplicationController
   def index
   end
 
+  def demo
+  end
+
   def category
 
   end

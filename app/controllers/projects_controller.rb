@@ -8,6 +8,9 @@ class ProjectsController < ApplicationController
     @projects = Project.where(is_draft: 0, is_show: 1).limit(6)
   end
 
+def demo
+end
+
 # / Index
 
 # View

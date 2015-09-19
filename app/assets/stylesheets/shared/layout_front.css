@@ -147,6 +147,9 @@ header {
 	.header {            
 		padding: 0 10px;
 		height: 100%;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -o-flex;
 		display: flex;
 	}
 	
@@ -154,8 +157,10 @@ header {
 		.logo {
 			height: 100%;
 			width: 180px;
-			display: flex;
-			transition: 0.3s;
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -o-flex;
+			display: flex;			transition: 0.3s;
 		}
 		@media screen and (max-width: 767px) {
 			.logo {
@@ -454,8 +459,10 @@ footer {
 	@media screen and (max-width: 600px) {
 		.search {
 			height: auto !important;
-			padding: 70px 10px;
-			width: 80%;
+			padding: 70px 10px;			
+		}
+		.search-box {
+			width: 90%;
 		}
 		.search-box .title {			
 			padding: 0 10px;
@@ -524,7 +531,10 @@ footer {
 			position: absolute;
 			top: 0;
 			right: 0;
-			padding: 0 10px;
+			padding: 0 10px;			
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -o-flex;
 			display: flex;
 		}
 			.search-box form .btn-search button {
@@ -591,6 +601,9 @@ footer {
 /*start paging*/
 .paging {
 	justify-content: center;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -o-flex;
 	display: flex;
 	color: #666;
 	margin-bottom: 25px;
@@ -598,6 +611,9 @@ footer {
 	.paging div {
 		height: 30px;
 		width: 30px;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -o-flex;
 		display: flex;
 		cursor: pointer;
 	}
@@ -883,6 +899,9 @@ footer {
 
 	/*start convenient*/
 	.item-sm .convenient {
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -o-flex;
 		display: flex;
 		margin-bottom: 10px;
 	}
