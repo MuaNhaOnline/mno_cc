@@ -91,6 +91,9 @@ end
     return render json: { status: 6 } if cannot? :view_my, Project
 
     per = Rails.application.config.item_per_page
+    
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
 
     if params[:keyword].blank?
       projects = Project.where(user_id: current_user.id)
@@ -105,8 +108,8 @@ end
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'projects/my_list', locals: { projects: projects.page(params[:page].to_i, per) }),
-        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+        list: render_to_string(partial: 'projects/my_list', locals: { projects: projects.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
       }
     }
   end
@@ -138,6 +141,9 @@ end
     return render json: { staus: 6 } if cannot? :manager, Project
 
     per = Rails.application.config.item_per_page
+    
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
 
     if params[:keyword].blank?
       ps = Project.get_pending.order(updated_at: 'asc')
@@ -152,8 +158,8 @@ end
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'projects/pending_list', locals: { projects: ps.page(params[:page].to_i, per) }),
-        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+        list: render_to_string(partial: 'projects/pending_list', locals: { projects: ps.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
       }
     }
   end

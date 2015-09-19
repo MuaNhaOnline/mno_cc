@@ -124,6 +124,9 @@ class RealEstatesController < ApplicationController
 
     per = Rails.application.config.item_per_page
 
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
     if params[:keyword].blank?
       res = RealEstate.where(user_id: current_user.id)
     else
@@ -137,8 +140,8 @@ class RealEstatesController < ApplicationController
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'real_estates/my_list', locals: { res: res.page(params[:page].to_i, per) }),
-        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+        list: render_to_string(partial: 'real_estates/my_list', locals: { res: res.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
       }
     }
   end
@@ -170,6 +173,9 @@ class RealEstatesController < ApplicationController
     return render json: { staus: 6 } if cannot? :approve, RealEstate
 
     per = Rails.application.config.item_per_page
+    
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
 
     if params[:keyword].blank?
       res = RealEstate.get_pending.order(updated_at: 'asc')
@@ -184,8 +190,8 @@ class RealEstatesController < ApplicationController
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'real_estates/pending_list', locals: { res: res.page(params[:page].to_i, per) }),
-        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+        list: render_to_string(partial: 'real_estates/pending_list', locals: { res: res.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
       }
     }
   end
