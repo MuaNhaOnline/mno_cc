@@ -171,6 +171,9 @@ function _getPopupContent() {
 			if wanna show two popup, ids must different
 		z-index: (30)
 			z-index of popup
+    overlay:
+      transparent
+      gray
 		esc: (true)
 			allow escape popup with click outside or 'esc' key
 */
@@ -181,9 +184,11 @@ function getPopup(params) {
     params = {};
   }
 
-  var id = ('id' in params) ? params.id : 'popup_full';
-  var zIndex = 'z-index' in params ? params['z-index'] : '30';
-  var esc = !('esc' in params) || params.esc
+  var 
+    id = ('id' in params) ? params.id : 'popup_full',
+    zIndex = 'z-index' in params ? params['z-index'] : '30',
+    esc = !('esc' in params) || params.esc,
+    overlay = 'overlay' in params ? params['overlay'] : 'transparent';
 
   var $popup = $('#' + id);
 
@@ -204,6 +209,13 @@ function getPopup(params) {
   }
   else {
     $popup.removeAttr('aria-esc');
+  }
+
+  if (overlay == 'gray') {
+      $popup.addClass('gray');
+  }
+  else {
+      $popup.removeClass('gray');
   }
 
   $popup.on = function () {
@@ -250,6 +262,8 @@ function getPopup(params) {
     if wanna show two popup, ids must different
   z-index: (30)
     z-index of popup
+  overlay: (transparent)
+    transparent, gray
   onEscape:
     handle on popup escape
 */
@@ -263,6 +277,7 @@ function popupFull(params) {
   popupParams.esc = !('esc' in params) || params.esc;
   popupParams.id = 'id' in params ? params.id : 'popup_full';
   popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
+  popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
 
   var $popup = getPopup(popupParams);
 
@@ -301,6 +316,8 @@ function popupFull(params) {
 				return false if want prevent close
 	esc: (true)
 		allow escape popup with click outside or 'esc' key
+  overlay: (transparent)
+    transparent, gray
 	id: (popup_prompt)
 		id of popup.
 		if wanna show two popup, ids must different
@@ -321,6 +338,7 @@ function popupPrompt(params) {
   popupParams.esc = !('esc' in params) || params.esc;
   popupParams.id = 'id' in params ? params.id : 'popup_prompt';
   popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '31';
+  popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
 
   var $popup = getPopup(popupParams);
 

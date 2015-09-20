@@ -104,14 +104,14 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Width
-    if fields.include?(:width_x) && width_x.blank?
-      errors.add :width_x, 'Chiều ngang không thể bỏ trống'
-      return
-    end
-    if fields.include?(:width_y) && width_y.blank?
-      errors.add :width_y, 'Chiều dài không thể bỏ trống'
-      return
-    end
+    # if fields.include?(:width_x) && width_x.blank?
+    #   errors.add :width_x, 'Chiều ngang không thể bỏ trống'
+    #   return
+    # end
+    # if fields.include?(:width_y) && width_y.blank?
+    #   errors.add :width_y, 'Chiều dài không thể bỏ trống'
+    #   return
+    # end
 
     # Shape
     if fields.include?(:shape) && shape.blank?
@@ -124,10 +124,10 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Number of ...
-    if fields.include?(:floor_number) && floor_number.blank?
-      errors.add :floor_number, 'Tầng không thể bỏ trống'
-      return
-    end
+    # if fields.include?(:floor_number) && floor_number.blank?
+    #   errors.add :floor_number, 'Tầng không thể bỏ trống'
+    #   return
+    # end
     if fields.include?(:restroom_number) && restroom_number.blank?
       errors.add :restroom_number, 'Số phòng tắm không thể bỏ trống'
       return
@@ -138,10 +138,10 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Direction
-    if fields.include?(:direction) && direction.blank?
-      errors.add :direction, 'Hướng không thể bỏ trống'
-      return
-    end
+    # if fields.include?(:direction) && direction.blank?
+    #   errors.add :direction, 'Hướng không thể bỏ trống'
+    #   return
+    # end
 
     # Constructional level
     if fields.include?(:constructional_level) && constructional_level.blank?
@@ -387,8 +387,12 @@ class RealEstate < ActiveRecord::Base
       order[:created_at] = 'asc'
     end
 
-    if params.has_key? :cheapest
-      order[:price] = 'asc'
+    if params.has_key?(:cheapest) || params.has_key?(:price)
+      if User.options[:current_purpose] == 'r'
+        order[:rent_price] = 'asc'
+      else
+        order[:sell_price] = 'asc'
+      end
     end
 
     where += " AND is_full = #{params[:is_full] || 'true'}"
@@ -499,7 +503,7 @@ class RealEstate < ActiveRecord::Base
             :build_year << :constructional_quality << :direction << :property_utility
       end
     else
-      fields << :campus_area
+      fields << :real_estate_type << :campus_area
     end
 
     fields

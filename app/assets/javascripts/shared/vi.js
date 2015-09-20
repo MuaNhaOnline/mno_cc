@@ -50,11 +50,14 @@ var _t = {
 			appraised_status: 'Đã thẩm định',
 			not_appraised_status: 'Chờ thẩm định',
 			pending_status: 'Chờ duyệt',
+			success_status: 'Đã xác nhận',
 			show_status: 'Hiển thị',
 			hide_status: 'Ẩn'
 		},
 		validate: {
 			'location_required': 'Không thể bỏ trống',
+			'real_estate_type': 'Không thể bỏ trống',
+			'real_estate[purpose_id]_required': 'Không thể bỏ trống',
 			'real_estate[alley_width]_required': 'Không thể bỏ trống',
 			'real_estate[constructional_area]_required': 'Không thể bỏ trống',
 			'real_estate[using_area]_required': 'Không thể bỏ trống',
@@ -125,6 +128,7 @@ var _t = {
 			appraised_status: 'Đã thẩm định',
 			not_appraised_status: 'Chờ thẩm định',
 			pending_status: 'Chờ duyệt',
+			success_status: 'Đã xác nhận',
 			show_status: 'Hiển thị',
 			hide_status: 'Ẩn'
 		},

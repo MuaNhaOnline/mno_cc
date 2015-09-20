@@ -47,14 +47,17 @@ $(function () {
       }
       else {
         if (isPending) {
-          $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.project.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
+          $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.project.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
+        }
+        else {
+          $status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.project.attribute.success_status + '</span></div><div class="fa fa-check"></div></article>')
         }
 
         if (isShow) {
-          $status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.project.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
+          $status.append('<article class="node status-animation node-primary"><div class="text"><span>' + _t.project.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
         }
         else {
-          $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.project.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
+          $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.project.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
         }
       }
 

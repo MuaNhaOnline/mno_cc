@@ -1,16 +1,21 @@
-<!-- per, total -->
+<!-- page, per, total -->
 <%
-	pageCount = (total + per - 1) / per
+	page ||= 1
+	page_count = (total + per - 1) / per
 
-	return if pageCount == 1
-
- 	i = 0
+	return if page_count <= 1
 %>
 
 <ul class="pagination inline-block <%= class_style if defined? class_style %>">
-	<% while (i += 1) <= pageCount do %>
-		<li>
-	    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
-	  </li>
+	<% (1..page_count).each do |i| %>
+		<% if i == page %>
+			<li class="active">
+		    <a href="javascript:void(0)"><%= i %></a>
+		  </li>
+  	<% else %>
+			<li>
+		    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
+		  </li>
+  	<% end %>
 	<% end %>
 </ul>

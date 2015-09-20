@@ -241,6 +241,19 @@ module ApplicationHelper
 
 # / Read money
 
+  def get_value_by_width_type values
+    case current_width_type 
+    when 'xs'
+      values[0]
+    when 'sm'
+      values[1]
+    when 'md'
+      values[2]
+    when 'lg'
+      values[3]
+    end 
+  end
+
   def plain_content content
     content.gsub(/\n/, '<br />').html_safe
   end

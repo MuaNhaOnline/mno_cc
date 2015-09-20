@@ -272,7 +272,6 @@ class Project < ActiveRecord::Base
   end
 
   # Deadline
-  private
   def get_deadline
     date = nil
     if finished_base_date.present?
@@ -290,18 +289,18 @@ class Project < ActiveRecord::Base
       when 1
         date = date.strftime '%d/%m/%Y'
       when 2
-        date = 'Năm ' + date.year.to_s
-      when 3
         case date.month
-        when [1..3]
-          date = 'Quý 1'
-        when [4..6]
-          date = 'Quý 2'
-        when [7..9]
-          date = 'Quý 3'
-        when [10..12]
-          date = 'Quý 4'
+        when (1..3)
+          date = 'Quý 1 năm ' + date.year.to_s
+        when (4..6)
+          date = 'Quý 2 năm ' + date.year.to_s
+        when (7..9)
+          date = 'Quý 3 năm ' + date.year.to_s
+        when (10..12)
+          date = 'Quý 4 năm ' + date.year.to_s
         end
+      when 3
+        date = 'Năm ' + date.year.to_s
       end
     end
 
@@ -317,17 +316,14 @@ class Project < ActiveRecord::Base
   end
 
   # Unit price
-  private 
   def get_unit_price
     if unit_price.present?
-      return ''
+      unit_price_text + ' / ' + I18n.t('unit.text.' + price_unit.name)
     end
-
-    unit_price_text + '/' + I18n.t('unit.text.' + price_unit.name)
   end
 
   def display_unit_price
-    @display_deadline ||= get_unit_price
+    @display_unit_price ||= get_unit_price
   end
 
 # / Attributes

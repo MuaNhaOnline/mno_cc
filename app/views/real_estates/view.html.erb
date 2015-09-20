@@ -217,7 +217,7 @@
 							<% end %>
 							<% if @re.fields.include? :rent_price %>
 								<div role="tabpanel" class="tab-pane fade <%= 'in active' unless @re.fields.include? :sell_price %>" id="price-rent">
-									<% if @re.sell_price %>
+									<% if @re.rent_price %>
 										<p style="margin: 5px 0;">
 											Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.rent_price_text %></span> 
 											<select>
@@ -292,13 +292,13 @@
 							<span>Diện tích sử dụng: <b><%= @re.using_area %>m<sup>2</sup></b></span>
 						</div>
 					<% end %>
-					<% if @re.fields.include? :width_x %>
+					<% if @re.fields.include?(:width_x) && @re.width_x.present? %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
 							<span>Chiều rộng: <b><%= @re.width_x %>m</b></span>
 						</div>
 					<% end %>
-					<% if @re.fields.include? :width_y %>
+					<% if @re.fields.include?(:width_y) && @re.width_y.present? %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
 							<span>Chiều dài: <b><%= @re.width_y %>m</b></span>

@@ -33,7 +33,8 @@ Currency.create [
 Direction.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE directions_id_seq RESTART WITH 1')
 Direction.create [
-	{ name: 'east', options: '{"default":"default"}' },
+	{ name: 'non', options: '{"default":"default"}' },
+	{ name: 'east' },
 	{ name: 'west' },
 	{ name: 'south' },
 	{ name: 'north' },
@@ -86,7 +87,7 @@ ActiveRecord::Base.connection.execute('ALTER SEQUENCE purposes_id_seq RESTART WI
 Purpose.create [
 	{ name: 'sell', code: 'sell', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' },
 	{ name: 'rent', code: 'rent', options: '{"html":{"attributes":"data-on=rent data-off=un-rent"}}' },
-	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""},"default":""}' }
+	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""}}' }
 ]
 
 RealEstateType.delete_all
@@ -146,11 +147,7 @@ District.create [
 ProjectType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE project_types_id_seq RESTART WITH 1')
 ProjectType.create [
-	{ name: 'apartment_group', code: 'apartment_group', options: '{"default":""}' }
-]
-
-Investor.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE investors_id_seq RESTART WITH 1')
-Investor.create [
-	{ name: 'Chủ đầu tư A', options: '{"default":""}' }
+	{ name: 'apartment', options: '{"default":""}' },
+	{ name: 'office' },
+	{ name: 'complex' }
 ]

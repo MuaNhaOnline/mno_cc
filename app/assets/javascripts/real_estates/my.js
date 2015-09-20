@@ -36,6 +36,7 @@ $(function () {
         isDraft = listString.has('draft', status),
         isPending = listString.has('pending', status),
         isShow = listString.has('show', status),
+        isFull = listString.has('full', status),
         // isAppraised = listString.has('appraised', status),
         // isNotAppraised = listString.has('not_appraised', status);
         $status = $item.find('[aria-name="status"]');
@@ -56,14 +57,17 @@ $(function () {
         // }
 
         if (isPending) {
-          $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.real_estate.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
+          $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.real_estate.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
+        }
+        else {
+          $status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.real_estate.attribute.success_status + '</span></div><div class="fa fa-check"></div></article>')
         }
 
         if (isShow) {
-          $status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.real_estate.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
+          $status.append('<article class="node status-animation node-primary"><div class="text"><span>' + _t.real_estate.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
         }
         else {
-          $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.real_estate.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
+          $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.real_estate.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
         }
       }
 
