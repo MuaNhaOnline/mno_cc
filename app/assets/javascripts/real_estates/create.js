@@ -41,6 +41,8 @@ $(function () {
                     $form.find('#is_full').val(true);
                     toggleUntilFull(1);
 
+                    $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
+                    $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
                     $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
                     $form.find('#user_email').prop('disabled', true);
 

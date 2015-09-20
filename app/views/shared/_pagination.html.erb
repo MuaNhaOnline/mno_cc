@@ -8,8 +8,14 @@
 
 <ul class="pagination inline-block <%= class_style if defined? class_style %>">
 	<% (1..page_count).each do |i| %>
-		<li <%= 'class=active' if i == page %>>
-	    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
-	  </li>
+		<% if i == page %>
+			<li class="active">
+		    <a href="javascript:void(0)"><%= i %></a>
+		  </li>
+  	<% else %>
+			<li>
+		    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
+		  </li>
+  	<% end %>
 	<% end %>
 </ul>

@@ -33,7 +33,8 @@ Currency.create [
 Direction.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE directions_id_seq RESTART WITH 1')
 Direction.create [
-	{ name: 'east', options: '{"default":"default"}' },
+	{ name: 'non', options: '{"default":"default"}' },
+	{ name: 'east' },
 	{ name: 'west' },
 	{ name: 'south' },
 	{ name: 'north' },
@@ -86,7 +87,7 @@ ActiveRecord::Base.connection.execute('ALTER SEQUENCE purposes_id_seq RESTART WI
 Purpose.create [
 	{ name: 'sell', code: 'sell', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' },
 	{ name: 'rent', code: 'rent', options: '{"html":{"attributes":"data-on=rent data-off=un-rent"}}' },
-	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""},"default":""}' }
+	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""}}' }
 ]
 
 RealEstateType.delete_all

@@ -84,10 +84,6 @@ function initForm($form, params) {
 				$form.find(onElementsList.substr(1)).each(function () {
 					var $element = $(this);
 
-					// if ($element.is('#level')) {
-					// 	console.log($input);	
-					// }
-
 					// Turn on element
 					toggleElement($element, true)
 
@@ -167,10 +163,6 @@ function initForm($form, params) {
 				// }
 			}
 			else {
-				if ($element.prop('disabled') == !on) {
-					return;
-				}
-
 				$element.prop('disabled', !on);
 				if (on) {
 					removeSuccessLabel($element.removeClass('off').trigger('enable'));
@@ -1158,7 +1150,6 @@ function initForm($form, params) {
 			if ($box.data('status') != 'error') {
 				$box.addClass('box-danger').removeClass('box-success').data('status', 'error').trigger('changeStatus');	
 			}
-
 			// Add error message
 			// Get callout
 			var $callout = $formGroup.find('.callout-error');
@@ -1272,11 +1263,8 @@ function initForm($form, params) {
 			e.preventDefault();
 
 			// Check validate
-			$form.find('[data-constraint]:enabled').each(function () {
-				var $input = $(this);
-				if (!$input.data('invalid')) {
-					checkInvalidInput($input);  
-				}
+			$form.find(':input:enabled:not([data-nonvalid])').each(function () {
+				checkInvalidInput($(this));  
 			})
 
 			var $dangerBox = $form.find('.box-danger');

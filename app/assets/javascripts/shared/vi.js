@@ -56,6 +56,8 @@ var _t = {
 		},
 		validate: {
 			'location_required': 'Không thể bỏ trống',
+			'real_estate_type': 'Không thể bỏ trống',
+			'real_estate[purpose_id]_required': 'Không thể bỏ trống',
 			'real_estate[alley_width]_required': 'Không thể bỏ trống',
 			'real_estate[constructional_area]_required': 'Không thể bỏ trống',
 			'real_estate[using_area]_required': 'Không thể bỏ trống',

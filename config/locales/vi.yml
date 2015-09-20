@@ -141,6 +141,7 @@ vi:
       sell_rent: 'Bán/Cho thuê'
   direction:
     text:
+      non: 'Không xác định'
       east: 'Đông'
       west: 'Tây'
       south: 'Nam'

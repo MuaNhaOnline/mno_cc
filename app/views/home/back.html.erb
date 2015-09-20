@@ -1,6 +1,5 @@
-<% res = RealEstate.search_with_params %>
+<% 
+	p = Project.first
+%>
 
-<% res.each do |re| %>
-	<%= re.purpose.code %>
-	<br />
-<% end %>
+<%= p.unit_price_text %>
