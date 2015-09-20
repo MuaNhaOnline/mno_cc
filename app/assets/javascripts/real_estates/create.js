@@ -41,12 +41,7 @@ $(function () {
                     $form.find('#is_full').val(true);
                     toggleUntilFull(1);
 
-                    $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
-                    $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
-                    $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
                     $form.find('#user_email').prop('disabled', true);
-
-                    $form.find('[aria-name="basic"]').remove(); 
 
                     // Init toggled input
                     $form.inputToggle();
@@ -137,6 +132,12 @@ $(function () {
         });
       }
 
+      $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
+      $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
+      $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
+
+      $form.find('[aria-name="basic"]').remove(); 
+
       $form.find('[aria-click="detail-toggle"]').remove();
 
       // on
@@ -156,8 +157,15 @@ $(function () {
         }
       }
       else {
-        var $box = $form.find('.box[aria-name]:eq(0)');
-        focusBox($box.data('focusing', false));
+        var $box = $form.find('.box[aria-name]:eq(0)').closest('.box');
+        if (!canSee($box.find('.box-header'))) {
+          $body.animate({ scrollTop: $box.offset().top - 40 }, function () {
+            focusBox($box);
+          });
+        }
+        else {
+          focusBox($box);
+        }
       }
     }
   }
@@ -306,6 +314,7 @@ $(function () {
         title: 'Xác nhận',
         content: 'Bạn muốn đăng thông tin cơ bản hay chi tiết?',
         type: 'primary',
+        overlay: 'gray',
         buttons: [
           {
             text: 'Cơ bản',
@@ -320,7 +329,7 @@ $(function () {
             type: 'primary',
             handle: function () {
               $isFull.val(true);
-              $form.find('[aria-name="basic"]').remove(); 
+              toggleUntilFull(0);
             }
           }
         ],
@@ -506,17 +515,21 @@ $(function () {
   */
 
   function initReadPrice() {
+    _temp['read_money_to'] = null;
     $form.find('#sell_price, #rent_price').on({
       keyup: function () {
         var $input = $(this);
 
-        if ($input.val() != $input.data('old-value')) {
-          var value = $input.val().replace(/\D/g, '');
+        clearTimeout(_temp['read_money_to']);
+        _temp['read_money_to'] = setTimeout(function () {
+          if ($input.val() != $input.data('old-value')) {
+            var value = $input.val().replace(/\D/g, '');
 
-          $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : 'Giá thỏa thuận');
+            $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : 'Giá thỏa thuận');
 
-          $input.data('old-value', $input.val());
-        }
+            $input.data('old-value', $input.val());
+          }
+        }, 300);
       },
       change: function () {
         var $input = $(this);

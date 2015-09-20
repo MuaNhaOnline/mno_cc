@@ -841,38 +841,39 @@ function initForm($form, params) {
 	*/
 
 	function initSeparateNumber() {
+		_temp['separate_number_to'] = null;
 		$form.find('.separate-number').on({
 			focus: function () {
 				_temp['price'] = this.value;
 				_temp['is_changed'] = false;
 			},
 			keyup: function () {
+				clearTimeout(_temp['separate_number_to']);
 				var input = this;
-				var value = input.value;
+				_temp['separate_number_to'] = setTimeout(function () {
+					var value = input.value;
 
-				if (_temp['price'] == value) {
-					return;
-				}
+					if (_temp['price'] == value) {
+						return;
+					}
 
-				// Get current selection end
-				var selectionEnd = value.length - input.selectionEnd;
+					// Get current selection end
+					var selectionEnd = value.length - input.selectionEnd;
 
-				var value_ = value.split('.');
-				value_[0] = moneyFormat(intFormat(value_[0]), ',');
-				value = value_.join('.');
+					var value_ = value.split('.');
+					value_[0] = moneyFormat(intFormat(value_[0]), ',');
+					value = value_.join('.');
 
-				this.value = value;
-				selectionEnd = value.length - selectionEnd;
-				input.setSelectionRange(selectionEnd, selectionEnd);
+					input.value = value;
+					selectionEnd = value.length - selectionEnd;
+					input.setSelectionRange(selectionEnd, selectionEnd);
 
-				_temp['price'] = value;
-				_temp['is_changed'] = true;
+					_temp['price'] = value;
+					_temp['is_changed'] = true;
+				}, 300);
 			},
 			focusout: function () {
-				if (_temp['is_changed']) {
-					$(this).change();
-					_temp['is_changed'] = false;
-				}
+				_temp['is_changed'] = false;
 			},
 			'paste change': function () {
 				var input = this;

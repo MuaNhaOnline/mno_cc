@@ -221,6 +221,10 @@ body.no-scroll {
       -webkit-justify-content: center;
     }
 
+      .popup-full-container.gray .popup-full {
+        background-color: #ddd;
+      }
+
       .popup-full-container.on .popup-full {
         animation: turn-on-popup-full 0.5s;
       }
