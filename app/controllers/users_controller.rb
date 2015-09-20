@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     end
 
     result = user.save_with_params params[:user]
-
+    
     # If error
     return render json: result if result[:status] != 0
 

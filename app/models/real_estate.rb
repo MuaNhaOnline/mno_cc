@@ -138,10 +138,10 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Direction
-    # if fields.include?(:direction) && direction.blank?
-    #   errors.add :direction, 'Hướng không thể bỏ trống'
-    #   return
-    # end
+    if fields.include?(:direction) && direction.blank?
+      errors.add :direction, 'Hướng không thể bỏ trống'
+      return
+    end
 
     # Constructional level
     if fields.include?(:constructional_level) && constructional_level.blank?

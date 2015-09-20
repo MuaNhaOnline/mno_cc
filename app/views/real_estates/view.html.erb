@@ -205,10 +205,12 @@
 						            <% end %>
 											</select>/<%= t 'unit.text.' + @re.sell_unit.name %>
 										</p>
-										<div>
-											<i class="icon-16 icon-checker"></i>
-											<span>Còn thương lượng</span>
-										</div>
+										<% if @re.is_negotiable %>
+											<div>
+												<i class="icon-16 icon-checker"></i>
+												<span>Còn thương lượng</span>
+											</div>
+										<% end %>
 									<% else %>
 										<p style="margin: 5px 0;"><span style="color: #ff6511; font-size: 18px;">Giá thỏa thuận</span></p>
 									<% end %>
@@ -226,6 +228,12 @@
 						            <% end %>
 											</select>/<%= t 'unit.text.' + @re.rent_unit.name %>
 										</p>
+										<% if @re.is_negotiable %>
+											<div>
+												<i class="icon-16 icon-checker"></i>
+												<span>Còn thương lượng</span>
+											</div>
+										<% end %>
 									<% else %>
 										<p style="margin: 5px 0;"><span style="color: #038ed1; font-size: 18px;">Giá thỏa thuận</span></p>
 									<% end %>
@@ -253,9 +261,7 @@
 			</article>
 			<article class="content description">
 				<h5><%= @re.name %></h5>
-				<span>
-					<%= plain_content @re.description %>
-				</span>
+				<p class="pre"><%= @re.description %></p>
 			</article>
 		</section>
 		<section class="line-block">

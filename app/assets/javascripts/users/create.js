@@ -47,15 +47,10 @@ $(function () {
 					}
 				}
 				else {
-          var result = data.result;
-          var errors = '';
-          for (var i = 0; i < result.length; i++) {
-            errors += result[i] + '<br />';
-          }
           popupPrompt({
-            title: _t.form.error_title,
-            type: 'danger',
-            content: errors
+	          title: _t.form.error_title,
+	          type: 'danger',
+	          content: _t.form.error_content
           });
 				}
 			}).fail(function () {
@@ -84,7 +79,7 @@ $(function () {
 
 		$account.on('change', function () {
 			// if valid
-			if ($account.val()) {
+			if (!$account.data('invalid')) {
 				// if checking => abort
 				if (_temp.accountChecking) {
 					_temp.accountChecking.abort();
@@ -142,7 +137,7 @@ $(function () {
 
 		$email.on('change', function () {
 			// if valid
-			if ($email.val()) {
+			if (!$email.data('invalid')) {
 				// if checking => abort
 				if (_temp.emailChecking) {
 					_temp.emailChecking.abort();

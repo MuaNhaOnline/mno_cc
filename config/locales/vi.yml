@@ -365,3 +365,8 @@ vi:
         save_draft: 'Lưu tạm'
         reply: 'Trả lời'
         delete: 'Xóa'
+  question:
+    view:
+      manager:
+        page_title: 'Quản lý câu hỏi'
+        form_title: 'Quản lý câu hỏi'

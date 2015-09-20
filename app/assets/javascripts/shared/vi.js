@@ -5,6 +5,7 @@ var _t = {
 		success_title: 'Thành công',
 		confirm_title: 'Xác nhận',
 		info_title: 'Thông tin',
+		delete_confirm: 'Bạn có chắc muốn xóa?',
 		yes: 'Có',
 		no: 'Không',
 		close: 'Đóng',
@@ -27,15 +28,16 @@ var _t = {
 	},
 	user: {
 		validate: {
-			'user[account]_required': 'Tên tài khoản không thể bỏ trống',
-			'user[account]_unique': 'Tên tài khoản đã được sử dụng',
-			'user[old_password]_required': 'Mật khẩu cũ không thể bỏ trống',
-			'user[password]_required': 'Mật khẩu không thể bỏ trống',
-			'repeat_password_required': 'Mật khẩu xác nhận không thể bỏ trống',
-			'repeat_password_same': 'Mật khẩu không trùng khớp',
-			'user[email]_required': 'Email không thể bỏ trống',
-			'user[email]_unique': 'Email đã được sử dụng',
-			'user[full_name]_required': 'Họ và tên không thể bỏ trống',
+			'user[account]_required': 'Không thể bỏ trống',
+			'user[account]_unique': 'Không thể bỏ trống',
+			'user[old_password]_required': 'Không thể bỏ trống',
+			'user[password]_required': 'Không thể bỏ trống',
+			'repeat_password_required': 'Không thể bỏ trống',
+			'repeat_password_same': 'Không thể bỏ trống',
+			'user[email]_invalid': 'Không hợp lệ',
+			'user[email]_required': 'Không thể bỏ trống',
+			'user[email]_unique': 'Đã được sử dụng',
+			'user[full_name]_required': 'Không thể bỏ trống'
 		},
 		view: {
 			manager: {
