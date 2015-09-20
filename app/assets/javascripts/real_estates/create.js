@@ -42,9 +42,6 @@ $(function () {
                     toggleUntilFull(1);
 
                     $form.find('#user_email').prop('disabled', true);
-
-                    // Init toggled input
-                    $form.inputToggle();
                   }
                 }, {
                   text: _t.form.no,
@@ -167,6 +164,8 @@ $(function () {
           focusBox($box);
         }
       }
+
+      $form.inputToggle();
     }
   }
 
