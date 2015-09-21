@@ -18,7 +18,8 @@ end
   # View
   # params: id(*)
   def view
-    
+    @project = Project.new
+    # @project = Project.find params[:id]
   end
 
 # / View

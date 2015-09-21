@@ -6,6 +6,13 @@
 
 <% end %>
 
+<% 
+=begin
+	@project	
+=end
+ 
+%>
+
 <!--start Search Box -->
 <section class="search">
 	<div class="search-box">
@@ -115,7 +122,7 @@
 	<ol class="breadcrumb">
 		<li><a href="/">Trang chủ</a></li>
 		<li><a href="/">Dự án căn hộ cao cấp</a></li>
-		<li class="active">#REF01778</li>
+		<li class="active"><%= @project.display_id %></li>
 	</ol>
 </section>
 <!-- end navigator -->
@@ -124,13 +131,13 @@
 <section class="block container highlight">
 	<article class="title">
 		<a class="link">			
-			<span>SUNRISE CITY</span>			
+			<span><%= @project.title %></span>			
 		</a>
 	</article>
 	<article class="content">
 		<section class="image-info">
 			<div class="main-image">
-				<img src="/assets/projects/default.png">
+				<%= project_avatar @project %>
 			</div>
 			<div class="other-image">
 				<ul>
