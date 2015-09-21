@@ -504,7 +504,7 @@ class RealEstate < ActiveRecord::Base
               fields.delete :constructional_level
             end
           end
-          if re.real_estate.name == 'office'
+          if re.real_estate_type.name == 'office'
             fields << :building_name
           end
         when 'apartment'
