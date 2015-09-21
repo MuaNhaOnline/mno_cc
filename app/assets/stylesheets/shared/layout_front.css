@@ -164,12 +164,13 @@ header {
 		}
 		@media screen and (max-width: 767px) {
 			.logo {
-				width: 180px;
+				width: 150px;
 			}
 		}
 			.logo a {
 				display: block;
 				align-self: center;
+				-webkite-align-self: center;
 			}
 			.logo img {
 				width: 100%;
@@ -542,6 +543,7 @@ footer {
 				width: 24px;
 				border: none;
 				align-self: center;
+				-webkit-align-self: center;
 				text-decoration: none;
 				outline: none;
 				vertical-align: middle;
