@@ -13,7 +13,7 @@
 class User < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:full_name]
+  pg_search_scope :search, against: [:full_name], using: { tsearch: { prefix: true } }
 
 # Associates
 

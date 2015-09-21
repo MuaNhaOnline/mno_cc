@@ -223,7 +223,7 @@ function initForm($form, params) {
 			var $hiddenInput = $wrapper.find('input[type="hidden"]');
 
 			// Check amount
-			currentAmount = $hiddenInput.val().split(',').length;
+			currentAmount = $hiddenInput.val() ? $hiddenInput.val().split(',').length : 0;
 
 			/* 
 				Init for read file

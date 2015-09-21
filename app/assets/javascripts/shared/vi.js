@@ -61,6 +61,7 @@ var _t = {
 			'real_estate_type': 'Không thể bỏ trống',
 			'real_estate[purpose_id]_required': 'Không thể bỏ trống',
 			'real_estate[alley_width]_required': 'Không thể bỏ trống',
+			'real_estate[building_name]_required': 'Không thể bỏ trống',
 			'real_estate[constructional_area]_required': 'Không thể bỏ trống',
 			'real_estate[using_area]_required': 'Không thể bỏ trống',
 			'real_estate[campus_area]_required': 'Không thể bỏ trống',
@@ -74,7 +75,10 @@ var _t = {
 			'real_estate[description]_required': 'Không thể bỏ trống',
 			'real_estate[custom_legal_record_type]_required': 'Không thể bỏ trống',
 			'real_estate[custom_planning_status_type]_required': 'Không thể bỏ trống',
-			'real_estate[image_ids]_required': 'Không thể bỏ trống'
+			'real_estate[image_ids]_required': 'Không thể bỏ trống',
+			'real_estate[user_full_name]_required': 'Không thể bỏ trống',
+			'real_estate[user_email]_required': 'Không thể bỏ trống',
+			'real_estate[user_email]_invalid': 'Không hợp lệ'
 		},
 		view: {
 			create: {

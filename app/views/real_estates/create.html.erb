@@ -479,6 +479,18 @@
 
             <!-- / Real-estate type -->
 
+            <!-- Building name -->
+
+            <article class="form-group" data-toggled-element="un-land un-house apartment un-space">
+              <label class="control-label" for="building_name">
+                <%= t 'real_estate.attribute.building_name' %>
+                <sup class="required-label"></sup>
+              </label>
+              <input class="form-control" data-constraint="required" name="real_estate[building_name]" value="<%= @re.building_name %>" id="building_name" />
+            </article>
+
+            <!-- / Building name -->
+
             <!-- Area -->
 
             <article class="form-group" data-toggled-element="un-land house un-apartment space">
