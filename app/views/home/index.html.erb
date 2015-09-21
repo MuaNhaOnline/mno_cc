@@ -773,17 +773,24 @@
 			<div class="col-md-3 col-sm-3">
 				<form method="post" action="/questions/create">
 					<ul>
-						<li class="name">Tên nhân viên phụ trách</li>
-						<li>Chức vụ</li>
-						<li>Số điện thoại liên hệ</li>
-						<li>Email</li>
-						<li>Liên lạc khác (Zalo, Viber, Skype, ...)</li>
+						<li class="name">Nguyễn Minh Châu</li>
+						<li>Tư vấn viên</li>
+						<li>0939262426</li>
+						<li>info@muanhaonline.com.vn</li>
 						<li>
 							<input name="question[title]" class="form-control input-sm" placeholder="Tiêu đề câu hỏi">
 						</li>
 						<li>
-							<textarea name="question[content]" class="form-control input-sm" rớ="3" placeholder="Nội dung bạn muốn hỏi"></textarea>
+							<textarea name="question[content]" class="form-control input-sm" row="3" placeholder="Nội dung bạn muốn hỏi"></textarea>
 						</li>
+						<% unless signed? %>
+							<li>
+								<input name="question[email]" class="form-control input-sm" placeholder="Email">
+							</li>
+							<li>
+								<input name="question[phone_number]" class="form-control input-sm" placeholder="Email">
+							</li>
+						<% end %>
 						<li>
 							<button type="submit" class="btn btn-sm">Gửi</button>
 						</li>

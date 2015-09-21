@@ -504,6 +504,9 @@ class RealEstate < ActiveRecord::Base
               fields.delete :constructional_level
             end
           end
+          if re.real_estate.name == 'office'
+            fields << :building_name
+          end
         when 'apartment'
           fields << :building_name << :using_area << :floor_number << :bedroom_number << :restroom_number <<
             :build_year << :constructional_quality << :direction << :property_utility
