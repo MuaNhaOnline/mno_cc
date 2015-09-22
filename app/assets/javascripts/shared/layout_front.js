@@ -30,14 +30,14 @@ function initHeader() {
 	var heightHeader = $(header).height();	
 	var scroll = $(window).scrollTop();
 
-	$(window).on('scroll', function(e) {
+	$(window).on('scroll', function(e) {		
 		var currentScroll = $(window).scrollTop();
 		if (scroll < currentScroll) {
 			//Window is scroll down
 			$(header).hide();
 		}
 		else {
-			//Window is scroll up
+			//Window is scroll up			
 
 			$(header).show();
 			

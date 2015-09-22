@@ -1,0 +1,341 @@
+/*start search-box*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 20px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search-box*/
+
+/*start navigator*/
+.navigator {
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #fff;
+	}
+/*end navigator*/
+
+/*start user-property*/
+.user-projects {
+	margin-bottom: 30px;
+}
+	/*Tab panes*/
+	.user-projects .tab-content > div {
+		padding: 10px 0;
+	}
+
+		/*start link*/
+		.user-projects .tab-content .link {
+			margin: 10px 0;
+			text-align: center;
+		}
+		/*end*/
+
+		/*start paging*/
+		.user-projects .tab-content .paging {
+			margin-bottom: 10px;
+		}
+		/*end*/
+
+	/*end*/
+/*end*/
+
+/*start seo-word*/
+.seo-word {
+	margin-bottom: 40px;
+	border: 1px solid #eee;
+	padding: 10px;	
+}
+	/*start title*/
+	.seo-word .title {
+		text-transform: uppercase;
+		font-size: 138.46%;
+		color: #666;
+		margin-bottom: 40px;
+		padding: 10px;		
+	}
+	/*end*/
+
+	/*start details*/
+	.seo-word .content {
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.seo-word img {
+		width: 200px;
+		height: 200px;
+		display: block;	
+		margin: 0 auto;	
+		margin-bottom: 12px;		
+	}
+		.seo-word a:hover img {
+			border: 3px solid #54b40d;
+			padding: 2px;
+		}
+	.seo-word span {
+		font-size: 130.77%;
+		color: #666;
+	}
+		.seo-word a:hover span {
+			color: #54b40d;
+		}
+	/*end*/
+
+	/*start seo item*/
+	.seo-word .seo-item {
+		margin-bottom: 30px;
+	}
+	/*end*/
+/*end*/
+
+/*start list-project*/
+.list-project {
+}
+	.list-project-tabs {
+		margin-bottom: 30px;
+	}
+	.affix {
+		top: 50px;
+		width: 213px;
+	}
+	.affix-bottom {
+		position: absolute;
+		width: 213px;
+	}
+/*end*/
+
+/*start new project*/
+.new-project {
+}
+	.new-project > .title {
+		font-size: 130.77%;
+		color: #666;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+/*end*/
+
+/*start price project*/
+.price-project {
+	padding-top: 30px;
+}
+	.price-project > .title {
+		font-size: 130.77%;
+		color: #666;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	.price-project ul.suggest {
+		text-align: center;
+		padding: 20px;
+	}	
+	.price-project ul.suggest li {
+		display: inline-block;
+		margin: 10px 20px;
+	}		
+	.price-project ul.suggest li a {
+		display: block;
+		border-radius: 2px;
+		padding: 10px;
+		border: 1px solid #ccc;
+		color: #666;
+		transition: 0.2s;
+		cursor: pointer;
+	}
+		.price-project ul.suggest li a:hover {
+			background-color: #54b40d;
+			color: #fff;
+		}
+	/*start title*/
+	.price-project .product label {
+		color: #666;
+		font-size: 115.38%;
+		font-weight: normal;
+	}
+	/*end*/
+/*end*/
+
+/*start position*/
+.position-project {
+	padding-top: 30px;
+}
+	/*start title*/
+	.position-project > .title {
+		font-size: 130.77%;
+		color: #666;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	.position-project .title span {
+		color: #666;
+	}
+	.position-project .title a {
+		cursor: pointer;
+		color: #666;
+	}
+	.position-project .dropdown-menu {
+		margin-top: 5px;
+	}
+		.position-project .dropdown-menu a:hover {
+			background-color: #54b40d;	
+			color: #fff;
+		}
+	.position-project .dropdown-district {
+		text-align: right;
+	}
+	.position-project .dropdown-district .dropdown-box {
+		width: 400px;
+		font-weight: normal;
+		text-transform: none;
+	}
+		.position-project .dropdown-district .dropdown-box a:hover {
+			background-color: #54b40d;	
+			color: #fff;
+		}
+	@media screen and (max-width: 767px) {
+		.position-project .dropdown-district .dropdown-box {
+			width: auto;
+		}
+	}
+	/*end*/
+/*end*/
+
+/*-------------------------*/
+/*start fix-list*/
+.fix-list {
+	padding: 0 30px;
+	width: 262px;	
+}
+	.fixed {
+		position: fixed;
+		top: 90px;
+	}
+	@media screen and (max-width: 1200px) {
+		.fix-list {
+			width: 213px;
+		}
+		.fix-list label a {
+			font-size: 100%;
+		}
+		.fix-list label input:checked ~ span,
+		.fix-list label input:hover ~ span,
+		.fix-list label input:focus ~ span {
+			color: #54b40d;
+			display: block;
+			font-size: 115.38% !important;
+			font-weight: bold;
+		}
+	}
+	.fix-list label {
+		display: block;		
+		padding: 15px 10px;
+		color: #999;
+		font-weight: normal;
+		position: relative;
+		cursor: pointer;
+	}
+	.fix-list label a {
+		color: #999;
+		font-size: 115.35%;
+	}
+	.fix-list input[type="radio"] {
+		position: absolute;
+		left: -9999px;
+	}
+	.fix-list label input:checked ~ span,
+	.fix-list label input:hover ~ span,
+	.fix-list label input:focus ~ span {
+		color: #54b40d;
+		display: block;
+		font-size: 153.85%;
+	}
+		.fix-list label.active:after,
+		.fix-list label:hover:after {
+			content: '';
+			display: inline-block;
+			width: 12px;
+			height: 12px;
+			right: -35px;
+			top: calc(50% - 8px);
+			border-radius: 50%;
+			background-color: #ccc;
+			position: absolute;
+		}
+/*end*/
+
+/*start content-list*/
+.content-list {
+	position: relative;
+}
+	@media screen and (max-width: 991px) {
+		.content-list:after {
+			display: none !important;
+		}
+	}
+	.content-list:after {
+		content: '';
+		display: block;
+		position: absolute;
+		height: 100%;
+		left: -16px;
+		top: 0;
+		border-left: 1px solid #ccc;
+	}
+
+	/*start title*/
+	.content-list .title {
+		display: none;
+		font-size: 138.46%;
+		margin-bottom: 15px;
+		text-transform: uppercase;
+		color: #999;
+	}
+	@media screen and (max-width: 768px) {
+		.content-list .title {
+			margin-bottom: 12px;
+		}
+	}
+	/*end*/
+/*end*/
+
+/*start spy*/
+.nav .active {
+  font-weight: bold;
+  background: #54b40d;
+}
+	.scrollspy > .nav .nav {
+		display: none;
+	}
+
+	.scrollspy > .nav .active .nav {
+		display: block;
+	}
+
+	.scrollspy > .nav .nav a {
+		font-weight: normal;
+		font-size: .85em;
+		color: #fff !important;
+	}
+
+	.scrollspy > .nav .nav span {
+		margin: 0 5px 0 2px;
+	}
+
+	.scrollspy > .nav .nav .active a,
+	.scrollspy > .nav .nav .active:hover a,
+	.scrollspy > .nav .nav .active:focus a {
+		font-weight: bold;
+		padding-left: 30px;
+		border-left: 5px solid black;
+	}
+
+	.scrollspy > .nav .nav .active span,
+	.scrollspy > .nav .nav .active:hover span,
+	.scrollspy > .nav .nav .active:focus span {
+		display: none;
+	}
+/*end*/
