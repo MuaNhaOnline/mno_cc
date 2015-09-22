@@ -117,7 +117,7 @@ class RealEstatesController < ApplicationController
   end
 
   # Partial view
-  # params: keyword
+  # params: keyword, page
   def _my_list
     # Author
     return render json: { status: 6 } if cannot? :view_my, RealEstate

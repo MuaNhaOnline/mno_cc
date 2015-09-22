@@ -1,0 +1,53 @@
+<% questions.each do |q| %>
+  <article class="box collapsed-box <%= q.is_answered ? 'box-success' : 'box-default' %> item" data-value="<%= q.id %>" data-is_pinned="<%= q.is_pinned %>">
+    <section class="box-header with-border">
+      <h2 class="box-title">
+        <%= q.title %>
+      </h2>
+      <div class="box-tools">
+        <button class="btn btn-box-tool" aria-name="pin_icon" aria-click='pin'>
+          <i class="fa fa-thumb-tack"></i>
+        </button>
+        <button class="btn btn-box-tool" aria-click="collapse-box">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </section>
+    <section class="box-body">
+      <label class="font-size-15">
+        Nội dung
+      </label>
+      <p>
+        <%= plain_content q.content %>
+      </p>
+    </section>
+    <section class="box-footer" aria-name="answer">
+      <label class="font-size-15">
+        Trả lời
+      </label>
+      <div aria-name="answer_content" class="<%= 'hidden' unless q.is_answered %>">
+        <p class="answer-content pre"><%= q.answer %></p>
+        <article class="pull-left">
+          <button aria-click="edit" type="button" class="btn btn-default"><span class="fa fa-pencil"></span> Sửa trả lời</button>
+        </article>
+        <article class="pull-right">
+          <button aria-click="pin" type="button" class="btn btn-default"><span class="fa fa-thumb-tack"></span> <span aria-name="pin_text"></span></button>
+          <button aria-click="delete" type="button" class="btn btn-warning"><span class="fa fa-trash-o"></span> Xóa</button>
+        </article>
+      </div>
+      <form class="form <%= 'hidden' if q.is_answered %>" aria-name="answer_form">
+        <input type="hidden" name="id" value="<%= q.id %>" />
+        <article class="form-group">
+          <textarea data-nonvalid class="form-control" name="answer" placeholder="Trả lời"><%= q.answer %></textarea>
+        </article>
+        <article class="pull-left">
+          <button type="submit" class="btn btn-primary"><span class="fa fa-pencil"></span> Hoàn tất</button>
+        </article>
+        <article class="pull-right">
+          <button aria-click="pin" type="button" class="btn btn-default"><span class="fa fa-thumb-tack"></span> <span aria-name="pin_text"></span></button>
+          <button aria-click="delete" type="button" class="btn btn-warning"><span class="fa fa-trash-o"></span> Xóa</button>
+        </article>
+      </form>
+    </section>
+  </article>
+<% end %>

@@ -67,6 +67,14 @@ Rails.application.routes.draw do
   post 'appraisal_companies/set_price'
   delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
 
+  # Question
+  get '/questions/manager'
+  get '/questions/_manager_list'
+  post '/questions/create' => 'questions#save'
+  post '/questions/answer' => 'questions#answer'
+  put '/questions/pin/:id/:status' => 'questions#pin'
+  delete '/questions/:id' => 'questions#delete'
+
   # Mail box
   get 'mail_boxes/compose(/:id)' => 'mail_boxes#compose'
   get 'mail_boxes/inbox'

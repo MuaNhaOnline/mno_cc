@@ -1,0 +1,52 @@
+<% 
+  @title = t 'question.view.manager.page_title'
+%>
+
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/questions/manager.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+  <%= t 'question.view.manager.form_title' %>
+<% end %>
+
+<%
+=begin
+  params
+    @questions
+=end
+
+  total = @questions.count
+  per = Rails.application.config.item_per_page
+%>
+
+<section class="box box-solid">
+  <section class="box-body">
+    <form id="search_form">
+      <div class="input-group margin">
+        <input data-nonvalid name="keyword" type="text" class="form-control" data-nonvalid placeholder="<%= t 'form.search_placeholder' %>">
+        <span class="input-group-btn">
+          <button class="btn btn-default" data-nonvalid type="submit"><%= t 'form.search' %></button>
+        </span>
+      </div>
+    </form>
+  </section>
+</section>
+
+<section class="question-content">
+  <article id="question_list">
+    <% if total != 0 %>
+      <%= render partial: 'questions/manager_list', locals: { questions: @questions.page(1, per) } %>
+    <% else %>
+      <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có câu hỏi nào</h4></div>
+    <% end %>
+  </article>
+  <nav class="text-center" id="pagination">
+    <% if total != 0 %>
+      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+    <% end %>
+  </nav>
+</section>

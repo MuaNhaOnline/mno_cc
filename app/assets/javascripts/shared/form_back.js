@@ -223,7 +223,7 @@ function initForm($form, params) {
 			var $hiddenInput = $wrapper.find('input[type="hidden"]');
 
 			// Check amount
-			currentAmount = $hiddenInput.val().split(',').length;
+			currentAmount = $hiddenInput.val() ? $hiddenInput.val().split(',').length : 0;
 
 			/* 
 				Init for read file
@@ -987,10 +987,10 @@ function initForm($form, params) {
 					var floatPoint = value.indexOf('.');
 
 					if (floatPoint === -1) {
-							value = value.replace(/\D/g, '');
+						value = value.replace(/\D/g, '');
 					}
 					else {
-							value = value.slice(0, floatPoint).replace(/\D/g, '') + '.' + value.slice(floatPoint).replace(/\D/g, '');
+						value = value.slice(0, floatPoint).replace(/\D/g, '') + '.' + value.slice(floatPoint).replace(/\D/g, '');
 					}
 
 					$input.val(value).change();
@@ -1000,10 +1000,10 @@ function initForm($form, params) {
 
 		// Email
 		$form.find('[data-constraint~="email"]').on({
-			'focusout': function () {
+			'change': function () {
 				var $input = $(this);
 				if ($input.val() && !/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test($input.val())) {
-					$input.val('').change();
+					toggleValidInput($input, false, 'invalid');
 				}
 			}
 		});
@@ -1027,14 +1027,6 @@ function initForm($form, params) {
 				}
 			}
 		});
-
-		// $form.find('[data-constraint~="required"]').on({
-		//  change: function () {
-		//    if (!this.value) {
-		//      $(this).data('invalid', true).closest('.form-group').addClass('has-error');
-		//    }
-		//  }
-		// });
 	};
 
 	//Check input

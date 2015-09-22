@@ -1,9 +1,6 @@
 var _temp = {}, _popupContent = {};
 
 $(function () {
-	$body = $('body');
-  $window = $(window);
-
   $('#loading_page').remove();
 
   init();
@@ -11,6 +8,7 @@ $(function () {
   _getPopupContent();
   customPrototype();
   customJquery();
+  _initGlobalEvent();
 
   /*
     Init
@@ -61,6 +59,43 @@ $(function () {
   */
 
 });
+
+/*
+  Global event
+*/
+
+  function _initGlobalEvent($container) {
+    if (typeof $container == 'undefined') {
+      $container = $body;
+    }
+
+    /*
+      Collapse box
+    */
+
+      $container.find(($container.is('.box') ? '' : '.box ') + '[aria-click="collapse-box"]').off('click').on('click', function () {
+        var 
+          $button = $(this),
+          $box = $button.closest('.box');
+
+        if ($box.is('.collapsed-box')) {
+          $box.children('.box-body, .box-footer').slideDown();
+          $box.removeClass('collapsed-box');
+        }
+        else {
+          $box.children('.box-body, .box-footer').slideUp();
+          $box.addClass('collapsed-box');
+        }
+      });
+
+    /*
+      / Collapse box
+    */
+  }
+
+/*
+  / Global event
+*/
 
 /*
   Helper

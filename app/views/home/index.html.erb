@@ -767,66 +767,44 @@
 	</article>
 	<article class="content">
 		<div class="row">
-			<div class="col-md-2 col-sm-3 hidden-xs">
-				<img src="/assets/contact/contact01.jpg">
+			<div class="col-md-2 col-sm-3">
+				<img src="/assets/contact/contact01.jpg" class="img-responsive">
 			</div>
 			<div class="col-md-3 col-sm-3">
-				<ul>
-					<li class="name">Tên nhân viên phụ trách</li>
-					<li>Chức vụ</li>
-					<li>Số điện thoại liên hệ</li>
-					<li>Email</li>
-					<li>Liên lạc khác (Zalo, Viber, Skype, ...)</li>
-					<li>
-						<input class="form-control input-sm" placeholder="Tiêu đề câu hỏi">
-					</li>
-					<li>
-						<textarea class="form-control input-sm" rows="3" placeholder="Nội dung bạn muốn hỏi"></textarea>
-					</li>
-					<li>
-						<button class="btn btn-sm">Gửi</button>
-					</li>
-				</ul>
+				<form method="post" action="/questions/create">
+					<ul>
+						<li class="name">Nguyễn Minh Châu</li>
+						<li>Tư vấn viên</li>
+						<li>0939262426</li>
+						<li>info@muanhaonline.com.vn</li>
+						<li>
+							<input name="question[title]" class="form-control input-sm" placeholder="Tiêu đề câu hỏi">
+						</li>
+						<li>
+							<textarea name="question[content]" class="form-control input-sm" row="3" placeholder="Nội dung bạn muốn hỏi"></textarea>
+						</li>
+						<% unless signed? %>
+							<li>
+								<input name="question[email]" class="form-control input-sm" placeholder="Email">
+							</li>
+							<li>
+								<input name="question[phone_number]" class="form-control input-sm" placeholder="Email">
+							</li>
+						<% end %>
+						<li>
+							<button type="submit" class="btn btn-sm">Gửi</button>
+						</li>
+					</ul>
+				</form>
 			</div>
 			<div class="col-md-7 question col-sm-6">
 				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Câu hỏi 1</a>
-							</h4>
-						</div>
-						<div id="collapse1" class="panel-collapse collapse in">
-							<div class="panel-body">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						  	</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Câu hỏi 2</a>
-							</h4>
-						</div>
-						<div id="collapse2" class="panel-collapse collapse">
-							<div class="panel-body">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-						</div>
-					</div>					
+					<% 
+						questions = Question.get_pinned 
+					%>
+					<%= render partial: 'questions/item_list', locals: { questions: questions } %>
 				</div>
 			</div>
-		</div>
 	</article>
 </section>
 <!-- end contact -->

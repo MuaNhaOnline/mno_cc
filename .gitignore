@@ -1,4 +1,4 @@
 log/
 /config/database.yml
 tmp/
-/uploads
+app/assets/file_uploads

@@ -1,0 +1,12 @@
+<% questions.each do |q| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_<%= q.id %>"><%= q.title %></a>
+      </h4>
+    </div>
+    <div id="collapse_<%= q.id %>" class="panel-collapse collapse">
+      <div class="panel-body pre"><%= q.content %><hr /><%= q.answer %></div>
+    </div>
+  </div>
+<% end %>

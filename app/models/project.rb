@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:meta_search]
+  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true } }
 
 # Associates
 
@@ -272,19 +272,8 @@ class Project < ActiveRecord::Base
   end
 
   # Deadline
-  def get_deadline
-    date = nil
-    if finished_base_date.present?
-      date = finished_base_date
-    elsif transfer_date.present?
-      date = transfer_date
-    elsif docs_issue_date.present?
-      date = docs_issue_date
-    elsif estimate_finishing_date.present?
-      date = estimate_finishing_date
-    end
-
-    unless date.nil?
+  def get_string_date date
+    if date.present?
       case date_display_type
       when 1
         date = date.strftime '%d/%m/%Y'
@@ -304,11 +293,31 @@ class Project < ActiveRecord::Base
       end
     end
 
-    if date.nil?
+    if date.blank?
       date = ''
     end
 
     date
+  end
+
+  def get_deadline
+    date = nil
+    if finished_base_date.present?
+      date = finished_base_date
+    elsif transfer_date.present?
+      date = transfer_date
+    elsif docs_issue_date.present?
+      date = docs_issue_date
+    elsif estimate_finishing_date.present?
+      date = estimate_finishing_date
+    end
+
+    # get_string_date date
+    if DateTime.now > date
+      true
+    else
+      false
+    end
   end
 
   def display_deadline

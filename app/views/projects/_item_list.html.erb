@@ -22,8 +22,13 @@
 					<span><%= p.title %></span>
 				</div>						
 				<div class="status">							
-					<i class="fa fa-circle working"></i>
-					<span><%= p.display_deadline %></span>
+					<% if p.display_deadline %>
+						<i class="fa fa-circle done"></i>
+						<span>Đã hoàn thành</span>
+					<% end %>
+						<i class="fa fa-circle working"></i>
+						<span>Chưa hoàn thành</span>
+					<% end %>
 				</div>
 				<div class="address" data-toggle="tooltip" data-placement="top" title="<%= p.display_address %>">
 					<i class="icon-16 icon-position"></i>

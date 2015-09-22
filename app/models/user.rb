@@ -13,7 +13,7 @@
 class User < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:full_name]
+  pg_search_scope :search, against: [:full_name], using: { tsearch: { prefix: true } }
 
 # Associates
 
@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
 
 	validates :password, presence: { message: 'Mật khẩu không được bỏ trống' }
 	validates :full_name, presence: { message: 'Họ tên không được bỏ trống' }
-	validates :birthday, presence: { message: 'Ngày sinh không được bỏ trống' }
 
   validate :custom_validate
 
@@ -124,7 +123,9 @@ class User < ActiveRecord::Base
 		end
 
 		# Birthday
-		params[:birthday] = Date.strptime(params[:birthday], '%Y')
+		if params[:birthday].present?
+			params[:birthday] = Date.strptime(params[:birthday], '%Y')
+		end
 
 		params.permit [
 			:account, :password, :email, :full_name, :birthday, :business_name,

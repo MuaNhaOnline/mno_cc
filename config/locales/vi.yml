@@ -32,6 +32,7 @@ vi:
       negotiable: 'Có thể thương lượng'
       real_estate_type_box: 'Chi tiết bất động sản'
       real_estate_type: 'Loại bất động sản'
+      building_name: 'Tên tòa nhà'
       constructional_area: 'Diện tích xây dựng'
       using_area: 'Diện tích sử dụng'
       campus_area: 'Diện tích khuôn viên'
@@ -365,3 +366,8 @@ vi:
         save_draft: 'Lưu tạm'
         reply: 'Trả lời'
         delete: 'Xóa'
+  question:
+    view:
+      manager:
+        page_title: 'Quản lý câu hỏi'
+        form_title: 'Quản lý câu hỏi'

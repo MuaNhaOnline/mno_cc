@@ -1,7 +1,7 @@
 class RealEstate < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:meta_search]
+  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true } }
 
   serialize :params, JSON
 
@@ -89,6 +89,12 @@ class RealEstate < ActiveRecord::Base
       return
     end
 
+    # Building name
+    if fields.include?(:building_name) && building_name.blank?
+      errors.add :building_name, 'Tên tòa nhà không thể bỏ trống'
+      return
+    end
+
     # Area
     if fields.include?(:constructional_area) && constructional_area.blank?
       errors.add :constructional_area, 'Diện tích xây dựng không thể bỏ trống'
@@ -138,10 +144,10 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Direction
-    # if fields.include?(:direction) && direction.blank?
-    #   errors.add :direction, 'Hướng không thể bỏ trống'
-    #   return
-    # end
+    if fields.include?(:direction) && direction.blank?
+      errors.add :direction, 'Hướng không thể bỏ trống'
+      return
+    end
 
     # Constructional level
     if fields.include?(:constructional_level) && constructional_level.blank?
@@ -272,7 +278,7 @@ class RealEstate < ActiveRecord::Base
     params.permit [
       :title, :description, :purpose_id, :sell_price, :sell_price_text, :rent_price, :rent_price_text, 
       :currency_id, :sell_unit_id, :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
-      :address_number, :street_type, :is_alley, :real_estate_type_id,
+      :address_number, :street_type, :is_alley, :real_estate_type_id, :building_name,
       :legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
       :alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
       :lat, :long, :user_id, :appraisal_purpose, :appraisal_type, :campus_area, :using_area, :constructional_area,
@@ -498,8 +504,11 @@ class RealEstate < ActiveRecord::Base
               fields.delete :constructional_level
             end
           end
+          if re.real_estate_type.name == 'office'
+            fields << :building_name
+          end
         when 'apartment'
-          fields << :using_area << :floor_number << :bedroom_number << :restroom_number <<
+          fields << :building_name << :using_area << :floor_number << :bedroom_number << :restroom_number <<
             :build_year << :constructional_quality << :direction << :property_utility
       end
     else
