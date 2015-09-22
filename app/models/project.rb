@@ -312,7 +312,12 @@ class Project < ActiveRecord::Base
       date = estimate_finishing_date
     end
 
-    get_string_date date
+    # get_string_date date
+    if DateTime.now > date
+      true
+    else
+      false
+    end
   end
 
   def display_deadline
