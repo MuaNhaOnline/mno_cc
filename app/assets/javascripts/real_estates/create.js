@@ -11,6 +11,47 @@ $(function () {
   initShapeWidthConstraint();
   initForm($form, {
     object: 'real_estate',
+    imageInputs: {
+      'image_upload': {
+        controls: [
+          {
+            text: 'Làm ảnh đại diện',
+            type: 'primary',
+            attribute: 'aria-name="avatar-button"',
+            handle: function ($item) {
+              if ($item.is('[data-avatar]')) {
+                $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+                $form[0].elements['real_estate[avatar_id]'].value = ''; 
+              }
+              else {
+                $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+                $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+                $form[0].elements['real_estate[avatar_id]'].value = $item.data('value') + ',' + ($item.is('[data-old]') ? '0' : '1'); 
+              }
+            }
+          }
+        ],
+        onItemRemove: function ($item) {
+          if ($item.is('[data-avatar]')) {
+            $form[0].elements['real_estate[avatar_id]'].value = ''; 
+          }
+        },
+        onItemAdd: function ($item) {
+          avatar = $form[0].elements['real_estate[avatar_id]'].value;
+          if (!avatar) {
+            $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+            $form[0].elements['real_estate[avatar_id]'].value = $item.data('value') + ',1';
+          }
+        },
+        onInitItemAdd: function ($item) {
+          avatar = $form[0].elements['real_estate[avatar_id]'].value;
+          if ($item.data('value') + ',0' == avatar) {
+            $item.find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+            $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+          }
+        }
+      }
+    },
     submit: function () {
       toggleLoadStatus(true);
       $.ajax({
@@ -67,7 +108,7 @@ $(function () {
           content: _t.form.error_content
         })
       });
-    } 
+    }
   });
   initUnitInput();
   initSaveDraft();

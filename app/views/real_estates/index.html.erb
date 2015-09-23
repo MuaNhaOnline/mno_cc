@@ -149,13 +149,13 @@
 		<section class="slick favorite-property">
 			<div class="content">
 				<%
-					res = RealEstate.get_by_current_purpose.search_with_params.limit 3
+					res = RealEstate.search_with_params.limit 3
 				%>
 				<% res.each do |re| %>
 					<div class="item-lg">
 						<div class="row">
 							<div class="col-sm-8 col-sm-push-4 picture">
-								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail' %>
+								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 							</div>
 							<div class="col-sm-4 col-sm-pull-8">
 								<div class="name">

@@ -83,6 +83,18 @@
   end
   build_year_html += "<option #{'selected' if @re.build_year == 20} value=20>Hơn 20 năm</option>"
   build_year_html += "<option #{'selected' if @re.build_year == 50} value=50>Hơn 50 năm</option>"
+
+  # Image
+  image_init_value = ''
+  avatar_id = ''
+  unless @re.new_record?
+    @re.images.each do |re_image|
+      image_init_value += re_image.id.to_s + ',' + re_image.image.url + ';'
+
+      avatar_id = re_image.id.to_s + ',0' if re_image.is_avatar
+    end
+    image_init_value[image_init_value.length - 1] = '' if image_init_value != ''
+  end
 %>
 
 <form id="create_re" class="form create-form-re" data-entertotab>
@@ -753,8 +765,9 @@
         </section>
         <section class="box-body hide-until-full">
           <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình.</p>
+          <input type="hidden" name="real_estate[avatar_id]" value="<%= avatar_id %>" />
           <article class="form-group margin-0">
-            <input class="file-upload" type="file" multiple name="real_estate[image_ids]" data-amount="5" data-type="jpg jpeg png" data-ratio="1.25" data-init-value="<%= @re.image_ids.join(',') %>" />
+            <input class="file-upload" type="file" multiple name="real_estate[image_ids]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" />
           </article>
         </section>
       </article>

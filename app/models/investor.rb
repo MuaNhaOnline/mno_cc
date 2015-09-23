@@ -3,9 +3,14 @@ class Investor < ActiveRecord::Base
   include PgSearch
   pg_search_scope :search, against: [:name]
 
-# Associates
+  has_attached_file :avatar, 
+    styles: { thumb: '250x200#' },
+    default_url: "/assets/investors/:style/default.png", 
+    :path => ":rails_root/app/assets/file_uploads/investor_images/:style/:id_:filename", 
+    :url => "/assets/investor_images/:style/:id_:filename"
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
-  belongs_to :avatar_image, class_name: 'Image'
+# Associates
 
 # / Associates
 
@@ -30,7 +35,7 @@ class Investor < ActiveRecord::Base
 
 # Update
 
-  def self.update_name id, new_name, avatar_image_id
+  def self.update_name id, new_name, avatar_id
     investor = find id
 
     return { status: 1 } if investor.nil?
@@ -38,10 +43,22 @@ class Investor < ActiveRecord::Base
     # Author
     return { status: 6 } if User.current.cannot? :rename, investor
 
-    investor.assign_attributes name: new_name, avatar_image_id: avatar_image_id
+    investor.assign_attributes name: new_name
+
+    if avatar_id
+      _avatar_value = TemporaryFile.split_old_new avatar_id.split(';')
+
+      if _avatar_value[:new].present?
+        TemporaryFile.get_files(_avatar_value[:new]) do |_avatar, _id|
+          investor.assign_attributes avatar: _avatar
+        end
+      elsif _avatar_value[:old].blank?
+        investor.assign_attributes avatar: nil
+      end
+    end
 
     if investor.save
-      { status: 0 }
+      { status: 0, result: investor }
     else
       { status: 2 }
     end

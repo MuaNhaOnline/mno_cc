@@ -23,6 +23,12 @@
 	else
 		@title = @user.full_name
 	end
+
+  # Image
+  avatar_init_value = ''
+  if !@user.new_record? && @user.avatar.present?
+    avatar_init_value = '0,' + @user.avatar.url
+  end
 %>
 
 <form class="row form" id="create_user" data-entertotab>
@@ -217,7 +223,7 @@
 
 		    <article class="form-group">
 		      <label><%= t 'user.attribute.avatar_image' %></label>
-          <input data-init-value="<%= @user.avatar_image_id %>" name="user[avatar_image_id]" class="file-upload" type="file" data-type="jpg jpeg png" data-ratio="1" />
+          <input data-init-value="<%= avatar_init_value %>" name="user[avatar_id]" class="file-upload" type="file" data-type="jpg jpeg png" data-ratio="1" />
 		    </article>
 
 		    <!-- / Avatar -->

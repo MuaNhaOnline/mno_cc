@@ -15,7 +15,7 @@ class Project < ActiveRecord::Base
   belongs_to :price_unit, class_name: 'Unit'
   belongs_to :investor
 
-  has_and_belongs_to_many :images
+  has_many :images, -> { order('is_avatar desc') }, class_name: 'ProjectImage'
 
 # / Associates
 
@@ -42,7 +42,7 @@ class Project < ActiveRecord::Base
 
   # Get params
 
-  def self.get_params params
+  def assign_attributes_with_params params
     # Get price
     if params.has_key? :unit_price
       params[:unit_price] = ApplicationHelper.format_i(params[:unit_price])
@@ -89,24 +89,67 @@ class Project < ActiveRecord::Base
       params[:province_id] = province.id
     end
 
-    # Images 
-    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',').take(10) if params.has_key? :image_ids
+    # Images
 
-    # Get field
+    _images = []
+    _has_avatar = false
+    if params[:image_ids].present?
+      _image_values = TemporaryFile.split_old_new params[:image_ids].split(';').take(5)
 
-    fields = [
+      _avatar_value = nil
+      if params[:avatar_id].present?
+        _avatar_value = params[:avatar_id].split(',')
+      end
+
+      if _image_values[:old].present?
+        _images = ProjectImage.find _image_values[:old]
+
+        if _avatar_value.present? && _avatar_value[1] == '0'
+          _images.each do |_image|
+            if _image.id.to_s == _avatar_value[0]
+              _image.update is_avatar: true unless _image.is_avatar
+              _has_avatar = true
+            else
+              _image.update is_avatar: false if _image.is_avatar
+            end
+          end
+        else
+          _images.each do |_image|
+            _image.update is_avatar: false if _image.is_avatar
+          end
+        end
+      end
+
+      if _image_values[:new].present?
+        if _avatar_value.present? && _avatar_value[1] == '1'
+          TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
+            if _id.to_s == _avatar_value[0]
+              _images << ProjectImage.new(image: _image, is_avatar: true)
+              _has_avatar = true
+            else
+              _images << ProjectImage.new(image: _image, is_avatar: false)
+            end
+          end
+        else
+          TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
+            _images << ProjectImage.new(image: _image)
+          end
+        end
+      end
+    end
+    if !_has_avatar && _images.length != 0
+      _images[0].assign_attributes is_avatar: true
+    end
+    assign_attributes images: _images
+
+    assign_attributes params.permit [
       :title, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, :price_unit_id,
       :lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
       :project_type_id, :campus_area, :width_x, :width_y, :is_draft,
       :using_ratio, :estimate_starting_date, :estimate_finishing_date,
       :starting_date, :finished_base_date, :transfer_date, :docs_issue_date,
-      :investor_id, :execute_unit, :design_unit, :manage_unit, :user_id, :date_display_type,
-      :image_ids => []
+      :investor_id, :execute_unit, :design_unit, :manage_unit, :user_id, :date_display_type
     ]
-
-    # / Get fields
-
-    params.permit fields
   end
 
   # Save with params
@@ -119,9 +162,7 @@ class Project < ActiveRecord::Base
       return { status: 6 } if User.current.cannot? :edit, self
     end
 
-    project_params = Project.get_params params
-
-    assign_attributes project_params
+    assign_attributes_with_params params
 
     other_params = {
       is_draft: is_draft,
@@ -313,7 +354,7 @@ class Project < ActiveRecord::Base
     end
 
     # get_string_date date
-    if DateTime.now > date
+    if !date.nil? && DateTime.now > date
       true
     else
       false

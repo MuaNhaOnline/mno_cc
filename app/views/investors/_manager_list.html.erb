@@ -1,6 +1,14 @@
 <% investors.each do |i| %>
+  <% 
+
+    avatar_init_value = ''
+    if !i.new_record? && i.avatar.present?
+      avatar_init_value = '0,' + i.avatar.url
+    end
+     
+  %>
   <article class="col-md-3 col-sm-4 col-xs-6">
-    <article class="item" data-value="<%= i.id %>" data-avatar-image-id="<%= i.avatar_image_id %>">
+    <article class="item" data-value="<%= i.id %>" data-avatar="<%= avatar_init_value %>">
       <section class="top">
         <%= investor_avatar i, attribute: 'aria-object="avatar"' %>
       </section>

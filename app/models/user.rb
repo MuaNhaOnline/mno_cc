@@ -15,9 +15,14 @@ class User < ActiveRecord::Base
   include PgSearch
   pg_search_scope :search, against: [:full_name], using: { tsearch: { prefix: true } }
 
-# Associates
+  has_attached_file :avatar, 
+  	styles: { mini: '40x40#', thumb: '100x100#', big: '150x150#' },
+  	default_url: "/assets/users/:style/default.png", 
+  	:path => ":rails_root/app/assets/file_uploads/user_images/:style/:id_:filename", 
+  	:url => "/assets/user_images/:style/:id_:filename"
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
-	belongs_to :avatar_image, class_name: 'Image'
+# Associates
 
 # / Associates
 
@@ -112,7 +117,7 @@ class User < ActiveRecord::Base
 
 	# Get params
 
-	def self.get_params params
+	def assign_attributes_with_params params
 		# Account
 		params[:account] = params[:account].downcase if params.has_key? :account
 
@@ -127,16 +132,30 @@ class User < ActiveRecord::Base
 			params[:birthday] = Date.strptime(params[:birthday], '%Y')
 		end
 
-		params.permit [
+    # Images
+
+    if params[:avatar_id].present?
+      _avatar_value = TemporaryFile.split_old_new params[:avatar_id].split(';')
+
+      if _avatar_value[:new].present?
+				TemporaryFile.get_files(_avatar_value[:new]) do |_avatar, _id|
+          assign_attributes avatar: _avatar
+        end
+      elsif _avatar_value[:old].blank?
+        assign_attributes avatar: nil
+      end
+    end
+
+		assign_attributes params.permit [
 			:account, :password, :email, :full_name, :birthday, :business_name,
-			:phone_number, :address, :avatar_image_id ]
+			:phone_number, :address ]
 	end
 
 	# / Get params
 
 	# Save with params
 
-	def save_with_params form_params
+	def save_with_params params
 		# Author
 		if new_record?
 			return { status: 6 } if User.current.cannot? :signup, nil
@@ -144,7 +163,10 @@ class User < ActiveRecord::Base
 			return { status: 6 } if User.current.cannot? :edit, self
 		end
 
-		user_params = User.get_params form_params
+		assign_attributes_with_params params
+
+		user_params = {}
+		email_changed = false
 		
 		# Active code
 		if new_record?
@@ -152,16 +174,19 @@ class User < ActiveRecord::Base
 			user_params[:params] = { active_code: SecureRandom.base64 }.to_json
 		# Check if change email
 		else
-			if email_changed = user_params[:email] != email
+			if email_changed?
 				# Set active status to email change, wait old email active
 				user_params[:active_status] = 2
+
 				# Create active code
 				_params['active_code'] = SecureRandom.base64
 				_params['new_email'] = user_params[:email]
 				user_params[:params] = _params.to_json
 
 				# Not change new email
-				user_params.delete :email
+				email = email_was
+
+				email_changed = true
 			end
 		end
 

@@ -139,14 +139,14 @@
 	<article class="content">
 		<section class="image-info">
 			<div class="main-image">
-				<%= project_avatar @project %>
+				<%= project_avatar @project, style: 'slide' %>
 			</div>
 			<% if @project.images.count > 1 %>
 				<div class="other-image">
 					<ul>
-						<% (1..@project.images.count).each do |i| %>
+						<% (1...@project.images.count).each do |i| %>
 							<li>
-								<img src="<%= image_path @projects.images[i] %>" %>" class="img-thumbnail">
+								<img src="<%= @project.images[i].image.url('thumb') %>" class="img-thumbnail">
 							</li>
 						<% end %>
 					</ul>
@@ -401,7 +401,7 @@
 	<article class="content information" style="padding: 0;">
 		<div class="user-info row">
 			<div class="col-xs-4 col-sm-2 avatar">
-				<%= user_avatar @project.user %>
+				<%= user_avatar @project.user, style: 'big' %>
 				<span><%= @project.user.full_name %></span>
 			</div>
 			<div class="col-xs-8 col-sm-4">

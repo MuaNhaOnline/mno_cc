@@ -1,5 +1,9 @@
 module UsersHelper
+	# params:
+	# 	style_class
+	# 	style
 	def user_avatar user, params = {}
-		"<img class=\"img-circle #{params[:style_class]}\" src=\"#{user.avatar_image.nil? ? '/assets/users/default.png' : image_path(user.avatar_image)}\" alt=\"#{user.full_name}\">".html_safe
+		params[:style] ||= 'mini'
+		"<img class=\"img-circle #{params[:style_class]}\" src=\"#{user.avatar.nil? ? '/assets/users/default.png' : user.avatar.url(params[:style]) }\" alt=\"#{user.full_name}\">".html_safe
 	end
 end

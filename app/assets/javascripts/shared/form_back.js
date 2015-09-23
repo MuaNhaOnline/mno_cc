@@ -194,7 +194,7 @@ function initForm($form, params) {
 
 	function initFileInput() {
 		//Get element
-		var $fileUploads = $form.find('.file-upload'), currentAmount;
+		var $fileUploads = $form.find('.file-upload');
 
 		/*
 			Progress on choose new file
@@ -217,28 +217,46 @@ function initForm($form, params) {
 
 			var isMulti = $fileUpload.is('[multiple]');
 
+			// Get params
+
+			var controls = null, onItemRemove = null, onItemAdd = null;
+
+			if ('imageInputs' in params && $fileUpload.attr('aria-name') in params['imageInputs']) {
+				if ('controls' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					controls = params['imageInputs'][$fileUpload.attr('aria-name')]['controls'];					
+				}
+				if ('onItemRemove' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					onItemRemove = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemRemove'];
+				}
+				if ('onItemAdd' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					onItemAdd = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemAdd'];
+				}
+			}
+
 			// Get wrapper
 			var $wrapper = $fileUpload.parent();
 
 			var $hiddenInput = $wrapper.find('input[type="hidden"]');
 
 			// Check amount
-			currentAmount = $hiddenInput.val() ? $hiddenInput.val().split(',').length : 0;
+			currentAmount = $hiddenInput.val() ? $hiddenInput.val().split(';').length : 0;
 
 			/* 
 				Init for read file
 			*/
 
-			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button></section></article></section></article>');
-			var fileReader = new FileReader();
-			var currentIndex = 0;
+			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : '<button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</section></article></section></article>'),
+				fileReader = new FileReader(),
+				currentIndex = 0;
 			fileReader.onload = function (e, i) {
 
 				/*
 					Crop
 				*/
 
-				var $img = $('<img src="' + e.target.result + '" />');
+				var
+					orginalImageData = e.target.result,
+					$img = $('<img src="' + orginalImageData + '" />');
 
 				$html.find('.image-cropper').html($img);
 
@@ -263,20 +281,83 @@ function initForm($form, params) {
 					readNext();
 				});
 
-				$html.find('[aria-click="crop"]').on('click', function () {
+				$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
 					currentAmount++;
 					$popup.off();
 					readNext();
 
-					var imageData = $img.cropper('getCroppedCanvas').toDataURL();
+					var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
 
 					var $item = $('<article class="preview"></article>');
-					$item.html('<img src="' + imageData + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+					$item.html('<section class="image"><img src="' + imageData + '" /></section><section class="control"><button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+
+					$item.data('control_show', null);
+
+					// Create control from param
+					if (controls) {
+						var 
+							$controls = $item.find('.control');
+
+						$(controls).each(function () {
+							controlParams = this;
+							var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+
+							if ('handle' in controlParams) {
+								$control.on('click', function (e) {
+									controlParams['handle']($item);
+								});
+							}
+
+							$controls.prepend($control);
+						});		
+					}
+
+					// Event click to control
+					$item.on('click', function (e) {
+						e.preventDefault();
+						if ($item.hasClass('control-show')) {
+							clearTimeout($item.data('control_show'));
+							$item.removeClass('control-show');
+						}
+						else {
+							$item.addClass('control-show');
+							clearTimeout($item.data('control_show'));
+							$item.data('control_show', setTimeout(function () {
+								$item.removeClass('control-show');
+							}, 5000));	
+						}
+					});
+
+					$item.find('.btn').on('click', function (e) {
+						e.preventDefault();
+					});
+
+					$item.find('[aria-click="remove"]').on('click', function () {
+						if (onItemRemove) {
+							onItemRemove($item);
+						}
+
+						var itemValue = $item.data('value');
+						$item.remove();
+
+						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
+
+						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue + ',1') return value }), function (value) { return value });
+
+						hiddenInput.value = newValue.join(';');
+						$(hiddenInput).change();
+					});
 
 					if (!isMulti) {
 						$wrapper.children('.preview').remove();
+						$hiddenInput.data('image_data', imageData);
 					}
-					$wrapper.prepend($item);
+
+					$wrapper.append($item);
+
+					if (onItemAdd) {
+						onItemAdd($item);
+					}
 
 					// Get data
 					var data = new FormData();
@@ -290,7 +371,7 @@ function initForm($form, params) {
 
 					// Upload file
 					$.ajax({
-							url: '/images/upload',
+							url: '/temporary_files/upload',
 							type: 'POST',
 							data: data,
 							processData: false,
@@ -310,52 +391,23 @@ function initForm($form, params) {
 					}).done(function(data) {
 						if (data.status == 0) {
 							// Display
-							$item.attr('data-status', 'done');
+							$item.attr('data-status', 'done').data('value', data.result);
 							$item.find('img').css('opacity', '1');
 							$progressBar.parent().remove();
 
 							// Value
 							if (isMulti) {
-								$hiddenInput.val($hiddenInput.val() ? $hiddenInput.val() + ',' + data.result : data.result).change(); 
+								$hiddenInput.val(($hiddenInput.val() ? $hiddenInput.val() + ';' + data.result : data.result) + ',1').change(); 
 							}
 							else {
-								$hiddenInput.val(data.result).change();
+								$hiddenInput.val(data.result + ',1').change();
 							}
-							$item.data('value', data.result);
 						}
 						else {
 							$item.attr('data-status', 'error');
 						}
 					}).fail(function() {
 						$item.attr('data-status', 'error');
-					});
-
-					// Remove event
-					$item.find('[aria-click="remove"]').on('click', function (e) {
-						e.preventDefault();
-
-						var itemValue = $item.data('value');
-						$item.remove();
-
-						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
-						hiddenInput.value = '';
-
-						if (itemValue) {
-							$wrapper.find('.preview').each(function () {
-								var value = $(this).data('value');
-
-								if (value) {
-									hiddenInput.value += ',' + value;
-								}
-							});
-						}
-
-						if (hiddenInput.value) {
-							hiddenInput.value = hiddenInput.value.substr(1);
-						}
-
-						currentAmount--;
-						$(hiddenInput).change();
 					});
 				});
 
@@ -398,12 +450,31 @@ function initForm($form, params) {
 			readNext();
 		});
 
-		//Create element
+		// Create element
+
 		$fileUploads.each(function () {
-			var $fileUpload = $(this);
+			var $fileUpload = $(this), controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
+
+			// Get params
+
+			if ('imageInputs' in params && $fileUpload.attr('aria-name') in params['imageInputs']) {
+				if ('controls' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					controls = params['imageInputs'][$fileUpload.attr('aria-name')]['controls'];					
+				}
+				if ('onItemRemove' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					onItemRemove = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemRemove'];
+				}
+				if ('onInitItemAdd' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					onInitItemAdd = params['imageInputs'][$fileUpload.attr('aria-name')]['onInitItemAdd'];
+				}
+				if ('onItemAdd' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+					onItemAdd = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemAdd'];
+				}
+			}
+
+			// Create html
 
 			var $wrapper = $('<label class="file-uploader form-control"></label>');
-
 			var $label = $('<div class="file-upload-label"><div class="fa fa-photo"></div><div>' + _t.form.label_image_upload + '</div></div>');
 
 			$fileUpload.after($wrapper);
@@ -413,42 +484,85 @@ function initForm($form, params) {
 			var initValue = $fileUpload.attr('data-init-value') || '';
 			var constraint = $fileUpload.attr('data-constraint');
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
-			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + ($fileUpload.attr('data-init-value') || '') + '" />');
+
+			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + (initValue ? initValue.split(';').map(function (value) { return value.split(',')[0] + ',0' } ).join(';') : '') + '" />');
 
 			$fileUpload.removeAttr('name data-init-value data-constraint').attr('data-nonvalid', '');
 
+			// Init value
 			if (initValue) {
-				$(initValue.split(',')).each(function () {
-					var $item = $('<article class="preview"></article>');
-					$item.html('<img src="/images/' + this + '" /><section class="control"><a class="close" aria-click="remove"><span>×</span></a></section>');
-					$item.data('value', this);
-					$item.find('[aria-click="remove"]').on('click', function (e) {
+				$(initValue.split(';')).each(function () {
+					value = this.split(',', 2);
+
+					// Create item
+					var $item = $('<article class="preview" data-old></article>');
+					$item.data('value', value[0]);
+					$item.data('control_show', null);
+
+					$item.html('<section class="image"><img src="' + value[1] + '" /></section><section class="control"><button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+
+					// Create control from param
+					if (controls) {
+						var 
+							$controls = $item.find('.control');
+
+						$(controls).each(function () {
+							controlParams = this;
+							var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+
+							if ('handle' in controlParams) {
+								$control.on('click', function (e) {
+									controlParams['handle']($item);
+								});
+							}
+
+							$controls.prepend($control);
+						});		
+					}
+
+					// Event click to control
+					$item.on('click', function (e) {
 						e.preventDefault();
+						if ($item.hasClass('control-show')) {
+							clearTimeout($item.data('control_show'));
+							$item.removeClass('control-show');
+						}
+						else {
+							$item.addClass('control-show');
+							clearTimeout($item.data('control_show'));
+							$item.data('control_show', setTimeout(function () {
+								$item.removeClass('control-show');
+							}, 5000));	
+						}
+					});
+
+					$item.find('.btn').on('click', function (e) {
+						e.preventDefault();
+					});
+
+					$item.find('[aria-click="remove"]').on('click', function () {
+						if (onItemRemove) {
+							onItemRemove($item);
+						}
+
 						var itemValue = $item.data('value');
 						$item.remove();
 
 						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
-						hiddenInput.value = '';
 
-						if (itemValue) {
-							$wrapper.find('.preview').each(function () {
-								var value = $(this).data('value');
+						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue + ',0') return value }), function (value) { return value });
 
-								if (value) {
-									hiddenInput.value += ',' + value;
-								}
-							});
-						}
-
-						if (hiddenInput.value) {
-							hiddenInput.value = hiddenInput.value.substr(1);
-						}
-
-						currentAmount--;
+						hiddenInput.value = newValue.join(';');
 						$(hiddenInput).change();
 					});
 
-					$wrapper.prepend($item);
+					$wrapper.append($item);
+					if (onInitItemAdd) {
+						onInitItemAdd($item);
+					}
+					if (onItemAdd) {
+						onItemAdd($item);
+					}
 				});
 			}
 		});

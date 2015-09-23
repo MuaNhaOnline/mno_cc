@@ -36,6 +36,17 @@
     end
   end
 
+  # Image
+  image_init_value = ''
+  avatar_id = ''
+  unless @p.new_record?
+    @p.images.each do |p_image|
+      image_init_value += p_image.id.to_s + ',' + p_image.image.url + ';'
+
+      avatar_id = p_image.id.to_s + ',0' if p_image.is_avatar
+    end
+    image_init_value[image_init_value.length - 1] = '' if image_init_value != ''
+  end
 %>
 
 
@@ -439,11 +450,12 @@
           </h2>
         </section>
         <section class="box-body">
+          <input type="hidden" name="project[avatar_id]" value="<%= avatar_id %>" />
           <article class="form-group margin-0">
             <label class="control-label">Hình ảnh</label>
             <sup class="required-label"></sup>
             <p>Bạn có thể đăng 10 ảnh mô tả dự án của mình</p>
-            <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids]" data-amount="10" data-type="jpg jpeg png" data-ratio="1.25" data-init-value="<%= @p.image_ids.join ',' %>" />
+            <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" />
           </article>
         </section>
       </article>
