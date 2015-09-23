@@ -18,6 +18,18 @@ $(function() {
 			return "<i></i>";
 		}
 	});
+	// init distributor-project slick
+	$('.single-logo').slick({
+		asNavFor: '.content-logo',
+		prevArrow: $('[data-button="previous"]'),
+		nextArrow: $('[data-button="next"]')
+	});
+	$('.content-logo').slick({
+		asNavFor: '.single-logo',
+		fade: true,
+		arrow: false
+	});
+	// end
 
 	// init Tablist
 	initTablist();
@@ -26,11 +38,11 @@ $(function() {
 // Affix tablist
 function initTablist() {
 	var $nav = $('#nav_list_project');
-
+	console.log($('.distributor-project').outerHeight(true));
 	$nav.affix({
 		offset: {
 			top: $nav.offset().top + 100,
-			bottom: $('footer').outerHeight(true) + $('.distributor-project').outerHeight(true) +30
+			bottom: $('footer').outerHeight(true) + 779 +30
 		}
 	});
 }

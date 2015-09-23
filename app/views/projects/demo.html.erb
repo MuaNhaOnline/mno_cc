@@ -721,9 +721,9 @@
 <!-- end -->
 
 <!-- start list project -->
-<section class="container list-project">
+<section class="container list-project" id="new_project">
 	<!-- start tab -->
-	<ul class="nav nav-tabs list-project-tabs" id="new_project">
+	<ul class="nav nav-tabs list-project-tabs">
 		<li class="active">
 			<a href="#asd" data-toggle="tab">Khu căn hộ</a>
 		</li>
@@ -748,7 +748,7 @@
 	<!-- start content -->
 	<div class="row">
 		<div class="col-md-3 scrollspy">
-			<ul id="nav_list_project" class="nav hidden-xs hidden-sm" data-spy="affix">
+			<ul id="nav_list_project" class="nav hidden-xs hidden-sm fixed-box" data-spy="affix">
 				<li class="active">
 					<a href="#new_project">Dự án mới nhất</a>
 				</li>
@@ -761,11 +761,11 @@
 			</ul><!-- end of main navigation -->
 		</div>
 		<div class="col-md-9 list-content">
-			<section class="new-project">
+			<section class="new-project mini-block">
 				<article class="title">
 					<span>Khu căn hộ mới nhất</span>
 				</article>
-				<article class="product">
+				<article class="content">
 					<div class="row">
 						<div class="col-lg-4 col-md-6 col-sm-6">
 							<li class="item-sm">
@@ -961,11 +961,11 @@
 					</div>
 				</article>
 			</section>
-			<section id="price_project" class="price-project">
+			<section id="price_project" class="price-project mini-block">
 				<article class="title">
 					<span>Khu căn hộ theo giá</span>
 				</article>
-				<article class="product">
+				<article class="content">
 					<ul class="suggest">
 						<li>
 							<a href="#" class="suggest-item">Khu căn hộ giá 1tỷ</a>
@@ -977,9 +977,7 @@
 							<a href="#">Khu căn hộ giá 2tỷ - 5tỷ</a>
 						</li>						
 					</ul>
-					<label class="title">
-						Chọn khoảng giá cần tìm
-					</label>
+					<label>Chọn khoảng giá cần tìm</label>
 					<div class="row">
 						<div class="col-lg-4 col-md-6 col-sm-6">
 							<li class="item-sm">
@@ -1175,7 +1173,7 @@
 					</div>
 				</article>
 			</section>
-			<section class="position-project" id="position_project">
+			<section id="position_project" class="position-project mini-block">
 				<article class="title">
 					<span>Khu căn hộ tại </span>
 					<div class="btn-group">
@@ -1228,7 +1226,7 @@
 						</div>
 					</div>
 				</article>
-				<article class="product">
+				<article class="content">
 					<div class="row">
 						<div class="col-lg-4 col-md-6 col-sm-6">
 							<li class="item-sm">
@@ -1439,13 +1437,55 @@
 		</a>
 	</article>
 	<article class="content">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> 
+		<div class="wrapper">
+			<div class="single-logo">
+				<div class="item-logo">
+					<img src="/assets/logo/logo-novaland.png">
+				</div>
+				<div class="item-logo">
+					<img src="/assets/logo/logo-khaihoan.png">
+				</div>
+				<div class="item-logo">
+					<img src="/assets/logo/logo-vingroup.png">
+				</div>				
+			</div>
+			<i class="fa fa-chevron-left slick-left" data-button="previous"></i>
+			<i class="fa fa-chevron-right slick-right" data-button="next"></i>
+		</div>
+		<ul class="content-logo">
+			<li class="item-content">
+				<section class="nav-project">
+					<div class="slide-nav">
+						<ul>
+							<li>
+								<span>SUNRISE CITY</span>
+							</li>
+							<li>
+								<span>THE TRESOR</span>
+							</li>
+							<li>
+								<span>THE PARK AVENUE</span>
+							</li>
+							<li>
+								<span>GARDENGATE</span>
+							</li>
+							<li>
+								<span>GOLDEN MANSION</span>
+							</li>
+						</ul>
+					</div>
+					<div class="content">
+						<img src="/assets/product/DuAn02.jpg" class="img-responsive">
+					</div>
+				</section>
+			</li>
+			<li class="item-content">
+				Slide 2
+			</li>
+			<li class="item-content">
+				Slide 3
+			</li>			
+		</ul>
 	</article>
 </section>
 <!-- end -->
