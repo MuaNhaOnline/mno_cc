@@ -29,6 +29,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # cancan
 gem 'cancancan'
 
+# paperclip
+gem 'paperclip'
+
 # Facebook auth
 gem 'omniauth-facebook'
 

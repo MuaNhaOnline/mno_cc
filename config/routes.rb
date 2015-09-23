@@ -131,9 +131,8 @@ Rails.application.routes.draw do
   #Province
   get 'provinces/get_full_data/:id' => 'provinces#get_full_data'
 
-  #Image
-  post 'images/upload' => 'images#upload'
-  get 'images/:id' => 'images#get_image'
+  #Temporary file
+  post 'temporary_files/upload'
 
   resources :businesses do
     collection do

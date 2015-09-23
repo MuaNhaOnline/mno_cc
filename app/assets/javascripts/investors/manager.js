@@ -77,8 +77,7 @@ $(function () {
       
       form.elements['id'].value = $item.data('value');
       form.elements['name'].value = $item.find('[aria-object="name"]').text();
-      $(form.elements['avatar_image_id']).attr('data-init-value', $item.data('avatar-image-id'));
-
+      $(form.elements['avatar_id']).attr('data-init-value', $item.data('avatar'));
       var $popup = popupFull({
         html: $html
       });
@@ -103,14 +102,13 @@ $(function () {
 
               $item.find('[aria-object="name"]').text(form.elements['name'].value);
 
-              var avatarImageId = form.elements['avatar_image_id'];
-              if (avatarImageId.value) {
-                $item.find('[aria-object="avatar"]').attr('src', '/images/' + avatarImageId.value);
-                $item.data('avatar-image-id', avatarImageId.value);
+              if (form.elements['avatar_id'].value) {
+                $item.find('[aria-object="avatar"]').attr('src', data.avatar_url);
+                $item.data('avatar', '0,' + data.avatar_url);
               }
               else {
                 $item.find('[aria-object="avatar"]').attr('src', '/assets/investor/default.png');
-                $item.data('avatar-image-id', '');
+                $item.data('avatar-id', '');
               }
             }
             else {

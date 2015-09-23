@@ -22,9 +22,10 @@ class RealEstate < ActiveRecord::Base
   belongs_to :constructional_level
   belongs_to :direction
 
+  has_many :images, -> { order('is_avatar desc') }, class_name: 'RealEstateImage'
   has_many :appraisal_companies_real_estates
   has_many :appraisal_companies, through: :appraisal_companies_real_estates
-  has_many :assigned_appraisal_companies, -> { where("appraisal_companies_real_estates.is_assigned" => true) }, through: :appraisal_companies_real_estates,
+  has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,
             source: :appraisal_company,
             class_name: 'AppraisalCompany'
 
@@ -32,7 +33,6 @@ class RealEstate < ActiveRecord::Base
   has_and_belongs_to_many :region_utilities
   has_and_belongs_to_many :advantages
   has_and_belongs_to_many :disadvantages
-  has_and_belongs_to_many :images
   
 # / Associates
 
@@ -222,7 +222,7 @@ class RealEstate < ActiveRecord::Base
 
   # Get params
 
-  def self.get_params params
+  def assign_attributes_with_params params
     # Get price
     if params.has_key? :sell_price
       params[:sell_price] = ApplicationHelper.format_i params[:sell_price]
@@ -271,11 +271,60 @@ class RealEstate < ActiveRecord::Base
     params[:property_utility_ids] = [] unless params.has_key? :property_utility_ids
     params[:region_utility_ids] = [] unless params.has_key? :region_utility_ids
 
-    # Images 
-    params[:image_ids] = params[:image_ids].blank? ? [] : params[:image_ids].split(',').take(5)
+    # Images
 
-    # Get fields
-    params.permit [
+    _images = []
+    _has_avatar = false
+    if params[:image_ids].present?
+      _image_values = TemporaryFile.split_old_new params[:image_ids].split(';').take(5)
+
+      _avatar_value = nil
+      if params[:avatar_id].present?
+        _avatar_value = params[:avatar_id].split(',')
+      end
+
+      if _image_values[:old].present?
+        _images = RealEstateImage.find _image_values[:old]
+
+        if _avatar_value.present? && _avatar_value[1] == '0'
+          _images.each do |_image|
+            if _image.id.to_s == _avatar_value[0]
+              _image.update is_avatar: true unless _image.is_avatar
+              _has_avatar = true
+            else
+              _image.update is_avatar: false if _image.is_avatar
+            end
+          end
+        else
+          _images.each do |_image|
+            _image.update is_avatar: false if _image.is_avatar
+          end
+        end
+      end
+
+      if _image_values[:new].present?
+        if _avatar_value.present? && _avatar_value[1] == '1'
+          TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
+            if _id.to_s == _avatar_value[0]
+              _images << RealEstateImage.new(image: _image, is_avatar: true)
+              _has_avatar = true
+            else
+              _images << RealEstateImage.new(image: _image, is_avatar: false)
+            end
+          end
+        else
+          TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
+            _images << RealEstateImage.new(image: _image)
+          end
+        end
+      end
+    end
+    if !_has_avatar && _images.length != 0
+      _images[0].assign_attributes is_avatar: true
+    end
+    assign_attributes images: _images
+
+    assign_attributes params.permit [
       :title, :description, :purpose_id, :sell_price, :sell_price_text, :rent_price, :rent_price_text, 
       :currency_id, :sell_unit_id, :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
       :address_number, :street_type, :is_alley, :real_estate_type_id, :building_name,
@@ -284,8 +333,7 @@ class RealEstate < ActiveRecord::Base
       :lat, :long, :user_id, :appraisal_purpose, :appraisal_type, :campus_area, :using_area, :constructional_area,
       :shape, :shape_width, :bedroom_number, :build_year, :constructional_level_id, :restroom_number,
       :width_x, :width_y, :floor_number, :constructional_quality, :direction_id,
-      advantage_ids: [], disadvantage_ids: [], property_utility_ids: [], region_utility_ids: [],
-      image_ids: []
+      advantage_ids: [], disadvantage_ids: [], property_utility_ids: [], region_utility_ids: []
     ]
   end
 
@@ -300,9 +348,7 @@ class RealEstate < ActiveRecord::Base
       return { status: 6 } if User.current.cannot? :edit, self
     end
 
-    real_estate_params = RealEstate.get_params params
-
-    assign_attributes real_estate_params
+    assign_attributes_with_params params
 
     other_params = {
       is_draft: is_draft,
@@ -328,7 +374,7 @@ class RealEstate < ActiveRecord::Base
     if save validate: !is_draft
       { status: 0 }
     else 
-      { status: 3 }
+      { status: 3, result: errors.full_messages }
     end
   end
 
@@ -476,7 +522,7 @@ class RealEstate < ActiveRecord::Base
     fields = [
       :purpose, :currency, :is_negotiable,
       :address_number, :province, :district, :ward, :street, :lat, :long,
-      :title, :description, :image]
+      :title, :description]#, :image]
 
     fields << :sell_price << :sell_unit if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
     fields << :rent_price << :rent_unit if re.purpose.code == 'rent' || re.purpose.code == 'sell_rent'
@@ -526,7 +572,7 @@ class RealEstate < ActiveRecord::Base
     tempLocale = I18n.locale
     I18n.locale = 'vi'
 
-    meta_search = "#{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} #{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} #{re.street.name if re.fields.include?(:street) && re.street.present?} #{re.district.name if re.fields.include?(:district) && re.district.present?} #{re.province.name if re.fields.include?(:province) && re.province.present?} #{re.title}"
+    meta_search = "#{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} #{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} #{re.street.name if re.fields.include?(:street) && re.street.present?} #{re.district.name if re.fields.include?(:district) && re.district.present?} #{re.province.name if re.fields.include?(:province) && re.province.present?} #{re.title}"
     
     I18n.locale = tempLocale
 
