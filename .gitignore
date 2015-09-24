@@ -2,3 +2,4 @@ log/
 /config/database.yml
 tmp/
 app/assets/file_uploads
+db/schema.rb
