@@ -22,23 +22,28 @@ $(function() {
 	$('.single-logo').slick({
 		asNavFor: '.content-logo',
 		prevArrow: $('[data-button="previous"]'),
-		nextArrow: $('[data-button="next"]')
+		nextArrow: $('[data-button="next"]'),
 	});
 	$('.content-logo').slick({
 		asNavFor: '.single-logo',
 		fade: true,
-		arrow: false
+		arrow: false,
+		draggable: false
 	});
 	// end
 
 	// init Tablist
 	initTablist();
+
+	// init switch
+	initSwitch();
+	// end
 });
 
 // Affix tablist
 function initTablist() {
 	var $nav = $('#nav_list_project');
-	console.log($('.distributor-project').outerHeight(true));
+
 	$nav.affix({
 		offset: {
 			top: $nav.offset().top + 100,
@@ -47,7 +52,18 @@ function initTablist() {
 	});
 }
 
-// dropdown-district
-function initDropdownDistrict() {
+function initSwitch() {
+	var $slideNav = $('.slide-nav');
+	var $li = $slideNav.find('li');
+
+	$li.on('click', function(e) {
+		var $content = $('.nav-project').find('.content');
+
+		$slideNav.find('.active').removeClass('active');
+		$(this).addClass('active');
+
+		$content.find('.active').removeClass('active');
+		$('[data-object=' + $(this).attr('data-switch-object') + ']').addClass('active');
+	});
 
 }

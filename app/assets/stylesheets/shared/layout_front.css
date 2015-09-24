@@ -1,6 +1,7 @@
 /*start general*/
 body {
 	position: relative;
+	background-color: #f6f6f6;
 }
 ul {
 	list-style: none;
@@ -816,6 +817,7 @@ footer {
 	color: #666;
 	border-radius: 2px;
 	/*margin-bottom: 20px;*/
+	background-color: #fff;
 	margin: 15px auto;
 }
 	.item-sm:hover {
