@@ -135,6 +135,8 @@ $(function () {
       $form.find('[aria-click="detail-toggle"]').on('click', function () {
         toggleUntilFull(0);
       });
+
+      $form.find('#is_full').val(false);
     }
     else {        
       // as addition
@@ -169,6 +171,8 @@ $(function () {
           }
         });
       }
+
+      $form.find('#is_full').val(true);
 
       $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
       $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
@@ -361,14 +365,12 @@ $(function () {
             type: 'primary',
             handle: function () {
               toggleUntilFull();
-              $isFull.val(false);
             }
           },
           {
             text: 'Chi tiết',
             type: 'primary',
             handle: function () {
-              $isFull.val(true);
               toggleUntilFull(0);
             }
           }
@@ -376,7 +378,6 @@ $(function () {
         onEscape: function (isButtonClick) {
           if (!isButtonClick) {
             toggleUntilFull();
-            $isFull.val(false);
           }
           initNavigator();
         }
