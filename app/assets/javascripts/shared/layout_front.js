@@ -28,10 +28,10 @@ function initHeader() {
 	var widthLogo = $(logo).width();
 	var miniMenu = $('.mini-menu-content');
 	var heightHeader = $(header).height();	
-	var scroll = $(window).scrollTop();
+	var scroll = $window.scrollTop();
 
-	$(window).on('scroll', function(e) {		
-		var currentScroll = $(window).scrollTop();
+	$window.on('scroll', function(e) {		
+		var currentScroll = $window.scrollTop();
 		if (scroll < currentScroll) {
 			//Window is scroll down
 			$(header).hide();
