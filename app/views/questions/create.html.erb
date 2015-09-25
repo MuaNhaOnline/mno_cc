@@ -7,6 +7,8 @@
 
 <% 
 	@title = 'Đăng câu hỏi'
+
+	question_form ||= {}
 %>
 
 <div class="row">
@@ -28,11 +30,11 @@
 				<!-- Title -->
 
 				<article class="form-group">
-					<label for="title">
+					<label class="label-control" for="title">
 						Tiêu đề
 						<sup class="required-label"></sup>
 					</label>
-					<input name="question[title]" data-constraint="required" type="text" class="form-control" id="title" autofocus />
+					<input name="question[title]" value="<%= question_form[:title] %>" data-constraint="required" type="text" class="form-control" id="title" autofocus />
 				</article>
 
 				<!-- / Title -->
@@ -40,11 +42,11 @@
 				<!-- Content -->
 
 				<article class="form-group">
-					<label for="content">
+					<label class="label-control" for="content">
 						Nội dung
 						<sup class="required-label"></sup>
 					</label>
-					<textarea data-constraint="required" class="form-control" name="question[content]" id="content"></textarea>
+					<textarea data-constraint="required" class="form-control" name="question[content]" id="content"><%= question_form[:content] %></textarea>
 				</article>
 
 				<!-- / Content -->
@@ -54,10 +56,10 @@
 				<% unless signed? %>
 
 					<article class="form-group">
-						<label for="contact_info">
+						<label class="label-control" for="contact_info">
 							Thông tin liên lạc <sup class="required-label"></sup> <small class="text-muted">Email hoặc số điện thoại</small>
 						</label>
-						<input name="question[contact_info]" data-constraint="required" type="text" class="form-control" id="contact_info" />
+						<input name="question[contact_info]" value="<%= question_form[:contact_info] %>" data-constraint="required" type="text" class="form-control" id="contact_info" />
 					</article>
 
 				<% end %>

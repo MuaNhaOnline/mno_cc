@@ -524,8 +524,10 @@ class RealEstate < ActiveRecord::Base
       :address_number, :province, :district, :ward, :street, :lat, :long,
       :title, :description]#, :image]
 
-    fields << :sell_price << :sell_unit if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
-    fields << :rent_price << :rent_unit if re.purpose.code == 'rent' || re.purpose.code == 'sell_rent'
+    if re.purpose.present?
+      fields << :sell_price << :sell_unit if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
+      fields << :rent_price << :rent_unit if re.purpose.code == 'rent' || re.purpose.code == 'sell_rent'
+    end
 
     if re.is_full
       fields << :street_type << :is_alley

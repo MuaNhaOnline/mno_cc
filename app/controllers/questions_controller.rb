@@ -17,9 +17,15 @@ class QuestionsController < ApplicationController
     result = question.save_with_params params[:question]
 
     if result[:status] != 0
-      render '/shared/alert', layout: 'layout_back', locals: { type: 'danger', title: 'Thất bại', content: 'Xảy ra lỗi khi đăng câu hỏi, vui lòng liên hệ để biết thêm thông tin.' }
+      respond_to do |format|
+        format.html { render '/questions/create', locals: { question_form: params[:question].permit(:title, :content, :contact_info), error: (question.errors.first[1] if question.errors.present?) } }
+        format.json { render json: { status: 3 } }
+      end      
     else
-      render '/shared/alert', layout: 'layout_back', locals: { type: 'success', title: 'Thành công', content: 'Đăng câu hỏi thành công, vui lòng chờ để nhận câu trả lời.' }
+      respond_to do |format|
+        format.html { render '/shared/alert', layout: 'layout_back', locals: { type: 'success', title: 'Thành công', content: 'Đăng câu hỏi thành công, vui lòng chờ để nhận câu trả lời.' } }
+        format.json { render json: { status: 0 } }
+      end      
     end
   end
 

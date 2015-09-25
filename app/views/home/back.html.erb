@@ -1,7 +1,5 @@
 <% 
-	re = RealEstate.find 19 
+	re = RealEstate.new
 %>
 
-<img src="<%= re.images[0].image.url %>">
-<img src="<%= re.images[0].image.url(:thumb) %>">
-<img src="<%= re.images[0].image.url('thumb') %>">
+<%= re.errors.present? %>
