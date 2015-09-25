@@ -1,0 +1,22 @@
+<form method="post" action="/questions/create">
+	<ul>
+		<li class="name">Nguyễn Minh Châu</li>
+		<li>Tư vấn viên</li>
+		<li>0939262426</li>
+		<li>info@muanhaonline.com.vn</li>
+		<li>
+			<input name="question[title]" class="form-control input-sm" placeholder="Tiêu đề câu hỏi">
+		</li>
+		<li>
+			<textarea name="question[content]" class="form-control input-sm" row="3" placeholder="Nội dung bạn muốn hỏi"></textarea>
+		</li>
+		<% unless signed? %>
+			<li>
+				<input name="question[contact_info]" class="form-control input-sm" placeholder="Email hoặc số điện thoại">
+			</li>
+		<% end %>
+		<li>
+			<button type="submit" class="btn btn-sm">Gửi</button>
+		</li>
+	</ul>
+</form>

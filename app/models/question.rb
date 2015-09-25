@@ -63,6 +63,14 @@ class Question < ActiveRecord::Base
 	# Get params
 
 	def self.get_params params
+		if params.has_key? :contact_info
+			if ApplicationHelper.isValidEmail params[:contact_info]
+				params[:email] = params[:contact_info]
+			else
+				params[:phone_number] = params[:contact_info]
+			end
+		end
+
 		params.permit :title, :content, :user_id, :email, :phone_number
 	end
 

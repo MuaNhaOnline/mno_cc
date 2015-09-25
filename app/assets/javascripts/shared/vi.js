@@ -130,6 +130,13 @@ var _t = {
 			}
 		}
 	},
+	question: {
+		validate: {
+			'question[title]_required': 'Không thể bỏ trống',
+			'question[content]_required': 'Không thể bỏ trống',
+			'question[contact_info]_required': 'Không thể bỏ trống'
+		}
+	},
 	project: {
 		attribute: {
 			draft_status: 'Nháp',

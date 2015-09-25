@@ -1,0 +1,84 @@
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/questions/create.js"></script>
+<% end %>
+
+<% 
+	@title = 'Đăng câu hỏi'
+%>
+
+<div class="row">
+	<form class="form col-md-4 col-md-offset-4" id="question_form">
+		<article class="box box-primary">
+			<section class="box-header with-border">
+				<h2 class="box-title">
+					Đăng câu hỏi
+				</h2>
+			</section>
+			<section class="box-body">
+
+				<% if defined? error %>
+					<article class="callout callout-danger">
+						<%= error %>
+					</article>
+				<% end %>
+
+				<!-- Title -->
+
+				<article class="form-group">
+					<label for="title">
+						Tiêu đề
+						<sup class="required-label"></sup>
+					</label>
+					<input name="question[title]" data-constraint="required" type="text" class="form-control" id="title" autofocus />
+				</article>
+
+				<!-- / Title -->
+
+				<!-- Content -->
+
+				<article class="form-group">
+					<label for="content">
+						Nội dung
+						<sup class="required-label"></sup>
+					</label>
+					<textarea data-constraint="required" class="form-control" name="question[content]" id="content"></textarea>
+				</article>
+
+				<!-- / Content -->
+
+				<!-- Title -->
+
+				<% unless signed? %>
+
+					<article class="form-group">
+						<label for="contact_info">
+							Thông tin liên lạc <sup class="required-label"></sup> <small class="text-muted">Email hoặc số điện thoại</small>
+						</label>
+						<input name="question[contact_info]" data-constraint="required" type="text" class="form-control" id="contact_info" />
+					</article>
+
+				<% end %>
+
+				<!-- / Title -->
+
+			</section>
+
+		</article>	
+
+		<!-- Button -->
+
+		<article class="box box-solid">
+			<section class="box-body row">
+				<div class="margin-top-bottom-5 col-md-12">
+					<button type="submit" class="btn btn-primary btn-block btn-flat font-bold">Hoàn tất</span></button>
+				</div>
+			</section>
+		</article>
+
+		<!-- /Button -->
+
+	</form>
+</div>
