@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
 
   # Question
+  get '/questions/create'
   get '/questions/manager'
   get '/questions/_manager_list'
   post '/questions/create' => 'questions#save'

@@ -15,14 +15,6 @@ class Question < ActiveRecord::Base
 	validate :custom_validate
 
 	def custom_validate
-		# Signed user
-		if user_id == 0
-			if email.blank? && phone_number.blank?
-				errors.add :email, 'Thông tin liên lạc không thể bỏ trống'
-	      return
-	    end
-		end
-
 		# Title
 		if title.blank?
 			errors.add :title, 'Tiêu đề không thể bỏ trống'
@@ -34,15 +26,23 @@ class Question < ActiveRecord::Base
 			errors.add :content, 'Nội dung không thể bỏ trống'
       return
 		end
+		
+		# Signed user
+		if user_id == 0
+			if email.blank? && phone_number.blank?
+				errors.add :email, 'Thông tin liên lạc không thể bỏ trống'
+	      return
+	    end
+		end
 
 		# Answer
 		if is_answered
 			if respondent.blank?
-				errors.add :content, 'Người trả lời không thể bỏ trống'
+				errors.add :respondent, 'Người trả lời không thể bỏ trống'
 	      return
 			end
 			if answer.blank?
-				errors.add :content, 'Trả lời không thể bỏ trống'
+				errors.add :answer, 'Trả lời không thể bỏ trống'
 	      return
 			end
 		end
@@ -63,6 +63,14 @@ class Question < ActiveRecord::Base
 	# Get params
 
 	def self.get_params params
+		if params.has_key? :contact_info
+			if ApplicationHelper.isValidEmail params[:contact_info]
+				params[:email] = params[:contact_info]
+			else
+				params[:phone_number] = params[:contact_info]
+			end
+		end
+
 		params.permit :title, :content, :user_id, :email, :phone_number
 	end
 

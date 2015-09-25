@@ -177,7 +177,7 @@ class UsersController < ApplicationController
     user = result[:result]
 
     # Check if unactive
-    if user.active_status != 0
+    if user.active_status == 1
       return respond_to do |format|
         format.html { redirect_to "/users/active_callout/#{user.id}?status=unactive" }
         format.json { render json: { status: 5, result: { status: 3, result: user.id } } }
