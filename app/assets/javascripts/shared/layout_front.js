@@ -53,6 +53,11 @@ function initHeader() {
 			}
 		}
 		scroll = currentScroll;
+
+		// var maxNavTab = $('.distributor-project').offset().top + 200;
+		// if (scroll == maxNavTab) {
+		// 	$()
+		// }
 	});
 }
 // end
