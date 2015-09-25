@@ -5,7 +5,7 @@ class Investor < ActiveRecord::Base
 
   has_attached_file :avatar, 
     styles: { thumb: '250x200#' },
-    default_url: "/assets/investors/:style/default.png", 
+    default_url: "/assets/investors/default.png", 
     :path => ":rails_root/app/assets/file_uploads/investor_images/:style/:id_:filename", 
     :url => "/assets/investor_images/:style/:id_:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

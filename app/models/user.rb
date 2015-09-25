@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 
   has_attached_file :avatar, 
   	styles: { mini: '40x40#', thumb: '100x100#', big: '150x150#' },
-  	default_url: "/assets/users/:style/default.png", 
+  	default_url: "/assets/users/default.png", 
   	:path => ":rails_root/app/assets/file_uploads/user_images/:style/:id_:filename", 
   	:url => "/assets/user_images/:style/:id_:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

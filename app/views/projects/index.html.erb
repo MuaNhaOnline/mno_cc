@@ -147,9 +147,14 @@
 								<div class="name">
 									<%= p.title %>
 								</div>
-								<div class="status">
-									<i class="fa fa-circle working"></i>
-									<span><%= p.display_deadline %></span>
+								<div class="status">							
+									<% if p.display_deadline %>
+										<i class="fa fa-circle done"></i>
+										<span>Đã hoàn thành</span>
+									<% else %>
+										<i class="fa fa-circle working"></i>
+										<span>Chưa hoàn thành</span>
+									<% end %>
 								</div>
 								<div class="address">
 									<i class="icon-16 icon-position"></i>
