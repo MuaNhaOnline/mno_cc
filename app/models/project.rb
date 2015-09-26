@@ -84,6 +84,9 @@ class Project < ActiveRecord::Base
       params[:district_id] = district.id
     end
     unless params[:province].blank?
+      if params[:province] == 'Hồ Chí Minh'
+        params[:province] = 'Thành Phố Hồ Chi Minh'
+      end
       province = Province.find_by_name(params[:province])
       province = Province.create(name: params[:province]) if province.nil?
       params[:province_id] = province.id

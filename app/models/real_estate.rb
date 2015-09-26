@@ -260,6 +260,9 @@ class RealEstate < ActiveRecord::Base
       params[:district_id] = district.id
     end
     unless params[:province].blank?
+      if params[:province] == 'Hồ Chí Minh'
+        params[:province] = 'Thành Phố Hồ Chi Minh'
+      end
       province = Province.find_by_name(params[:province])
       province = Province.create(name: params[:province]) if province.nil?
       params[:province_id] = province.id
@@ -574,7 +577,13 @@ class RealEstate < ActiveRecord::Base
     tempLocale = I18n.locale
     I18n.locale = 'vi'
 
-    meta_search = "#{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} #{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} #{re.street.name if re.fields.include?(:street) && re.street.present?} #{re.district.name if re.fields.include?(:district) && re.district.present?} #{re.province.name if re.fields.include?(:province) && re.province.present?} #{re.title}"
+    meta_search = 
+      "#{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} 
+      #{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} 
+      #{re.street.name if re.fields.include?(:street) && re.street.present?} 
+      #{re.district.name if re.fields.include?(:district) && re.district.present?} 
+      #{re.province.name if re.fields.include?(:province) && re.province.present?} 
+      #{re.title}"
     
     I18n.locale = tempLocale
 
@@ -623,7 +632,7 @@ class RealEstate < ActiveRecord::Base
 
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + (province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".titleize
   end
 
   # Real estate type
