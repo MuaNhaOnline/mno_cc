@@ -431,8 +431,14 @@ class RealEstate < ActiveRecord::Base
 
     if params.has_key? :price
       price_range = params[:price].split(';')
-      where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+
+      if User.options[:current_purpose] == 'r'
+        where += " AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+      else
+        where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+      end
     end
+
     if params.has_key? :real_estate_type
       joins << :real_estate_type
       where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
