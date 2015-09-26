@@ -195,7 +195,7 @@ class User < ActiveRecord::Base
 		if save
 			{ status: 0, email_changed: email_changed }
 		else
-			{ status: 3 }
+			{ status: 3, result: errors.full_messages[0] }
 		end
 	end
 
