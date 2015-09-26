@@ -1268,3 +1268,25 @@ footer {
 	background-color: #eee;
 	color: #666;
 }
+
+/*--------------------------------------------------------*/
+/*Custom Modal*/
+/*--------------------------------------------------------*/
+
+/*start Modal Picture*/
+.modal-show-picture {	
+}
+	.modal-show-picture .modal-dialog {
+		width: 90%;		
+		position: relative;
+		margin: 5px auto;
+	}
+	.modal-show-picture button {
+		position: absolute;
+		top: 15px;
+		right: 20px;		
+	}
+	.modal-show-picture img {
+		width: 100%;
+	}
+/*end*/

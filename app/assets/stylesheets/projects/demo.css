@@ -288,13 +288,21 @@
 			left: 30%;
 			top: 50%;
 			cursor: pointer;
+			color: #ccc;
 		}
+			.wrapper .slick-left:hover {
+				color: #333;
+			}
 		.wrapper .slick-right {
 			position: absolute;
 			right: 30%;
 			top: 50%;
 			cursor: pointer;
+			color: #ccc;
 		}
+			.wrapper .slick-right:hover {
+				color: #333;
+			}
 		/*end*/
 	/*end*/
 

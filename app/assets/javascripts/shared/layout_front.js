@@ -30,10 +30,26 @@ $(function () {
 
 // start popup
 function showPopup() {	
+	// Popup alert
 	var $comingSoonPopup = $('[data-popup="coming-soon"]');
 	$comingSoonPopup.on('click', function() {
-		$('#coming-soon-popup').modal('show');
+		$('#coming_soon_popup').modal('show');
 	});
+	
+	//Popup picture	
+	var $picturePopup = $('#picture_popup');
+	$('[data-popup="show-image"]').on('click', function() {
+		var link = $(this).attr('data-src');
+
+		$picturePopup.on('show.bs.modal', function() {
+			var $img = $(this).find('img');
+			$img.attr('src', link);			
+		});
+		console.log(link);
+		$picturePopup.modal('show');
+		console.log(link);
+	});
+
 }
 // end
 
