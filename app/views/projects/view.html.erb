@@ -139,7 +139,7 @@
 	<article class="content">
 		<section class="image-info">
 			<div class="main-image">
-				<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@p.images.count > 0 ? @p.images[0].image.url : '/assets/projects/original/default.png'}" %>
+				<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}" %>
 			</div>
 			<% if @project.images.count > 1 %>
 				<div class="other-image">
