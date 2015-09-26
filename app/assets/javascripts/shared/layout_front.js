@@ -17,6 +17,9 @@ $(function () {
 
 	//init toggle object
 	initToggleElement($('[data-toggle-object]'), false);
+
+	//Set purpose
+	setPurpose();
 });
 
 //endregion
@@ -194,4 +197,23 @@ function initMap(id, params) {
 
 /*
 	/ Map
+*/
+
+/*
+	Set purpose
+*/
+
+function setPurpose() {
+	switch ($.cookie('purpose')) {
+		case 'r':
+			$body.attr('data-purpose', 'rent');
+			break;
+		default:
+			$body.attr('data-purpose', 'sell');
+			break;
+	}
+}
+
+/*
+	/ Set purpose
 */

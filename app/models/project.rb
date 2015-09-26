@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true } }
+  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true, any_word: true } }
 
 # Associates
 
