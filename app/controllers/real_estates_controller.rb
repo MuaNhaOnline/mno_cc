@@ -281,7 +281,7 @@ class RealEstatesController < ApplicationController
 
   # Partial view
   # params: 
-  #   per, page, price(x;y), real_estate_type, is_full
+  #   per, page, price(x;y), real_estate_type, is_full, district
   #   newest, cheapest
   def search
     res = RealEstate.search_with_params params

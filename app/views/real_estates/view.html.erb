@@ -137,7 +137,7 @@
 		<section class="standard-info row">
 			<div class="col-md-4">
 				<div class="picture-info">
-					<%= real_estate_avatar @re %>
+					<%= real_estate_avatar @re, attribute: "data-src=#{@re.images.count > 0 ? @re.images[0].image.url : '/assets/real_estates/original/default.png'}" %>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -157,7 +157,7 @@
 								<% 
 								(1...@re.images.count).each do |i|
 									%>
-									<li><img src="<%= @re.images[i].image.url('thumb') %>"></li>
+									<li><img data-src="<%= @re.images[i].image.url %>" src="<%= @re.images[i].image.url('thumb') %>"></li>
 								<% end %>
 							</ul>
 						</li>

@@ -17,6 +17,7 @@ $(function() {
 	});
 
 	initPriceRangeSearch();
+	initPositionSearch();
 
 	/*
 		Search by price range
@@ -100,6 +101,32 @@ $(function() {
 
 	/*
 		/ Search by price range
+	*/
+
+	/*
+		Position search
+	*/
+
+	function initPositionSearch() {
+		var find;
+
+		$('[aria-click="position_change"]').on('click', function () {
+			find({
+				data: {
+					district: $(this).data('value')
+				}
+			})
+		});
+
+    find = _initPagination({
+      url: '/real_estates/search',
+      list: $('#position_list'),
+      pagination: $('#position_pagination')
+    });
+	}
+
+	/*
+		/ Position search
 	*/
 
 });

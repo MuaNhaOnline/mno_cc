@@ -62,34 +62,29 @@ class Project < ActiveRecord::Base
 
     # Investor
     if params[:investor_id] == '0' && !params[:investor_id_ac].blank?
-      investor = Investor.find_by_name params[:investor_id_ac]
-      investor = Investor.create(name: params[:investor_id_ac]) if investor.nil?
+      investor = Investor.find_or_create_by name: params[:investor_id_ac]
       params[:investor_id] = investor.id
     end
 
     # Location
-    unless params[:street].blank?
-      street = Street.find_by_name(params[:street])
-      street = Street.create(name: params[:street]) if street.nil?
-      params[:street_id] = street.id
-    end
-    unless params[:ward].blank?
-      ward = Ward.find_by_name(params[:ward])
-      ward = Ward.create(name: params[:ward]) if ward.nil?
-      params[:ward_id] = ward.id
-    end
-    unless params[:district].blank?
-      district = District.find_by_name(params[:district])
-      district = District.create(name: params[:district]) if district.nil?
-      params[:district_id] = district.id
-    end
     unless params[:province].blank?
       if params[:province] == 'Hồ Chí Minh'
-        params[:province] = 'Thành Phố Hồ Chi Minh'
+        params[:province] = 'Thành phố Hồ Chi Minh'
       end
-      province = Province.find_by_name(params[:province])
-      province = Province.create(name: params[:province]) if province.nil?
+      province = Province.find_or_create_by name: params[:province]
       params[:province_id] = province.id
+    end
+    unless params[:district].blank?
+      district = District.find_or_create_by name: params[:district], province_id: params[:province_id]
+      params[:district_id] = district.id
+    end
+    unless params[:ward].blank?
+      ward = Ward.find_or_create_by name: params[:ward]
+      params[:ward_id] = ward.id
+    end
+    unless params[:street].blank?
+      street = Street.find_or_create_by name: params[:street]
+      params[:street_id] = street.id
     end
 
     # Images
