@@ -591,12 +591,12 @@
 	</article>
 	<article class="content">
 		<% if current_purpose == 'r' %>
-			<input type="text" id="slider" data-from="0" data-to="5000000" data-min="0" data-max="10000000" data-keyboard_step="2000000" data-min_interval="2000000" data-per="<%= per %>" />
+			<input type="text" id="slider" data-from="0" data-to="5000000" data-min="0" data-max="10000000" data-step="500000" data-keyboard_step="500000" data-min_interval="2000000" data-per="<%= per %>" />
 			<% 
 				res = RealEstate.search_with_params price: '0;5000000'
 			%>
 		<% else %>
-			<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-keyboard_step="500000000" data-min_interval="500000000" data-per="<%= per %>" />
+			<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per %>" />
 			<% 
 				res = RealEstate.search_with_params price: '0;2000000000'
 			%>
