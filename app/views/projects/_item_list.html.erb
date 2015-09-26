@@ -34,12 +34,10 @@
 					<i class="icon-16 icon-position"></i>
 					<span><%= p.display_address %></span>
 				</div>
-				<% if p.unit_price_text.present? %>
-					<div class="price">
-						<i class="icon-16 icon-dollar"></i>
-						<p class="number sale"><%= p.display_unit_price %></p>
-					</div>
-				<% end %>
+				<div class="price">
+					<i class="icon-16 icon-dollar"></i>
+					<p class="number sale"><%= p.display_unit_price %></p>
+				</div>
 			</a>
 			<div class="function">
 				<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>

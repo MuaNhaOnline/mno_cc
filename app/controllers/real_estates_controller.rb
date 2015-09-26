@@ -18,6 +18,12 @@ class RealEstatesController < ApplicationController
   def view
     begin
       @re = RealEstate.find params[:id]
+
+      session[:real_estate_viewed] ||= []
+      unless session[:real_estate_viewed].include? params[:id]
+        @re.update(view_count: @re.view_count + 1)
+        session[:real_estate_viewed] << params[:id]
+      end
     rescue
       redirect_to '/'
     end

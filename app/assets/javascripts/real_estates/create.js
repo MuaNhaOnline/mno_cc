@@ -318,24 +318,28 @@ $(function () {
   function initLocation() {
     var 
       $lat = $form.find('#lat'),
-      $long = $form.find('#long');
+      $long = $form.find('#long')
+      options = {
+        radius: 100,
+        inputBinding: {
+          latitudeInput: $lat,
+          longitudeInput: $long,
+          locationNameInput: $form.find('#location'),
+          streetInput: $form.find('#street'),
+          wardInput: $form.find('#ward'),
+          districtInput: $form.find('#district'),
+          provinceInput: $form.find('#province')
+        },
+        enableAutocomplete: true
+      };
+
+    if ($lat.val() && $long.val()) {
+      options.location = { latitude: $lat.val(), longitude: $long.val() }
+    }
 
     $form.find('#map').css({
       height: '300px'
-    }).locationpicker({
-      radius: 100,
-      location: {latitude: $lat.val(), longitude: $long.val()},
-      inputBinding: {
-        latitudeInput: $lat,
-        longitudeInput: $long,
-        locationNameInput: $form.find('#location'),
-        streetInput: $form.find('#street'),
-        wardInput: $form.find('#ward'),
-        districtInput: $form.find('#district'),
-        provinceInput: $form.find('#province')
-      },
-      enableAutocomplete: true
-    }, {
+    }).locationpicker(options, {
       'isNew': $form.find('#location').data('new')
     });
   }

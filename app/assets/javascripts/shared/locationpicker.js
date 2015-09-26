@@ -487,6 +487,30 @@
 					updateInputValues(gmapContext.settings.inputBinding, gmapContext);
 				});
 			});
+
+			if (!('location' in options)) {
+				if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+				    var 
+				    	lat = position.coords.latitude,
+				    	lon = position.coords.longitude,
+	        		latlon = new google.maps.LatLng(lat, lon);
+
+	        	gmapContext.map.setOptions({center: latlon});
+	        	gmapContext.marker.setPosition(latlon);
+	        }, function () {
+	        	GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
+							if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+								updateInputValues(settings.inputBinding, gmapContext);	
+							}
+							// Set  input bindings if needed
+							setupInputListenersInput(settings.inputBinding, gmapContext);
+							context.settings.oninitialized($target);
+						});
+	        });
+	    	}
+			}
+			else {
 			GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
 				if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
 					updateInputValues(settings.inputBinding, gmapContext);	
@@ -495,6 +519,7 @@
 				setupInputListenersInput(settings.inputBinding, gmapContext);
 				context.settings.oninitialized($target);
 			});
+			}
 		});
 	};
 	$.fn.locationpicker.defaults = {

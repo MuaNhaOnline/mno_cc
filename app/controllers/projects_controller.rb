@@ -19,6 +19,12 @@ end
   # params: id(*)
   def view
     @project = Project.find params[:id]
+
+    session[:project_viewed] ||= []
+    unless session[:project_viewed].include? params[:id]
+      @project.update(view_count: @project.view_count + 1)
+      session[:project_viewed] << params[:id]
+    end
   end
 
 # / View
