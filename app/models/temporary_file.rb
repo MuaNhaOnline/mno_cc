@@ -1,7 +1,7 @@
 class TemporaryFile < ActiveRecord::Base
   def self.save_with_param params
   	# Create file
-    file = create name: (params[:file_name] || params[:file].original_filename).gsub('-', '_')
+    file = create name: (params[:file_name] || params[:file].original_filename).gsub('-', '_').gsub(' ', '_')
     File.open(file.path, 'wb') do |f| f.write(params['file'].read) end
 
     file

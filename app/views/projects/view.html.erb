@@ -139,14 +139,14 @@
 	<article class="content">
 		<section class="image-info">
 			<div class="main-image">
-				<%= project_avatar @project, style: 'slide' %>
+				<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}" %>
 			</div>
 			<% if @project.images.count > 1 %>
 				<div class="other-image">
 					<ul>
 						<% (1...@project.images.count).each do |i| %>
 							<li>
-								<img src="<%= @project.images[i].image.url('thumb') %>" class="img-thumbnail">
+								<img data-src="<%= @project.images[i].image.url %>" src="<%= @project.images[i].image.url('thumb') %>" class="img-thumbnail">
 							</li>
 						<% end %>
 					</ul>

@@ -12,7 +12,16 @@
 .irs-bar,
 .irs-bar-edge,
 .irs-slider {
-    background: url('sprite-skin-flat.png') repeat-x;
+    background: url('sprite-skin-flat-sell.png') repeat-x;
+}
+
+[data-purpose="rent"] .irs-line-mid,
+[data-purpose="rent"] .irs-line-left,
+[data-purpose="rent"] .irs-line-right,
+[data-purpose="rent"] .irs-bar,
+[data-purpose="rent"] .irs-bar-edge,
+[data-purpose="rent"] .irs-slider {
+    background-image: url('sprite-skin-flat-rent.png');
 }
 
 .irs {
@@ -80,10 +89,13 @@
     font-size: 10px; line-height: 1.333;
     text-shadow: none;
     padding: 1px 5px;
-    background: #ed5565;
+    background: #ff6511;
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+    [data-purpose="rent"] .irs-from, [data-purpose="rent"] .irs-to, [data-purpose="rent"] .irs-single {
+        background: #038ed1;
+    }
 .irs-from:after, .irs-to:after, .irs-single:after {
     position: absolute; display: block; content: "";
     bottom: -6px; left: 50%;
@@ -91,8 +103,11 @@
     margin-left: -3px;
     overflow: hidden;
     border: 3px solid transparent;
-    border-top-color: #ed5565;
+    border-top-color: #ff6511;
 }
+    [data-purpose="rent"] .irs-from:after, [data-purpose="rent"] .irs-to:after, [data-purpose="rent"] .irs-single:after {
+        border-top-color: #038ed1;
+    }
 
 
 .irs-grid-pol {

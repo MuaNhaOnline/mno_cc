@@ -104,8 +104,8 @@ RealEstateType.create [
 	{ name: 'high_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
 	{ name: 'medium_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
 	{ name: 'low_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
-	{ name: 'villa', code: '|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
-	{ name: 'town_house', code: '|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
+	{ name: 'villa', code: '|house|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
+	{ name: 'town_house', code: '|house|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
 ]
 
 RegionUtility.delete_all

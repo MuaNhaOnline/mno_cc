@@ -18,6 +18,12 @@ class RealEstatesController < ApplicationController
   def view
     begin
       @re = RealEstate.find params[:id]
+
+      session[:real_estate_viewed] ||= []
+      unless session[:real_estate_viewed].include? params[:id]
+        @re.update(view_count: @re.view_count + 1)
+        session[:real_estate_viewed] << params[:id]
+      end
     rescue
       redirect_to '/'
     end
@@ -275,7 +281,7 @@ class RealEstatesController < ApplicationController
 
   # Partial view
   # params: 
-  #   per, page, price(x;y), real_estate_type, is_full
+  #   per, page, price(x;y), real_estate_type, is_full, district
   #   newest, cheapest
   def search
     res = RealEstate.search_with_params params

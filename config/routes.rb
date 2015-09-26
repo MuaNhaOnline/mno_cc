@@ -100,6 +100,7 @@ Rails.application.routes.draw do
   get 'projects/_my_list'
   get 'projects/pending'
   get 'projects/_pending_list'
+  get 'projects/search'
   get 'projects/:id' => 'projects#view'
   get 'projects' => 'projects#index'
   post 'projects/create' => 'projects#save'

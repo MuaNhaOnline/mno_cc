@@ -11,17 +11,7 @@
 <% end %>
 
 <% 
-	per = nil
-	case current_width_type 
-	when 'xs'
-		per = 1
-	when 'sm'
-		per = 2
-	when 'md'
-		per = 3
-	when 'lg'
-		per = 4
-	end
+	per = get_value_by_width_type [1, 2, 3, 4]
 %>
 
 <!--start Search Box -->
@@ -132,7 +122,7 @@
 <section class="navigator container">
 	<ol class="breadcrumb">
 		<li><a href="/">Trang chủ</a></li>
-		<li class="active">Bất động sản đang rao <%= current_purpose == 'r' ? 'cho thuê' : 'bán' %></li>
+		<li class="active">Bất động sản đang rao</li>
 	</ol>
 </section>
 <!-- end navigator -->
@@ -149,7 +139,7 @@
 		<section class="slick favorite-property">
 			<div class="content">
 				<%
-					res = RealEstate.search_with_params.limit 3
+					res = RealEstate.search_with_params.random.limit 3
 				%>
 				<% res.each do |re| %>
 					<div class="item-lg">
@@ -221,7 +211,7 @@
 				</li>
 				<li>
 					<a href="#new_property" role="tab" data-toggle="tab">
-						Căn hộ mới rao bán
+						Căn hộ mới rao
 					</a>
 				</li>
 			</ul>
@@ -381,211 +371,34 @@
 							Thành phố Hồ Chí Minh<span class="caret" style="margin-left: 5px; vertical-align: 2px"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<div>
-								<div class="country">Thành phố Hồ Chí Minh</div>
-								<div class="district">
-									<div class="row">
-										<div class="col-md-3">Quận 1</div>
-										<div class="col-md-3">Quận 2</div>
-										<div class="col-md-3">Quận 3</div>
-										<div class="col-md-3">Quận 4</div>
-									</div>
-								</div>
-							</div>							
+							<% 
+								districts = District.all 
+							%>
+							<% districts.each do |district| %>
+								<li>
+									<a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a>
+								</li>
+							<% end %>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-2">
 				<div class="link">
-					<a class="btn btn-default btn-sm btn-custom-default">Xem nhiều hơn</a>
+					<a href="/real_estates" class="btn btn-default btn-sm btn-custom-default">Xem nhiều hơn</a>
 				</div>
 			</div>
 		</div>
 	</article>
 	<article class="content">		
-		<div class="row">			
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-						<i class="badge-new"></i>
-						<div class="promotion">
-							<i class="icon icon-gift"></i>
-							<span>Tặng bộ bàn ghế cao cấp</span>
-						</div>
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>RIVERGATE</span>
-						</div>						
-						<div class="convenient">							
-							<div class="bathroom">
-								<i class="icon-bathroom"></i>
-								<span>4</span>						
-							</div>
-							<div class="bedroom">
-								<i class="icon-bedroom"></i>
-								<span>3</span>
-							</div>
-							<div class="area">
-								<i class="icon-area"></i>
-								<span>80m<sup>2</sup></span>
-							</div>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-						<i class="badge-new"></i>
-						<div class="promotion">
-							<i class="icon icon-gift"></i>
-							<span>Tặng bộ bàn ghế cao cấp</span>
-						</div>
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>RIVERGATE</span>
-						</div>						
-						<div class="convenient">							
-							<div class="bathroom">
-								<i class="icon-bathroom"></i>
-								<span>4</span>						
-							</div>
-							<div class="bedroom">
-								<i class="icon-bedroom"></i>
-								<span>3</span>
-							</div>
-							<div class="area">
-								<i class="icon-area"></i>
-								<span>80m<sup>2</sup></span>
-							</div>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>RIVERGATE</span>
-						</div>						
-						<div class="convenient">							
-							<div class="bathroom">
-								<i class="icon-bathroom"></i>
-								<span>4</span>						
-							</div>
-							<div class="bedroom">
-								<i class="icon-bedroom"></i>
-								<span>3</span>
-							</div>
-							<div class="area">
-								<i class="icon-area"></i>
-								<span>80m<sup>2</sup></span>
-							</div>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>RIVERGATE</span>
-						</div>						
-						<div class="convenient">							
-							<div class="bathroom">
-								<i class="icon-bathroom"></i>
-								<span>4</span>						
-							</div>
-							<div class="bedroom">
-								<i class="icon-bedroom"></i>
-								<span>3</span>
-							</div>
-							<div class="area">
-								<i class="icon-area"></i>
-								<span>80m<sup>2</sup></span>
-							</div>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
+		<%
+			res = RealEstate.search_with_params district: districts.first.id
+		%>
+		<div id="position_list" class="row">
+			<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 		</div>
-		<div class="paging">
-			<div class="left">
-				<i class="pe-7s-angle-left"></i>
-			</div>
-			<div class="number">
-				<span>5/10</span>
-			</div>
-			<div class="right">
-				<i class="pe-7s-angle-right"></i>
-			</div>
+		<div id="position_pagination" class="paging">
+			<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 		</div>
 	</article>
 </section>
@@ -600,15 +413,22 @@
 		</a>
 	</article>
 	<article class="content">
-		<input type="text" id="slider" data-per="<%= per %>" name="example_name" value="" />
-		<% 
-			res = RealEstate.search_with_params price: '0;2000000000'
-		%>
+		<% if current_purpose == 'r' %>
+			<input type="text" id="slider" data-from="0" data-to="5000000" data-min="0" data-max="10000000" data-step="500000" data-keyboard_step="500000" data-min_interval="2000000" data-per="<%= per %>" />
+			<% 
+				res = RealEstate.search_with_params price: '0;5000000'
+			%>
+		<% else %>
+			<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per %>" />
+			<% 
+				res = RealEstate.search_with_params price: '0;2000000000'
+			%>
+		<% end %>
 		<ul id="price_list" class="row" style="margin-top: 15px;">			
-			<%= render partial: 'real_estates/item_list', locals: { res: res.take(4) } %>
+			<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 		</ul>
 		<div id="price_pagination">
-			<%= render partial: 'shared/pagination_2', locals: { per: 4, total: res.count } %>
+			<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count } %>
 		</div>
 	</article>
 </section>
@@ -634,7 +454,7 @@
 			<div class="">
 				<li class="item-xs">
 					<div class="title" data-toggle-object="short_re_<%= re.id %>">
-						<div class="date">Hôm nay</div>
+						<div class="date"><%= re.created_at.strftime '%d/%m/%y' %></div>
 						<div class="text"><%= re.title %></div>
 					</div>
 					<div data-object="short_re_<%= re.id %>" style="display: none;">
@@ -671,13 +491,13 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Nhà vừa mở bán</a>
+				<a href="/real_estates">Nhà vừa rao</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params.search_with_params.limit 3
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
@@ -712,13 +532,13 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Danh sách mới</a>
+				<a href="/real_estates">Danh sách mới</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params(newest: nil).limit(3)
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
@@ -753,13 +573,13 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Biệt thự giá rẻ</a>
+				<a href="/real_estates">Biệt thự giá rẻ</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'villa', cheapest: nil).limit 3
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
@@ -794,13 +614,13 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Nhà ở xã hội</a>
+				<a href="/real_estates">Nhà ở xã hội</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>

@@ -7,6 +7,10 @@
 	<script src="/assets/home/index.js"></script>
 <% end %>
 
+<% 
+	per = get_value_by_width_type([1, 2, 3, 4]) 
+%>
+
 <!--start Search Box -->
 <section class="search">
 	<div class="search-box">
@@ -122,129 +126,54 @@
 	<article class="content">
 		<section class="slick project-is-interested">
 			<div class="content">
-				<div class="item-lg">
-					<div class="row">
-						<div class="col-sm-8 picture">
-							<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
-						</div>
-						<div class="col-sm-4">
-							<div class="name">
-								Tên dự án
+				<% 
+					projects = Project.search_with_params.random.limit 3
+				%>
+				<% projects.each do |p| %>
+					<div class="item-lg">
+						<div class="row">
+							<div class="col-md-8 picture">
+								<%= project_avatar p, style_class: 'thumbnail img-responsive', style: 'slide' %>
 							</div>
-							<div class="status">
-								<i class="fa fa-circle done"></i>
-								<span>Đã hoàn thành</span>
-							</div>
-							<div class="address" data-toggle="tooltip" data-placement="top" title="Số 12 đường Nguyễn Hữu Thọ, phường Tân Quy, Quận 7">
-								<i class="icon-16 icon-position"></i>
-								<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
-							</div>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale">750 triệu</p>
-							</div>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-							</div>
-							<div class="detail" data-dot>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-							<div class="btn-more">
-								<a href="#">Xem chi tiết</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="item-lg">
-					<div class="row">
-						<div class="col-sm-8 picture">
-							<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
-						</div>
-						<div class="col-sm-4">
-							<div class="name">
-								Tên dự án
-							</div>
-							<div class="status">
-								<i class="fa fa-circle done"></i>
-								<span>Đã hoàn thành</span>
-							</div>
-							<div class="address" data-toggle="tooltip" data-placement="top" title="Số 12 đường Nguyễn Hữu Thọ, phường Tân Quy, Quận 7">
-								<i class="icon-16 icon-position"></i>
-								<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
-							</div>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale">750 triệu</p>
-							</div>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-							</div>
-							<div class="detail" data-dot>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-							<div class="btn-more">
-								<a href="#">Xem chi tiết</a>
+							<div class="col-md-4">
+								<div class="name">
+									<%= p.title %>
+								</div>
+								<div class="status">							
+									<% if p.display_deadline %>
+										<i class="fa fa-circle done"></i>
+										<span>Đã hoàn thành</span>
+									<% else %>
+										<i class="fa fa-circle working"></i>
+										<span>Chưa hoàn thành</span>
+									<% end %>
+								</div>
+								<div class="address">
+									<i class="icon-16 icon-position"></i>
+									<span><%= p.display_address %></span>
+								</div>
+								<% if p.unit_price_text.present? %>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale"><%= p.display_unit_price %></p>
+									</div>
+								<% end %>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+								</div>
+								<div class="detail" data-dot>
+									<%= plain_content p.description %>
+								</div>
+								<div class="btn-more">
+									<a href="/projects/<%= p.id %>">Xem chi tiết</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item-lg">
-					<div class="row">
-						<div class="col-sm-8 picture">
-							<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
-						</div>
-						<div class="col-sm-4">
-							<div class="name">
-								Tên dự án
-							</div>
-							<div class="status">
-								<i class="fa fa-circle done"></i>
-								<span>Đã hoàn thành</span>
-							</div>
-							<div class="address" data-toggle="tooltip" data-placement="top" title="Số 12 đường Nguyễn Hữu Thọ, phường Tân Quy, Quận 7">
-								<i class="icon-16 icon-position"></i>
-								<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
-							</div>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale">750 triệu</p>
-							</div>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-							</div>
-							<div class="detail" data-dot>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-							<div class="btn-more">
-								<a href="#">Xem chi tiết</a>
-							</div>
-						</div>
-					</div>
-				</div>
+				<% end %>
 			</div>
 			<button class="slider-control prev" id="project-prev"></button>
 			<button class="slider-control next" id="project-next"></button>
@@ -266,140 +195,16 @@
 <!-- start suggest project -->
 <section class="suggest-project container">
 	<div class="title">Xem dự án dành cho bạn</div>
-	<div class="content">
-		<ul class="row">
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>ICON 9</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>RIVERGATE</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>tresor</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>galaxy</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-		</ul>
-		<div class="paging">
-			<div class="left">
-				<i class="pe-7s-angle-left"></i>
-			</div>
-			<div class="number">
-				<span>5/10</span>
-			</div>
-			<div class="right">
-				<i class="pe-7s-angle-right"></i>
-			</div>
+	<div class="content" id="suggest_project" aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_project > .row" data-pagination="#suggest_project > .paging">
+		<div class="row">
+			<% 
+				projects = Project.search_with_params
+			%>
+			<%= render partial: 'projects/item_list', locals: { projects: projects.limit(per) } %>
 		</div>
+		<div class="paging">
+			<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
+		</div>	
 	</div>
 </section>
 <!-- end suggest project -->
@@ -415,159 +220,65 @@
 	<article class="content">
 		<section class="slick favorite-property">
 			<div class="content">
-				<div class="item-lg">
-					<div class="row">
-						<div class="col-sm-8 col-sm-push-4 picture">
-							<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
-						</div>
-						<div class="col-sm-4 col-sm-pull-8">
-							<div class="name">
-								Tên bất động sản
+				<%
+					res = RealEstate.search_with_params.random.limit 3
+				%>
+				<% res.each do |re| %>
+					<div class="item-lg">
+						<div class="row">
+							<div class="col-sm-8 col-sm-push-4 picture">
+								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 							</div>
-							<div class="convenient">
-								<div class="bathroom">
-									<i class="icon-bathroom"></i>
-									<span>4</span>						
+							<div class="col-sm-4 col-sm-pull-8">
+								<div class="name">
+									<%= re.title %>
 								</div>
-								<div class="bedroom">
-									<i class="icon-bedroom"></i>
-									<span>3</span>
+								<div class="convenient">
+									<% if re.fields.include? :restroom %>
+										<div class="bathroom">
+											<i class="icon-bathroom"></i>
+											<span><%= re.display_restroom %></span>						
+										</div>
+									<% end %>
+									<% if re.fields.include? :bedroom %>
+										<div class="bedroom">
+											<i class="icon-bedroom"></i>
+											<span><%= re.display_bedroom %></span>
+										</div>
+									<% end %>
+									<div class="area">
+										<i class="icon-area"></i>
+										<span><%= re.display_area.to_i %>m<sup>2</sup></span>
+									</div>
 								</div>
-								<div class="area">
-									<i class="icon-area"></i>
-									<span>80m<sup>2</sup></span>
+								<div class="address">
+									<i class="icon-16 icon-position"></i>
+									<span><%= re.display_address %></span>
 								</div>
-							</div>
-							<div class="address">
-								<i class="icon-16 icon-position"></i>
-								<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
-							</div>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale">750 triệu</p>
-							</div>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-							</div>
-							<div class="detail" data-dot>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-							<div class="btn-more">
-								<a href="#">Xem chi tiết</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="item-lg">
-					<div class="row">
-						<div class="col-sm-8 col-sm-push-4 picture">
-							<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
-						</div>
-						<div class="col-sm-4 col-sm-pull-8">
-							<div class="name">
-								Tên bất động sản
-							</div>
-							<div class="convenient">
-								<div class="bathroom">
-									<i class="icon-bathroom"></i>
-									<span>4</span>						
+								<div class="price">
+									<i class="icon-16 icon-dollar"></i>
+									<% if current_purpose == 'r' %>
+										<p class="number rent"><%= re.display_rent_price_text %></p>
+									<% else %>
+										<p class="number sale"><%= re.display_sell_price_text %></p>
+									<% end %>
 								</div>
-								<div class="bedroom">
-									<i class="icon-bedroom"></i>
-									<span>3</span>
+								<div class="function">
+									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
 								</div>
-								<div class="area">
-									<i class="icon-area"></i>
-									<span>80m<sup>2</sup></span>
+								<div class="detail" data-dot>
+									<%= re.description %>
 								</div>
-							</div>
-							<div class="address">
-								<i class="icon-16 icon-position"></i>
-								<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
-							</div>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale">750 triệu</p>
-							</div>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-							</div>
-							<div class="detail" data-dot>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-							<div class="btn-more">
-								<a href="#">Xem chi tiết</a>
+								<div class="btn-more">
+									<a href="/real_estates/<%= re.id %>">Xem chi tiết</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item-lg">
-					<div class="row">
-						<div class="col-sm-8 col-sm-push-4 picture">
-							<img src="/assets/product/BDS11.jpg" class="img-responsive img-thumbnail">
-						</div>
-						<div class="col-sm-4 col-sm-pull-8">
-							<div class="name">
-								Tên bất động sản
-							</div>
-							<div class="convenient">
-								<div class="bathroom">
-									<i class="icon-bathroom"></i>
-									<span>4</span>						
-								</div>
-								<div class="bedroom">
-									<i class="icon-bedroom"></i>
-									<span>3</span>
-								</div>
-								<div class="area">
-									<i class="icon-area"></i>
-									<span>80m<sup>2</sup></span>
-								</div>
-							</div>
-							<div class="address">
-								<i class="icon-16 icon-position"></i>
-								<span>Nguyễn Hữu Thọ, Tân Quy, Quận 7</span>
-							</div>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale">750 triệu</p>
-							</div>
-							<div class="function">
-								<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-								<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-								<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-								<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-							</div>
-							<div class="detail" data-dot>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</div>
-							<div class="btn-more">
-								<a href="#">Xem chi tiết</a>
-							</div>
-						</div>
-					</div>
-				</div>
+				<% end %>
 			</div>
 			<button class="slider-control prev" id="favor-prev"></button>
 			<button class="slider-control next" id="favor-next"></button>
@@ -582,7 +293,7 @@
 				</li>
 				<li>
 					<a href="#new_property" role="tab" data-toggle="tab">
-						Căn hộ mới rao bán
+						Căn hộ mới rao
 					</a>
 				</li>
 			</ul>
@@ -590,20 +301,26 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane fade in active" id="suggest_property">					
-					<div class="row" id="list_suggest_property">					
-						
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" class="tab-pane fade in active" id="suggest_property">
+					<%
+						res = RealEstate.search_with_params
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
-					<div id="pagination_suggest_property">
-						
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div class="tab-pane fade" id="new_property">					
-					<div class="row" id="list_new_property">
-						
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" class="tab-pane fade" id="new_property">
+					<%
+						res = RealEstate.search_with_params
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 					</div>
-					<div id="pagination_new_property">
-						
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
 			</div>
@@ -623,133 +340,174 @@
 <!-- end favorite-property -->
 
 <!-- start propensity property -->
-<section class="propensity-property container">
+<section class="propensity-property container block">
+	<article class="title">
+		<a>
+			<span>Gợi ý tìm nhà</span>
+		</a>
+	</article>
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Nhà vừa mở bán</a>
+				<a href="/real_estates">Nhà vừa rao</a>
 			</div>
 			<ul class="content">
-				<a href="#">
-					<li class="col1">
-						<img src="/assets/product/house.jpg">
-						<div class="wrapper">
-							<span class="price">2 tỷ (VNĐ)</span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+				<%
+					res = RealEstate.search_with_params(real_estate_type: 'house').limit 3
+				%>
+				<a href="/real_estates">
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<img src="/assets/product/BDS04.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-						<li>
-							<img src="/assets/product/BDS08.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Danh sách mới</a>
+				<a href="/real_estates">Danh sách mới</a>
 			</div>
 			<ul class="content">
-				<a href="#">
-					<li class="col1">
-						<img src="/assets/product/landscape05.jpg">
-						<div class="wrapper">
-							<span class="price">2 tỷ (VNĐ)</span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+				<%
+					res = RealEstate.search_with_params(newest: nil).limit(3)
+				%>
+				<a href="/real_estates">
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<img src="/assets/product/BDS01.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-						<li>
-							<img src="/assets/product/BDS02.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Biệt thự giá rẻ</a>
+				<a href="/real_estates">Biệt thự giá rẻ</a>
 			</div>
 			<ul class="content">
-				<a href="#">
-					<li class="col1">
-						<img src="/assets/product/landscape01.jpg">
-						<div class="wrapper">
-							<span class="price">2 tỷ (VNĐ)</span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+				<%
+					res = RealEstate.search_with_params(real_estate_type: 'villa', cheapest: nil).limit 3
+				%>
+				<a href="/real_estates">
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<img src="/assets/product/BDS03.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-						<li>
-							<img src="/assets/product/BDS04.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Nhà ở xã hội</a>
+				<a href="/real_estates">Nhà ở xã hội</a>
 			</div>
 			<ul class="content">
-				<a href="#">
-					<li class="col1">
-						<img src="/assets/product/landscape02.jpg">
-						<div class="wrapper">
-							<span class="price">2 tỷ (VNĐ)</span>
-							<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
+				<%
+					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
+				%>
+				<a href="/real_estates">
+					<% if res.count > 0 %>
+						<li class="col1">
+							<%= real_estate_avatar res[0] %>
+							<div class="wrapper">
+								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
+							</div>
+						</li>
+						<% if res.count > 1 %>
+						<div class="col2">
+							<li>
+								<%= real_estate_avatar res[1] %>
+								<div class="wrapper">
+									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+								</div>
+							</li>
+							<% if res.count > 2 %>
+								<li>
+									<%= real_estate_avatar res[2] %>
+									<div class="wrapper">
+										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+									</div>
+								</li>
+							<% end %>
 						</div>
-					</li>
-					<div class="col2">
-						<li>
-							<img src="/assets/product/BDS05.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-						<li>
-							<img src="/assets/product/BDS06.jpg">
-							<div class="wrapper">
-								<span class="price">300 triệu (VNĐ)</span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="50 Lò Gốm, Phường 15, Quận Bình Thạnh">50 Lò Gốm, Phường 15, Quận Bình Thạnh</span>
-							</div>
-						</li>
-					</div>
+						<% end %>
+					<% end %>
 				</a>
 			</ul>
 		</div>

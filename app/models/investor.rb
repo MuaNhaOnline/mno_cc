@@ -1,7 +1,7 @@
 class Investor < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:name]
+  pg_search_scope :search, against: [:name], using: { tsearch: { prefix: true, any_word: true } }
 
   has_attached_file :avatar, 
     styles: { thumb: '250x200#' },

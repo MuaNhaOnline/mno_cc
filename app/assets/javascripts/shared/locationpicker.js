@@ -487,14 +487,40 @@
 					updateInputValues(gmapContext.settings.inputBinding, gmapContext);
 				});
 			});
-			GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
-				if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
-					updateInputValues(settings.inputBinding, gmapContext);	
-				}
-				// Set  input bindings if needed
-				setupInputListenersInput(settings.inputBinding, gmapContext);
-				context.settings.oninitialized($target);
-			});
+
+			if (!('location' in options)) {
+				if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+	        	GmUtility.setPosition(gmapContext, new google.maps.LatLng(position.coords.latitude, position.coords.longitude), function(context){
+							if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+								updateInputValues(settings.inputBinding, gmapContext);	
+							}
+							// Set  input bindings if needed
+							setupInputListenersInput(settings.inputBinding, gmapContext);
+							context.settings.oninitialized($target);
+						});
+	        }, function () {
+	        	GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
+							if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+								updateInputValues(settings.inputBinding, gmapContext);	
+							}
+							// Set  input bindings if needed
+							setupInputListenersInput(settings.inputBinding, gmapContext);
+							context.settings.oninitialized($target);
+						});
+	        });
+	    	}
+			}
+			else {
+				GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
+					if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+						updateInputValues(settings.inputBinding, gmapContext);	
+					}
+					// Set  input bindings if needed
+					setupInputListenersInput(settings.inputBinding, gmapContext);
+					context.settings.oninitialized($target);
+				});
+			}
 		});
 	};
 	$.fn.locationpicker.defaults = {

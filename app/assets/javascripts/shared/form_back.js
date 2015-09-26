@@ -1394,3 +1394,25 @@ function initForm($form, params) {
 		/ Submit
 	*/
 }
+
+function separateToInt(value) {
+	var floatPoint = value.indexOf('.');
+
+	if (floatPoint == -1) {
+		return parseInt(value.replace(/\D/g, ''));
+	}
+	else {
+		return parseInt(value.slice(0, floatPoint).replace(/\D/g, ''));
+	}
+}
+
+function separateToFloat(value) {
+	var floatPoint = value.indexOf('.');
+
+	if (floatPoint == -1) {
+		return parseFloat(value.replace(/\D/g, ''));
+	}
+	else {
+		return parseFloat(value.slice(0, floatPoint).replace(/\D/g, '') + '.' + value.slice(floatPoint).replace(/\D/g, ''));
+	}
+}

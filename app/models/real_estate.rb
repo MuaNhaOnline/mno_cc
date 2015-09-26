@@ -1,7 +1,7 @@
 class RealEstate < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true } }
+  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true, any_word: true } }
 
   serialize :params, JSON
 
@@ -244,25 +244,24 @@ class RealEstate < ActiveRecord::Base
     params[:width_y] = ApplicationHelper.format_f params[:width_y] if params.has_key? :width_y
 
     # Location
-    unless params[:street].blank?
-      street = Street.find_by_name(params[:street])
-      street = Street.create(name: params[:street]) if street.nil?
-      params[:street_id] = street.id
-    end
-    unless params[:ward].blank?
-      ward = Ward.find_by_name(params[:ward])
-      ward = Ward.create(name: params[:ward]) if ward.nil?
-      params[:ward_id] = ward.id
+    if params[:province].present?
+      if params[:province] == 'Hồ Chí Minh'
+        params[:province] = 'Thành phố Hồ Chi Minh'
+      end
+      province = Province.find_or_create_by name: params[:province]
+      params[:province_id] = province.id
     end
     unless params[:district].blank?
-      district = District.find_by_name(params[:district])
-      district = District.create(name: params[:district]) if district.nil?
+      district = District.find_or_create_by name: params[:district], province_id: params[:province_id]
       params[:district_id] = district.id
     end
-    unless params[:province].blank?
-      province = Province.find_by_name(params[:province])
-      province = Province.create(name: params[:province]) if province.nil?
-      params[:province_id] = province.id
+    unless params[:ward].blank?
+      ward = Ward.find_or_create_by name: params[:ward]
+      params[:ward_id] = ward.id
+    end
+    unless params[:street].blank?
+      street = Street.find_or_create_by name: params[:street]
+      params[:street_id] = street.id
     end
 
     # Advantages, disavantage, property utility, region utility
@@ -419,7 +418,7 @@ class RealEstate < ActiveRecord::Base
   # Search with params
 
   # params: 
-  #   price(x;y), real_estate_type, is_full
+  #   price(x;y), real_estate_type, is_full, district
   #   newest, cheapest
   def self.search_with_params params = {}
     where = 'is_pending = false AND is_show = true'
@@ -428,11 +427,22 @@ class RealEstate < ActiveRecord::Base
 
     if params.has_key? :price
       price_range = params[:price].split(';')
-      where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+
+      if User.options[:current_purpose] == 'r'
+        where += " AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+      else
+        where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+      end
     end
+
     if params.has_key? :real_estate_type
       joins << :real_estate_type
       where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
+    end
+
+    if params.has_key? :district
+      joins << :district
+      where += " AND districts.id = #{params[:district]} "
     end
 
     if params.has_key? :newest
@@ -574,7 +584,13 @@ class RealEstate < ActiveRecord::Base
     tempLocale = I18n.locale
     I18n.locale = 'vi'
 
-    meta_search = "#{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} #{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} #{re.street.name if re.fields.include?(:street) && re.street.present?} #{re.district.name if re.fields.include?(:district) && re.district.present?} #{re.province.name if re.fields.include?(:province) && re.province.present?} #{re.title}"
+    meta_search = 
+      "#{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} 
+      #{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} 
+      #{re.street.name if re.fields.include?(:street) && re.street.present?} 
+      #{re.district.name if re.fields.include?(:district) && re.district.present?} 
+      #{re.province.name if re.fields.include?(:province) && re.province.present?} 
+      #{re.title}"
     
     I18n.locale = tempLocale
 
@@ -623,7 +639,7 @@ class RealEstate < ActiveRecord::Base
 
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + (province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".titleize
   end
 
   # Real estate type
@@ -656,7 +672,7 @@ class RealEstate < ActiveRecord::Base
     @display_sell_price ||= (sell_price.blank? ? 'Giá thỏa thuận' : sell_price)
   end
   def display_sell_price_text
-    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text)
+    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + ' / ' + I18n.t('unit.text.' + sell_unit.name))
   end
 
   # Rent price
@@ -664,7 +680,7 @@ class RealEstate < ActiveRecord::Base
     @display_rent_price ||= (rent_price.blank? ? 'Giá thỏa thuận' : rent_price)
   end
   def display_rent_price_text
-    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text)
+    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + ' / ' + I18n.t('unit.text.' + rent_unit.name))
   end
 
   # Legal record type

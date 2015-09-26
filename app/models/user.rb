@@ -13,7 +13,7 @@
 class User < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:full_name], using: { tsearch: { prefix: true } }
+  pg_search_scope :search, against: [:full_name], using: { tsearch: { prefix: true, any_word: true } }
 
   has_attached_file :avatar, 
   	styles: { mini: '40x40#', thumb: '100x100#', big: '150x150#' },
