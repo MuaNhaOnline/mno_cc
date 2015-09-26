@@ -261,7 +261,7 @@ class RealEstate < ActiveRecord::Base
     end
     unless params[:province].blank?
       if params[:province] == 'Hồ Chí Minh'
-        params[:province] = 'Thành Phố Hồ Chi Minh'
+        params[:province] = 'Thành phố Hồ Chi Minh'
       end
       province = Province.find_by_name(params[:province])
       province = Province.create(name: params[:province]) if province.nil?

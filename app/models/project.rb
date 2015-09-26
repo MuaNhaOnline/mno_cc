@@ -312,7 +312,7 @@ class Project < ActiveRecord::Base
 
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?} #{', ' + ward.name unless ward.nil?} #{', ' + district.name unless district.nil?} #{', ' + (province.name == 'Hồ Chí Minh' ? 'Thành Phố ' : '') + province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?} #{', ' + ward.name unless ward.nil?} #{', ' + district.name unless district.nil?} #{', ' + province.name unless province.nil?}".titleize
   end
 
   # Deadline
