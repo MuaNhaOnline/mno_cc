@@ -370,7 +370,7 @@ class Project < ActiveRecord::Base
 
   # Unit price
   def get_unit_price
-    if unit_price.present?
+    if unit_price_text.present?
       unit_price_text + ' / ' + I18n.t('unit.text.' + price_unit.name)
     else
       'Chưa có giá'
