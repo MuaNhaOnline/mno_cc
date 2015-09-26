@@ -127,7 +127,7 @@
 		<section class="slick project-is-interested">
 			<div class="content">
 				<% 
-					projects = Project.limit 3
+					projects = Project.search_with_params.random.limit 3
 				%>
 				<% projects.each do |p| %>
 					<div class="item-lg">
@@ -221,7 +221,7 @@
 		<section class="slick favorite-property">
 			<div class="content">
 				<%
-					res = RealEstate.search_with_params.limit 3
+					res = RealEstate.search_with_params.random.limit 3
 				%>
 				<% res.each do |re| %>
 					<div class="item-lg">
@@ -349,13 +349,13 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Nhà vừa rao</a>
+				<a href="/real_estates">Nhà vừa rao</a>
 			</div>
 			<ul class="content">
 				<%
-					res = RealEstate.search_with_params.search_with_params.limit 3
+					res = RealEstate.search_with_params(real_estate_type: 'house').limit 3
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
@@ -390,13 +390,13 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Danh sách mới</a>
+				<a href="/real_estates">Danh sách mới</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params(newest: nil).limit(3)
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
@@ -431,13 +431,13 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Biệt thự giá rẻ</a>
+				<a href="/real_estates">Biệt thự giá rẻ</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'villa', cheapest: nil).limit 3
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
@@ -472,13 +472,13 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="title">
-				<a href="#">Nhà ở xã hội</a>
+				<a href="/real_estates">Nhà ở xã hội</a>
 			</div>
 			<ul class="content">
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
 				%>
-				<a href="#">
+				<a href="/real_estates">
 					<% if res.count > 0 %>
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>

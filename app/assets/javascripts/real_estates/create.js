@@ -289,7 +289,7 @@ $(function () {
     }).trigger('change_2');
 
     function isValidArea(area, widthX, widthY) {
-      return widthX * widthY <= area;
+      return separateToFloat(widthX) * separateToFloat(widthY) <= separateToFloat(area);
     }
   }
 

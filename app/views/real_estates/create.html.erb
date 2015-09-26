@@ -444,7 +444,7 @@
                   <%= t 'real_estate.attribute.campus_area' %>
                   <sup class="required-label"></sup>
                 </label>
-                <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận."></a>
+                <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận."></a>
                 <div class="input-group">
                   <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[campus_area]" id="campus_area_basic" value="<%= @re.campus_area %>" />
                   <div class="input-group-addon">m<sup>2</sup></div>
@@ -510,7 +510,7 @@
                 <%= t 'real_estate.attribute.constructional_area' %>
                 <sup class="required-label"></sup>
               </label>
-              <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là phần đất có công trình xây dựng trên đất."></a>
+              <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là phần đất có công trình xây dựng trên đất."></a>
               <div class="input-group">
                 <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[constructional_area]" id="constructional_area" value="<%= @re.constructional_area %>" />
                 <div class="input-group-addon">m<sup>2</sup></div>
@@ -522,7 +522,7 @@
                 <%= t 'real_estate.attribute.using_area' %>
                 <sup class="required-label"></sup>
               </label>
-              <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích các sàn xây dựng kể cả ban công, tầng hầm, sân thượng..."></a>
+              <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích các sàn xây dựng kể cả ban công, tầng hầm, sân thượng..."></a>
               <div class="input-group">
                 <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[using_area]" id="using_area" value="<%= @re.using_area %>" />
                 <div class="input-group-addon">m<sup>2</sup></div>
@@ -534,7 +534,7 @@
                 <%= t 'real_estate.attribute.campus_area' %>
                 <sup class="required-label"></sup>
               </label>
-              <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận."></a>
+              <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận."></a>
               <div class="input-group">
                 <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[campus_area]" id="campus_area" value="<%= @re.campus_area %>" />
                 <div class="input-group-addon">m<sup>2</sup></div>
@@ -593,7 +593,7 @@
                   <%= t 'real_estate.attribute.shape_width' %>
                   <sup class="required-label"></sup>
                 </label>
-                <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là chiều ngang của cạnh mặt sau của nhà để xác định hình dáng là nở hậu hay tóp hậu."></a>
+                <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là chiều ngang của cạnh mặt sau của nhà để xác định hình dáng là nở hậu hay tóp hậu."></a>
                 <div class="input-group">
                   <input data-constraint="required real custom range" data-maxvalue="100000" class="form-control separate-number" name="real_estate[shape_width]" id="shape_width" value="<%= @re.shape_width %>" />
                   <div class="input-group-addon">m</div>
@@ -608,7 +608,7 @@
             <article class="form-group" data-toggled-element="un-land house apartment un-space">
               <label class="control-label" data-toggled-element="house un-apartment" for="floor_number"><%= t 'real_estate.attribute.floor_number_1' %></label>
               <label class="control-label" data-toggled-element="un-house apartment" for="floor_number"><%= t 'real_estate.attribute.floor_number_2' %></label>
-              <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Không bao gồm tầng lửng"></a>
+              <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Không bao gồm tầng lửng"></a>
               <input data-constraint="integer range" data-maxvalue="100" class="form-control separate-number" name="real_estate[floor_number]" id="floor_number" value="<%= @re.floor_number %>" />
             </article>
 
@@ -663,7 +663,7 @@
               <article class="form-group col-md-6" data-toggled-element="un-land un-apartment space un-villa town-house">                <label class="control-label" for="contructional_level_id">
                   <%= t 'real_estate.attribute.constructional_level' %>
                 </label>
-                <a href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 1:&lt;/b&gt; B&#234;t&#244;ng cốt th&#233;p chịu lực cao, hệ thống c&#225;ch nhiệt tốt, vật liệu ho&#224;n thiện trong v&#224; ngo&#224;i nh&#224; tốt, đầy đủ tiện nghi sinh hoạt. Số tầng kh&#244;ng hạn chế.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 2:&lt;/b&gt; B&#234;t&#244;ng cốt th&#233;p chịu lực tốt, vật liệu ho&#224;n thiện trong ngo&#224;i nh&#224; tương đối tốt, tiện nghi sinh hoạt đầy đủ. Số tầng kh&#244;ng hạn chế.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 3:&lt;/b&gt; B&#234;t&#244;ng cốt th&#233;p kết hợp với x&#226;y gạch để chịu lực. Vật liệu ho&#224;n thiện bằng chất liệu phổ th&#244;ng, tiện nghi sinh hoạt b&#236;nh thường. Nh&#224; cao tối đa 2 tầng.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 4:&lt;/b&gt; Kết cấu chịu lực bằng gạch hoặc gỗ, c&#243; tường ngăn, điều kiện sinh hoạt thấp.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; th&#244;:&lt;/b&gt; Chưa c&#243; vật liệu trong v&#224; ngo&#224;i v&#224; c&#225;c tiện nghi sinh hoạt.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; tạm:&lt;/b&gt; X&#226;y tạm bằng gỗ, tre, lợp l&#225;, kh&#244;ng c&#243; tiện nghi sinh hoạt.&lt;/p&gt;&lt;p&gt;"></a>
+                <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 1:&lt;/b&gt; B&#234;t&#244;ng cốt th&#233;p chịu lực cao, hệ thống c&#225;ch nhiệt tốt, vật liệu ho&#224;n thiện trong v&#224; ngo&#224;i nh&#224; tốt, đầy đủ tiện nghi sinh hoạt. Số tầng kh&#244;ng hạn chế.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 2:&lt;/b&gt; B&#234;t&#244;ng cốt th&#233;p chịu lực tốt, vật liệu ho&#224;n thiện trong ngo&#224;i nh&#224; tương đối tốt, tiện nghi sinh hoạt đầy đủ. Số tầng kh&#244;ng hạn chế.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 3:&lt;/b&gt; B&#234;t&#244;ng cốt th&#233;p kết hợp với x&#226;y gạch để chịu lực. Vật liệu ho&#224;n thiện bằng chất liệu phổ th&#244;ng, tiện nghi sinh hoạt b&#236;nh thường. Nh&#224; cao tối đa 2 tầng.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; cấp 4:&lt;/b&gt; Kết cấu chịu lực bằng gạch hoặc gỗ, c&#243; tường ngăn, điều kiện sinh hoạt thấp.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; th&#244;:&lt;/b&gt; Chưa c&#243; vật liệu trong v&#224; ngo&#224;i v&#224; c&#225;c tiện nghi sinh hoạt.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nh&#224; tạm:&lt;/b&gt; X&#226;y tạm bằng gỗ, tre, lợp l&#225;, kh&#244;ng c&#243; tiện nghi sinh hoạt.&lt;/p&gt;&lt;p&gt;"></a>
                 <select class="form-control" name="real_estate[constructional_level_id]" id="contructional_level_id">
                   <% ConstructionalLevel.get_options.each do |l| %>
                       <option <%= 'selected' if l.id == @re.constructional_level_id || (!l.options_hash.nil? && l.options_hash.has_key?('default') && @re.constructional_level_id.blank?) %> value="<%= l.id %>"><%= t 'constructional_level.text.' + l.name %></option>
