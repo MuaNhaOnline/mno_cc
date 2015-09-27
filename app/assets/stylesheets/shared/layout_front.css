@@ -175,8 +175,7 @@ header {
 		}
 			.logo a {
 				display: block;
-				align-self: center;
-				-webkite-align-self: center;
+				margin: auto;
 			}
 			.logo img {
 				width: 100%;

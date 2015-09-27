@@ -15,7 +15,7 @@
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
-		background-color: #fff;
+		background-color: #f6f6f6;
 	}
 /*end navigator*/
 
@@ -25,11 +25,11 @@
 }
 	/*start main-image*/
 	.image-info .main-image {
-		width: 100%;		
+		width: 80%;
+		margin: auto;
 	}
 		.image-info .main-image img {
-			width: 100%;
-
+			width: 100%;			
 		}
 	/*end*/
 	/*start other-image*/
@@ -65,19 +65,19 @@
 }
 	/*start price*/
 	.standard-info .price {
-		max-width: 80%;
+		max-width: 400px;
 		border: 1px solid #ccc;
 		padding: 10px;
 		border-radius: 2px;
 		margin: 0 auto;
 		margin-bottom: 10px;
-		display: flex;
+		display: inline-block;
 		flex-direction: column;
 		transition: 0.3s;
 	}
 		@media screen and (max-width: 767px) {
 			.standard-info .price {
-				max-width: 100%;
+				width: 100%;
 			}
 		}
 		.price select {
@@ -126,10 +126,6 @@
 			padding: 5px;
 			border-top: 1px solid #eee;
 		}
-			.tab-content p {
-				margin-bottom: 0 !important;
-				margin-top: 10px !important;
-			}
 		/*end*/
 	/*end price*/
 	
@@ -188,9 +184,10 @@
 		font-size: 115.38%;
 		font-weight: bold;	
 	}
-	.describe .small {
+	.describe .details {
 		padding: 10px 0;
 		text-align: justify;
+		line-height: 1.9;
 	}
 /*end*/
 
@@ -281,9 +278,11 @@
 		.request-box textarea {			
 			max-height: 120px;
 			border-radius: 2px;
-			max-width: 263px;
+			max-width: 330px;
 			margin-bottom: 7px;
 			color: #666;
+		}
+		.request-box button {
 		}
 	/*end*/
 

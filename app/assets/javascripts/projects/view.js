@@ -1,6 +1,7 @@
 // Initilization
 $(function() {
 	initPosition();
+	Jump();
 });
 // end
 
@@ -11,12 +12,23 @@ function initPosition() {
 		$lat = $map.data('lat'),
 		$long = $map.data('long');
 
-  initMap('map', {
-  	markers: [
-  		{ 
-  			latLng: { lat: $lat, lng: $long } 
-  		}
-  	]
-  });
+	initMap('map', {
+		markers: [
+			{ 
+				latLng: { lat: $lat, lng: $long } 
+			}
+		]
+	});
 }
 // end
+
+// init Jump
+function Jump() {
+	var top;
+	$(window).load(function() {
+		top = $('.navigator').offset().top;
+		$body.animate({
+			scrollTop: top
+		}, 500)
+	});
+}
