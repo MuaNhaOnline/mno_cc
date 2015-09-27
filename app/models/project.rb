@@ -262,8 +262,9 @@ class Project < ActiveRecord::Base
 
     if params.has_key? :price
       price_range = params[:price].split(';')
-
       where += " AND unit_price IS NOT NULL AND unit_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+      
+      order[:unit_price] = 'asc'
     end
 
     if params.has_key? :district

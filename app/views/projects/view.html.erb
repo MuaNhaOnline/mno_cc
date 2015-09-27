@@ -161,7 +161,7 @@
 <section class="standard-info container">
 	<div class="row">
 		<div class="col-sm-4 col-sm-push-8">
-			<% unless @project.unit_price.blank? %>
+			<% if @project.unit_price.present? %>
 				<div class="price" id="price_box">
 					<div>
 						<!-- Nav tabs -->
@@ -172,15 +172,15 @@
 						<!-- Tab panes -->
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
--								<p style="margin: 5px 0;">
--									Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %></span>
--									<!-- <select>
--										<option>VNĐ</option>
--										<option>USD</option>
--										<option>SJC</option>
--									</select>/ <%= t 'unit.text.' + @project.price_unit.name %> -->
--								</p>
--							</div>
+								<p style="margin: 5px 0;">
+									<span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %></span>
+									<!-- <select>
+										<option>VNĐ</option>
+										<option>USD</option>
+										<option>SJC</option>
+									</select>/ <%= t 'unit.text.' + @project.price_unit.name %> -->
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
