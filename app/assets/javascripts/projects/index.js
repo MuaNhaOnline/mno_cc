@@ -236,7 +236,7 @@ function initPositionSearch() {
   find = _initPagination({
     url: '/projects/search',
     list: $('#position_list'),
-    data: { list_type: 2 }
+    data: { list_type: 2 },
     pagination: $('#position_pagination')
   });
 }
