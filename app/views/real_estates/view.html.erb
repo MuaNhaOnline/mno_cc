@@ -201,12 +201,12 @@
 								<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
 									<% if @re.sell_price %>
 										<p style="margin: 5px 0;">
-											Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @re.sell_price_text %></span> 
-											<select>
+											Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @re.display_sell_price %></span> 
+											<!-- <select>
 												<% Currency.get_options.each do |c| %>
 						              <option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
 						            <% end %>
-											</select>/<%= t 'unit.text.' + @re.sell_unit.name %>
+											</select>/<%= t 'unit.text.' + @re.sell_unit.name %> -->
 										</p>
 										<% if @re.is_negotiable %>
 											<div>
@@ -224,12 +224,12 @@
 								<div role="tabpanel" class="tab-pane fade <%= 'in active' unless @re.fields.include? :sell_price %>" id="price-rent">
 									<% if @re.rent_price %>
 										<p style="margin: 5px 0;">
-											Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.rent_price_text %></span> 
-											<select>
+											Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.display_rent_price %></span> 
+											<!-- <select>
 												<% Currency.get_options.each do |c| %>
 						              <option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
 						            <% end %>
-											</select>/<%= t 'unit.text.' + @re.rent_unit.name %>
+											</select>/<%= t 'unit.text.' + @re.rent_unit.name %> -->
 										</p>
 										<% if @re.is_negotiable %>
 											<div>

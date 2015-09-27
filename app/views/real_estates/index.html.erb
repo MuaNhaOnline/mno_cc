@@ -176,9 +176,9 @@
 								<div class="price">
 									<i class="icon-16 icon-dollar"></i>
 									<% if current_purpose == 'r' %>
-										<p class="number rent"><%= re.display_rent_price_text %></p>
+										<p class="number rent"><%= re.display_rent_price %></p>
 									<% else %>
-										<p class="number sale"><%= re.display_sell_price_text %></p>
+										<p class="number sale"><%= re.display_sell_price %></p>
 									<% end %>
 								</div>
 								<div class="function">
@@ -502,7 +502,7 @@
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
-								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="price"><%= res[0].display_sell_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
 						</li>
@@ -511,7 +511,7 @@
 							<li>
 								<%= real_estate_avatar res[1] %>
 								<div class="wrapper">
-									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="price"><%= res[1].display_sell_price %></span>
 									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
 								</div>
 							</li>
@@ -519,7 +519,7 @@
 								<li>
 									<%= real_estate_avatar res[2] %>
 									<div class="wrapper">
-										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="price"><%= res[2].display_sell_price %></span>
 										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
 									</div>
 								</li>
@@ -543,7 +543,7 @@
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
-								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="price"><%= res[0].display_sell_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
 						</li>
@@ -552,7 +552,7 @@
 							<li>
 								<%= real_estate_avatar res[1] %>
 								<div class="wrapper">
-									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="price"><%= res[1].display_sell_price %></span>
 									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
 								</div>
 							</li>
@@ -560,7 +560,7 @@
 								<li>
 									<%= real_estate_avatar res[2] %>
 									<div class="wrapper">
-										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="price"><%= res[2].display_sell_price %></span>
 										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
 									</div>
 								</li>
@@ -584,7 +584,7 @@
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
-								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
 						</li>
@@ -593,7 +593,7 @@
 							<li>
 								<%= real_estate_avatar res[1] %>
 								<div class="wrapper">
-									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="price"><%= res[1].display_price %></span>
 									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
 								</div>
 							</li>
@@ -601,7 +601,7 @@
 								<li>
 									<%= real_estate_avatar res[2] %>
 									<div class="wrapper">
-										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="price"><%= res[2].display_price %></span>
 										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
 									</div>
 								</li>
@@ -625,7 +625,7 @@
 						<li class="col1">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
-								<span class="price"><%= res[0].display_sell_price_text %></span>
+								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
 						</li>
@@ -634,7 +634,7 @@
 							<li>
 								<%= real_estate_avatar res[1] %>
 								<div class="wrapper">
-									<span class="price"><%= res[1].display_sell_price_text %></span>
+									<span class="price"><%= res[1].display_price %></span>
 									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
 								</div>
 							</li>
@@ -642,7 +642,7 @@
 								<li>
 									<%= real_estate_avatar res[2] %>
 									<div class="wrapper">
-										<span class="price"><%= res[2].display_sell_price_text %></span>
+										<span class="price"><%= res[2].display_price %></span>
 										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
 									</div>
 								</li>

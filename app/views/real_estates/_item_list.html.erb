@@ -41,14 +41,14 @@
 					<% if re.fields.include? :rent_price %>
 						<div class="price">
 							<i class="icon-16 icon-dollar"></i>
-							<p class="number rent"><%= re.display_rent_price_text %></p>
+							<p class="number rent"><%= re.display_rent_price %></p>
 						</div>
 					<% end %>	
 				<% else %>
 					<% if re.fields.include? :sell_price %>
 						<div class="price">
 							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale"><%= re.display_sell_price_text %></p>
+							<p class="number sale"><%= re.display_sell_price %></p>
 						</div>
 					<% end %>	
 				<% end %>

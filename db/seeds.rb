@@ -25,9 +25,9 @@ ConstructionalLevel.create [
 Currency.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE currencies_id_seq RESTART WITH 1')
 Currency.create [
-	{ name: 'VNĐ', options: '{"html":{"attributes":"data-value=VND"},"default":""}' },
-	{ name: 'USD', options: '{"html":{"attributes":"data-value=USD"}}' },
-	{ name: 'SJC', options: '{"html":{"attributes":"data-value=SJC"}}' }
+	{ name: 'VNĐ', code: 'VND', options: '{"html":{"attributes":"data-value=VND"},"default":""}' },
+	{ name: 'USD', code: 'USD', options: '{"html":{"attributes":"data-value=USD"}}' },
+	{ name: 'SJC', code: 'SJC', options: '{"html":{"attributes":"data-value=SJC"}}' }
 ]
 
 Direction.delete_all
@@ -130,12 +130,6 @@ Unit.create [
 	{ name: 'year', options: '{"group":"rent"}' },
 	{ name: 'square_meter', options: '{"group":"project","default":""}' },
 	{ name: 'per', options: '{"group":"project"}' }
-]
-
-Province.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE provinces_id_seq RESTART WITH 1')
-Province.create [
-	{ name: 'Hồ Chí Minh', options: '{"default":""}' }
 ]
 
 District.delete_all

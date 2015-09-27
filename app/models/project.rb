@@ -69,7 +69,7 @@ class Project < ActiveRecord::Base
     # Location
     unless params[:province].blank?
       if params[:province] == 'Hồ Chí Minh'
-        params[:province] = 'Thành phố Hồ Chí Minh'
+        params[:province] = 'Tp. Hồ Chí Minh'
       end
       province = Province.find_or_create_by name: params[:province]
       params[:province_id] = province.id
@@ -307,7 +307,7 @@ class Project < ActiveRecord::Base
 
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?} #{', ' + ward.name unless ward.nil?} #{', ' + district.name unless district.nil?} #{', ' + province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".titleize
   end
 
   # Deadline
@@ -366,7 +366,7 @@ class Project < ActiveRecord::Base
   # Unit price
   def get_unit_price
     if unit_price_text.present?
-      unit_price_text + ' / ' + I18n.t('unit.text.' + price_unit.name)
+      (unit_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + price_unit.name)).html_safe
     else
       'Chưa có giá'
     end
