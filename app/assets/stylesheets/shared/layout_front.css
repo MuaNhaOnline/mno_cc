@@ -165,7 +165,8 @@ header {
 			display: -webkit-flex;
 			display: -moz-flex;
 			display: -o-flex;
-			display: flex;			transition: 0.3s;
+			display: flex;			
+			transition: 0.3s;
 		}
 		@media screen and (max-width: 767px) {
 			.logo {
@@ -648,12 +649,17 @@ footer {
 /*start item-lg*/
 .item-lg {
 	margin-bottom: 20px;
+	display: block;
+	position: relative;
 }
 	/*start content*/
 	.item-lg .content {
 		color: #666;
 	}
 		/*start picture*/
+		.item-lg	.picture {
+			display: block;
+		}
 		.item-lg .picture img {
 			max-width: 750px;
 			width: 100%;			
@@ -841,7 +847,6 @@ footer {
 	}
 		.item-sm img {
 			width: 100%;
-			height: 170px;
 		}
 		.item-sm .badge-new {
 			position: absolute;
@@ -1263,3 +1268,25 @@ footer {
 	background-color: #eee;
 	color: #666;
 }
+
+/*--------------------------------------------------------*/
+/*Custom Modal*/
+/*--------------------------------------------------------*/
+
+/*start Modal Picture*/
+.modal-show-picture {	
+}
+	.modal-show-picture .modal-dialog {
+		width: 90%;		
+		position: relative;
+		margin: 5px auto;
+	}
+	.modal-show-picture button {
+		position: absolute;
+		top: 15px;
+		right: 20px;		
+	}
+	.modal-show-picture img {
+		width: 100%;
+	}
+/*end*/

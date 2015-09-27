@@ -1,5 +1,6 @@
-//region Initialization
+var $footer = $('footer');
 
+//region Initialization
 $(function () {
 	//init Header
 	initHeader();
@@ -18,11 +19,39 @@ $(function () {
 	//init toggle object
 	initToggleElement($('[data-toggle-object]'), false);
 
+	// init show Popup
+	showPopup();
+	
 	//Set purpose
 	setPurpose();
 });
 
 //endregion
+
+// start popup
+function showPopup() {	
+	// Popup alert
+	var $comingSoonPopup = $('[data-popup="coming-soon"]');
+	$comingSoonPopup.on('click', function() {
+		$('#coming_soon_popup').modal('show');
+	});
+	
+	//Popup picture	
+	var $picturePopup = $('#picture_popup');
+	$('[data-popup="show-image"]').on('click', function() {
+		var link = $(this).attr('data-src');
+
+		$picturePopup.on('show.bs.modal', function() {
+			var $img = $(this).find('img');
+			$img.attr('src', link);			
+		});
+		console.log(link);
+		$picturePopup.modal('show');
+		console.log(link);
+	});
+
+}
+// end
 
 // start scroll header
 function initHeader() {
@@ -35,6 +64,7 @@ function initHeader() {
 
 	$window.on('scroll', function(e) {		
 		var currentScroll = $window.scrollTop();
+		// console.log(currentScroll);
 		if (scroll < currentScroll) {
 			//Window is scroll down
 			$(header).hide();
@@ -42,7 +72,12 @@ function initHeader() {
 		else {
 			//Window is scroll up			
 
-			$(header).show();
+			if (!$('.tabs-scroll').hasClass('affix')) {
+				$(header).show();
+			} else
+			{
+				$(header).hide();
+			}
 			
 			if (currentScroll != 0) {
 				$(header).css('height', '46px');
@@ -50,6 +85,7 @@ function initHeader() {
 				$(miniMenu).css('margin-top', '46px');
 			}
 			else {
+
 				$(header).css('height', '60px');
 				$(logo).css('width', widthLogo + 'px');
 				$(miniMenu).css('margin-top', '60px');
