@@ -132,12 +132,6 @@ Unit.create [
 	{ name: 'per', options: '{"group":"project"}' }
 ]
 
-Province.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE provinces_id_seq RESTART WITH 1')
-Province.create [
-	{ name: 'Hồ Chí Minh', options: '{"default":""}' }
-]
-
 District.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE districts_id_seq RESTART WITH 1')
 District.create [
