@@ -429,9 +429,9 @@ class RealEstate < ActiveRecord::Base
       price_range = params[:price].split(';')
 
       if User.options[:current_purpose] == 'r'
-        where += " AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+        where += " AND rent_price IS NOT NULL AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
       else
-        where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+        where += " AND sell_price IS NOT NULL AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
       end
     end
 

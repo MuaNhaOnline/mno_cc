@@ -166,62 +166,21 @@
 					<div>
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs price-tab" role="tablist">
-							<% if @re.fields.include? :sell_price %>
-								<li role="SalePrice" class="active"><a href="#price-sale" aria-controls="price-sale" role="tab" data-toggle="tab">Giá bán</a></li>
-							<% end %>
-							<% if @re.fields.include? :rent_price %>
-								<li role="RentPrice" class="<%= 'active' unless @re.fields.include? :sell_price %>"><a href="#price-rent" aria-controls="price-rent" role="tab" data-toggle="tab">Giá cho thuê</a></li>
-							<% end %>
+							<li role="SalePrice" class="active"><a href="#price-sale" aria-controls="price-sale" role="tab" data-toggle="tab">Giá bán</a></li>
 						</ul>
 
 						<!-- Tab panes -->
 						<div class="tab-content">
-							<% if @re.fields.include? :sell_price %>
-								<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
-									<% if @re.sell_price %>
-										<p style="margin: 5px 0;">
-											Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @re.display_sell_price %></span> 
-											<!-- <select>
-												<% Currency.get_options.each do |c| %>
-						              <option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-						            <% end %>
-											</select>/<%= t 'unit.text.' + @re.sell_unit.name %> -->
-										</p>
-										<% if @re.is_negotiable %>
-											<div>
-												<i class="icon-16 icon-checker"></i>
-												<span>Còn thương lượng</span>
-											</div>
-										<% end %>
-									<% else %>
-										<p style="margin: 5px 0;"><span style="color: #ff6511; font-size: 18px;">Giá thỏa thuận</span></p>
-									<% end %>
-									<!-- <p style="margin: 5px 0;">Định giá: <span style="color: #ff6511;">2,2 tỷ</span> <select><option>VNĐ</option><option>USD</option><option>SJC</option></select></p> -->
-								</div>
-							<% end %>
-							<% if @re.fields.include? :rent_price %>
-								<div role="tabpanel" class="tab-pane fade <%= 'in active' unless @re.fields.include? :sell_price %>" id="price-rent">
-									<% if @re.rent_price %>
-										<p style="margin: 5px 0;">
-											Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.display_rent_price %></span> 
-											<!-- <select>
-												<% Currency.get_options.each do |c| %>
-						              <option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-						            <% end %>
-											</select>/<%= t 'unit.text.' + @re.rent_unit.name %> -->
-										</p>
-										<% if @re.is_negotiable %>
-											<div>
-												<i class="icon-16 icon-checker"></i>
-												<span>Còn thương lượng</span>
-											</div>
-										<% end %>
-									<% else %>
-										<p style="margin: 5px 0;"><span style="color: #038ed1; font-size: 18px;">Giá thỏa thuận</span></p>
-									<% end %>
-									<!-- <p style="margin: 5px 0;">Định giá: <span style="color: #038ed1;">12 triệu</span> <select><option>VNĐ</option><option>USD</option><option>SJC</option></select>/tháng</p> -->				
-								</div>
-							<% end %>
+							<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
+-								<p style="margin: 5px 0;">
+-									Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %></span>
+-									<!-- <select>
+-										<option>VNĐ</option>
+-										<option>USD</option>
+-										<option>SJC</option>
+-									</select>/ <%= t 'unit.text.' + @project.price_unit.name %> -->
+-								</p>
+-							</div>
 						</div>
 					</div>
 				</div>

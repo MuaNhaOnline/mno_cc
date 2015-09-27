@@ -223,14 +223,15 @@ function initPriceRangeSearch() {
 */
 
 function initPositionSearch() {
-	var find;
+	var find, $district_name = $('[aria-name="district_name"]');
 
 	$('[aria-click="position_change"]').on('click', function () {
 		find({
 			data: {
 				district: $(this).data('value')
 			}
-		})
+		});
+		$district_name.text($(this).text());
 	});
 
   find = _initPagination({
