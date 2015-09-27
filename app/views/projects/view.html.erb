@@ -173,12 +173,12 @@
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
 								<p style="margin: 5px 0;">
-									Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @project.unit_price_text %></span>
-									<select>
+									Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %></span>
+									<!-- <select>
 										<option>VNĐ</option>
 										<option>USD</option>
 										<option>SJC</option>
-									</select>/ <%= t 'unit.text.' + @project.price_unit.name %>
+									</select>/ <%= t 'unit.text.' + @project.price_unit.name %> -->
 								</p>
 							</div>
 						</div>

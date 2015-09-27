@@ -246,7 +246,7 @@ class RealEstate < ActiveRecord::Base
     # Location
     if params[:province].present?
       if params[:province] == 'Hồ Chí Minh'
-        params[:province] = 'Thành phố Hồ Chí Minh'
+        params[:province] = 'Tp. Hồ Chí Minh'
       end
       province = Province.find_or_create_by name: params[:province]
       params[:province_id] = province.id
@@ -669,18 +669,21 @@ class RealEstate < ActiveRecord::Base
 
   # Sell price
   def display_sell_price
-    @display_sell_price ||= (sell_price.blank? ? 'Giá thỏa thuận' : sell_price)
-  end
-  def display_sell_price_text
-    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + ' / ' + I18n.t('unit.text.' + sell_unit.name))
+    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + (' ' + currency.name if currency.code != 'VND') + ' / ' + I18n.t('unit.text.display_' + sell_unit.name))
   end
 
   # Rent price
   def display_rent_price
-    @display_rent_price ||= (rent_price.blank? ? 'Giá thỏa thuận' : rent_price)
+    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (' ' + currency.name if currency.code != 'VND') + I18n.t('unit.text.display_' + rent_unit.name))
   end
-  def display_rent_price_text
-    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + ' / ' + I18n.t('unit.text.' + rent_unit.name))
+
+  # Price
+  def display_price
+    if User.options[:current_purpose] == 'r'
+      display_rent_price
+    else
+      display_sell_price
+    end
   end
 
   # Legal record type

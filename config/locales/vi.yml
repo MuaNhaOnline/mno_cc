@@ -209,11 +209,15 @@ vi:
   unit:
     text:
       area: 'Tổng diện tích'
+      display_area: ''
       square_meter: 'Mét vuông'
+      diplay_square_meter: '/m<sup>2</sup>'
       month: 'Tháng'
+      display_month: '/tháng'
       year: 'Năm'
+      display_year: '/năm'
       per: 'Căn'
-      square_meter: 'Mét vuông'
+      display_per: ''
   user:
     attribute:
       account_box: 'Thông tin tài khoản'
