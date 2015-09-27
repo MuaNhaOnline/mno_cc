@@ -366,7 +366,7 @@ class Project < ActiveRecord::Base
   # Unit price
   def get_unit_price
     if unit_price_text.present?
-      unit_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + price_unit.name)
+      unit_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + price_unit.name).html_safe
     else
       'Chưa có giá'
     end
