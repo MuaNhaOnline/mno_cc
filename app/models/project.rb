@@ -69,7 +69,7 @@ class Project < ActiveRecord::Base
     # Location
     unless params[:province].blank?
       if params[:province] == 'Hồ Chí Minh'
-        params[:province] = 'Thành phố Hồ Chi Minh'
+        params[:province] = 'Thành phố Hồ Chí Minh'
       end
       province = Province.find_or_create_by name: params[:province]
       params[:province_id] = province.id
