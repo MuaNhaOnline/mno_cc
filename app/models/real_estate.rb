@@ -669,12 +669,12 @@ class RealEstate < ActiveRecord::Base
 
   # Sell price
   def display_sell_price
-    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + (' ' + currency.name if currency.code != 'VND') + ' / ' + I18n.t('unit.text.display_' + sell_unit.name))
+    @display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + (currency.code != 'VND' ? ' ' + currency.name : '')) + I18n.t('unit.text.display_' + sell_unit.name))
   end
 
   # Rent price
   def display_rent_price
-    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (' ' + currency.name if currency.code != 'VND') + I18n.t('unit.text.display_' + rent_unit.name))
+    @display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + rent_unit.name))
   end
 
   # Price
