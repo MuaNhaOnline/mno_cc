@@ -192,7 +192,7 @@ end
 
   # Partial view
   # params: 
-  #   per, page
+  #   list_type, per, price(x;y), page, district
   #   newest
   def search
     projects = Project.search_with_params params
@@ -203,10 +203,12 @@ end
     params[:page] ||= 1
     params[:page] = params[:page].to_i
 
+    return render json: { status: 1 } if projects.count == 0
+
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'projects/item_list', locals: { projects: projects.page(params[:page], params[:per]) }),
+        list: render_to_string(partial: 'projects/item_list', locals: { projects: projects.page(params[:page], params[:per]), type: params[:list_type].to_i }),
         pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: projects.count, per: params[:per], page: params[:page] })
       }
     }

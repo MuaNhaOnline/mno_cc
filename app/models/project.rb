@@ -253,12 +253,23 @@ class Project < ActiveRecord::Base
   # Search with params
 
   # params: 
-  #   page
-  #   newest, cheapest
+  #   page, price(x;y), district
+  #   newest
   def self.search_with_params params = {}
     where = 'is_pending = false AND is_show = true'
     joins = []
     order = {}
+
+    if params.has_key? :price
+      price_range = params[:price].split(';')
+
+      where += " AND unit_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+    end
+
+    if params.has_key? :district
+      joins << :district
+      where += " AND districts.id = #{params[:district]} "
+    end
 
     if params.has_key? :newest
       order[:created_at] = 'asc'

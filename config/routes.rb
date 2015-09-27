@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   post 'users/forgot_password' => 'users#forgot_password_handle'
   put 'users/change_type'
   put 'users/change_password'
+  put 'users/cancel_change_email/:id' => 'users#cancel_change_email'
 
   # Appraisal company
   get 'appraisal_companies/autocomplete'

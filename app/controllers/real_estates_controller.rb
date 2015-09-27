@@ -191,7 +191,7 @@ class RealEstatesController < ApplicationController
 
     count = res.count
 
-    return render json: { status: 1 } if count === 0
+    return render json: { status: 1 } if count == 0
 
     render json: {
       status: 0,
@@ -291,6 +291,8 @@ class RealEstatesController < ApplicationController
 
     params[:page] ||= 1
     params[:page] = params[:page].to_i
+    
+    return render json: { status: 1 } if res.count == 0
 
     render json: {
       status: 0,

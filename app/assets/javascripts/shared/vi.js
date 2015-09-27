@@ -31,7 +31,7 @@ var _t = {
 	user: {
 		validate: {
 			'user[account]_required': 'Không thể bỏ trống',
-			'user[account]_unique': 'Không thể bỏ trống',
+			'user[account]_unique': 'Đã được sử dụng',
 			'user[old_password]_required': 'Không thể bỏ trống',
 			'user[password]_required': 'Không thể bỏ trống',
 			'repeat_password_required': 'Không thể bỏ trống',

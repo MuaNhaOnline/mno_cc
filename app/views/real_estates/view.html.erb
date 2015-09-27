@@ -319,7 +319,7 @@
 							<span><%= @re.shape == 1 ? t('real_estate.attribute.shape_greater') : t('real_estate.attribute.shape_less') %>: <b><%= @re.shape_width %>m</b></span>
 						</div>
 					<% end %>
-					<% if @re.fields.include? :floor_number %>
+					<% if @re.fields.include?(:floor_number) && @re.floor_number.present? %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
 							<span>Tầng: <b><%= @re.floor_number %></b></span>
@@ -358,7 +358,7 @@
 					<% if @re.fields.include? :constructional_quality %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
-							<span>Chất lượng còn lại: <b><%= @re.display_constructional_quality %></b></span>
+							<span>Chất lượng xây dựng: <b><%= @re.display_constructional_quality %></b></span>
 						</div>
 					<% end %>
 					<% if @re.fields.include? :legal_record_type %>
@@ -370,7 +370,7 @@
 					<% if @re.fields.include? :planning_status_type %>
 						<div class="col-md-3">
 							<i class="icon-check"></i>
-							<span>Tình trạng: <b><%= @re.display_planning_status_type %></b></span>
+							<span>Tình trạng quy hoạch: <b><%= @re.display_planning_status_type %></b></span>
 						</div>
 					<% end %>
 				</div>

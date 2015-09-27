@@ -67,6 +67,7 @@ $(function () {
 	initCheckEmail();
 	initCheckRepeatPassword();
 	initChangePassword();
+	initCancelChangeMail();
 
 	/*
 		Check account
@@ -311,6 +312,47 @@ $(function () {
 
 	/*
 		/ Change password
+	*/
+
+	/*
+		Cancel change mail
+	*/
+
+	function initCancelChangeMail() {
+		$form.find('[aria-click="cancel_change_mail"]').on('click', function () {
+			var $btn = $(this);
+
+			toggleLoadStatus(true);
+			$.ajax({
+				url: '/users/cancel_change_email/' + $form[0].elements['user[id]'].value,
+				method: 'PUT',
+				dataType: 'JSON'
+			}).always(function () {
+				toggleLoadStatus(false);
+			}).done(function (data) {
+				if (data.status == 0) {
+					$btn.closest('.form-group').remove();
+					$form.find('[aria-name="email"]').removeClass('hide');
+				}
+				else {
+          popupPrompt({
+            title: _t.form.error_title,
+            type: 'danger',
+            content: _t.form.error_content
+          })
+				}
+			}).fail(function () {
+        popupPrompt({
+          title: _t.form.error_title,
+          type: 'danger',
+          content: _t.form.error_content
+        });
+			});
+		});
+	}
+
+	/*
+		/ Cancel change mail
 	*/
 
 });

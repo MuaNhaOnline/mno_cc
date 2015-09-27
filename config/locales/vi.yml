@@ -48,7 +48,7 @@ vi:
       direction: 'Hướng'
       constructional_level: 'Loại nhà'
       build_year: 'Năm xây dựng'
-      constructional_quality: 'Hiện trạng'
+      constructional_quality: 'Chất lượng xây dựng'
       position_box: 'Vị trí'
       address_number: 'Số nhà'
       address: 'Đường, Phường, Quận/Huyện, Tỉnh/Thành'

@@ -19,6 +19,6 @@ class UserMailer < ApplicationMailer
 
   def active_new_email user
     @user = user
-    mail to: @user._params['new_email'], subject: 'Xác nhận thay đổi email'
+    mail to: @user.params['new_email'], subject: 'Xác nhận thay đổi email'
   end
 end
