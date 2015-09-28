@@ -157,7 +157,7 @@
 								<% 
 								(1...@re.images.count).each do |i|
 									%>
-									<li><img data-src="<%= @re.images[i].image.url %>" src="<%= @re.images[i].image.url('thumb') %>"></li>
+									<li><img data-popup="show-image" data-src="<%= @re.images[i].image.url %>" src="<%= @re.images[i].image.url('thumb') %>"></li>
 								<% end %>
 							</ul>
 						</li>
