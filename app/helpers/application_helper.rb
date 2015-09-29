@@ -15,8 +15,8 @@ module ApplicationHelper
     end
   end
 
-  def self.id_format id, code, length = 5
-    "\##{code}#{id.to_s.rjust(5, '0')}"
+  def self.id_format id, code, length = 6
+    "\##{code}#{id.to_s.rjust(6, '0')}"
   end
 
   def self.isValidEmail email

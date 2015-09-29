@@ -1406,7 +1406,7 @@ function initForm($form, params) {
 				checkInvalidInput($(this));  
 			})
 
-			var $dangerBox = $form.find('.box-danger');
+			var $dangerBox = $form.find('.box-danger:visible');
 			if ($dangerBox.length) {
 				$body.animate({
 					scrollTop: $dangerBox.offset().top - 20 
