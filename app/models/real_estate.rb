@@ -84,7 +84,7 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Alley
-    if fields.include?(:is_alley) && is_alley.blank?
+    if fields.include?(:is_alley) && is_alley.nil?
       errors.add :is_alley, 'Mặt đường không thể bỏ trống'
       return
     end
@@ -351,6 +351,7 @@ class RealEstate < ActiveRecord::Base
       :width_x, :width_y, :floor_number, :constructional_quality, :direction_id,
       advantage_ids: [], disadvantage_ids: [], property_utility_ids: [], region_utility_ids: []
     ]
+    byebug
   end
 
   # Save with params
