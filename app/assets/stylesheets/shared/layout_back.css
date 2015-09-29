@@ -339,6 +339,8 @@ body.no-scroll {
         background-color: #fff;
         border: 1px solid #ddd;
         position: relative;
+        float: left;
+        clear: left;
       }
 
         .item-list .item .top .left .node:before,

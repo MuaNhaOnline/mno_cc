@@ -55,6 +55,8 @@ class Investor < ActiveRecord::Base
       elsif _avatar_value[:old].blank?
         investor.assign_attributes avatar: nil
       end
+    else
+      investor.assign_attributes avatar: nil
     end
 
     if investor.save

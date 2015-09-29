@@ -138,6 +138,8 @@ class User < ActiveRecord::Base
       elsif _avatar_value[:old].blank?
         assign_attributes avatar: nil
       end
+    else
+      assign_attributes avatar: nil
     end
 
 		assign_attributes _params.permit [

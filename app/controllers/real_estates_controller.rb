@@ -210,6 +210,67 @@ class RealEstatesController < ApplicationController
 
 # / Pending
 
+# Manager
+
+  # View
+  def manager
+    # Author
+    authorize! :manage, RealEstate
+
+    @res = RealEstate.all
+
+    render layout: 'layout_back'
+  end
+
+  # Partial view
+  # params: keyword, page
+  def _manager_list
+    # Author
+    return render json: { status: 6 } if cannot? :manage, RealEstate
+
+    per = Rails.application.config.item_per_page
+
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
+    if params[:keyword].blank?
+      res = RealEstate.all
+    else
+      res = RealEstate.search(params[:keyword])
+    end
+
+    count = res.count
+
+    return render json: { status: 1 } if count == 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+      }
+    }
+  end
+
+  # Handle
+  # params: id, is_force_hide
+  def change_force_hide_status
+    RealEstate.update_force_hide_status params[:id], params[:is_force_hide]
+
+    render json: { status: 0 }
+  end
+
+
+  # Handle
+  # params: id, is_favorite
+  def change_favorite_status
+    RealEstate.update_favorite_status params[:id], params[:is_favorite]
+
+    render json: { status: 0 }
+  end
+
+# / Manager
+
 # Appraise
 
   # View

@@ -26,7 +26,7 @@ class Ability
       can [:signout]
 
       if user.is_admin
-        can [:manage, :approve, :appraise, :change_show_status], RealEstate
+        can [:manage, :approve, :appraise, :change_show_status, :change_force_hide_status, :change_favorite_status], RealEstate
         can [:manage, :approve, :appraise, :change_show_status], Project
         can [:manage, :rename, :delete], Investor
         can :manage, User
@@ -39,7 +39,7 @@ class Ability
 
       can [:view_my], RealEstate
 
-      can [:edit, :delete, :change_show_status], RealEstate, user_id: user.id
+      can [:edit, :delete, :change_show_status, :change_force_hide_status], RealEstate, user_id: user.id
 
       if user.is_real_estate_manager
         can [:manage, :approve, :appraise, :edit], RealEstate

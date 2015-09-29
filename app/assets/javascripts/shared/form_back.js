@@ -48,8 +48,8 @@ function initForm($form, params) {
 		});
 		
 		$form.inputToggle = function () {
-			$form.find('.input-toggle').each(function () {
-				toggle($(this));  
+			$form.find('.input-toggle:enabled').each(function () {
+				toggle($(this));
 			});
 		}
 
@@ -105,7 +105,7 @@ function initForm($form, params) {
 				var offElementsList = '';
 				$(offElements.split(' ')).each(function () {
 					offElementsList += ',[data-toggled-element~="' + this + '"]';
-				});
+				}); 
 
 				// Turn off all elements & process their child
 				$form.find(offElementsList.substr(1)).each(function () {
@@ -1009,8 +1009,23 @@ function initForm($form, params) {
 				input.setSelectionRange(selectionEnd, selectionEnd);
 
 				_temp['price'] = value;
+			},
+			'init': function () {
+				var input = this;
+				var value = input.value;
+
+				// Get current selection end
+				var selectionEnd = value.length - input.selectionEnd;
+
+				var value_ = value.split('.');
+				value_[0] = moneyFormat(intFormat(value_[0]), ',');
+				value = value_.join('.');
+				
+				input.value = value;
+				selectionEnd = value.length - selectionEnd;
+				input.setSelectionRange(selectionEnd, selectionEnd);
 			}
-		}).keyup();
+		}).trigger('init');
 	}
 
 	/*
@@ -1037,8 +1052,17 @@ function initForm($form, params) {
 	// }
 
 	function initConstraint() {
-		// initConstraintFormGroup($form.find('.form-group'));
 
+		// Radio, checkbox
+		$form.find('[type="radio"][data-constraint~=required],[type="checkbox"][data-constraint~=required]').each(function () {
+			var $input = $(this);
+
+			$form.find('[name="' + $input.attr('name') + '"]').not($input).attr('data-nonvalid', '').on('change', function () {
+				$input.change();
+			});
+		});
+
+		// Auto check valid
 		$form.find(':input:not([data-nonvalid])').on({
 			'change': function () {
 				checkInvalidInput($(this));
@@ -1146,9 +1170,17 @@ function initForm($form, params) {
 	//Check input
 	function checkInvalidInput($input) {
 		if ($input.is('[data-constraint~="required"]')) {
-			if (!$input.val()) {
-				toggleValidInput($input, false, 'required');
-				return 'required';
+			if ($input.is('[type="radio"],[type="checkbox"]')) {
+				if ($form.find('[name="' + $input.attr('name') + '"]:checked').length == 0) {
+					toggleValidInput($input, false, 'required');
+					return 'required';
+				}
+			}
+			else {
+				if (!$input.val()) {
+					toggleValidInput($input, false, 'required');
+					return 'required';
+				}	
 			}
 		}
 

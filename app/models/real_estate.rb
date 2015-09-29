@@ -68,16 +68,26 @@ class RealEstate < ActiveRecord::Base
       errors.add :province, 'Tỉnh/thành phố không thể bỏ trống'
       return
     end
-    if fields.include?(:district) && province.blank?
+    if fields.include?(:district) && district.blank?
       errors.add :district, 'Quận không thể bỏ trống'
       return
     end
-    if fields.include?(:street) && province.blank?
+    if fields.include?(:street) && street.blank?
       errors.add :street, 'Đường không thể bỏ trống'
       return
     end
 
+    # Street_type
+    if fields.include?(:street_type) && street_type.blank?
+      errors.add :street_type, 'Loại đường không thể bỏ trống'
+      return
+    end
+
     # Alley
+    if fields.include?(:is_alley) && is_alley.blank?
+      errors.add :is_alley, 'Mặt đường không thể bỏ trống'
+      return
+    end
     if fields.include?(:alley_width) && alley_width.blank?
       errors.add :alley_width, 'Độ rộng hẻm không thể bỏ trống'
       return
@@ -160,6 +170,13 @@ class RealEstate < ActiveRecord::Base
       errors.add :build_year, 'Năm xây dựng không thể bỏ trống'
       return
     end
+
+    # Constructional level
+    if fields.include?(:constructional_level) && constructional_level.blank?
+      errors.add :constructional_leval, 'Loại nhà không thể bỏ trống'
+      return
+    end
+
 
     # Constructional quality
     if fields.include?(:constructional_quality) && constructional_quality.blank?
@@ -486,6 +503,44 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Update show status
+
+  # Update force hide status
+
+  def self.update_force_hide_status id, is_force_hide
+    real_estate = find id
+
+    # Author
+    return { status: 6 } if User.current.cannot? :change_force_hide_status, real_estate
+
+    real_estate.is_force_hide = is_force_hide
+
+    if real_estate.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+  end
+
+  # / Update force hide status
+
+  # Update favorite status
+
+  def self.update_favorite_status id, is_favorite
+    real_estate = find id
+
+    # Author
+    return { status: 6 } if User.current.cannot? :change_favorite_status, real_estate
+
+    real_estate.is_favorite = is_favorite
+
+    if real_estate.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+  end
+
+  # / Update favorite status
 
   # Update pending status
 

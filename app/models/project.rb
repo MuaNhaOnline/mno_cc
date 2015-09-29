@@ -21,6 +21,7 @@ class Project < ActiveRecord::Base
 
 # Validates
 
+  validates :project_name, presence: { message: 'Tên dự án không được bỏ trống' }
   validates :title, presence: { message: 'Tiêu đề không được bỏ trống' }
   validates :description, presence: { message: 'Mô tả không được bỏ trống' }
   validates :province_id, presence: { message: 'Địa chỉ không được bỏ trống' }
@@ -141,7 +142,8 @@ class Project < ActiveRecord::Base
     assign_attributes images: _images
 
     assign_attributes params.permit [
-      :title, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, :price_unit_id,
+      :project_name, :title, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, 
+      :price_unit_id,
       :lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
       :project_type_id, :campus_area, :width_x, :width_y, :is_draft,
       :using_ratio, :estimate_starting_date, :estimate_finishing_date,
