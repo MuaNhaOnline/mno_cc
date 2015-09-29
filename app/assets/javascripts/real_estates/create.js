@@ -357,6 +357,7 @@ $(function () {
     var $isFull = $form.find('#is_full');
     if ($isFull.val() == 'false') {
       toggleUntilFull();
+      initNavigator();
     }
     else if ($isFull.val() == '') {
       popupPrompt({
