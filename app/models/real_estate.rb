@@ -351,7 +351,6 @@ class RealEstate < ActiveRecord::Base
       :width_x, :width_y, :floor_number, :constructional_quality, :direction_id,
       advantage_ids: [], disadvantage_ids: [], property_utility_ids: [], region_utility_ids: []
     ]
-    byebug
   end
 
   # Save with params
