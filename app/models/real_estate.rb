@@ -440,9 +440,9 @@ class RealEstate < ActiveRecord::Base
 
   # params: 
   #   keyword, price(x;y), real_estate_type, is_full, district
-  #   newest, cheapest, interact, view, id
+  #   newest, cheapest
   def self.search_with_params params = {}
-    where = 'is_pending = false AND is_show = true'
+    where = 'is_pending = false AND is_show = true AND is_force_hide = true'
     joins = []
     order = {}
 
@@ -466,6 +466,9 @@ class RealEstate < ActiveRecord::Base
       where += " AND districts.id = #{params[:district]} "
     end
 
+    if params.has_key? :keyword
+      search params[:keyword]
+    end
 
     if params.has_key?(:cheapest) || params.has_key?(:price)
       if User.options[:current_purpose] == 'r'
@@ -473,6 +476,27 @@ class RealEstate < ActiveRecord::Base
       else
         order[:sell_price] = 'asc'
       end
+    end
+
+    if params.has_key? :newest
+      order[:created_at] = 'asc'
+    end
+
+    where += " AND is_full = #{params[:is_full] || 'true'}"
+
+    joins(joins).get_by_current_purpose.where(where).order(order)
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.manager_search_with_params params = {}
+    where = 'is_pending = false'
+    joins = []
+    order = {}
+
+    if params.has_key?(:keyword) && params[:keyword].present?
+      search params[:keyword]
     end
 
     if params.has_key? :view
@@ -483,17 +507,15 @@ class RealEstate < ActiveRecord::Base
       order[:updated_at] = params[:interact]
     end
 
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
     if params.has_key? :id
       order[:id] = params[:id]
     end
 
-    if params.has_key? :newest
-      order[:created_at] = 'asc'
-    end
-
-    where += " AND is_full = #{params[:is_full] || 'true'}"
-
-    joins(joins).get_by_current_purpose.where(where).order(order)
+    joins(joins).where(where).order(order)
   end
 
   # / Search with params

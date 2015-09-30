@@ -32,19 +32,24 @@
         </div>
       </article>
       <article class="form-group no-margin text-center">
-        <a href="javascript:void(0)" class="no-underline text-muted" title="Mã">
+        <a href="javascript:void(0)" aria-click="order" data-name="id" data-sort="asc" class="no-underline text-muted" title="Mã">
           <span class="font-bold">#</span>
           <i class="fa fa-sort" aria-name="sort"></i>
         </a>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="javascript:void(0)" class="no-underline text-muted" title="Lượt xem">
+        <a href="javascript:void(0)" aria-click="order" data-name="view" data-sort="desc" class="no-underline text-muted" title="Lượt xem">
           <i class="fa fa-eye"></i>
           <i class="fa fa-sort" aria-name="sort"></i>
         </a>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="javascript:void(0)" class="no-underline text-muted" title="Tương tác">
+        <a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Có tương tác">
           <i class="fa fa-mail-reply-all"></i>
-          <i class="fa fa-sort" data-sort="true" aria-name="sort"></i>
+          <i class="fa fa-sort-desc" aria-name="sort"></i>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0)" aria-click="order" data-name="favorite" data-sort="desc" class="no-underline text-muted" title="Yêu thích">
+          <i class="fa fa-heart"></i>
+          <i class="fa fa-sort" aria-name="sort"></i>
         </a>
       </article>
     </form>
