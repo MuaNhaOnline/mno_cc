@@ -54,6 +54,9 @@
 
   <section class="form-navigator">
     <article id="form_navigator" class="items-container">
+      <a aria-name="project_name" href="javascript:void(0)" class="item">
+        <div class="icon"><i class="fa fa-info fa-lg "></i></div><div class="text"><%= t 'project.attribute.project_name_box' %></div>
+      </a>
       <a aria-name="position" href="javascript:void(0)" class="item">
         <div class="icon"><i class="fa fa-map-marker fa-lg "></i></div><div class="text"><%= t 'project.attribute.position_box' %></div>
       </a>
@@ -92,6 +95,25 @@
       <% end %>
 
       <!-- / Id (if edit) -->
+
+      <!-- Project name -->
+
+      <article aria-name="project_name" class="box box-default">
+        <section class="box-header with-border">
+          <h2 class="box-title"><%= t 'project.attribute.project_name_box' %></h2>
+        </section>
+        <section class="box-body">
+          <article class="form-group">
+            <label class="control-label" id="project_name">
+              <%= t 'project.attribute.project_name' %>
+              <sup class="required-label"></sup>
+            </label>
+            <input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" />
+          </article>
+        </section>
+      </article>
+
+      <!-- /Project name -->
         
       <!-- Position -->
 
@@ -104,20 +126,21 @@
           <!-- Location -->
 
           <article class="form-group">
-            <label for="address_number"><%= t 'project.attribute.address_number' %></label>
+            <label class="control-label" for="address_number"><%= t 'project.attribute.address_number' %></label>
             <input value="<%= @p.address_number %>" class="form-control" name="project[address_number]" type="text" id="address_number" autofocus />
           </article>
 
+          <input value="<%= @p.street.name unless @p.street.nil? %>" name="project[street]" type="hidden" id="street" />
+          <input value="<%= @p.ward.name unless @p.ward.nil? %>" name="project[ward]" type="hidden" id="ward" />
+          <input value="<%= @p.district.name unless @p.district.nil? %>" name="project[district]" type="hidden" id="district" />
+          <input value="<%= @p.province unless @p.province.nil? %>" name="project[province]" type="hidden" id="province" />
+          <input value="<%= @p.lat %>" name="project[lat]" type="hidden" id="lat" />
+          <input value="<%= @p.long %>" name="project[long]" type="hidden" id="long" />
+
           <article class="form-group">
-            <label for="location"><%= t 'project.attribute.address' %></label>
+            <label class="control-label" for="location"><%= t 'project.attribute.address' %></label>
             <sup class="required-label"></sup>
             <input data-constraint="required" name="location" class="form-control" id="location" data-new="<%= @p.new_record? %>" placeholder="" type="text" /> 
-            <input value="<%= @p.street.name unless @p.street.nil? %>" name="project[street]" type="hidden" id="street" />
-            <input value="<%= @p.ward.name unless @p.ward.nil? %>" name="project[ward]" type="hidden" id="ward" />
-            <input value="<%= @p.district.name unless @p.district.nil? %>" name="project[district]" type="hidden" id="district" />
-            <input value="<%= @p.province unless @p.province.nil? %>" name="project[province]" type="hidden" id="province" />
-            <input value="<%= @p.lat %>" name="project[lat]" type="hidden" id="lat" />
-            <input value="<%= @p.long %>" name="project[long]" type="hidden" id="long" />
           </article>
 
           <!-- / Location -->
@@ -146,7 +169,7 @@
           <!-- Project type -->
 
           <article class="form-group">
-            <label for="project_type"><%= t 'project.attribute.project_type' %></label>
+            <label class="control-label" for="project_type"><%= t 'project.attribute.project_type' %></label>
             <select class="form-control" id="project_type" name="project[project_type_id]">
               <% ProjectType.get_options.each do |t| %>
                 <option value="<%= t.id %>" <%= 'selected' if @p.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
@@ -161,7 +184,7 @@
             <!-- Campus area -->
 
             <article class="form-group col-md-6">
-              <label for="campus_area"><%= t 'project.attribute.campus_area' %></label>
+              <label class="control-label" for="campus_area"><%= t 'project.attribute.campus_area' %></label>
               <sup class="required-label"></sup>
               <div class="input-group">
                 <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @p.campus_area %>" />
@@ -174,7 +197,7 @@
             <!-- Using ratio -->
 
             <article class="form-group col-md-6">
-              <label for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
+              <label class="control-label" for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
               <div class="input-group">
                 <input data-constraint="integer range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio %>" />
                 <div class="input-group-addon">%</div>
@@ -198,11 +221,15 @@
         </section>
         <section class="box-body">
           <article class="form-group">
-            <label class="control-label"><%= t 'project.attribute.date_display_type' %></label>
-            <div class="clear-fix"></div>
-            <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="1" <%= 'checked' if @p.date_display_type == 1 %> />Ngày</label>
-            <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="2" <%= 'checked' if @p.new_record? || @p.date_display_type == 2 %> />Quý</label>
-            <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="3" <%= 'checked' if @p.date_display_type == 3 %> />Năm</label>
+            <label class="control-label">
+              <%= t 'project.attribute.date_display_type' %>
+              <sup class="required-label"></sup>
+            </label>
+            <div>
+              <label class="radio-inline"><input data-constraint="required" name="project[date_display_type]" type="radio" value="1" <%= 'checked' if @p.date_display_type == 1 %> />Ngày</label>
+              <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="2" <%= 'checked' if @p.date_display_type == 2 %> />Quý</label>
+              <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="3" <%= 'checked' if @p.date_display_type == 3 %> />Năm</label>
+            </div>
           </article>
 
           <div class="row">
@@ -210,7 +237,7 @@
             <!-- Estimate starting date -->
 
             <article class="form-group col-md-6">
-              <label for="estimate_starting_date"><%= t 'project.attribute.estimate_starting_date' %></label>
+              <label class="control-label" for="estimate_starting_date"><%= t 'project.attribute.estimate_starting_date' %></label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
@@ -224,7 +251,7 @@
             <!-- Estimate finishing date -->
 
             <article class="form-group col-md-6">
-              <label for="estimate_finishing_date"><%= t 'project.attribute.estimate_finishing_date' %></label>
+              <label class="control-label" for="estimate_finishing_date"><%= t 'project.attribute.estimate_finishing_date' %></label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
@@ -242,7 +269,7 @@
             <!-- Starting date -->
 
             <article class="form-group col-md-6">
-              <label for="starting_date"><%= t 'project.attribute.starting_date' %></label>
+              <label class="control-label" for="starting_date"><%= t 'project.attribute.starting_date' %></label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
@@ -256,7 +283,7 @@
             <!-- Finished base date -->
 
             <article class="form-group col-md-6">
-              <label for="finished_base_date"><%= t 'project.attribute.finished_base_date' %></label>
+              <label class="control-label" for="finished_base_date"><%= t 'project.attribute.finished_base_date' %></label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
@@ -274,7 +301,7 @@
             <!-- Transfer date -->
 
             <article class="form-group col-md-6">
-              <label for="transfer_date"><%= t 'project.attribute.transfer_date' %></label>
+              <label class="control-label" for="transfer_date"><%= t 'project.attribute.transfer_date' %></label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
@@ -288,7 +315,7 @@
             <!-- Docs issue date -->
 
             <article class="form-group col-md-6">
-              <label for="docs_issue_date"><%= t 'project.attribute.docs_issue_date' %></label>
+              <label class="control-label" for="docs_issue_date"><%= t 'project.attribute.docs_issue_date' %></label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-calendar"></i>
@@ -317,7 +344,7 @@
           <!-- Currency -->
 
           <article class="form-group">
-            <label for="investor_id"><%= t 'project.attribute.investor' %></label>
+            <label class="control-label" for="investor_id"><%= t 'project.attribute.investor' %></label>
             <input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@p.investor.name}\" data-value=\"#{@p.investor.id}\"".html_safe if @p.investor.present? %> data-free name="project[investor_id]" id="investor_id" />
           </article>
 
@@ -326,7 +353,7 @@
           <!-- Execute unit -->
 
           <article class="form-group">
-            <label for="execute_unit"><%= t 'project.attribute.execute_unit' %></label>
+            <label class="control-label" for="execute_unit"><%= t 'project.attribute.execute_unit' %></label>
             <input value="<%= @p.execute_unit %>" name="project[execute_unit]" class="form-control" id="execute_unit">
           </article>
 
@@ -335,7 +362,7 @@
           <!-- Desgin unit -->
 
           <article class="form-group">
-            <label for="design_unit"><%= t 'project.attribute.design_unit' %></label>
+            <label class="control-label" for="design_unit"><%= t 'project.attribute.design_unit' %></label>
             <input value="<%= @p.design_unit %>" name="project[design_unit]" class="form-control" id="design_unit">
           </article>
 
@@ -344,7 +371,7 @@
           <!-- Manager unit -->
 
           <article class="form-group">
-            <label for="manage_unit"><%= t 'project.attribute.manage_unit' %></label>
+            <label class="control-label" for="manage_unit"><%= t 'project.attribute.manage_unit' %></label>
             <input value="<%= @p.manage_unit %>" name="project[manage_unit]" class="form-control" id="manage_unit">
           </article>
 
@@ -366,7 +393,7 @@
           <!-- Currency -->
 
           <article class="form-group">
-            <label for="currency_id"><%= t 'project.attribute.currency' %></label>
+            <label class="control-label" for="currency_id"><%= t 'project.attribute.currency' %></label>
             <select name="project[currency_id]" class="form-control" id="currency_id">
               <% Currency.get_options.each do |c| %>
                 <option value="<%= c.id %>" <%= 'selected' if c.id == @p.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @p.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
@@ -379,7 +406,7 @@
           <!-- Price -->
 
           <article class="form-group" data-toggled-element="sell un-rent">
-            <label for="unit_price"><%= t 'project.attribute.unit_price' %></label>
+            <label class="control-label" for="unit_price"><%= t 'project.attribute.unit_price' %></label>
             <div class="input-group">
               <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @p.unit_price.to_i unless @p.unit_price.blank? %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
               <div class="input-group-btn">
@@ -397,7 +424,7 @@
           <!-- Payment method -->
 
           <article class="form-group">
-            <label for="payment_method"><%= t 'project.attribute.payment_method' %></label>
+            <label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
             <textarea name="project[payment_method]" class="form-control" id="payment_method"><%= @p.payment_method %></textarea>
           </article>
 
@@ -419,7 +446,7 @@
           <!-- Title -->
 
           <article class="form-group">
-            <label for="title"><%= t 'project.attribute.title' %></label>
+            <label class="control-label" for="title"><%= t 'project.attribute.title' %></label>
             <sup class="required-label"></sup>
             <input data-constraint="required" value="<%= @p.title %>" name="project[title]" class="form-control" id="title">
           </article>
@@ -429,7 +456,7 @@
           <!-- Description -->
 
           <article class="form-group">
-            <label for="description"><%= t 'project.attribute.description' %></label>
+            <label class="control-label" for="description"><%= t 'project.attribute.description' %></label>
             <sup class="required-label"></sup>
             <textarea data-constraint="required" name="project[description]" class="form-control" id="description"><%= @p.description %></textarea>
           </article>

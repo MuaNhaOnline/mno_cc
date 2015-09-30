@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get 'real_estates/_my_list'
   get 'real_estates/pending'
   get 'real_estates/_pending_list'
+  get 'real_estates/manager'
+  get 'real_estates/_manager_list'
   get 'real_estates/appraise'
   get 'real_estates/_appraise_list'
   get 'real_estates/search'
@@ -31,6 +33,8 @@ Rails.application.routes.draw do
   post 'real_estates/set_appraisal_company'
   delete 'real_estates/:id' => 'real_estates#delete'
   put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
+  put 'real_estates/change_force_hide_status/:id/:is_force_hide' => 'real_estates#change_force_hide_status'
+  put 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
   put 'real_estates/approve/:id' => 'real_estates#approve'
 
   # User
@@ -55,6 +59,7 @@ Rails.application.routes.draw do
   post 'users/forgot_password' => 'users#forgot_password_handle'
   put 'users/change_type'
   put 'users/change_password'
+  put 'users/cancel_change_email/:id' => 'users#cancel_change_email'
 
   # Appraisal company
   get 'appraisal_companies/autocomplete'

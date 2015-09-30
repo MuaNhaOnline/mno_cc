@@ -31,7 +31,7 @@ var _t = {
 	user: {
 		validate: {
 			'user[account]_required': 'Không thể bỏ trống',
-			'user[account]_unique': 'Không thể bỏ trống',
+			'user[account]_unique': 'Đã được sử dụng',
 			'user[old_password]_required': 'Không thể bỏ trống',
 			'user[password]_required': 'Không thể bỏ trống',
 			'repeat_password_required': 'Không thể bỏ trống',
@@ -56,26 +56,37 @@ var _t = {
 			pending_status: 'Chờ duyệt',
 			success_status: 'Đã xác nhận',
 			show_status: 'Hiển thị',
-			hide_status: 'Ẩn'
+			hide_status: 'Ẩn',
+			favorite_status: 'Yêu thích'
 		},
 		validate: {
 			'location_required': 'Không thể bỏ trống',
 			'real_estate_type': 'Không thể bỏ trống',
 			'real_estate[purpose_id]_required': 'Không thể bỏ trống',
+			'real_estate[street_type]_required': 'Không thể bỏ trống',
+			'real_estate[is_alley]_required': 'Không thể bỏ trống',
 			'real_estate[alley_width]_required': 'Không thể bỏ trống',
+			'real_estate_type_group_required': 'Không thể bỏ trống',
+			'real_estate[real_estate_type_id]_required': 'Không thể bỏ trống',
 			'real_estate[building_name]_required': 'Không thể bỏ trống',
 			'real_estate[constructional_area]_required': 'Không thể bỏ trống',
 			'real_estate[using_area]_required': 'Không thể bỏ trống',
 			'real_estate[campus_area]_required': 'Không thể bỏ trống',
 			'real_estate[width_x]_required': 'Không thể bỏ trống',
 			'real_estate[width_y]_required': 'Không thể bỏ trống',
+			'real_estate[shape]_required': 'Không thể bỏ trống',
 			'real_estate[shape_width]_required': 'Không thể bỏ trống',
 			'real_estate[shape_width]_width': 'Không hợp lệ',
 			'real_estate[floor_number]_required': 'Không thể bỏ trống',
+			'real_estate[restroom_number]_required': 'Không thể bỏ trống',
+			'real_estate[bedroom_number]_required': 'Không thể bỏ trống',
+			'real_estate[build_year]_required': 'Không thể bỏ trống',
 			'real_estate[constructional_quality]_required': 'Không thể bỏ trống',
 			'real_estate[title]_required': 'Không thể bỏ trống',
 			'real_estate[description]_required': 'Không thể bỏ trống',
+			'real_estate[legal_record_type_id]_required': 'Không thể bỏ trống',
 			'real_estate[custom_legal_record_type]_required': 'Không thể bỏ trống',
+			'real_estate[planning_status_type_id]_required': 'Không thể bỏ trống',
 			'real_estate[custom_planning_status_type]_required': 'Không thể bỏ trống',
 			'real_estate[image_ids]_required': 'Không thể bỏ trống',
 			'real_estate[user_full_name]_required': 'Không thể bỏ trống',
@@ -95,6 +106,13 @@ var _t = {
 				'continue': 'Tiếp tục',
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
+			},
+			manager: {
+				hide: 'Ẩn',
+				show: 'Hiển thị',
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?',
+				favorite: 'Yêu thích',
+				unfavorite: 'Bỏ yêu thích'
 			},
 			pending: {
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
@@ -149,8 +167,10 @@ var _t = {
 		},
 		validate: {
 			'location_required': 'Không thể bỏ trống',
+			'project[project_name]_required': 'Không thể bỏ trống',
 			'project[campus_area]_required': 'Không thể bỏ trống',
 			'project[using_ratio]_required': 'Không thể bỏ trống',
+			'project[date_display_type]_required': 'Không thể bỏ trống',
 			'project[estimate_finishing_date]_greater_start': 'Phải sau ngày khởi công',
 			'project[finished_base_date]_greater_start': 'Phải sau ngày khởi công',
 			'project[transfer_date]_greater_finish': 'Phải sau ngày hoàn thành móng',

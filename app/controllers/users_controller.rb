@@ -112,6 +112,8 @@ class UsersController < ApplicationController
         UserMailer.active_account(user).deliver_now
       when 2
         UserMailer.active_old_email(user).deliver_now
+      when 3
+        UserMailer.active_new_email(user).deliver_now
     end
 
     redirect_to "/users/active_callout/#{user.id}?status=resend"
@@ -327,6 +329,16 @@ class UsersController < ApplicationController
   end
 
 # / Forgot password
+
+# Cancel change mail
+  
+  # Handle
+  # params: id(*)
+  def cancel_change_email
+    render json: User.cancel_change_email(params[:id])
+  end
+
+# / Cancel change mail
 
 # Autocomplete
 

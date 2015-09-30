@@ -1,13 +1,13 @@
 <% content_for :stylesheets do %>
-		<link rel="stylesheet" href="/assets/real_estates/index.css" />
-		<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.skinFlat.css" />
-		<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.css" />
-		<link rel="stylesheet" href="/assets/shared/normalize.css" />
+	<link rel="stylesheet" href="/assets/real_estates/index.css" />
+	<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.skinFlat.css" />
+	<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.css" />
+	<link rel="stylesheet" href="/assets/shared/normalize.css" />
 <% end %>
 
 <% content_for :scripts do %>
-	<script src="/assets/real_estates/index.js"></script>
 	<script src="/assets/shared/ion.rangeSlider.min.js"></script>
+	<script src="/assets/real_estates/index.js"></script>
 <% end %>
 
 <% 
@@ -372,7 +372,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<% 
-								districts = District.all 
+								districts = District.order name: 'asc'
 							%>
 							<% districts.each do |district| %>
 								<li>

@@ -1,7 +1,11 @@
 class RealEstate < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true, any_word: true } }
+  pg_search_scope :search, against: {
+    meta_search_1: 'A',
+    meta_search_2: 'B',
+    meta_search_3: 'C'
+  }, using: { tsearch: { prefix: true, any_word: true } }
 
   serialize :params, JSON
 
@@ -68,16 +72,26 @@ class RealEstate < ActiveRecord::Base
       errors.add :province, 'Tỉnh/thành phố không thể bỏ trống'
       return
     end
-    if fields.include?(:district) && province.blank?
+    if fields.include?(:district) && district.blank?
       errors.add :district, 'Quận không thể bỏ trống'
       return
     end
-    if fields.include?(:street) && province.blank?
+    if fields.include?(:street) && street.blank?
       errors.add :street, 'Đường không thể bỏ trống'
       return
     end
 
+    # Street_type
+    if fields.include?(:street_type) && street_type.blank?
+      errors.add :street_type, 'Loại đường không thể bỏ trống'
+      return
+    end
+
     # Alley
+    if fields.include?(:is_alley) && is_alley.nil?
+      errors.add :is_alley, 'Mặt đường không thể bỏ trống'
+      return
+    end
     if fields.include?(:alley_width) && alley_width.blank?
       errors.add :alley_width, 'Độ rộng hẻm không thể bỏ trống'
       return
@@ -160,6 +174,13 @@ class RealEstate < ActiveRecord::Base
       errors.add :build_year, 'Năm xây dựng không thể bỏ trống'
       return
     end
+
+    # Constructional level
+    if fields.include?(:constructional_level) && constructional_level.blank?
+      errors.add :constructional_leval, 'Loại nhà không thể bỏ trống'
+      return
+    end
+
 
     # Constructional quality
     if fields.include?(:constructional_quality) && constructional_quality.blank?
@@ -368,7 +389,7 @@ class RealEstate < ActiveRecord::Base
 
     assign_attributes other_params
 
-    assign_attributes meta_search: RealEstate.get_meta_search(self)
+    assign_meta_search
 
     if save validate: !is_draft
       { status: 0 }
@@ -429,9 +450,9 @@ class RealEstate < ActiveRecord::Base
       price_range = params[:price].split(';')
 
       if User.options[:current_purpose] == 'r'
-        where += " AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+        where += " AND rent_price IS NOT NULL AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
       else
-        where += " AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+        where += " AND sell_price IS NOT NULL AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
       end
     end
 
@@ -486,6 +507,44 @@ class RealEstate < ActiveRecord::Base
   end
 
   # / Update show status
+
+  # Update force hide status
+
+  def self.update_force_hide_status id, is_force_hide
+    real_estate = find id
+
+    # Author
+    return { status: 6 } if User.current.cannot? :change_force_hide_status, real_estate
+
+    real_estate.is_force_hide = is_force_hide
+
+    if real_estate.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+  end
+
+  # / Update force hide status
+
+  # Update favorite status
+
+  def self.update_favorite_status id, is_favorite
+    real_estate = find id
+
+    # Author
+    return { status: 6 } if User.current.cannot? :change_favorite_status, real_estate
+
+    real_estate.is_favorite = is_favorite
+
+    if real_estate.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+  end
+
+  # / Update favorite status
 
   # Update pending status
 
@@ -580,21 +639,13 @@ class RealEstate < ActiveRecord::Base
 
   # Get meta search
 
-  def self.get_meta_search re
+  def assign_meta_search
     tempLocale = I18n.locale
     I18n.locale = 'vi'
 
-    meta_search = 
-      "#{I18n.t('purpose.text.' + re.purpose.name) if re.fields.include?(:purpose) && re.purpose.present?} 
-      #{I18n.t('real_estate_type.text.' + re.real_estate_type.name) if re.fields.include?(:real_estate_type) && re.real_estate_type.present?} 
-      #{re.street.name if re.fields.include?(:street) && re.street.present?} 
-      #{re.district.name if re.fields.include?(:district) && re.district.present?} 
-      #{re.province.name if re.fields.include?(:province) && re.province.present?} 
-      #{re.title}"
-    
-    I18n.locale = tempLocale
+    assign_attributes meta_search_1: "#{display_id} #{id} #{district.name if district.present?} #{street.name if street.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{title} #{I18n.t('purpose.text.' + purpose.name) if purpose.present?} #{province.name if province.present?}", meta_search_3: "#{user_id == 0 ? user_full_name + ' ' + user_email + ' ' + user_phone_number : user.full_name + ' ' + user.email + ' ' + user.phone_number} #{ward.name if ward.present?}"
 
-    meta_search
+    I18n.locale = tempLocale
   end
 
   # / Get meta search

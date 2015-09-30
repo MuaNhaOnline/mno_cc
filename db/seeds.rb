@@ -14,7 +14,7 @@ Advantage.create [
 ConstructionalLevel.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE constructional_levels_id_seq RESTART WITH 1')
 ConstructionalLevel.create [
-	{ name: 'level_1', options: '{"default":""}' },
+	{ name: 'level_1' },
 	{ name: 'level_2' },
 	{ name: 'level_3' },
 	{ name: 'level_4' },
@@ -57,7 +57,7 @@ Disadvantage.create [
 LegalRecordType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE legal_record_types_id_seq RESTART WITH 1')
 LegalRecordType.create [
-	{ name: 'red', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}, "default":""}' },
+	{ name: 'red', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}}' },
 	{ name: 'pink', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}}' },
 	{ name: 'other', code: 'Custom', options: '{"html":{"attributes":"data-on=custom-legal-record-type"}}' }
 ]
@@ -65,7 +65,7 @@ LegalRecordType.create [
 PlanningStatusType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE planning_status_types_id_seq RESTART WITH 1')
 PlanningStatusType.create [
-	{ name: 'stable', options: '{"html":{"attributes":"data-off=custom-planning-status-type"},"default":""}' },
+	{ name: 'stable', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
 	{ name: 'part', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
 	{ name: 'full', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
 	{ name: 'other', code: 'Custom', options: '{"html":{"attributes":"data-on=custom-planning-status-type"}}' }
@@ -93,10 +93,10 @@ Purpose.create [
 RealEstateType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
 RealEstateType.create [
-	{ name: 'residential_land', code: '|land|', options: '{"group":"land","default":""}' },
+	{ name: 'residential_land', code: '|land|', options: '{"group":"land"}' },
 	{ name: 'vacant_land', code: '|land|', options: '{"group":"land"}' },
 	{ name: 'other_land', code: '|land|', options: '{"group":"land"}' },
-	{ name: 'office', code: '|space|', options: '{"group":"space","default":"","html":{"attributes":"data-on=office"}}' },
+	{ name: 'office', code: '|space|', options: '{"group":"space","html":{"attributes":"data-on=office"}}' },
 	{ name: 'motel', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
 	{ name: 'store', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
 	{ name: 'restaurant_hotel', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
@@ -128,14 +128,8 @@ Unit.create [
 	{ name: 'square_meter', options: '{"group":"sell"}' },
 	{ name: 'month', options: '{"group":"rent","default":""}' },
 	{ name: 'year', options: '{"group":"rent"}' },
-	{ name: 'square_meter', options: '{"group":"project","default":""}' },
-	{ name: 'per', options: '{"group":"project"}' }
-]
-
-District.delete_all
-ActiveRecord::Base.connection.execute('ALTER SEQUENCE districts_id_seq RESTART WITH 1')
-District.create [
-	{ name: '1', province_id: 1, options: '{"default":""}' }
+	{ name: 'square_meter', options: '{"group":"project"}' },
+	{ name: 'per', options: '{"group":"project","default":""}' }
 ]
 
 ProjectType.delete_all

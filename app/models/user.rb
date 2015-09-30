@@ -17,10 +17,12 @@ class User < ActiveRecord::Base
 
   has_attached_file :avatar, 
   	styles: { mini: '40x40#', thumb: '100x100#', big: '150x150#' },
-  	default_url: "/assets/users/default.png", 
+  	default_url: "/assets/users/:style/default.png", 
   	:path => ":rails_root/app/assets/file_uploads/user_images/:style/:id_:filename", 
   	:url => "/assets/user_images/:style/:id_:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
+  serialize :params, JSON
 
 # Associates
 
@@ -103,39 +105,31 @@ class User < ActiveRecord::Base
 
 	# / Options
 
-	# Hash params
-
-	def _params
-	  @_params ||= params.blank? ? {} : JSON.parse(params)
-	end
-
-	# / Hash params
-
 # / Attribute
 
 # Insert
 
 	# Get params
 
-	def assign_attributes_with_params params
+	def assign_attributes_with_params _params
 		# Account
-		params[:account] = params[:account].downcase if params.has_key? :account
+		_params[:account] = _params[:account].downcase if _params.has_key? :account
 
 		# Password
-		if params.has_key? :password
+		if _params.has_key? :password
 			require 'digest/md5'
-			params[:password] = ApplicationHelper.md5_encode(params[:password])	
+			_params[:password] = ApplicationHelper.md5_encode _params[:password]
 		end
 
 		# Birthday
-		if params[:birthday].present?
-			params[:birthday] = Date.strptime(params[:birthday], '%Y')
+		if _params[:birthday].present?
+			_params[:birthday] = Date.strptime(_params[:birthday], '%Y')
 		end
 
     # Images
 
-    if params[:avatar_id].present?
-      _avatar_value = TemporaryFile.split_old_new params[:avatar_id].split(';')
+    if _params[:avatar_id].present?
+      _avatar_value = TemporaryFile.split_old_new _params[:avatar_id].split(';')
 
       if _avatar_value[:new].present?
 				TemporaryFile.get_files(_avatar_value[:new]) do |_avatar, _id|
@@ -144,9 +138,11 @@ class User < ActiveRecord::Base
       elsif _avatar_value[:old].blank?
         assign_attributes avatar: nil
       end
+    else
+      assign_attributes avatar: nil
     end
 
-		assign_attributes params.permit [
+		assign_attributes _params.permit [
 			:account, :password, :email, :full_name, :birthday, :business_name,
 			:phone_number, :address ]
 	end
@@ -155,7 +151,7 @@ class User < ActiveRecord::Base
 
 	# Save with params
 
-	def save_with_params params
+	def save_with_params _params
 		# Author
 		if new_record?
 			return { status: 6 } if User.current.cannot? :signup, nil
@@ -163,7 +159,7 @@ class User < ActiveRecord::Base
 			return { status: 6 } if User.current.cannot? :edit, self
 		end
 
-		assign_attributes_with_params params
+		assign_attributes_with_params _params
 
 		user_params = {}
 		email_changed = false
@@ -171,7 +167,7 @@ class User < ActiveRecord::Base
 		# Active code
 		if new_record?
 			user_params[:active_status] = 1 
-			user_params[:params] = { active_code: SecureRandom.base64 }.to_json
+			user_params[:params] = { active_code: SecureRandom.base64 }
 		# Check if change email
 		else
 			if email_changed?
@@ -179,12 +175,12 @@ class User < ActiveRecord::Base
 				user_params[:active_status] = 2
 
 				# Create active code
-				_params['active_code'] = SecureRandom.base64
-				_params['new_email'] = user_params[:email]
-				user_params[:params] = _params.to_json
+				user_params[:params] = {}
+				user_params[:params]['active_code'] = SecureRandom.base64
+				user_params[:params]['new_email'] = email
 
 				# Not change new email
-				email = email_was
+				assign_attributes email: email_was
 
 				email_changed = true
 			end
@@ -247,10 +243,9 @@ class User < ActiveRecord::Base
 
 		case user.active_status
 			when 1
-				if user._params['active_code'] == code
+				if user.params['active_code'] == code
 					user.active_status = 0
-					user._params.delete 'active_code'
-					user.params = user._params.to_json
+					user.params.delete 'active_code'
 
 					user.save validate: false
 
@@ -259,10 +254,9 @@ class User < ActiveRecord::Base
 					return { status: 3 }
 				end
 			when 2
-				if user._params['active_code'] == code
+				if user.params['active_code'] == code
 					user.active_status = 3
-					user._params['active_code'] = SecureRandom.base64
-					user.params = user._params.to_json
+					user.params['active_code'] = SecureRandom.base64
 
 					user.save validate: false
 
@@ -271,14 +265,14 @@ class User < ActiveRecord::Base
 					return { status: 3 }
 				end
 			when 3
-				if user._params['active_code'] == code
+				if user.params['active_code'] == code
 					user.active_status = 0
-					user.email = user._params['new_email']
+					user.email = user.params['new_email']
 
-					user._params.delete 'active_code'
-					user._params.delete 'new_email'
+					user.params.delete 'active_code'
+					user.params.delete 'new_email'
 
-					user.params = user._params.to_json
+					user.params = user.params.to_json
 
 					user.save validate: false
 
@@ -295,18 +289,19 @@ class User < ActiveRecord::Base
 	# return
 	# 	error status:
 	# 		1: uncorress old password
-	def self.change_password params
-		user = find params[:id]
+	def self.change_password _params
+		user = find _params[:id]
 
+		# Author
 		return { status: 6 } if current.cannot? :edit, user
 
 		# If not exist
 		return { status: 1 } if user.nil?
 
 		# Check old password
-		return { status: 5, result: 'Mật khẩu cũ không đúng' } if user.password != ApplicationHelper.md5_encode(params[:old_password])
+		return { status: 5, result: 'Mật khẩu cũ không đúng' } if user.password != ApplicationHelper.md5_encode(_params[:old_password])
 
-		user.password = ApplicationHelper.md5_encode params[:password]
+		user.password = ApplicationHelper.md5_encode _params[:password]
 		if user.save validate: false
 			{ status: 0 }
 		else
@@ -327,6 +322,23 @@ class User < ActiveRecord::Base
 			{ status: 0, result: { user: user, new_password: new_password } }
 		else
 			{ status: 2 }
+		end
+	end
+
+	# Cancel change mail
+	def self.cancel_change_email id
+		user = find id
+
+		# Author
+		return { status: 6 } if current.cannot? :cancel_change_email, user
+
+		user.active_status = 0
+		user.params.delete 'active_code'
+		user.params.delete 'new_email'
+		if user.save
+			{ status: 0 }
+		else
+			{ status: 3 }
 		end
 	end
 

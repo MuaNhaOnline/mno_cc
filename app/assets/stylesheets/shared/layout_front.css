@@ -1287,5 +1287,7 @@ footer {
 	}
 	.modal-show-picture img {
 		width: 100%;
+    max-height: calc(100vh - 45px);
+    max-width: calc(100vw - 50px);
 	}
 /*end*/

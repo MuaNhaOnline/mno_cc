@@ -9,6 +9,7 @@ class Ability
     can [:edit, :delete], RealEstate do |re|
       re.user_id == 0 && (re.params['remote_ip'] == request.remote_ip || request[:secure_code] == re.params['secure_code'])
     end
+
     # Not sign
     if user.new_record?
 
@@ -25,7 +26,7 @@ class Ability
       can [:signout]
 
       if user.is_admin
-        can [:manage, :approve, :appraise, :change_show_status], RealEstate
+        can [:manage, :approve, :appraise, :change_show_status, :change_force_hide_status, :change_favorite_status], RealEstate
         can [:manage, :approve, :appraise, :change_show_status], Project
         can [:manage, :rename, :delete], Investor
         can :manage, User
@@ -38,7 +39,7 @@ class Ability
 
       can [:view_my], RealEstate
 
-      can [:edit, :delete, :change_show_status], RealEstate, user_id: user.id
+      can [:edit, :delete, :change_show_status, :change_force_hide_status], RealEstate, user_id: user.id
 
       if user.is_real_estate_manager
         can [:manage, :approve, :appraise, :edit], RealEstate
@@ -68,7 +69,7 @@ class Ability
 
 # User
       
-      can :edit, User, id: user.id
+      can [:edit, :cancel_change_email], User, id: user.id
 
       if user.is_user_manager
         can [:manage], User

@@ -34,9 +34,9 @@
 	%>
 	<article class="row">
 		<article class="col-md-6 col-md-offset-3">
-			<article class="box box-success">
+			<article class="box box-warning">
 				<section class="box-header">
-					<h4 class="box-title">Chúc mừng. Bạn vừa xác nhận thành công</h4>
+					<h4 class="box-title">Hãy tiếp tục vào địa chỉ <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> mới để xác nhận</h4>
 				</section>
 				<section class="box-body">
 					<p>Hãy vào địa chỉ <%= mail.nil? ? 'mail' : ('<a href="' + mail + '">mail</a>').html_safe %> mới để xác nhận.</p>						

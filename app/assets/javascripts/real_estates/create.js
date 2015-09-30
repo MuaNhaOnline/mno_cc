@@ -4,6 +4,7 @@ $(function () {
     $focusingBox,
     $form = $('#create_re');
   
+  _temp['form'] = $form;
   /*
     Init
   */
@@ -174,6 +175,11 @@ $(function () {
 
       $form.find('#is_full').val(true);
 
+      // on
+      $form.find('.until-full').show().find(':input').prop('disabled', false);
+      $formNavigator.find('.until-full').show();
+      $form.find('.until-full').closest('.box').removeClass('box-primary').data('status', 'normal').trigger('changeStatus');
+
       $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
       $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
       $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
@@ -181,11 +187,6 @@ $(function () {
       $form.find('[aria-name="basic"]').remove(); 
 
       $form.find('[aria-click="detail-toggle"]').remove();
-
-      // on
-      $form.find('.until-full').show().find(':input').prop('disabled', false);
-      $formNavigator.find('.until-full').show();
-      $form.find('.until-full').closest('.box').removeClass('box-primary').data('status', 'normal').trigger('changeStatus');
 
       if (type == 1) {
         var $box = $form.find('.box .until-full:eq(0)').closest('.box');
@@ -356,6 +357,7 @@ $(function () {
     var $isFull = $form.find('#is_full');
     if ($isFull.val() == 'false') {
       toggleUntilFull();
+      initNavigator();
     }
     else if ($isFull.val() == '') {
       popupPrompt({

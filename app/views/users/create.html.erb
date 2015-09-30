@@ -93,7 +93,7 @@
 			    <!-- Change password -->
 
 			    <article class="form-group">
-			    	<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-block">Đổi mật khẩu</a>
+			    	<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-flat btn-block">Đổi mật khẩu</a>
 			    </article>
 
 			    <!-- / Change password -->
@@ -102,14 +102,29 @@
 
 		    <!-- Email -->
 
-		    <article class="form-group">
-		      <label for="email"><%= t 'user.attribute.email' %></label>
-          <sup class="required-label"></sup>
+      	<% if @user.active_status == 2 || @user.active_status == 3 %>
+      		<article class="form-group">
+	      		<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
+	      		<p class="text-center">
+	      			<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
+	      			<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
+	      		</p>
+      		</article>
+		    	<article class="form-group hide" aria-name="email">
+		    <% else %>
+		    	<article class="form-group">
+      	<% end %>
+	      	<label for="email"><%= t 'user.attribute.email' %></label>
+        	<sup class="required-label"></sup>
 		      <div class="input-group">
             <div class="input-group-addon">
               <i class="fa fa-envelope"></i>
             </div>
-            <input <% unless @user.new_record? %> data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" <% end %> value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+	          <% if @user.new_record? %>
+          		<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+	          <% else %>
+          		<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+          	<% end %>
           </div>
 		    </article>
 
