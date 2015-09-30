@@ -365,10 +365,10 @@
             </label>
             <div>
               <label class="radio-inline">
-                <input data-constraint="required" type="radio" name="real_estate[street_type]" value="2" <%= 'checked' if @re.street_type == 1 %> /><%= t 'real_estate.attribute.public_street' %>
+                <input data-constraint="required" type="radio" name="real_estate[street_type]" value="2" <%= 'checked' if @re.street_type == 2 %> /><%= t 'real_estate.attribute.public_street' %>
               </label>
               <label class="radio-inline">
-                <input type="radio" name="real_estate[street_type]" value="1" <%= 'checked' if @re.street_type == 2 %> /><%= t 'real_estate.attribute.private_street' %>
+                <input type="radio" name="real_estate[street_type]" value="1" <%= 'checked' if @re.street_type == 1 %> /><%= t 'real_estate.attribute.private_street' %>
               </label>
             </div>
           </article>

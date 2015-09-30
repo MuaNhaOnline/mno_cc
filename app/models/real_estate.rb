@@ -255,6 +255,7 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Alley width
+    params[:is_alley] = params[:is_alley] == 't' ? true : false if params.has_key? :is_alley
     params[:alley_width] = ApplicationHelper.format_f params[:alley_width] if params.has_key? :alley_width
 
     # Area
@@ -343,7 +344,7 @@ class RealEstate < ActiveRecord::Base
       _images[0].assign_attributes is_avatar: true
     end
     assign_attributes images: _images
-    
+
     assign_attributes params.permit [
       :title, :description, :purpose_id, :sell_price, :sell_price_text, :rent_price, :rent_price_text, 
       :currency_id, :sell_unit_id, :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
