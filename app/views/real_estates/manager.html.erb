@@ -23,12 +23,30 @@
 <section class="box box-solid">
   <section class="box-body">
     <form id="search_form">
-      <div class="input-group margin">
-        <input data-nonvalid name="keyword" type="text" class="form-control" placeholder="<%= t 'form.search_placeholder' %>" />
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><%= t 'form.search' %></button>
-        </span>
-      </div>
+      <article class="form-group">
+        <div class="input-group margin">
+          <input data-nonvalid name="keyword" type="text" class="form-control" placeholder="<%= t 'form.search_placeholder' %>" />
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit"><%= t 'form.search' %></button>
+          </span>
+        </div>
+      </article>
+      <article class="form-group no-margin text-center">
+        <a href="javascript:void(0)" class="no-underline text-muted" title="Mã">
+          <span class="font-bold">#</span>
+          <i class="fa fa-sort"></i>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="no-underline text-muted" title="Lượt xem">
+          <i class="fa fa-eye"></i>
+          <i class="fa fa-sort"></i>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="no-underline text-muted" title="Tương tác">
+          <i class="fa fa-mail-reply-all"></i>
+          <i class="fa fa-sort"></i>
+        </a>
+      </article>
     </form>
   </section>
 </section>

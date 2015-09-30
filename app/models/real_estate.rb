@@ -202,7 +202,7 @@ class RealEstate < ActiveRecord::Base
 
     # Legal record type
     if fields.include?(:legal_record_type)
-      if legal_record_type.blank?
+      if legal_record_type.blank? && legal_record_type_id != 0
         errors.add :legal_record_type, 'Hồ sơ pháp lý không thể bỏ trống'
         return
       end
@@ -440,7 +440,7 @@ class RealEstate < ActiveRecord::Base
 
   # params: 
   #   price(x;y), real_estate_type, is_full, district
-  #   newest, cheapest
+  #   newest, cheapest, interact, view, id
   def self.search_with_params params = {}
     where = 'is_pending = false AND is_show = true'
     joins = []
@@ -466,16 +466,28 @@ class RealEstate < ActiveRecord::Base
       where += " AND districts.id = #{params[:district]} "
     end
 
-    if params.has_key? :newest
-      order[:created_at] = 'asc'
-    end
-
     if params.has_key?(:cheapest) || params.has_key?(:price)
       if User.options[:current_purpose] == 'r'
         order[:rent_price] = 'asc'
       else
         order[:sell_price] = 'asc'
       end
+    end
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params.has_key? :newest
+      order[:created_at] = 'asc'
     end
 
     where += " AND is_full = #{params[:is_full] || 'true'}"
