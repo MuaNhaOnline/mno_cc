@@ -255,7 +255,6 @@ class RealEstate < ActiveRecord::Base
     end
 
     # Alley width
-    params[:is_alley] = params[:is_alley] == 't' ? true : false if params.has_key? :is_alley
     params[:alley_width] = ApplicationHelper.format_f params[:alley_width] if params.has_key? :alley_width
 
     # Area
@@ -466,6 +465,8 @@ class RealEstate < ActiveRecord::Base
       joins << :district
       where += " AND districts.id = #{params[:district]} "
     end
+
+    if params.has_key? :keyword
 
     if params.has_key?(:cheapest) || params.has_key?(:price)
       if User.options[:current_purpose] == 'r'
