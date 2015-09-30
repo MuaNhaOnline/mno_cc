@@ -466,7 +466,6 @@ class RealEstate < ActiveRecord::Base
       where += " AND districts.id = #{params[:district]} "
     end
 
-    if params.has_key? :keyword
 
     if params.has_key?(:cheapest) || params.has_key?(:price)
       if User.options[:current_purpose] == 'r'
