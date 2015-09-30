@@ -440,9 +440,10 @@ class RealEstate < ActiveRecord::Base
 
   # params: 
   #   keyword, price(x;y), real_estate_type, is_full, district
+  #   is_favorite
   #   newest, cheapest
   def self.search_with_params params = {}
-    where = 'is_pending = false AND is_show = true AND is_force_hide = true'
+    where = 'is_pending = false AND is_show = true AND is_force_hide = false'
     joins = []
     order = {}
 
@@ -464,6 +465,10 @@ class RealEstate < ActiveRecord::Base
     if params.has_key? :district
       joins << :district
       where += " AND districts.id = #{params[:district]} "
+    end
+
+    if params.has_key? :is_favorite
+      where += " AND is_favorite = #{params[:is_favorite]}"
     end
 
     if params.has_key? :keyword
