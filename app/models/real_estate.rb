@@ -202,7 +202,7 @@ class RealEstate < ActiveRecord::Base
 
     # Legal record type
     if fields.include?(:legal_record_type)
-      if legal_record_type.blank?
+      if legal_record_type.blank? && legal_record_type_id != 0
         errors.add :legal_record_type, 'Hồ sơ pháp lý không thể bỏ trống'
         return
       end
@@ -214,7 +214,7 @@ class RealEstate < ActiveRecord::Base
 
     # Planning status type
     if fields.include?(:planning_status_type)
-      if planning_status_type.blank?
+      if planning_status_type.blank? && planning_status_type_id != 0
         errors.add :planning_status_type, 'Tình trạng quy hoạch không thể bỏ trống'
         return
       end
@@ -439,10 +439,11 @@ class RealEstate < ActiveRecord::Base
   # Search with params
 
   # params: 
-  #   price(x;y), real_estate_type, is_full, district
+  #   keyword, price(x;y), real_estate_type, is_full, district
+  #   is_favorite
   #   newest, cheapest
   def self.search_with_params params = {}
-    where = 'is_pending = false AND is_show = true'
+    where = 'is_pending = false AND is_show = true AND is_force_hide = false'
     joins = []
     order = {}
 
@@ -466,8 +467,12 @@ class RealEstate < ActiveRecord::Base
       where += " AND districts.id = #{params[:district]} "
     end
 
-    if params.has_key? :newest
-      order[:created_at] = 'asc'
+    if params.has_key? :is_favorite
+      where += " AND is_favorite = #{params[:is_favorite]}"
+    end
+
+    if params.has_key? :keyword
+      search params[:keyword]
     end
 
     if params.has_key?(:cheapest) || params.has_key?(:price)
@@ -478,9 +483,44 @@ class RealEstate < ActiveRecord::Base
       end
     end
 
+    if params.has_key? :newest
+      order[:created_at] = 'asc'
+    end
+
     where += " AND is_full = #{params[:is_full] || 'true'}"
 
     joins(joins).get_by_current_purpose.where(where).order(order)
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.manager_search_with_params params = {}
+    where = 'is_pending = false'
+    joins = []
+    order = {}
+
+    if params.has_key?(:keyword) && params[:keyword].present?
+      search params[:keyword]
+    end
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    joins(joins).where(where).order(order)
   end
 
   # / Search with params

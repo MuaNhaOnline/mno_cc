@@ -221,7 +221,7 @@
 		<section class="slick favorite-property">
 			<div class="content">
 				<%
-					res = RealEstate.search_with_params.random.limit 3
+					res = RealEstate.search_with_params(is_favorite: 'true').random.limit 3
 				%>
 				<% res.each do |re| %>
 					<div class="item-lg">

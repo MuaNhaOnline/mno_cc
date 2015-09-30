@@ -365,10 +365,10 @@
             </label>
             <div>
               <label class="radio-inline">
-                <input data-constraint="required" type="radio" name="real_estate[street_type]" value="2" <%= 'checked' if @re.street_type == 1 %> /><%= t 'real_estate.attribute.public_street' %>
+                <input data-constraint="required" type="radio" name="real_estate[street_type]" value="2" <%= 'checked' if @re.street_type == 2 %> /><%= t 'real_estate.attribute.public_street' %>
               </label>
               <label class="radio-inline">
-                <input type="radio" name="real_estate[street_type]" value="1" <%= 'checked' if @re.street_type == 2 %> /><%= t 'real_estate.attribute.private_street' %>
+                <input type="radio" name="real_estate[street_type]" value="1" <%= 'checked' if @re.street_type == 1 %> /><%= t 'real_estate.attribute.private_street' %>
               </label>
             </div>
           </article>
@@ -386,10 +386,10 @@
                 </label>
                 <div>
                   <label class="radio-inline">
-                    <input data-constraint="required" class="input-toggle" data-off="alley" type="radio" name="real_estate[is_alley]" value="0" <%= 'checked' if @re.is_alley == 0 %> /><%= t 'real_estate.attribute.facade' %>
+                    <input data-constraint="required" class="input-toggle" data-off="alley" type="radio" name="real_estate[is_alley]" value="f" <%= 'checked' unless @re.is_alley %> /><%= t 'real_estate.attribute.facade' %>
                   </label>
                   <label class="radio-inline">
-                     <input class="input-toggle" data-on="alley" type="radio" name="real_estate[is_alley]" value="1" <%= 'checked' if @re.is_alley == 1 %> /><%= t 'real_estate.attribute.alley' %>
+                     <input class="input-toggle" data-on="alley" type="radio" name="real_estate[is_alley]" value="t" <%= 'checked' if @re.is_alley %> /><%= t 'real_estate.attribute.alley' %>
                   </label>
                 </div>
               </td>
