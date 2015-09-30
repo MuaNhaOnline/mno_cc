@@ -217,7 +217,7 @@ class RealEstatesController < ApplicationController
     # Author
     authorize! :manage, RealEstate
 
-    @res = RealEstate.all
+    @res = RealEstate.search_with_params interact: 'desc'
 
     render layout: 'layout_back'
   end
@@ -234,9 +234,9 @@ class RealEstatesController < ApplicationController
     params[:page] = params[:page].to_i
 
     if params[:keyword].blank?
-      res = RealEstate.all
+      res = RealEstate.search_with_params interact: 'desc'
     else
-      res = RealEstate.search(params[:keyword])
+      res = RealEstate.search_with_params interact: 'desc'
     end
 
     count = res.count

@@ -214,7 +214,7 @@ class RealEstate < ActiveRecord::Base
 
     # Planning status type
     if fields.include?(:planning_status_type)
-      if planning_status_type.blank?
+      if planning_status_type.blank? && planning_status_type_id != 0
         errors.add :planning_status_type, 'Tình trạng quy hoạch không thể bỏ trống'
         return
       end
@@ -343,7 +343,7 @@ class RealEstate < ActiveRecord::Base
       _images[0].assign_attributes is_avatar: true
     end
     assign_attributes images: _images
-
+    
     assign_attributes params.permit [
       :title, :description, :purpose_id, :sell_price, :sell_price_text, :rent_price, :rent_price_text, 
       :currency_id, :sell_unit_id, :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
@@ -439,7 +439,7 @@ class RealEstate < ActiveRecord::Base
   # Search with params
 
   # params: 
-  #   price(x;y), real_estate_type, is_full, district
+  #   keyword, price(x;y), real_estate_type, is_full, district
   #   newest, cheapest, interact, view, id
   def self.search_with_params params = {}
     where = 'is_pending = false AND is_show = true'
