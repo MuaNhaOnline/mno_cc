@@ -20,7 +20,8 @@
 /*end navigator*/
 
 /*start favorite*/
-.favorite {	
+.favorite {
+	position: relative;
 }
 /*end*/
 

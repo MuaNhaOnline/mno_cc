@@ -45,9 +45,7 @@ function showPopup() {
 			var $img = $(this).find('img');
 			$img.attr('src', link);			
 		});
-		console.log(link);
 		$picturePopup.modal('show');
-		console.log(link);
 	});
 
 }
