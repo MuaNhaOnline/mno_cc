@@ -2,7 +2,7 @@ var $footer = $('footer');
 
 //region Initialization
 $(function () {
-	//init Header
+	//init Header	
 	initHeader();
 
 	// init tooltip
@@ -24,6 +24,9 @@ $(function () {
 	
 	//Set purpose
 	setPurpose();
+
+	// init MiniMenu
+	initMiniMenu();
 });
 
 //endregion
@@ -51,51 +54,68 @@ function showPopup() {
 }
 // end
 
-// start scroll header
+// start header
 function initHeader() {
-	var header = $('.header-fixed');
-	var logo = $('.logo');
-	var widthLogo = $(logo).width();
-	var miniMenu = $('.mini-menu-content');
-	var heightHeader = $(header).height();	
+	$header = $('.header-fixed');
+	var $coverWall = $('.cover-wall');
+	
 	var scroll = $window.scrollTop();
-
 	$window.on('scroll', function(e) {		
 		var currentScroll = $window.scrollTop();
-		// console.log(currentScroll);
+		
+		if (currentScroll != 0) {
+			$header.addClass('fixed');
+		} else {
+			$header.removeClass('fixed');
+		}		
+
 		if (scroll < currentScroll) {
 			//Window is scroll down
-			$(header).hide();
+			$header.slideUp('fast');
 		}
 		else {
-			//Window is scroll up			
-
-			if (!$('.tabs-scroll').hasClass('affix')) {
-				$(header).show();
-			} else
-			{
-				$(header).hide();
-			}
-			
-			if (currentScroll != 0) {
-				$(header).css('height', '46px');
-				$(logo).css('width', '150px');	
-				$(miniMenu).css('margin-top', '46px');
-			}
-			else {
-
-				$(header).css('height', '60px');
-				$(logo).css('width', widthLogo + 'px');
-				$(miniMenu).css('margin-top', '60px');
+			// Window is scroll up
+			$header.fadeIn();
+			if (currentScroll == 0) {			
+				$header.css({
+					'height': '60px'
+				});
+				$coverWall.css({
+					'top': '98px'
+				});
+			} else {
+				$header.css({
+					'height': '46px',
+					'top': '0'
+				});
+				$coverWall.css({
+					'top': '46px'
+				});
 			}
 		}
 		scroll = currentScroll;
-
-		// var maxNavTab = $('.distributor-project').offset().top + 200;
-		// if (scroll == maxNavTab) {
-		// 	$()
-		// }
 	});
+}
+// end
+
+// start initMiniMenu
+function initMiniMenu() {
+	$coverWall = $('.cover-wall');
+	$window.on('click', function() {
+		if ($coverWall.is(':visible')) {
+			lockScrollBody(true);
+		} else {
+			lockScrollBody(false);
+		}
+
+		$coverWall.on('click', function(e) {		
+			$(this).hide();
+			lockScrollBody(false);
+		});
+		$('.cover-wall .mini-menu-content').on('click', function(e) {
+			e.stopPropagation();
+		});
+	});	
 }
 // end
 
@@ -251,3 +271,20 @@ function setPurpose() {
 /*
 	/ Set purpose
 */
+
+/*--------------------------------------------------------*/
+/*Support function*/
+/*--------------------------------------------------------*/
+
+// lock scrollable body
+function lockScrollBody(status) {
+	if (status) {
+		$body.css({
+			'overflow': 'hidden'
+		});
+	} else {
+		$body.css({
+			'overflow': 'auto'
+		});
+	}
+}
