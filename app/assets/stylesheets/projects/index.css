@@ -20,7 +20,8 @@
 /*end navigator*/
 
 /*start favorite*/
-.favorite {	
+.favorite {
+	position: relative;
 }
 /*end*/
 
@@ -71,7 +72,7 @@
 	}
 	.seo-word img {
 		width: 200px;
-		height: 200px;
+		Pight: 200px;
 		display: block;	
 		margin: 0 auto;	
 		margin-bottom: 12px;		

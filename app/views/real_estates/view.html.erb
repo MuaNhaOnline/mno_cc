@@ -427,31 +427,28 @@
 	</article>
 	<article class="content information" style="padding: 0;">
 		<div class="user-info row">
-			<% 
-				u = @re.user_id == 0 ? User.new(full_name: @re.user_full_name, phone_number: @re.user_phone_number, email: @re.user_email) : @re.user
-			%>
 			<div class="col-xs-4 col-sm-2 avatar">
-				<%= user_avatar u, style: 'big' %>
-				<span><%= u.full_name %></span>
+				<%= user_avatar @re.user, style: 'big' %>
+				<span><%= @re.user.full_name %></span>
 			</div>
-			<div class="col-xs-8 col-sm-4">
+			<div class="col-xs-8 col-sm-10">
 				<ul class="info">
-					<% if u.phone_number.present? %>
+					<% if @re.user.phone_number.present? %>
 						<li>
 							<i class="icon-phone"></i>
-							<span><%= u.phone_number %></span>
+							<span><%= @re.user.phone_number %></span>
 						</li>
 					<% end %>
-					<% if u.email.present? %>
+					<% if @re.user.email.present? %>
 					<li>
 						<i class="icon-mail"></i>
-						<span><%= u.email %></span>
+						<span><%= @re.user.email %></span>
 					</li>
 					<% end %>
-					<% if u.address.present? %>
+					<% if @re.user.address.present? %>
 					<li>
 						<i class="icon-address"></i>
-						<span>u.address</span>
+						<span>@re.user.address</span>
 					</li>
 					<% end %>
 					<li>
@@ -461,17 +458,15 @@
 				<div class="btn-contact">
 					
 				</div>
-			</div>	
-			<div class="col-sm-4 col-xs-12">
-				<div class="request-box">
-					<form>
-						<div class="form-group">
-							<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
-							<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
-						</div>
-					</form>
-				</div>
 			</div>
+		</div>
+		<div class="request-box">
+			<form>
+				<div class="form-group">
+					<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
+					<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
+				</div>
+			</form>
 		</div>
 	</article>
 </section>
