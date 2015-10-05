@@ -2,6 +2,7 @@ $(function () {
 	var $form = $('#create_user');
 
 	initForm($form, {
+		submit_status: true,
 		object: 'user',
 		submit: function () {
 			// Check if checking
@@ -32,6 +33,7 @@ $(function () {
 				dataType: 'JSON'
 			}).always(function () {
 				toggleLoadStatus(false);
+				$form.submitStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
 					if ($form.find('[name="user[id]"]').length == 0) {

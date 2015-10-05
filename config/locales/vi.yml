@@ -300,7 +300,7 @@ vi:
       campus_area: 'Diện tích khuôn viên'
       width_x: 'Chiều ngang'
       width_y: 'Chiều dài'
-      using_ratio: 'Tỉ lệ sử dụng'
+      using_ratio: 'Mật độ xây dựng'
       progress_box: 'Tiến độ thực hiện'
       date_display_type: 'Cách hiển thị'
       estimate_starting_date: 'Ngày khởi công dự kiến'

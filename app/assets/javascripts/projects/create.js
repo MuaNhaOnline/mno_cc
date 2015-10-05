@@ -5,6 +5,7 @@ $(function () {
     $focusingBox;
 
   initForm($form, {
+    submit_status: true,
     object: 'project',
     imageInputs: {
       'image_upload': {
@@ -50,7 +51,7 @@ $(function () {
     submit: function () {
       // Validate
 
-      toggleLoadStatus(false);
+      toggleLoadStatus(true);
       $.ajax({
         url: '/projects/create',
         method: 'POST',
@@ -58,6 +59,7 @@ $(function () {
         dataType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
+        $form.submitStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           window.location = '/projects/my'
@@ -84,6 +86,7 @@ $(function () {
   initCheckDates();
   initNavigator();
   initUnitInput();
+  initReadPrice();
 
   /*
     Init location
@@ -152,7 +155,8 @@ $(function () {
 
   function initSaveDraft() {
     $form.find('[aria-click="save-draft"]').on('click', function () {
-      toggleLoadStatus(false);
+      toggleLoadStatus(true);
+      $form.submitStatus(true);
       $.ajax({
         url: '/projects/create',
         type: 'POST',
@@ -160,6 +164,7 @@ $(function () {
         dataType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
+        $form.submitStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           $form.prepend('<input type="hidden" name="project[id]" value="' + data.result + '" />');
@@ -395,5 +400,42 @@ $(function () {
 
   /*
     / Init navigator
+  */
+
+  /*
+    Read price
+  */
+
+  function initReadPrice() {
+    _temp['read_money_to'] = null;
+    $form.find('#unit_price').on({
+      keyup: function () {
+        var $input = $(this);
+
+        clearTimeout(_temp['read_money_to']);
+        _temp['read_money_to'] = setTimeout(function () {
+          if ($input.val() != $input.data('old-value')) {
+            var value = $input.val().replace(/\D/g, '');
+
+            $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+
+            $input.data('old-value', $input.val());
+          }
+        }, 200);
+      },
+      change: function () {
+        var $input = $(this);
+        
+        var value = $input.val().replace(/\D/g, '');
+
+        $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+
+        $input.data('old-value', $input.val());
+      }
+    });
+  }
+
+  /*
+    / Read price
   */
 })

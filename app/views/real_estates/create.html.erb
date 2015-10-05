@@ -386,7 +386,7 @@
                 </label>
                 <div>
                   <label class="radio-inline">
-                    <input data-constraint="required" class="input-toggle" data-off="alley" type="radio" name="real_estate[is_alley]" value="f" <%= 'checked' unless @re.is_alley %> /><%= t 'real_estate.attribute.facade' %>
+                    <input data-constraint="required" class="input-toggle" data-off="alley" type="radio" name="real_estate[is_alley]" value="f" <%= 'checked' if @re.is_alley == false %> /><%= t 'real_estate.attribute.facade' %>
                   </label>
                   <label class="radio-inline">
                      <input class="input-toggle" data-on="alley" type="radio" name="real_estate[is_alley]" value="t" <%= 'checked' if @re.is_alley %> /><%= t 'real_estate.attribute.alley' %>
@@ -745,7 +745,7 @@
                 <div class="row">
                   <div class="col-ss-6">
                     <div class="radio margin-top-0">
-                      <label><input data-constraint="required" type="radio" name="real_estate[constructional_quality]" value="4" <%= 'checked' if @re.constructional_quality == 3 %> />Rất mới</label>
+                      <label><input data-constraint="required" type="radio" name="real_estate[constructional_quality]" value="4" <%= 'checked' if @re.constructional_quality == 4 %> />Rất mới</label>
                     </div>
                   </div>
                   <div class="col-ss-6">
@@ -1058,7 +1058,7 @@
           </div>
           <% if signed? %>
             <div class="margin-top-bottom-5 col-sm-6">
-              <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft_preview' %></b></button>
+              <button type="button" data-type="submit" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'real_estate.view.create.save_draft_preview' %></b></button>
             </div>
           <% end %>
         </section>
