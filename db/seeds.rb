@@ -126,6 +126,7 @@ ActiveRecord::Base.connection.execute('ALTER SEQUENCE units_id_seq RESTART WITH 
 Unit.create [
 	{ name: 'area', options: '{"group":"sell","default":""}' },
 	{ name: 'square_meter', options: '{"group":"sell"}' },
+	{ name: 'square_meter', options: '{"group":"rent"}' },
 	{ name: 'month', options: '{"group":"rent","default":""}' },
 	{ name: 'year', options: '{"group":"rent"}' },
 	{ name: 'square_meter', options: '{"group":"project"}' },

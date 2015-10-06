@@ -16,6 +16,7 @@
   </span>
 <% end %>
 
+<%= @p.price_unit_id %>
 <% 
 =begin
   params: @p
@@ -417,6 +418,7 @@
                 </ul>
               </div>
             </div>
+            <section class="money-text font-size-12"><%= @p.unit_price_text %></section>
           </article>
 
           <!-- / Price -->

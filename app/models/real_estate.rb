@@ -404,14 +404,6 @@ class RealEstate < ActiveRecord::Base
 
 # Get
 
-  # Get pending
-
-  def self.get_pending
-    where(is_pending: true, is_active: true, is_draft: false)
-  end
-
-  # / Get pending
-
   # Get by current purpose
 
   def self.get_by_current_purpose
@@ -490,6 +482,68 @@ class RealEstate < ActiveRecord::Base
     where += " AND is_full = #{params[:is_full] || 'true'}"
 
     joins(joins).get_by_current_purpose.where(where).order(order)
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.my_search_with_params params = {}
+    where = "user_id = #{User.current.id}"
+    joins = []
+    order = {}
+
+    if params.has_key?(:keyword) && params[:keyword].present?
+      search params[:keyword]
+    end
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    joins(joins).where(where).order(order)
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.pending_search_with_params params = {}
+    where = 'is_pending = true AND is_draft = false AND is_active = true'
+    joins = []
+    order = {}
+
+    if params.has_key?(:keyword) && params[:keyword].present?
+      search params[:keyword]
+    end
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    joins(joins).where(where).order(order)
   end
 
   # params: 
@@ -730,7 +784,7 @@ class RealEstate < ActiveRecord::Base
 
   # Full address
   def display_address
-    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".titleize
+    @display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
   end
 
   # Real estate type

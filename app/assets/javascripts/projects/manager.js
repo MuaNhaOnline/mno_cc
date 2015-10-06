@@ -1,5 +1,5 @@
 $(function () {
-  var $list = $('#re_list'), find;
+  var $list = $('#project_list'), find;
 
   initItem();
   initEventButton();
@@ -33,7 +33,6 @@ $(function () {
       var 
         status = $item.data('status'),
         isForceHide = listString.has('force_hide', status),
-        isFull = listString.has('full', status),
         isFavorite = listString.has('favorite', status),
         // isAppraised = listString.has('appraised', status),
         // isNotAppraised = listString.has('not_appraised', status);
@@ -42,30 +41,30 @@ $(function () {
       $status.html('');
 
       if (isForceHide) {
-        $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.real_estate.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
+        $status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.project.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
       }
       else {
-        $status.append('<article class="node status-animation node-primary"><div class="text"><span>' + _t.real_estate.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
+        $status.append('<article class="node status-animation node-primary"><div class="text"><span>' + _t.project.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
       }
 
       if (isFavorite) {
-        $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.real_estate.attribute.favorite_status + '</span></div><div style="top: 1px" class="fa fa-heart"></div></article>')
+        $status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.project.attribute.favorite_status + '</span></div><div style="top: 1px" class="fa fa-heart"></div></article>')
       }
 
       // Constrol buttons
 
       if (isForceHide) {
-        $item.find('[aria-click="change-force-hide-status"]').attr('title', _t.real_estate.view.manager.show).removeClass('fa-eye-slash').addClass('fa-eye');
+        $item.find('[aria-click="change-force-hide-status"]').attr('title', _t.project.view.manager.show).removeClass('fa-eye-slash').addClass('fa-eye');
       }
       else {
-        $item.find('[aria-click="change-force-hide-status"]').attr('title', _t.real_estate.view.manager.hide).removeClass('fa-eye').addClass('fa-eye-slash');
+        $item.find('[aria-click="change-force-hide-status"]').attr('title', _t.project.view.manager.hide).removeClass('fa-eye').addClass('fa-eye-slash');
       }
 
       if (isFavorite) {
-        $item.find('[aria-click="change-favorite-status"]').attr('title', _t.real_estate.view.manager.unfavorite).removeClass('fa-heart').addClass('fa-heart-o');
+        $item.find('[aria-click="change-favorite-status"]').attr('title', _t.project.view.manager.unfavorite).removeClass('fa-heart').addClass('fa-heart-o');
       }
       else {
-        $item.find('[aria-click="change-favorite-status"]').attr('title', _t.real_estate.view.manager.favorite).removeClass('fa-heart-o').addClass('fa-heart');
+        $item.find('[aria-click="change-favorite-status"]').attr('title', _t.project.view.manager.favorite).removeClass('fa-heart-o').addClass('fa-heart');
       }
 
       _initStatusAnimation($item);
@@ -97,7 +96,7 @@ $(function () {
 
       toggleLoadStatus(true);
       $.ajax({
-        url: '/real_estates/change_force_hide_status/' + $item.data('value') + '/' + (isForceHide ? 0 : 1),
+        url: '/projects/change_force_hide_status/' + $item.data('value') + '/' + (isForceHide ? 0 : 1),
         type: 'PUT',
         contentType: 'JSON'
       }).always(function () {
@@ -144,7 +143,7 @@ $(function () {
 
       toggleLoadStatus(true);
       $.ajax({
-        url: '/real_estates/change_favorite_status/' + $item.data('value') + '/' + (isFavorite ? 0 : 1),
+        url: '/projects/change_favorite_status/' + $item.data('value') + '/' + (isFavorite ? 0 : 1),
         type: 'PUT',
         contentType: 'JSON'
       }).always(function () {
@@ -188,7 +187,7 @@ $(function () {
 
       popupPrompt({
         title: _t.form.confirm_title,
-        content: _t.real_estate.view.manager.delete_confirm,
+        content: _t.projects.view.manager.delete_confirm,
         type: 'warning',
         buttons: [
           {
@@ -197,7 +196,7 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/real_estates/' + $item.data('value'),
+                url: '/projects/' + $item.data('value'),
                 type: 'DELETE',
                 dataType: 'JSON'
               }).always(function () {
@@ -248,7 +247,7 @@ $(function () {
     var order = { interact: 'desc' };
 
     find = _initPagination({
-      url: '/real_estates/_manager_list',
+      url: '/projects/_manager_list',
       list: $list,
       pagination: $('#pagination'),
       data: function () {

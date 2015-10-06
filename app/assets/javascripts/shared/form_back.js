@@ -288,10 +288,12 @@ function initForm($form, params) {
 
 					var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
 
-					var $item = $('<article class="preview"></article>');
+					var $item = $('<article class="preview" data-uploading></article>');
 					$item.html('<section class="image"><img src="' + imageData + '" /></section><section class="control"><button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 					$item.data('control_show', null);
+
+					$form.submitStatus(true);
 
 					// Create control from param
 					if (controls) {
@@ -333,6 +335,10 @@ function initForm($form, params) {
 					});
 
 					$item.find('[aria-click="remove"]').on('click', function () {
+						if ($item.is('[data-uploading]') && $form.find('.preview[data-uploading]').length == 1) {
+							$form.submitStatus(false);
+						}
+
 						if (onItemRemove) {
 							onItemRemove($item);
 						}
@@ -388,6 +394,11 @@ function initForm($form, params) {
 									}
 									return xhr;
 							}
+					}).always(function () {
+						$item.removeAttr('data-uploading');
+						if ($form.find('.preview[data-uploading]').length == 0) {
+							$form.submitStatus(false);
+						}
 					}).done(function(data) {
 						if (data.status == 0) {
 							// Display
@@ -984,7 +995,7 @@ function initForm($form, params) {
 
 					_temp['price'] = value;
 					_temp['is_changed'] = true;
-				}, 300);
+				}, 200);
 			},
 			focusout: function () {
 				_temp['is_changed'] = false;
@@ -1398,19 +1409,36 @@ function initForm($form, params) {
 	*/
 
 	function initSubmit() {
+		$form.submitStatus = function (submitting) {
+			$form.data('submitting', submitting);
+			$form.find('[type="submit"],[data-type="submit"]').prop('disabled', submitting);
+		}
+
+		$form.submitStatus(false);
+
 		$form.on('submit', function (e) {
 			e.preventDefault();
+
+			if ($form.data('submitting')) {
+				return;
+			}
+
+			if (params['submit_status']) {
+				$form.submitStatus(true);	
+			}
 
 			// Check validate
 			$form.find(':input:enabled:not([data-nonvalid])').each(function () {
 				checkInvalidInput($(this));  
-			})
+			});
 
 			var $dangerBox = $form.find('.box-danger:visible');
 			if ($dangerBox.length) {
 				$body.animate({
 					scrollTop: $dangerBox.offset().top - 20 
 				}); 
+			
+				$form.submitStatus(false);
 				return; 
 			}
 

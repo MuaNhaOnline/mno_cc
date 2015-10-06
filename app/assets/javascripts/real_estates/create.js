@@ -11,6 +11,7 @@ $(function () {
 
   initShapeWidthConstraint();
   initForm($form, {
+    submit_status: true,
     object: 'real_estate',
     imageInputs: {
       'image_upload': {
@@ -62,6 +63,7 @@ $(function () {
         dataType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
+        $form.submitStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           if ($form.find('#is_full').val() == 'true') {
@@ -576,7 +578,7 @@ $(function () {
 
             $input.data('old-value', $input.val());
           }
-        }, 300);
+        }, 200);
       },
       change: function () {
         var $input = $(this);
@@ -600,7 +602,8 @@ $(function () {
 
   function initSaveDraft() {
     $form.find('[aria-click="save-draft"]').on('click', function () {
-      toggleLoadStatus(false);
+      toggleLoadStatus(true);
+      $form.submitStatus(true);
       $.ajax({
         url: '/real_estates/create',
         type: 'POST',
@@ -608,6 +611,7 @@ $(function () {
         dataType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
+        $form.submitStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
           $form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');

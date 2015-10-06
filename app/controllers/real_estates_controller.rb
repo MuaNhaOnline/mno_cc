@@ -19,6 +19,9 @@ class RealEstatesController < ApplicationController
     begin
       @re = RealEstate.find params[:id]
 
+      # Author
+      authorize! :view, @re
+
       session[:real_estate_viewed] ||= []
       unless session[:real_estate_viewed].include? params[:id]
         @re.update(view_count: @re.view_count + 1)
@@ -117,7 +120,7 @@ class RealEstatesController < ApplicationController
     # Author
     authorize! :view_my, RealEstate
 
-    @res = RealEstate.where(user_id: current_user.id).order(updated_at: 'desc')
+    @res = RealEstate.my_search_with_params interact: 'desc'
 
     render layout: 'layout_back'
   end
@@ -133,11 +136,7 @@ class RealEstatesController < ApplicationController
     params[:page] ||= 1
     params[:page] = params[:page].to_i
 
-    if params[:keyword].blank?
-      res = RealEstate.where(user_id: current_user.id)
-    else
-      res = RealEstate.where(user_id: current_user.id).search(params[:keyword])
-    end
+    res = RealEstate.my_search_with_params params
 
     count = res.count
 
@@ -167,7 +166,7 @@ class RealEstatesController < ApplicationController
     # Author
     authorize! :approve, RealEstate
 
-    @res = RealEstate.get_pending.order(updated_at: 'asc')
+    @res = RealEstate.pending_search_with_params interact: 'desc'
 
     render layout: 'layout_back'
   end
@@ -183,11 +182,7 @@ class RealEstatesController < ApplicationController
     params[:page] ||= 1
     params[:page] = params[:page].to_i
 
-    if params[:keyword].blank?
-      res = RealEstate.get_pending.order(updated_at: 'asc')
-    else
-      res = RealEstate.get_pending.search(params[:keyword])
-    end
+    res = RealEstate.pending_search_with_params params
 
     count = res.count
 

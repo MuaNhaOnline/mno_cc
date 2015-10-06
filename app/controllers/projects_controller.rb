@@ -133,7 +133,7 @@ end
   # View
   def pending
     # Author
-    authorize! :manager, Project
+    authorize! :manage, Project
 
     @projects = Project.get_pending.order(updated_at: 'asc')
 
@@ -144,7 +144,7 @@ end
   # params: keyword
   def _pending_list
     # Author
-    return render json: { staus: 6 } if cannot? :manager, Project
+    return render json: { staus: 6 } if cannot? :manage, Project
 
     per = Rails.application.config.item_per_page
     
@@ -177,6 +177,62 @@ end
   end
 
 # / Pending
+
+# Manager
+
+  def manager
+    # Author
+    authorize! :manage, Project
+
+    @projects = Project.manager_search_with_params interact: 'desc'
+
+    render layout: 'layout_back'
+  end
+
+  # Partial view
+  # params: keyword, page
+  def _manager_list
+    # Author
+    return render json: { status: 6 } if cannot? :manage, Project
+
+    per = Rails.application.config.item_per_page
+
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
+    projects = Project.manager_search_with_params params
+
+    count = projects.count
+
+    return render json: { status: 1 } if count == 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'projects/manager_list', locals: { projects: projects.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+      }
+    }
+  end
+
+  # Handle
+  # params: id, is_force_hide
+  def change_force_hide_status
+    Project.update_force_hide_status params[:id], params[:is_force_hide]
+
+    render json: { status: 0 }
+  end
+
+
+  # Handle
+  # params: id, is_favorite
+  def change_favorite_status
+    Project.update_favorite_status params[:id], params[:is_favorite]
+
+    render json: { status: 0 }
+  end
+
+# / Manager
 
 # Delete
 
