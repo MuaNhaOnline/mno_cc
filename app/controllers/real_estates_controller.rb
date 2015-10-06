@@ -19,6 +19,9 @@ class RealEstatesController < ApplicationController
     begin
       @re = RealEstate.find params[:id]
 
+      # Author
+      authorize! :view, @re
+
       session[:real_estate_viewed] ||= []
       unless session[:real_estate_viewed].include? params[:id]
         @re.update(view_count: @re.view_count + 1)
