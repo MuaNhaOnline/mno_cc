@@ -1,55 +1,48 @@
-<% res.each do |re| %>
+<% projects.each do |project| %>
   <% 
     # Get status
     status = '';
 
-    if re.is_full
-      status += 'full '
-    end
-
-    if re.is_force_hide
+    if project.is_force_hide
       status += 'force_hide '
     end
 
-    if re.is_favorite
+    if project.is_favorite
       status += 'favorite'
     end
   %>
 
   <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
-    <article class="item" data-value="<%= re.id %>" data-status="<%= status %>">
+    <article class="item" data-value="<%= project.id %>" data-status="<%= status %>">
       <section class="top">
-        <a href="/real_estates/<%= re.id %>">
-          <%= real_estate_avatar re %>
+        <a href="/projects/<%= project.id %>">
+          <%= project_avatar project %>
         </a>
         <section class="left">
           <article class="node">
-            <span><b><%= re.display_id %></b></span>
+            <span><b><%= project.display_id %></b></span>
           </article>
         </section>
         <section class="right circle-node" aria-name="status">
         </section>
       </section>
       <section class="bottom">
-        <p class="title" title="<%= re.title %>">
-          <%= re.title %>
+        <p class="title" title="<%= project.title %>">
+          <%= project.title %>
         </p>
         <p class="small text-muted">
           <span class="pull-left">
-            <%= re.created_at.strftime '%d/%m/%Y' %>
+            <%= project.created_at.strftime '%d/%m/%Y' %>
           </span>
           <span class="pull-right">
-            <%= re.view_count %> lượt xem
+            <%= project.view_count %> lượt xem
           </span>
         </p>
         <p>
-          <span class="fa fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %>
-        </p>
-        <p>
-          <span class="fa fa-tag"></span> <%= re.display_purpose %>
+          <span class="fa fa-home"></span> <%= t 'project_type.text.' + project.project_type.name unless project.project_type.nil? %>
         </p>
         <p class="address">
-          <span class="fa fa-map-marker"></span> <%= re.display_address %>
+          <span class="fa fa-map-marker"></span> <%= project.display_address %>
         </p>
       </section>
       <section class="control">

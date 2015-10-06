@@ -1,13 +1,12 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/projects/pending.css" />
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/projects/pending.js"></script>
+  <script type="text/javascript" src="/assets/projects/manager.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'project.view.pending.form_title' %>
+  <%= t 'project.view.manager.form_title' %>
 <% end %>
 
 <%
@@ -15,8 +14,8 @@
   params: @projects
 =end
 
-  @title = t 'project.view.pending.page_title'
-
+  @title = t 'project.view.manager.page_title'
+  
   total = @projects.count
   per = Rails.application.config.item_per_page
 %>
@@ -60,7 +59,7 @@
 <section>
   <article id="project_list" class="row item-list">
     <% if total != 0 %>
-      <%= render partial: 'projects/pending_list', locals: { projects: @projects.page(1, per) } %>
+      <%= render partial: 'projects/manager_list', locals: { projects: @projects.page(1, per) } %>
     <% else %>
       <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có tin nào</h4></div>
     <% end %>

@@ -163,7 +163,8 @@ var _t = {
 			pending_status: 'Chờ duyệt',
 			success_status: 'Đã xác nhận',
 			show_status: 'Hiển thị',
-			hide_status: 'Ẩn'
+			hide_status: 'Ẩn',
+			favorite_status: 'Yêu thích'
 		},
 		validate: {
 			'location_required': 'Không thể bỏ trống',
@@ -192,7 +193,14 @@ var _t = {
 			},
 			pending: {
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
-			}
+			},
+			manager: {
+				hide: 'Ẩn',
+				show: 'Hiển thị',
+				delete_confirm: 'Bạn có chắc muốn xóa tin này?',
+				favorite: 'Yêu thích',
+				unfavorite: 'Bỏ yêu thích'
+			},
 		}
 	},
 	investor: {

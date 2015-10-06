@@ -345,6 +345,10 @@ vi:
         control: 'Điều khiển'
         approve: 'Duyệt'
         delete: 'Xóa'
+      manager:
+        page_title: 'Quản lý dự án'
+        form_title: 'Quản lý dự án'
+        delete: 'Xóa'
   investor:
     attribute:
       id: 'Mã'

@@ -1,7 +1,11 @@
 class Project < ActiveRecord::Base
 
   include PgSearch
-  pg_search_scope :search, against: [:meta_search], using: { tsearch: { prefix: true, any_word: true } }
+  pg_search_scope :search, against: {
+    meta_search_1: 'A',
+    meta_search_2: 'B',
+    meta_search_3: 'C'
+  }, using: { tsearch: { prefix: true, any_word: true } }
 
 # Associates
 
@@ -166,11 +170,12 @@ class Project < ActiveRecord::Base
 
     other_params = {
       is_draft: is_draft,
-      is_pending: true,
-      meta_search: Project.get_meta_search(self)
+      is_pending: true
     }
 
     assign_attributes other_params
+
+    assign_meta_search
 
     if save validate: !is_draft
       { status: 0 }
@@ -222,6 +227,44 @@ class Project < ActiveRecord::Base
   end
 
   # / Update pending status
+
+  # Update force hide status
+
+  def self.update_force_hide_status id, is_force_hide
+    project = find id
+
+    # Author
+    return { status: 6 } if User.current.cannot? :change_force_hide_status, project
+
+    project.is_force_hide = is_force_hide
+
+    if project.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+  end
+
+  # / Update force hide status
+
+  # Update favorite status
+
+  def self.update_favorite_status id, is_favorite
+    project = find id
+
+    # Author
+    return { status: 6 } if User.current.cannot? :change_favorite_status, project
+
+    project.is_favorite = is_favorite
+
+    if project.save validate: false
+      { status: 0 }
+    else
+      { status: 2 }
+    end
+  end
+
+  # / Update favorite status
 
 # / Update
 
@@ -281,6 +324,34 @@ class Project < ActiveRecord::Base
     joins(joins).where(where).order(order)
   end
 
+  def self.manager_search_with_params params = {}
+    where = 'is_pending = false'
+    joins = []
+    order = {}
+
+    if params.has_key?(:keyword) && params[:keyword].present?
+      search params[:keyword]
+    end
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    joins(joins).where(where).order(order)
+  end
+
   # / Search with params
 
 # / Get
@@ -297,15 +368,13 @@ class Project < ActiveRecord::Base
 
   # Get meta search
 
-  def self.get_meta_search p
+  def assign_meta_search
     tempLocale = I18n.locale
     I18n.locale = 'vi'
 
-    meta_search = "#{p.investor.name unless p.investor.nil?} #{I18n.t('project_type.text.' + p.project_type.name) unless p.project_type.nil?} đường #{p.street.name unless p.street.nil?} quận #{p.district.name unless p.district.nil?} #{p.province.name unless p.province.nil?} #{p.title}"
-    
-    I18n.locale = tempLocale
+    assign_attributes meta_search_1: "#{display_id} #{id} #{district.name if district.present?} #{street.name if street.present?}", meta_search_2: "#{title} #{province.name if province.present?} #{investor.name if investor.present?}", meta_search_3: "#{user.full_name + ' ' + user.email + ' ' + user.phone_number if user.present?} #{ward.name if ward.present?} #{I18n.t('project_type.text.' + project_type.name) if project_type.present?}"
 
-    meta_search
+    I18n.locale = tempLocale
   end
 
   # / Get meta search
