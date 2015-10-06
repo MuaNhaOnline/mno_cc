@@ -27,6 +27,7 @@
 	.image-info .main-image {
 		width: 80%;
 		margin: auto;
+		cursor: pointer;
 	}
 		.image-info .main-image img {
 			width: 100%;			
@@ -43,6 +44,7 @@
 		.image-info .other-image li {			
 			max-width: 8%;
 			display: inline-block;
+			cursor: pointer;
 		}
 		@media screen and (max-width: 767px) {
 			.image-info .other-image li {			
@@ -176,16 +178,15 @@
 	}
 /*end*/
 
-/*start describe*/
-.describe {
+/*start description*/
+.description {
 
 }
-	.describe .large {
-		font-size: 115.38%;
-		font-weight: bold;	
+	.description .content .title h5 {
+		line-height: 1.8;
+		font-weight: bold;
 	}
-	.describe .details {
-		padding: 10px 0;
+	.description .content .details {
 		text-align: justify;
 		line-height: 1.9;
 	}

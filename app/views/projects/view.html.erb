@@ -173,7 +173,9 @@
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
 								<p style="margin: 5px 0;">
-									<span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %></span>
+									Giá rao: 
+									<span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %>
+									</span>
 									<!-- <select>
 										<option>VNĐ</option>
 										<option>USD</option>
@@ -313,12 +315,14 @@
 <!-- end -->
 
 <!-- start describe -->
-<section class="describe line-block container">
+<section class="description line-block container">
 	<article class="title">
 		<span>Mô tả</span>
 	</article>
 	<article class="content">
-		<div class="large"><%= @project.title %></div>
+		<div class="title">
+			<h5><%= @project.title %></h5>
+		</div>
 		<div class="details"><%= @project.description %></div>
 		<% if @project.payment_method.present? %>
 			<hr />

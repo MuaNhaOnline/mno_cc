@@ -154,10 +154,15 @@
 
 /*start description*/
 .description {
-	padding: 10px 20px;
+
 }
-	.description h5 {
-		font-size: 16px;
+	.description .content .title h5 {
+		line-height: 1.8;
+		font-weight: bold;
+	}
+	.description .content .details {
+		text-align: justify;
+		line-height: 1.9;
 	}
 /*end*/
 
