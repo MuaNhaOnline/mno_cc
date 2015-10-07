@@ -138,7 +138,7 @@ $(function () {
     var order = { interact: 'desc' };
 
     find = _initPagination({
-      url: '/real_estates/_manager_list',
+      url: '/real_estates/_pending_list',
       list: $list,
       pagination: $('#pagination'),
       data: function () {

@@ -88,7 +88,7 @@
 
 			    <!-- / Password -->
 
-			  <% else %>
+			  <% elsif @user.provider.blank? %>
 
 			    <!-- Change password -->
 
@@ -102,31 +102,35 @@
 
 		    <!-- Email -->
 
-      	<% if @user.active_status == 2 || @user.active_status == 3 %>
-      		<article class="form-group">
-	      		<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
-	      		<p class="text-center">
-	      			<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
-	      			<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
-	      		</p>
-      		</article>
-		    	<article class="form-group hide" aria-name="email">
-		    <% else %>
-		    	<article class="form-group">
-      	<% end %>
-	      	<label for="email"><%= t 'user.attribute.email' %></label>
-        	<sup class="required-label"></sup>
-		      <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fa fa-envelope"></i>
-            </div>
-	          <% if @user.new_record? %>
-          		<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
-	          <% else %>
-          		<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
-          	<% end %>
-          </div>
-		    </article>
+		    <% if @user.provider.blank? %>
+
+	      	<% if @user.active_status == 2 || @user.active_status == 3 %>
+	      		<article class="form-group">
+		      		<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
+		      		<p class="text-center">
+		      			<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
+		      			<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
+		      		</p>
+	      		</article>
+			    	<article class="form-group hide" aria-name="email">
+			    <% else %>
+			    	<article class="form-group">
+	      	<% end %>
+		      	<label for="email"><%= t 'user.attribute.email' %></label>
+	        	<sup class="required-label"></sup>
+			      <div class="input-group">
+	            <div class="input-group-addon">
+	              <i class="fa fa-envelope"></i>
+	            </div>
+		          <% if @user.new_record? %>
+	          		<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+		          <% else %>
+	          		<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+	          	<% end %>
+	          </div>
+			    </article>
+
+			   <% end %>
 
 		    <!-- / Email -->
 
