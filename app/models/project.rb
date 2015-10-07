@@ -287,14 +287,6 @@ class Project < ActiveRecord::Base
 
 # Get
 
-  # Get pending
-
-  def self.get_pending
-    where(is_pending: true, is_draft: false)
-  end
-
-  # / Get pending
-
   # Search with params
 
   # params: 
@@ -324,14 +316,13 @@ class Project < ActiveRecord::Base
     joins(joins).where(where).order(order)
   end
 
-  def self.manager_search_with_params params = {}
-    where = 'is_pending = false'
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.my_search_with_params params = {}
+    where = "user_id = #{User.current.id}"
     joins = []
     order = {}
-
-    if params.has_key?(:keyword) && params[:keyword].present?
-      search params[:keyword]
-    end
 
     if params.has_key? :view
       order[:view_count] = params[:view]
@@ -349,7 +340,70 @@ class Project < ActiveRecord::Base
       order[:id] = params[:id]
     end
 
-    joins(joins).where(where).order(order)
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.pending_search_with_params params = {}
+    where = 'is_pending = true AND is_draft = false'
+    joins = []
+    order = {}
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+  end
+
+  def self.manager_search_with_params params = {}
+    where = 'is_pending = false'
+    joins = []
+    order = {}
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
   end
 
   # / Search with params

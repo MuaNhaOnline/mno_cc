@@ -492,10 +492,6 @@ class RealEstate < ActiveRecord::Base
     joins = []
     order = {}
 
-    if params.has_key?(:keyword) && params[:keyword].present?
-      search params[:keyword]
-    end
-
     if params.has_key? :view
       order[:view_count] = params[:view]
     end
@@ -512,7 +508,11 @@ class RealEstate < ActiveRecord::Base
       order[:id] = params[:id]
     end
 
-    joins(joins).where(where).order(order)
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
   end
 
   # params: 
@@ -523,10 +523,6 @@ class RealEstate < ActiveRecord::Base
     joins = []
     order = {}
 
-    if params.has_key?(:keyword) && params[:keyword].present?
-      search params[:keyword]
-    end
-
     if params.has_key? :view
       order[:view_count] = params[:view]
     end
@@ -543,7 +539,11 @@ class RealEstate < ActiveRecord::Base
       order[:id] = params[:id]
     end
 
-    joins(joins).where(where).order(order)
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
   end
 
   # params: 
@@ -554,10 +554,6 @@ class RealEstate < ActiveRecord::Base
     joins = []
     order = {}
 
-    if params.has_key?(:keyword) && params[:keyword].present?
-      search params[:keyword]
-    end
-
     if params.has_key? :view
       order[:view_count] = params[:view]
     end
@@ -574,7 +570,11 @@ class RealEstate < ActiveRecord::Base
       order[:id] = params[:id]
     end
 
-    joins(joins).where(where).order(order)
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
   end
 
   # / Search with params
