@@ -28,9 +28,20 @@ $(function () {
               else {
                 $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
                 $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-                $form[0].elements['real_estate[avatar_id]'].value = $item.data('value') + ',' + ($item.is('[data-old]') ? '0' : '1'); 
+                $form[0].elements['real_estate[avatar_id]'].value = $item.data('value'); 
               }
             }
+          // },
+          // {
+          //   text: 'Mô tả',
+          //   type: 'primary',
+          //   handle: function ($item) {
+          //     var $html = $(_popupContent['image_description']);
+
+          //     popupFull({
+          //       html: $html
+          //     });
+          //   }
           }
         ],
         onItemRemove: function ($item) {
@@ -42,12 +53,12 @@ $(function () {
           avatar = $form[0].elements['real_estate[avatar_id]'].value;
           if (!avatar) {
             $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-            $form[0].elements['real_estate[avatar_id]'].value = $item.data('value') + ',1';
+            $form[0].elements['real_estate[avatar_id]'].value = $item.data('value');
           }
         },
         onInitItemAdd: function ($item) {
           avatar = $form[0].elements['real_estate[avatar_id]'].value;
-          if ($item.data('value') + ',0' == avatar) {
+          if ($item.data('value') == avatar) {
             $item.find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
             $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
           }
@@ -58,7 +69,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/real_estates/create',
-        type: 'POST',
+        method: 'POST',
         data: $form.serialize(),
         dataType: 'JSON'
       }).always(function () {
@@ -606,7 +617,7 @@ $(function () {
       $form.submitStatus(true);
       $.ajax({
         url: '/real_estates/create',
-        type: 'POST',
+        method: 'POST',
         data: $form.serialize() + '&draft',
         dataType: 'JSON'
       }).always(function () {

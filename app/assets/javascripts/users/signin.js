@@ -53,54 +53,57 @@ $(function () {
 			});
 		}
 	});
+  initFacebook();
+
+  /*
+    Facebook
+  */
+
+    function initFacebook() {
+      $('[aria-click="facebook_login"]').on('click', function () {
+        request();
+      });
+    }
+    
+    function request() {
+      FB.login(function (response) {
+        if (response.status == 'connected') {
+          FB.api('/me/permissions', function(response) {
+            var valid = true;
+            $(response.data).each(function () {
+              if (this.status != 'granted') {
+                valid = false;
+                return false;
+              }
+            });
+            if (valid) {
+              window.location = '/auth/facebook/callback';
+            }
+          }); 
+        }
+      }, {
+        scope: 'public_profile,email',
+        auth_type: 'rerequest'
+      });
+    }
+
+  /*
+    / Facebook
+  */
+
 });
 
 /*
 	Facebook
 */
 
-// This is called with the results from from FB.getLoginStatus().
-function statusChangeCallback(response) {
-}
-
-// This function is called when someone finishes with the Login
-// Button.  See the onlogin handler attached to it in the sample
-// code below.
-function checkLoginState() {
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-}
-
-function me() {
-  FB.api('/me', function(response) {
-    console.log(response);
-    console.log('http://graph.facebook.com/' + '')
-  });
-  // FB.api('/me/permissions', function(response) {
-  //   console.log(response);
-  // });
-}
-
-function testAPI() {
-  console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me', function(response) {
-    console.log('Successful login for: ' + response.name);
-    document.getElementById('status').innerHTML =
-      'Thanks for logging in, ' + response.name + '!';
-  });
-}
-
 window.fbAsyncInit = function() {
   FB.init({
     appId      : '1456463541347476',
     xfbml      : true,
+    cookie     : true,
     version    : 'v2.4'
   });
-
-  // FB.getLoginStatus(function(response) {
-  //   statusChangeCallback(response);
-  // });
 };
 
 (function(d, s, id){

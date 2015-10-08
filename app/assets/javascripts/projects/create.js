@@ -159,7 +159,7 @@ $(function () {
       $form.submitStatus(true);
       $.ajax({
         url: '/projects/create',
-        type: 'POST',
+        method: 'POST',
         data: $form.serialize() + '&draft',
         dataType: 'JSON'
       }).always(function () {

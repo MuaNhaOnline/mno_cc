@@ -102,7 +102,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/projects/change_show_status/' + $item.data('value') + '/' + (isShow ? 0 : 1),
-        type: 'PUT',
+        method: 'POST',
         contentType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
@@ -156,8 +156,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/projects/' + $item.data('value'),
-                type: 'DELETE',
+                url: '/projects/delete/' + $item.data('value'),
+                method: 'POST',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

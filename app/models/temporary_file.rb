@@ -15,11 +15,11 @@ class TemporaryFile < ActiveRecord::Base
   	result = { new: [], old: [] }
 
   	arr.each do |i|
-  		value = i.split ','
-  		if value[1] == '1'
-  			result[:new] << value[0]
+  		value = i.split ',', 2
+  		if value[0] == '1'
+  			result[:new] << value[1]
   		else
-  			result[:old] << value[0]
+  			result[:old] << value[1]
   		end
   	end
 

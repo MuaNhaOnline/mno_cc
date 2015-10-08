@@ -159,10 +159,10 @@
 									</div>
 								<% end %>
 								<div class="function">
-									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
 								</div>
 								<div class="detail" data-dot>
 									<%= plain_content p.description %>
@@ -195,7 +195,7 @@
 <!-- start suggest project -->
 <section class="suggest-project container">
 	<div class="title">Xem dự án dành cho bạn</div>
-	<div class="content" id="suggest_project" aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_project > .row" data-pagination="#suggest_project > .paging">
+	<div class="content" id="suggest_project" aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_project > .row" data-pagination="#suggest_project > .paging" data-init_list="showPopup($list)">
 		<div class="row">
 			<% 
 				projects = Project.search_with_params
@@ -264,10 +264,10 @@
 									<% end %>
 								</div>
 								<div class="function">
-									<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-									<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
 								</div>
 								<div class="detail" data-dot>
 									<%= re.description %>
@@ -301,7 +301,7 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" class="tab-pane fade in active" id="suggest_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="showPopup($list)" class="tab-pane fade in active" id="suggest_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
@@ -312,7 +312,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" class="tab-pane fade" id="new_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="new_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
@@ -356,37 +356,41 @@
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'house').limit 3
 				%>
-				<a href="/real_estates">
-					<% if res.count > 0 %>
-						<li class="col1">
+				<% if res.count > 0 %>
+					<li class="col1">
+						<a href="/real_estates/<%= res[0].id %>">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
 								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
-						</li>
-						<% if res.count > 1 %>
+						</a>
+					</li>
+					<% if res.count > 1 %>
 						<div class="col2">
 							<li>
-								<%= real_estate_avatar res[1] %>
-								<div class="wrapper">
-									<span class="price"><%= res[1].display_price %></span>
-									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-								</div>
+								<a href="/real_estates/<%= res[1].id %>">
+									<%= real_estate_avatar res[1] %>
+									<div class="wrapper">
+										<span class="price"><%= res[1].display_price %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+									</div>
+								</a>
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<%= real_estate_avatar res[2] %>
-									<div class="wrapper">
-										<span class="price"><%= res[2].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-									</div>
+									<a href="/real_estates/<%= res[0].id %>">
+										<%= real_estate_avatar res[2] %>
+										<div class="wrapper">
+											<span class="price"><%= res[2].display_price %></span>
+											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+										</div>
+									</a>
 								</li>
 							<% end %>
 						</div>
-						<% end %>
 					<% end %>
-				</a>
+				<% end %>
 			</ul>
 		</div>
 		<div class="col-lg-6">
@@ -397,37 +401,41 @@
 				<%
 					res = RealEstate.search_with_params(newest: nil).limit(3)
 				%>
-				<a href="/real_estates">
-					<% if res.count > 0 %>
-						<li class="col1">
+				<% if res.count > 0 %>
+					<li class="col1">
+						<a href="/real_estates/<%= res[0].id %>">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
 								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
-						</li>
-						<% if res.count > 1 %>
+						</a>
+					</li>
+					<% if res.count > 1 %>
 						<div class="col2">
 							<li>
-								<%= real_estate_avatar res[1] %>
-								<div class="wrapper">
-									<span class="price"><%= res[1].display_price %></span>
-									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-								</div>
+								<a href="/real_estates/<%= res[1].id %>">
+									<%= real_estate_avatar res[1] %>
+									<div class="wrapper">
+										<span class="price"><%= res[1].display_price %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+									</div>
+								</a>
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<%= real_estate_avatar res[2] %>
-									<div class="wrapper">
-										<span class="price"><%= res[2].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-									</div>
+									<a href="/real_estates/<%= res[0].id %>">
+										<%= real_estate_avatar res[2] %>
+										<div class="wrapper">
+											<span class="price"><%= res[2].display_price %></span>
+											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+										</div>
+									</a>
 								</li>
 							<% end %>
 						</div>
-						<% end %>
 					<% end %>
-				</a>
+				<% end %>
 			</ul>
 		</div>
 		<div class="col-lg-6">
@@ -438,37 +446,41 @@
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'villa', cheapest: nil).limit 3
 				%>
-				<a href="/real_estates">
-					<% if res.count > 0 %>
-						<li class="col1">
+				<% if res.count > 0 %>
+					<li class="col1">
+						<a href="/real_estates/<%= res[0].id %>">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
 								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
-						</li>
-						<% if res.count > 1 %>
+						</a>
+					</li>
+					<% if res.count > 1 %>
 						<div class="col2">
 							<li>
-								<%= real_estate_avatar res[1] %>
-								<div class="wrapper">
-									<span class="price"><%= res[1].display_price %></span>
-									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-								</div>
+								<a href="/real_estates/<%= res[1].id %>">
+									<%= real_estate_avatar res[1] %>
+									<div class="wrapper">
+										<span class="price"><%= res[1].display_price %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+									</div>
+								</a>
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<%= real_estate_avatar res[2] %>
-									<div class="wrapper">
-										<span class="price"><%= res[2].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-									</div>
+									<a href="/real_estates/<%= res[0].id %>">
+										<%= real_estate_avatar res[2] %>
+										<div class="wrapper">
+											<span class="price"><%= res[2].display_price %></span>
+											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+										</div>
+									</a>
 								</li>
 							<% end %>
 						</div>
-						<% end %>
 					<% end %>
-				</a>
+				<% end %>
 			</ul>
 		</div>
 		<div class="col-lg-6">
@@ -479,37 +491,41 @@
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
 				%>
-				<a href="/real_estates">
-					<% if res.count > 0 %>
-						<li class="col1">
+				<% if res.count > 0 %>
+					<li class="col1">
+						<a href="/real_estates/<%= res[0].id %>">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
 								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
-						</li>
-						<% if res.count > 1 %>
+						</a>
+					</li>
+					<% if res.count > 1 %>
 						<div class="col2">
 							<li>
-								<%= real_estate_avatar res[1] %>
-								<div class="wrapper">
-									<span class="price"><%= res[1].display_price %></span>
-									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-								</div>
+								<a href="/real_estates/<%= res[1].id %>">
+									<%= real_estate_avatar res[1] %>
+									<div class="wrapper">
+										<span class="price"><%= res[1].display_price %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+									</div>
+								</a>
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<%= real_estate_avatar res[2] %>
-									<div class="wrapper">
-										<span class="price"><%= res[2].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-									</div>
+									<a href="/real_estates/<%= res[0].id %>">
+										<%= real_estate_avatar res[2] %>
+										<div class="wrapper">
+											<span class="price"><%= res[2].display_price %></span>
+											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+										</div>
+									</a>
 								</li>
 							<% end %>
 						</div>
-						<% end %>
 					<% end %>
-				</a>
+				<% end %>
 			</ul>
 		</div>
 	</div>

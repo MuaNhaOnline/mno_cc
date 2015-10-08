@@ -301,7 +301,7 @@ function initForm($form, params) {
 							$controls = $item.find('.control');
 
 						$(controls).each(function () {
-							controlParams = this;
+							var controlParams = this;
 							var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
 
 							if ('handle' in controlParams) {
@@ -348,7 +348,7 @@ function initForm($form, params) {
 
 						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
 
-						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue + ',1') return value }), function (value) { return value });
+						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue) return value }), function (value) { return value });
 
 						hiddenInput.value = newValue.join(';');
 						$(hiddenInput).change();
@@ -378,7 +378,7 @@ function initForm($form, params) {
 					// Upload file
 					$.ajax({
 							url: '/temporary_files/upload',
-							type: 'POST',
+							method: 'POST',
 							data: data,
 							processData: false,
 							contentType: false,
@@ -401,17 +401,19 @@ function initForm($form, params) {
 						}
 					}).done(function(data) {
 						if (data.status == 0) {
+							var value = '1,' + data.result
+
 							// Display
-							$item.attr('data-status', 'done').data('value', data.result);
+							$item.attr('data-status', 'done').data('value', value);
 							$item.find('img').css('opacity', '1');
 							$progressBar.parent().remove();
 
 							// Value
 							if (isMulti) {
-								$hiddenInput.val(($hiddenInput.val() ? $hiddenInput.val() + ';' + data.result : data.result) + ',1').change(); 
+								$hiddenInput.val(($hiddenInput.val() ? $hiddenInput.val() + ';' + value : value)).change(); 
 							}
 							else {
-								$hiddenInput.val(data.result + ',1').change();
+								$hiddenInput.val(value).change();
 							}
 						}
 						else {
@@ -427,7 +429,7 @@ function initForm($form, params) {
 				*/
 
 				/*
-					Crop
+					/ Crop
 				*/
 			}
 
@@ -496,7 +498,7 @@ function initForm($form, params) {
 			var constraint = $fileUpload.attr('data-constraint');
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
 
-			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + (initValue ? initValue.split(';').map(function (value) { return value.split(',')[0] + ',0' } ).join(';') : '') + '" />');
+			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + (initValue ? initValue.split(';').map(function (value) { return '0,' + value.split(',')[0] } ).join(';') : '') + '" />');
 
 			$fileUpload.removeAttr('name data-init-value data-constraint').attr('data-nonvalid', '');
 
@@ -507,7 +509,7 @@ function initForm($form, params) {
 
 					// Create item
 					var $item = $('<article class="preview" data-old></article>');
-					$item.data('value', value[0]);
+					$item.data('value', '0,' + value[0]);
 					$item.data('control_show', null);
 
 					$item.html('<section class="image"><img src="' + value[1] + '" /></section><section class="control"><button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
@@ -518,7 +520,7 @@ function initForm($form, params) {
 							$controls = $item.find('.control');
 
 						$(controls).each(function () {
-							controlParams = this;
+							var controlParams = this;
 							var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
 
 							if ('handle' in controlParams) {
@@ -561,7 +563,7 @@ function initForm($form, params) {
 
 						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
 
-						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue + ',0') return value }), function (value) { return value });
+						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue) return value }), function (value) { return value });
 
 						hiddenInput.value = newValue.join(';');
 						$(hiddenInput).change();
@@ -1135,7 +1137,7 @@ function initForm($form, params) {
 
 					var floatPoint = value.indexOf('.');
 
-					if (floatPoint === -1) {
+					if (floatPoint == -1) {
 						value = value.replace(/\D/g, '');
 					}
 					else {
@@ -1166,13 +1168,21 @@ function initForm($form, params) {
 					minValue = $input.data('minvalue'),
 					maxValue = $input.data('maxvalue');
 
-				value = $input.val().replace(/\D/g, '');
+				var value = $input.val(), floatPoint = value.indexOf('.');
+
+				if (floatPoint == -1) {
+					value = value.replace(/\D/g, '');
+				}
+				else {
+					value = value.slice(0, floatPoint).replace(/\D/g, '') + '.' + value.slice(floatPoint).replace(/\D/g, '');
+				}
+
 				if (minValue && value < minValue) {
-					$(this).val(minValue).change();
+					$input.val(minValue).change();
 				}
 
 				if (maxValue && maxValue < value) {
-					$(this).val(maxValue).change();
+					$input.val(maxValue).change();
 				}
 			}
 		});

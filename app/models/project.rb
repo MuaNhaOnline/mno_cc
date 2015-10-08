@@ -61,7 +61,7 @@ class Project < ActiveRecord::Base
 
     # Constructional quality
     if params.has_key? :using_ratio
-      using_ratio = ApplicationHelper.format_i(params[:using_ratio]).to_i
+      using_ratio = ApplicationHelper.format_f(params[:using_ratio]).to_f
       params[:using_ratio] = using_ratio < 0 ? 0 : (using_ratio > 100 ? 100 : using_ratio)
     end
 
@@ -107,9 +107,9 @@ class Project < ActiveRecord::Base
       if _image_values[:old].present?
         _images = ProjectImage.find _image_values[:old]
 
-        if _avatar_value.present? && _avatar_value[1] == '0'
+        if _avatar_value.present? && _avatar_value[0] == '0'
           _images.each do |_image|
-            if _image.id.to_s == _avatar_value[0]
+            if _image.id.to_s == _avatar_value[1]
               _image.update is_avatar: true unless _image.is_avatar
               _has_avatar = true
             else
@@ -124,9 +124,9 @@ class Project < ActiveRecord::Base
       end
 
       if _image_values[:new].present?
-        if _avatar_value.present? && _avatar_value[1] == '1'
+        if _avatar_value.present? && _avatar_value[0] == '1'
           TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
-            if _id.to_s == _avatar_value[0]
+            if _id.to_s == _avatar_value[1]
               _images << ProjectImage.new(image: _image, is_avatar: true)
               _has_avatar = true
             else
@@ -287,14 +287,6 @@ class Project < ActiveRecord::Base
 
 # Get
 
-  # Get pending
-
-  def self.get_pending
-    where(is_pending: true, is_draft: false)
-  end
-
-  # / Get pending
-
   # Search with params
 
   # params: 
@@ -324,14 +316,13 @@ class Project < ActiveRecord::Base
     joins(joins).where(where).order(order)
   end
 
-  def self.manager_search_with_params params = {}
-    where = 'is_pending = false'
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.my_search_with_params params = {}
+    where = "user_id = #{User.current.id}"
     joins = []
     order = {}
-
-    if params.has_key?(:keyword) && params[:keyword].present?
-      search params[:keyword]
-    end
 
     if params.has_key? :view
       order[:view_count] = params[:view]
@@ -349,7 +340,70 @@ class Project < ActiveRecord::Base
       order[:id] = params[:id]
     end
 
-    joins(joins).where(where).order(order)
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id, favorite
+  def self.pending_search_with_params params = {}
+    where = 'is_pending = true AND is_draft = false'
+    joins = []
+    order = {}
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+  end
+
+  def self.manager_search_with_params params = {}
+    where = 'is_pending = false'
+    joins = []
+    order = {}
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :favorite
+      order[:is_favorite] = params[:favorite]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
   end
 
   # / Search with params

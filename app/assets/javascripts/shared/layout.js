@@ -156,6 +156,10 @@ function _initPagination(params) {
         else {
           if ('list' in params) {
             params['list'].html(data.result.list); 
+
+            if ('init_list' in params) {
+              params['init_list'](params['list']); 
+            }
           }
         }
 
@@ -268,6 +272,10 @@ function _startPagination() {
       else if (typeof window[data] == 'function') {
         params['data'] = window[data];
       }
+    }
+
+    if ($pagination.data('init_list')) {
+      params['init_list'] = new Function('$list', $pagination.data('init_list'));
     }
 
     _initPagination(params);

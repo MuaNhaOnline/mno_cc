@@ -223,12 +223,12 @@
 						 <ul class="dropdown-menu">
 							<li><a href="#" data-toggle="modal" data-target="#signin">Đăng nhập</a></li>
 							<li><a href="/signup">Đăng ký</a></li>                      
-							<!-- <li role="separator" class="divider"></li>
+							<li role="separator" class="divider"></li>
 							<li class="title">Đăng nhập bằng:</li>
 							<li class="social-link">
-								 <a href="#"><img src="/assets/logo/facebook-32.png"></a>
-								 <a href="#"><img src="/assets/logo/google_plus-32.png"></a>	 
-							</li> -->
+								 <a aria-click="facebook_login" href="javascript:void(0)"><img src="/assets/logo/facebook-32.png"></a>
+								 <!-- <a href="#"><img src="/assets/logo/google_plus-32.png"></a>	  -->
+							</li>
 						</ul>
 					</div>
 				</article>
@@ -342,8 +342,8 @@
 				<a class="btn btn-primary btn-sm">Đăng ký</a>			
 				<div class="sign-with-social">
 					<span>Đăng nhập với:</span>
-					<i class="icon icon-facebook"></i>
-					<i class="icon icon-googleplus"></i>
+					<a aria-click="facebook_login" href="javascript:void(0)"><i class="icon icon-facebook"></i></a>
+					<!-- <i class="icon icon-googleplus"></i> -->
 				</div>
 			</section>
 		<% end %>
@@ -427,8 +427,14 @@
 						 <label><input name="remember" type="checkbox">Ghi nhớ</label>
 					</div>
 				</div>
-				<div style="margin-top: 20px">
+				<div style="margin: 20px 0">
 					<span>Bạn chưa có tài khoản? <a href="/signup">Đăng ký ngay</a></span>
+				</div>
+				<div>
+					<div class="sign-with-social">
+						<span>Đăng nhập với:</span>
+						<a aria-click="facebook_login" href="javascript:void(0)"><i class="icon icon-facebook"></i></a>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -479,4 +485,65 @@
 <script type="text/javascript" src="/assets/shared/jquery.dotdotdot.min.js"></script>
 <script type="text/javascript" src="/assets/shared/slick.min.js"></script>
 <%= yield :scripts %>
+<% unless signed? %>
+	<script type="text/javascript">
+	  $(function () {
+	  	initFacebook();
+	  });
+
+	  /*
+	    Facebook
+	  */
+
+	    function initFacebook() {
+	      $('[aria-click="facebook_login"]').on('click', function () {
+	        request();
+	      });
+	    }
+	    
+	    function request() {
+	      FB.login(function (response) {
+	        if (response.status == 'connected') {
+	          FB.api('/me/permissions', function(response) {
+	            var valid = true;
+	            $(response.data).each(function () {
+	              if (this.status != 'granted') {
+	                valid = false;
+	                return false;
+	              }
+	            });
+	            if (valid) {
+	              window.location = '/auth/facebook/callback';
+	            }
+	          }); 
+	        }
+	      }, {
+	        scope: 'public_profile,email',
+	        auth_type: 'rerequest'
+	      });
+	    }
+
+			window.fbAsyncInit = function() {
+			  FB.init({
+			    appId      : '1456463541347476',
+			    xfbml      : true,
+			    cookie     : true,
+			    version    : 'v2.4'
+			  });
+			};
+
+			(function(d, s, id){
+			   var js, fjs = d.getElementsByTagName(s)[0];
+			   if (d.getElementById(id)) {return;}
+			   js = d.createElement(s); js.id = id;
+			   js.src = "//connect.facebook.net/en_US/sdk.js";
+			   fjs.parentNode.insertBefore(js, fjs);
+			 }(document, 'script', 'facebook-jssdk'));
+
+		/*
+			/ Facebook
+		*/
+
+	</script>
+<% end %>
 </html>

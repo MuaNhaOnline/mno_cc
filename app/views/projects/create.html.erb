@@ -16,7 +16,6 @@
   </span>
 <% end %>
 
-<%= @p.price_unit_id %>
 <% 
 =begin
   params: @p
@@ -200,7 +199,7 @@
             <article class="form-group col-md-6">
               <label class="control-label" for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
               <div class="input-group">
-                <input data-constraint="integer range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio %>" />
+                <input data-constraint="real range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio %>" />
                 <div class="input-group-addon">%</div>
               </div>
             </article>

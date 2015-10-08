@@ -1077,3 +1077,22 @@
   </section>
 
 </form>
+
+<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default">
+  <form class="form box-body">
+    <section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;">
+      <img aria-name="preview_image" style="max-width: 100%; max-height: 250px">
+    </section>
+    <article class="form-group">
+      <textarea class="form-control" name="description"></textarea>
+    </article>
+    <article class="text-center">
+      <button type="submit" class="btn btn-primary btn-flat">
+        <%= t 'form.finish' %>
+      </button>
+      <button type="button" class="btn btn-default btn-flat">
+        <%= t 'form.cancel' %>
+      </button>
+    </article>
+  </form>
+</article>

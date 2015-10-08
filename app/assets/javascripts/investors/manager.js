@@ -2,9 +2,39 @@ $(function () {
   var 
     $list = $('#investor_list');
 
+  initItem();
   initDelete();
   initPagination();
   initRename();
+
+  /*
+    Item
+  */
+
+  function initItem($item) {
+    if ($item) {
+      setItem($item);
+    }
+    else {
+      $list.find('.item').each(function () {
+        setItem($(this));
+      });
+    }
+
+    function setItem($item) {
+
+      $item.find('[aria-object="name"]').dotdotdot({
+        height: 50,
+        watch: true
+      });
+
+    }
+
+  }
+
+  /*
+    / Item
+  */
 
   /*
     Delete buttons
@@ -25,8 +55,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/investors/' + $item.data('value'),
-                type: 'DELETE',
+                url: '/investors/delete/' + $item.data('value'),
+                method: 'POST',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
@@ -91,7 +121,7 @@ $(function () {
           toggleLoadStatus(true);
           $.ajax({
             url: '/investors/rename',
-            method: 'PUT',
+            method: 'POST',
             data: $form.serialize(),
             dataType: 'JSON'
           }).always(function () {

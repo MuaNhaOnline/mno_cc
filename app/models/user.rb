@@ -30,15 +30,17 @@ class User < ActiveRecord::Base
 
 # Validates
 
-	validates :password, presence: { message: 'Mật khẩu không được bỏ trống' }
-	validates :full_name, presence: { message: 'Họ tên không được bỏ trống' }
-
   validate :custom_validate
 
 	def custom_validate
-		if new_record?
-			errors.add(:account, 'Tên tài khoản không hợp lệ') if account.blank? || User.exists?(account: account)
-			errors.add(:email, 'Email không hợp lệ') if email.blank? || !ApplicationHelper.isValidEmail(email) || User.exists?(email: email)
+		if provider.blank?
+			if new_record?
+				errors.add(:account, 'Tên tài khoản không hợp lệ') if account.blank? || User.exists?(account: account)
+				errors.add(:email, 'Email không hợp lệ') if email.blank? || !ApplicationHelper.isValidEmail(email) || User.exists?(email: email)
+			end
+
+			errors.add(:password, 'Mật khẩu không được bỏ trống') if password.blank?
+			errors.add(:full_name, 'Họ tên không được bỏ trống') if full_name.blank?
 		end
 	end
 
@@ -80,10 +82,11 @@ class User < ActiveRecord::Base
 		end
 
 		def self.from_omniauth auth
-		  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+		  where(provider: auth.provider, provider_user_id: auth.uid).first_or_initialize.tap do |user|
 		    user.provider = auth.provider
 		    user.provider_user_id = auth.uid
 		    user.full_name = auth.info.name
+		    user.email = auth.info.email
 		    user.provider_token = auth.credentials.token
 		    user.provider_expires_at = Time.at(auth.credentials.expires_at)
 		    user.save

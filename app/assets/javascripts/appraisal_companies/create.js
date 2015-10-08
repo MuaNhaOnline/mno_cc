@@ -11,7 +11,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/appraisal_companies/create',
-        type: 'POST',
+        method: 'POST',
         data: $form.serialize(),
         dataType: 'JSON'
       }).always(function () {

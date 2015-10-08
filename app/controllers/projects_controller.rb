@@ -85,7 +85,7 @@ end
     # Author
     authorize! :view_my, Project
 
-    @projects = Project.where(user_id: current_user.id).order(updated_at: 'desc')
+    @projects = Project.my_search_with_params interact: 'desc'
 
     render layout: 'layout_back'
   end
@@ -101,11 +101,7 @@ end
     params[:page] ||= 1
     params[:page] = params[:page].to_i
 
-    if params[:keyword].blank?
-      projects = Project.where(user_id: current_user.id)
-    else
-      projects = Project.where(user_id: current_user.id).search(params[:keyword])
-    end
+    projects = Project.my_search_with_params params
 
     count = projects.count
 
@@ -135,7 +131,7 @@ end
     # Author
     authorize! :manage, Project
 
-    @projects = Project.get_pending.order(updated_at: 'asc')
+    @projects = Project.pending_search_with_params interact: 'desc'
 
     render layout: 'layout_back'
   end
@@ -151,11 +147,7 @@ end
     params[:page] ||= 1
     params[:page] = params[:page].to_i
 
-    if params[:keyword].blank?
-      ps = Project.get_pending.order(updated_at: 'asc')
-    else
-      ps = Project.get_pending.search(params[:keyword])
-    end
+    ps = Project.pending_search_with_params params
 
     count = ps.count
 

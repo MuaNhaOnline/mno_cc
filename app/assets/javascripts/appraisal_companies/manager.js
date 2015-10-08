@@ -23,8 +23,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/appraisal_companies/' + $row.data('value'),
-                type: 'DELETE',
+                url: '/appraisal_companies/delete/' + $row.data('value'),
+                method: 'POST',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

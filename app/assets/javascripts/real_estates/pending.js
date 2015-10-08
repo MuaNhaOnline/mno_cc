@@ -43,7 +43,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
           url: '/real_estates/approve/' + $item.data('value'),
-          type: 'PUT',
+          method: 'POST',
           contentType: 'JSON'
       }).done(function () {
         toggleLoadStatus(false);
@@ -92,8 +92,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/real_estates/' + $item.data('value'),
-                type: 'DELETE',
+                url: '/real_estates/delete/' + $item.data('value'),
+                method: 'POST',
                 dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
@@ -138,7 +138,7 @@ $(function () {
     var order = { interact: 'desc' };
 
     find = _initPagination({
-      url: '/real_estates/_manager_list',
+      url: '/real_estates/_pending_list',
       list: $list,
       pagination: $('#pagination'),
       data: function () {

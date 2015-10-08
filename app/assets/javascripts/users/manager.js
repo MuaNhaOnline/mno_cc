@@ -127,7 +127,7 @@ $(function () {
 					toggleLoadStatus(true);
 					$.ajax({
 						url: '/users/change_type',
-						method: 'PUT',
+						method: 'POST',
 						data: {
 							id: $item.data('value'),
 							type: type,
@@ -166,7 +166,7 @@ $(function () {
 					toggleLoadStatus(true);
 					$.ajax({
 						url: '/users/change_type',
-						method: 'PUT',
+						method: 'POST',
 						data: {
 							id: $item.data('value'),
 							type: type,

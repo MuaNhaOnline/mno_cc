@@ -79,7 +79,7 @@ $(function () {
 
 			$.ajax({
 				url: '/mail_boxes/sent_remove',
-				method: 'PUT',
+				method: 'POST',
 				data: { ids: ids },
 				dataType: 'JSON'
 			}).done(function (data) {
