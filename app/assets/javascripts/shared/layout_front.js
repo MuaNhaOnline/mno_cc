@@ -32,9 +32,9 @@ $(function () {
 //endregion
 
 // start popup
-function showPopup() {	
+function showPopup($container) {	
 	// Popup alert
-	var $comingSoonPopup = $('[data-popup="coming-soon"]');
+	var $comingSoonPopup = typeof($container) == 'undefined' ? $('[data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]');
 	$comingSoonPopup.on('click', function() {
 		$('#coming_soon_popup').modal('show');
 	});
