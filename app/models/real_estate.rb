@@ -306,9 +306,9 @@ class RealEstate < ActiveRecord::Base
       if _image_values[:old].present?
         _images = RealEstateImage.find _image_values[:old]
 
-        if _avatar_value.present? && _avatar_value[1] == '0'
+        if _avatar_value.present? && _avatar_value[0] == '0'
           _images.each do |_image|
-            if _image.id.to_s == _avatar_value[0]
+            if _image.id.to_s == _avatar_value[1]
               _image.update is_avatar: true unless _image.is_avatar
               _has_avatar = true
             else
@@ -323,9 +323,9 @@ class RealEstate < ActiveRecord::Base
       end
 
       if _image_values[:new].present?
-        if _avatar_value.present? && _avatar_value[1] == '1'
+        if _avatar_value.present? && _avatar_value[0] == '1'
           TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
-            if _id.to_s == _avatar_value[0]
+            if _id.to_s == _avatar_value[1]
               _images << RealEstateImage.new(image: _image, is_avatar: true)
               _has_avatar = true
             else
