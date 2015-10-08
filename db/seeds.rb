@@ -130,7 +130,8 @@ Unit.create [
 	{ name: 'month', options: '{"group":"rent","default":""}' },
 	{ name: 'year', options: '{"group":"rent"}' },
 	{ name: 'square_meter', options: '{"group":"project"}' },
-	{ name: 'per', options: '{"group":"project","default":""}' }
+	{ name: 'per', options: '{"group":"project"}' },
+	{ name: 'platform', options: '{"group":"project","default":""}' }
 ]
 
 ProjectType.delete_all

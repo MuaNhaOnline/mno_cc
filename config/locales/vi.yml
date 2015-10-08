@@ -226,7 +226,9 @@ vi:
       year: 'Năm'
       display_year: '/năm'
       per: 'Căn'
-      display_per: ''
+      display_per: '/căn'
+      platform: 'Nền'
+      display_platform: '/nền'
   user:
     attribute:
       account_box: 'Thông tin tài khoản'
