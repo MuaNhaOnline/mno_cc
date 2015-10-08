@@ -2,9 +2,39 @@ $(function () {
   var 
     $list = $('#investor_list');
 
+  initItem();
   initDelete();
   initPagination();
   initRename();
+
+  /*
+    Item
+  */
+
+  function initItem($item) {
+    if ($item) {
+      setItem($item);
+    }
+    else {
+      $list.find('.item').each(function () {
+        setItem($(this));
+      });
+    }
+
+    function setItem($item) {
+
+      $item.find('[aria-object="name"]').dotdotdot({
+        height: 50,
+        watch: true
+      });
+
+    }
+
+  }
+
+  /*
+    / Item
+  */
 
   /*
     Delete buttons
