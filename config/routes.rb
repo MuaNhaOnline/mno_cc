@@ -36,11 +36,11 @@ Rails.application.routes.draw do
     post 'real_estates/preview' => 'real_estates#preview'
     post 'real_estates/create' => 'real_estates#save'
     post 'real_estates/set_appraisal_company'
-    delete 'real_estates/:id' => 'real_estates#delete'
-    put 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
-    put 'real_estates/change_force_hide_status/:id/:is_force_hide' => 'real_estates#change_force_hide_status'
-    put 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
-    put 'real_estates/approve/:id' => 'real_estates#approve'
+    post 'real_estates/delete/:id' => 'real_estates#delete'
+    post 'real_estates/change_show_status/:id/:is_show' => 'real_estates#change_show_status'
+    post 'real_estates/change_force_hide_status/:id/:is_force_hide' => 'real_estates#change_force_hide_status'
+    post 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
+    post 'real_estates/approve/:id' => 'real_estates#approve'
 
   # / Real estate
 
@@ -65,9 +65,9 @@ Rails.application.routes.draw do
     post 'register' => 'users#save'
     post 'signin' => 'users#signin_handle'
     post 'users/forgot_password' => 'users#forgot_password_handle'
-    put 'users/change_type'
-    put 'users/change_password'
-    put 'users/cancel_change_email/:id' => 'users#cancel_change_email'
+    post 'users/change_type'
+    post 'users/change_password'
+    post 'users/cancel_change_email/:id' => 'users#cancel_change_email'
 
   # / User
 
@@ -81,7 +81,7 @@ Rails.application.routes.draw do
     get 'appraisal_companies/_appraise_list'
     post 'appraisal_companies/create' => 'appraisal_companies#save'
     post 'appraisal_companies/set_price'
-    delete 'appraisal_companies/:id' => 'appraisal_companies#delete'
+    post 'appraisal_companies/delete/:id' => 'appraisal_companies#delete'
 
   # / Appraisal company
 
@@ -92,8 +92,8 @@ Rails.application.routes.draw do
     get '/questions/_manager_list'
     post '/questions/create' => 'questions#save'
     post '/questions/answer' => 'questions#answer'
-    put '/questions/pin/:id/:status' => 'questions#pin'
-    delete '/questions/:id' => 'questions#delete'
+    post '/questions/pin/:id/:status' => 'questions#pin'
+    post '/questions/delete/:id' => 'questions#delete'
 
   # / Question
 
@@ -109,9 +109,9 @@ Rails.application.routes.draw do
     get 'mail_boxes/read/:id' => 'mail_boxes#read'
     get 'mail_boxes' => 'mail_boxes#inbox'
     post 'mail_boxes/send_mail'
-    put 'mail_boxes/inbox_remove'
-    put 'mail_boxes/sent_remove'
-    delete 'mail_boxes/' => 'mail_boxes#delete'
+    post 'mail_boxes/inbox_remove'
+    post 'mail_boxes/sent_remove'
+    post 'mail_boxes/delete' => 'mail_boxes#delete'
 
   # / Mail box
 
@@ -131,11 +131,11 @@ Rails.application.routes.draw do
     get 'projects/:id' => 'projects#view'
     get 'projects' => 'projects#index'
     post 'projects/create' => 'projects#save'
-    delete 'projects/:id' => 'projects#delete'
-    put 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
-    put 'projects/approve/:id' => 'projects#approve'
-    put 'projects/change_force_hide_status/:id/:is_force_hide' => 'projects#change_force_hide_status'
-    put 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
+    post 'projects/delete/:id' => 'projects#delete'
+    post 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
+    post 'projects/approve/:id' => 'projects#approve'
+    post 'projects/change_force_hide_status/:id/:is_force_hide' => 'projects#change_force_hide_status'
+    post 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
 
   # / Project
 
@@ -144,8 +144,8 @@ Rails.application.routes.draw do
     get 'investors/autocomplete'
     get 'investors/manager'
     get 'investors/_manager_list'
-    delete 'investors/:id' => 'investors#delete'
-    put 'investors/rename'
+    post 'investors/delete/:id' => 'investors#delete'
+    post 'investors/rename'
 
   # / Investor
 

@@ -112,7 +112,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/real_estates/change_show_status/' + $item.data('value') + '/' + (isShow ? 0 : 1),
-        method: 'PUT',
+        method: 'POST',
         contentType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
@@ -166,8 +166,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/real_estates/' + $item.data('value'),
-                method: 'DELETE',
+                url: '/real_estates/delete/' + $item.data('value'),
+                method: 'POST',
                 dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

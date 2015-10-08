@@ -43,7 +43,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
           url: '/real_estates/approve/' + $item.data('value'),
-          method: 'PUT',
+          method: 'POST',
           contentType: 'JSON'
       }).done(function () {
         toggleLoadStatus(false);
@@ -92,8 +92,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/real_estates/' + $item.data('value'),
-                method: 'DELETE',
+                url: '/real_estates/delete/' + $item.data('value'),
+                method: 'POST',
                 dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

@@ -25,8 +25,8 @@ $(function () {
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/investors/' + $item.data('value'),
-                method: 'DELETE',
+                url: '/investors/delete/' + $item.data('value'),
+                method: 'POST',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
@@ -91,7 +91,7 @@ $(function () {
           toggleLoadStatus(true);
           $.ajax({
             url: '/investors/rename',
-            method: 'PUT',
+            method: 'POST',
             data: $form.serialize(),
             dataType: 'JSON'
           }).always(function () {

@@ -241,7 +241,7 @@ $(function () {
       		toggleLoadStatus(true);
       		$.ajax({
       			url: '/users/change_password',
-						method: 'PUT',
+						method: 'POST',
       			data: $form2.serialize(),
       			dataType: 'JSON'
       		}).always(function () {
@@ -327,7 +327,7 @@ $(function () {
 			toggleLoadStatus(true);
 			$.ajax({
 				url: '/users/cancel_change_email/' + $form[0].elements['user[id]'].value,
-				method: 'PUT',
+				method: 'POST',
 				dataType: 'JSON'
 			}).always(function () {
 				toggleLoadStatus(false);

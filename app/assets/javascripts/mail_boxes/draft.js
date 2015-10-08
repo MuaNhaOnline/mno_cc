@@ -78,8 +78,8 @@ $(function () {
 			ids = ids.substr(1);
 
 			$.ajax({
-				url: '/mail_boxes',
-				method: 'DELETE',
+				url: '/mail_boxes/delete',
+				method: 'POST',
 				data: { ids: ids },
 				dataType: 'JSON'
 			}).done(function (data) {
