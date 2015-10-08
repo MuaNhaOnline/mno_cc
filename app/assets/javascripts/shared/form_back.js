@@ -378,7 +378,7 @@ function initForm($form, params) {
 					// Upload file
 					$.ajax({
 							url: '/temporary_files/upload',
-							type: 'POST',
+							method: 'POST',
 							data: data,
 							processData: false,
 							contentType: false,

@@ -69,7 +69,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/real_estates/create',
-        type: 'POST',
+        method: 'POST',
         data: $form.serialize(),
         dataType: 'JSON'
       }).always(function () {
@@ -617,7 +617,7 @@ $(function () {
       $form.submitStatus(true);
       $.ajax({
         url: '/real_estates/create',
-        type: 'POST',
+        method: 'POST',
         data: $form.serialize() + '&draft',
         dataType: 'JSON'
       }).always(function () {

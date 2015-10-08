@@ -98,7 +98,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/real_estates/change_force_hide_status/' + $item.data('value') + '/' + (isForceHide ? 0 : 1),
-        type: 'PUT',
+        method: 'PUT',
         contentType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
@@ -145,7 +145,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/real_estates/change_favorite_status/' + $item.data('value') + '/' + (isFavorite ? 0 : 1),
-        type: 'PUT',
+        method: 'PUT',
         contentType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
@@ -198,7 +198,7 @@ $(function () {
               toggleLoadStatus(true);
               $.ajax({
                 url: '/real_estates/' + $item.data('value'),
-                type: 'DELETE',
+                method: 'DELETE',
                 dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

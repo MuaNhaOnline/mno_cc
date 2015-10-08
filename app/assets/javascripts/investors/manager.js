@@ -26,7 +26,7 @@ $(function () {
               toggleLoadStatus(true);
               $.ajax({
                 url: '/investors/' + $item.data('value'),
-                type: 'DELETE',
+                method: 'DELETE',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

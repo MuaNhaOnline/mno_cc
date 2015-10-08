@@ -43,7 +43,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
           url: '/projects/approve/' + $item.data('value'),
-          type: 'PUT',
+          method: 'PUT',
           contentType: 'JSON'
       }).done(function () {
         toggleLoadStatus(false);
@@ -93,7 +93,7 @@ $(function () {
               toggleLoadStatus(true);
               $.ajax({
                 url: '/projects/' + $item.data('value'),
-                type: 'DELETE',
+                method: 'DELETE',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

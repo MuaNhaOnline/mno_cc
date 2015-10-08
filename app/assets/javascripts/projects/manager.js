@@ -97,7 +97,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/projects/change_force_hide_status/' + $item.data('value') + '/' + (isForceHide ? 0 : 1),
-        type: 'PUT',
+        method: 'PUT',
         contentType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);
@@ -144,7 +144,7 @@ $(function () {
       toggleLoadStatus(true);
       $.ajax({
         url: '/projects/change_favorite_status/' + $item.data('value') + '/' + (isFavorite ? 0 : 1),
-        type: 'PUT',
+        method: 'PUT',
         contentType: 'JSON'
       }).always(function () {
         toggleLoadStatus(false);

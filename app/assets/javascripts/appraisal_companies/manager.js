@@ -24,7 +24,7 @@ $(function () {
               toggleLoadStatus(true);
               $.ajax({
                 url: '/appraisal_companies/' + $row.data('value'),
-                type: 'DELETE',
+                method: 'DELETE',
                 contentType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);

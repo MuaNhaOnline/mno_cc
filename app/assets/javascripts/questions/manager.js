@@ -102,7 +102,7 @@ $(function () {
 									toggleLoadStatus(true);
 									$.ajax({
 										url: '/questions/' + $item.data('value'),
-										type: 'DELETE',
+										method: 'DELETE',
 										dataType: 'JSON'
 									}).always(function () {
 										toggleLoadStatus(false);
@@ -147,7 +147,7 @@ $(function () {
 					toggleLoadStatus(true);
 					$.ajax({
 						url: '/questions/pin/' + $item.data('value') + '/' + (isPinned ? 0 : 1),
-						type: 'PUT',
+						method: 'PUT',
 						dataType: 'JSON'
 					}).always(function () {
 						toggleLoadStatus(false);
