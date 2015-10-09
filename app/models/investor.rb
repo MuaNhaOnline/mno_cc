@@ -45,15 +45,13 @@ class Investor < ActiveRecord::Base
 
     investor.assign_attributes name: new_name
 
-    if avatar_id
-      _avatar_value = TemporaryFile.split_old_new avatar_id.split(';')
+    if avatar_id.present?
+      _value = JSON.parse avatar_id
 
-      if _avatar_value[:new].present?
-        TemporaryFile.get_files(_avatar_value[:new]) do |_avatar, _id|
+      if _value['is_new']
+        TemporaryFile.get_file(_value['id']) do |_avatar|
           investor.assign_attributes avatar: _avatar
         end
-      elsif _avatar_value[:old].blank?
-        investor.assign_attributes avatar: nil
       end
     else
       investor.assign_attributes avatar: nil

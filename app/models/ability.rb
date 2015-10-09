@@ -59,7 +59,7 @@ class Ability
           can [:edit, :delete, :change_show_status], RealEstate, user_id: user.id
 
           if user.is_real_estate_manager
-            can [:view, :manage, :approve, :appraise, :edit, :change_force_hide_status, :change_favorite_status], RealEstate
+            can [:view, :manage, :approve, :appraise, :change_force_hide_status, :change_favorite_status], RealEstate
           end
 
         # / Real estate
@@ -71,7 +71,7 @@ class Ability
           can [:edit, :delete, :change_show_status], Project, user_id: user.id
 
           if user.is_project_manager
-            can [:manage, :approve, :appraise, :edit, :change_force_hide_status, :change_favorite_status], Project
+            can [:manage, :approve, :appraise, :change_force_hide_status, :change_favorite_status], Project
           end
 
         # / Project

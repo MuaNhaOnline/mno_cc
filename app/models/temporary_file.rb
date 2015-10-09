@@ -26,6 +26,18 @@ class TemporaryFile < ActiveRecord::Base
     return result
   end
 
+  def self.get_file id
+    _f = TemporaryFile.find(id)
+    
+    if File.exists? _f.path
+      _file = File.new _f.path
+
+      yield _file, _f.id
+
+      _file.close
+    end
+  end
+
   def self.get_files ids
     TemporaryFile.find(ids).each do |_f|
       if File.exists? _f.path

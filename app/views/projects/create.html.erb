@@ -38,14 +38,12 @@
 
   # Image
   image_init_value = ''
-  avatar_id = ''
   unless @p.new_record?
+    _images = []
     @p.images.each do |p_image|
-      image_init_value += p_image.id.to_s + ',' + p_image.image.url + ';'
-
-      avatar_id = p_image.id.to_s + ',0' if p_image.is_avatar
+      _images << { 'id': p_image.id, 'url': p_image.image.url, 'description': p_image.description, 'is_avatar': p_image.is_avatar }
     end
-    image_init_value[image_init_value.length - 1] = '' if image_init_value != ''
+    image_init_value = _images.to_json
   end
 %>
 
@@ -478,12 +476,11 @@
           </h2>
         </section>
         <section class="box-body">
-          <input type="hidden" name="project[avatar_id]" value="<%= avatar_id %>" />
           <article class="form-group margin-0">
             <label class="control-label">Hình ảnh</label>
             <sup class="required-label"></sup>
             <p>Bạn có thể đăng 10 ảnh mô tả dự án của mình</p>
-            <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" />
+            <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" data-has_description />
           </article>
         </section>
       </article>

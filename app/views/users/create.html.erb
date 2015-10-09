@@ -27,7 +27,7 @@
   # Image
   avatar_init_value = ''
   if !@user.new_record? && @user.avatar.present?
-    avatar_init_value = '0,' + @user.avatar.url
+    avatar_init_value = { 'url': @user.avatar.url }.to_json
   end
 %>
 

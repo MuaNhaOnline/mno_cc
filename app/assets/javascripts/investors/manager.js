@@ -107,7 +107,7 @@ $(function () {
       
       form.elements['id'].value = $item.data('value');
       form.elements['name'].value = $item.find('[aria-object="name"]').text();
-      $(form.elements['avatar_id']).attr('data-init-value', $item.data('avatar'));
+      $(form.elements['avatar_id']).attr('data-init-value', $item.attr('data-avatar'));
       var $popup = popupFull({
         html: $html
       });
@@ -132,13 +132,13 @@ $(function () {
 
               $item.find('[aria-object="name"]').text(form.elements['name'].value);
 
-              if (form.elements['avatar_id'].value) {
+              if (form.elements['avatar_id']) {
                 $item.find('[aria-object="avatar"]').attr('src', data.avatar_url);
-                $item.data('avatar', '0,' + data.avatar_url);
+                $item.attr('data-avatar', JSON.stringify({ url: data.avatar_url }));
               }
               else {
-                $item.find('[aria-object="avatar"]').attr('src', '/assets/investor/default.png');
-                $item.data('avatar-id', '');
+                $item.find('[aria-object="avatar"]').attr('src', '/assets/investors/default.png');
+                $item.attr('data-avatar', '');
               }
             }
             else {
@@ -175,6 +175,7 @@ $(function () {
       pagination: $('#pagination'),
       done: function (content) {
         $list.html(content);
+        initItem();
         initDelete();
         initRename();
       }

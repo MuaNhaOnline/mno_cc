@@ -86,14 +86,12 @@
 
   # Image
   image_init_value = ''
-  avatar_id = ''
   unless @re.new_record?
+    _images = []
     @re.images.each do |re_image|
-      image_init_value += re_image.id.to_s + ',' + re_image.image.url + ';'
-
-      avatar_id = re_image.id.to_s + ',0' if re_image.is_avatar
+      _images << { 'id': re_image.id, 'url': re_image.image.url, 'description': re_image.description, 'is_avatar': re_image.is_avatar }
     end
-    image_init_value[image_init_value.length - 1] = '' if image_init_value != ''
+    image_init_value = _images.to_json
   end
 %>
 
@@ -815,9 +813,8 @@
         </section>
         <section class="box-body hide-until-full">
           <p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình.</p>
-          <input type="hidden" name="real_estate[avatar_id]" value="<%= avatar_id %>" />
           <article class="form-group margin-0">
-            <input class="file-upload" type="file" multiple name="real_estate[image_ids]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" />
+            <input class="file-upload" type="file" multiple name="real_estate[image_ids][]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" data-has_description />
           </article>
         </section>
       </article>
@@ -1077,22 +1074,3 @@
   </section>
 
 </form>
-
-<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default">
-  <form class="form box-body">
-    <section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;">
-      <img aria-name="preview_image" style="max-width: 100%; max-height: 250px">
-    </section>
-    <article class="form-group">
-      <textarea class="form-control" name="description"></textarea>
-    </article>
-    <article class="text-center">
-      <button type="submit" class="btn btn-primary btn-flat">
-        <%= t 'form.finish' %>
-      </button>
-      <button type="button" class="btn btn-default btn-flat">
-        <%= t 'form.cancel' %>
-      </button>
-    </article>
-  </form>
-</article>

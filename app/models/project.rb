@@ -97,46 +97,24 @@ class Project < ActiveRecord::Base
     _images = []
     _has_avatar = false
     if params[:image_ids].present?
-      _image_values = TemporaryFile.split_old_new params[:image_ids].split(';').take(5)
+      params[:image_ids].each do |_v|
+        _value = JSON.parse _v
 
-      _avatar_value = nil
-      if params[:avatar_id].present?
-        _avatar_value = params[:avatar_id].split(',')
-      end
+        if _value['is_new']
+          TemporaryFile.get_file(_value['id']) do |_image, _id|
+            _images << ProjectImage.new(image: _image, is_avatar: _value['is_avatar'], description: _value['description'])
 
-      if _image_values[:old].present?
-        _images = ProjectImage.find _image_values[:old]
-
-        if _avatar_value.present? && _avatar_value[0] == '0'
-          _images.each do |_image|
-            if _image.id.to_s == _avatar_value[1]
-              _image.update is_avatar: true unless _image.is_avatar
-              _has_avatar = true
-            else
-              _image.update is_avatar: false if _image.is_avatar
-            end
+            _has_avatar = true if _value['is_avatar']
           end
         else
-          _images.each do |_image|
-            _image.update is_avatar: false if _image.is_avatar
-          end
-        end
-      end
+          _image = ProjectImage.find _value['id']
+          _image.description = _value['description']
+          _image.is_avatar = _value['is_avatar']
+          _image.save if _image.changed?          
 
-      if _image_values[:new].present?
-        if _avatar_value.present? && _avatar_value[0] == '1'
-          TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
-            if _id.to_s == _avatar_value[1]
-              _images << ProjectImage.new(image: _image, is_avatar: true)
-              _has_avatar = true
-            else
-              _images << ProjectImage.new(image: _image, is_avatar: false)
-            end
-          end
-        else
-          TemporaryFile.get_files(_image_values[:new]) do |_image, _id|
-            _images << ProjectImage.new(image: _image)
-          end
+          _has_avatar = true if _value['is_avatar']
+
+          _images << _image
         end
       end
     end

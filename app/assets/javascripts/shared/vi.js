@@ -17,8 +17,8 @@ var _t = {
 		crop_title: 'Điều chỉnh kích thước ảnh',
 		crop: 'Cắt',
 		crop_tooltip: 'Cắt',
-		uncrop: 'Bỏ qua',
-		uncrop_tooltip: 'Bỏ qua',
+		uncrop: 'Không cắt',
+		uncrop_tooltip: 'Không cắt',
 		delete: 'Xóa',
 		delete_tooltip: 'Xóa',
 		cancel: 'Bỏ qua',
@@ -178,7 +178,7 @@ var _t = {
 			'project[docs_issue_date]_greater_finish': 'Phải sau ngày hoàn thành móng',
 			'project[title]_required': 'Không thể bỏ trống',
 			'project[description]_required': 'Không thể bỏ trống',
-			'project[image_ids]_required': 'Không thể bỏ trống'
+			'project[image_ids][_fu]_required': 'Không thể bỏ trống'
 		},
 		view: {
 			create: {

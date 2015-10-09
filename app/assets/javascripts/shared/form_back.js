@@ -209,7 +209,8 @@ function initForm($form, params) {
 				amount = $fileUpload.data('amount'),
 				size = $fileUpload.data('size'),
 				types = $fileUpload.data('type'),
-				ratio = $fileUpload.data('ratio');
+				ratio = $fileUpload.data('ratio'),
+				hasDescription = $fileUpload.is('[data-has_description]');
 
 			if (types) {
 				types = types.split(' ');
@@ -236,18 +237,17 @@ function initForm($form, params) {
 			// Get wrapper
 			var $wrapper = $fileUpload.parent();
 
-			var $hiddenInput = $wrapper.find('input[type="hidden"]');
-
 			// Check amount
-			currentAmount = $hiddenInput.val() ? $hiddenInput.val().split(';').length : 0;
+			currentAmount = $wrapper.find('.preview').count;
 
 			/* 
 				Init for read file
 			*/
 
-			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section><section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : '<button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</section></article></section></article>'),
+			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section>' + (hasDescription ? '<section class="box-body"><input class="form-control" aria-name="description" placeholder="Mô tả" /></section>' : '') + '<section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : '<button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</section></article></section></article>'),
 				fileReader = new FileReader(),
 				currentIndex = 0;
+
 			fileReader.onload = function (e, i) {
 
 				/*
@@ -282,6 +282,8 @@ function initForm($form, params) {
 				});
 
 				$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
+					var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
+
 					currentAmount++;
 					$popup.off();
 					readNext();
@@ -289,7 +291,7 @@ function initForm($form, params) {
 					var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
 
 					var $item = $('<article class="preview" data-uploading></article>');
-					$item.html('<section class="image"><img src="' + imageData + '" /></section><section class="control"><button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 					$item.data('control_show', null);
 
@@ -334,6 +336,35 @@ function initForm($form, params) {
 						e.preventDefault();
 					});
 
+					$item.find('[aria-click="description"]').on('click', function () {
+						var 
+							$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+              $descriptionForm = $html.find('form');
+
+            var $popup = popupFull({
+              html: $html
+            });
+
+            // Adjust values
+            $descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
+            $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
+
+            initForm($descriptionForm, {
+              submit: function () {
+                $popup.off();
+
+                var value = $item.data('value');
+                value['description'] = $descriptionForm[0].elements['description'].value;
+                $item.data('value', value);
+                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+              }
+            });
+
+            $descriptionForm.find('[type="button"]').on('click', function () {
+              $popup.off();
+            });
+					});
+
 					$item.find('[aria-click="remove"]').on('click', function () {
 						if ($item.is('[data-uploading]') && $form.find('.preview[data-uploading]').length == 1) {
 							$form.submitStatus(false);
@@ -343,27 +374,14 @@ function initForm($form, params) {
 							onItemRemove($item);
 						}
 
-						var itemValue = $item.data('value');
 						$item.remove();
-
-						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
-
-						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue) return value }), function (value) { return value });
-
-						hiddenInput.value = newValue.join(';');
-						$(hiddenInput).change();
 					});
 
 					if (!isMulti) {
 						$wrapper.children('.preview').remove();
-						$hiddenInput.data('image_data', imageData);
 					}
 
 					$wrapper.append($item);
-
-					if (onItemAdd) {
-						onItemAdd($item);
-					}
 
 					// Get data
 					var data = new FormData();
@@ -401,26 +419,27 @@ function initForm($form, params) {
 						}
 					}).done(function(data) {
 						if (data.status == 0) {
-							var value = '1,' + data.result
+							var value = {
+								'id': data.result,
+								'is_new': true,
+								'description': description
+							}
 
+							$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
 							// Display
-							$item.attr('data-status', 'done').data('value', value);
+							$item.data('value', value);
 							$item.find('img').css('opacity', '1');
 							$progressBar.parent().remove();
 
-							// Value
-							if (isMulti) {
-								$hiddenInput.val(($hiddenInput.val() ? $hiddenInput.val() + ';' + value : value)).change(); 
-							}
-							else {
-								$hiddenInput.val(value).change();
+							if (onItemAdd) {
+								onItemAdd($item);
 							}
 						}
 						else {
-							$item.attr('data-status', 'error');
+							$progressBar.parent().remove();
 						}
 					}).fail(function() {
-						$item.attr('data-status', 'error');
+						$progressBar.parent().remove();
 					});
 				});
 
@@ -439,6 +458,7 @@ function initForm($form, params) {
 
 			// Read files
 			var files = this.files;
+
 			function readNext() {
 				// Check index & amount
 				if (currentIndex >= files.length || (amount && currentAmount >= amount)) {
@@ -466,7 +486,10 @@ function initForm($form, params) {
 		// Create element
 
 		$fileUploads.each(function () {
-			var $fileUpload = $(this), controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
+			var 
+				$fileUpload = $(this),
+				hasDescription = $fileUpload.is('[data-has_description]'),
+				controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
 
 			// Get params
 
@@ -494,25 +517,37 @@ function initForm($form, params) {
 			$fileUpload.appendTo($wrapper);
 			$label.appendTo($wrapper);
 
-			var initValue = $fileUpload.attr('data-init-value') || '';
 			var constraint = $fileUpload.attr('data-constraint');
-			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
+			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';			
 
-			$fileUpload.after('<input ' + constraint + ' type="hidden" name="' + $fileUpload.attr('name') + '" value="' + (initValue ? initValue.split(';').map(function (value) { return '0,' + value.split(',')[0] } ).join(';') : '') + '" />');
+      var 
+      	fuName = name = $fileUpload.attr('name');
 
-			$fileUpload.removeAttr('name data-init-value data-constraint').attr('data-nonvalid', '');
+      if (name[name.length - 1] == ']') {
+      	fuName = fuName.substr(0, fuName.length - 1) + '_fu]';
+      }
+      else {
+      	fuName = name + '_fu'
+      }
+
+			$fileUpload.data('input', '<input type="hidden" aria-name="hidden_input" data-nonvalid name="' + name + '" />');
+			$fileUpload.attr('name', fuName);
 
 			// Init value
-			if (initValue) {
-				$(initValue.split(';')).each(function () {
-					value = this.split(',', 2);
+
+			var initValues = $fileUpload.data('init-value');
+			if (initValues) {
+				$(initValues).each(function () {
+					value = this;
+					value['is_new'] = false;
 
 					// Create item
-					var $item = $('<article class="preview" data-old></article>');
-					$item.data('value', '0,' + value[0]);
+					var $item = $('<article class="preview"></article>');
+					$item.data('value', value);
 					$item.data('control_show', null);
 
-					$item.html('<section class="image"><img src="' + value[1] + '" /></section><section class="control"><button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + value['url'] + '" /></section><section class="control">' + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+					$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
 
 					// Create control from param
 					if (controls) {
@@ -553,20 +588,41 @@ function initForm($form, params) {
 						e.preventDefault();
 					});
 
+					$item.find('[aria-click="description"]').on('click', function () {
+						var 
+							$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+              $descriptionForm = $html.find('form');
+
+            var $popup = popupFull({
+              html: $html
+            });
+
+            // Adjust values
+            $descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
+            $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
+
+            initForm($descriptionForm, {
+              submit: function () {
+                $popup.off();
+
+                var value = $item.data('value');
+                value['description'] = $descriptionForm[0].elements['description'].value;
+                $item.data('value', value);
+                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+              }
+            });
+
+            $descriptionForm.find('[type="button"]').on('click', function () {
+              $popup.off();
+            });
+					});
+
 					$item.find('[aria-click="remove"]').on('click', function () {
 						if (onItemRemove) {
 							onItemRemove($item);
 						}
 
-						var itemValue = $item.data('value');
 						$item.remove();
-
-						var hiddenInput = $wrapper.find('input[type="hidden"]')[0];
-
-						var newValue = $.grep(hiddenInput.value.split(';').map(function (value) { if (value != itemValue) return value }), function (value) { return value });
-
-						hiddenInput.value = newValue.join(';');
-						$(hiddenInput).change();
 					});
 
 					$wrapper.append($item);
@@ -1076,7 +1132,7 @@ function initForm($form, params) {
 		});
 
 		// Auto check valid
-		$form.find(':input:not([data-nonvalid])').on({
+		$form.find(':input:not(.file-upload):not([data-nonvalid])').on({
 			'change': function () {
 				checkInvalidInput($(this));
 			}
@@ -1193,6 +1249,12 @@ function initForm($form, params) {
 		if ($input.is('[data-constraint~="required"]')) {
 			if ($input.is('[type="radio"],[type="checkbox"]')) {
 				if ($form.find('[name="' + $input.attr('name') + '"]:checked').length == 0) {
+					toggleValidInput($input, false, 'required');
+					return 'required';
+				}
+			}
+			else if ($input.is('.file-upload')) {
+				if ($input.siblings('.preview').length == 0) {
 					toggleValidInput($input, false, 'required');
 					return 'required';
 				}

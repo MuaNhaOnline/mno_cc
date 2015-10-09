@@ -22,43 +22,44 @@ $(function () {
             attribute: 'aria-name="avatar-button"',
             handle: function ($item) {
               if ($item.is('[data-avatar]')) {
+                var value = $item.data('value');
+                value['is_avatar'] = false
+                $item.data('value', value);
+                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
                 $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-                $form[0].elements['real_estate[avatar_id]'].value = ''; 
               }
               else {
-                $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+                var value = $item.data('value');
+                value['is_avatar'] = true
+                $item.data('value', value);
+                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+                $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
+                  var $item2 = $(this)
+                  var value2 = $item2.data('value');
+                  value2['is_avatar'] = false
+                  $item2.data('value', value2);
+                  $item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
+                }).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+
                 $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-                $form[0].elements['real_estate[avatar_id]'].value = $item.data('value'); 
               }
             }
-          // },
-          // {
-          //   text: 'Mô tả',
-          //   type: 'primary',
-          //   handle: function ($item) {
-          //     var $html = $(_popupContent['image_description']);
-
-          //     popupFull({
-          //       html: $html
-          //     });
-          //   }
           }
         ],
-        onItemRemove: function ($item) {
-          if ($item.is('[data-avatar]')) {
-            $form[0].elements['real_estate[avatar_id]'].value = ''; 
-          }
-        },
         onItemAdd: function ($item) {
-          avatar = $form[0].elements['real_estate[avatar_id]'].value;
-          if (!avatar) {
+          if ($item.siblings('[data-avatar]').length == 0) {
+            value = $item.data('value');
+            value['is_avatar'] = true
+            $item.data('value', value);
+            $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
             $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-            $form[0].elements['real_estate[avatar_id]'].value = $item.data('value');
           }
         },
         onInitItemAdd: function ($item) {
-          avatar = $form[0].elements['real_estate[avatar_id]'].value;
-          if ($item.data('value') == avatar) {
+          if ($item.is('[data-avatar]')) {
             $item.find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
             $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
           }
@@ -368,11 +369,7 @@ $(function () {
 
   function initUntilFull() {
     var $isFull = $form.find('#is_full');
-    if ($isFull.val() == 'false') {
-      toggleUntilFull();
-      initNavigator();
-    }
-    else if ($isFull.val() == '') {
+    if ($isFull.val() == '') {
       popupPrompt({
         title: 'Xác nhận',
         content: 'Bạn muốn đăng thông tin cơ bản hay chi tiết?',
@@ -401,6 +398,12 @@ $(function () {
           initNavigator();
         }
       });
+    }
+    else {
+      initNavigator();
+      if ($isFull.val() == 'false') {
+        toggleUntilFull();
+      }
     }
   }
 

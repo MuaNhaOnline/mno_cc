@@ -129,17 +129,15 @@ class User < ActiveRecord::Base
 			_params[:birthday] = Date.strptime(_params[:birthday], '%Y')
 		end
 
-    # Images
+    # Avatar
 
     if _params[:avatar_id].present?
-      _avatar_value = TemporaryFile.split_old_new _params[:avatar_id].split(';')
+    	_value = JSON.parse _params[:avatar_id]
 
-      if _avatar_value[:new].present?
-				TemporaryFile.get_files(_avatar_value[:new]) do |_avatar, _id|
+      if _value['is_new']
+				TemporaryFile.get_file(_value['id']) do |_avatar|
           assign_attributes avatar: _avatar
         end
-      elsif _avatar_value[:old].blank?
-        assign_attributes avatar: nil
       end
     else
       assign_attributes avatar: nil

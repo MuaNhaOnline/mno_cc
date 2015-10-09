@@ -2,8 +2,8 @@
   <% 
 
     avatar_init_value = ''
-    if !i.new_record? && i.avatar.present?
-      avatar_init_value = '0,' + i.avatar.url
+    if i.avatar.present?
+      avatar_init_value = { url: i.avatar.url }.to_json
     end
      
   %>
