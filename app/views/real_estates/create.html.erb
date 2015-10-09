@@ -89,7 +89,7 @@
   unless @re.new_record?
     _images = []
     @re.images.each do |re_image|
-      _images << { 'id': re_image.id, 'url': re_image.image.url, 'description': re_image.description, 'is_avatar': re_image.is_avatar }
+      _images << { 'id'=> re_image.id, 'url'=> re_image.image.url, 'description'=> re_image.description, 'is_avatar'=> re_image.is_avatar }
     end
     image_init_value = _images.to_json
   end
