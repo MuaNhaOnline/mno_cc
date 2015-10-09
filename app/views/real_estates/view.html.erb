@@ -258,13 +258,17 @@
 				</div>				
 			</div>
 		</section>
-		<section class="line-block">
+		<section class="line-block description">
 			<article class="title">
 				<span>Mô tả</span>
 			</article>
-			<article class="content description">
-				<h5><%= @re.name %></h5>
-				<p class="pre"><%= @re.description %></p>
+			<article class="content">
+				<div class="title">
+					<h5><%= @re.name %></h5>
+				</div>
+				<div class="details">
+					<%= @re.description %>
+				</div>
 			</article>
 		</section>
 		<section class="line-block">

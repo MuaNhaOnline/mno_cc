@@ -23,6 +23,16 @@
 .favorite {
 	position: relative;
 }
+	.favorite .slider-control {
+		position: absolute;
+		top: calc(50% - 32px);		
+	}
+		.favorite .slider-control.prev {
+			left: -50px;
+		}
+		.favorite .slider-control.next {
+			right: -50px;
+		}
 /*end*/
 
 /*start user-property*/

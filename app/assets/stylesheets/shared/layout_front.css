@@ -684,6 +684,18 @@ footer {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+		}
+		/*end*/
+
+		/*start subname*/
+		.item-lg .sub-name {
+			font-size: 100%;
+			color: #666;
+			margin-bottom: 10px;
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 			text-transform: uppercase;
 		}
 		/*end*/
