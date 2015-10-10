@@ -692,6 +692,7 @@ footer {
 			.item-lg .name .type-property {
 				font-size: 92.86%;
 				display: inline-block;
+				margin-right: 5px;
 			}
 		/*end*/
 
