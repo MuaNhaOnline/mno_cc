@@ -114,7 +114,7 @@ function showPopup($container) {
 		*/
 
 		function initChangeImage() {
-			$itemList.find('.item').on('click touch', function () {
+			$itemList.find('.item').on('click', function () {
 				showImage($(this));
 			});
 
@@ -196,9 +196,9 @@ function showPopup($container) {
 				touchstart: function (e) {
 					startTouch = e.originalEvent.changedTouches[0].clientX;
 					startItemList = $itemListPanel.scrollLeft();
-					e.preventDefault();
 				},
 				touchmove: function (e) {
+					e.preventDefault();
 					$itemListPanel.scrollLeft(startItemList + startTouch - e.originalEvent.changedTouches[0].clientX);
 				}
 			});
