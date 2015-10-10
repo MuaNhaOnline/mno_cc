@@ -26,7 +26,7 @@ class RealEstate < ActiveRecord::Base
   belongs_to :constructional_level
   belongs_to :direction
 
-  has_many :images, -> { order('is_avatar desc') }, class_name: 'RealEstateImage'
+  has_many :images, class_name: 'RealEstateImage'
   has_many :appraisal_companies_real_estates
   has_many :appraisal_companies, through: :appraisal_companies_real_estates
   has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,

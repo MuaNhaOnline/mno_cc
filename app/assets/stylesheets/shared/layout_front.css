@@ -1392,7 +1392,14 @@ footer {
 		display: -webkit-flex;
 		flex-direction: column;
     -webkit-flex-direction: column;
+    position: relative;
 	}
+
+		.gallery-popup .gallery-container .close-button {
+			position: absolute;
+			top: 0;
+			right: 5px;
+		}
 
 		.gallery-popup .gallery-container .image-view-panel {
 			height: 100%;
@@ -1416,15 +1423,30 @@ footer {
 			max-height: 70px;
 			padding: 5px;
 			box-sizing: content-box;
+			text-align: center;
+			overflow: hidden;
 		}
 
 			.gallery-popup .gallery-container .image-list-panel .item-list {
-				
+				display: inline-block;
+				white-space: nowrap;
 			}
 
 				.gallery-popup .gallery-container .image-list-panel .item-list .item {
+					display: inline-block;
 					height: 70px;
+					opacity: .7;
+					transition: 0.5s;
 				}
+
+					.gallery-popup .gallery-container .image-list-panel .item-list .item:hover,
+					.gallery-popup .gallery-container .image-list-panel .item-list .item.selected {
+						opacity: 1;
+					}
+
+					.gallery-popup .gallery-container .image-list-panel .item-list .item img {
+						height: 100%;
+					}
 
 /*--------------------------------------------------------*/
 /*end*/

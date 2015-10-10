@@ -263,4 +263,17 @@ end
   end
 
 # / Search
+
+# Gallery
+
+  # Handle
+  # params: id
+  def get_gallery
+    images = ProjectImage.where project_id: params[:id]
+
+    render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url } } }
+  end
+
+# / Gallery
+
 end

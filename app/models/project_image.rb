@@ -7,4 +7,6 @@ class ProjectImage < ActiveRecord::Base
   	:url => "/assets/project_images/:style/:id_:filename"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
+  default_scope { order('is_avatar desc') }
+
 end

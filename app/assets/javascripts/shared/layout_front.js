@@ -41,16 +41,212 @@ function showPopup($container) {
 	
 	//Popup picture	
 	var $picturePopup = $('#picture_popup');
-	$('[data-popup="show-image"]').on('click', function() {
-		var link = $(this).attr('data-src');
+	$('[aria-gallery]').on('click', function() {
+		var $button = $(this);
 
-		$picturePopup.on('show.bs.modal', function() {
-			var $img = $(this).find('img');
-			$img.attr('src', link);			
+		var $html = $(
+			'<div class="gallery-popup">' +
+				'<div class="gallery-container">' +
+					'<section class="close-button">' +
+						'<button type="button" class="close" aria-click="close"><span aria-hidden="true">&times;</span></button>' +
+					'</section>' +
+					'<section class="image-view-panel">' +
+						'<img aria-name="image" class="image" src="#" />' +
+					'</section>' +
+					'<section class="image-list-panel">' +
+						'<ul class="item-list">' +
+						'</ul>' +
+					'</section>' +
+				'</div>' +
+			'</div>'
+		);
+
+		$body.append($html);
+
+		/*
+			Init values
+		*/
+
+		// Set max height
+		$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
+
+		// Get images
+		var $itemList = $html.find('.item-list');
+
+		$.ajax({
+			url: '/' + $button.attr('aria-gallery') + 's/get_gallery/' + $button.data('value'),
+			dataType: 'JSON'
+		}).done(function(data) {
+			if (data.status == 0) {
+				$(data.result).each(function() {
+					if (this.id == $button.data('id')) {
+						$itemList.append('<li class="item selected"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');
+						$html.find('[aria-name="image"]').attr('src', this.original);
+					}
+					else {
+						$itemList.append('<li class="item"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
+					}
+				});					
+
+				initChangeImage();
+			}
+			else {
+				turn_off_popup_gallery();
+			}
+		}).fail(function() {
+			turn_off_popup_gallery();
 		});
-		$picturePopup.modal('show');
-	});
 
+		/*
+			/ Init values
+		*/
+
+		/*
+			Events
+		*/
+
+		function initChangeImage() {
+			$itemList.find('.item').on('click', function () {
+				showImage($(this));
+			});
+
+			$(document).on('keydown.popup_gallery', function (e) {
+				switch (e.keyCode) {
+					case 37:
+					case 40:
+						e.preventDefault();
+						prevImage();
+						break;
+					case 38:
+					case 39:
+						e.preventDefault();
+						nextImage();
+						break;
+				}
+	    });
+
+			$html.find('.image-view-panel').on('click', function () {
+				nextImage();
+			});
+
+			function prevImage() {
+				var $selected = $itemList.find('.selected');
+
+				if ($selected.is(':first-child')) {
+					showImage($itemList.find('.item:last-child'));
+				}
+				else {
+					showImage($selected.prev());
+				}
+			}
+
+			function nextImage() {
+				var $selected = $itemList.find('.selected');
+
+				if ($selected.is(':last-child')) {
+					showImage($itemList.find('.item:first-child'));
+				}
+				else {
+					showImage($selected.next());
+				}
+			}
+		}
+
+		function showImage($item) {
+			if ($item.hasClass('selected')) {
+				return;
+			}
+
+			var src = $item.find('img').data('src');
+
+			$item.siblings('.selected').removeClass('selected');
+			$item.addClass('selected');
+
+			$html.find('[aria-name="image"]').attr('src', src);
+		}
+
+		/*
+			/ Events
+		*/
+
+		/*
+			Scroll list item
+		*/
+
+		initScrollListItem();
+
+		function initScrollListItem() {
+			var startTouch, $itemListPanel = $html.find('.image-list-panel');
+
+			$itemListPanel.on({
+				touchstart: function (e) {
+					startTouch = e.originalEvent.changedTouches[0].clientX;
+					startItemList = $itemListPanel.scrollLeft();
+				},
+				touchmove: function (e) {
+					$itemListPanel.scrollLeft(startItemList + startTouch - e.originalEvent.changedTouches[0].clientX);
+				}
+			});
+
+			$itemListPanel.on({
+				mouseover: function (e) {
+					var 
+						scrollableWidth = $itemList[0].getBoundingClientRect().width - $itemListPanel[0].getBoundingClientRect().width,
+						offsetLeft = $itemListPanel.offset().left
+						panelWidth = $itemListPanel.width() - 100;
+
+					if (scrollableWidth > 0) {
+						$itemListPanel.on({
+							mousemove: function (e) {
+								var position = e.clientX - offsetLeft - 50;
+								$itemListPanel.scrollLeft(scrollableWidth * (position / panelWidth));
+							}
+						})
+					}
+				},
+				mouseout: function () {
+					$itemListPanel.off('mousemove');
+				}
+			});
+		}
+
+		/*
+			/ Scroll list item
+		*/
+
+		/*
+			Turn off
+		*/
+
+		$(document).on('keydown.popup_gallery', function (e) {
+      if (e.keyCode == 27) {
+				e.preventDefault();
+        turn_off_popup_gallery();
+      }
+    });
+
+    $html.on('click', function () {
+    	turn_off_popup_gallery();
+    });
+
+    $html.find('[aria-click="close"]').on('click', function () {
+    	turn_off_popup_gallery();
+    });
+
+    $html.children().on('click', function (e) {
+    	e.stopPropagation();
+    });
+
+    function turn_off_popup_gallery() {
+	    $(document).off('keydown.popup_gallery');
+
+	    $html.remove();
+	  };
+
+		/*
+			/ Turn off
+		*/
+	});
 }
 // end
 

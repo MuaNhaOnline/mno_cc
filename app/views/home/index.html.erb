@@ -145,7 +145,7 @@
 										<span>Đã hoàn thành</span>
 									<% else %>
 										<i class="fa fa-circle working"></i>
-										<span>Chưa hoàn thành</span>
+										<span>Đang thực hiện</span>
 									<% end %>
 								</div>
 								<div class="address">
@@ -231,6 +231,7 @@
 							</div>
 							<div class="col-sm-4 col-sm-pull-8">
 								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
+									<p class="type-property">[<%= t 'real_estate_type.text.' + re.real_estate_type.name if re.	real_estate_type.present? %>]</p>
 									<%= re.title %>
 								</div>
 								<div class="convenient">

@@ -144,9 +144,9 @@
 			<% if @project.images.count > 1 %>
 				<div class="other-image">
 					<ul>
-						<% (1...@project.images.count).each do |i| %>
+						<% @project.images.drop(1).each do |p_image| %>
 							<li>
-								<img data-popup="show-image" data-src="<%= @project.images[i].image.url %>" src="<%= @project.images[i].image.url('thumb') %>" class="img-thumbnail">
+								<img aria-gallery="project" data-value="<%= @project.id %>" data-id="<%= p_image.id %>" src="<%= p_image.image.url('thumb') %>" class="img-thumbnail">
 							</li>
 						<% end %>
 					</ul>

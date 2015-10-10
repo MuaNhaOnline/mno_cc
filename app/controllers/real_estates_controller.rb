@@ -357,4 +357,16 @@ class RealEstatesController < ApplicationController
 
 # / Search
 
+# Gallery
+
+  # Handle
+  # params: id
+  def get_gallery
+    images = RealEstateImage.where real_estate_id: params[:id]
+
+    render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url } } }
+  end
+
+# / Gallery
+
 end

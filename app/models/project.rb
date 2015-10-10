@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   belongs_to :price_unit, class_name: 'Unit'
   belongs_to :investor
 
-  has_many :images, -> { order('is_avatar desc') }, class_name: 'ProjectImage'
+  has_many :images, class_name: 'ProjectImage'
 
 # / Associates
 

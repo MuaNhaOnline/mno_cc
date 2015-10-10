@@ -154,10 +154,8 @@
 					<% if @re.images.count > 1 %>
 						<li class="slide-picture">
 							<ul>
-								<% 
-								(1...@re.images.count).each do |i|
-									%>
-									<li><img data-popup="show-image" data-src="<%= @re.images[i].image.url %>" src="<%= @re.images[i].image.url('thumb') %>"></li>
+								<% @re.images.drop(1).each do |re_image| %>
+									<li><img aria-gallery="real_estate" data-value="<%= @re.id %>" data-id="<%= re_image.id %>" src="<%= re_image.image.url('thumb') %>"></li>
 								<% end %>
 							</ul>
 						</li>
