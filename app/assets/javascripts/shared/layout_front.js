@@ -196,6 +196,7 @@ function showPopup($container) {
 				touchstart: function (e) {
 					startTouch = e.originalEvent.changedTouches[0].clientX;
 					startItemList = $itemListPanel.scrollLeft();
+					e.preventDefault();
 				},
 				touchmove: function (e) {
 					$itemListPanel.scrollLeft(startItemList + startTouch - e.originalEvent.changedTouches[0].clientX);
