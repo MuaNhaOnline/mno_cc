@@ -139,9 +139,21 @@ function showPopup($container) {
 				}
 	    });
 
-			$html.find('.image-view-panel').on('click', function () {
-				nextImage();
-			});
+			if (isMobile()) {
+				$html.find('.image-view-panel').on({
+					swipeleft: function () {
+						prevImage();
+					},
+					swiperight: function () {
+						nextImage();
+					}
+				});
+			}
+			else {
+				$html.find('.image-view-panel').on('click', function () {
+					nextImage();
+				});	
+			}
 
 			function prevImage() {
 				var $selected = $itemList.find('.selected');
