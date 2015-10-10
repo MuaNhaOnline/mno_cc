@@ -29,6 +29,7 @@ $(function() {
 		autoplaySpeed: 3000,
 		infinite: true,
 		slidesToScroll: 4,
+		arrows: false,
 		slidesToShow: 4,
 		variableWidth: true,
 		responsive: [

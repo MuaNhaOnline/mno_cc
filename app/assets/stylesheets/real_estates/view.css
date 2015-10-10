@@ -12,12 +12,19 @@
 
 /*start navigator*/
 .navigator {
+	font-size: 13px;
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
 		background-color: #f6f6f6;
 	}
 /*end navigator*/
+
+/*start detail-property*/
+.details-property {
+	font-size: 14px;
+}
+/*end*/
 
 /*start standard info*/
 .standard-info {
@@ -91,6 +98,11 @@
 		display: inline-block;
 		flex-direction: column;
 		transition: 0.3s;
+	}
+	@media screen and (max-width: 991px) {
+		.standard-info .price {
+			width: 100%;
+		}
 	}
 		.price select {
 			border: 0px;
