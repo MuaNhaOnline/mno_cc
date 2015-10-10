@@ -149,11 +149,9 @@ function showPopup($container) {
 					}
 				});
 			}
-			else {
-				$html.find('.image-view-panel').on('click', function () {
-					nextImage();
-				});	
-			}
+			$html.find('.image-view-panel').on('click', function () {
+				nextImage();
+			});	
 
 			function prevImage() {
 				var $selected = $itemList.find('.selected');
