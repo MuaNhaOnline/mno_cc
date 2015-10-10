@@ -51,6 +51,7 @@ function showPopup($container) {
 						'<button type="button" class="close" aria-click="close"><span aria-hidden="true">&times;</span></button>' +
 					'</section>' +
 					'<section class="image-view-panel">' +
+						'<span class="fa fa-spin fa-spinner" aria-name="spinner"></span>' +
 						'<img aria-name="image" class="image" src="#" />' +
 					'</section>' +
 					'<section class="image-description-panel">' +
@@ -73,9 +74,14 @@ function showPopup($container) {
 		// Get images
 		var $itemList = $html.find('.item-list');
 
+		$html.find('[aria-name="spinner"]').show();
+		$html.find('[aria-name="image"]').hide();
 		$.ajax({
 			url: '/' + $button.attr('aria-gallery') + 's/get_gallery/' + $button.data('value'),
 			dataType: 'JSON'
+		}).always(function () {
+			$html.find('[aria-name="spinner"]').hide();
+			$html.find('[aria-name="image"]').show();
 		}).done(function(data) {
 			if (data.status == 0) {
 				$(data.result).each(function() {
