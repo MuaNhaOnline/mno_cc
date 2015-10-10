@@ -3,6 +3,7 @@ body {
 	position: relative;
 	background-color: #f6f6f6;
 	font-family: "Segoe UI";
+	font-size: 15px;
 }
 ul {
 	list-style: none;
@@ -234,32 +235,27 @@ header {
 				cursor: pointer;
 				margin: 0;
 				font-weight: normal;
+				margin: 0 5px;
 			}
-			.switch-button span {
+			.switch-button a {
 				color: #666;
-				padding: 4px 7px;
-				background-color: none;
-				border-radius: 4px;
+				display: inline-block;
+				height: 35px;
+				line-height: 35px;
+				font-size: 93.33%;
 			}
-				.switch-button span a {
-					color: #666;
+				.switch-button a:hover {
+					border-bottom: 1px solid #ccc;
 				}
 			.switch-button input {
 				position: absolute;
 				left: -99999px;
 			}
-			.switch-button input:checked ~ span {
-				background-color: #ff6511;
+			.switch-button input:checked ~ a {
+				font-weight: bold;
+				border-bottom: 1px solid #ccc;
+				font-size: 100%;
 			}
-				.switch-button input:checked ~ span a {
-					color: #fff;				
-				}
-			.switch-button label:last-child input:checked ~ span {
-				background-color: #038ed1;
-			}
-				.switch-button label:last-child input:checked ~ span a {
-					color: #fff;
-				}
 		/*end*/
 		
 		/*start function-button*/
@@ -317,6 +313,7 @@ header {
 			.user-box .dropdown-menu {
 				margin-top: 6px;
 				left: -90px !important;
+				width: 180px;
 			}
 			.user-box .dropdown-menu a:hover {
 				background-color: #54b40d;
@@ -326,9 +323,14 @@ header {
 				font-size: 13px;
 				padding: 0 18px;
 			}
+				.user-box .dropdown-menu .title i {
+					vertical-align: middle;
+					margin-left: 5px;
+					margin-right: 0;
+					cursor: pointer;
+				}
 			.user-box .dropdown-menu .social-link {
 				text-align: center;
-				margin: 5px 0;
 			}
 				.user-box .dropdown-menu .social-link a {
 					padding: 3px 5px;
@@ -656,6 +658,7 @@ footer {
 	margin-bottom: 20px;
 	display: block;
 	position: relative;
+	font-size: 14px;
 }
 	/*start content*/
 	.item-lg .content {
@@ -686,6 +689,11 @@ footer {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+			.item-lg .name .type-property {
+				font-size: 92.86%;
+				display: inline-block;
+				margin-right: 5px;
+			}
 		/*end*/
 
 		/*start subname*/
@@ -961,7 +969,11 @@ footer {
 
 	/*start price*/
 	.item-sm .price {
-		font-size: 13px;		
+		font-size: 13px;
+		width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;		
 	}
 		.item-sm .price i {
 			margin-right: 5px;
@@ -970,7 +982,6 @@ footer {
 			display: inline-block;
 			border-radius: 30px;
 			font-weight: bolder;
-			font-size: 15px;			
 		}			
 		.item-sm .price > .number.sale {
 			color: #ff6511;
@@ -1246,6 +1257,11 @@ footer {
 		outline: none;
 		background: url('/assets/icon/icon-arrow.png') no-repeat;
 	}
+	@media screen and (max-width: 845px) {
+		.slider-control {
+			display: none !important;
+		}
+	}
 		.slider-control.prev {
 			left: -50px;
 		}
@@ -1289,6 +1305,26 @@ footer {
 /*--------------------------------------------------------*/
 /*Custom Modal*/
 /*--------------------------------------------------------*/
+
+/*start Modal*/
+.modal {
+	color: #666;
+}
+	.modal .btn-default {
+		color: #666;
+	}
+/*end*/
+
+/*start Modal Signin*/
+#signin label {
+	font-weight: normal;
+	font-size: 93.33%;
+}
+	#signin .signup-now {
+		color: #999;
+		border-bottom: 1px dashed #ccc;
+	}
+/*end*/
 
 /*start Modal Picture*/
 .modal-show-picture {	

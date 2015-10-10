@@ -136,7 +136,7 @@
 								<%= project_avatar p, style_class: 'thumbnail img-responsive', style: 'slide' %>
 							</div>
 							<div class="col-md-4">
-								<div class="name">
+								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
 									<%= p.project_name %>
 								</div>
 								<div class="status">							
@@ -230,7 +230,7 @@
 								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 							</div>
 							<div class="col-sm-4 col-sm-pull-8">
-								<div class="name">
+								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
 									<%= re.title %>
 								</div>
 								<div class="convenient">
@@ -344,7 +344,7 @@
 	<article class="title">
 		<a href="#" class="link">
 			<i class="fa fa-link"></i>
-			<span>Gợi ý tìm nhà</span>
+			<span>Danh sách tổng hợp</span>
 		</a>
 	</article>
 	<div class="row">
@@ -541,10 +541,10 @@
 	</article>
 	<article class="content">
 		<div class="row">
-			<div class="col-md-2 col-sm-3">
+			<div class="col-md-2 col-sm-3 col-xs-6">
 				<img src="/assets/contact/contact01.jpg" class="img-responsive">
 			</div>
-			<div class="col-md-3 col-sm-3">
+			<div class="col-md-3 col-sm-3 col-xs-6">
 				<%= render partial: 'questions/form_front' %>
 			</div>
 			<div class="col-md-7 question col-sm-6">
