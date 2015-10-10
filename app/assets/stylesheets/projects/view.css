@@ -12,6 +12,7 @@
 
 /*start navigator*/
 .navigator {
+	font-size: 13px;
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
@@ -64,6 +65,7 @@
 /*#start general infos*/
 .standard-info {
 	margin-bottom: 30px;
+	font-size: 14px;
 }
 	/*start price*/
 	.standard-info .price {
@@ -144,7 +146,7 @@
 
 	/*start detail*/
 	.standard-info .detail {
-
+		
 	}
 		.standard-info .detail li {
 			margin-bottom: 15px;
@@ -158,7 +160,7 @@
 
 /*start info-project*/
 .info-project {
-
+	font-size: 14px;
 }
 	.info-project ul {
 		text-align: center;
@@ -180,7 +182,7 @@
 
 /*start description*/
 .description {
-
+	font-size: 14px;
 }
 	.description .content .title h5 {
 		line-height: 1.8;
@@ -194,7 +196,7 @@
 
 /*start convenient*/
 .convenient {
-
+	font-size: 14px;
 }
 	.convenient .item {
 		text-align: center;
@@ -209,7 +211,7 @@
 
 /*start utility*/
 .utility {
-
+	font-size: 14px;
 }
 	.utility .item {
 		text-align: center;
@@ -236,6 +238,7 @@
 /*start information*/
 .information {
 	padding: 15px 0;
+	font-size: 14px;
 }
 	/*start user-info*/
 	.user-info {

@@ -179,14 +179,17 @@
 .contact {
 	margin-bottom: 20px;
 }
-.contact img {
-	width: 100%;
-}
-.contact li {
-	font-size: 13px;
-	color: #999;
-	margin: 5px 0;
-}
+	.contact img {
+		width: 100%;
+	}
+	.contact li {
+		font-size: 13px;
+		color: #999;
+		margin: 5px 0;
+	}
+	.contact li textarea {
+		max-width: 100%;
+	}
 /*end contact*/
 
 /*start agent*/

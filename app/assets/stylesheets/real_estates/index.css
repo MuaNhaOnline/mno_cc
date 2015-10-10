@@ -12,6 +12,7 @@
 
 /*start navigator*/
 .navigator {
+	font-size: 13px;
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
@@ -116,6 +117,9 @@
 .price-property {
 	margin-bottom: 20px;
 }
+	.price-property .irs {
+		overflow: hidden;
+	}
 /*end*/
 
 /*start short-property*/
