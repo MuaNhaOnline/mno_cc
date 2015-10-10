@@ -689,6 +689,10 @@ footer {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+			.item-lg .name .type-property {
+				font-size: 92.86%;
+				display: inline-block;
+			}
 		/*end*/
 
 		/*start subname*/
