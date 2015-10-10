@@ -114,7 +114,7 @@ function showPopup($container) {
 		*/
 
 		function initChangeImage() {
-			$itemList.find('.item').on('click', function () {
+			$itemList.find('.item').on('click touch', function () {
 				showImage($(this));
 			});
 
