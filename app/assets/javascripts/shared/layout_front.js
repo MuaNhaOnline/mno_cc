@@ -53,6 +53,9 @@ function showPopup($container) {
 					'<section class="image-view-panel">' +
 						'<img aria-name="image" class="image" src="#" />' +
 					'</section>' +
+					'<section class="image-description-panel">' +
+						'<div class="text-center small" aria-name="description"></div>' +
+					'</section>' +
 					'<section class="image-list-panel">' +
 						'<ul class="item-list">' +
 						'</ul>' +
@@ -67,9 +70,6 @@ function showPopup($container) {
 			Init values
 		*/
 
-		// Set max height
-		$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
-
 		// Get images
 		var $itemList = $html.find('.item-list');
 
@@ -80,11 +80,19 @@ function showPopup($container) {
 			if (data.status == 0) {
 				$(data.result).each(function() {
 					if (this.id == $button.data('id')) {
-						$itemList.append('<li class="item selected"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');
+						$itemList.append('<li class="item selected" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');
+
+						// Set image
 						$html.find('[aria-name="image"]').attr('src', this.original);
+
+						// Set description
+						$html.find('[aria-name="description"]').text(this.description);
+
+						// Set max height
+						$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
 					}
 					else {
-						$itemList.append('<li class="item"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
+						$itemList.append('<li class="item" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
 					}
 				});					
 
@@ -163,6 +171,12 @@ function showPopup($container) {
 			$item.addClass('selected');
 
 			$html.find('[aria-name="image"]').attr('src', src);
+
+			// Set description
+			$html.find('[aria-name="description"]').text($item.data('description'));
+
+			// Set max height
+			$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
 		}
 
 		/*

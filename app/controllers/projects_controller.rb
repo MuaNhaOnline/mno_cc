@@ -271,7 +271,7 @@ end
   def get_gallery
     images = ProjectImage.where project_id: params[:id]
 
-    render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url } } }
+    render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url, description: image.description } } }
   end
 
 # / Gallery
