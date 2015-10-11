@@ -116,6 +116,9 @@ header {
 				vertical-align: middle;
 				margin: 0 5px;
 			}
+			.mini-user-box .sign-with-social a {
+				display: inline-block;
+			}
 		/*end*/
 
 		/*start mini-sitemap*/
