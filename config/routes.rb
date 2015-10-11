@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     post 'real_estates/change_force_hide_status/:id/:is_force_hide' => 'real_estates#change_force_hide_status'
     post 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
     post 'real_estates/approve/:id' => 'real_estates#approve'
+    post 'real_estates/user_favorite/:id/:is_add' => 'real_estates#user_favorite'
 
   # / Real estate
 

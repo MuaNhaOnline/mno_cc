@@ -64,6 +64,13 @@ class Ability
 
         # / Real estate
 
+        # Favorite real estate
+
+          can :add, UsersFavoriteRealEstate
+          can :remove, UsersFavoriteRealEstate, user_id: user.id
+
+        # / Favorite real estate
+
         # Project
         
           can [:create, :view_my], Project

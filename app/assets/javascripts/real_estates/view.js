@@ -3,6 +3,8 @@ $(function() {
 	initPriceBox();
 	initPosition();
 	Jump();
+	
+	_initItemList($('#real_estate_info'));
 });
 // end
 

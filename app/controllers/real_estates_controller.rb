@@ -369,4 +369,18 @@ class RealEstatesController < ApplicationController
 
 # / Gallery
 
+# Favorite
+
+  # Handle
+  # params: id, is_add
+  def user_favorite
+    if params[:is_add] == '1'
+      render json: UsersFavoriteRealEstate.add_favorite(params[:id])
+    else
+      render json: UsersFavoriteRealEstate.remove_favorite(params[:id])
+    end
+  end
+
+# / Favorite
+
 end

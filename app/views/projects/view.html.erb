@@ -129,39 +129,40 @@
 </section>
 <!-- end navigator -->
 
-<!-- #start image infos -->
-<section class="block container highlight">
-	<article class="title">
-		<a>			
-			<span><%= @project.project_name %></span>			
-		</a>
-	</article>
-	<article class="content">
-		<section class="image-info">
-			<div class="main-image">
-				<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}" %>
-			</div>
-			<% if @project.images.count > 1 %>
-				<div class="other-image">
-					<ul>
-						<% @project.images.drop(1).each do |p_image| %>
-							<li>
-								<img aria-gallery="project" data-value="<%= @project.id %>" data-id="<%= p_image.id %>" src="<%= p_image.image.url('thumb') %>" class="img-thumbnail">
-							</li>
-						<% end %>
-					</ul>
-				</div>
-			<% end %>
-		</section>
-	</article>
-</section>
-<!-- #end image infos -->
+<section id="project_info">
 
-<!-- #start standard-info -->
-<section class="standard-info container">
-	<div class="row">
-		<div class="col-sm-4 col-sm-push-8" style="text-align: center;">
-			<% if @project.unit_price.present? %>
+	<!-- #start image infos -->
+	<section class="block container highlight">
+		<article class="title">
+			<a>			
+				<span><%= @project.project_name %></span>			
+			</a>
+		</article>
+		<article class="content">
+			<section class="image-info">
+				<div class="main-image">
+					<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}" %>
+				</div>
+				<% if @project.images.count > 1 %>
+					<div class="other-image">
+						<ul>
+							<% @project.images.drop(1).each do |p_image| %>
+								<li>
+									<img aria-gallery="project" data-value="<%= @project.id %>" data-id="<%= p_image.id %>" src="<%= p_image.image.url('thumb') %>" class="img-thumbnail">
+								</li>
+							<% end %>
+						</ul>
+					</div>
+				<% end %>
+			</section>
+		</article>
+	</section>
+	<!-- #end image infos -->
+
+	<!-- #start standard-info -->
+	<section class="standard-info container">
+		<div class="row">
+			<div class="col-sm-4 col-sm-push-8" style="text-align: center;">
 				<div class="price" id="price_box">
 					<div>
 						<!-- Nav tabs -->
@@ -186,264 +187,265 @@
 						</div>
 					</div>
 				</div>
-			<% end %>
-			<div class="function">
-				<button class="btn-icon-top btn-favor">
-					<i class="icon-favor"></i>
-					<span>Quan tâm</span>
-				</button>
-				<button class="btn-icon-top">
-					<i class="icon-buy"></i>
-					<span>Đăng ký mua</span>
-				</button>
+				<div class="function">
+					<button data-popup="coming-soon" class="btn-icon-top btn-favor">
+						<i class="icon-favor"></i>
+						<span>Quan tâm</span>
+					</button>
+					<button data-popup="coming-soon" class="btn-icon-top">
+						<i class="icon-buy"></i>
+						<span>Đăng ký mua</span>
+					</button>
+				</div>
+			</div>
+			<div class="col-sm-8 col-sm-pull-4">
+				<ul class="detail">				
+					<li>
+						<button class="btn btn-primary">Xem các Bất động sản thuộc dự án</button>
+					</li>
+					<li>
+						<i class="icon icon-facebook"></i>
+						<i class="icon icon-googleplus"></i>
+					</li>
+				</ul>
 			</div>
 		</div>
-		<div class="col-sm-8 col-sm-pull-4">
-			<ul class="detail">				
+	</section>
+	<!-- #end standard-info -->
+
+	<!-- start info-project -->
+	<section class="info-project line-block container">
+		<article class="title">
+			<span>Thông tin dự án</span>
+		</article>
+		<article class="content">
+			<ul style="text-align: left">
 				<li>
-					<button class="btn btn-primary">Xem các Bất động sản thuộc dự án</button>
-				</li>
-				<li>
-					<i class="icon icon-facebook"></i>
-					<i class="icon icon-googleplus"></i>
+					<i class="fa fa-circle"></i>
+					<span>Địa chỉ: <b><%= @project.display_address %></b></span>
 				</li>
 			</ul>
-		</div>
-	</div>
-</section>
-<!-- #end standard-info -->
 
-<!-- start info-project -->
-<section class="info-project line-block container">
-	<article class="title">
-		<span>Thông tin dự án</span>
-	</article>
-	<article class="content">
-		<ul style="text-align: left">
-			<li>
-				<i class="fa fa-circle"></i>
-				<span>Địa chỉ: <b><%= @project.display_address %></b></span>
-			</li>
-		</ul>
-
-		<div class="row">
-			<div class="col-sm-6">
-				<ul style="text-align: left">
-					<li>
-						<i class="fa fa-circle"></i>
-						<span><%= t 'project.attribute.project_type' %>: <b><%= t 'project_type.text.' + @project.project_type.name %></b></span>
-					</li>
-					<li>
-						<i class="fa fa-circle"></i>
-						<span><%= t 'project.attribute.campus_area' %>: <b><%= @project.campus_area %>m<sup>2</sup></b></span>
-					</li>
-					<% if @project.using_ratio.present? %>
+			<div class="row">
+				<div class="col-sm-6">
+					<ul style="text-align: left">
 						<li>
 							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.using_ratio' %>: <b><%= @project.using_ratio %>%</b></span>
+							<span><%= t 'project.attribute.project_type' %>: <b><%= t 'project_type.text.' + @project.project_type.name %></b></span>
 						</li>
-					<% end %>
-					<% if @project.investor.present? %>
 						<li>
 							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.investor' %>: <b><%= @project.investor.name %></b></span>
+							<span><%= t 'project.attribute.campus_area' %>: <b><%= @project.campus_area %>m<sup>2</sup></b></span>
 						</li>
-					<% end %>
-					<% if @project.execute_unit.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.execute_unit' %>: <b><%= @project.execute_unit %></b></span>
-						</li>
-					<% end %>
-					<% if @project.design_unit.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.design_unit' %>: <b><%= @project.design_unit %></b></span>
-						</li>
-					<% end %>
-					<% if @project.manage_unit.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.manage_unit' %>: <b><%= @project.manage_unit %></b></span>
-						</li>
-					<% end %>
-				</ul>
-			</div>
-			<div class="col-sm-6">
-				<ul style="text-align: left">
-					<% if @project.estimate_starting_date.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.estimate_starting_date' %>: <b><%= @project.get_string_date @project.estimate_starting_date %></b></span>
-						</li>
-					<% end %>
-					<% if @project.estimate_finishing_date.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.estimate_finishing_date' %>: <b><%= @project.get_string_date @project.estimate_finishing_date %></b></span>
-						</li>
-					<% end %>
-					<% if @project.starting_date.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.starting_date' %>: <b><%= @project.get_string_date @project.starting_date %></b></span>
-						</li>
-					<% end %>
-					<% if @project.finished_base_date.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.finished_base_date' %>: <b><%= @project.get_string_date @project.finished_base_date %></b></span>
-						</li>
-					<% end %>
-					<% if @project.transfer_date.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.transfer_date' %>: <b><%= @project.get_string_date @project.transfer_date %></b></span>
-						</li>
-					<% end %>
-					<% if @project.docs_issue_date.present? %>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.docs_issue_date' %>: <b><%= @project.get_string_date @project.docs_issue_date %></b></span>
-						</li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-	</article>
-</section>
-<!-- end -->
-
-<!-- start describe -->
-<section class="description line-block container">
-	<article class="title">
-		<span>Mô tả</span>
-	</article>
-	<article class="content">
-		<div class="title">
-			<h5><%= @project.title %></h5>
-		</div>
-		<div class="details"><%= @project.description %></div>
-		<% if @project.payment_method.present? %>
-			<hr />
-			<div class="details"><%= @project.payment_method %></div>
-		<% end %>
-	</article>
-</section>
-<!-- end -->
-
-<!-- start convenient -->
-<!-- <section class="convenient line-block container">
-	<article class="title">
-		<span>Tiện nghi</span>
-	</article>
-	<article class="content">
-		<div class="row">
-			<div class="col-sm-4 item">
-				<i class="fa fa-check"></i>
-				<span>Gần trung tâm mua sắm</span>
-			</div>
-			<div class="col-sm-4 item">
-				<i class="fa fa-check"></i>
-				<span>Gần bệnh viện</span>
-			</div>
-			<div class="col-sm-4 item">
-				<i class="fa fa-check"></i>
-				<span>Gần coop mart</span>
-			</div>
-		</div>
-	</article>
-</section> -->
-<!-- end -->
-
-<!-- start utility -->
-<!-- <section class="utility line-block container">
-	<article class="title">
-		<span>Tiện ích khu vực</span>
-	</article>
-	<article class="content">
-		<div class="row">
-			<div class="col-sm-4 item">
-				<i class="fa fa-check"></i>
-				<span>Gần trung tâm mua sắm</span>
-			</div>
-			<div class="col-sm-4 item">
-				<i class="fa fa-check"></i>
-				<span>Gần bệnh viện</span>
-			</div>
-			<div class="col-sm-4 item">
-				<i class="fa fa-check"></i>
-				<span>Gần coop mart</span>
-			</div>
-		</div>
-	</article>
-</section> -->
-<!-- end -->
-
-<!-- start map -->
-<section class="line-block map container">
-	<article class="title">
-		<span>Vị trí trên bản đồ</span>
-	</article>
-  <article class="content map">
-  	<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>">
-  		
-  	</div>
-  </article>
-</section>
-<!-- end -->
-
-<!-- start contact -->
-<section class="line-block contact container">
-	<article class="title">
-		<span>Thông tin liên lạc</span>
-	</article>
-	<article class="content information" style="padding: 0;">
-		<div class="user-info row">
-			<div class="col-xs-4 col-sm-2 avatar">
-				<%= user_avatar @project.user, style: 'big' %>
-				<span><%= @project.user.full_name %></span>
-			</div>
-			<div class="col-xs-8 col-sm-10">
-				<ul class="info">
-					<% if @project.user.phone_number.present? %>
-						<li>
-							<i class="icon-phone"></i>
-							<span><%= @project.user.phone_number %></span>
-						</li>
-					<% end %>
-					<% if @project.user.email.present? %>
-					<li>
-						<i class="icon-mail"></i>
-						<span><%= @project.user.email %></span>
-					</li>
-					<% end %>
-					<% if @project.user.address.present? %>
-					<li>
-						<i class="icon-address"></i>
-						<span>@project.user.address</span>
-					</li>
-					<% end %>
-					<li>
-						<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
-					</li>
-				</ul>
-				<div class="btn-contact">
-					
+						<% if @project.using_ratio.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.using_ratio' %>: <b><%= @project.using_ratio %>%</b></span>
+							</li>
+						<% end %>
+						<% if @project.investor.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.investor' %>: <b><%= @project.investor.name %></b></span>
+							</li>
+						<% end %>
+						<% if @project.execute_unit.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.execute_unit' %>: <b><%= @project.execute_unit %></b></span>
+							</li>
+						<% end %>
+						<% if @project.design_unit.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.design_unit' %>: <b><%= @project.design_unit %></b></span>
+							</li>
+						<% end %>
+						<% if @project.manage_unit.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.manage_unit' %>: <b><%= @project.manage_unit %></b></span>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+				<div class="col-sm-6">
+					<ul style="text-align: left">
+						<% if @project.estimate_starting_date.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.estimate_starting_date' %>: <b><%= @project.get_string_date @project.estimate_starting_date %></b></span>
+							</li>
+						<% end %>
+						<% if @project.estimate_finishing_date.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.estimate_finishing_date' %>: <b><%= @project.get_string_date @project.estimate_finishing_date %></b></span>
+							</li>
+						<% end %>
+						<% if @project.starting_date.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.starting_date' %>: <b><%= @project.get_string_date @project.starting_date %></b></span>
+							</li>
+						<% end %>
+						<% if @project.finished_base_date.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.finished_base_date' %>: <b><%= @project.get_string_date @project.finished_base_date %></b></span>
+							</li>
+						<% end %>
+						<% if @project.transfer_date.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.transfer_date' %>: <b><%= @project.get_string_date @project.transfer_date %></b></span>
+							</li>
+						<% end %>
+						<% if @project.docs_issue_date.present? %>
+							<li>
+								<i class="fa fa-circle"></i>
+								<span><%= t 'project.attribute.docs_issue_date' %>: <b><%= @project.get_string_date @project.docs_issue_date %></b></span>
+							</li>
+						<% end %>
+					</ul>
 				</div>
 			</div>
-		</div>
-		<div class="request-box">
-			<form>
-				<div class="form-group">
-					<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
-					<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
+		</article>
+	</section>
+	<!-- end -->
+
+	<!-- start describe -->
+	<section class="description line-block container">
+		<article class="title">
+			<span>Mô tả</span>
+		</article>
+		<article class="content">
+			<div class="title">
+				<h5><%= @project.title %></h5>
+			</div>
+			<div class="details"><%= @project.description %></div>
+			<% if @project.payment_method.present? %>
+				<hr />
+				<div class="details"><%= @project.payment_method %></div>
+			<% end %>
+		</article>
+	</section>
+	<!-- end -->
+
+	<!-- start convenient -->
+	<!-- <section class="convenient line-block container">
+		<article class="title">
+			<span>Tiện nghi</span>
+		</article>
+		<article class="content">
+			<div class="row">
+				<div class="col-sm-4 item">
+					<i class="fa fa-check"></i>
+					<span>Gần trung tâm mua sắm</span>
 				</div>
-			</form>
-		</div>
-	</article>
+				<div class="col-sm-4 item">
+					<i class="fa fa-check"></i>
+					<span>Gần bệnh viện</span>
+				</div>
+				<div class="col-sm-4 item">
+					<i class="fa fa-check"></i>
+					<span>Gần coop mart</span>
+				</div>
+			</div>
+		</article>
+	</section> -->
+	<!-- end -->
+
+	<!-- start utility -->
+	<!-- <section class="utility line-block container">
+		<article class="title">
+			<span>Tiện ích khu vực</span>
+		</article>
+		<article class="content">
+			<div class="row">
+				<div class="col-sm-4 item">
+					<i class="fa fa-check"></i>
+					<span>Gần trung tâm mua sắm</span>
+				</div>
+				<div class="col-sm-4 item">
+					<i class="fa fa-check"></i>
+					<span>Gần bệnh viện</span>
+				</div>
+				<div class="col-sm-4 item">
+					<i class="fa fa-check"></i>
+					<span>Gần coop mart</span>
+				</div>
+			</div>
+		</article>
+	</section> -->
+	<!-- end -->
+
+	<!-- start map -->
+	<section class="line-block map container">
+		<article class="title">
+			<span>Vị trí trên bản đồ</span>
+		</article>
+	  <article class="content map">
+	  	<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>">
+	  		
+	  	</div>
+	  </article>
+	</section>
+	<!-- end -->
+
+	<!-- start contact -->
+	<section class="line-block contact container">
+		<article class="title">
+			<span>Thông tin liên lạc</span>
+		</article>
+		<article class="content information" style="padding: 0;">
+			<div class="user-info row">
+				<div class="col-xs-4 col-sm-2 avatar">
+					<%= user_avatar @project.user, style: 'big' %>
+					<span><%= @project.user.full_name %></span>
+				</div>
+				<div class="col-xs-8 col-sm-10">
+					<ul class="info">
+						<% if @project.user.phone_number.present? %>
+							<li>
+								<i class="icon-phone"></i>
+								<span><%= @project.user.phone_number %></span>
+							</li>
+						<% end %>
+						<% if @project.user.email.present? %>
+						<li>
+							<i class="icon-mail"></i>
+							<span><%= @project.user.email %></span>
+						</li>
+						<% end %>
+						<% if @project.user.address.present? %>
+						<li>
+							<i class="icon-address"></i>
+							<span>@project.user.address</span>
+						</li>
+						<% end %>
+						<li>
+							<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
+						</li>
+					</ul>
+					<div class="btn-contact">
+						
+					</div>
+				</div>
+			</div>
+			<div class="request-box">
+				<form>
+					<div class="form-group">
+						<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
+						<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
+					</div>
+				</form>
+			</div>
+		</article>
+	</section>
+	<!-- end -->
+
 </section>
-<!-- end -->
 
 <!-- start other project -->
 <section class="container other-project block">

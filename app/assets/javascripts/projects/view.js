@@ -2,6 +2,8 @@
 $(function() {
 	initPosition();
 	Jump();
+
+	_initItemList($('#project_info'));
 });
 // end
 

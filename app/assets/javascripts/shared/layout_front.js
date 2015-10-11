@@ -19,8 +19,8 @@ $(function () {
 	//init toggle object
 	initToggleElement($('[data-toggle-object]'), false);
 
-	// init show Popup
-	showPopup();
+	// init item list
+	_initItemList();
 	
 	//Set purpose
 	setPurpose();
@@ -32,16 +32,14 @@ $(function () {
 //endregion
 
 // start popup
-function showPopup($container) {	
+function _initItemList($container) {
 	// Popup alert
-	var $comingSoonPopup = typeof($container) == 'undefined' ? $('[data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]');
-	$comingSoonPopup.on('click', function() {
+	(typeof($container) == 'undefined' ? $('.item-sm [data-popup="coming-soon"], .item-lg [data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function() {
 		$('#coming_soon_popup').modal('show');
 	});
 	
-	//Popup picture	
-	var $picturePopup = $('#picture_popup');
-	$('[aria-gallery]').on('click', function() {
+	// Gallery
+	(typeof($container) == 'undefined' ? $('.item-sm [aria-gallery], .item-lg [aria-gallery]') : $container.find('[aria-gallery]')).on('click', function() {
 		var $button = $(this);
 
 		var $html = $(
@@ -280,6 +278,37 @@ function showPopup($container) {
 		/*
 			/ Turn off
 		*/
+	});
+
+	// User favorite
+	(typeof($container) == 'undefined' ? $('.item-sm [aria-click="user_favorite"], .item-lg [aria-click="user_favorite"]') : $container.find('[aria-click="user_favorite"]')).on('click', function () {
+		var 
+			$button = $(this),
+			is_add = !$button.is('.active');
+
+		$.ajax({
+			url: '/' + $button.data('type') + 's/user_favorite/' + ($button.closest('.item-sm, .item-lg, .item-info').data('value')) + '/' + (is_add ? '1' : '0'),
+			method: 'POST',
+			dataType: 'JSON'
+		}).done(function (data) {
+			if (data.status == 0) {
+				if (is_add) {
+					$button.addClass('active').attr('title', 'Xóa khỏi danh sách yêu thích').tooltip('fixTitle');
+				}
+				else {
+					$button.removeClass('active', 'Lưu vào danh sách yêu thích').tooltip('fixTitle');
+				}
+			}
+		})
+	}).each(function () {
+		var $button = $(this);
+		if ($button.hasClass('active')) {
+			$button.attr('title', 'Xóa khỏi danh sách yêu thích');
+		}
+		else {
+			$button.attr('title', 'Lưu vào danh sách yêu thích');
+		}
+		$button.tooltip();
 	});
 }
 // end

@@ -836,6 +836,16 @@ class RealEstate < ActiveRecord::Base
     @display_constructional_quality ||= get_constructional_quality
   end
 
+  # Current user favorite
+  def get_is_current_user_favorite
+    return false unless User.signed?
+
+    return UsersFavoriteRealEstate.exists? real_estate_id: id, user_id: User.current.id
+  end
+  def is_current_user_favorite
+    @is_current_user_favorite ||= get_is_current_user_favorite
+  end
+
 # / Attributes
 
 
