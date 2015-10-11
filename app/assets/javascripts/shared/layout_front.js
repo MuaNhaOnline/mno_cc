@@ -35,7 +35,12 @@ $(function () {
 function _initItemList($container) {
 	// Popup alert
 	(typeof($container) == 'undefined' ? $('.item-sm [data-popup="coming-soon"], .item-lg [data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function() {
-		$('#coming_soon_popup').modal('show');
+		if ($body.is('[data-signed]')) {
+			$('#coming_soon_popup').modal('show');
+		}
+		else {
+			$('[data-toggle="modal"][data-target="#signin"]').click();
+		}
 	});
 	
 	// Gallery
@@ -282,6 +287,11 @@ function _initItemList($container) {
 
 	// User favorite
 	(typeof($container) == 'undefined' ? $('.item-sm [aria-click="user_favorite"], .item-lg [aria-click="user_favorite"]') : $container.find('[aria-click="user_favorite"]')).on('click', function () {
+		if (!$body.is('[data-signed]')) {
+			$('[data-toggle="modal"][data-target="#signin"]').click();
+			return;
+		}
+		
 		var 
 			$button = $(this),
 			is_add = !$button.is('.active');

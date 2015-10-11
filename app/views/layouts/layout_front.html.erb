@@ -23,7 +23,7 @@
 	<%= yield :stylesheets %>
 </head>
 
-<body data-spy="scroll" data-target=".scrollspy" data-width="<%= current_width_type %>">
+<body data-spy="scroll" data-target=".scrollspy" data-width="<%= current_width_type %>" <%= 'data-signed' if signed? %>>
 <section class="notice">
 	Website đang trong giai đoạn hoàn thiện
 </section>
