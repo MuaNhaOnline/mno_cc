@@ -7,50 +7,100 @@
 	type ||= 1
 %>
 
-<% projects.each do |p| %>
-	<% if type == 2 %>
-		<div class="col-lg-4 col-md-6 col-sm-6">
-	<% else %>
-		<div class="col-lg-3 col-md-4 col-sm-6">
-	<% end %>
-		<li class="item-sm">
-			<div class="picture">
-				<%= project_avatar p %>
-			</div>
-			<a href="/projects/<%= p.id %>">
-				<div class="title" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
-					<span><%= p.project_name %></span>
-				</div>						
-				<div class="status">							
-					<% if p.display_deadline %>
-						<i class="fa fa-circle done"></i>
-						<span>Đã hoàn thành</span>
-					<% else %>
-						<i class="fa fa-circle working"></i>
-						<span>Đang thực hiện</span>
-					<% end %>
+<% if type == 3 %>
+	<% projects.each do |p| %>
+		<div class="item-lg">
+			<div class="row">
+				<div class="col-md-8 picture">
+					<%= project_avatar p, style_class: 'thumbnail img-responsive', style: 'slide' %>
 				</div>
-				<div class="address" data-toggle="tooltip" data-placement="top" title="<%= p.display_address %>">
-					<i class="icon-16 icon-position"></i>
-					<span><%= p.display_address %></span>
-				</div>
-				<div class="price">
-					<i class="icon-16 icon-dollar"></i>
-					<% if p.unit_price_text.present? %>
+				<div class="col-md-4">
+					<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
+						<%= p.project_name %>
+					</div>
+					<div class="type-real">
+						<i class="fa fa-home"></i>
+						<span><%= t 'project_type.text.' + p.project_type.name %></span>
+					</div>
+					<div class="status">						
+						<% if p.display_deadline %>
+							<i class="fa fa-circle done"></i>
+							<span>Đã hoàn thành</span>
+						<% else %>
+							<i class="fa fa-circle working"></i>
+							<span>Đang thực hiện</span>
+						<% end %>
+					</div>
+					<div class="address" data-toggle="tooltip" data-placement="top" title="Số 55 đường Nguyễn Hữu Thọ, phường Tân Quy, Quận 7">
+						<i class="icon-16 icon-position"></i>
+						<span><%= p.display_address %></span>
+					</div>
+					<div class="price">
+						<i class="icon-16 icon-dollar"></i>
 						<p class="number sale"><%= p.display_unit_price %></p>
-					<% else %>
-						<p class="number sale">Chưa có giá</p>
-					<% end %>
+					</div>
+					<div class="function">
+						<a href="javascript:void(0)" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích" data-popup="coming-soon"></a>
+						<a href="javascript:void(0)" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua" data-popup="coming-soon"></a>
+						<a href="javascript:void(0)" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội" data-popup="coming-soon"></a>
+						<a href="javascript:void(0)" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này" data-popup="coming-soon"></a>
+					</div>
+					<div class="detail pre" data-dot><%= p.description %></div>
+					<div class="btn-more">
+						<a href="/projects/<%= p.id %>">Xem chi tiết</a>
+					</div>
 				</div>
-			</a>
-			<div class="function">
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định gía căn nhà này"></a>
 			</div>
-		</li>
-	</div>
+		</div>
+	<% end %>
+<% else %>
+	<% projects.each do |p| %>
+		<% if type == 2 %>
+			<div class="col-lg-4 col-md-6 col-sm-6">
+		<% else %>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+		<% end %>
+			<li class="item-sm">
+				<div class="picture">
+					<%= project_avatar p %>
+				</div>
+				<a href="/projects/<%= p.id %>">
+					<div class="title" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
+						<span><%= p.project_name %></span>
+					</div>				
+					<div class="type-real">
+						<i class="fa fa-home"></i>
+						<span><%= t 'project_type.text.' + p.project_type.name %></span>
+					</div>		
+					<div class="status">							
+						<% if p.display_deadline %>
+							<i class="fa fa-circle done"></i>
+							<span>Đã hoàn thành</span>
+						<% else %>
+							<i class="fa fa-circle working"></i>
+							<span>Đang thực hiện</span>
+						<% end %>
+					</div>
+					<div class="address" data-toggle="tooltip" data-placement="top" title="<%= p.display_address %>">
+						<i class="icon-16 icon-position"></i>
+						<span><%= p.display_address %></span>
+					</div>
+					<div class="price">
+						<i class="icon-16 icon-dollar"></i>
+						<% if p.unit_price_text.present? %>
+							<p class="number sale"><%= p.display_unit_price %></p>
+						<% else %>
+							<p class="number sale">Chưa có giá</p>
+						<% end %>
+					</div>
+				</a>
+				<div class="function">
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định gía căn nhà này"></a>
+				</div>
+			</li>
+		</div>
+	<% end %>
 <% end %>
-
-

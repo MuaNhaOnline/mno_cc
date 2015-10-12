@@ -34,7 +34,8 @@ $(function () {
 // start popup
 function _initItemList($container) {
 	// Popup alert
-	(typeof($container) == 'undefined' ? $('.item-sm [data-popup="coming-soon"], .item-lg [data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function() {
+	(typeof($container) == 'undefined' ? $('[data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function(e) {
+		e.preventDefault();
 		if ($body.is('[data-signed]')) {
 			$('#coming_soon_popup').modal('show');
 		}

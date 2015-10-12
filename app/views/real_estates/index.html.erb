@@ -111,7 +111,7 @@
 					<img src="/assets/icon/search-plus.png">
 					Tìm nâng cao
 				</button>
-				<button type="button" class="btn btn-success btn-sm" data-function="zestimate">Định giá khu vực này</button>
+				<button type="button" class="btn btn-success btn-sm" data-function="zestimate" data-popup="coming-soon">Định giá khu vực này</button>
 			</div>
 		</form>
 	</div>
@@ -141,66 +141,7 @@
 				<%
 					res = RealEstate.search_with_params(is_favorite: 'true').random.limit 3
 				%>
-				<% res.each do |re| %>
-					<div class="item-lg" data-value="<%= re.id %>">
-						<div class="row">
-							<div class="col-sm-8 col-sm-push-4 picture">
-								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
-							</div>
-							<div class="col-sm-4 col-sm-pull-8">
-								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
-									<%= re.title %>
-								</div>
-								<div class="type-real">
-									<i class="fa fa-home"></i>
-									<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
-								</div>
-								<div class="convenient">
-									<% if re.fields.include? :restroom %>
-										<div class="bathroom">
-											<i class="icon-bathroom"></i>
-											<span><%= re.display_restroom %></span>						
-										</div>
-									<% end %>
-									<% if re.fields.include? :bedroom %>
-										<div class="bedroom">
-											<i class="icon-bedroom"></i>
-											<span><%= re.display_bedroom %></span>
-										</div>
-									<% end %>
-									<div class="area">
-										<i class="icon-area"></i>
-										<span><%= re.display_area.to_i %>m<sup>2</sup></span>
-									</div>
-								</div>
-								<div class="address">
-									<i class="icon-16 icon-position"></i>
-									<span><%= re.display_address %></span>
-								</div>
-								<div class="price">
-									<i class="icon-16 icon-dollar"></i>
-									<% if current_purpose == 'r' %>
-										<p class="number rent"><%= re.display_rent_price %></p>
-									<% else %>
-										<p class="number sale"><%= re.display_sell_price %></p>
-									<% end %>
-								</div>
-								<div class="function">
-									<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>
-									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
-								</div>
-								<div class="detail" data-dot>
-									<%= re.description %>
-								</div>
-								<div class="btn-more">
-									<a href="/real_estates/<%= re.id %>">Xem chi tiết</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				<% end %>
+				<%= render partial: 'real_estates/item_list', locals: { res: res, type: 2 } %>
 			</div>
 			<button class="slider-control prev" id="favor-prev"></button>
 			<button class="slider-control next" id="favor-next"></button>

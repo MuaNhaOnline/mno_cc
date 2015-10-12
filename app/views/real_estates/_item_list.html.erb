@@ -1,70 +1,132 @@
 <% 
 =begin
-	params: res
+	params: res, type
 =end
-
+	
+	type ||= 1
 %>
 
-<% res.each do |re| %>
-	<div class="col-lg-3 col-md-4 col-sm-6">
-		<li data-value="<%= re.id %>" class="item-sm">
-			<div class="picture">
-				<%= real_estate_avatar re %>
-			</div>
-			<a href="/real_estates/<%= re.id %>">
-				<div class="title" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
-					<span><%= re.title %></span>
+<% if type == 2 %>
+	<% res.each do |re| %>
+		<div class="item-lg" data-value="<%= re.id %>">
+			<div class="row">
+				<div class="col-sm-8 col-sm-push-4 picture">
+					<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 				</div>
-				<div class="type-real">
-					<i class="fa fa-home"></i>
-					<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
-				</div>
-				<div class="convenient">
-					<% if re.fields.include? :restroom_number %>
-						<div class="bathroom">
-							<i class="icon-bathroom"></i>
-							<span><%= re.display_restroom %></span>						
+				<div class="col-sm-4 col-sm-pull-8">
+					<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
+						<%= re.title %>
+					</div>
+					<div class="type-real">
+						<i class="fa fa-home"></i>
+						<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
+					</div>
+					<div class="convenient">
+						<% if re.fields.include? :restroom %>
+							<div class="bathroom">
+								<i class="icon-bathroom"></i>
+								<span><%= re.display_restroom %></span>						
+							</div>
+						<% end %>
+						<% if re.fields.include? :bedroom %>
+							<div class="bedroom">
+								<i class="icon-bedroom"></i>
+								<span><%= re.display_bedroom %></span>
+							</div>
+						<% end %>
+						<div class="area">
+							<i class="icon-area"></i>
+							<span><%= re.display_area.to_i %>m<sup>2</sup></span>
 						</div>
-					<% end %>
-					<% if re.fields.include? :bedroom_number %>
-						<div class="bedroom">
-							<i class="icon-bedroom"></i>
-							<span><%= re.display_bedroom %></span>
-						</div>
-					<% end %>
-					<div class="area">
-						<i class="icon-area"></i>
-						<span><%= re.display_area %>m<sup>2</sup></span>
+					</div>
+					<div class="address">
+						<i class="icon-16 icon-position"></i>
+						<span><%= re.display_address %></span>
+					</div>
+					<div class="price">
+						<i class="icon-16 icon-dollar"></i>
+						<% if current_purpose == 'r' %>
+							<p class="number rent"><%= re.display_rent_price %></p>
+						<% else %>
+							<p class="number sale"><%= re.display_sell_price %></p>
+						<% end %>
+					</div>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
+					</div>
+					<div class="detail" data-dot>
+						<%= re.description %>
+					</div>
+					<div class="btn-more">
+						<a href="/real_estates/<%= re.id %>">Xem chi tiết</a>
 					</div>
 				</div>
-				<div class="address" data-toggle="tooltip" data-placement="top" title="<%= re.display_address %>">
-					<i class="icon-16 icon-position"></i>
-					<span><%= re.display_address %></span>
-				</div>
-				<% if current_purpose == 'r' %>
-					<% if re.fields.include? :rent_price %>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number rent"><%= re.display_rent_price %></p>
-						</div>
-					<% end %>	
-				<% else %>
-					<% if re.fields.include? :sell_price %>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale"><%= re.display_sell_price %></p>
-						</div>
-					<% end %>	
-				<% end %>
-			</a>
-			<div class="function">
-				<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
 			</div>
-		</li>
-	</div>
+		</div>
+	<% end %>
+<% else %>
+	<% res.each do |re| %>
+		<div class="col-lg-3 col-md-4 col-sm-6">
+			<li data-value="<%= re.id %>" class="item-sm">
+				<div class="picture">
+					<%= real_estate_avatar re %>
+				</div>
+				<a href="/real_estates/<%= re.id %>">
+					<div class="title" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
+						<span><%= re.title %></span>
+					</div>
+					<div class="type-real">
+						<i class="fa fa-home"></i>
+						<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
+					</div>
+					<div class="convenient">
+						<% if re.fields.include? :restroom_number %>
+							<div class="bathroom">
+								<i class="icon-bathroom"></i>
+								<span><%= re.display_restroom %></span>						
+							</div>
+						<% end %>
+						<% if re.fields.include? :bedroom_number %>
+							<div class="bedroom">
+								<i class="icon-bedroom"></i>
+								<span><%= re.display_bedroom %></span>
+							</div>
+						<% end %>
+						<div class="area">
+							<i class="icon-area"></i>
+							<span><%= re.display_area %>m<sup>2</sup></span>
+						</div>
+					</div>
+					<div class="address" data-toggle="tooltip" data-placement="top" title="<%= re.display_address %>">
+						<i class="icon-16 icon-position"></i>
+						<span><%= re.display_address %></span>
+					</div>
+					<% if current_purpose == 'r' %>
+						<% if re.fields.include? :rent_price %>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+								<p class="number rent"><%= re.display_rent_price %></p>
+							</div>
+						<% end %>	
+					<% else %>
+						<% if re.fields.include? :sell_price %>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+								<p class="number sale"><%= re.display_sell_price %></p>
+							</div>
+						<% end %>	
+					<% end %>
+				</a>
+				<div class="function">
+					<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
+					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
+				</div>
+			</li>
+		</div>
+	<% end %>
 <% end %>
-
-
