@@ -296,7 +296,7 @@ class Project < ActiveRecord::Base
 
   # params: 
   #   keyword,
-  #   newest, cheapest, interact, view, id, favorite
+  #   newest, cheapest, interact, view, id
   def self.my_search_with_params params = {}
     where = "user_id = #{User.current.id}"
     joins = []
@@ -308,10 +308,6 @@ class Project < ActiveRecord::Base
 
     if params.has_key? :interact
       order[:updated_at] = params[:interact]
-    end
-
-    if params.has_key? :favorite
-      order[:is_favorite] = params[:favorite]
     end
 
     if params.has_key? :id
@@ -327,7 +323,7 @@ class Project < ActiveRecord::Base
 
   # params: 
   #   keyword,
-  #   newest, cheapest, interact, view, id, favorite
+  #   newest, cheapest, interact, view, id
   def self.pending_search_with_params params = {}
     where = 'is_pending = true AND is_draft = false'
     joins = []
@@ -339,10 +335,6 @@ class Project < ActiveRecord::Base
 
     if params.has_key? :interact
       order[:updated_at] = params[:interact]
-    end
-
-    if params.has_key? :favorite
-      order[:is_favorite] = params[:favorite]
     end
 
     if params.has_key? :id

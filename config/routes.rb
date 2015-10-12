@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     get 'real_estates/_manager_list'
     get 'real_estates/appraise'
     get 'real_estates/_appraise_list'
+    get 'real_estates/my_favorite'
+    get 'real_estates/_my_favorite_list'
     get 'real_estates/search'
     get 'real_estates/get_gallery/:id' => 'real_estates#get_gallery'
     get 'real_estates/:id' => 'real_estates#view'

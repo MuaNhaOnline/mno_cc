@@ -1,17 +1,19 @@
+<% 
+  @title = t 'real_estate.view.my_favorite.page_title'
+%>
+
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/real_estates/pending.css" />
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/pending.js"></script>
+  <script type="text/javascript" src="/assets/real_estates/my_favorite.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'real_estate.view.pending.form_title' %>
+  <%= t 'real_estate.view.my_favorite.form_title' %>
 <% end %>
-<%
-  @title = t 'real_estate.view.pending.page_title'
 
+<%
   total = @res.count
   per = Rails.application.config.item_per_page
 %>
@@ -50,7 +52,7 @@
 <section class="re-content">
   <article id="re_list" class="row item-list">
     <% if total != 0 %>
-      <%= render partial: 'real_estates/pending_list', locals: { res: @res.page(1, per) } %>
+      <%= render partial: 'real_estates/my_favorite_list', locals: { res: @res.page(1, per) } %>
     <% else %>
       <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có tin nào</h4></div>
     <% end %>

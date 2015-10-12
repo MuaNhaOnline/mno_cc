@@ -107,6 +107,9 @@ var _t = {
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
 			},
+			my_favorite: {
+				unfavorite_confirm: 'Bạn có chắc muốn bỏ yêu thích tin này?'
+			},
 			manager: {
 				hide: 'Ẩn',
 				show: 'Hiển thị',

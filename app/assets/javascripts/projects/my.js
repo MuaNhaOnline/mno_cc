@@ -149,6 +149,7 @@ $(function () {
         title: _t.form.confirm_title,
         content: _t.project.view.my.delete_confirm,
         type: 'warning',
+        primaryButton: true,
         buttons: [
           {
             text: _t.form.yes,

@@ -54,7 +54,7 @@ class Ability
 
           can :view, RealEstate, user_id: user.id
 
-          can [:view_my], RealEstate
+          can [:view_my, :view_my_favorite], RealEstate
 
           can [:edit, :delete, :change_show_status], RealEstate, user_id: user.id
 
