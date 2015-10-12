@@ -45,14 +45,12 @@
 
   # Real estate options
   current_re_type_group = @re.real_estate_type_id.blank? ? nil : @re.real_estate_type.options_hash['group']
-  if @re.new_record? || !@re.is_full
-    re_type_group_basic_html = 
-    "<option hidden #{'selected' if current_re_type_group == nil} data-off='real_estate_type_basic' value>Chọn loại bất động sản</option>
-    <option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type_basic land_basic' data-off=un-land_basic value=1>#{t 'real_estate_type.text.land_group'}</option>
-    <option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type_basic house_basic' data-off=un-house_basic value=2>#{t 'real_estate_type.text.house_group'}</option>
-    <option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type_basic apartment_basic' data-off=un-apartment_basic value=3>#{t 'real_estate_type.text.apartment_group'}</option>
-    <option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type_basic space_basic' data-off=un-space_basic value=4>#{t 'real_estate_type.text.space_group'}</option>"
-  end
+  re_type_group_basic_html = 
+  "<option hidden #{'selected' if current_re_type_group == nil} data-off='real_estate_type_basic' value>Chọn loại bất động sản</option>
+  <option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type_basic land_basic' data-off=un-land_basic value=1>#{t 'real_estate_type.text.land_group'}</option>
+  <option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type_basic house_basic' data-off=un-house_basic value=2>#{t 'real_estate_type.text.house_group'}</option>
+  <option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type_basic apartment_basic' data-off=un-apartment_basic value=3>#{t 'real_estate_type.text.apartment_group'}</option>
+  <option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type_basic space_basic' data-off=un-space_basic value=4>#{t 'real_estate_type.text.space_group'}</option>"
   re_type_group_html = 
   "<option hidden #{'selected' if current_re_type_group == nil} data-off='real_estate_type' value>Chọn loại bất động sản</option>
   <option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type land' data-off=un-land value=1>#{t 'real_estate_type.text.land_group'}</option>
@@ -421,56 +419,52 @@
 
           <!-- Basic -->
 
-          <% if @re.new_record? || !@re.is_full %>
+          <div aria-name="basic">
 
-            <div aria-name="basic">
-
-              <div class="row">
-                <article class="form-group col-md-5">
-                  <label class="control-label" for="real_estate_type_group_basic">
-                    <%= t 'real_estate.attribute.real_estate_type' %>
-                    <sup class="required-label"></sup>
-                  </label>
-                  <select data-constraint="required" name="real_estate_type_group" class="form-control input-toggle" name="real_estate_type" id="real_estate_type_group_basic">
-                    <%= re_type_group_basic_html.html_safe %>
-                  </select>
-                </article>
-
-                <article class="form-group col-md-7" data-toggled-element="real_estate_type_basic">
-                  <label class="control-label">
-                    <%= t 'real_estate.attribute.real_estate_type_detail' %>
-                    <sup class="required-label"></sup>
-                  </label>
-                  <select data-constraint="required" data-toggled-element="land_basic un-house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_land_basic">
-                    <%= land_html.html_safe %>  
-                  </select>
-                  <select data-constraint="required" data-toggled-element="un-land_basic house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_house_basic">
-                    <%= house_html.html_safe %>
-                  </select>
-                  <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_apartment_basic">
-                    <%= apartment_html.html_safe %>
-                  </select>
-                  <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic un-apartment_basic space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_space_basic">
-                    <%= space_html.html_safe %>
-                  </select>
-                </article>
-              </div>
-
-              <article class="form-group" data-toggled-element="real_estate_type_basic">
-                <label class="control-label" for="campus_area_basic">
-                  <%= t 'real_estate.attribute.campus_area' %>
+            <div class="row">
+              <article class="form-group col-md-5">
+                <label class="control-label" for="real_estate_type_group_basic">
+                  <%= t 'real_estate.attribute.real_estate_type' %>
                   <sup class="required-label"></sup>
                 </label>
-                <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận."></a>
-                <div class="input-group">
-                  <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[campus_area]" id="campus_area_basic" value="<%= @re.campus_area %>" />
-                  <div class="input-group-addon">m<sup>2</sup></div>
-                </div>
+                <select data-constraint="required" name="real_estate_type_group" class="form-control input-toggle" name="real_estate_type" id="real_estate_type_group_basic">
+                  <%= re_type_group_basic_html.html_safe %>
+                </select>
               </article>
 
+              <article class="form-group col-md-7" data-toggled-element="real_estate_type_basic">
+                <label class="control-label">
+                  <%= t 'real_estate.attribute.real_estate_type_detail' %>
+                  <sup class="required-label"></sup>
+                </label>
+                <select data-constraint="required" data-toggled-element="land_basic un-house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_land_basic">
+                  <%= land_html.html_safe %>  
+                </select>
+                <select data-constraint="required" data-toggled-element="un-land_basic house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_house_basic">
+                  <%= house_html.html_safe %>
+                </select>
+                <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_apartment_basic">
+                  <%= apartment_html.html_safe %>
+                </select>
+                <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic un-apartment_basic space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_space_basic">
+                  <%= space_html.html_safe %>
+                </select>
+              </article>
             </div>
 
-          <% end %>
+            <article class="form-group" data-toggled-element="real_estate_type_basic">
+              <label class="control-label" for="campus_area_basic">
+                <%= t 'real_estate.attribute.campus_area' %>
+                <sup class="required-label"></sup>
+              </label>
+              <a tabindex="-1" href="javascript:void(0)" class="pull-right helper-label fa fa-question text-muted" data-content="Là tổng diện tích đất bao gồm cả phần diện tích vi phạm lộ giới, quy hoạch không được công nhận."></a>
+              <div class="input-group">
+                <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[campus_area]" id="campus_area_basic" value="<%= @re.campus_area %>" />
+                <div class="input-group-addon">m<sup>2</sup></div>
+              </div>
+            </article>
+
+          </div>
 
           <!-- / Basic -->
 
