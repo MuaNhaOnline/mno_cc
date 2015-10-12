@@ -10,6 +10,18 @@ $(function () {
 });
 
 /*
+  Helper
+*/
+
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB10|IEMobile|Opera Mini|Touch/i.test(navigator.userAgent);
+}
+
+/*
+  / Helper
+*/
+
+/*
   Size
 */
 

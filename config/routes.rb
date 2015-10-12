@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get 'real_estates/appraise'
     get 'real_estates/_appraise_list'
     get 'real_estates/search'
+    get 'real_estates/get_gallery/:id' => 'real_estates#get_gallery'
     get 'real_estates/:id' => 'real_estates#view'
     get 'real_estates' => 'real_estates#index'
     post 'real_estates/preview' => 'real_estates#preview'
@@ -41,6 +42,7 @@ Rails.application.routes.draw do
     post 'real_estates/change_force_hide_status/:id/:is_force_hide' => 'real_estates#change_force_hide_status'
     post 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
     post 'real_estates/approve/:id' => 'real_estates#approve'
+    post 'real_estates/user_favorite/:id/:is_add' => 'real_estates#user_favorite'
 
   # / Real estate
 
@@ -128,6 +130,7 @@ Rails.application.routes.draw do
     get 'projects/manager'
     get 'projects/_manager_list'
     get 'projects/search'
+    get 'projects/get_gallery/:id' => 'projects#get_gallery'
     get 'projects/:id' => 'projects#view'
     get 'projects' => 'projects#index'
     post 'projects/create' => 'projects#save'

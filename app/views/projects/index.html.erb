@@ -159,7 +159,7 @@
 											<span>Đã hoàn thành</span>
 										<% else %>
 											<i class="fa fa-circle working"></i>
-											<span>Chưa hoàn thành</span>
+											<span>Đang thực hiện</span>
 										<% end %>
 									</div>
 									<div class="address" data-toggle="tooltip" data-placement="top" title="Số 55 đường Nguyễn Hữu Thọ, phường Tân Quy, Quận 7">
@@ -214,7 +214,7 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="showPopup($list)" class="tab-pane fade in active" id="suggest_property">
+				<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="suggest_property">
 					<% 
 						projects = Project.search_with_params.limit per
 					%>
@@ -225,7 +225,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="new_property">
+				<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="new_property">
 					<% 
 						projects = Project.search_with_params.limit per
 					%>
@@ -236,7 +236,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#recently_action > .row" data-pagination="#recently_action > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="recently_action">
+				<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#recently_action > .row" data-pagination="#recently_action > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="recently_action">
 					<% 
 						projects = Project.search_with_params.limit per
 					%>
@@ -330,7 +330,7 @@
 						<article class="title">
 							<span>Khu căn hộ mới nhất</span>
 						</article>
-						<article aria-pagination data-url="/projects/search" data-data='{"list_type":2,"per":<%= per_2_row %>}' data-list="#newest_apartment > .row" data-init_list="showPopup($list)" data-pagination="#newest_apartment > .paging" class="content" id="newest_apartment">
+						<article aria-pagination data-url="/projects/search" data-data='{"list_type":2,"per":<%= per_2_row %>}' data-list="#newest_apartment > .row" data-init_list="_initItemList($list)" data-pagination="#newest_apartment > .paging" class="content" id="newest_apartment">
 							<% 
 								projects = Project.search_with_params(newest: nil).limit per_2_row
 							%>

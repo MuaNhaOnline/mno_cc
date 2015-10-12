@@ -142,14 +142,19 @@
 					res = RealEstate.search_with_params(is_favorite: 'true').random.limit 3
 				%>
 				<% res.each do |re| %>
-					<div class="item-lg">
+					<div class="item-lg" data-value="<%= re.id %>">
 						<div class="row">
 							<div class="col-sm-8 col-sm-push-4 picture">
 								<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 							</div>
 							<div class="col-sm-4 col-sm-pull-8">
 								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
+									<p class="type-property">[<%= t 'real_estate_type.text.' + re.real_estate_type.name if re.real_estate_type.present? %>]</p>
 									<%= re.title %>
+								</div>
+								<div class="type-real">
+									<i class="fa fa-home"></i>
+									<span>Nhà phố</span>
 								</div>
 								<div class="convenient">
 									<% if re.fields.include? :restroom %>
@@ -182,7 +187,7 @@
 									<% end %>
 								</div>
 								<div class="function">
-									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+									<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>
 									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
 									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
 									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
@@ -219,7 +224,7 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="showPopup($list)" class="tab-pane fade in active" id="suggest_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="suggest_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
@@ -230,7 +235,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="new_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="new_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
@@ -292,7 +297,7 @@
 				<% 
 					per_2_row = get_value_by_width_type [1, 4, 6, 8] 
 				%>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"town_house","per":<%= per_2_row %>}' data-list="#property > .row" data-pagination="#property > .paging" data-init_list="showPopup($list)" class="tab-pane fade in active" id="property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"town_house","per":<%= per_2_row %>}' data-list="#property > .row" data-pagination="#property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="property">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'town_house'
 					%>
@@ -303,7 +308,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"villa","per":<%= per_2_row %>}' data-list="#villa > .row" data-pagination="#villa > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="villa">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"villa","per":<%= per_2_row %>}' data-list="#villa > .row" data-pagination="#villa > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="villa">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'villa'
 					%>
@@ -314,7 +319,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"apartment","per":<%= per_2_row %>}' data-list="#apartment > .row" data-pagination="#apartment > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="apartment">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"apartment","per":<%= per_2_row %>}' data-list="#apartment > .row" data-pagination="#apartment > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="apartment">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'apartment'
 					%>
@@ -325,7 +330,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"space","per":<%= per_2_row %>}' data-list="#ground > .row" data-pagination="#ground > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="ground">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"space","per":<%= per_2_row %>}' data-list="#ground > .row" data-pagination="#ground > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="ground">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'space'
 					%>
@@ -336,7 +341,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"land","per":<%= per_2_row %>}' data-list="#land > .row" data-pagination="#land > .paging" data-init_list="showPopup($list)" class="tab-pane fade" id="land">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"land","per":<%= per_2_row %>}' data-list="#land > .row" data-pagination="#land > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="land">
 					<%
 						res = RealEstate.search_with_params real_estate_type: 'land'
 					%>

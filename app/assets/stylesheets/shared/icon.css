@@ -78,7 +78,8 @@
 		width: 16px;
 		height: 16px;
 	}
-		.icon-favor:hover {
+		.icon-favor:hover,
+		.icon-favor.active {
 			background-position: 0 -16px;
 		}
 	.icon-buy {

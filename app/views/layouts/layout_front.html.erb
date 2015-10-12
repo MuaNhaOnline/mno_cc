@@ -23,7 +23,7 @@
 	<%= yield :stylesheets %>
 </head>
 
-<body data-spy="scroll" data-target=".scrollspy" data-width="<%= current_width_type %>">
+<body data-spy="scroll" data-target=".scrollspy" data-width="<%= current_width_type %>" <%= 'data-signed' if signed? %>>
 <section class="notice">
 	Website đang trong giai đoạn hoàn thiện
 </section>
@@ -483,6 +483,7 @@
 <script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
 <script type="text/javascript" src="/assets/shared/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="/assets/shared/jquery.cookie.js"></script>
+<script type="text/javascript" src="/assets/shared/jquery.mobile.custom.min.js"></script>
 <script type="text/javascript" src="/assets/shared/layout.js"></script>
 <script type="text/javascript" src="/assets/shared/layout_front.js"></script>
 <script type="text/javascript" src="/assets/shared/jquery.dotdotdot.min.js"></script>

@@ -357,4 +357,30 @@ class RealEstatesController < ApplicationController
 
 # / Search
 
+# Gallery
+
+  # Handle
+  # params: id
+  def get_gallery
+    images = RealEstateImage.where real_estate_id: params[:id]
+
+    render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url, description: image.description } } }
+  end
+
+# / Gallery
+
+# Favorite
+
+  # Handle
+  # params: id, is_add
+  def user_favorite
+    if params[:is_add] == '1'
+      render json: UsersFavoriteRealEstate.add_favorite(params[:id])
+    else
+      render json: UsersFavoriteRealEstate.remove_favorite(params[:id])
+    end
+  end
+
+# / Favorite
+
 end

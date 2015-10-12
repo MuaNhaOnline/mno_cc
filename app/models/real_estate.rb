@@ -26,7 +26,7 @@ class RealEstate < ActiveRecord::Base
   belongs_to :constructional_level
   belongs_to :direction
 
-  has_many :images, -> { order('is_avatar desc') }, class_name: 'RealEstateImage'
+  has_many :images, class_name: 'RealEstateImage'
   has_many :appraisal_companies_real_estates
   has_many :appraisal_companies, through: :appraisal_companies_real_estates
   has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,
@@ -834,6 +834,16 @@ class RealEstate < ActiveRecord::Base
   end
   def display_constructional_quality
     @display_constructional_quality ||= get_constructional_quality
+  end
+
+  # Current user favorite
+  def get_is_current_user_favorite
+    return false unless User.signed?
+
+    return UsersFavoriteRealEstate.exists? real_estate_id: id, user_id: User.current.id
+  end
+  def is_current_user_favorite
+    @is_current_user_favorite ||= get_is_current_user_favorite
   end
 
 # / Attributes

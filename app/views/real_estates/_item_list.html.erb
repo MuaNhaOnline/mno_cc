@@ -7,7 +7,7 @@
 
 <% res.each do |re| %>
 	<div class="col-lg-3 col-md-4 col-sm-6">
-		<li class="item-sm">
+		<li data-value="<%= re.id %>" class="item-sm">
 			<div class="picture">
 				<%= real_estate_avatar re %>
 			</div>
@@ -54,7 +54,7 @@
 				<% end %>
 			</a>
 			<div class="function">
-				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+				<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>
 				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
 				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
 				<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
