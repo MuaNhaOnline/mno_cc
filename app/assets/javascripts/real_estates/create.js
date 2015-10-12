@@ -384,7 +384,7 @@ $(function () {
 
   function initUntilFull() {
     var $isFull = $form.find('#is_full');
-    return;
+    
     if ($isFull.val() == '') {
       popupPrompt({
         title: 'Xác nhận',
