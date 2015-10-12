@@ -139,6 +139,10 @@
 								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
 									<%= p.project_name %>
 								</div>
+								<div class="type-real">
+									<i class="fa fa-home"></i>
+									<span><%= t 'project_type.text.' + p.project_type.name %></span>
+								</div>
 								<div class="status">							
 									<% if p.display_deadline %>
 										<i class="fa fa-circle done"></i>
@@ -152,12 +156,10 @@
 									<i class="icon-16 icon-position"></i>
 									<span><%= p.display_address %></span>
 								</div>
-								<% if p.unit_price_text.present? %>
-									<div class="price">
-										<i class="icon-16 icon-dollar"></i>
-										<p class="number sale"><%= p.display_unit_price %></p>
-									</div>
-								<% end %>
+								<div class="price">
+									<i class="icon-16 icon-dollar"></i>
+									<p class="number sale"><%= p.display_unit_price %></p>
+								</div>
 								<div class="function">
 									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
 									<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
@@ -231,8 +233,11 @@
 							</div>
 							<div class="col-sm-4 col-sm-pull-8">
 								<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
-									<p class="type-property">[<%= t 'real_estate_type.text.' + re.real_estate_type.name if re.	real_estate_type.present? %>]</p>
 									<%= re.title %>
+								</div>
+								<div class="type-real">
+									<i class="fa fa-home"></i>
+									<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
 								</div>
 								<div class="convenient">
 									<% if re.fields.include? :restroom %>

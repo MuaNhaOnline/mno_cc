@@ -475,7 +475,7 @@ class Project < ActiveRecord::Base
     if unit_price_text.present?
       (unit_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + price_unit.name)).html_safe
     else
-      'Chưa có giá'
+      'Giá thỏa thuận'
     end
   end
 
