@@ -175,7 +175,7 @@
 
 			<article class="mini-menu-1 hidden-lg hidden-md">
 				<div class="btn-group">
-					<a class="mini-menu" data-toggle-object="mini-menu">
+					<a class="mini-menu" id="mini_menu">
 						<i class="icon-16 icon-menu"></i>
 					</a>					
 			</article>
@@ -337,8 +337,9 @@
 <!-- #end footer -->
 
 <!-- start mini menu -->
-<section class="cover-wall hidden-md hidden-lg" data-object="mini-menu">
-	<div class="mini-menu-content">
+<section class="cover-wall hidden-md hidden-lg" id="content_mini_menu">
+	<div class="popup-out"></div>
+	<div class="content">
 		<% unless signed? %>
 			<section class="mini-user-box">			
 				<a href="/signin" class="btn btn-primary btn-sm">Đăng nhập</a>

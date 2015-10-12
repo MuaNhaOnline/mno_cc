@@ -1,4 +1,5 @@
 var $body, $window, _temp = {};
+var $document = $(document);
 
 $(function () {
   $body = $('body');

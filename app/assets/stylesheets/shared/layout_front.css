@@ -67,95 +67,101 @@ header {
 		margin: auto 0 auto auto;
 		cursor: pointer;	
 	}
+
 		.cover-wall {
 			display: none;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0,0,0,0.7);
-			top: 98px;
-			right: 0;
 			position: fixed;
-			z-index: 1;
-			overflow: auto;
-		}
-		.mini-menu-content {
-			display: block;
-			margin-left: auto;
-			padding: 10px;
+			top: 0;
+			left: 0;
 			width: 100%;
-			max-width: 250px;
 			height: 100%;
-			background-color: #fff;
-			margin-top: 0;
-			border-color: transparent;
-			overflow: auto;
-			border-left: 3px solid #58BE0D;
-			z-index: 3;
+			z-index: 1;
 		}
-		/*start user-box*/
-		.mini-user-box {
-			width: 100%;
-			text-align: center;
-			border-bottom: 1px solid #ccc;
-			padding-bottom: 12px;
-			margin-bottom: 12px;
-
-		}
-			.mini-user-box a {
-				display: block;				
-			}
-			.mini-user-box img {
-				width: 50px;
+			.popup-out {
 				display: block;
-				margin: 4px auto;
+				width: 30%;
+				float: left;
+				height: 100%;
+				background-color: rgba(0,0,0,0.7);
+				z-index: 2;
+				position: absolute;
 			}
-			.mini-user-box a {
-				margin-bottom: 10px;
-			}
-			.mini-user-box .sign-with-social i {
-				vertical-align: middle;
-				margin: 0 5px;
-			}
-			.mini-user-box .sign-with-social a {
-				display: inline-block;
-			}
-		/*end*/
-
-		/*start mini-sitemap*/
-		.mini-sitemap {
-
-		}
-			.mini-sitemap ul li {				
-			}
-			.mini-sitemap > ul > li > a {
+			.cover-wall .content{
 				display: block;
-				padding: 5px 10px;
-				background-color:  #337AB7;
-				color: #fff;
-				border-radius: 2px;
-				margin-bottom: 5px;
-				cursor: pointer;
-			}
-			.mini-sitemap > ul > li > ul {
-				padding: 0 10px;
-			}
-			.mini-sitemap > ul > li > ul > li {
-				margin: 7px 0;
-			}
-				.mini-sitemap > ul > li > ul > li.all {
-				}
-				.mini-sitemap > ul > li > ul > li.all > a{
-					background-color: #999;
-					color: #fff;
-					padding: 5px 10px;
-					border-radius: 2px;
-				}
-			.mini-sitemap > ul > li > ul > li > a {
-				display: block;
+				float: right;
+				width: 70%;
 				background-color: #fff;
-				color: #666;
+				z-index: 2;
+				padding: 10px;
+				height: 100%;
+				overflow-y: auto;
+				position: absolute;
+				right: 0;
 			}
-		/*end*/
+			/*start user-box*/
+			.mini-user-box {
+				width: 100%;
+				text-align: center;
+				border-bottom: 1px solid #ccc;
+				padding-bottom: 12px;
+				margin-bottom: 12px;
+
+			}
+				.mini-user-box a {
+					display: block;				
+				}
+				.mini-user-box img {
+					width: 50px;
+					display: block;
+					margin: 4px auto;
+				}
+				.mini-user-box a {
+					margin-bottom: 10px;
+				}
+				.mini-user-box .sign-with-social i {
+					vertical-align: middle;
+					margin: 0 5px;
+				}
+				.mini-user-box .sign-with-social a {
+					display: inline-block;
+				}
+			/*end*/
+
+			/*start mini-sitemap*/
+			.mini-sitemap {
+
+			}
+				.mini-sitemap ul li {				
+				}
+				.mini-sitemap > ul > li > a {
+					display: block;
+					padding: 5px 10px;
+					background-color:  #337AB7;
+					color: #fff;
+					border-radius: 2px;
+					margin-bottom: 5px;
+					cursor: pointer;
+				}
+				.mini-sitemap > ul > li > ul {
+					padding: 0 10px;
+				}
+				.mini-sitemap > ul > li > ul > li {
+					margin: 7px 0;
+				}
+					.mini-sitemap > ul > li > ul > li.all {
+					}
+					.mini-sitemap > ul > li > ul > li.all > a{
+						background-color: #999;
+						color: #fff;
+						padding: 5px 10px;
+						border-radius: 2px;
+					}
+				.mini-sitemap > ul > li > ul > li > a {
+					display: block;
+					background-color: #fff;
+					color: #666;
+				}
+			/*end*/
 	/*end*/
 
 	/*start fixed header*/

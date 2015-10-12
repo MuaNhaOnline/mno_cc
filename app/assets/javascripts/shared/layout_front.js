@@ -26,7 +26,8 @@ $(function () {
 	setPurpose();
 
 	// init MiniMenu
-	initMiniMenu();
+	// initMiniMenu();
+	initMiniMenu($('#mini_menu'), $('#content_mini_menu'));
 });
 
 //endregion
@@ -326,7 +327,7 @@ function _initItemList($container) {
 
 // start header
 function initHeader() {
-	$header = $('.header-fixed');
+	var $header = $('.header-fixed');
 	var $coverWall = $('.cover-wall');
 	
 	var scroll = $window.scrollTop();
@@ -370,25 +371,69 @@ function initHeader() {
 }
 // end
 
-// start initMiniMenu
-function initMiniMenu() {
-	$coverWall = $('.cover-wall');
-	$window.on('click', function() {
-		if ($coverWall.is(':visible')) {
-			lockScrollBody(true);
-		} else {
-			lockScrollBody(false);
-		}
+// start mini menu
+function initMiniMenu(objBtnPress, objContent) {
+    var $btnMenu = $(objBtnPress);
+    var $contentMenu = $(objContent);
 
-		$coverWall.on('click', function(e) {		
-			$(this).hide();
-			lockScrollBody(false);
-		});
-		$('.cover-wall .mini-menu-content').on('click', function(e) {
-			e.stopPropagation();
-		});
-	});	
+    $contentMenu.on('Off', function(e) {
+        e = e || window.event;
+
+        $contentMenu.hide();
+        $body.css('overflow-y', 'auto');
+
+        $document.off('keydown.btn-close');
+    });
+
+    $contentMenu.on('On', function(e) {
+        $contentMenu.show();
+        $body.css('overflow-y','hidden');
+
+        $contentMenu.find('.popup-out').one('click', function() {
+            $contentMenu.trigger('Off');
+        });
+
+        $document.on('keydown.btn-close', function(e) {
+            e = e || window.event;
+
+            if (e.keyCode == 27) {
+                $contentMenu.trigger('Off');
+            } else {
+                console.log('Key is press down! But not Esc key.');
+            }
+        });
+    });
+
+    $btnMenu.on('click', function(e) {
+        e = e || window.event;
+
+        if ($contentMenu.is(':visible')) {
+        	$contentMenu.trigger('Off');        	
+        } else {
+        	$contentMenu.trigger('On');        	
+        }
+    });
 }
+
+// start initMiniMenu
+// function initMiniMenu() {
+// 	$coverWall = $('.cover-wall');
+// 	$window.on('click', function() {
+// 		if ($coverWall.is(':visible')) {
+// 			lockScrollBody(true);
+// 		} else {
+// 			lockScrollBody(false);
+// 		}
+
+// 		$coverWall.on('click', function(e) {		
+// 			$(this).hide();
+// 			lockScrollBody(false);
+// 		});
+// 		$('.cover-wall .mini-menu-content').on('click', function(e) {
+// 			e.stopPropagation();
+// 		});
+// 	});	
+// }
 // end
 
 //start search-box
