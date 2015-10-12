@@ -116,6 +116,9 @@ header {
 				vertical-align: middle;
 				margin: 0 5px;
 			}
+			.mini-user-box .sign-with-social a {
+				display: inline-block;
+			}
 		/*end*/
 
 		/*start mini-sitemap*/
@@ -709,6 +712,24 @@ footer {
 		}
 		/*end*/
 
+		/*start type-real*/
+		.type-real {
+			margin-bottom: 10px;
+		}
+			.type-real i {
+				margin-right: 9px;
+				height: 16px;
+				width: 16px;
+				text-align: center;
+				line-height: 16px;
+				font-size: 133.33% !important;
+				color: #666;
+			}
+			.type-real span {
+				color: #666;
+			}
+		/*end*/
+
 		/*start status*/
 		.item-lg .status {            
 			margin-bottom: 10px;
@@ -745,7 +766,7 @@ footer {
 				height: 16px;
 				display: inline-block;
 				vertical-align: -2px;
-				margin-right: 4px;
+				margin-right: 9px;
 			}
 				.item-lg .convenient i.icon-area {
 					background: url('/assets/icon/icon_dientich.png') no-repeat center center;

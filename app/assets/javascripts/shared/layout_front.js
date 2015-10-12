@@ -334,7 +334,9 @@ function initHeader() {
 		
 		if (currentScroll != 0) {
 			$header.addClass('fixed');
+			$('header').css('height','0');
 		} else {
+			$('header').css('height', '60px');
 			$header.removeClass('fixed');
 		}		
 
