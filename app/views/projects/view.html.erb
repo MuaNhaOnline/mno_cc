@@ -456,137 +456,18 @@
 		</a>
 	</article>
 	<article class="content">
-		<ul class="row">
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>tresor</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
+		<% 
+			per = get_value_by_width_type [1, 2, 3, 4] 
+		%>
+		<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" id="suggest_property">
+			<% 
+				projects = Project.search_with_params
+			%>
+			<div class="row">
+				<%= render partial: 'projects/item_list', locals: { projects: projects.take(per) } %>
 			</div>
-			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>tresor</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>tresor</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
-				<li class="item-sm">
-					<div class="picture">
-						<img src="/assets/product/BDS01.jpg">
-					</div>
-					<a href="#">
-						<div class="title">
-							<span>tresor</span>
-						</div>						
-						<div class="status">							
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						</div>
-						<div class="address" data-toggle="tooltip" data-placement="top" title="Số 360 đường Nguyễn Văn Linh, Phường 10, Quận 7">
-							<i class="icon-16 icon-position"></i>
-							<span>Nguyễn Văn Linh, Quận 7</span>
-						</div>
-						<div class="price">
-							<i class="icon-16 icon-dollar"></i>
-							<p class="number sale">900 triệu / căn</p>
-						</div>	
-					</a>
-					<div class="function">
-						<a href="#" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
-						<a href="#" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
-						<a href="#" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
-						<a href="#" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này"></a>
-					</div>
-				</li>
-			</div>
-		</ul>
-		<div class="paging">
-			<div class="left">
-				<i class="pe-7s-angle-left"></i>
-			</div>
-			<div class="number">
-				<span>5/10</span>
-			</div>
-			<div class="right">
-				<i class="pe-7s-angle-right"></i>
+			<div class="paging">
+				<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
 			</div>
 		</div>
 	</article>
