@@ -441,16 +441,16 @@
                     <%= t 'real_estate.attribute.real_estate_type_detail' %>
                     <sup class="required-label"></sup>
                   </label>
-                  <select data-constraint="required" data-toggled-element="land_basic un-house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic">
+                  <select data-constraint="required" data-toggled-element="land_basic un-house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_land_basic">
                     <%= land_html.html_safe %>  
                   </select>
-                  <select data-constraint="required" data-toggled-element="un-land_basic house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic">
+                  <select data-constraint="required" data-toggled-element="un-land_basic house_basic un-apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_house_basic">
                     <%= house_html.html_safe %>
                   </select>
-                  <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic">
+                  <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic apartment_basic un-space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_apartment_basic">
                     <%= apartment_html.html_safe %>
                   </select>
-                  <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic un-apartment_basic space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic">
+                  <select data-constraint="required" data-toggled-element="un-land_basic un-house_basic un-apartment_basic space_basic" name="real_estate[real_estate_type_id]" class="form-control" aria-object="real_estate_type_basic" id="real_estate_type_space_basic">
                     <%= space_html.html_safe %>
                   </select>
                 </article>
@@ -494,16 +494,16 @@
                   <%= t 'real_estate.attribute.real_estate_type_detail' %>
                   <sup class="required-label"></sup>
                 </label>
-                <select data-constraint="required" data-toggled-element="land un-house un-apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle">
+                <select data-constraint="required" data-toggled-element="land un-house un-apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_land">
                   <%= land_html.html_safe %>
                 </select>
-                <select data-constraint="required" data-toggled-element="un-land house un-apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle">
+                <select data-constraint="required" data-toggled-element="un-land house un-apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_house">
                   <%= house_html.html_safe %>
                 </select>
-                <select data-constraint="required" data-toggled-element="un-land un-house apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" aria-object="real_estate_type">
+                <select data-constraint="required" data-toggled-element="un-land un-house apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_apartment">
                   <%= apartment_html.html_safe %>
                 </select>
-                <select data-constraint="required" data-toggled-element="un-land un-house un-apartment space" name="real_estate[real_estate_type_id]" class="form-control input-toggle">
+                <select data-constraint="required" data-toggled-element="un-land un-house un-apartment space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_space">
                   <%= space_html.html_safe %>
                 </select>
               </article>

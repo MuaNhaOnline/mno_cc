@@ -151,7 +151,10 @@ $(function () {
       $form.find('[aria-name="basic"]').show().find(':input').prop('disabled', false); 
 
       $form.find('#real_estate_type_group_basic').val($form.find('#real_estate_type_group').val());
-      $form.find('#real_estate_type_basic').val($form.find('#real_estate_type').val());
+      $form.find('#real_estate_type_land_basic').val($form.find('#real_estate_type_land').val());
+      $form.find('#real_estate_type_house_basic').val($form.find('#real_estate_type_house').val());
+      $form.find('#real_estate_type_apartment_basic').val($form.find('#real_estate_type_apartment').val());
+      $form.find('#real_estate_type_space_basic').val($form.find('#real_estate_type_space').val());
       $form.find('#campus_area_basic').val($form.find('#campus_area').val() || $form.find('#using_area').val() || $form.find('#constructional_area').val());
 
       $form.find('[aria-click="detail-toggle"]').text('Đăng chi tiết').off('click').on('click', function () {
@@ -202,7 +205,10 @@ $(function () {
       $form.find('.until-full').closest('.box').removeClass('box-primary').data('status', 'normal').trigger('changeStatus');
 
       $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
-      $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
+      $form.find('#real_estate_type_land').val($form.find('#real_estate_type_land_basic').val());
+      $form.find('#real_estate_type_house').val($form.find('#real_estate_type_house_basic').val());
+      $form.find('#real_estate_type_apartment').val($form.find('#real_estate_type_apartment_basic').val());
+      $form.find('#real_estate_type_space').val($form.find('#real_estate_type_space_basic').val());
       $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
 
       $form.find('[aria-name="basic"]').hide().find(':input').prop('disabled', true); 
@@ -412,6 +418,9 @@ $(function () {
       initNavigator();
       if ($isFull.val() == 'false') {
         toggleUntilFull();
+      }
+      else {
+        toggleUntilFull(0);
       }
     }
   }
