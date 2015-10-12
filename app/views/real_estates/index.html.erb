@@ -152,10 +152,6 @@
 									<p class="type-property">[<%= t 'real_estate_type.text.' + re.real_estate_type.name if re.real_estate_type.present? %>]</p>
 									<%= re.title %>
 								</div>
-								<div class="type-real">
-									<i class="fa fa-home"></i>
-									<span>Nhà phố</span>
-								</div>
 								<div class="convenient">
 									<% if re.fields.include? :restroom %>
 										<div class="bathroom">
