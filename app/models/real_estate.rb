@@ -32,6 +32,7 @@ class RealEstate < ActiveRecord::Base
   has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,
             source: :appraisal_company,
             class_name: 'AppraisalCompany'
+  has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
 
   has_and_belongs_to_many :property_utilities
   has_and_belongs_to_many :region_utilities
@@ -464,7 +465,7 @@ class RealEstate < ActiveRecord::Base
 
   # params: 
   #   keyword,
-  #   newest, cheapest, interact, view, id, favorite
+  #   newest, cheapest, interact, view, id
   def self.my_search_with_params params = {}
     where = "user_id = #{User.current.id}"
     joins = []
@@ -476,10 +477,6 @@ class RealEstate < ActiveRecord::Base
 
     if params.has_key? :interact
       order[:updated_at] = params[:interact]
-    end
-
-    if params.has_key? :favorite
-      order[:is_favorite] = params[:favorite]
     end
 
     if params.has_key? :id
@@ -495,7 +492,34 @@ class RealEstate < ActiveRecord::Base
 
   # params: 
   #   keyword,
-  #   newest, cheapest, interact, view, id, favorite
+  #   newest, cheapest, interact, view, id
+  def self.my_favorite_search_with_params params = {}
+    where = "users_favorite_real_estates.user_id = #{User.current.id}"
+    joins = [:users_favorite_real_estates]
+    order = {}
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id
   def self.pending_search_with_params params = {}
     where = 'is_pending = true AND is_draft = false AND is_active = true'
     joins = []
@@ -507,10 +531,6 @@ class RealEstate < ActiveRecord::Base
 
     if params.has_key? :interact
       order[:updated_at] = params[:interact]
-    end
-
-    if params.has_key? :favorite
-      order[:is_favorite] = params[:favorite]
     end
 
     if params.has_key? :id

@@ -258,7 +258,14 @@ function getPopup(params) {
     $(document).on('keydown.turn_off_popup_' + id, function (e) {
       if ($popup.is('[aria-esc]')) {
         if (e.keyCode == 27) {
+          e.preventDefault();
           $popup.off();
+        }
+      }
+      if ('enterKey' in params) {
+        if (e.keyCode == 13) {
+          e.preventDefault();
+          $popup.find('[data-type="primary_button"]').click();
         }
       }
     });
@@ -297,7 +304,7 @@ function getPopup(params) {
     if wanna show two popup, ids must different
   z-index: (30)
     z-index of popup
-  overlay: (transparent)
+  overlay: (transparent) 
     transparent, gray
   onEscape:
     handle on popup escape
@@ -369,7 +376,7 @@ function popupPrompt(params) {
 
   // Get popup
 
-  var popupParams = {};
+  var popupParams = { enterKey: true };
   popupParams.esc = !('esc' in params) || params.esc;
   popupParams.id = 'id' in params ? params.id : 'popup_prompt';
   popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '31';
@@ -421,7 +428,7 @@ function popupPrompt(params) {
   			type = 'type' in button ? button.type : 'default',
   			handle = 'handle' in button ? button.handle : null;
 
-    	var $button = $('<button class="btn btn-flat btn-' + type + ' margin-5">' + text + '</button>');
+    	var $button = $('<button class="btn btn-flat btn-' + type + ' margin-5" ' + (button.primaryButton ? 'data-type="primary_button"' : '') + '>' + text + '</button>');
 
       $button.on('click', function () {
         if (handle) {

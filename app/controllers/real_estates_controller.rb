@@ -159,6 +159,52 @@ class RealEstatesController < ApplicationController
 
 # / My list
 
+# My favorite list
+
+  # View
+  def my_favorite
+    # Author
+    authorize! :view_my_favorite, RealEstate
+
+    @res = RealEstate.my_favorite_search_with_params interact: 'desc'
+
+    render layout: 'layout_back'
+  end
+
+  # Partial view
+  # params: keyword, page
+  def _my_favorite_list
+    # Author
+    return render json: { status: 6 } if cannot? :view_my_favorite, RealEstate
+
+    per = Rails.application.config.item_per_page
+
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
+    res = RealEstate.my_favorite_search_with_params params
+
+    count = res.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'real_estates/my_favorite_list', locals: { res: res.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+      }
+    }
+  end
+
+  def change_show_status
+    RealEstate.update_show_status params[:id], params[:is_show]
+
+    render json: Hash[status: 0]
+  end
+
+# / My favorite list
+
 # Pending
 
   # View

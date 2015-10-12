@@ -1,9 +1,8 @@
 $(function () {
-  var $list = $('#project_list'), find;
+  var $list = $('#re_list'), find;
 
   initItem();
-  initApprove();
-  initDelete();
+  initEventButton();
   initPagination();
 
   /*
@@ -27,75 +26,34 @@ $(function () {
       });
     }
   }
-  
+
   /*
     / Item
   */
 
   /*
-    Approve
+    Event button
   */
 
-  function initApprove() {
-    $list.find('[aria-click="approve"]').on('click', function () {
-      var $item = $(this).closest('.item');
-
-      toggleLoadStatus(true);
-      $.ajax({
-          url: '/projects/approve/' + $item.data('value'),
-          method: 'POST',
-          contentType: 'JSON'
-      }).done(function () {
-        toggleLoadStatus(false);
-      }).done(function (data) {
-        if (data.status == 0) {
-          $item.remove();
-          find();
-        }
-        else {
-          popupPrompt({
-            title: _t.form.error_title,
-            content: _t.form.error_content,
-            type: 'danger'
-          });
-        }
-      }).fail(function () {
-        popupPrompt({
-          title: _t.form.error_title,
-          content: _t.form.error_content,
-          type: 'danger'
-        });
-      });
-    });
-  }
-
-  /*
-    / Approve
-  */
-
-  /*
-    Delete buttons
-  */
-
-  function initDelete() {
-    $list.find('[aria-click="delete"]').on('click', function () {
+  function initEventButton() {
+    $list.find('[aria-click="unfavorite"]').on('click', function () {
       var $item = $(this).closest('.item');
 
       popupPrompt({
         title: _t.form.confirm_title,
-        content: _t.project.view.pending.delete_confirm,
+        content: _t.real_estate.view.my_favorite.unfavorite_confirm,
         type: 'warning',
-        primaryButton: true,
         buttons: [
           {
             text: _t.form.yes,
             type: 'warning',
+            primaryButton: true,
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({
-                url: '/projects/delete/' + $item.data('value'),
+                url: '/real_estates/user_favorite/' + $item.data('value') + '/0',
                 method: 'POST',
-                contentType: 'JSON'
+                dataType: 'JSON'
               }).always(function () {
                 toggleLoadStatus(false);
               }).done(function (data) {
@@ -128,7 +86,7 @@ $(function () {
   }
 
   /*
-    / Delete buttons
+    / Event button
   */
 
   /*
@@ -139,7 +97,7 @@ $(function () {
     var order = { interact: 'desc' };
 
     find = _initPagination({
-      url: '/projects/_pending_list',
+      url: '/real_estates/_my_favorite_list',
       list: $list,
       pagination: $('#pagination'),
       data: function () {
@@ -148,8 +106,7 @@ $(function () {
       done: function (content) {
         $list.html(content);
         initItem();
-        initApprove();
-        initDelete();
+        initEventButton();
       }
     });
 

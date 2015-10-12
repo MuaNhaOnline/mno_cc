@@ -89,6 +89,7 @@ $(function () {
           {
             text: _t.form.yes,
             type: 'warning',
+            primaryButton: true,
             handle: function () {
               toggleLoadStatus(true);
               $.ajax({

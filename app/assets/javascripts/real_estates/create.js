@@ -5,6 +5,7 @@ $(function () {
     $form = $('#create_re');
   
   _temp['form'] = $form;
+
   /*
     Init
   */
@@ -147,7 +148,16 @@ $(function () {
       $form.find('.until-full').hide().find(':input').prop('disabled', true);
       $formNavigator.find('.until-full').hide();
 
-      $form.find('[aria-click="detail-toggle"]').on('click', function () {
+      $form.find('[aria-name="basic"]').show().find(':input').prop('disabled', false); 
+
+      $form.find('#real_estate_type_group_basic').val($form.find('#real_estate_type_group').val());
+      $form.find('#real_estate_type_land_basic').val($form.find('#real_estate_type_land').val());
+      $form.find('#real_estate_type_house_basic').val($form.find('#real_estate_type_house').val());
+      $form.find('#real_estate_type_apartment_basic').val($form.find('#real_estate_type_apartment').val());
+      $form.find('#real_estate_type_space_basic').val($form.find('#real_estate_type_space').val());
+      $form.find('#campus_area_basic').val($form.find('#campus_area').val() || $form.find('#using_area').val() || $form.find('#constructional_area').val());
+
+      $form.find('[aria-click="detail-toggle"]').text('Đăng chi tiết').off('click').on('click', function () {
         toggleUntilFull(0);
       });
 
@@ -195,12 +205,17 @@ $(function () {
       $form.find('.until-full').closest('.box').removeClass('box-primary').data('status', 'normal').trigger('changeStatus');
 
       $form.find('#real_estate_type_group').val($form.find('#real_estate_type_group_basic').val());
-      $form.find('#real_estate_type').val($form.find('#real_estate_type_basic').val());
+      $form.find('#real_estate_type_land').val($form.find('#real_estate_type_land_basic').val());
+      $form.find('#real_estate_type_house').val($form.find('#real_estate_type_house_basic').val());
+      $form.find('#real_estate_type_apartment').val($form.find('#real_estate_type_apartment_basic').val());
+      $form.find('#real_estate_type_space').val($form.find('#real_estate_type_space_basic').val());
       $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
 
-      $form.find('[aria-name="basic"]').remove(); 
+      $form.find('[aria-name="basic"]').hide().find(':input').prop('disabled', true); 
 
-      $form.find('[aria-click="detail-toggle"]').remove();
+      $form.find('[aria-click="detail-toggle"]').text('Đăng cơ bản').off('click').on('click', function () {
+        toggleUntilFull();
+      });
 
       if (type == 1) {
         var $box = $form.find('.box .until-full:eq(0)').closest('.box');
@@ -224,9 +239,9 @@ $(function () {
           focusBox($box);
         }
       }
-
-      $form.inputToggle();
     }
+
+    $form.inputToggle();
   }
 
   /*
@@ -403,6 +418,9 @@ $(function () {
       initNavigator();
       if ($isFull.val() == 'false') {
         toggleUntilFull();
+      }
+      else {
+        toggleUntilFull(0);
       }
     }
   }

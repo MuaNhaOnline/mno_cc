@@ -112,6 +112,10 @@ vi:
         search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
         delete: 'Xóa'
+      my_favorite:
+        page_title: 'Danh sách bất động sản yêu thích'
+        form_title: 'Danh sách bất động sản yêu thích'
+        un_favorite: 'Bỏ yêu thích'
       appraise:
         page_title_nav: 'Thẩm định bất động sản'
         page_title: 'Thẩm định bất động sản'
