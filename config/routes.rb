@@ -10,7 +10,6 @@ Rails.application.routes.draw do
 
     get 'home/index'
     get 'home/back'
-    get 'online_counter' => 'home#online_counter'
     post 'set_width/:width_type' => 'home#set_width'
     post 'nothing' => 'home#nothing'
 
@@ -64,8 +63,10 @@ Rails.application.routes.draw do
     get 'users/check_unique_email'
     get 'signin' => 'users#signin'
     get 'users/view_all'
+    get 'users/_view_all_list'
     get 'users/manager'
     get 'users/_manager_list'
+    get 'users/visit_counter'
     get 'signout' => 'users#signout'
     get 'auth/:provider/callback' => 'users#facebook_signin'
     get 'users/:id' => 'users#view'

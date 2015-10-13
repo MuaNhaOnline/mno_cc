@@ -8,11 +8,11 @@
         <article class="name info">
           <%= user.full_name %>
         </article>
-        <article class="info">
-          <%= user.last_interact_at.strftime '%d/%m/%Y %H:%M' %>
+        <article class="info <%= 'online' if user.last_interact_at > 15.minutes.ago %>" aria-time="<%= user.last_interact_at %>">
+
         </article>
         <article class="info">
-          Số BĐS/dự án: <b><%= user.real_estate_count %></b>/<b><%= user.project_count %></b>
+          Số BĐS/Dự án: <b><%= user.real_estate_count %></b>/<b><%= user.project_count %></b>
         </article>
       </section>
     </a>

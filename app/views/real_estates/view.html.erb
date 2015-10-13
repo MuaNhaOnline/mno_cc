@@ -152,7 +152,7 @@
 						<% end %>
 						<li>Diện tích: <b><%= @re.display_area %>m<sup>2</sup></b></li>
 						<li>Địa chỉ: <b><%= @re.display_address %></b></li>
-						<li><i>Thời gian đăng: <%= @re.created_at.strftime '%d/%m/%Y %H:%M' %></i></li>
+						<li><i>Thời gian đăng: <span aria-time="<%= @re.created_at %>"></span></i></li>
 						<% if @re.images.count > 1 %>
 							<li class="slide-picture">
 								<ul>

@@ -7,6 +7,7 @@
 <% end %>
 
 <% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/users/view_all.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -34,9 +35,19 @@
         </div>
       </article>
       <article class="form-group no-margin text-center">
-        <a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Có tương tác">
+        <a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Thời điểm tương tác">
           <i class="fa fa-mail-reply-all"></i>
           <i class="fa fa-sort-desc" aria-name="sort"></i>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0)" aria-click="order" data-name="real_estate_count" data-sort="desc" class="no-underline text-muted" title="Lượng bất động sản">
+          <i class="fa fa-home"></i>
+          <i class="fa fa-sort" aria-name="sort"></i>
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:void(0)" aria-click="order" data-name="project_count" data-sort="desc" class="no-underline text-muted" title="Lượng dự án">
+          <i class="fa fa-building"></i>
+          <i class="fa fa-sort" aria-name="sort"></i>
         </a>
       </article>
     </form>

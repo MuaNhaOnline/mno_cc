@@ -145,9 +145,14 @@
           <ul class="sidebar-menu">
             <% if can? :manage, User %>
               <li>
-                <a href="/users/manager">
-                  <i class="fa fa-street-view"></i> <span>Nhóm người dùng</span></i>
+                <a href="#">
+                  <i class="fa fa-user"></i> <span>Người dùng</span> <i class="fa fa-caret-left pull-right"></i>
                 </a>
+                <ul class="treeview-menu">
+                  <li><a href="/users/manager"><i class="fa fa-street-view"></i> Quản lý nhóm</a></li>
+                  <li><a href="/users/visit_counter"><i class="fa fa-circle-o"></i> Lượng truy cập</a></li>
+                  <li><a href="/users/view_all"><i class="fa fa-circle-o"></i> Danh sách</a></li>
+                </ul>
               </li>
             <% end %>
             <li class="treeview">

@@ -305,27 +305,75 @@ class UsersController < ApplicationController
   end
 
   # Partial view
-  # params: keyword, interact
+  # params: keyword, interact, real_estate_count, project_count
   def _view_all_list
-    users = User.view_all_search_with_params params
-
     per = 24
 
     params[:page] ||= 1
     params[:page] = params[:page].to_i
+
+    users = User.view_all_search_with_params params
+
+    count = users.count
 
     return render json: { status: 1 } if count == 0
 
     render json: {
       status: 0,
       result: {
-        list: render_to_string(partial: 'users/view_all_list', locals: { user: users.page(params[:page], per) }),
+        list: render_to_string(partial: 'users/view_all_list', locals: { users: users.page(params[:page], per) }),
         pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
       }
     }
   end
 
 # / View all
+
+# Visit counter
+
+  # View
+  def visit_counter
+    @all = Session.all
+    @online_users = []
+    @online_guess_count = 0
+    @day_count = 0
+    @month_count = 0
+    @year_count = 0
+    @in_day_users = []
+
+    @all.each do |s|
+      if s.updated_at > 15.minutes.ago
+        if s.data['user_id'].present?
+          @online_users << s.data['user_id']
+        else
+          @online_guess_count += 1
+        end
+      end
+
+      if s.updated_at.year == Date.current.year
+        @year_count += 1
+        if s.updated_at.month == Date.current.month
+          @month_count += 1
+          if s.updated_at.day == Date.current.day
+            @day_count += 1
+            if s.data['user_id'].present?
+              @in_day_users << s.data['user_id']
+            end
+          end
+        end
+      end
+    end
+
+    @online_users = @online_users.uniq
+    @in_day_users = @in_day_users.uniq
+
+    @online_users = User.find @online_users
+    @in_day_users = User.find @in_day_users
+
+    render layout: 'layout_back'
+  end
+
+# / Visit counter
 
 # Change password
 

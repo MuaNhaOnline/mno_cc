@@ -221,7 +221,7 @@ class User < ActiveRecord::Base
 	# View all search
 	# params: 
 	# 	keyword
-	# 	interact
+	# 	interact, real_estate_count, project_count
 	def self.view_all_search_with_params params
     where = ''
     joins = []
@@ -229,6 +229,14 @@ class User < ActiveRecord::Base
 
     if params.has_key? :interact
       order[:last_interact_at] = params[:interact]
+    end
+
+    if params.has_key? :real_estate_count
+      order[:real_estate_count] = params[:real_estate_count]
+    end
+
+    if params.has_key? :project_count
+      order[:project_count] = params[:project_count]
     end
 
     if params[:keyword].present?

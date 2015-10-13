@@ -13,8 +13,10 @@ $(function () {
     $.ajax({
       url: 'nothing',
       method: 'POST'
-    })
-  }, 870000)
+    });
+  }, 870000);
+
+  initReadTime();
 });
 
 /*
@@ -587,4 +589,78 @@ function read_money (number) {
 
 /*
   / Read money
+*/
+
+/*
+  Read time
+*/
+
+function initReadTime($container) {
+  (typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')).each(function () {
+    var $item = $(this);
+    var time = readTime($item.attr('aria-time'));
+    $item.text(time.short);
+    $item.tooltip({ title: time.full });
+  });
+}
+
+function readTime(time) {
+  time = new Date(time);
+  var now = new Date(), shortText, fullText;
+
+  timeYear = time.getFullYear(), 
+  nowYear = now.getFullYear();
+  timeMonth = time.getMonth() + 1;
+  nowMonth = now.getMonth() + 1;
+  timeDay = time.getDay();
+  nowDay = now.getDay();
+  timeHours = time.getHours();
+  nowHours = now.getHours();
+  timeMinute = time.getMinutes();
+  nowMinute = now.getMinutes();
+
+  if (timeYear == nowYear) {
+    if (timeMonth == nowMonth) {
+      if (timeDay == nowDay) {
+        if (timeHours == nowHours) {
+          if (timeMinute == nowMinute) {
+            shortText = 'Vừa mới';
+          }
+          else {
+            shortText = (nowMinute - timeMinute) + ' phút trước';
+          }
+        }
+        else {
+          shortText = (nowHours - timeHours) + ' giờ trước';
+        }
+      }
+      else {
+        diffDay = nowDay - timeDay
+
+        if (diffDay == 1) {
+          shortText = 'Hôm qua';
+        }
+        else if (diffDay == 2) {
+          shortText = 'Hôm kia';
+        }
+        else {
+          shortText = diffDay + ' ngày trước';
+        }
+      }
+    }
+    else {
+      shortText = (nowMonth - timeMonth) + ' tháng trước';
+    }
+  }
+  else {
+    shortText = (nowYear - timeYear) + ' năm trước';
+  }
+
+  fullText = timeDay + ' tháng ' + timeMonth + ' năm ' + timeYear + ' lúc ' + timeHours + ' giờ ' + timeMinute + ' phút';
+
+  return { short: shortText, full: fullText };
+}
+
+/*
+  / Read time
 */

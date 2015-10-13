@@ -30,3 +30,12 @@
         font-weight: bold;
         color: #333;
       }
+
+      .user-list .item .info-panel .online:before {
+        content: '';
+        display: inline-block;
+        padding: 5px;
+        border-radius: 50%;
+        background-color: green;
+        margin-right: 4px;
+      }
