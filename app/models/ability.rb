@@ -103,20 +103,20 @@ class Ability
 
         # Appraisal company
 
-          ac = AppraisalCompany.current
+          # ac = AppraisalCompany.current
 
-          unless ac.nil?
-            can :view_assigned_list, AppraisalCompany
+          # unless ac.nil?
+          #   can :view_assigned_list, AppraisalCompany
 
-            can :update_appraisal_price, RealEstate, appraisal_companies_real_estates: {
-              appraisal_company_id: ac.id,
-              is_assigned: true
-            }
-          end
+          #   can :update_appraisal_price, RealEstate, appraisal_companies_real_estates: {
+          #     appraisal_company_id: ac.id,
+          #     is_assigned: true
+          #   }
+          # end
 
-          if user.is_appraiser
-            can [:manager, :create, :edit, :delete], AppraisalCompany
-          end
+          # if user.is_appraiser
+          #   can [:manager, :create, :edit, :delete], AppraisalCompany
+          # end
 
         # / Appraisal company
 

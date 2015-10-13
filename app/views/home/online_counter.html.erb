@@ -1,0 +1,14 @@
+<% 
+=begin
+	@all
+	@users
+	@guess
+=end
+ 
+%>
+
+<p>Đã có tổng cộng <%= @all %> lượt truy cập</p>
+<p>Hiện có <%= @guess %> khách và <%= @users.count %> thành viên đang trực tuyến</p>
+<% @users.each do |user| %>
+	<a href="/users/<%= user.id %>"><%= user.full_name %></a>
+<% end %>

@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
     get 'home/index'
     get 'home/back'
+    get 'online_counter' => 'home#online_counter'
     post 'set_width/:width_type' => 'home#set_width'
+    post 'nothing' => 'home#nothing'
 
   # / Home, shared
 

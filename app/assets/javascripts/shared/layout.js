@@ -7,6 +7,13 @@ $(function () {
   _temp['pagination_count'] = 0;
   initSize();
   _startPagination();
+
+  setInterval(function () {
+    $.ajax({
+      url: 'nothing',
+      method: 'POST'
+    })
+  }, 870000)
 });
 
 /*
