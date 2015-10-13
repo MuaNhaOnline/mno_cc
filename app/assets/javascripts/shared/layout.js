@@ -656,7 +656,7 @@ function readTime(time) {
     shortText = (nowYear - timeYear) + ' năm trước';
   }
 
-  fullText = timeDay + ' tháng ' + timeMonth + ' năm ' + timeYear + ' lúc ' + timeHours + ' giờ ' + timeMinute + ' phút';
+  fullText = timeDay + ' tháng ' + timeMonth + ' năm ' + timeYear + ' lúc ' + timeHours + ' giờ ' + timeMinute;
 
   return { short: shortText, full: fullText };
 }
