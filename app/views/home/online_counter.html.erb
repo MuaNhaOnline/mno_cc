@@ -1,14 +1,49 @@
 <% 
 =begin
 	@all
-	@users
-	@guess
+  @online_users
+  @online_guess_count
+  @day_count
+  @month_count
+  @year_count
+  @in_day_users
 =end
  
 %>
+<article class="online-counter">
+	<dl>
+	  <dt>Thống kê truy cập:</dt>
+		<dd>Tổng cộng: <b><%= @all.count %></b></dd>
+		<dd>Trong năm: <b><%= @year_count %></b></dd>
+		<dd>Trong tháng: <b><%= @month_count %></b></dd>
+		<dd>Trong ngày: <b><%= @day_count %></b></dd>
+	</dl>
 
-<p>Đã có tổng cộng <%= @all %> lượt truy cập</p>
-<p>Hiện có <%= @guess %> khách và <%= @users.count %> thành viên đang trực tuyến</p>
-<% @users.each do |user| %>
-	<a href="/users/<%= user.id %>"><%= user.full_name %></a>
-<% end %>
+	<p>
+		Đã có <b><%= @in_day_users.count %></b> thành viên truy cập trong ngày
+		<br />
+		<% @in_day_users.each do |user| %>
+			<a class="user" href="/users/<%= user.id %>"><%= user.full_name %></a>
+		<% end %>
+	</p>
+
+	<p>
+		Hiện có <b><%= @online_guess_count %></b> khách và <b><%= @online_users.count %></b> thành viên đang trực tuyến:
+		<% @online_users.each do |user| %>
+			<a class="user" href="/users/<%= user.id %>"><%= user.full_name %></a>
+		<% end %>
+	</p>
+</article>
+
+<style type="text/css">
+	.online-counter .user {
+		margin: 4px;
+    padding: 5px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #555;
+    font-weight: bold;
+    font-size: 12px;
+	}
+</style>
