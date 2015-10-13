@@ -3,7 +3,7 @@
 	background: url('/assets/background/background-search.jpg') no-repeat center center;
 	height: 550px;
 	display: flex;
-	margin-bottom: 20px;
+	margin-bottom: 25px;
 }	
 	.search .search-box {
 		margin: auto;
@@ -28,7 +28,7 @@
 
 /*start user-property*/
 .user-property {
-	margin-bottom: 20px
+	margin-bottom: 30px;
 }
 	/*Tab panes*/
 	.user-property .tab-content > div {
@@ -43,7 +43,6 @@
 
 		/*start paging*/
 		.user-property .tab-content .paging {
-			margin-bottom: 10px;
 		}
 		/*end*/
 
@@ -52,7 +51,7 @@
 
 /*start structure-property*/
 .structure-property {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 	/*Tab panes*/
 	.structure-property .tab-content > div {
@@ -67,7 +66,6 @@
 
 		/*start paging*/
 		.structure-property .tab-content .paging {
-			margin-bottom: 10px;
 		}
 		/*end*/
 /*end*/
