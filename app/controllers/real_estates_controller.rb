@@ -140,7 +140,7 @@ class RealEstatesController < ApplicationController
 
     count = res.count
 
-    return render json: { status: 1 } if count === 0
+    return render json: { status: 1 } if count == 0
 
     render json: {
       status: 0,

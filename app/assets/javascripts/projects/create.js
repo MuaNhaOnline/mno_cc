@@ -42,19 +42,8 @@ $(function () {
             }
           }
         ],
-        onItemAdd: function ($item) {
-          if ($item.siblings('[data-avatar]').length == 0) {
-            value = $item.data('value');
-            value['is_avatar'] = true
-            $item.data('value', value);
-            $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-            $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-          }
-        },
         onInitItemAdd: function ($item) {
-          if ($item.is('[data-avatar]')) {
-            $item.find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+          if ($item.data('value')['is_avatar']) {
             $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
           }
         }

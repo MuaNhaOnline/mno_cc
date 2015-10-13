@@ -155,7 +155,10 @@ class Project < ActiveRecord::Base
 
     assign_meta_search
 
+    _is_new_record = new_record?
+
     if save validate: !is_draft
+      User.increase_project_count User.current.id if _is_new_record
       { status: 0 }
     else 
       { status: project_params[:date_display_type] }
@@ -256,9 +259,14 @@ class Project < ActiveRecord::Base
     # Author
     return { status: 6 } if User.current.cannot? :delete, project
 
-    delete id
+    _user_id = project.user_id
 
-    { status: 0 }
+    if delete id
+      User.decrease_project_count if _user_id != 0-
+      { status: 0 }
+    else
+      { status: 2 }
+    end
   end
 
 # / Delete

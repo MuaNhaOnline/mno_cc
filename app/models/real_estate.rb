@@ -355,11 +355,13 @@ class RealEstate < ActiveRecord::Base
       is_pending: true
     }
 
+    _is_new_record = false
     if user_id == 0
       other_params = other_params.merge params.permit(:user_full_name, :user_phone_number)
       other_params[:params] = { 'remote_ip' => params[:remote_ip] }
 
       if new_record?
+        _is_new_record = true
         other_params[:user_email] = params[:user_email]
         other_params[:is_active] = false
         other_params[:params]['secure_code'] = SecureRandom.base64
@@ -371,6 +373,7 @@ class RealEstate < ActiveRecord::Base
     assign_meta_search
 
     if save validate: !is_draft
+      User.increase_real_estate_count User.current.id if _is_new_record
       { status: 0 }
     else 
       { status: 3, result: errors.full_messages }
@@ -754,7 +757,10 @@ class RealEstate < ActiveRecord::Base
     # Author
     return { status: 6 } if User.current.cannot? :delete, real_estate
 
+    _user_id = real_estate.user_id
+
     if delete id
+      User.decrease_real_estate_count if _user_id != 0
       { status: 0 }
     else
       { status: 2 }

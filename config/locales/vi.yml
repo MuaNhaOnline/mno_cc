@@ -271,7 +271,9 @@ vi:
         project_manager: 'Quản lý dự án'
         appraiser: 'Thẩm định viên'
         statistician: 'Thống kê viên'
-      view:
+      view_all:
+        page_title: 'Danh sách người dùng'
+        form_title: 'Danh sách người dùng'
   appraisal_company:
     attribute:
       info_box: 'Thông tin'

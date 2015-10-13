@@ -20,7 +20,7 @@
 	</dl>
 
 	<p>
-		Đã có <b><%= @in_day_users.count %></b> thành viên truy cập trong ngày
+		Đã có <b><%= @in_day_users.count %></b> thành viên truy cập trong ngày:
 		<br />
 		<% @in_day_users.each do |user| %>
 			<a class="user" href="/users/<%= user.id %>"><%= user.full_name %></a>
@@ -29,6 +29,7 @@
 
 	<p>
 		Hiện có <b><%= @online_guess_count %></b> khách và <b><%= @online_users.count %></b> thành viên đang trực tuyến:
+		<br />
 		<% @online_users.each do |user| %>
 			<a class="user" href="/users/<%= user.id %>"><%= user.full_name %></a>
 		<% end %>

@@ -218,6 +218,26 @@ class User < ActiveRecord::Base
     end
 	end
 
+	# View all search
+	# params: 
+	# 	keyword
+	# 	interact
+	def self.view_all_search_with_params params
+    where = ''
+    joins = []
+    order = {}
+
+    if params.has_key? :interact
+      order[:last_interact_at] = params[:interact]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+	end
+
 # /Get
 
 # Update
@@ -345,6 +365,35 @@ class User < ActiveRecord::Base
 			{ status: 3 }
 		end
 	end
+
+	# Increase real_estate_count
+	def self.increase_real_estate_count id
+		user = User.find id
+		user.real_estate_count += 1
+		user.save
+	end
+
+	# Decrease real_estate_count
+	def self.decrease_real_estate_count id
+		user = User.find id
+		user.real_estate_count -= 1
+		user.save
+	end
+
+	# Increase project_count
+	def self.increase_project_count id
+		user = User.find id
+		user.project_count += 1
+		user.save
+	end
+
+	# Decrease project_count
+	def self.decrease_project_count id
+		user = User.find id
+		user.project_count -= 1
+		user.save
+	end
+
 
 # / Update
 

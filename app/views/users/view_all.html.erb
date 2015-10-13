@@ -1,0 +1,59 @@
+<% 
+  @title = t 'user.view.view_all.page_title'
+%>
+
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" href="/assets/users/view_all.css" />
+<% end %>
+
+<% content_for :scripts do %>
+<% end %>
+
+<% content_for :content_header do %>
+  <%= t 'user.view.view_all.form_title' %>
+<% end %>
+
+<%
+=begin
+  @users
+=end
+
+  total = @users.count
+  per = 24
+%>
+
+<section class="box box-solid">
+  <section class="box-body">
+    <form id="search_form">
+      <article class="form-group">
+        <div class="input-group margin">
+          <input data-nonvalid name="keyword" type="text" class="form-control" placeholder="<%= t 'form.search_placeholder' %>" />
+          <span class="input-group-btn">
+            <button data-nonvalid class="btn btn-default" type="submit"><%= t 'form.search' %></button>
+          </span>
+        </div>
+      </article>
+      <article class="form-group no-margin text-center">
+        <a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Có tương tác">
+          <i class="fa fa-mail-reply-all"></i>
+          <i class="fa fa-sort-desc" aria-name="sort"></i>
+        </a>
+      </article>
+    </form>
+  </section>
+</section>
+
+<section>
+  <article id="user_list" class="row user-list">
+    <% if total != 0 %>
+      <%= render partial: 'users/view_all_list', locals: { users: @users.page(1, per) } %>
+    <% else %>
+      <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có người dùng nào</h4></div>
+    <% end %>
+  </article>
+  <nav class="text-center" id="pagination">
+    <% if total != 0 %>
+      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+    <% end %>
+  </nav>
+</section>

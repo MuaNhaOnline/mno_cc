@@ -297,6 +297,36 @@ class UsersController < ApplicationController
 
 # / View
 
+# View all
+
+  # View
+  def view_all
+    @users = User.view_all_search_with_params interact: 'desc'
+  end
+
+  # Partial view
+  # params: keyword, interact
+  def _view_all_list
+    users = User.view_all_search_with_params params
+
+    per = 24
+
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
+    return render json: { status: 1 } if count == 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'users/view_all_list', locals: { user: users.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+      }
+    }
+  end
+
+# / View all
+
 # Change password
 
   # Handle
