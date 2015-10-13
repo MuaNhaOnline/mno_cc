@@ -511,7 +511,7 @@
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<a href="/real_estates/<%= res[0].id %>">
+									<a href="/real_estates/<%= res[2].id %>">
 										<%= real_estate_avatar res[2] %>
 										<div class="wrapper">
 											<span class="price"><%= res[2].display_price %></span>
@@ -556,7 +556,7 @@
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<a href="/real_estates/<%= res[0].id %>">
+									<a href="/real_estates/<%= res[2].id %>">
 										<%= real_estate_avatar res[2] %>
 										<div class="wrapper">
 											<span class="price"><%= res[2].display_price %></span>
@@ -578,37 +578,41 @@
 				<%
 					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
 				%>
-				<a href="/real_estates">
-					<% if res.count > 0 %>
-						<li class="col1">
+				<% if res.count > 0 %>
+					<li class="col1">
+						<a href="/real_estates/<%= res[0].id %>">
 							<%= real_estate_avatar res[0] %>
 							<div class="wrapper">
 								<span class="price"><%= res[0].display_price %></span>
 								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
 							</div>
-						</li>
-						<% if res.count > 1 %>
+						</a>
+					</li>
+					<% if res.count > 1 %>
 						<div class="col2">
 							<li>
-								<%= real_estate_avatar res[1] %>
-								<div class="wrapper">
-									<span class="price"><%= res[1].display_price %></span>
-									<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-								</div>
+								<a href="/real_estates/<%= res[1].id %>">
+									<%= real_estate_avatar res[1] %>
+									<div class="wrapper">
+										<span class="price"><%= res[1].display_price %></span>
+										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
+									</div>
+								</a>
 							</li>
 							<% if res.count > 2 %>
 								<li>
-									<%= real_estate_avatar res[2] %>
-									<div class="wrapper">
-										<span class="price"><%= res[2].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-									</div>
+									<a href="/real_estates/<%= res[2].id %>">
+										<%= real_estate_avatar res[2] %>
+										<div class="wrapper">
+											<span class="price"><%= res[2].display_price %></span>
+											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
+										</div>
+									</a>
 								</li>
 							<% end %>
 						</div>
-						<% end %>
 					<% end %>
-				</a>
+				<% end %>
 			</ul>
 		</div>
 	</div>
