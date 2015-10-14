@@ -73,7 +73,7 @@ class Ability
 
         # Project
         
-          can [:create, :view_my], Project
+          can [:create, :view_my, :view_my_favorite], Project
 
           can [:edit, :delete, :change_show_status], Project, user_id: user.id
 
@@ -82,6 +82,13 @@ class Ability
           end
 
         # / Project
+
+        # Favorite project
+
+          can :add, UsersFavoriteProject
+          can :remove, UsersFavoriteProject, user_id: user.id
+
+        # / Favorite project
 
         # Investor
 

@@ -124,6 +124,46 @@ end
 
 # / My list
 
+# My favorite list
+
+  # View
+  def my_favorite
+    # Author
+    authorize! :view_my_favorite, Project
+
+    @projects = Project.my_favorite_search_with_params interact: 'desc'
+
+    render layout: 'layout_back'
+  end
+
+  # Partial view
+  # params: keyword, page
+  def _my_favorite_list
+    # Author
+    return render json: { status: 6 } if cannot? :view_my_favorite, Project
+
+    per = Rails.application.config.item_per_page
+
+    params[:page] ||= 1
+    params[:page] = params[:page].to_i
+
+    projects = Project.my_favorite_search_with_params params
+
+    count = projects.count
+
+    return render json: { status: 1 } if count === 0
+
+    render json: {
+      status: 0,
+      result: {
+        list: render_to_string(partial: 'projects/my_favorite_list', locals: { projects: projects.page(params[:page], per) }),
+        pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+      }
+    }
+  end
+
+# / My favorite list
+
 # Pending
 
   # View
@@ -275,5 +315,19 @@ end
   end
 
 # / Gallery
+
+# Favorite
+
+  # Handle
+  # params: id, is_add
+  def user_favorite
+    if params[:is_add] == '1'
+      render json: UsersFavoriteProject.add_favorite(params[:id])
+    else
+      render json: UsersFavoriteProject.remove_favorite(params[:id])
+    end
+  end
+
+# / Favorite
 
 end

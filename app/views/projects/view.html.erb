@@ -129,7 +129,7 @@
 </section>
 <!-- end navigator -->
 
-<section id="project_info">
+<section id="project_info" data-value="<%= @project.id %>">
 
 	<!-- #start image infos -->
 	<section class="block container highlight">
@@ -188,9 +188,9 @@
 					</div>
 				</div>
 				<div class="function">
-					<button data-popup="coming-soon" class="btn-icon-top btn-favor">
-						<i class="icon-favor"></i>
-						<span>Quan tâm</span>
+					<button aria-click="favorite" class="btn-icon-top btn-favor">
+						<i class="icon-favor <%= 'active' if @project.is_current_user_favorite %>"></i>
+						<span>Yêu thích</span>
 					</button>
 					<button data-popup="coming-soon" class="btn-icon-top">
 						<i class="icon-buy"></i>

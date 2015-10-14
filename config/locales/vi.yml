@@ -345,6 +345,10 @@ vi:
         search_placeholder: 'Bạn đang cần tìm gì?'
         control: 'Điều khiển'
         delete: 'Xóa'
+      my_favorite:
+        page_title: 'Danh sách dự án yêu thích'
+        form_title: 'Danh sách dự án yêu thích'
+        un_favorite: 'Bỏ yêu thích'
       pending:
         page_title: 'Quản lý dự án'
         form_title: 'Quản lý dự án'

@@ -9,7 +9,7 @@
 
 <% if type == 3 %>
 	<% projects.each do |p| %>
-		<div class="item-lg">
+		<div class="item-lg" data-value="<%= p.id %>">
 			<div class="row">
 				<div class="col-md-8 picture">
 					<%= project_avatar p, style_class: 'thumbnail img-responsive', style: 'slide' %>
@@ -40,7 +40,7 @@
 						<p class="number sale"><%= p.display_unit_price %></p>
 					</div>
 					<div class="function">
-						<a href="javascript:void(0)" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích" data-popup="coming-soon"></a>
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor <%= p.is_current_user_favorite ? 'active' : '' %>"></a>
 						<a href="javascript:void(0)" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua" data-popup="coming-soon"></a>
 						<a href="javascript:void(0)" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội" data-popup="coming-soon"></a>
 						<a href="javascript:void(0)" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này" data-popup="coming-soon"></a>
@@ -60,7 +60,7 @@
 		<% else %>
 			<div class="col-lg-3 col-md-4 col-sm-6">
 		<% end %>
-			<li class="item-sm">
+			<li class="item-sm" data-value="<%= p.id %>">
 				<div class="picture">
 					<%= project_avatar p %>
 				</div>
@@ -95,7 +95,7 @@
 					</div>
 				</a>
 				<div class="function">
-					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-favor" data-toggle="tooltip" data-placement="top" title="Lưu vào danh sách yêu thích"></a>
+					<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor <%= p.is_current_user_favorite ? 'active' : '' %>"></a>
 					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua"></a>
 					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
 					<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định gía căn nhà này"></a>

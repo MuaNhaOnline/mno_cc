@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
 
 	has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
 	has_many :favorite_real_estates, through: :users_favorite_real_estates, source: 'real_estate'
+	has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
+	has_many :favorite_projects, through: :users_favorite_projects, source: 'project'
 
 # / Associates
 

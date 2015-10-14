@@ -247,9 +247,9 @@
 						</div>
 					</div>
 					<div class="function">
-						<button data-popup="coming-soon" class="btn-icon-top btn-favor">
-							<i class="icon-favor"></i>
-							<span>Quan tâm</span>
+						<button aria-click="favorite" class="btn-icon-top btn-favor">
+							<i class="icon-favor <%= 'active' if @re.is_current_user_favorite %>"></i>
+							<span>Yêu thích</span>
 						</button>
 						<button data-popup="coming-soon" class="btn-icon-top">
 							<i class="icon-buy"></i>
