@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'home/back'
     post 'set_width/:width_type' => 'home#set_width'
     post 'nothing' => 'home#nothing'
+    post 'end_session' => 'home#end_session'
 
   # / Home, shared
 

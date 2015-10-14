@@ -337,6 +337,7 @@ class UsersController < ApplicationController
     @online_users = []
     @online_guess_count = 0
     @day_count = 0
+    @week_count = 0
     @month_count = 0
     @year_count = 0
     @in_day_users = []
@@ -354,21 +355,21 @@ class UsersController < ApplicationController
         @year_count += 1
         if s.updated_at.month == Date.current.month
           @month_count += 1
-          if s.updated_at.day == Date.current.day
-            @day_count += 1
-            if s.data['user_id'].present?
-              @in_day_users << s.data['user_id']
+          if s.updated_at.day >= Date.current.at_beginning_of_week.day
+            @week_count += 1
+            if s.updated_at.day == Date.current.day
+              @day_count += 1
+              if s.data['user_id'].present?
+                @in_day_users << s.data['user_id']
+              end
             end
           end
         end
       end
     end
 
-    @online_users = @online_users.uniq
-    @in_day_users = @in_day_users.uniq
-
-    @online_users = User.find @online_users
-    @in_day_users = User.find @in_day_users
+    @online_users = User.where id: @online_users.uniq, is_online: true
+    @in_day_users = User.find @in_day_users.uniq
 
     render layout: 'layout_back'
   end

@@ -8,6 +8,7 @@ $(function () {
   _temp['pagination_count'] = 0;
   initSize();
   _startPagination();
+  initReadTime();
 
   setInterval(function () {
     $.ajax({
@@ -16,7 +17,12 @@ $(function () {
     });
   }, 870000);
 
-  initReadTime();
+  $window.on('unload', function () {
+    $.ajax({
+      url: 'end_session',
+      method: 'POST'
+    });
+  });
 });
 
 /*

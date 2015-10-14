@@ -39,7 +39,8 @@ class ApplicationController < ActionController::Base
 
 		@current_user = User.current = get_current_user
 		session[:user_id] = current_user.id
-		User.where(id: current_user.id).update_all(last_interact_at: DateTime.now) if signed?
+		
+		current_user.update(last_interact_at: DateTime.now, is_online: true) if signed?
     Session.where(session_id: session.id).update_all(updated_at: DateTime.now)
 
 		@current_ability = User.ability = Ability.new(current_user, request)
@@ -114,7 +115,7 @@ class ApplicationController < ActionController::Base
 	def get_current_user
 		# if exists session user_id
 		unless session[:user_id].nil?
-			u = User.find_by id: session[:user_id]
+			u = User.find session[:user_id]
 			return u if u.present?
 		end
 

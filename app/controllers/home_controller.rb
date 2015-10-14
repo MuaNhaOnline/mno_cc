@@ -19,4 +19,10 @@ class HomeController < ApplicationController
   def nothing
     render plain: '0'
   end
+
+  # Handle
+  def end_session
+    current_user.update(is_online: false) if signed?
+    render plain: '0'
+  end
 end
