@@ -606,7 +606,9 @@ function initReadTime($container) {
 
 function readTime(time) {
   time = new Date(time);
-  now = new Date(), shortText, fullText;
+  now = new Date();
+  shortText = '';
+  fullText = '';
 
   minutes =   ~~((now - time) / 60000);
   hours =     ~~(minutes / 60);
