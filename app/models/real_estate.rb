@@ -299,6 +299,7 @@ class RealEstate < ActiveRecord::Base
     if params[:image_ids].present?
       params[:image_ids].each do |_v|
         _value = JSON.parse _v
+        _value['is_avatar'] ||= false
 
         if _value['is_new']
           TemporaryFile.get_file(_value['id']) do |_image, _id|

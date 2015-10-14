@@ -16,6 +16,10 @@ $(function () {
       pagination: $('#pagination'),
       data: function () {
         return order;
+      },
+      done: function (content) {
+        $list.html(content);
+        initReadTime($list);
       }
     });
 

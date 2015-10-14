@@ -596,6 +596,7 @@ function read_money (number) {
 */
 
 function initReadTime($container) {
+  console.log((typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')));
   (typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')).each(function () {
     var $item = $(this);
     var time = readTime($item.attr('aria-time'));
@@ -608,55 +609,47 @@ function readTime(time) {
   time = new Date(time);
   var now = new Date(), shortText, fullText;
 
-  timeYear = time.getFullYear(), 
-  nowYear = now.getFullYear();
-  timeMonth = time.getMonth() + 1;
-  nowMonth = now.getMonth() + 1;
-  timeDay = time.getDay();
-  nowDay = now.getDay();
-  timeHours = time.getHours();
-  nowHours = now.getHours();
-  timeMinute = time.getMinutes();
-  nowMinute = now.getMinutes();
-
-  if (timeYear == nowYear) {
-    if (timeMonth == nowMonth) {
-      if (timeDay == nowDay) {
-        if (timeHours == nowHours) {
-          if (timeMinute == nowMinute) {
+  sub = now.getFullYear() - time.getFullYear();
+  if (sub == 0) {
+    sub = now.getMonth() - time.getMonth();
+    if (sub == 0) {
+      sub = now.getDate() - time.getDate();
+      if (sub == 0) {
+        sub = now.getHours() - time.getHours();
+        if (sub == 0) {
+          sub = now.getMinutes() - time.getMinutes();
+          if (sub == 0) {
             shortText = 'Vừa mới';
           }
           else {
-            shortText = (nowMinute - timeMinute) + ' phút trước';
+            shortText = sub + ' phút trước';
           }
         }
         else {
-          shortText = (nowHours - timeHours) + ' giờ trước';
+          shortText = sub + ' giờ trước';
         }
       }
       else {
-        diffDay = nowDay - timeDay
-
-        if (diffDay == 1) {
+        if (sub == 1) {
           shortText = 'Hôm qua';
         }
-        else if (diffDay == 2) {
+        else if (sub == 2) {
           shortText = 'Hôm kia';
         }
         else {
-          shortText = diffDay + ' ngày trước';
+          shortText = sub + ' ngày trước';
         }
       }
     }
     else {
-      shortText = (nowMonth - timeMonth) + ' tháng trước';
+      shortText = sub + ' tháng trước';
     }
   }
   else {
-    shortText = (nowYear - timeYear) + ' năm trước';
+    shortText = sub + ' năm trước';
   }
 
-  fullText = timeDay + ' tháng ' + timeMonth + ' năm ' + timeYear + ' lúc ' + timeHours + ' giờ ' + timeMinute;
+  fullText = time.getDate() + ' tháng ' + (time.getMonth() + 1) + ' năm ' + time.getFullYear() + ' lúc ' + time.getHours() + ' giờ ' + time.getMinutes();
 
   return { short: shortText, full: fullText };
 }
