@@ -10,6 +10,16 @@
 	}
 /*end search*/
 
+/*start navigator*/
+.navigator {
+	font-size: 13px;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+	}
+/*end navigator*/
+
 /*start Interested Project*/
 .project-is-interested {
 }
@@ -17,10 +27,11 @@
 
 /*start other-project*/
 .other-project {
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 	.other-project .list {
 		text-align: center;
+		margin-bottom: 10px;
 	}
 	@media(max-width: 768px) {
 		.other-project .list {
@@ -39,7 +50,7 @@
 
 /*start suggest project*/
 .suggest-project {
-
+	margin-bottom: 40px;
 }
 	/*start title*/
 	.suggest-project > .title {
@@ -52,11 +63,10 @@
 
 	/*start paging*/
 
-	.paging {
+	/*.paging {
 		justify-content: center;
 		display: flex;
 		color: #666;
-		margin-bottom: 25px;
 	}
 		.paging div {
 			height: 30px;
@@ -78,7 +88,7 @@
 		}
 		.paging .right {
 			font-size: 30px;
-		}
+		}*/
 	/*end paging*/
 /*end suggest project*/
 
@@ -92,16 +102,24 @@
 	/*end other-property*/
 /*end favorite property*/
 
+/*start user-property*/
+.user-property {
+	margin-bottom: 30px;
+}
+	.user-property ul.nav-tabs li a {
+		font-size: 86.67%;
+	}
+/*end*/
+
 /*start propensity-property*/
 .propensity-property {
-
+	margin-bottom: 40px;
 }
 	.propensity-property .content {
 		margin-bottom: 40px;
 	}
 	/*start title*/
 	.propensity-property .title {
-		margin-bottom: 12px;
 		
 	}
 	.propensity-property .title a {
@@ -111,6 +129,9 @@
 			color: #54b40d;
 			text-decoration: none;
 		}
+	.propensity-property .row .title {
+		margin-bottom: 15px;
+	}
 	/*end title*/
 
 	/*start content*/
@@ -120,7 +141,7 @@
 	.propensity-property li {
 		border: 1px solid #ccc;
 		position: relative;
-		height: 160px;
+		height: 180px;
 		width: calc(50% - 3px);
 		border-radius: 2px;
 	}
@@ -132,7 +153,7 @@
 		width: 100%;
 		display: block;
 		margin-bottom: 10px;
-		height: 250px;
+		height: 260px;
 	}
 	.propensity-property .col2 {
 		display: flex;
@@ -141,7 +162,7 @@
 			margin-right: 12px;
 		}
 	.propensity-property img {
-		width: 100%;		
+		width: 100%;
 		height: 100%;
 	}	
 	.propensity-property .wrapper {
@@ -190,6 +211,18 @@
 	.contact li textarea {
 		max-width: 100%;
 	}
+
+	.contact li button {
+		width: 60px;
+		font-size: 86.67%;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-bottom: 3px solid #50922A;
+	}
+		.contact li button:hover {
+			background-color: #50922A;
+			color: #fff;
+		}
 /*end contact*/
 
 /*start agent*/
