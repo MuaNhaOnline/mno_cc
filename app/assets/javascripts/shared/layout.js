@@ -596,7 +596,6 @@ function read_money (number) {
 */
 
 function initReadTime($container) {
-  console.log((typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')));
   (typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')).each(function () {
     var $item = $(this);
     var time = readTime($item.attr('aria-time'));
@@ -607,46 +606,53 @@ function initReadTime($container) {
 
 function readTime(time) {
   time = new Date(time);
-  var now = new Date(), shortText, fullText;
+  now = new Date(), shortText, fullText;
 
-  sub = now.getFullYear() - time.getFullYear();
-  if (sub == 0) {
-    sub = now.getMonth() - time.getMonth();
-    if (sub == 0) {
-      sub = now.getDate() - time.getDate();
-      if (sub == 0) {
-        sub = now.getHours() - time.getHours();
-        if (sub == 0) {
-          sub = now.getMinutes() - time.getMinutes();
-          if (sub == 0) {
-            shortText = 'Vừa mới';
+  minutes =   ~~((now - time) / 60000);
+  hours =     ~~(minutes / 60);
+  days =      ~~(hours / 24);
+  years =     ~~(days / 365);
+  months =    ~~(days / 30);
+  weeks =     ~~(days / 7);
+
+  if (years == 0) {
+    if (months == 0) {
+      if (weeks == 0) {
+        if (days == 0) {
+          if (hours == 0) {
+            if (minutes == 0) {
+              shortText = 'Vừa mới';
+            }
+            else {
+              shortText = minutes + ' phút trước';
+            }
           }
           else {
-            shortText = sub + ' phút trước';
+            shortText = hours + ' giờ trước';
           }
         }
         else {
-          shortText = sub + ' giờ trước';
+          if (days == 1) {
+            shortText = 'Hôm qua';
+          }
+          else if (days == 2) {
+            shortText = 'Hôm kia';
+          }
+          else {
+            shortText = days + ' ngày trước';
+          }
         }
       }
       else {
-        if (sub == 1) {
-          shortText = 'Hôm qua';
-        }
-        else if (sub == 2) {
-          shortText = 'Hôm kia';
-        }
-        else {
-          shortText = sub + ' ngày trước';
-        }
+        shortText = weeks + ' tuần trước';
       }
     }
     else {
-      shortText = sub + ' tháng trước';
+      shortText = months + ' tháng trước';
     }
   }
   else {
-    shortText = sub + ' năm trước';
+    shortText = years + ' năm trước';
   }
 
   fullText = time.getDate() + ' tháng ' + (time.getMonth() + 1) + ' năm ' + time.getFullYear() + ' lúc ' + time.getHours() + ' giờ ' + time.getMinutes();
