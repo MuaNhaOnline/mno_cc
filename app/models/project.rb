@@ -49,6 +49,11 @@ class Project < ActiveRecord::Base
   # Get params
 
   def assign_attributes_with_params params
+    # Description
+    if params.has_key? :description
+      params[:description] = ApplicationHelper.encode_plain_text params[:description]
+    end
+
     # Get price
     if params.has_key? :unit_price
       params[:unit_price] = ApplicationHelper.format_i(params[:unit_price])

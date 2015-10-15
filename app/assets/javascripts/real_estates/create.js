@@ -202,7 +202,7 @@ $(function () {
 
       $form.find('[aria-name="basic"]').hide().find(':input').prop('disabled', true); 
 
-      $form.find('[aria-click="detail-toggle"]').text('Đăng cơ bản').off('click').on('click', function () {
+      $form.find('[aria-click="detail-toggle"]').text('Đăng tin nhanh').off('click').on('click', function () {
         toggleUntilFull();
       });
 
@@ -377,12 +377,12 @@ $(function () {
     if ($isFull.val() == '') {
       popupPrompt({
         title: 'Xác nhận',
-        content: 'Bạn muốn đăng thông tin cơ bản hay chi tiết?',
+        content: 'Bạn muốn đăng thông tin nhanh hay chi tiết?',
         type: 'primary',
         overlay: 'gray',
         buttons: [
           {
-            text: 'Cơ bản',
+            text: 'Tin nhanh',
             type: 'primary',
             handle: function () {
               toggleUntilFull();

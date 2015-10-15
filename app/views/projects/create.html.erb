@@ -457,7 +457,7 @@
           <article class="form-group">
             <label class="control-label" for="description"><%= t 'project.attribute.description' %></label>
             <sup class="required-label"></sup>
-            <textarea data-constraint="required" name="project[description]" class="form-control" id="description"><%= @p.description %></textarea>
+          <textarea data-constraint="required" name="project[description]" class="form-control" id="description"><%= ApplicationHelper.decode_plain_text(@p.description) if @p.description.present? %></textarea>
           </article>
 
           <!-- / Description -->

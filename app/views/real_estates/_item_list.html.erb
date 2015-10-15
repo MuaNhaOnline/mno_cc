@@ -11,11 +11,15 @@
 		<div class="item-lg" data-value="<%= re.id %>">
 			<div class="row">
 				<div class="col-sm-8 col-sm-push-4 picture">
-					<%= real_estate_avatar re, style_class: 'img-responsive thumbnail', style: 'slide' %>
+					<a href="/real_estates/<%= re.id %>">
+						<%= real_estate_avatar re, style_class: 'img-responsive thumbnail', style: 'slide' %>
+					</a>
 				</div>
 				<div class="col-sm-4 col-sm-pull-8">
 					<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
-						<%= re.title %>
+						<a href="/real_estates/<%= re.id %>">
+							<%= re.title %>
+						</a>
 					</div>
 					<div class="type-real">
 						<i class="fa fa-home"></i>
@@ -71,54 +75,56 @@
 	<% res.each do |re| %>
 		<div class="col-lg-3 col-md-4 col-sm-6">
 			<li data-value="<%= re.id %>" class="item-sm">
-				<div class="picture">
-					<%= real_estate_avatar re %>
-				</div>
 				<a href="/real_estates/<%= re.id %>">
-					<div class="title" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
-						<span><%= re.title %></span>
+					<div class="picture">
+						<%= real_estate_avatar re %>
 					</div>
-					<div class="type-real">
-						<i class="fa fa-home"></i>
-						<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
-					</div>
-					<div class="convenient">
-						<% if re.fields.include? :restroom_number %>
-							<div class="bathroom">
-								<i class="icon-bathroom"></i>
-								<span><%= re.display_restroom %></span>						
-							</div>
-						<% end %>
-						<% if re.fields.include? :bedroom_number %>
-							<div class="bedroom">
-								<i class="icon-bedroom"></i>
-								<span><%= re.display_bedroom %></span>
-							</div>
-						<% end %>
-						<div class="area">
-							<i class="icon-area"></i>
-							<span><%= re.display_area %>m<sup>2</sup></span>
+					<div class="info">
+						<div class="title" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
+							<span><%= re.title %></span>
 						</div>
-					</div>
-					<div class="address" data-toggle="tooltip" data-placement="top" title="<%= re.display_address %>">
-						<i class="icon-16 icon-position"></i>
-						<span><%= re.display_address %></span>
-					</div>
-					<% if current_purpose == 'r' %>
-						<% if re.fields.include? :rent_price %>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number rent"><%= re.display_rent_price %></p>
+						<div class="type-real">
+							<i class="fa fa-home"></i>
+							<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
+						</div>
+						<div class="convenient">
+							<% if re.fields.include? :restroom_number %>
+								<div class="bathroom">
+									<i class="icon-bathroom"></i>
+									<span><%= re.display_restroom %></span>						
+								</div>
+							<% end %>
+							<% if re.fields.include? :bedroom_number %>
+								<div class="bedroom">
+									<i class="icon-bedroom"></i>
+									<span><%= re.display_bedroom %></span>
+								</div>
+							<% end %>
+							<div class="area">
+								<i class="icon-area"></i>
+								<span><%= re.display_area %>m<sup>2</sup></span>
 							</div>
-						<% end %>	
-					<% else %>
-						<% if re.fields.include? :sell_price %>
-							<div class="price">
-								<i class="icon-16 icon-dollar"></i>
-								<p class="number sale"><%= re.display_sell_price %></p>
-							</div>
-						<% end %>	
-					<% end %>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="<%= re.display_address %>">
+							<i class="icon-16 icon-position"></i>
+							<span><%= re.display_address %></span>
+						</div>
+						<% if current_purpose == 'r' %>
+							<% if re.fields.include? :rent_price %>
+								<div class="price">
+									<i class="icon-16 icon-dollar"></i>
+									<p class="number rent"><%= re.display_rent_price %></p>
+								</div>
+							<% end %>	
+						<% else %>
+							<% if re.fields.include? :sell_price %>
+								<div class="price">
+									<i class="icon-16 icon-dollar"></i>
+									<p class="number sale"><%= re.display_sell_price %></p>
+								</div>
+							<% end %>	
+						<% end %>
+					</div>
 				</a>
 				<div class="function">
 					<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor <%= re.is_current_user_favorite ? 'active' : '' %>"></a>

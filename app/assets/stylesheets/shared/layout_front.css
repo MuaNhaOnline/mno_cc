@@ -884,12 +884,6 @@ footer {
 		border: 1px solid #54b40d;
 		box-shadow: 0px 0px 3px #54b40d;
 	}
-	.item-sm a {
-		color: #666;
-		font-size: 13px;
-		padding: 17px 10px 0 10px;
-		display: block;
-	}
 		.item-sm a:hover {
 			text-decoration: none;
 		}
@@ -911,8 +905,15 @@ footer {
 		}
 	/*end*/
 
+	.item-sm .info {
+		color: #666;
+		font-size: 13px;
+		padding: 17px 10px 0 10px;
+		display: block;
+	}
+
 	/*start title*/
-	.item-sm a > .title {
+	.item-sm .title {
 		margin-bottom: 10px;
 		font-size: 123.08%;
 		width: 100%;

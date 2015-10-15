@@ -139,7 +139,7 @@
 			<section class="standard-info row">
 				<div class="col-md-4 col-sm-6">
 					<div class="picture-info">
-						<%= real_estate_avatar @re, attribute: "data-src=#{@re.images.count > 0 ? @re.images[0].image.url : '/assets/real_estates/original/default.png'}" %>
+						<%= real_estate_avatar @re, attribute: "data-src=#{@re.images.count > 0 ? @re.images[0].image.url : '/assets/real_estates/original/default.png'}", open_gallery: true %>
 					</div>
 				</div>
 				<div class="col-md-4 col-sm-6">
@@ -266,7 +266,7 @@
 					<div class="title">
 						<h5><%= @re.name %></h5>
 					</div>
-					<div class="details pre"><%= @re.description %></div>
+					<div class="details"><%= @re.description.html_safe %></div>
 				</article>
 			</section>
 			<section class="line-block">
