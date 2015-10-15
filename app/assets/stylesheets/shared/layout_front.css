@@ -720,10 +720,10 @@ footer {
 		/*end*/
 
 		/*start type-real*/
-		.type-real {
+		.item-lg .type-real {
 			margin-bottom: 10px;
 		}
-			.type-real i {
+			.item-lg .type-real i {
 				margin-right: 9px;
 				height: 16px;
 				width: 16px;
@@ -732,7 +732,7 @@ footer {
 				font-size: 133.33% !important;
 				color: #666;
 			}
-			.type-real span {
+			.item-lg .type-real span {
 				color: #666;
 			}
 		/*end*/
