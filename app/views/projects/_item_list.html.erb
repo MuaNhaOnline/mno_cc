@@ -17,39 +17,41 @@
 					</a>
 				</div>
 				<div class="col-md-4">
-					<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
-						<a href="/projects/<%= p.id %>">
-							<%= p.project_name %>
-						</a>
-					</div>
-					<div class="type-real">
-						<i class="fa fa-home"></i>
-						<span><%= t 'project_type.text.' + p.project_type.name %></span>
-					</div>
-					<div class="status">						
-						<% if p.display_deadline %>
-							<i class="fa fa-circle done"></i>
-							<span>Đã hoàn thành</span>
-						<% else %>
-							<i class="fa fa-circle working"></i>
-							<span>Đang thực hiện</span>
-						<% end %>
-					</div>
-					<div class="address" data-toggle="tooltip" data-placement="top" title="<%= p.display_address %>">
-						<i class="icon-16 icon-position"></i>
-						<span><%= p.display_address %></span>
-					</div>
-					<div class="price">
-						<i class="icon-16 icon-dollar"></i>
-						<p class="number sale"><%= p.display_unit_price %></p>
-					</div>
+					<a href="/projects/<%= p.id %>">
+						<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">
+								<%= p.project_name %>
+						</div>
+						<div class="type-real">
+							<i class="fa fa-home"></i>
+							<span><%= t 'project_type.text.' + p.project_type.name %></span>
+						</div>
+						<div class="status">						
+							<% if p.display_deadline %>
+								<i class="fa fa-circle done"></i>
+								<span>Đã hoàn thành</span>
+							<% else %>
+								<i class="fa fa-circle working"></i>
+								<span>Đang thực hiện</span>
+							<% end %>
+						</div>
+						<div class="address" data-toggle="tooltip" data-placement="top" title="<%= p.display_address %>">
+							<i class="icon-16 icon-position"></i>
+							<span><%= p.display_address %></span>
+						</div>
+						<div class="price">
+							<i class="icon-16 icon-dollar"></i>
+							<p class="number sale"><%= p.display_unit_price %></p>
+						</div>
+					</a>
 					<div class="function">
 						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor <%= p.is_current_user_favorite ? 'active' : '' %>"></a>
 						<a href="javascript:void(0)" class="icon-buy" data-toggle="tooltip" data-placement="top" title="Đăng ký mua" data-popup="coming-soon"></a>
 						<a href="javascript:void(0)" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội" data-popup="coming-soon"></a>
 						<a href="javascript:void(0)" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này" data-popup="coming-soon"></a>
 					</div>
-					<div class="detail" data-dot><%= p.description.html_safe %></div>
+					<a href="/projects/<%= p.id %>">
+						<div class="detail" data-dot><%= p.description.html_safe %></div>
+					</a>
 					<div class="btn-more">
 						<a href="/projects/<%= p.id %>">Xem chi tiết</a>
 					</div>

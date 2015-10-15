@@ -44,6 +44,9 @@ function _initItemList($container) {
 			$('[data-toggle="modal"][data-target="#signin"]').click();
 		}
 	});
+
+	// Tooltip
+	(typeof($container) == 'undefined' ? $('.item-sm [data-toggle="tooltip"], .item-lg [data-toggle="tooltip"]') : $container.find('[data-toggle="tooltip"]')).tooltip();
 	
 	// Gallery
 	(typeof($container) == 'undefined' ? $('.item-sm [aria-gallery], .item-lg [aria-gallery]') : $container.find('[aria-gallery]')).on('click', function() {
