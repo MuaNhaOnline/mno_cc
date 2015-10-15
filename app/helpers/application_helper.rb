@@ -28,6 +28,14 @@ module ApplicationHelper
     Digest::MD5.hexdigest(string)
   end
 
+  def self.encode_plain_text string
+    ('<p>' + string.gsub(/\r\n/, '</p><p>') + '</p>').gsub('<p></p>', '')
+  end
+
+  def self.decode_plain_text string
+    string[3...(string.length - 4)].gsub('</p><p>', "\r\n")
+  end
+
 # Read money
 
   def self.read_money number

@@ -17,12 +17,12 @@ class UsersFavoriteRealEstate < ActiveRecord::Base
 	# Remove
 
 	def self.remove_favorite real_estate_id
-		favorite_re = where(user_id: User.current.id, real_estate_id: real_estate_id).first
+		favorite_re = where(user_id: User.current.id, real_estate_id: real_estate_id)
 
 		# Author
-		return { status: 6 } if User.current.cannot? :remove, favorite_re
+		return { status: 6 } if User.current.cannot? :remove, favorite_re.first
 
-		if favorite_re.delete
+		if favorite_re.delete_all
 			{ status: 0 }
 		else
 			{ status: 2 }

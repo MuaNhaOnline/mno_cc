@@ -1,28 +1,25 @@
-<% res.each do |re| %>
+<% projects.each do |project| %>
   <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
-    <article class="item" data-value="<%= re.id %>">
+    <article class="item" data-value="<%= project.id %>">
       <section class="top">
-        <a href="/real_estates/<%= re.id %>">
-          <%= real_estate_avatar re %>
+        <a href="/projects/<%= project.id %>">
+          <%= project_avatar project %>
         </a>
         <section class="left">
           <article class="node">
-            <span><b><%= re.display_id %></b></span>
+            <span><b><%= project.display_id %></b></span>
           </article>
         </section>
       </section>
       <section class="bottom">
         <p class="title">
-          <%= re.title %>
+          <%= project.project_name %>
         </p>
         <p>
-          <span class="fa fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name if re.real_estate_type.present? %>
-        </p>
-        <p>
-          <span class="fa fa-tag"></span> <%= re.display_purpose %>
+          <span class="fa fa-home"></span> <%= t 'project_type.text.' + project.project_type.name if project.project_type.present? %>
         </p>
         <p class="address">
-          <span class="fa fa-map-marker"></span> <%= re.display_address %>
+          <span class="fa fa-map-marker"></span> <%= project.display_address %>
         </p>
       </section>
       <section class="control">

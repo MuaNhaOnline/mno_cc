@@ -129,7 +129,7 @@
 </section>
 <!-- end navigator -->
 
-<section id="project_info">
+<section id="project_info" data-value="<%= @project.id %>">
 
 	<!-- #start image infos -->
 	<section class="block container highlight">
@@ -141,7 +141,7 @@
 		<article class="content">
 			<section class="image-info">
 				<div class="main-image">
-					<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}" %>
+					<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}", open_gallery: true %>
 				</div>
 				<% if @project.images.count > 1 %>
 					<div class="other-image">
@@ -188,9 +188,9 @@
 					</div>
 				</div>
 				<div class="function">
-					<button data-popup="coming-soon" class="btn-icon-top btn-favor">
-						<i class="icon-favor"></i>
-						<span>Quan tâm</span>
+					<button aria-click="favorite" class="btn-icon-top btn-favor">
+						<i class="icon-favor <%= 'active' if @project.is_current_user_favorite %>"></i>
+						<span>Yêu thích</span>
 					</button>
 					<button data-popup="coming-soon" class="btn-icon-top">
 						<i class="icon-buy"></i>
@@ -323,7 +323,7 @@
 			<div class="title">
 				<h5><%= @project.title %></h5>
 			</div>
-			<div class="details"><%= @project.description %></div>
+			<div class="details"><%= @project.description.html_safe %></div>
 			<% if @project.payment_method.present? %>
 				<hr />
 				<div class="details"><%= @project.payment_method %></div>
@@ -421,7 +421,7 @@
 						<% if @project.user.address.present? %>
 						<li>
 							<i class="icon-address"></i>
-							<span>@project.user.address</span>
+							<span><%= @project.user.address %></span>
 						</li>
 						<% end %>
 						<li>

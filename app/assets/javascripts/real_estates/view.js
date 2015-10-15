@@ -1,10 +1,56 @@
 // Initilization
 $(function() {
+	var $item = $('#real_estate_info');
+
 	initPriceBox();
 	initPosition();
 	Jump();
 	
-	_initItemList($('#real_estate_info'));
+	initFavoriteButton();
+
+	_initItemList($item);
+
+	/*
+		Favorite button
+	*/
+
+		function initFavoriteButton() {
+			$('[aria-click="favorite"]').on('click', function () {
+				var 
+					$button = $(this),
+					isAdd = $button.find('i.active').length == 0
+
+				$.ajax({
+					url: '/real_estates/user_favorite/' + $item.data('value') + '/' + (isAdd ? '1' : '0'),
+					method: 'POST',
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						if (isAdd) {
+							$button.find('i').addClass('active');
+							$button.find('span').text('Bỏ yêu thích');
+						}
+						else {
+							$button.find('i').removeClass('active');
+							$button.find('span').text('Yêu thích');
+						}
+					}
+				});
+			}).each(function () {
+				var $button = $(this);
+				
+				if ($button.find('i.active').length != 0) {
+					$button.find('span').text('Bỏ yêu thích');
+				}
+				else {
+					$button.find('span').text('Yêu thích');
+				}
+			});
+		}
+
+	/*
+		/ Favorite button
+	*/
 });
 // end
 

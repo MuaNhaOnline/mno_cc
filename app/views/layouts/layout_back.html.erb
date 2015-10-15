@@ -163,6 +163,9 @@
                 <% if can? :view_my, RealEstate %>
                   <li><a href="/real_estates/my"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
                 <% end %>
+                <% if can? :view_my_favorite, RealEstate %>
+                  <li><a href="/real_estates/my_favorite"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
+                <% end %>
                 <% if can? :create, RealEstate %>
                   <li><a href="/real_estates/create"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
                   <li style="display: none"><a href="/real_estates/create?appraisal"><i class="fa fa-circle-o"></i>  Đăng tin thẩm định</a></li>
@@ -181,6 +184,9 @@
               <ul class="treeview-menu">
                 <% if can? :view_my, Project %>
                   <li><a href="/projects/my"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
+                <% end %>
+                <% if can? :view_my_favorite, Project %>
+                  <li><a href="/projects/my_favorite"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
                 <% end %>
                 <% if can? :create, Project %>
                   <li><a href="/projects/create"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>

@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
   belongs_to :investor
 
   has_many :images, class_name: 'ProjectImage'
+  has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
 
 # / Associates
 
@@ -48,6 +49,11 @@ class Project < ActiveRecord::Base
   # Get params
 
   def assign_attributes_with_params params
+    # Description
+    if params.has_key? :description
+      params[:description] = ApplicationHelper.encode_plain_text params[:description]
+    end
+
     # Get price
     if params.has_key? :unit_price
       params[:unit_price] = ApplicationHelper.format_i(params[:unit_price])
@@ -333,6 +339,33 @@ class Project < ActiveRecord::Base
   # params: 
   #   keyword,
   #   newest, cheapest, interact, view, id
+  def self.my_favorite_search_with_params params = {}
+    where = "users_favorite_projects.user_id = #{User.current.id}"
+    joins = [:users_favorite_projects]
+    order = {}
+
+    if params.has_key? :view
+      order[:view_count] = params[:view]
+    end
+
+    if params.has_key? :interact
+      order[:updated_at] = params[:interact]
+    end
+
+    if params.has_key? :id
+      order[:id] = params[:id]
+    end
+
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
+  end
+
+  # params: 
+  #   keyword,
+  #   newest, cheapest, interact, view, id
   def self.pending_search_with_params params = {}
     where = 'is_pending = true AND is_draft = false'
     joins = []
@@ -383,6 +416,16 @@ class Project < ActiveRecord::Base
     else
       joins(joins).where(where).order(order)
     end
+  end
+
+  # Current user favorite
+  def get_is_current_user_favorite
+    return false unless User.signed?
+
+    return UsersFavoriteProject.exists? project_id: id, user_id: User.current.id
+  end
+  def is_current_user_favorite
+    @is_current_user_favorite ||= get_is_current_user_favorite
   end
 
   # / Search with params

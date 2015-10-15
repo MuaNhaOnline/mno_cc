@@ -245,6 +245,11 @@ class RealEstate < ActiveRecord::Base
   # Get params
 
   def assign_attributes_with_params params
+    # Description
+    if params.has_key? :description
+      params[:description] = ApplicationHelper.encode_plain_text params[:description]
+    end
+
     # Get price
     if params.has_key? :sell_price
       params[:sell_price] = ApplicationHelper.format_i params[:sell_price]

@@ -127,6 +127,13 @@ function _initPagination(params) {
 
   // Find function
   var find = function (findParams) {
+    if ('pagination' in params) {
+      params['pagination'].children().css({
+        'opacity': '.5',
+        'pointer-events': 'none'
+      });
+    }
+
     if (typeof findParams == 'undefined') {
       findParams = {};
     }

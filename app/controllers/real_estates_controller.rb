@@ -197,12 +197,6 @@ class RealEstatesController < ApplicationController
     }
   end
 
-  def change_show_status
-    RealEstate.update_show_status params[:id], params[:is_show]
-
-    render json: Hash[status: 0]
-  end
-
 # / My favorite list
 
 # Pending

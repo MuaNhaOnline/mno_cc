@@ -44,6 +44,9 @@ function _initItemList($container) {
 			$('[data-toggle="modal"][data-target="#signin"]').click();
 		}
 	});
+
+	// Tooltip
+	(typeof($container) == 'undefined' ? $('.item-sm [data-toggle="tooltip"], .item-lg [data-toggle="tooltip"]') : $container.find('[data-toggle="tooltip"]')).tooltip();
 	
 	// Gallery
 	(typeof($container) == 'undefined' ? $('.item-sm [aria-gallery], .item-lg [aria-gallery]') : $container.find('[aria-gallery]')).on('click', function() {
@@ -287,7 +290,10 @@ function _initItemList($container) {
 		*/
 	});
 
-	// User favorite
+	/*
+		User favorite
+	*/
+
 	(typeof($container) == 'undefined' ? $('.item-sm [aria-click="user_favorite"], .item-lg [aria-click="user_favorite"]') : $container.find('[aria-click="user_favorite"]')).on('click', function () {
 		if (!$body.is('[data-signed]')) {
 			$('[data-toggle="modal"][data-target="#signin"]').click();
@@ -308,7 +314,7 @@ function _initItemList($container) {
 					$button.addClass('active').attr('title', 'Xóa khỏi danh sách yêu thích').tooltip('fixTitle');
 				}
 				else {
-					$button.removeClass('active', 'Lưu vào danh sách yêu thích').tooltip('fixTitle');
+					$button.removeClass('active').attr('title', 'Lưu vào danh sách yêu thích').tooltip('fixTitle');
 				}
 			}
 		})
@@ -322,6 +328,10 @@ function _initItemList($container) {
 		}
 		$button.tooltip();
 	});
+
+	/*
+		/ User favorite
+	*/
 }
 // end
 

@@ -194,6 +194,9 @@ var _t = {
 				edit: 'Sửa',
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
 			},
+			my_favorite: {
+				unfavorite_confirm: 'Bạn có chắc muốn bỏ yêu thích tin này?'
+			},
 			pending: {
 				delete_confirm: 'Bạn có chắc muốn xóa tin này?'
 			},

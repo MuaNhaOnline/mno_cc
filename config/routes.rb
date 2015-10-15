@@ -50,6 +50,34 @@ Rails.application.routes.draw do
 
   # / Real estate
 
+  # Project
+
+    get 'projects/view'
+    get 'projects/demo'
+    get 'projects/index'
+    get 'projects/create(/:id)' => 'projects#create'
+    get 'projects/my'
+    get 'projects/_my_list'
+    get 'projects/my_favorite'
+    get 'projects/_my_favorite_list'
+    get 'projects/pending'
+    get 'projects/_pending_list'
+    get 'projects/manager'
+    get 'projects/_manager_list'
+    get 'projects/search'
+    get 'projects/get_gallery/:id' => 'projects#get_gallery'
+    get 'projects/:id' => 'projects#view'
+    get 'projects' => 'projects#index'
+    post 'projects/create' => 'projects#save'
+    post 'projects/delete/:id' => 'projects#delete'
+    post 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
+    post 'projects/approve/:id' => 'projects#approve'
+    post 'projects/change_force_hide_status/:id/:is_force_hide' => 'projects#change_force_hide_status'
+    post 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
+    post 'projects/user_favorite/:id/:is_add' => 'projects#user_favorite'
+
+  # / Project
+
   # User
 
     get 'users/autocomplete'
@@ -123,31 +151,6 @@ Rails.application.routes.draw do
     post 'mail_boxes/delete' => 'mail_boxes#delete'
 
   # / Mail box
-
-  # Project
-
-    get 'projects/view'
-    get 'projects/demo'
-    get 'projects/index'
-    get 'projects/create(/:id)' => 'projects#create'
-    get 'projects/my'
-    get 'projects/_my_list'
-    get 'projects/pending'
-    get 'projects/_pending_list'
-    get 'projects/manager'
-    get 'projects/_manager_list'
-    get 'projects/search'
-    get 'projects/get_gallery/:id' => 'projects#get_gallery'
-    get 'projects/:id' => 'projects#view'
-    get 'projects' => 'projects#index'
-    post 'projects/create' => 'projects#save'
-    post 'projects/delete/:id' => 'projects#delete'
-    post 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
-    post 'projects/approve/:id' => 'projects#approve'
-    post 'projects/change_force_hide_status/:id/:is_force_hide' => 'projects#change_force_hide_status'
-    post 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
-
-  # / Project
 
   # Investor
 
