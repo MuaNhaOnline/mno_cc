@@ -62,7 +62,7 @@
 						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
 					</div>
 					<div class="detail" data-dot>
-						<%= re.description %>
+						<%= re.description.html_safe %>
 					</div>
 					<div class="btn-more">
 						<a href="/real_estates/<%= re.id %>">Xem chi tiết</a>

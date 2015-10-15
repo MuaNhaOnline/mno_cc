@@ -49,7 +49,7 @@
 						<a href="javascript:void(0)" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội" data-popup="coming-soon"></a>
 						<a href="javascript:void(0)" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá căn nhà này" data-popup="coming-soon"></a>
 					</div>
-					<div class="detail pre" data-dot><%= p.description %></div>
+					<div class="detail" data-dot><%= p.description.html_safe %></div>
 					<div class="btn-more">
 						<a href="/projects/<%= p.id %>">Xem chi tiết</a>
 					</div>
