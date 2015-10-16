@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.base_url = 'http://localhost:3000/'
+  config.base_url = 'http://muanhaonline.vn/'
 
   # Settings specified here will take precedence over those in config/application.rb.
 
