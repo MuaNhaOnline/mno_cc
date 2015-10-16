@@ -88,7 +88,7 @@ class UsersController < ApplicationController
       end
 
       case @status = result[:result]
-        when 1
+        when 0, 1
           session[:recently_active_id] = params[:id]
         when 2
           @user = result[:user]

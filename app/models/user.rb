@@ -271,11 +271,10 @@ class User < ActiveRecord::Base
 	# Active
 	def self.active_account id, code
 		user = find id
-		
-		# If not exist or active status is ok
-		return { status: 1 } if user.nil? || user.active_status == 0
 
 		case user.active_status
+			when 0
+				return { status: 0, result: 0 }
 			when 1
 				if user.params['active_code'] == code
 					user.active_status = 0

@@ -5,7 +5,26 @@
 
 %>
 
-<% if @status == 1 %>
+<% if @status == 0 %>
+	<article class="row">
+		<article class="col-md-6 col-md-offset-3">
+			<article class="box box-success">
+				<section class="box-header">
+					<h4 class="box-title">Tài khoản của bạn đã được kích hoạt</h4>
+				</section>
+				<section class="box-body">
+					<p class="text-center">
+						<span class="btn-group">
+							<a href="/active_account_signin" class="btn btn-primary" title="Đăng nhập">Đăng nhập</a>
+							<a href="/active_account_signin?remember" class="btn btn-default" title="Đăng nhập và ghi nhớ">và ghi nhớ</a>
+						</span>
+						<a href="/" class="btn btn-default" title="Về trang chủ">Về trang chủ</a>
+					</p>
+				</section>
+			</article>
+		</article>
+	</article>
+<% elsif @status == 1 %>
 	<article class="row">
 		<article class="col-md-6 col-md-offset-3">
 			<article class="box box-success">
