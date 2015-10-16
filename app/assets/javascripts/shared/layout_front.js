@@ -93,20 +93,9 @@ function _initItemList($container) {
 		}).done(function(data) {
 			if (data.status == 0) {
 				$(data.result).each(function() {
+					$itemList.append('<li class="item" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
 					if (this.id == $button.data('id')) {
-						$itemList.append('<li class="item selected" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');
-
-						// Set image
-						$html.find('[aria-name="image"]').attr('src', this.original);
-
-						// Set description
-						$html.find('[aria-name="description"]').text(this.description);
-
-						// Set max height
-						$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
-					}
-					else {
-						$itemList.append('<li class="item" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
+						showImage($itemList.children(':last-child'));
 					}
 				});					
 
@@ -157,9 +146,10 @@ function _initItemList($container) {
 					}
 				});
 			}
+
 			$html.find('.image-view-panel').on('click', function () {
 				nextImage();
-			});	
+			});
 
 			function prevImage() {
 				var $selected = $itemList.find('.selected');
@@ -194,13 +184,23 @@ function _initItemList($container) {
 			$item.siblings('.selected').removeClass('selected');
 			$item.addClass('selected');
 
-			$html.find('[aria-name="image"]').attr('src', src);
-
 			// Set description
 			$html.find('[aria-name="description"]').text($item.data('description'));
 
 			// Set max height
 			$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
+
+			
+			$html.find('[aria-name="image"]').hide();
+			$html.find('[aria-name="spinner"]').show();	
+			var downloadingImage = new Image();
+			downloadingImage.onload = function(){
+				$html.find('[aria-name="image"]').attr('src', src);
+
+				$html.find('[aria-name="spinner"]').hide();
+				$html.find('[aria-name="image"]').show();
+			};
+			downloadingImage.src = src;
 		}
 
 		/*
