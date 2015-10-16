@@ -30,6 +30,9 @@
 .user-property {
 	margin-bottom: 30px;
 }
+	.user-property .nav a {
+		font-size: 86.67%;
+	}
 	/*Tab panes*/
 	.user-property .tab-content > div {
 		padding: 10px;
@@ -53,6 +56,9 @@
 .structure-property {
 	margin-bottom: 40px;
 }
+	.structure-property .nav a {
+		font-size: 86.67%;
+	}
 	/*Tab panes*/
 	.structure-property .tab-content > div {
 		padding: 10px;
@@ -72,7 +78,7 @@
 
 /*start position property*/
 .position-property {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }	
 	.position-property .title-position {
 		margin-bottom: 10px;
@@ -100,20 +106,31 @@
 
 	}
 		.sub-title span {
-			font-size: 130.77%;
+			font-size: 106.67%;
 		}
 		.sub-title .btn-group {
 			vertical-align: -13px;
 		}
 		.sub-title .btn-group a {
-			font-size: 123.07%;
+			font-size: 100%;
 		}
+	/*end*/
+
+	/*start dropdown-menu*/
+	.position-property .dropdown-menu {
+		font-size: 100%;
+	}
+		/*.position-property .dropdown-menu li a {
+			display: block;
+			padding: 3px 20px;
+			color: #333;
+		}*/
 	/*end*/
 /*end position property*/
 
 /*start price property*/
 .price-property {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 	.price-property .irs {
 		overflow: hidden;
@@ -122,7 +139,7 @@
 
 /*start short-property*/
 .short-property {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 	/*start link*/
 	.short-property .link {
@@ -180,15 +197,14 @@
 
 /*start propensity-property*/
 .propensity-property {
-
+	margin-bottom: 40px;
 }
 	.propensity-property .content {
 		margin-bottom: 40px;
 	}
 	/*start title*/
-	.propensity-property .title {
+	.propensity-property .row .title {
 		margin-bottom: 12px;
-		
 	}
 	.propensity-property .title a {
 		color: #666;
@@ -278,4 +294,15 @@
 	.contact textarea {
 		max-width: 263px;
 	}
+	.contact li button {
+		width: 60px;
+		font-size: 86.67%;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-bottom: 3px solid #50922A;
+	}
+		.contact li button:hover {
+			background-color: #50922A;
+			color: #fff;
+		}
 /*end contact*/
