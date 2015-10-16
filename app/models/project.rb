@@ -50,8 +50,8 @@ class Project < ActiveRecord::Base
 
   def assign_attributes_with_params params
     # Description
-    if params.has_key? :description
-      params[:description] = ApplicationHelper.encode_plain_text params[:description]
+    if params[:payment_method].present?
+      params[:payment_method] = ApplicationHelper.encode_plain_text params[:payment_method]
     end
 
     # Get price
@@ -269,7 +269,7 @@ class Project < ActiveRecord::Base
     _user_id = project.user_id
 
     if delete id
-      User.decrease_project_count if _user_id != 0-
+      User.decrease_project_count _user_id if _user_id != 0-
       { status: 0 }
     else
       { status: 2 }

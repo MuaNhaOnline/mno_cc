@@ -22,6 +22,7 @@ function initForm($form, params) {
 	initFileInput();
 	initFileInput_2();
 	initAutoComplete();
+	initEditor();
 	initSeparateNumber();
 	initConstraint();
 	initSubmit();
@@ -1017,6 +1018,36 @@ function initForm($form, params) {
 
 	/*
 		/ Auto complete
+	*/
+
+	/*
+		Editor
+	*/
+
+	function initEditor() {
+		$('[aria-input-type="editor"]').each(function () {
+			var $input = $(this);
+
+			$input.wysihtml5({
+				toolbar: {
+					image: false,
+					blockquote: false,
+					color: true
+				},
+  			events: {
+	        change: function() {
+	        	$input.change();
+	        }
+		    }
+			});
+
+			$input.siblings('.wysihtml5-sandbox').addClass('form-control');
+			$input.siblings('[name="_wysihtml5_mode"]').attr('data-nonvalid', '');
+		});
+	}
+
+	/*
+		Editor
 	*/
 
 	/*

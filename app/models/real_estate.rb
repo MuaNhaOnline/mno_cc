@@ -246,9 +246,9 @@ class RealEstate < ActiveRecord::Base
 
   def assign_attributes_with_params params
     # Description
-    if params.has_key? :description
-      params[:description] = ApplicationHelper.encode_plain_text params[:description]
-    end
+    # if params.has_key? :description
+    #   params[:description] = ApplicationHelper.encode_plain_text params[:description]
+    # end
 
     # Get price
     if params.has_key? :sell_price
@@ -766,7 +766,7 @@ class RealEstate < ActiveRecord::Base
     _user_id = real_estate.user_id
 
     if delete id
-      User.decrease_real_estate_count if _user_id != 0
+      User.decrease_real_estate_count _user_id if _user_id != 0
       { status: 0 }
     else
       { status: 2 }
