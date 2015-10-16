@@ -788,7 +788,7 @@
               <%= t 'real_estate.attribute.description' %>
               <sup class="required-label"></sup>
             </label>
-            <textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description"><%= ApplicationHelper.decode_plain_text(@re.description) if @re.description.present? %></textarea>
+            <textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description" aria-input-type="editor"><%= @re.description %></textarea>
           </article>
         </section>
       </article>

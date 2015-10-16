@@ -237,7 +237,7 @@
 							<i class="fa fa-circle"></i>
 							<span><%= t 'project.attribute.campus_area' %>: <b><%= @project.campus_area %>m<sup>2</sup></b></span>
 						</li>
-						<% if @project.using_ratio.present? %>
+						<% if @project.using_ratio.present? && @project.using_ratio != 0 %>
 							<li>
 								<i class="fa fa-circle"></i>
 								<span><%= t 'project.attribute.using_ratio' %>: <b><%= @project.using_ratio %>%</b></span>
@@ -326,7 +326,7 @@
 			<div class="details"><%= @project.description.html_safe %></div>
 			<% if @project.payment_method.present? %>
 				<hr />
-				<div class="details"><%= @project.payment_method %></div>
+				<div class="details"><%= @project.payment_method.html_safe %></div>
 			<% end %>
 		</article>
 	</section>
