@@ -927,6 +927,24 @@ footer {
 	}
 	/*end*/
 
+	/*start type-real*/
+	.item-sm .type-real {
+		margin-bottom: 10px;
+	}
+		.item-sm .type-real i {
+			margin-right: 4px;
+			height: 16px;
+			width: 16px;
+			text-align: center;
+			line-height: 16px;
+			font-size: 133.33%;
+			color: #666;
+		}
+		.item-sm .type-real span {
+			color: #666;
+		}
+	/*end*/
+
 	/*start status*/
 	.item-sm .status {
 		margin-bottom: 10px;
