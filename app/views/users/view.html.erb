@@ -14,40 +14,44 @@
 	@title = @user.full_name 
 %>
 
-<article class="row">
+<div class="row">
 	<article class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-		<article class="box box-primary">
-		  <div class="box-body box-profile">
-		    <%= user_avatar @user, style_class: 'avatar img-responsive', style: :thumb %>
-		    <h3 class="name text-center"><%= @user.full_name %></h3>
-
-		    <ul class="list-group list-group-unbordered">
-					<% unless @user.phone_number.blank? %>
-						<li class="list-group-item">
-							<b><%= t 'user.attribute.phone_number' %></b>
-							<span class="pull-right"><%= @user.phone_number %></span>
-						</li>
-					<% end %>
-					<li class="list-group-item">
-						<b><%= t 'user.attribute.email' %></b>
-						<span class="pull-right"><%= @user.email %></span>
-					</li>
-					<!-- <li class="list-group-item">
-							<b>Skype</b>
-						<span class="pull-right">Đang cập nhật</span>
-					</li> -->
-					<% unless @user.address.blank? %>
-						<li class="list-group-item">
-							<b><%= t 'user.attribute.address' %></b>
-							<span class="pull-right"><%= @user.address %></span>
-						</li>
-					<% end %>
-		    </ul>
-
-		    <% if can? :edit, @user %>
+		<div class="box box-widget widget-user">
+		  <!-- Add the bg color to the header using any of the bg-* classes -->
+		  <div class="widget-user-header bg-aqua-active">
+		    <h3 class="widget-user-username"><%= @user.full_name %></h3>
+		    <div class="widget-user-desc"><span class="fa fa-fw fa-envelope"></span> <%= @user.email %></div>
+		    <% if @user.phone_number.present? %>
+		    	<div class="widget-user-desc"><span class="fa fa-fw fa-phone"></span> <%= @user.phone_number %></div>
+		    <% end %>
+		    <% if @user.address.present? %>
+		    	<div class="widget-user-desc"><span class="fa fa-fw fa-map-marker"></span> <%= @user.address %></div>
+		    <% end %>
+			  <div class="widget-user-image">
+			  	<%= user_avatar @user, style: :thumb %>
+			  </div>
+		  </div>
+		  <div class="box-footer">
+		    <div class="row">
+		      <div class="col-sm-6">
+		        <div class="description-block">
+		          <div class="description-header"><%= @user.real_estate_count %></div>
+		          <span class="description-text">Bất động sản</span>
+		        </div>
+		      </div>
+		      <div class="col-sm-6">
+		        <div class="description-block">
+		          <div class="description-header"><%= @user.project_count %></div>
+		          <span class="description-text">Dự án</span>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="box-footer padding-10">
+		  	<% if can? :edit, @user %>
 		    	<a href="/users/create/<%= @user.id %>" class="btn btn-primary btn-block"><b>Cập nhật thông tin</b></a>
 		    <% end %>
 		  </div>
-		</article>
+		</div>
 	</article>
-</article>
+</div>
