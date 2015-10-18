@@ -82,429 +82,433 @@
     </article>
   </section>
 
-  <section class="row">
+  <section style="width: 100%">
 
-    <section class="col-md-6 col-sm-8">
+    <section class="row">
 
-      <!-- Id (if edit) -->
+      <section class="col-md-6 col-sm-8">
 
-      <% unless @p.id.blank? %>
-        <input type="hidden" name="project[id]" value="<%= @p.id %>" />
-      <% end %>
+        <!-- Id (if edit) -->
 
-      <!-- / Id (if edit) -->
+        <% unless @p.id.blank? %>
+          <input type="hidden" name="project[id]" value="<%= @p.id %>" />
+        <% end %>
 
-      <!-- Project name -->
+        <!-- / Id (if edit) -->
 
-      <article aria-name="project_name" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.project_name_box' %></h2>
-        </section>
-        <section class="box-body">
-          <article class="form-group">
-            <label class="control-label" id="project_name">
-              <%= t 'project.attribute.project_name' %>
-              <sup class="required-label"></sup>
-            </label>
-            <input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" />
-          </article>
-        </section>
-      </article>
+        <!-- Project name -->
 
-      <!-- /Project name -->
-        
-      <!-- Position -->
+        <article aria-name="project_name" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.project_name_box' %></h2>
+          </section>
+          <section class="box-body">
+            <article class="form-group">
+              <label class="control-label" id="project_name">
+                <%= t 'project.attribute.project_name' %>
+                <sup class="required-label"></sup>
+              </label>
+              <input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" />
+            </article>
+          </section>
+        </article>
 
-      <article aria-name="position" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.position_box' %></h2>
-        </section>
-        <section class="box-body">
+        <!-- /Project name -->
+          
+        <!-- Position -->
 
-          <!-- Location -->
+        <article aria-name="position" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.position_box' %></h2>
+          </section>
+          <section class="box-body">
 
-          <article class="form-group">
-            <label class="control-label" for="address_number"><%= t 'project.attribute.address_number' %></label>
-            <input value="<%= @p.address_number %>" class="form-control" name="project[address_number]" type="text" id="address_number" autofocus />
-          </article>
+            <!-- Location -->
 
-          <input value="<%= @p.street.name unless @p.street.nil? %>" name="project[street]" type="hidden" id="street" data-nonvalid />
-          <input value="<%= @p.ward.name unless @p.ward.nil? %>" name="project[ward]" type="hidden" id="ward" data-nonvalid />
-          <input value="<%= @p.district.name unless @p.district.nil? %>" name="project[district]" type="hidden" id="district" data-nonvalid />
-          <input value="<%= @p.province unless @p.province.nil? %>" name="project[province]" type="hidden" id="province" data-nonvalid />
-          <input value="<%= @p.lat %>" name="project[lat]" type="hidden" id="lat" data-nonvalid />
-          <input value="<%= @p.long %>" name="project[long]" type="hidden" id="long" data-nonvalid />
-
-          <article class="form-group">
-            <label class="control-label" for="location"><%= t 'project.attribute.address' %></label>
-            <sup class="required-label"></sup>
-            <input data-constraint="required" name="location" class="form-control" id="location" data-new="<%= @p.new_record? %>" placeholder="" type="text" /> 
-          </article>
-
-          <!-- / Location -->
-
-          <!-- Map -->
-
-          <article class="form-group">
-            <div id="map"></div>
-          </article>
-
-          <!-- / Map -->
-
-        </section>
-      </article>
-
-      <!-- / Position -->
-        
-      <!-- Architecture -->
-
-      <article aria-name="architecture" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.architecture_box' %></h2>
-        </section>
-        <section class="box-body">
-
-          <!-- Project type -->
-
-          <article class="form-group">
-            <label class="control-label" for="project_type"><%= t 'project.attribute.project_type' %></label>
-            <select class="form-control" id="project_type" name="project[project_type_id]">
-              <% ProjectType.get_options.each do |t| %>
-                <option value="<%= t.id %>" <%= 'selected' if @p.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / Project type -->
-
-          <div class="row">
-
-            <!-- Campus area -->
-
-            <article class="form-group col-md-6">
-              <label class="control-label" for="campus_area"><%= t 'project.attribute.campus_area' %></label>
-              <sup class="required-label"></sup>
-              <div class="input-group">
-                <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @p.campus_area %>" />
-                <div class="input-group-addon">m<sup>2</sup></div>
-              </div>
+            <article class="form-group">
+              <label class="control-label" for="address_number"><%= t 'project.attribute.address_number' %></label>
+              <input value="<%= @p.address_number %>" class="form-control" name="project[address_number]" type="text" id="address_number" autofocus />
             </article>
 
-            <!-- / Campus area -->
+            <input value="<%= @p.street.name unless @p.street.nil? %>" name="project[street]" type="hidden" id="street" data-nonvalid />
+            <input value="<%= @p.ward.name unless @p.ward.nil? %>" name="project[ward]" type="hidden" id="ward" data-nonvalid />
+            <input value="<%= @p.district.name unless @p.district.nil? %>" name="project[district]" type="hidden" id="district" data-nonvalid />
+            <input value="<%= @p.province unless @p.province.nil? %>" name="project[province]" type="hidden" id="province" data-nonvalid />
+            <input value="<%= @p.lat %>" name="project[lat]" type="hidden" id="lat" data-nonvalid />
+            <input value="<%= @p.long %>" name="project[long]" type="hidden" id="long" data-nonvalid />
 
-            <!-- Using ratio -->
-
-            <article class="form-group col-md-6">
-              <label class="control-label" for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
-              <div class="input-group">
-                <input data-constraint="real range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio if @p.using_ratio != 0 %>" />
-                <div class="input-group-addon">%</div>
-              </div>
+            <article class="form-group">
+              <label class="control-label" for="location"><%= t 'project.attribute.address' %></label>
+              <sup class="required-label"></sup>
+              <input data-constraint="required" name="location" class="form-control" id="location" data-new="<%= @p.new_record? %>" placeholder="" type="text" /> 
             </article>
 
-            <!-- / Using ratio -->
+            <!-- / Location -->
 
-          </div>
+            <!-- Map -->
 
-        </section>
-      </article>
+            <article class="form-group">
+              <div id="map"></div>
+            </article>
 
-      <!-- / Architecture -->
+            <!-- / Map -->
 
-      <!-- Progress -->
+          </section>
+        </article>
 
-      <article aria-name="progress" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.progress_box' %></h2>
-        </section>
-        <section class="box-body">
-          <article class="form-group">
-            <label class="control-label">
-              <%= t 'project.attribute.date_display_type' %>
-              <sup class="required-label"></sup>
-            </label>
-            <div>
-              <label class="radio-inline"><input data-constraint="required" name="project[date_display_type]" type="radio" value="1" <%= 'checked' if @p.date_display_type == 1 %> />Ngày</label>
-              <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="2" <%= 'checked' if @p.date_display_type == 2 %> />Quý</label>
-              <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="3" <%= 'checked' if @p.date_display_type == 3 %> />Năm</label>
+        <!-- / Position -->
+          
+        <!-- Architecture -->
+
+        <article aria-name="architecture" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.architecture_box' %></h2>
+          </section>
+          <section class="box-body">
+
+            <!-- Project type -->
+
+            <article class="form-group">
+              <label class="control-label" for="project_type"><%= t 'project.attribute.project_type' %></label>
+              <select class="form-control" id="project_type" name="project[project_type_id]">
+                <% ProjectType.get_options.each do |t| %>
+                  <option value="<%= t.id %>" <%= 'selected' if @p.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
+                <% end %>
+              </select>
+            </article>
+
+            <!-- / Project type -->
+
+            <div class="row">
+
+              <!-- Campus area -->
+
+              <article class="form-group col-md-6">
+                <label class="control-label" for="campus_area"><%= t 'project.attribute.campus_area' %></label>
+                <sup class="required-label"></sup>
+                <div class="input-group">
+                  <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @p.campus_area %>" />
+                  <div class="input-group-addon">m<sup>2</sup></div>
+                </div>
+              </article>
+
+              <!-- / Campus area -->
+
+              <!-- Using ratio -->
+
+              <article class="form-group col-md-6">
+                <label class="control-label" for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
+                <div class="input-group">
+                  <input data-constraint="real range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @p.using_ratio if @p.using_ratio != 0 %>" />
+                  <div class="input-group-addon">%</div>
+                </div>
+              </article>
+
+              <!-- / Using ratio -->
+
             </div>
-          </article>
 
-          <div class="row">
+          </section>
+        </article>
 
-            <!-- Estimate starting date -->
+        <!-- / Architecture -->
 
-            <article class="form-group col-md-6">
-              <label class="control-label" for="estimate_starting_date"><%= t 'project.attribute.estimate_starting_date' %></label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input name="project[estimate_starting_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.estimate_starting_date.strftime '%d/%m/%Y' unless @p.estimate_starting_date.blank? %>" id="estimate_starting_date" />
+        <!-- Progress -->
+
+        <article aria-name="progress" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.progress_box' %></h2>
+          </section>
+          <section class="box-body">
+            <article class="form-group">
+              <label class="control-label">
+                <%= t 'project.attribute.date_display_type' %>
+                <sup class="required-label"></sup>
+              </label>
+              <div>
+                <label class="radio-inline"><input data-constraint="required" name="project[date_display_type]" type="radio" value="1" <%= 'checked' if @p.date_display_type == 1 %> />Ngày</label>
+                <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="2" <%= 'checked' if @p.date_display_type == 2 %> />Quý</label>
+                <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="3" <%= 'checked' if @p.date_display_type == 3 %> />Năm</label>
               </div>
             </article>
 
-            <!-- / Estimate starting date -->
+            <div class="row">
 
-            <!-- Estimate finishing date -->
+              <!-- Estimate starting date -->
 
-            <article class="form-group col-md-6">
-              <label class="control-label" for="estimate_finishing_date"><%= t 'project.attribute.estimate_finishing_date' %></label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
+              <article class="form-group col-md-6">
+                <label class="control-label" for="estimate_starting_date"><%= t 'project.attribute.estimate_starting_date' %></label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input name="project[estimate_starting_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.estimate_starting_date.strftime '%d/%m/%Y' unless @p.estimate_starting_date.blank? %>" id="estimate_starting_date" />
                 </div>
-                <input name="project[estimate_finishing_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.estimate_finishing_date.strftime '%d/%m/%Y' unless @p.estimate_finishing_date.blank? %>" id="estimate_finishing_date" />
-              </div>
-            </article>
+              </article>
 
-            <!-- / Estimate finishing date -->
+              <!-- / Estimate starting date -->
 
-          </div>
+              <!-- Estimate finishing date -->
 
-          <div class="row">
-
-            <!-- Starting date -->
-
-            <article class="form-group col-md-6">
-              <label class="control-label" for="starting_date"><%= t 'project.attribute.starting_date' %></label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
+              <article class="form-group col-md-6">
+                <label class="control-label" for="estimate_finishing_date"><%= t 'project.attribute.estimate_finishing_date' %></label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input name="project[estimate_finishing_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.estimate_finishing_date.strftime '%d/%m/%Y' unless @p.estimate_finishing_date.blank? %>" id="estimate_finishing_date" />
                 </div>
-                <input name="project[starting_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.starting_date.strftime '%d/%m/%Y' unless @p.starting_date.blank? %>" id="starting_date" />
-              </div>
-            </article>
+              </article>
 
-            <!-- / Starting date -->
+              <!-- / Estimate finishing date -->
 
-            <!-- Finished base date -->
-
-            <article class="form-group col-md-6">
-              <label class="control-label" for="finished_base_date"><%= t 'project.attribute.finished_base_date' %></label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input name="project[finished_base_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.finished_base_date.strftime '%d/%m/%Y' unless @p.finished_base_date.blank? %>" id="finished_base_date" />
-              </div>
-            </article>
-
-            <!-- / Finished base date -->
-
-          </div>
-
-          <div class="row">
-
-            <!-- Transfer date -->
-
-            <article class="form-group col-md-6">
-              <label class="control-label" for="transfer_date"><%= t 'project.attribute.transfer_date' %></label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input name="project[transfer_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.transfer_date.strftime '%d/%m/%Y' unless @p.transfer_date.blank? %>" id="transfer_date" />
-              </div>
-            </article>
-
-            <!-- / Transfer date -->
-
-            <!-- Docs issue date -->
-
-            <article class="form-group col-md-6">
-              <label class="control-label" for="docs_issue_date"><%= t 'project.attribute.docs_issue_date' %></label>
-              <div class="input-group">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input name="project[docs_issue_date]"  class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.docs_issue_date.strftime '%d/%m/%Y' unless @p.docs_issue_date.blank? %>" id="docs_issue_date" />
-              </div>
-            </article>
-
-            <!-- / Docs issue date -->
-            
-          </div>
-
-        </section>
-      </article>
-
-      <!-- / Progress -->
-
-      <!-- Human resource -->
-
-      <article aria-name="human_resource" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.human_resource_box' %></h2>
-        </section>
-        <section class="box-body">
-
-          <!-- Currency -->
-
-          <article class="form-group">
-            <label class="control-label" for="investor_id"><%= t 'project.attribute.investor' %></label>
-            <input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@p.investor.name}\" data-value=\"#{@p.investor.id}\"".html_safe if @p.investor.present? %> data-free name="project[investor_id]" id="investor_id" />
-          </article>
-
-          <!-- / Currency -->
-
-          <!-- Execute unit -->
-
-          <article class="form-group">
-            <label class="control-label" for="execute_unit"><%= t 'project.attribute.execute_unit' %></label>
-            <input value="<%= @p.execute_unit %>" name="project[execute_unit]" class="form-control" id="execute_unit">
-          </article>
-
-          <!-- / Execute unit -->
-
-          <!-- Desgin unit -->
-
-          <article class="form-group">
-            <label class="control-label" for="design_unit"><%= t 'project.attribute.design_unit' %></label>
-            <input value="<%= @p.design_unit %>" name="project[design_unit]" class="form-control" id="design_unit">
-          </article>
-
-          <!-- / Desgin unit -->
-
-          <!-- Manager unit -->
-
-          <article class="form-group">
-            <label class="control-label" for="manage_unit"><%= t 'project.attribute.manage_unit' %></label>
-            <input value="<%= @p.manage_unit %>" name="project[manage_unit]" class="form-control" id="manage_unit">
-          </article>
-
-          <!-- / Manager unit -->
-
-        </section>
-      </article>
-
-      <!-- / Human resource -->
-
-      <!-- Payment info -->
-
-      <article aria-name="payment_info" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.payment_info_box' %></h2>
-        </section>
-        <section class="box-body">
-
-          <!-- Currency -->
-
-          <article class="form-group">
-            <label class="control-label" for="currency_id"><%= t 'project.attribute.currency' %></label>
-            <select name="project[currency_id]" class="form-control" id="currency_id">
-              <% Currency.get_options.each do |c| %>
-                <option value="<%= c.id %>" <%= 'selected' if c.id == @p.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @p.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-              <% end %>
-            </select>
-          </article>
-
-          <!-- / Currency -->
-
-          <!-- Price -->
-
-          <article class="form-group" data-toggled-element="sell un-rent">
-            <label class="control-label" for="unit_price"><%= t 'project.attribute.unit_price' %></label>
-            <div class="input-group">
-              <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @p.unit_price.to_i unless @p.unit_price.blank? %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
-              <div class="input-group-btn">
-                <input type="hidden" name="project[price_unit_id]" value="<%= current_price_unit.id %>" />
-                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_price_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
-                <ul class="dropdown-menu pull-right">
-                  <%= price_unit_html.html_safe %>
-                </ul>
-              </div>
             </div>
-            <section class="money-text font-size-12"><%= @p.unit_price_text %></section>
-          </article>
 
-          <!-- / Price -->
+            <div class="row">
 
-          <!-- Payment method -->
+              <!-- Starting date -->
 
-          <article class="form-group">
-            <label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
-            <textarea name="project[payment_method]" class="form-control" id="payment_method"><%= ApplicationHelper.decode_plain_text(@p.payment_method) if @p.payment_method.present? %></textarea>
-          </article>
+              <article class="form-group col-md-6">
+                <label class="control-label" for="starting_date"><%= t 'project.attribute.starting_date' %></label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input name="project[starting_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.starting_date.strftime '%d/%m/%Y' unless @p.starting_date.blank? %>" id="starting_date" />
+                </div>
+              </article>
 
-          <!-- / Payment method -->
+              <!-- / Starting date -->
 
-        </section>
-      </article>
+              <!-- Finished base date -->
 
-      <!-- / Payment info -->
+              <article class="form-group col-md-6">
+                <label class="control-label" for="finished_base_date"><%= t 'project.attribute.finished_base_date' %></label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input name="project[finished_base_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.finished_base_date.strftime '%d/%m/%Y' unless @p.finished_base_date.blank? %>" id="finished_base_date" />
+                </div>
+              </article>
 
-      <!-- Content -->
+              <!-- / Finished base date -->
 
-      <article aria-name="content" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title"><%= t 'project.attribute.content_box' %></h2>
-        </section>
-        <section class="box-body">
+            </div>
 
-          <!-- Title -->
+            <div class="row">
 
-          <article class="form-group">
-            <label class="control-label" for="title"><%= t 'project.attribute.title' %></label>
-            <sup class="required-label"></sup>
-            <input data-constraint="required" value="<%= @p.title %>" name="project[title]" class="form-control" id="title">
-          </article>
+              <!-- Transfer date -->
 
-          <!-- / Title -->
+              <article class="form-group col-md-6">
+                <label class="control-label" for="transfer_date"><%= t 'project.attribute.transfer_date' %></label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input name="project[transfer_date]" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.transfer_date.strftime '%d/%m/%Y' unless @p.transfer_date.blank? %>" id="transfer_date" />
+                </div>
+              </article>
 
-          <!-- Description -->
+              <!-- / Transfer date -->
 
-          <article class="form-group">
-            <label class="control-label" for="description"><%= t 'project.attribute.description' %></label>
-            <sup class="required-label"></sup>
-            <textarea data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @p.description %></textarea>
-          </article>
+              <!-- Docs issue date -->
 
-          <!-- / Description -->
+              <article class="form-group col-md-6">
+                <label class="control-label" for="docs_issue_date"><%= t 'project.attribute.docs_issue_date' %></label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input name="project[docs_issue_date]"  class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="<%= @p.docs_issue_date.strftime '%d/%m/%Y' unless @p.docs_issue_date.blank? %>" id="docs_issue_date" />
+                </div>
+              </article>
 
-        </section>
-      </article>
+              <!-- / Docs issue date -->
+              
+            </div>
 
-      <!-- / Content -->
+          </section>
+        </article>
 
-      <!-- Images -->
+        <!-- / Progress -->
 
-      <article aria-name="image" class="box box-default">
-        <section class="box-header with-border">
-          <h2 class="box-title">
-            <%= t 'project.attribute.image' %>
-          </h2>
-        </section>
-        <section class="box-body">
-          <article class="form-group margin-0">
-            <label class="control-label">Hình ảnh</label>
-            <sup class="required-label"></sup>
-            <p>Bạn có thể đăng 10 ảnh mô tả dự án của mình</p>
-            <p>Hãy chọn <b>hình đại diện</b> bằng cách click vào hình</p>
-            <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" data-has_description />
-          </article>
-        </section>
-      </article>
+        <!-- Human resource -->
 
-      <!-- / Images -->
+        <article aria-name="human_resource" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.human_resource_box' %></h2>
+          </section>
+          <section class="box-body">
 
-      <!-- Button -->
+            <!-- Currency -->
 
-      <article aria-name="button" class="box box-solid">
-        <section class="box-body row">
-          <div class="margin-top-bottom-5 col-sm-6">
-            <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'project.view.create.finish' %></b></button>
-          </div>
-          <div class="margin-top-bottom-5 col-sm-6">
-            <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'project.view.create.save_draft' %></b></button>
-          </div>
-        </section>
-      </article>
+            <article class="form-group">
+              <label class="control-label" for="investor_id"><%= t 'project.attribute.investor' %></label>
+              <input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@p.investor.name}\" data-value=\"#{@p.investor.id}\"".html_safe if @p.investor.present? %> data-free name="project[investor_id]" id="investor_id" />
+            </article>
 
-      <!-- / Button -->
+            <!-- / Currency -->
 
+            <!-- Execute unit -->
+
+            <article class="form-group">
+              <label class="control-label" for="execute_unit"><%= t 'project.attribute.execute_unit' %></label>
+              <input value="<%= @p.execute_unit %>" name="project[execute_unit]" class="form-control" id="execute_unit">
+            </article>
+
+            <!-- / Execute unit -->
+
+            <!-- Desgin unit -->
+
+            <article class="form-group">
+              <label class="control-label" for="design_unit"><%= t 'project.attribute.design_unit' %></label>
+              <input value="<%= @p.design_unit %>" name="project[design_unit]" class="form-control" id="design_unit">
+            </article>
+
+            <!-- / Desgin unit -->
+
+            <!-- Manager unit -->
+
+            <article class="form-group">
+              <label class="control-label" for="manage_unit"><%= t 'project.attribute.manage_unit' %></label>
+              <input value="<%= @p.manage_unit %>" name="project[manage_unit]" class="form-control" id="manage_unit">
+            </article>
+
+            <!-- / Manager unit -->
+
+          </section>
+        </article>
+
+        <!-- / Human resource -->
+
+        <!-- Payment info -->
+
+        <article aria-name="payment_info" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.payment_info_box' %></h2>
+          </section>
+          <section class="box-body">
+
+            <!-- Currency -->
+
+            <article class="form-group">
+              <label class="control-label" for="currency_id"><%= t 'project.attribute.currency' %></label>
+              <select name="project[currency_id]" class="form-control" id="currency_id">
+                <% Currency.get_options.each do |c| %>
+                  <option value="<%= c.id %>" <%= 'selected' if c.id == @p.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @p.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
+                <% end %>
+              </select>
+            </article>
+
+            <!-- / Currency -->
+
+            <!-- Price -->
+
+            <article class="form-group" data-toggled-element="sell un-rent">
+              <label class="control-label" for="unit_price"><%= t 'project.attribute.unit_price' %></label>
+              <div class="input-group">
+                <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @p.unit_price.to_i unless @p.unit_price.blank? %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
+                <div class="input-group-btn">
+                  <input type="hidden" name="project[price_unit_id]" value="<%= current_price_unit.id %>" />
+                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_price_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
+                  <ul class="dropdown-menu pull-right">
+                    <%= price_unit_html.html_safe %>
+                  </ul>
+                </div>
+              </div>
+              <section class="money-text font-size-12"><%= @p.unit_price_text %></section>
+            </article>
+
+            <!-- / Price -->
+
+            <!-- Payment method -->
+
+            <article class="form-group">
+              <label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
+              <textarea name="project[payment_method]" class="form-control" id="payment_method"><%= ApplicationHelper.decode_plain_text(@p.payment_method) if @p.payment_method.present? %></textarea>
+            </article>
+
+            <!-- / Payment method -->
+
+          </section>
+        </article>
+
+        <!-- / Payment info -->
+
+        <!-- Content -->
+
+        <article aria-name="content" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title"><%= t 'project.attribute.content_box' %></h2>
+          </section>
+          <section class="box-body">
+
+            <!-- Title -->
+
+            <article class="form-group">
+              <label class="control-label" for="title"><%= t 'project.attribute.title' %></label>
+              <sup class="required-label"></sup>
+              <input data-constraint="required" value="<%= @p.title %>" name="project[title]" class="form-control" id="title">
+            </article>
+
+            <!-- / Title -->
+
+            <!-- Description -->
+
+            <article class="form-group">
+              <label class="control-label" for="description"><%= t 'project.attribute.description' %></label>
+              <sup class="required-label"></sup>
+              <textarea data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @p.description %></textarea>
+            </article>
+
+            <!-- / Description -->
+
+          </section>
+        </article>
+
+        <!-- / Content -->
+
+        <!-- Images -->
+
+        <article aria-name="image" class="box box-default">
+          <section class="box-header with-border">
+            <h2 class="box-title">
+              <%= t 'project.attribute.image' %>
+            </h2>
+          </section>
+          <section class="box-body">
+            <article class="form-group margin-0">
+              <label class="control-label">Hình ảnh</label>
+              <sup class="required-label"></sup>
+              <p>Bạn có thể đăng 10 ảnh mô tả dự án của mình</p>
+              <p>Hãy chọn <b>hình đại diện</b> bằng cách click vào hình</p>
+              <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" data-has_description />
+            </article>
+          </section>
+        </article>
+
+        <!-- / Images -->
+
+        <!-- Button -->
+
+        <article aria-name="button" class="box box-solid">
+          <section class="box-body row">
+            <div class="margin-top-bottom-5 col-sm-6">
+              <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'project.view.create.finish' %></b></button>
+            </div>
+            <div class="margin-top-bottom-5 col-sm-6">
+              <button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'project.view.create.save_draft' %></b></button>
+            </div>
+          </section>
+        </article>
+
+        <!-- / Button -->
+
+      </section>
+        
     </section>
-      
+  
   </section>
 
 </form>

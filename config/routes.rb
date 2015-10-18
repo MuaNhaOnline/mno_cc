@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     get 'projects/demo'
     get 'projects/index'
     get 'projects/create(/:id)' => 'projects#create'
+    get 'projects/create_details(/:id)' => 'projects#create_details'
     get 'projects/my'
     get 'projects/_my_list'
     get 'projects/my_favorite'

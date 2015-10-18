@@ -76,6 +76,11 @@ end
     render json: { status: 0, result: project.id }
   end
 
+  # View
+  def create_details
+    render layout: 'layout_back'
+  end
+
 # / Create
 
 # My list
