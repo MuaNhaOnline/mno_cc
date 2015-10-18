@@ -148,6 +148,7 @@ vi:
       apartment: 'Căn hộ'
       office: 'Cao ốc văn phòng'
       complex: 'Phức hợp'
+      land: 'Đất nền'
   purpose:
     text:
       sell: 'Bán'

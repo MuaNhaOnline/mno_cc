@@ -139,5 +139,6 @@ ActiveRecord::Base.connection.execute('ALTER SEQUENCE project_types_id_seq RESTA
 ProjectType.create [
 	{ name: 'apartment', options: '{"default":""}' },
 	{ name: 'office' },
-	{ name: 'complex' }
+	{ name: 'complex' },
+	{ name: 'land' }
 ]
