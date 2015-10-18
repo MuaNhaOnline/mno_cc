@@ -372,8 +372,8 @@
 		<ul id="price_list" class="row" style="margin-top: 15px;">			
 			<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
 		</ul>
-		<div id="price_pagination">
-			<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count } %>
+		<div id="price_pagination" class="paging">
+			<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>
 		</div>
 	</article>
 </section>
@@ -387,41 +387,194 @@
 			<span>Tin nhanh</span>
 		</a>
 	</article>
-	<article class="content">
-		<%
-			res = RealEstate.search_with_params(is_full: 'false').limit(6)
-		%>
-		<% res.each_with_index do |re, i| %>
-			<% if i % 2 == 0 %>
-				<ul class="row">
-			<% end %>
-
-			<div class="">
-				<li class="item-xs">
-					<div class="title" data-toggle-object="short_re_<%= re.id %>">
-						<div class="date"><%= re.created_at.strftime '%d/%m/%y' %></div>
-						<div class="text"><%= re.title %></div>
+	<article class="content row">
+		<div class="col-md-6">
+			<li class="item-xs" data-toggle-object="idMe">
+				<div class="title" >
+					<div class="date">Hôm nay</div>
+					<div class="text">
+						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
+						<i class="fa fa-caret-down"></i>
 					</div>
-					<div data-object="short_re_<%= re.id %>" style="display: none;">
-						<div class="details">
-							<div class="button">
-								<a href="/real_estates/<%= re.id %>" class="btn btn-primary btn-sm">Xem</a>
-							</div>
-							<div class="text">
-								<%= re.description %>
-							</div>
+				</div>
+				<div class="content-item-xs" data-object="idMe" style="display: none;">
+					<div class="title">
+						<div class="date">5/10/2015</div>
+						<div class="text">
+							<span>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							</span>							
 						</div>
 					</div>
-				</li>
-			</div>
-
-			<% if i % 2 == 1 %>
-				</ul>
-			<% end %>			
-		<% end %>
-		<% if res.count % 2 == 1 %>
-			</ul>
-		<% end %>
+					<div class="details">
+						<div class="info">
+							<span class="poster">Người đăng</span>
+							<span class="name">Anh Chiến</span>
+							<span class="type-contact">Liên hệ</span>
+							<span class="infocontact">01682197651</span>
+						</div>
+						<div class="text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="item-xs" data-toggle-object="idMe1">
+				<div class="title" >
+					<div class="date">Hôm qua</div>
+					<div class="text">
+						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
+						<i class="fa fa-caret-down"></i>
+					</div>
+				</div>
+				<div class="content-item-xs" data-object="idMe1" style="display: none;">
+					<div class="title">
+						<div class="date">5/10/2015</div>
+						<div class="text">
+							<span>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							</span>							
+						</div>
+					</div>
+					<div class="details">
+						<div class="info">
+							<span class="poster">Người đăng</span>
+							<span class="name">Anh Chiến</span>
+							<span class="type-contact">Liên hệ</span>
+							<span class="infocontact">01682197651</span>
+						</div>
+						<div class="text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="item-xs" data-toggle-object="idMe2">
+				<div class="title" >
+					<div class="date">5/10/2015</div>
+					<div class="text">
+						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
+						<i class="fa fa-caret-down"></i>
+					</div>
+				</div>
+				<div class="content-item-xs" data-object="idMe2" style="display: none;">
+					<div class="title">
+						<div class="date">5/10/2015</div>
+						<div class="text">
+							<span>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							</span>							
+						</div>
+					</div>
+					<div class="details">
+						<div class="info">
+							<span class="poster">Người đăng</span>
+							<span class="name">Anh Chiến</span>
+							<span class="type-contact">Liên hệ</span>
+							<span class="infocontact">01682197651</span>
+						</div>
+						<div class="text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="item-xs" data-toggle-object="idMe3">
+				<div class="title" >
+					<div class="date">5/10/2015</div>
+					<div class="text">
+						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
+						<i class="fa fa-caret-down"></i>
+					</div>
+				</div>
+				<div class="content-item-xs" data-object="idMe3" style="display: none;">
+					<div class="title">
+						<div class="date">5/10/2015</div>
+						<div class="text">
+							<span>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							</span>							
+						</div>
+					</div>
+					<div class="details">
+						<div class="info">
+							<span class="poster">Người đăng</span>
+							<span class="name">Anh Chiến</span>
+							<span class="type-contact">Liên hệ</span>
+							<span class="infocontact">01682197651</span>
+						</div>
+						<div class="text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="item-xs" data-toggle-object="idMe4">
+				<div class="title" >
+					<div class="date">5/10/2015</div>
+					<div class="text">
+						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
+						<i class="fa fa-caret-down"></i>
+					</div>
+				</div>
+				<div class="content-item-xs" data-object="idMe4" style="display: none;">
+					<div class="title">
+						<div class="date">5/10/2015</div>
+						<div class="text">
+							<span>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							</span>							
+						</div>
+					</div>
+					<div class="details">
+						<div class="info">
+							<span class="poster">Người đăng</span>
+							<span class="name">Anh Chiến</span>
+							<span class="type-contact">Liên hệ</span>
+							<span class="infocontact">01682197651</span>
+						</div>
+						<div class="text">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</div>
+					</div>
+				</div>
+			</li>
+		</div>
 	</article>
 </section>
 <!-- end short property -->

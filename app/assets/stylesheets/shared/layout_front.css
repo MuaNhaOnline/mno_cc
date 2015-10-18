@@ -626,6 +626,7 @@ footer {
 .paging {
 	margin-top: 5px;
 	justify-content: center;
+	-webkit-justify-content: center;
 	display: -webkit-flex;
 	display: -moz-flex;
 	display: -o-flex;
