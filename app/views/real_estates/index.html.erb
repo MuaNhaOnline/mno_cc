@@ -588,185 +588,45 @@
 		</a>
 	</article>
 	<div class="row">
-		<div class="col-lg-6">
-			<div class="title">
-				<a href="/real_estates">Nhà vừa mở bán</a>
+		<div class="col-md-6">
+			<div class="item-general">
+				<a href="#">
+					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
+					<div class="name">
+						<span>Nhà ở xã hội</span>
+					</div>
+				</a>
 			</div>
-			<ul class="content">
-				<%
-					res = RealEstate.search_with_params.search_with_params.limit 3
-				%>
-				<% if res.count > 0 %>
-					<li class="col1">
-						<a href="/real_estates/<%= res[0].id %>">
-							<%= real_estate_avatar res[0] %>
-							<div class="wrapper">
-								<span class="price"><%= res[0].display_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
-							</div>
-						</a>
-					</li>
-					<% if res.count > 1 %>
-						<div class="col2">
-							<li>
-								<a href="/real_estates/<%= res[1].id %>">
-									<%= real_estate_avatar res[1] %>
-									<div class="wrapper">
-										<span class="price"><%= res[1].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-									</div>
-								</a>
-							</li>
-							<% if res.count > 2 %>
-								<li>
-									<a href="/real_estates/<%= res[2].id %>">
-										<%= real_estate_avatar res[2] %>
-										<div class="wrapper">
-											<span class="price"><%= res[2].display_price %></span>
-											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-										</div>
-									</a>
-								</li>
-							<% end %>
-						</div>
-					<% end %>
-				<% end %>
-			</ul>
 		</div>
-		<div class="col-lg-6">
-			<div class="title">
-				<a href="/real_estates">Căn hộ cao cấp</a>
+		<div class="col-md-6">
+			<div class="item-general">
+				<a href="#">
+					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
+					<div class="name">
+						<span>Biệt thự cao cấp</span>
+					</div>
+				</a>
 			</div>
-			<ul class="content">
-				<%
-					res = RealEstate.search_with_params(newest: nil).limit(3)
-				%>
-				<% if res.count > 0 %>
-					<li class="col1">
-						<a href="/real_estates/<%= res[0].id %>">
-							<%= real_estate_avatar res[0] %>
-							<div class="wrapper">
-								<span class="price"><%= res[0].display_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
-							</div>
-						</a>
-					</li>
-					<% if res.count > 1 %>
-						<div class="col2">
-							<li>
-								<a href="/real_estates/<%= res[1].id %>">
-									<%= real_estate_avatar res[1] %>
-									<div class="wrapper">
-										<span class="price"><%= res[1].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-									</div>
-								</a>
-							</li>
-							<% if res.count > 2 %>
-								<li>
-									<a href="/real_estates/<%= res[2].id %>">
-										<%= real_estate_avatar res[2] %>
-										<div class="wrapper">
-											<span class="price"><%= res[2].display_price %></span>
-											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-										</div>
-									</a>
-								</li>
-							<% end %>
-						</div>
-					<% end %>
-				<% end %>
-			</ul>
 		</div>
-		<div class="col-lg-6">
-			<div class="title">
-				<a href="/real_estates">Biệt thự giá rẻ</a>
+		<div class="col-md-6">
+			<div class="item-general">
+				<a href="#">
+					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
+					<div class="name">
+						<span>Căn hộ cao cấp</span>
+					</div>
+				</a>
 			</div>
-			<ul class="content">
-				<%
-					res = RealEstate.search_with_params(real_estate_type: 'villa', cheapest: nil).limit 3
-				%>
-				<% if res.count > 0 %>
-					<li class="col1">
-						<a href="/real_estates/<%= res[0].id %>">
-							<%= real_estate_avatar res[0] %>
-							<div class="wrapper">
-								<span class="price"><%= res[0].display_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
-							</div>
-						</a>
-					</li>
-					<% if res.count > 1 %>
-						<div class="col2">
-							<li>
-								<a href="/real_estates/<%= res[1].id %>">
-									<%= real_estate_avatar res[1] %>
-									<div class="wrapper">
-										<span class="price"><%= res[1].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-									</div>
-								</a>
-							</li>
-							<% if res.count > 2 %>
-								<li>
-									<a href="/real_estates/<%= res[2].id %>">
-										<%= real_estate_avatar res[2] %>
-										<div class="wrapper">
-											<span class="price"><%= res[2].display_price %></span>
-											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-										</div>
-									</a>
-								</li>
-							<% end %>
-						</div>
-					<% end %>
-				<% end %>
-			</ul>
 		</div>
-		<div class="col-lg-6">
-			<div class="title">
-				<a href="/real_estates">Nhà ở xã hội</a>
+		<div class="col-md-6">
+			<div class="item-general">
+				<a href="#">
+					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
+					<div class="name">
+						<span>Nhà phố giá rẻ</span>
+					</div>
+				</a>
 			</div>
-			<ul class="content">
-				<%
-					res = RealEstate.search_with_params(real_estate_type: 'town_house').limit 3
-				%>
-				<% if res.count > 0 %>
-					<li class="col1">
-						<a href="/real_estates/<%= res[0].id %>">
-							<%= real_estate_avatar res[0] %>
-							<div class="wrapper">
-								<span class="price"><%= res[0].display_price %></span>
-								<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[0].display_address %>"><%= res[0].display_address %></span>
-							</div>
-						</a>
-					</li>
-					<% if res.count > 1 %>
-						<div class="col2">
-							<li>
-								<a href="/real_estates/<%= res[1].id %>">
-									<%= real_estate_avatar res[1] %>
-									<div class="wrapper">
-										<span class="price"><%= res[1].display_price %></span>
-										<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[1].display_address %>"><%= res[1].display_address %></span>
-									</div>
-								</a>
-							</li>
-							<% if res.count > 2 %>
-								<li>
-									<a href="/real_estates/<%= res[2].id %>">
-										<%= real_estate_avatar res[2] %>
-										<div class="wrapper">
-											<span class="price"><%= res[2].display_price %></span>
-											<span class="address" data-toggle="tooltip" data-placement="bottom" title="<%= res[2].display_address %>"><%= res[2].display_address %></span>
-										</div>
-									</a>
-								</li>
-							<% end %>
-						</div>
-					<% end %>
-				<% end %>
-			</ul>
 		</div>
 	</div>
 </section>
