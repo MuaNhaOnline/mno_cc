@@ -225,7 +225,7 @@ class UsersController < ApplicationController
     def facebook_signin
       user = User.from_omniauth request.env['omniauth.auth']
       session[:user_id] = user.id
-      redirect_to '/'
+      render json: { status: 0 }
     end
 
     # / Facebook signin

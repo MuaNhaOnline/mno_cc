@@ -514,11 +514,18 @@
 	            $(response.data).each(function () {
 	              if (this.status != 'granted') {
 	                valid = false;
+	                alert('Vui lòng chấp nhận các đề xuất từ MuanhaOnline');
 	                return false;
 	              }
 	            });
 	            if (valid) {
-	              window.location = '/auth/facebook/callback';
+	            	$.ajax({
+	            		url: '/auth/facebook/callback'
+	            	}).done(function () {
+	            		window.location = '/';
+	            	}).fail(function () {
+	            		alert('Đăng nhập thất bại, vui lòng thử lại');
+	            	});
 	            }
 	          }); 
 	        }
