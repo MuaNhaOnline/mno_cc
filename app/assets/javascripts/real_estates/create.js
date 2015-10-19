@@ -134,6 +134,9 @@ $(function () {
   function toggleUntilFull(type) {
     // undefined type => off
     if (typeof type == 'undefined') {
+      $('[aria-click="unfull"]').addClass('active');
+      $('[aria-click="full"]').removeClass('active');
+
       $form.find('.until-full').hide().find(':input').prop('disabled', true);
       $formNavigator.find('.until-full').hide();
 
@@ -145,10 +148,6 @@ $(function () {
       $form.find('#real_estate_type_apartment_basic').val($form.find('#real_estate_type_apartment').val());
       $form.find('#real_estate_type_space_basic').val($form.find('#real_estate_type_space').val());
       $form.find('#campus_area_basic').val($form.find('#campus_area').val() || $form.find('#using_area').val() || $form.find('#constructional_area').val());
-
-      $form.find('[aria-click="detail-toggle"]').text('Đăng chi tiết').off('click').on('click', function () {
-        toggleUntilFull(0);
-      });
 
       $form.find('#is_full').val(false);
     }
@@ -186,6 +185,9 @@ $(function () {
         });
       }
 
+      $('[aria-click="unfull"]').removeClass('active');
+      $('[aria-click="full"]').addClass('active');
+
       $form.find('#is_full').val(true);
 
       // on
@@ -201,10 +203,6 @@ $(function () {
       $form.find('#constructional_area, #using_area, #campus_area').val($form.find('#campus_area_basic').val());
 
       $form.find('[aria-name="basic"]').hide().find(':input').prop('disabled', true); 
-
-      $form.find('[aria-click="detail-toggle"]').text('Đăng tin nhanh').off('click').on('click', function () {
-        toggleUntilFull();
-      });
 
       if (type == 1) {
         var $box = $form.find('.box .until-full:eq(0)').closest('.box');
@@ -413,6 +411,20 @@ $(function () {
         toggleUntilFull(0);
       }
     }
+
+    $('[aria-click="unfull"]').on('click', function () {
+      $button = $(this);
+      if (!$button.hasClass('acitve')) {
+        toggleUntilFull();
+      }
+    });
+
+    $('[aria-click="full"]').on('click', function () {
+      $button = $(this);
+      if (!$button.hasClass('acitve')) {
+        toggleUntilFull(0);
+      }
+    });
   }
 
   /*

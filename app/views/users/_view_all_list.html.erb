@@ -8,7 +8,7 @@
         <article class="name info">
           <%= user.full_name %>
         </article>
-        <article class="info <%= 'online' if user.is_online %>" aria-time="<%= user.last_interact_at %>">
+        <article class="info <%= 'online' if user.last_interact_at > 15.minutes.ago && user.is_online %>" aria-time="<%= user.last_interact_at %>">
 
         </article>
         <article class="info">
