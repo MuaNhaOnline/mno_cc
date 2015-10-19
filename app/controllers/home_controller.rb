@@ -3,6 +3,10 @@ class HomeController < ApplicationController
   def index
     	
   end
+
+  def result
+    
+  end
   
   def back
   	render layout: 'layout_back'

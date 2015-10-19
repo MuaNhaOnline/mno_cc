@@ -1,0 +1,21 @@
+/*start search*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 25px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search*/
+
+/*start navigator*/
+.navigator {
+	font-size: 13px;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+	}
+/*end navigator*/
