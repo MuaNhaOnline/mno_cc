@@ -49,4 +49,8 @@ class TemporaryFile < ActiveRecord::Base
       end
     end
   end
+
+  def self.get_file_name_by_file file
+    File.basename(file.path).split('_', 2)[1]
+  end
 end
