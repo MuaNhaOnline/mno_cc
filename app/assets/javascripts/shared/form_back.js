@@ -1026,23 +1026,17 @@ function initForm($form, params) {
 
 	function initEditor() {
 		$('[aria-input-type="editor"]').each(function () {
+			CKEDITOR.replace(this.id);
+
 			var $input = $(this);
+			
+			CKEDITOR.on('instanceReady', function() { $input.siblings('.cke').addClass('form-control'); }); 
 
-			$input.wysihtml5({
-				toolbar: {
-					image: false,
-					blockquote: false,
-					color: true
-				},
-  			events: {
-	        change: function() {
-	        	$input.change();
-	        }
-		    }
+			var ckeditor = CKEDITOR.instances[this.id];
+
+			ckeditor.on('blur', function () {
+				$input.val(ckeditor.getData()).change();
 			});
-
-			$input.siblings('.wysihtml5-sandbox').addClass('form-control');
-			$input.siblings('[name="_wysihtml5_mode"]').attr('data-nonvalid', '');
 		});
 	}
 
