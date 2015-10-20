@@ -389,191 +389,41 @@
 	</article>
 	<article class="content row">
 		<div class="col-md-6">
-			<li class="item-xs" data-toggle-object="idMe">
-				<div class="title" >
-					<div class="date">Hôm nay</div>
-					<div class="text">
-						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
-						<i class="fa fa-caret-down"></i>
-					</div>
-				</div>
-				<div class="content-item-xs" data-object="idMe" style="display: none;">
-					<div class="title">
-						<div class="date">5/10/2015</div>
+			<%
+				res = RealEstate.search_with_params(is_full: 'false').limit(5)
+			%>
+			<% res.each do |re| %>
+				<li class="item-xs" data-toggle-object="idMe<%= re.id %>">
+					<div class="title" >
+						<div class="date" aria-time="<%= re.created_at %>"></div>
 						<div class="text">
-							<span>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							</span>							
+							<span><%= re.title %></span>
+							<i class="fa fa-caret-down"></i>
 						</div>
 					</div>
-					<div class="details">
-						<div class="info">
-							<span class="poster">Người đăng</span>
-							<span class="name">Anh Chiến</span>
-							<span class="type-contact">Liên hệ</span>
-							<span class="infocontact">01682197651</span>
+					<div class="content-item-xs" data-object="idMe<%= re.id %>" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="<%= re.created_at %>"></div>
+							<div class="text">
+								<span>
+									<%= re.title %>
+								</span>							
+							</div>
 						</div>
-						<div class="text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
-					</div>
-				</div>
-			</li>
-			<li class="item-xs" data-toggle-object="idMe1">
-				<div class="title" >
-					<div class="date">Hôm qua</div>
-					<div class="text">
-						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
-						<i class="fa fa-caret-down"></i>
-					</div>
-				</div>
-				<div class="content-item-xs" data-object="idMe1" style="display: none;">
-					<div class="title">
-						<div class="date">5/10/2015</div>
-						<div class="text">
-							<span>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							</span>							
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name"><%= re.display_user_name %></span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact"><%= re.display_user_phone_number || re.display_user_email %></span>
+							</div>
+							<div class="text">
+								<%= re.description.html_safe %>
+							</div>
 						</div>
 					</div>
-					<div class="details">
-						<div class="info">
-							<span class="poster">Người đăng</span>
-							<span class="name">Anh Chiến</span>
-							<span class="type-contact">Liên hệ</span>
-							<span class="infocontact">01682197651</span>
-						</div>
-						<div class="text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
-					</div>
-				</div>
-			</li>
-			<li class="item-xs" data-toggle-object="idMe2">
-				<div class="title" >
-					<div class="date">5/10/2015</div>
-					<div class="text">
-						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
-						<i class="fa fa-caret-down"></i>
-					</div>
-				</div>
-				<div class="content-item-xs" data-object="idMe2" style="display: none;">
-					<div class="title">
-						<div class="date">5/10/2015</div>
-						<div class="text">
-							<span>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							</span>							
-						</div>
-					</div>
-					<div class="details">
-						<div class="info">
-							<span class="poster">Người đăng</span>
-							<span class="name">Anh Chiến</span>
-							<span class="type-contact">Liên hệ</span>
-							<span class="infocontact">01682197651</span>
-						</div>
-						<div class="text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
-					</div>
-				</div>
-			</li>
-			<li class="item-xs" data-toggle-object="idMe3">
-				<div class="title" >
-					<div class="date">5/10/2015</div>
-					<div class="text">
-						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
-						<i class="fa fa-caret-down"></i>
-					</div>
-				</div>
-				<div class="content-item-xs" data-object="idMe3" style="display: none;">
-					<div class="title">
-						<div class="date">5/10/2015</div>
-						<div class="text">
-							<span>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							</span>							
-						</div>
-					</div>
-					<div class="details">
-						<div class="info">
-							<span class="poster">Người đăng</span>
-							<span class="name">Anh Chiến</span>
-							<span class="type-contact">Liên hệ</span>
-							<span class="infocontact">01682197651</span>
-						</div>
-						<div class="text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
-					</div>
-				</div>
-			</li>
-			<li class="item-xs" data-toggle-object="idMe4">
-				<div class="title" >
-					<div class="date">5/10/2015</div>
-					<div class="text">
-						<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span>
-						<i class="fa fa-caret-down"></i>
-					</div>
-				</div>
-				<div class="content-item-xs" data-object="idMe4" style="display: none;">
-					<div class="title">
-						<div class="date">5/10/2015</div>
-						<div class="text">
-							<span>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							</span>							
-						</div>
-					</div>
-					<div class="details">
-						<div class="info">
-							<span class="poster">Người đăng</span>
-							<span class="name">Anh Chiến</span>
-							<span class="type-contact">Liên hệ</span>
-							<span class="infocontact">01682197651</span>
-						</div>
-						<div class="text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</div>
-					</div>
-				</div>
-			</li>
+				</li>
+			<% end %>
 		</div>
 	</article>
 </section>
@@ -588,46 +438,66 @@
 		</a>
 	</article>
 	<div class="row">
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Nhà ở xã hội</span>
-					</div>
-				</a>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'town_house').first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Nhà ở xã hội</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Biệt thự cao cấp</span>
-					</div>
-				</a>
+		<% end %>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'villa').first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Biệt thự cao cấp</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Căn hộ cao cấp</span>
-					</div>
-				</a>
+		<% end %>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'apartment').first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Căn hộ cao cấp</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Nhà phố giá rẻ</span>
-					</div>
-				</a>
+		<% end %>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'town_house', cheapest: nil).first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Nhà phố giá rẻ</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
+		<% end %>
 	</div>
 </section>
 <!-- end propensity property -->

@@ -286,7 +286,7 @@ class Project < ActiveRecord::Base
     _user_id = project.user_id
 
     if destroy id
-      User.decrease_project_count _user_id if _user_id != 0
+      User.decrease_project_count _user_id
       { status: 0 }
     else
       { status: 2 }

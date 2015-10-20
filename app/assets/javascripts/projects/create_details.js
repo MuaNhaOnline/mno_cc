@@ -29,8 +29,7 @@ $(function () {
  					$g = $('#g'),
  					tranX = 0,
  					tranY = 0,
- 					scaleX = 1,
- 					scaleY = 1;
+ 					scale = 1;
 
 				$('#image').attr({
 					'width': this.width,
@@ -46,15 +45,20 @@ $(function () {
 						isUp = e.originalEvent.wheelDelta < 0;
 
 						if (isUp) {
-							if (scaleX != 0 && scaleY != 0) {
-								scaleX -= 0.1;
-								scaleY -= 0.1;	
+							if (scale < 0.5) {
+								return;
 							}
+							scale -= 0.1;
 						}
 						else {
-							scaleX += 0.1;
-							scaleY += 0.1;
+							if (scale > 2) {
+								return;
+							}
+							scale += 0.1;
 						}
+
+						tranX = (-e.clientX - tranX) * (scale - 1);
+						tranY = (-e.clientY - tranY) * (scale - 1);
 
 						updateViewBox();
 					},
@@ -79,18 +83,18 @@ $(function () {
 								updateViewBoxWithValue(
 									tranX + movedX, 
 									tranY + movedY, 
-									scaleX, scaleY);
+									scale);
 							}
 						}).css('cursor', 'move');
 					}
 				})
 
 				function updateViewBox() {
-	 				$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scaleX + ', ' + scaleY +')');
+	 				$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
 				}
 
-				function updateViewBoxWithValue(tranX, tranY, scaleX, scaleY) {
-	 				$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scaleX + ', ' + scaleY +')');
+				function updateViewBoxWithValue(tranX, tranY, scale) {
+	 				$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
 				}
 
 			}
