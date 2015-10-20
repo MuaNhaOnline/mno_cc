@@ -1,9 +1,6 @@
 /*start search*/
 .search {
-	background: url('/assets/background/background-search.jpg') no-repeat center center;
-	height: 550px;
-	display: flex;
-	margin-bottom: 25px;
+	
 }	
 	.search .search-box {
 		margin: auto;
@@ -13,6 +10,7 @@
 /*start navigator*/
 .navigator {
 	font-size: 13px;
+	margin: 40px 0;
 }
 	.navigator .breadcrumb {
 		padding-left: 0;
