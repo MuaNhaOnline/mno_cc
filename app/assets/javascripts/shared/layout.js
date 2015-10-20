@@ -12,14 +12,14 @@ $(function () {
 
   setInterval(function () {
     $.ajax({
-      url: 'nothing',
+      url: '/nothing',
       method: 'POST'
     });
   }, 870000);
 
   $window.on('unload', function () {
     $.ajax({
-      url: 'end_session',
+      url: '/end_session',
       method: 'POST'
     });
   });

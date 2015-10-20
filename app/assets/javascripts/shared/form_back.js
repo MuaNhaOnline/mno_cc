@@ -367,7 +367,7 @@ function initForm($form, params) {
 					});
 
 					$item.find('[aria-click="remove"]').on('click', function () {
-						if ($item.is('[data-uploading]') && $form.find('.preview[data-uploading]').length == 1) {
+						if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
 							$form.submitStatus(false);
 						}
 
@@ -415,7 +415,7 @@ function initForm($form, params) {
 							}
 					}).always(function () {
 						$item.removeAttr('data-uploading');
-						if ($form.find('.preview[data-uploading]').length == 0) {
+						if ($form.find('[data-uploading]').length == 0) {
 							$form.submitStatus(false);
 						}
 					}).done(function(data) {
@@ -655,7 +655,7 @@ function initForm($form, params) {
 
 			$wrapper.append('<input type="hidden" ' + constraint + ' name="' + $fileUpload.attr('name') + '" />');
 
-			$fileUpload.removeAttr('name data-constraint');
+			$fileUpload.removeAttr('name data-constraint').attr('data-nonvalid', '');
 
 			$wrapper.next().on('click', function () {
 				$wrapper.find('[type="hidden"]').val('').change();
@@ -663,7 +663,9 @@ function initForm($form, params) {
 			});
 
 			if ($fileUpload.data('value')) {
-				$wrapper.find('[type="hidden"]').val($fileUpload.data('value'));
+				value = $fileUpload.data('value');
+				value['is_new'] = false;
+				$wrapper.find('[type="hidden"]').val(JSON.stringify(value));
 				$wrapper.hide().next().show().next().text($fileUpload.data('text'));
 			}
 
@@ -684,9 +686,10 @@ function initForm($form, params) {
 				// Preparing upload
 				var $progressBar = $wrapper.next().find('.progress-bar');
 
+				$fileUpload.attr('data-uploading', '');
 				// Upload file
 				$.ajax({
-						url: '/images/upload',
+						url: '/temporary_files/upload',
 						type: 'POST',
 						data: data,
 						processData: false,
@@ -703,13 +706,23 @@ function initForm($form, params) {
 							}
 							return xhr;
 						}
+				}).always(function () {
+					$fileUpload.removeAttr('data-uploading');
+					if ($form.find('[data-uploading]').length == 0) {
+						$form.submitStatus(false);
+					}
 				}).done(function(data) {
 					if (data.status == 0) {
+						var value = {
+							'id': data.result,
+							'is_new': true
+						}
+
 						// Display
 						$wrapper.hide();
 						$progressBar.css('width', '0%');
 
-						$wrapper.children('[type="hidden"]').val(data.result).change();
+						$wrapper.children('[type="hidden"]').val(JSON.stringify(value));
 					}
 					else {
 		        popupPrompt({

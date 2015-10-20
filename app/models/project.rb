@@ -9,6 +9,8 @@ class Project < ActiveRecord::Base
 
 # Associates
 
+  has_one :attachment, class_name: 'ProjectAttachment', dependent: :destroy
+
   belongs_to :user
   belongs_to :project_type
   belongs_to :street
@@ -129,6 +131,21 @@ class Project < ActiveRecord::Base
       _images[0].assign_attributes is_avatar: true
     end
     assign_attributes images: _images
+
+    # Attachment
+    if params[:attachment].present?
+      _value = JSON.parse params[:attachment]
+
+      if _value['is_new']
+        attachment.destroy if attachment.present?
+        
+        TemporaryFile.get_file(_value['id']) do |_file, _id|
+          assign_attributes attachment: ProjectAttachment.new(attachment: _file)
+        end
+      end
+    else
+      attachment.destroy if attachment.present?
+    end
 
     assign_attributes params.permit [
       :project_name, :title, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, 
@@ -268,8 +285,8 @@ class Project < ActiveRecord::Base
 
     _user_id = project.user_id
 
-    if delete id
-      User.decrease_project_count _user_id if _user_id != 0-
+    if destroy id
+      User.decrease_project_count _user_id
       { status: 0 }
     else
       { status: 2 }

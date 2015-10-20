@@ -46,6 +46,14 @@
     end
     image_init_value = _images.to_json
   end
+
+  # Attachment
+  attachment_text = ''
+  attachment_value = ''
+  if !@p.new_record? && @p.attachment.present?
+    attachment_text = @p.attachment.name
+    attachment_value = { 'id': @p.attachment.id }.to_json
+  end
 %>
 
 
@@ -428,6 +436,10 @@
             <article class="form-group">
               <label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
               <textarea name="project[payment_method]" class="form-control" id="payment_method"><%= ApplicationHelper.decode_plain_text(@p.payment_method) if @p.payment_method.present? %></textarea>
+            </article>
+
+            <article class="form-group">
+              <input name="project[attachment]" data-label="Đính kèm" class="file-upload-2" type="file" data-text="<%= attachment_text %>" data-value="<%= attachment_value %>" />
             </article>
 
             <!-- / Payment method -->

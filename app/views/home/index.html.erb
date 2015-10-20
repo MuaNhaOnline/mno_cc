@@ -257,46 +257,66 @@
 		</a>
 	</article>
 	<div class="row">
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Nhà ở xã hội</span>
-					</div>
-				</a>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'town_house').first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Nhà ở xã hội</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Biệt thự cao cấp</span>
-					</div>
-				</a>
+		<% end %>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'villa').first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Biệt thự cao cấp</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Căn hộ cao cấp</span>
-					</div>
-				</a>
+		<% end %>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'apartment').first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Căn hộ cao cấp</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<img class="img-responsive img-thumbnail" src="/assets/product/landscape05.jpg">
-					<div class="name">
-						<span>Nhà phố giá rẻ</span>
-					</div>
-				</a>
+		<% end %>
+		<% 
+			re = RealEstate.search_with_params(real_estate_type: 'town_house', cheapest: nil).first 
+		%>
+		<% if re.present? %>
+			<div class="col-md-6">
+				<div class="item-general">
+					<a href="#">
+						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+						<div class="name">
+							<span>Nhà phố giá rẻ</span>
+						</div>
+					</a>
+				</div>
 			</div>
-		</div>
+		<% end %>
 	</div>
 </section>
 <!-- end propensity property -->

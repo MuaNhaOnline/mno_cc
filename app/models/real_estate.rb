@@ -789,7 +789,22 @@ class RealEstate < ActiveRecord::Base
 
   # ID
   def display_id
-    @id ||= ApplicationHelper.id_format id, 'RE'
+    @display_id ||= ApplicationHelper.id_format id, 'RE'
+  end
+
+  # User name
+  def display_user_name
+    @display_user_name ||= user_id == 0 ? user_full_name : user.full_name
+  end
+
+  # User email
+  def display_user_email
+    @display_email ||= user_id == 0 ? user_email : user.email
+  end
+
+  # User phone number
+  def display_user_phone_number
+    @display_phone_number ||= user_id == 0 ? user_phone_number : user.phone_number
   end
 
   # Full address
