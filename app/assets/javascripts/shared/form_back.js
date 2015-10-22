@@ -351,8 +351,7 @@ function initForm($form, params) {
             $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
 
             initForm($descriptionForm, {
-              submit: function (e) {
-              	e.preventDefault();
+              submit: function () {
                 $popup.off();
 
                 var value = $item.data('value');
@@ -604,8 +603,7 @@ function initForm($form, params) {
             $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
 
             initForm($descriptionForm, {
-              submit: function (e) {
-              	e.preventDefault();
+              submit: function () {
                 $popup.off();
 
                 var value = $item.data('value');
@@ -1040,7 +1038,7 @@ function initForm($form, params) {
 	*/
 
 	function initEditor() {
-		$('[aria-input-type="editor"]').each(function () {
+		$form.find('[aria-input-type="editor"]').each(function () {
 			CKEDITOR.replace(this.id);
 
 			var $input = $(this);
