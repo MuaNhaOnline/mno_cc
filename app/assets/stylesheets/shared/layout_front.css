@@ -881,6 +881,7 @@ footer {
 	/*margin-bottom: 20px;*/
 	background-color: #fff;
 	margin: 15px auto;
+	box-shadow: 0px 0px 12px #ccc;
 }
 	.item-sm:hover {
 		border: 1px solid #54b40d;
