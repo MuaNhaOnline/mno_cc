@@ -4,7 +4,7 @@
 	.search-box-result {
 		border: 1px solid #ddd;
 		box-shadow: 0 0 6px #ddd;
-		border-radius: 3px;
+		border-radius: 6px;
 		width: 100%;
 	}
 	/*start title*/
@@ -16,7 +16,10 @@
 		-ms-flex-direction: row;
 		flex-direction: row;
 		padding: 10px;
-
+		background-color: rgb(88,178,36);
+		color: #fff;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
 	}
 		.search-box-result .title .text {
 			
@@ -34,6 +37,7 @@
 				font-weight: normal;
 				font-size: 93.33%;
 				cursor: pointer;
+				color: #f3f3f3;
 			}
 				.search-box-result .tabs label:hover {
 					color: #ff6511;
@@ -73,7 +77,22 @@
 			.search-box-result .tabs label input:checked ~ i.home-rent-icon {
 				background-position: 0 -192px;
 			}
+			.search-box-result .tabs label input:checked ~ .cover-tab {
+				background-color: rgba(0,0,0,0.7);
+				padding: 0 10px;
+				border-radius: 20px;
+				color: #fff;
+			}
 		/*end*/
+	/*end*/
+
+	/*start content*/
+	.search-box-result .content {
+		padding: 10px;
+		background-color: #F0FFF2;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
 	/*end*/
 /*end search*/
 
