@@ -3,7 +3,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/shared/Pe-icon-7-stroke.css">
 <% end %>
 
-<% content_for :scripts do %>
+<%; content_for :scripts do %>
 	<script src="/assets/home/result.js"></script>
 <% end %>
 
@@ -18,104 +18,27 @@
 <!-- end navigator -->
 
 <!--start Search Box -->
-<section class="search container">
-	<div class="search-box">
-		<!-- <div class="title">
-			<h3>Tìm kiếm bất động sản.</h3>
-		</div> -->
+<section class="search-result container">
+	<div class="search-box-result">
 		<form>
-			<div class="tab">
-				<label><input type="radio" name="typeTab" checked><i class="icon-32 icon-home-sale-result"></i><span>Đang bán</span></label>
-				<label><input type="radio" name="typeTab"><i class="icon-32 icon-home-rent-result"></i><span>Cho thuê</span></label>       
-			</div>
-			<div class="form-group-custom">
-				<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
-				<div class="btn-group history-search">
-					<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						từ khóa
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Từ khóa 01</a></li>
-						<li><a href="#">Từ khóa 02</a></li>
-						<li><a href="#">Từ khóa 03</a></li>
-					</ul>
+			<article class="title">				
+				<div class="text">
+					<h4>Kết quả tìm kiếm</h4>
 				</div>
-				<div class="separator">
-					<span>|</span>
+				<div class="tabs">
+					<label>
+						<input type="radio" name="typeTab">
+						<i class="home-sale-icon"></i><span>Đang Bán</span>
+					</label>
+					<label>
+						<input type="radio" name="typeTab">
+						<i class="home-rent-icon"></i><span>Cho Thuê</span>
+					</label>
 				</div>
-				<div class="btn-search">
-					<button type="submit"></button>
-					<div class="btn-more" data-function="show-search-plus">
-						<span class="caret"></span>
-					</div>
-				</div>
-			</div>			
-			<section class="more-search" id="more_search" style="display:none">
-				<div class="form-group-custom container-fluid">
-					<div class="row">
-						<div class="col-md-6 input-inline">
-						<select class="form-control input-sm">
-						<option>--Chọn thành phố/Tỉnh--</option>
-						<option>Thành phố Hồ Chí Minh</option>
-						<option>Hà Nội</option>
-						<option>Bà Rịa - Vũng Tàu</option>
-						</select>
-						</div>
-						<div class="col-md-6">
-						<select class="form-control input-sm">
-						<option>--Chọn quận/huyện--</option>
-						<option>Quận 1</option>
-						<option>Quận 5</option>
-						</select>
-						</div>
-					</div>
-				</div>
-				<div class="form-group-custom">
-					<select class="form-control input-sm">
-						<option>--Chọn giá tiền--</option>
-						<option>1 tỷ - 3 tỷ</option>
-						<option>3 tỷ - 5 tỷ</option>
-						<option>trên 5 tỷ</option>
-					</select>
-				</div>
-				<div class="form-group-custom">
-					<select class="form-control input-sm">
-						<option>--Chọn diện tích--</option>
-						<option>50m2 - 100m2</option>
-						<option>100m2 - 200m2</option>
-						<option>trên 200m2</option>
-					</select>
-				</div>
-				<div class="form-group-custom container-fluid">
-					<div class="row">
-						<div class="col-md-6 input-inline">
-							<select class="form-control input-sm">
-								<option>--Chọn loại BĐS--</option>
-								<option>Nhà phố</option>
-								<option>Biệt thự cao cấp</option>
-								<option>Nhà tạm</option>
-							</select>
-						</div>
-						<div class="col-md-6 input-inline">
-							<select class="form-control input-sm">
-								<option>--Chọn danh sách dự án--</option>
-								<option>Dự án 1</option>
-								<option>Dự án 2</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					
-				</div>
-			</section>
-			<div class="btn-plus">
-				<button type="submit" class="btn btn-success btn-sm btn-search-plus">
-					<img src="/assets/icon/search-plus.png">
-					Tìm nâng cao
-				</button>
-				<button type="button" class="btn btn-success btn-sm" data-function="zestimate" data-popup="coming-soon">Định giá khu vực này</button>
-			</div>
+			</article>
+			<article class="content">
+				
+			</article>
 		</form>
 	</div>
 </section>
@@ -124,7 +47,7 @@
 <!-- start real result -->
 <section class="result-real container">
 	<article class="title">
-		<h3>Nhà phố Quận 2</h3>
+		Nhà phố Quận 2
 	</article>
 	<article class="content">
 		<div class="row">

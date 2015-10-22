@@ -1,27 +1,79 @@
 /*start search*/
-.search {
-    margin: 0 auto;
-    margin-bottom: 40px;
-    border: 1px solid #eee;
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 1px 1px 10px #DEDEDE;
+.search-result {    
 }
-	.search  .search-box {
-		margin: 0 auto;
-		background-color: #fff;
-		border: none;
-		text-align: center;
-		padding-bottom: 10px;	
+	.search-box-result {
+		border: 1px solid #ddd;
+		box-shadow: 0 0 6px #ddd;
+		border-radius: 3px;
+		width: 100%;
 	}
-	.search-box > .title {
+	/*start title*/
+	.search-box-result .title {
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-flex-direction: row;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		padding: 10px;
+
 	}
-	/*start tab*/
-	.search-box .tab span {
-		color: #666;
-	}
-		.search-box .tab input:checked ~ span {
+		.search-box-result .title .text {
+			
 		}
+			.search-box-result .title .text h4 {
+				line-height: normal;
+			}			
+		/*start tabs*/
+		.search-box-result .tabs {		
+			margin-left: auto;
+		}
+			.search-box-result .tabs label {
+				line-height: 36px;
+				margin-left: 10px;
+				font-weight: normal;
+				font-size: 93.33%;
+				cursor: pointer;
+			}
+				.search-box-result .tabs label:hover {
+					color: #ff6511;
+				}
+			.search-box-result .tabs label input {
+				position: absolute;
+				left: -9999px;
+			}
+			.search-box-result .tabs label span {
+				margin-left: 5px;
+			}
+			.search-box-result .tabs label i {
+				display: inline-block;
+				width: 16px;
+				height: 16px;
+				background: url('/assets/icon/icon.png') no-repeat;
+				vertical-align: middle;
+			}
+				.search-box-result .tabs label i.home-sale-icon {
+					background-position: 0 -144px;
+				}
+					.search-box-result .tabs label:hover i.home-sale-icon {
+						background-position: 0 -160px;
+					}
+				.search-box-result .tabs label i.home-rent-icon {
+					background-position: 0 -176px;
+				}
+					.search-box-result .tabs label:hover i.home-rent-icon {
+						background-position: 0 -192px;
+					}
+			.search-box-result .tabs label input:checked ~ span {
+				color: #ff6511;
+			}
+			.search-box-result .tabs label input:checked ~ i.home-sale-icon {
+				background-position: 0 -160px;
+			}
+			.search-box-result .tabs label input:checked ~ i.home-rent-icon {
+				background-position: 0 -192px;
+			}
+		/*end*/
 	/*end*/
 /*end search*/
 
@@ -40,7 +92,6 @@
 /*start result-real*/
 .result-real {
 	margin-bottom: 40px;
-	padding: 10px;
 	/*border: 1px solid #eee;
 	border-radius: 4px;
 	background-color: #fff;
