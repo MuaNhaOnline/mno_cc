@@ -45,7 +45,12 @@
 .icon-home-rent {
 	background-position: -40px -32px; 
 }
-
+.icon-home-sale-result {
+	background-position: -40px -64px;
+}
+.icon-home-rent-result {
+	background-position: -40px -96px;
+}
 /*end*/
 
 
