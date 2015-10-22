@@ -642,13 +642,13 @@ function initForm($form, params) {
 		$form.find('.file-upload-2').each(function () {
 			var 
 				$fileUpload = $(this),
-				$wrapper = $('<button class="btn btn-default btn-file"></button>'),
+				$wrapper = $('<button type="button" data-nonvalid class="btn btn-default btn-file"></button>'),
 				size = $fileUpload.data('size');
 
 			$fileUpload.after($wrapper);
 			$fileUpload.appendTo($wrapper);
 			$wrapper.append($fileUpload.data('label'));
-			$wrapper.after('<button type="button" style="display: none; position: relative;" class="btn btn-default margin-left-5">&times;<div class="progress progress-xxs progress-inside"><div class="progress-bar progress-bar-primary" role="progressbar"></div></div></button><span class="margin-left-5"></span>');
+			$wrapper.after('<button type="button" data-nonvalid style="display: none; position: relative;" class="btn btn-default margin-left-5">&times;<div class="progress progress-xxs progress-inside"><div class="progress-bar progress-bar-primary" role="progressbar"></div></div></button><span class="margin-left-5"></span>');
 
 			var constraint = $fileUpload.attr('data-constraint');
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
@@ -1038,7 +1038,7 @@ function initForm($form, params) {
 	*/
 
 	function initEditor() {
-		$('[aria-input-type="editor"]').each(function () {
+		$form.find('[aria-input-type="editor"]').each(function () {
 			CKEDITOR.replace(this.id);
 
 			var $input = $(this);
