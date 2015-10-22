@@ -351,7 +351,8 @@ function initForm($form, params) {
             $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
 
             initForm($descriptionForm, {
-              submit: function () {
+              submit: function (e) {
+              	e.preventDefault();
                 $popup.off();
 
                 var value = $item.data('value');
@@ -603,7 +604,8 @@ function initForm($form, params) {
             $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
 
             initForm($descriptionForm, {
-              submit: function () {
+              submit: function (e) {
+              	e.preventDefault();
                 $popup.off();
 
                 var value = $item.data('value');
