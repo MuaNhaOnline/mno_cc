@@ -3,6 +3,7 @@ $(function() {
 	Jump();
 
 	initTypeTab();
+	initSearchForm();
 });
 // end
 
@@ -18,3 +19,17 @@ function Jump() {
 	});
 }
 // end
+
+/*
+	Search form
+*/
+
+	function initSearchForm() {
+		var $form = $('#search_form');
+
+		
+	}
+
+/*
+	/ Search form
+*/

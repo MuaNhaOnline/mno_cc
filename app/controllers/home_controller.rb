@@ -4,9 +4,15 @@ class HomeController < ApplicationController
     	
   end
 
-  def result
-    
-  end
+  # Search result
+
+    # Handle => View
+    # params: search form
+    def result
+      
+    end
+
+  # / Search result
   
   def back
   	render layout: 'layout_back'

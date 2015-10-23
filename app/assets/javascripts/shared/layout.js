@@ -1,9 +1,9 @@
-var $body, $window, _temp = {};
-var $document = $(document);
+var $body, $window, $document, _temp = {};
 
 $(function () {
   $body = $('body');
   $window = $(window);
+  $document = $(document);
 
   _temp['pagination_count'] = 0;
   initSize();

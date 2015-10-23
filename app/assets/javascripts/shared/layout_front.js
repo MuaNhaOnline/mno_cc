@@ -28,6 +28,9 @@ $(function () {
 	// init MiniMenu
 	// initMiniMenu();
 	initMiniMenu($('#mini_menu'), $('#content_mini_menu'));
+
+	// Search form
+	initSearchForm();
 });
 
 //endregion
@@ -584,16 +587,16 @@ function initMap(id, params) {
 	Set purpose
 */
 
-function setPurpose() {
-	switch ($.cookie('purpose')) {
-		case 'r':
-			$body.attr('data-purpose', 'rent');
-			break;
-		default:
-			$body.attr('data-purpose', 'sell');
-			break;
+	function setPurpose() {
+		switch ($.cookie('purpose')) {
+			case 'r':
+				$body.attr('data-purpose', 'rent');
+				break;
+			default:
+				$body.attr('data-purpose', 'sell');
+				break;
+		}
 	}
-}
 
 /*
 	/ Set purpose
