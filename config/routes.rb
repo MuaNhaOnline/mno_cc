@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get 'home/index'
     get 'home/back'
     get 'home/result'
+    get 'home/blog'
     post 'set_width/:width_type' => 'home#set_width'
     post 'nothing' => 'home#nothing'
     post 'end_session' => 'home#end_session'
