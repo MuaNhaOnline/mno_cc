@@ -37,12 +37,97 @@
 				</div>
 			</article>
 			<article class="content">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group-custom" style="margin-bottom: 0;">
+							<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
+							<div class="btn-group history-search">
+								<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									từ khóa
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Từ khóa 01</a></li>
+									<li><a href="#">Từ khóa 02</a></li>
+									<li><a href="#">Từ khóa 03</a></li>
+								</ul>
+							</div>
+							<div class="separator">
+								<span>|</span>
+							</div>
+							<div class="btn-search">
+								<button type="submit"></button>
+								<div class="btn-more" data-function="show-search-plus">
+									<span class="caret"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2 btn-plus">
+						<button type="button" class="btn btn-success btn-sm" data-function="zestimate" data-popup="coming-soon">Định giá khu vực này</button>						
+					</div>
+					<div class="col-md-2 btn-plus">
+						<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+							<img src="/assets/icon/search-plus.png">
+							Tìm nâng cao
+						</button>
+					</div>
+				</div>				
+				<div class="more-search" id="more_search" style="display:none; margin-top: 10px;">
+					<div class="form-group-custom container-fluid">
+						<div class="row">
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn thành phố/Tỉnh--</option>
+									<option>Thành phố Hồ Chí Minh</option>
+									<option>Hà Nội</option>
+									<option>Bà Rịa - Vũng Tàu</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm">
+									<option>--Chọn quận/huyện--</option>
+									<option>Quận 1</option>
+									<option>Quận 5</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm">
+									<option>--Chọn giá tiền--</option>
+									<option>1 tỷ - 3 tỷ</option>
+									<option>3 tỷ - 5 tỷ</option>
+									<option>trên 5 tỷ</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm">
+									<option>--Chọn diện tích--</option>
+									<option>50m2 - 100m2</option>
+									<option>100m2 - 200m2</option>
+									<option>trên 200m2</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group-custom container-fluid" style="margin-bottom: 0px;">
+						<div class="row">
+							<div class="col-md-6 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn loại bất động sản--</option>
+									<option>Căn hộ cao cấp</option>
+									<option>Biệt thự</option>
+									<option>Nhà cấp 4</option>
+								</select>
+							</div>
+							<div class="col-md-6 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn danh sách dự án--</option>
+									<option>Dự án 1</option>
+									<option>Dự án 2</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
 			</article>
 		</form>
 	</div>

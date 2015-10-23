@@ -1,6 +1,8 @@
 // Initilization
 $(function() {
 	Jump();
+
+	initTypeTab();
 });
 // end
 
@@ -15,3 +17,4 @@ function Jump() {
 		}, 500)
 	});
 }
+// end

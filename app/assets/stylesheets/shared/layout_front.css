@@ -877,7 +877,7 @@ footer {
 	border: 1px solid #ddd;
 	width: 260px;
 	color: #666;
-	border-radius: 6px;
+	border-radius: 5px;
 	/*margin-bottom: 20px;*/
 	background-color: #fff;
 	margin: 15px auto;
@@ -897,8 +897,8 @@ footer {
 	}
 		.item-sm img {
 			width: 100%;
-			border-top-left-radius: 4px;
-			border-top-right-radius: 4px;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 3px;
 		}
 		.item-sm .badge-new {
 			position: absolute;
