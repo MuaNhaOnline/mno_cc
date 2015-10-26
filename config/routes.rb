@@ -10,12 +10,17 @@ Rails.application.routes.draw do
 
     get 'home/index'
     get 'home/back'
-    get 'home/result'
     post 'set_width/:width_type' => 'home#set_width'
     post 'nothing' => 'home#nothing'
     post 'end_session' => 'home#end_session'
 
   # / Home, shared
+
+  # Search
+  
+    get 'search' => 'home#search'
+
+  # / Search
 
   # Real estate
 
@@ -79,6 +84,12 @@ Rails.application.routes.draw do
     post 'projects/user_favorite/:id/:is_add' => 'projects#user_favorite'
 
   # / Project
+
+  # Block
+
+    get 'blocks/_create'
+
+  # / Block
 
   # User
 
@@ -165,16 +176,6 @@ Rails.application.routes.draw do
   # / Investor
 
   # Temp
-
-    # Block
-    get 'blocks/create/:project_id' => 'blocks#create'
-    post 'blocks/create' => 'blocks#save'
-    get 'blocks/build/:id' => 'blocks#build'
-    put 'blocks/build/:id' => 'blocks#save_building'
-
-    # Item group
-    get 'item_groups/create/:block_id' => 'item_groups#create'
-    post 'item_groups/create' => 'item_groups#save'
 
     #Business
     get 'businesses/manager'

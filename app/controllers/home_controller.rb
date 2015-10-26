@@ -8,8 +8,11 @@ class HomeController < ApplicationController
 
     # Handle => View
     # params: search form
-    def result
-      
+    def search
+      if params[:search].present?
+        
+        @search_param = params[:search]
+      end
     end
 
   # / Search result
