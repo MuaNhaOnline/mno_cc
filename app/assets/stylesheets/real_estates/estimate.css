@@ -1,0 +1,134 @@
+/*start search-box*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	margin-bottom: 25px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search-box*/
+
+/*start navigator*/
+.navigator {
+	font-size: 86.67%;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+	}
+/*end navigator*/
+
+/*start real estimate*/
+.real-estimate {
+}
+	.real-estimate .content {
+		border: 1px solid #EAEAEA;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-flex-direction: vertical;
+		-ms-flex-direction: vertical;
+		flex-direction: vertical;
+		border-radius: 3px;
+	}
+
+	/*Left Panel*/
+	.real-estimate .panel-switch {
+		width: 270px;
+		background-color: #eee;
+		border-right: 0px;
+		padding-top: 55px;
+	}
+	/*end*/
+
+	/*Right Panel*/
+	.real-estimate .content-switch {
+		background-color: #fff;
+		width: 100%;
+	}
+	/*end*/
+
+	/*start custom tab*/
+		/*start panel switch*/
+		.panel-switch li + li {
+			margin-top: 0;
+		}
+		.panel-switch li a {
+			text-align: center;
+			text-transform: uppercase;
+			color: #999;
+		}
+		.panel-switch li:hover a,
+		.panel-switch li.active a:focus,
+		.panel-switch li.active a:hover,
+		.panel-switch li.active a {
+			background-color: #fff;
+			color: #333;
+			border-radius: 0;
+			box-shadow: -2px 0 6px #fff;
+			width: calc(100% + 5px);
+			margin-left: -2px;
+		}
+		/*end*/
+
+		/*start content switch*/
+		.content-switch .sub-content {
+			background-color: #fff;
+		}
+			/*start tab*/
+			.content-switch .tab-pane ul.structure {
+				display: flex;
+				width: 100%;
+				justify-content: center;
+				padding: 10px;
+				background-color: #fbfbfb;
+			}
+				ul.structure li + li,
+				ul.structure li:first-child {
+					margin-right: 15px;
+				}
+				ul.structure li a {
+					position: relative;
+					color: #999;
+					background-color: ;
+					padding: 7px 20px;
+					border-radius: 3px;
+				}
+				ul.structure li.active a,
+				ul.structure li.active a:hover,
+				ul.structure li.active a:focus,
+				ul.structure li a:hover,
+				ul.structure li a:focus {
+					position: relative;
+					color: #ffffff;
+					background-color: #2E9854;
+				}
+				ul.structure li.active a:after {
+					content: '';
+					bottom: -10px;
+					left: calc(50% - 15px);
+					position: absolute;
+					width: 0;
+					height: 0;
+					border-left: 15px solid transparent;
+					border-right: 15px solid transparent;
+					border-bottom: 15px solid #fff;
+				}
+			/*end*/
+
+			/*start content*/
+			.content-switch .sub-content {
+				padding: 10px;
+			}
+			/*end*/
+		/*end*/
+	/*end*/
+
+/*end*/
+
+
+
