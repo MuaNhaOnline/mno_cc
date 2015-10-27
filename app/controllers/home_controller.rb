@@ -16,6 +16,10 @@ class HomeController < ApplicationController
     end
 
   # / Search result
+
+  def blog
+
+  end
   
   def back
   	render layout: 'layout_back'

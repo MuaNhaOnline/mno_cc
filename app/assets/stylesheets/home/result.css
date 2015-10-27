@@ -175,6 +175,7 @@
 				display: none;
 				width: 100%;
 				background-color: #FF6511;
+				border-color: #FF6511;
 				color: #fff;				
 			}
 				.search-box-result .content .btn-plus .btn-search-plus:hover {
