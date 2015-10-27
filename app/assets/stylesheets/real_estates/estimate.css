@@ -24,24 +24,30 @@
 
 /*start real estimate*/
 .real-estimate {
+	margin-bottom: 40px;
 }
 	.real-estimate .content {
-		border: 1px solid #EAEAEA;
+		border: 1px solid #f2f2f2;
 		display: -webkit-flex;
 		display: -ms-flexbox;
 		display: flex;
 		-webkit-flex-direction: vertical;
 		-ms-flex-direction: vertical;
 		flex-direction: vertical;
-		border-radius: 3px;
+		border-radius: 5px;
 	}
 
 	/*Left Panel*/
 	.real-estimate .panel-switch {
-		width: 270px;
-		background-color: #eee;
+		width: 300px;
+		height: 440px;
+		background-color: #4B944B;
 		border-right: 0px;
-		padding-top: 55px;
+		padding-top: 75px;
+		z-index: 0;
+		box-shadow: 1px 2px 6px #4B944B;
+		border-radius: 3px;
+		border-top-right-radius: 0;
 	}
 	/*end*/
 
@@ -54,24 +60,28 @@
 
 	/*start custom tab*/
 		/*start panel switch*/
-		.panel-switch li + li {
-			margin-top: 0;
+		.panel-switch li + li,
+		.panel-switch li:first-child {
+			margin-bottom: 20px;
 		}
 		.panel-switch li a {
 			text-align: center;
 			text-transform: uppercase;
-			color: #999;
+			color: #f3f3f3;
+			height: 60px;
+			line-height: 40px;
 		}
 		.panel-switch li:hover a,
 		.panel-switch li.active a:focus,
 		.panel-switch li.active a:hover,
 		.panel-switch li.active a {
-			background-color: #fff;
-			color: #333;
-			border-radius: 0;
-			box-shadow: -2px 0 6px #fff;
+			background-color: #FFFFFF;
+			color: #666;
+			border-radius: 1px;
+			box-shadow: 0px 0 5px #FFFFFF;
 			width: calc(100% + 5px);
 			margin-left: -2px;
+			z-index: 1;
 		}
 		/*end*/
 
@@ -85,7 +95,8 @@
 				width: 100%;
 				justify-content: center;
 				padding: 10px;
-				background-color: #fbfbfb;
+				background-color: #5CB85C;
+				border-top-right-radius: 3px;
 			}
 				ul.structure li + li,
 				ul.structure li:first-child {
@@ -93,7 +104,7 @@
 				}
 				ul.structure li a {
 					position: relative;
-					color: #999;
+					color: #fff;
 					background-color: ;
 					padding: 7px 20px;
 					border-radius: 3px;
@@ -109,7 +120,7 @@
 				}
 				ul.structure li.active a:after {
 					content: '';
-					bottom: -10px;
+					bottom: -20px;
 					left: calc(50% - 15px);
 					position: absolute;
 					width: 0;
@@ -122,13 +133,155 @@
 
 			/*start content*/
 			.content-switch .sub-content {
-				padding: 10px;
+				padding: 30px;
 			}
 			/*end*/
 		/*end*/
 	/*end*/
 
+	.tool-box {
+		margin-bottom: 20px;
+	}
+	/*start price on tab*/
+	
+	/*end*/
+
+	/*start position real tab*/
+	.position-real-tool {
+		margin: 10px auto;
+		text-align: center;
+	}
+		.position-real-tool > li + li,
+		.position-real-tool > li:first-child {
+			margin-right: 20px;
+		}
+		.position-real-tool > li {
+			border: 1px solid #d2d2d2;
+			display: inline-block;
+			width: 120px;
+			text-align: center;
+		}
+			.position-real-tool > li > a,
+			.position-real-tool > li > .btn-group a {
+				display: block;
+				padding: 5px 10px;
+			}
+				.position-real-tool > li > a:hover,
+				.position-real-tool > li > .btn-group a:hover {
+					cursor: pointer;
+					background-color: #5CB85C;
+					color: #fff;
+				}
+				.position-real-tool > li > a:focus,
+				.position-real-tool > li > .btn-group a:focus {
+					cursor: pointer;
+					background-color: #4B944B;
+					color: #fff;
+				}				
+
+				.position-real-tool .btn-group {
+					width: 100%;
+					display: block;
+				}
+				.dropdown-menu > li > a:hover {
+					background-color: #54b40d;
+					color: #f5f5f5;
+				}				
+	/*end*/
+	/*find estimate company*/
+	form .form-group-custom {
+		position: relative;
+		margin-bottom: 10px;
+	}
+		form .btn-search {
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 0;
+			padding: 0 10px;			
+			display: -webkit-flex;
+			display: -moz-flex;
+			display: -o-flex;
+			display: flex;
+		}
+			form .btn-search button {
+				height: 24px;
+				width: 24px;
+				border: none;
+				align-self: center;
+				-webkit-align-self: center;
+				text-decoration: none;
+				outline: none;
+				vertical-align: middle;
+				padding: 0;
+				background: url('/assets/icon/icon.png') no-repeat -16px 0;
+			}
+				form .btn-search button:hover {
+					background-position: -16px -24px ;
+				}
+	/*end*/
 /*end*/
 
+/*start estimate company*/
+	/*start search-tool*/
+	.company-tool {
+		width: 500px;
+		margin-left: auto;
+		margin-right: 40px;
+		margin-bottom: 30px;
+		margin-top: 40px;
+	}
+	/*end*/
+	/*start agent*/
+	.agent {
+		margin-bottom: 40px;
+	}
+		.agent ul {
+		}
+		.agent .item-agent {
+			height: 150px;
+			width: 150px;
+			border: 1px solid #ccc;	
+		}
+		.agent .slick-slide {
+			margin: 0 20px;
+		}
+	/*end agent*/
+/*end*/
 
+/*start real-estimated*/
+.real-estimated {
 
+}
+	.real-estimated .content-switch .tab-pane ul.structure {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		padding: 10px;
+		background-color: #038ED1;
+		border-top-right-radius: 3px;
+	}
+	.real-estimated ul.structure li.active a, 
+	.real-estimated ul.structure li.active a:hover,
+	.real-estimated ul.structure li.active a:focus, 
+	.real-estimated ul.structure li a:hover, 
+	.real-estimated ul.structure li a:focus {
+		position: relative;
+		color: #ffffff;
+		background-color: #046492;
+	}
+	.real-estimated .panel-switch {
+		width: 300px;
+		height: 440px;
+		background-color: #046492;
+		border-right: 0px;
+		padding-top: 75px;
+		z-index: 0;
+		box-shadow: 1px 2px 6px #038ED1;
+		border-radius: 3px;
+		border-top-right-radius: 0;
+	}
+	.real-estimated .position-real-tool li > a:hover {
+		background-color: #046492;
+	}
+/*end*/

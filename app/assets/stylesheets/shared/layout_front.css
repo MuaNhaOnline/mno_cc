@@ -231,7 +231,15 @@ header {
 		.sitemap button {
 			padding-left: 0;
 			padding-right: 0;
-		}        
+		}
+		.sitemap a {
+			font-size: 100%;
+			color: inherit;
+		}
+			.sitemap a:hover {
+				text-decoration: none;
+				color: #54b40d;
+			}
 		/*end sitemap*/
 
 		/*start switch-button*/
