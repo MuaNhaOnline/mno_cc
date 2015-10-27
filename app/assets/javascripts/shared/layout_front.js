@@ -28,9 +28,6 @@ $(function () {
 	// init MiniMenu
 	// initMiniMenu();
 	initMiniMenu($('#mini_menu'), $('#content_mini_menu'));
-
-	// Search form
-	initSearchForm();
 });
 
 //endregion
