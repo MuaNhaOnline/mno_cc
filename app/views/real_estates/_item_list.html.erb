@@ -29,7 +29,7 @@
 						<span class="type-contact">Liên hệ</span>
 						<span class="infocontact"><%= re.display_user_phone_number || re.display_user_email %></span>
 					</div>
-					<div class="text"><%= re.description %></div>
+					<div class="text"><%= re.description.html_safe %></div>
 				</div>
 			</div>
 		</li>

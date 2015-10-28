@@ -6,7 +6,6 @@ class Project < ActiveRecord::Base
     meta_search_2: 'B',
     meta_search_3: 'C'
   }
-  # }, using: { tsearch: { prefix: true, any_word: false } }
 
 # Associates
 
