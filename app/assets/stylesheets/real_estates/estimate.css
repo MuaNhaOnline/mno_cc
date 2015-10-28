@@ -49,6 +49,8 @@
 		z-index: 0;
 		border-radius: 3px;
 		border-top-right-radius: 0;
+		background-color: #efefef;
+		box-shadow: 0 0 4px #ddd;
 	}
 	/*end*/
 
@@ -64,25 +66,25 @@
 		.panel-switch li:first-child {
 			margin-bottom: 20px;
 		}
-		.panel-switch li a {
+		.panel-switch li a {		
 			text-align: center;
 			text-transform: uppercase;
 			color: #999;
 			height: 60px;
 			line-height: 40px;
-			font-size: 86.67%;
-		}
+			font-size: 86.67%;			
+		}		
 		.panel-switch li:hover a,
 		.panel-switch li.active a:focus,
 		.panel-switch li.active a:hover,
 		.panel-switch li.active a {
-			background-color: #fff;
 			color: #2E9854;
 			font-weight: bold;
 			border-radius: 1px;
 			z-index: 1;
 			position: relative;
 			font-size: 100%;
+			background-color: #efefef;
 		}
 			.panel-switch li.active a:after {
 				content: '';
@@ -101,6 +103,9 @@
 		.content-switch .sub-content {
 			background-color: #fff;
 		}
+			.content-switch .dropdown-menu a {
+				border-radius: 0;
+			}
 			/*start tab*/
 			.content-switch .tab-pane ul.structure {
 				display: -webkit-flex;
@@ -112,6 +117,7 @@
 				        justify-content: center;
 				padding: 10px;
 				border-top-right-radius: 3px;
+				background-color: #fff;
 			}
 				ul.structure li + li,
 				ul.structure li:first-child {
