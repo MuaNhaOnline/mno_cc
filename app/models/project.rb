@@ -300,13 +300,18 @@ class Project < ActiveRecord::Base
   # Search with params
 
   # params: 
-  #   page, price(x;y), district
+  #   keyword, page, price(x;y), district, price_from, price_to, currency_unit, unit, project
   #   newest
   def self.search_with_params params = {}
-    where = 'is_pending = false AND is_show = true'
+    where = 'is_pending = false AND is_show = true AND is_force_hide = false'
     joins = []
     order = {}
 
+    if params[:project].present?
+      return where(id: params[:project])
+    end
+
+    # Price
     if params.has_key? :price
       price_range = params[:price].split(';')
       where += " AND unit_price IS NOT NULL AND unit_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
@@ -314,16 +319,62 @@ class Project < ActiveRecord::Base
       order[:unit_price] = 'asc'
     end
 
-    if params.has_key? :district
+    # Price range
+    if params[:price_from].present? || params[:price_to].present?
+      # Format number
+      params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f if params[:price_from].present?
+      params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f if params[:price_to].present?
+
+      # Get currency unit & parse number
+      currency_unit = 'VND'
+
+      case params[:currency_unit]
+      when 'billion'
+        params[:price_from] *= 1000000000 if params[:price_from].present?
+        params[:price_to] *= 1000000000 if params[:price_to].present?
+      when 'million'
+        params[:price_from] *= 1000000 if params[:price_from].present?
+        params[:price_to] *= 1000000 if params[:price_to].present?
+      when 'USD'
+        currency_unit = 'USD'
+      when 'SJC'
+        currency_unit = 'SJC'
+      end
+
+      # Get unit
+      unit = params[:unit].present? ? params[:unit] : 'per'
+
+      # Call
+      # Join currency
+      joins << :currency
+      # Join unit
+      joins << :price_unit
+
+      # Condition
+      where += " AND currencies.code = '#{currency_unit}' AND units.code = '#{unit}'"
+      where += " AND unit_price >= #{params[:price_from]}" if params[:price_from].present?
+      where += " AND unit_price <= #{params[:price_to]}" if params[:price_to].present?
+    end
+
+    # District
+    if params[:district].present?
       joins << :district
       where += " AND districts.id = #{params[:district]} "
     end
 
+    # Time order
     if params.has_key? :newest
       order[:created_at] = 'asc'
     end
 
-    joins(joins).where(where).order(order)
+    joins = joins.uniq
+
+    # Keyword
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).where(where).order(order)
+    else
+      joins(joins).where(where).order(order)
+    end
   end
 
   # params: 

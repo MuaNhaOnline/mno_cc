@@ -1,4 +1,4 @@
-vi:
+ vi:
   layout:
     header:
       user_profile: 'Thông tin'
@@ -140,12 +140,15 @@ vi:
       high_apartment: 'Căn hộ cao cấp'
       medium_apartment: 'Căn hộ trung bình'
       low_apartment: 'Căn hộ thu nhập thấp'
+      social_home: 'Nhà ở xã hội'
       house_group: 'Nhà'
       villa: 'Biệt thự'
       town_house: 'Nhà phố'
   project_type:
     text:
       apartment: 'Căn hộ'
+      complex_apartment: 'Căn hộ phức hợp'
+      adjacent_house: 'Nhà liền kề'
       office: 'Cao ốc văn phòng'
       complex: 'Phức hợp'
       land: 'Đất nền'

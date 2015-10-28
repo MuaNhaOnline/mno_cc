@@ -77,7 +77,10 @@ end
   end
 
   # View
+  # params: id
   def create_details
+    @project = Project.find params[:id]
+    
     render layout: 'layout_back'
   end
 

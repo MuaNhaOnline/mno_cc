@@ -7,6 +7,14 @@
 	Custom layout
 */
 
+	select.non-arrow {
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
 /*
 	/ Custom layout
 */

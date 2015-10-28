@@ -1,8 +1,6 @@
 var _temp = {}, _popupContent = {};
 
 $(function () {
-  $('#loading_page').remove();
-
   init();
   initSize();
   _getPopupContent();
@@ -209,6 +207,8 @@ function _getPopupContent() {
     overlay:
       transparent
       gray
+    width: (none)
+      small, medium, large, maximum
 		esc: (true)
 			allow escape popup with click outside or 'esc' key
 */
@@ -223,7 +223,8 @@ function getPopup(params) {
     id = ('id' in params) ? params.id : 'popup_full',
     zIndex = 'z-index' in params ? params['z-index'] : '30',
     esc = !('esc' in params) || params.esc,
-    overlay = 'overlay' in params ? params['overlay'] : 'transparent';
+    overlay = 'overlay' in params ? params['overlay'] : 'transparent',
+    width = 'width' in params ? params['width'] : '';
 
   var $popup = $('#' + id);
 
@@ -238,6 +239,8 @@ function getPopup(params) {
 
     $body.append($popup);
   }
+
+  $popup.attr('aria-width', width);
 
   if (esc) {
     $popup.attr('aria-esc', '');
@@ -306,6 +309,8 @@ function getPopup(params) {
     z-index of popup
   overlay: (transparent) 
     transparent, gray
+  width: (none)
+    small, medium, large, maximum
   onEscape:
     handle on popup escape
 */
@@ -320,6 +325,7 @@ function popupFull(params) {
   popupParams.id = 'id' in params ? params.id : 'popup_full';
   popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
   popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
+  popupParams['width'] = 'width' in params ? params['width'] : '';
 
   var $popup = getPopup(popupParams);
 

@@ -14,48 +14,6 @@ $(function () {
   initForm($form, {
     submit_status: true,
     object: 'real_estate',
-    imageInputs: {
-      'image_upload': {
-        controls: [
-          {
-            text: 'Làm ảnh đại diện',
-            type: 'primary',
-            attribute: 'aria-name="avatar-button"',
-            handle: function ($item) {
-              if ($item.is('[data-avatar]')) {
-                var value = $item.data('value');
-                value['is_avatar'] = false
-                $item.data('value', value);
-                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-                $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-              }
-              else {
-                var value = $item.data('value');
-                value['is_avatar'] = true
-                $item.data('value', value);
-                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-                $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
-                  var $item2 = $(this)
-                  var value2 = $item2.data('value');
-                  value2['is_avatar'] = false
-                  $item2.data('value', value2);
-                  $item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
-                }).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-
-                $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-              }
-            }
-          }
-        ],
-        onInitItemAdd: function ($item) {
-          if ($item.data('value')['is_avatar']) {
-            $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-          }
-        }
-      }
-    },
     submit: function () {
       toggleLoadStatus(true);
       $.ajax({

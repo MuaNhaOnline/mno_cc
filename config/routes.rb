@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   # Search
   
     get 'search' => 'home#search'
+    get '_search_list' => 'home#_search_list'
 
   # / Search
 

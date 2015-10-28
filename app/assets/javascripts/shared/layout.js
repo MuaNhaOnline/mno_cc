@@ -1,6 +1,8 @@
 var $body, $window, $document, _temp = {};
 
 $(function () {
+  $('#loading_page').remove();
+
   $body = $('body');
   $window = $(window);
   $document = $(document);

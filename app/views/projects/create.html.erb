@@ -1,5 +1,4 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="/assets/shared/cropper.min.css">
   <link rel="stylesheet" type="text/css" href="/assets/projects/create.css">
 <% end %>
 
@@ -7,8 +6,6 @@
   <script type="text/javascript" src="/assets/projects/create.js"></script>
   <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
   <script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
-  <script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
-  <script type="text/javascript" src="/assets/shared/ckeditor/ckeditor.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -236,7 +233,7 @@
               </label>
               <div>
                 <label class="radio-inline"><input data-constraint="required" name="project[date_display_type]" type="radio" value="1" <%= 'checked' if @p.date_display_type == 1 %> />Ngày</label>
-                <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="2" <%= 'checked' if @p.date_display_type == 2 %> />Quý</label>
+                <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="2" <%= 'checked' if @p.new_record? || @p.date_display_type == 2 %> />Quý</label>
                 <label class="radio-inline"><input name="project[date_display_type]" type="radio" value="3" <%= 'checked' if @p.date_display_type == 3 %> />Năm</label>
               </div>
             </article>
@@ -496,7 +493,7 @@
               <sup class="required-label"></sup>
               <p>Bạn có thể đăng 10 ảnh mô tả dự án của mình</p>
               <p>Hãy chọn <b>hình đại diện</b> bằng cách click vào hình</p>
-              <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png" data-init-value="<%= image_init_value %>" data-has_description />
+              <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png gif" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar />
             </article>
           </section>
         </article>

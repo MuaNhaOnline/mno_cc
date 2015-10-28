@@ -1,27 +1,93 @@
+<% 
+=begin
+	params: @project
+=end
+
+%>
+
 <% content_for :stylesheets do %>
   <link rel="stylesheet" type="text/css" href="/assets/projects/create_details.css">
 <% end %>
 
 <% content_for :scripts do %>
   <script type="text/javascript" src="/assets/projects/create_details.js"></script>
+  <script type="text/javascript">
+  	project_id = <%= @project.id %>;
+  </script>
 <% end %>
 
 <article class="create-details-container open">
 	<section id="view" class="view-container">
 		<svg id="svg">
-			<g id="g">
-				<image xlink:href="/assets/a.jpg" id="image" />
+			<g>
+				<g id="g">
+					<image id="image" />
+				</g>
 			</g>
 		</svg>
 	</section>
 	<section class="toolbox-container">
-		
+		<article aria-type="tool" aria-click="mouse" class="node active"><span class="fa fa-mouse-pointer"></span></article>
+		<article aria-type="tool" aria-click="polyline" class="node"><span class="fa fa-pencil"></span></article>
+		<!-- <article aria-type="tool" aria-click="move" class="node"><span class="fa fa-arrows-alt"></span></article> -->
 	</section>
 	<section class="items-container">
-		<article class="item-container" style="width: 100%"></article>
-		<article class="item-container"></article>
-		<article class="item-container"></article>
+		<article class="item-container show">
+			<div class="item-list">
+				<article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article>
+			</div>
+		</article>
+		<article class="item-container">
+			<div class="item-list">
+				<article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article>
+			</div>
+		</article>
+		<article class="item-container">
+			<div class="item-list">
+				<article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article>
+			</div>
+		</article>
 	</section>
 </article>
 
 <button id="a">Mở</button>
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+<div id="view_part">
+
+	<article class="blocks-container box transparent">
+		<section class="box-header">
+			<h2 class="box-title">Danh sách block</h2>
+			<div class="box-tools pull-right">
+	      <button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
+	    </div>
+		</section>
+		<section class="box-body">
+			<div class="item-list">
+				<div class="col-md-3 col-sm-4 col-ss-6 col-xs-12">
+					<article class="item">
+						<section class="top">
+							<a href="javascript:void(0)">
+								<img src="#">
+							</a>
+							<section class="left">
+								<article class="node font-bold">
+									Khu A
+								</article>
+							</section>
+						</section>
+					</article>
+				</div>
+			</div>
+		</section>
+	</article>
+	<article class="platform-templates-container">
+		
+	</article>
+
+</div>

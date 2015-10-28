@@ -13,7 +13,6 @@ function initForm($form, params) {
 		params.object = 'form';
 	}
 
-	// <a class="fa fa-info pull-right" data-toggle="popover" data-trigger="focus hover" data-placement="left" data-content=""></a>
 	$form.find('[data-toggle="popover"]').popover({
 		html: true
 	});
@@ -211,7 +210,8 @@ function initForm($form, params) {
 				size = $fileUpload.data('size'),
 				types = $fileUpload.data('type'),
 				ratio = $fileUpload.data('ratio'),
-				hasDescription = $fileUpload.is('[data-has_description]');
+				hasDescription = $fileUpload.is('[data-has_description]'),
+				hasAvatar = $fileUpload.is('[data-has_avatar]');
 
 			if (types) {
 				types = types.split(' ');
@@ -292,7 +292,7 @@ function initForm($form, params) {
 					var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
 
 					var $item = $('<article class="preview" data-uploading></article>');
-					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 					$item.data('control_show', null);
 
@@ -364,6 +364,33 @@ function initForm($form, params) {
             $descriptionForm.find('[type="button"]').on('click', function () {
               $popup.off();
             });
+					});
+
+					$item.find('[aria-click="avatar"]').on('click', function () {
+						if ($item.is('[data-avatar]')) {
+              var value = $item.data('value');
+              value['is_avatar'] = false
+              $item.data('value', value);
+              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+              $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+            }
+            else {
+              var value = $item.data('value');
+              value['is_avatar'] = true
+              $item.data('value', value);
+              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+              $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
+                var $item2 = $(this)
+                var value2 = $item2.data('value');
+                value2['is_avatar'] = false
+                $item2.data('value', value2);
+                $item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
+              }).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+
+              $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+            }
 					});
 
 					$item.find('[aria-click="remove"]').on('click', function () {
@@ -490,6 +517,7 @@ function initForm($form, params) {
 			var 
 				$fileUpload = $(this),
 				hasDescription = $fileUpload.is('[data-has_description]'),
+				hasAvatar = $fileUpload.is('[data-has_avatar]'),
 				controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
 
 			// Get params
@@ -547,8 +575,13 @@ function initForm($form, params) {
 					$item.data('value', value);
 					$item.data('control_show', null);
 
-					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + value['url'] + '" /></section><section class="control">' + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
 					$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+					// Avatar
+					if (value['is_avatar']) {
+						$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+					}
 
 					// Create control from param
 					if (controls) {
@@ -616,6 +649,33 @@ function initForm($form, params) {
             $descriptionForm.find('[type="button"]').on('click', function () {
               $popup.off();
             });
+					});
+
+					$item.find('[aria-click="avatar"]').on('click', function () {
+						if ($item.is('[data-avatar]')) {
+              var value = $item.data('value');
+              value['is_avatar'] = false
+              $item.data('value', value);
+              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+              $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+            }
+            else {
+              var value = $item.data('value');
+              value['is_avatar'] = true
+              $item.data('value', value);
+              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+              $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
+                var $item2 = $(this)
+                var value2 = $item2.data('value');
+                value2['is_avatar'] = false
+                $item2.data('value', value2);
+                $item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
+              }).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+
+              $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+            }
 					});
 
 					$item.find('[aria-click="remove"]').on('click', function () {
