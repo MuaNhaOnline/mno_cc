@@ -1,0 +1,1046 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/home/result.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/Pe-icon-7-stroke.css">
+<% end %>
+
+<%; content_for :scripts do %>
+	<script src="/assets/home/result.js"></script>
+<% end %>
+
+<!-- start navigator -->
+<section class="navigator container">
+	<ol class="breadcrumb">
+		<li><a href="/" class="active">Trang chủ</a></li>
+		<li><a href="/">Tìm kiếm bất động sản</a></li>
+		<li><a href="/">&lt;từ khoá&gt;</a></li>
+	</ol>
+</section>
+<!-- end navigator -->
+
+<!--start Search Box -->
+<section class="search-result container">
+	<div class="search-box-result">
+		<form>
+			<article class="title">				
+				<div class="text">
+					<h4>Kết quả tìm kiếm</h4>
+				</div>
+				<div class="tabs">
+					<label>
+						<input type="radio" name="typeTab" checked>
+						<div class="cover-tab"><i class="home-sale-icon"></i><span>Đang Bán</span></div>
+					</label>
+					<label>
+						<input type="radio" name="typeTab">
+						<div class="cover-tab"><i class="home-rent-icon"></i><span>Cho Thuê</span></div>
+					</label>
+				</div>
+			</article>
+			<article class="content">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group-custom" style="margin-bottom: 0;">
+							<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2">
+							<div class="btn-group history-search">
+								<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									từ khóa
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Từ khóa 01</a></li>
+									<li><a href="#">Từ khóa 02</a></li>
+									<li><a href="#">Từ khóa 03</a></li>
+								</ul>
+							</div>
+							<div class="separator">
+								<span>|</span>
+							</div>
+							<div class="btn-search">
+								<button type="submit"></button>
+								<div class="btn-more" data-function="show-search-plus">
+									<span class="caret"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2 btn-plus">
+						<button type="button" class="btn btn-success btn-sm" data-function="zestimate" data-popup="coming-soon">Định giá khu vực này</button>						
+					</div>
+					<div class="col-md-2 btn-plus">
+						<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+							<img src="/assets/icon/search-plus.png">
+							Tìm nâng cao
+						</button>
+					</div>
+				</div>				
+				<div class="more-search" id="more_search" style="display:none; margin-top: 10px;">
+					<div class="form-group-custom container-fluid">
+						<div class="row">
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn thành phố/Tỉnh--</option>
+									<option>Thành phố Hồ Chí Minh</option>
+									<option>Hà Nội</option>
+									<option>Bà Rịa - Vũng Tàu</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm">
+									<option>--Chọn quận/huyện--</option>
+									<option>Quận 1</option>
+									<option>Quận 5</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm">
+									<option>--Chọn giá tiền--</option>
+									<option>100 triệu - 1 tỷ</option>
+									<option>1 tỷ - 5 tỷ</option>
+									<option>5 tỷ - 10 tỷ</option>
+									<option>Trên 10 tỷ</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm">
+									<option>--Chọn hình thức bán--</option>
+									<option>Giá nguyên căn</option>
+									<option>Giá theo mét vuông</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group-custom container-fluid" style="margin-bottom: 0px;">
+						<div class="row">
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn loại bất động sản--</option>
+									<option>Nhà phố</option>
+									<option>Villa - Biệt thự</option>
+									<option>Nhà tạm</option>
+									<option>Căn hộ cao cấp</option>
+									<option>Biệt thự</option>
+									<option>Đất ở</option>
+									<option>Đất nông nghiệp</option>
+								</select>
+							</div>
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn diện tích--</option>
+									<option>Dưới 50m2</option>
+									<option>50m2 - 100m2</option>
+									<option>100m2 - 150m2</option>
+									<option>150m2 - 200m2</option>
+									<option>Trên 200m2</option>
+								</select>
+							</div>
+							<div class="col-md-6 input-inline">
+								<select class="form-control input-sm">
+									<option>--Chọn danh sách dự án--</option>
+									<option>Dự án 1</option>
+									<option>Dự án 2</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</form>
+	</div>
+</section>
+<!-- end Search Box-->
+
+<!-- start real result -->
+<section class="result-real container">
+	<article class="title">
+		Nhà phố Quận 2
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li data-value="58" class="item-sm">
+					<a href="/real_estates/58">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Bán gấp căn hộ chung cư cao cấp Léman Luxury 96m2 - Căn góc - Tầng đẹp - View đẹp, thoáng">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Bán gấp căn hộ chung cư cao cấp Léman Luxury 96m2 - Căn góc - Tầng đẹp - View đẹp, thoáng">
+								<span>Bán gấp căn hộ chung cư cao cấp Léman Luxury 96m2 - Căn góc - Tầng đẹp - View đẹp, thoáng</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ cao cấp</span>
+							</div>
+							<div class="convenient">
+									<div class="bathroom">
+										<i class="icon-bathroom"></i>
+										<span>2</span>						
+									</div>
+									<div class="bedroom">
+										<i class="icon-bedroom"></i>
+										<span>3</span>
+									</div>
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>96.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Trương Định, Phường 6, Quận 3, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Trương Định, Phường 6, Quận 3, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">82 triệu/m<sup>2</sup></p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li data-value="32" class="item-sm">
+					<a href="/real_estates/32">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+								<span>Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Đất khác</span>
+							</div>
+							<div class="convenient">
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>100.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">25 triệu/m<sup>2</sup></p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+				<li data-value="32" class="item-sm">
+					<a href="/real_estates/32">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+								<span>Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Đất khác</span>
+							</div>
+							<div class="convenient">
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>100.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">25 triệu/m<sup>2</sup></p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+				<li data-value="32" class="item-sm">
+					<a href="/real_estates/32">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+								<span>Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Đất khác</span>
+							</div>
+							<div class="convenient">
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>100.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">25 triệu/m<sup>2</sup></p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li data-value="27" class="item-sm">
+					<a href="/real_estates/27">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Cần sang gấp cửa hàng tạp hoá (Siêu thị mini) ở quận Bình Thạnh">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Cần sang gấp cửa hàng tạp hoá (Siêu thị mini) ở quận Bình Thạnh">
+								<span>Cần sang gấp cửa hàng tạp hoá (Siêu thị mini) ở quận Bình Thạnh</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Mặt bằng cửa hàng</span>
+							</div>
+							<div class="convenient">
+									<div class="bathroom">
+										<i class="icon-bathroom"></i>
+										<span>1</span>						
+									</div>
+									<div class="bedroom">
+										<i class="icon-bedroom"></i>
+										<span>1</span>
+									</div>
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>64.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title="2234 Phan Văn Trị, Phường 11, Nhà Bè, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span>2234 Phan Văn Trị, Phường 11, Nhà Bè, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">90 triệu</p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+				<li data-value="27" class="item-sm">
+					<a href="/real_estates/27">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Cần sang gấp cửa hàng tạp hoá (Siêu thị mini) ở quận Bình Thạnh">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Cần sang gấp cửa hàng tạp hoá (Siêu thị mini) ở quận Bình Thạnh">
+								<span>Cần sang gấp cửa hàng tạp hoá (Siêu thị mini) ở quận Bình Thạnh</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Mặt bằng cửa hàng</span>
+							</div>
+							<div class="convenient">
+									<div class="bathroom">
+										<i class="icon-bathroom"></i>
+										<span>1</span>						
+									</div>
+									<div class="bedroom">
+										<i class="icon-bedroom"></i>
+										<span>1</span>
+									</div>
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>64.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title="2234 Phan Văn Trị, Phường 11, Nhà Bè, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span>2234 Phan Văn Trị, Phường 11, Nhà Bè, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">90 triệu</p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+				<li data-value="32" class="item-sm">
+					<a href="/real_estates/32">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+								<span>Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Đất khác</span>
+							</div>
+							<div class="convenient">
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>100.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">25 triệu/m<sup>2</sup></p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+				<li data-value="32" class="item-sm">
+					<a href="/real_estates/32">
+						<div class="picture">
+							<img class="" src="/assets/real_estates/thumb/default.png" alt="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7">
+								<span>Bán đất nền biệt thự Jamona Riverside Bùi Văn Ba, liền kề Phú Mỹ Hưng quận 7</span>
+							</div>
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Đất khác</span>
+							</div>
+							<div class="convenient">
+								<div class="area">
+									<i class="icon-area"></i>
+									<span>100.0m<sup>2</sup></span>
+								</div>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Bùi Văn Ba, Tân Thuận Đông, Thủ Đức, Tp. Hồ Chí Minh</span>
+							</div>
+									<div class="price">
+										<i class="icon-16 icon-dollar"></i>
+										<p class="number sale">25 triệu/m<sup>2</sup></p>
+									</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="real_estate" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định giá căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+		</div>		
+		<div class="paging">
+			<div class="left">
+				<i class="pe-7s-angle-left"></i>
+			</div>
+			<div class="number">
+				<span>2/3</span>
+			</div>
+			<div class="right">
+				<i class="pe-7s-angle-right"></i>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->
+
+<!-- start short real -->
+<section class="short-real container">
+	<article class="title">
+		<h3>[TIN NHANH] Nhà phố Quận 2</h3>
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-md-6">
+				<li class="item-xs" data-toggle-object="idMe1">
+					<div class="title">
+						<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+						<div class="text">
+							<span>Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp</span>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="content-item-xs" data-object="idMe1" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+							<div class="text">
+								<span>
+									Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp
+								</span>							
+							</div>
+						</div>
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name">Nguyễn Minh Châu</span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact">0939262426</span>
+							</div>
+							<div class="text">
+								Ϲông ty ƬNHH đầu tư điɑ ốc thành phố - Ϲitylɑnd mở bán dự án 14hɑ Ϲitylɑnd Gɑrden Hills, 168 Ƥhɑn Văn Ƭrị, Ƥ. 5, Gò Vấp, cạnh nhà hàng Vườn Ϲɑu.
+								Ɗự án đầy đủ tiện ích cho khu dân cư. Ϲông viên, trung tâm thể dục thể thɑo, trường học. Đặc biệt có ƬƬ thương mại 3hɑ E-mɑrt Hàn Quốc sẽ khɑi trường năm 2017.
+								Vị trí thoáng mát sạch sẽ, khu dân cư dân trí cɑo, bảo vệ 24/24.
+								Biệt thự, nhà phố 5x20m, 6x19m, 9x20m, 1 hầm, 1 trệt 3 lầu. Thiệt kế đẹp phong cách Pháp.
+								Nhận nền XƊ ngɑy.
+								Giá chỉ từ 5,6 đến 14 tỷ. Ƭhɑnh toán dài, linh hoạt.
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-xs" data-toggle-object="idMe2">
+					<div class="title">
+						<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+						<div class="text">
+							<span>Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp</span>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="content-item-xs" data-object="idMe2" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+							<div class="text">
+								<span>
+									Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp
+								</span>							
+							</div>
+						</div>
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name">Nguyễn Minh Châu</span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact">0939262426</span>
+							</div>
+							<div class="text">
+								Ϲông ty ƬNHH đầu tư điɑ ốc thành phố - Ϲitylɑnd mở bán dự án 14hɑ Ϲitylɑnd Gɑrden Hills, 168 Ƥhɑn Văn Ƭrị, Ƥ. 5, Gò Vấp, cạnh nhà hàng Vườn Ϲɑu.
+								Ɗự án đầy đủ tiện ích cho khu dân cư. Ϲông viên, trung tâm thể dục thể thɑo, trường học. Đặc biệt có ƬƬ thương mại 3hɑ E-mɑrt Hàn Quốc sẽ khɑi trường năm 2017.
+								Vị trí thoáng mát sạch sẽ, khu dân cư dân trí cɑo, bảo vệ 24/24.
+								Biệt thự, nhà phố 5x20m, 6x19m, 9x20m, 1 hầm, 1 trệt 3 lầu. Thiệt kế đẹp phong cách Pháp.
+								Nhận nền XƊ ngɑy.
+								Giá chỉ từ 5,6 đến 14 tỷ. Ƭhɑnh toán dài, linh hoạt.
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-xs" data-toggle-object="idMe3">
+					<div class="title">
+						<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+						<div class="text">
+							<span>Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp</span>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="content-item-xs" data-object="idMe3" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+							<div class="text">
+								<span>
+									Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp
+								</span>							
+							</div>
+						</div>
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name">Nguyễn Minh Châu</span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact">0939262426</span>
+							</div>
+							<div class="text">
+								Ϲông ty ƬNHH đầu tư điɑ ốc thành phố - Ϲitylɑnd mở bán dự án 14hɑ Ϲitylɑnd Gɑrden Hills, 168 Ƥhɑn Văn Ƭrị, Ƥ. 5, Gò Vấp, cạnh nhà hàng Vườn Ϲɑu.
+								Ɗự án đầy đủ tiện ích cho khu dân cư. Ϲông viên, trung tâm thể dục thể thɑo, trường học. Đặc biệt có ƬƬ thương mại 3hɑ E-mɑrt Hàn Quốc sẽ khɑi trường năm 2017.
+								Vị trí thoáng mát sạch sẽ, khu dân cư dân trí cɑo, bảo vệ 24/24.
+								Biệt thự, nhà phố 5x20m, 6x19m, 9x20m, 1 hầm, 1 trệt 3 lầu. Thiệt kế đẹp phong cách Pháp.
+								Nhận nền XƊ ngɑy.
+								Giá chỉ từ 5,6 đến 14 tỷ. Ƭhɑnh toán dài, linh hoạt.
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-xs" data-toggle-object="idMe4">
+					<div class="title">
+						<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+						<div class="text">
+							<span>Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp</span>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="content-item-xs" data-object="idMe4" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+							<div class="text">
+								<span>
+									Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp
+								</span>							
+							</div>
+						</div>
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name">Nguyễn Minh Châu</span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact">0939262426</span>
+							</div>
+							<div class="text">
+								Ϲông ty ƬNHH đầu tư điɑ ốc thành phố - Ϲitylɑnd mở bán dự án 14hɑ Ϲitylɑnd Gɑrden Hills, 168 Ƥhɑn Văn Ƭrị, Ƥ. 5, Gò Vấp, cạnh nhà hàng Vườn Ϲɑu.
+								Ɗự án đầy đủ tiện ích cho khu dân cư. Ϲông viên, trung tâm thể dục thể thɑo, trường học. Đặc biệt có ƬƬ thương mại 3hɑ E-mɑrt Hàn Quốc sẽ khɑi trường năm 2017.
+								Vị trí thoáng mát sạch sẽ, khu dân cư dân trí cɑo, bảo vệ 24/24.
+								Biệt thự, nhà phố 5x20m, 6x19m, 9x20m, 1 hầm, 1 trệt 3 lầu. Thiệt kế đẹp phong cách Pháp.
+								Nhận nền XƊ ngɑy.
+								Giá chỉ từ 5,6 đến 14 tỷ. Ƭhɑnh toán dài, linh hoạt.
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-xs" data-toggle-object="idMe5">
+					<div class="title">
+						<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+						<div class="text">
+							<span>Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp</span>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="content-item-xs" data-object="idMe5" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+							<div class="text">
+								<span>
+									Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp
+								</span>							
+							</div>
+						</div>
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name">Nguyễn Minh Châu</span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact">0939262426</span>
+							</div>
+							<div class="text">
+								Ϲông ty ƬNHH đầu tư điɑ ốc thành phố - Ϲitylɑnd mở bán dự án 14hɑ Ϲitylɑnd Gɑrden Hills, 168 Ƥhɑn Văn Ƭrị, Ƥ. 5, Gò Vấp, cạnh nhà hàng Vườn Ϲɑu.
+								Ɗự án đầy đủ tiện ích cho khu dân cư. Ϲông viên, trung tâm thể dục thể thɑo, trường học. Đặc biệt có ƬƬ thương mại 3hɑ E-mɑrt Hàn Quốc sẽ khɑi trường năm 2017.
+								Vị trí thoáng mát sạch sẽ, khu dân cư dân trí cɑo, bảo vệ 24/24.
+								Biệt thự, nhà phố 5x20m, 6x19m, 9x20m, 1 hầm, 1 trệt 3 lầu. Thiệt kế đẹp phong cách Pháp.
+								Nhận nền XƊ ngɑy.
+								Giá chỉ từ 5,6 đến 14 tỷ. Ƭhɑnh toán dài, linh hoạt.
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-xs" data-toggle-object="idMe6">
+					<div class="title">
+						<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+						<div class="text">
+							<span>Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp</span>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="content-item-xs" data-object="idMe6" style="display: none;">
+						<div class="title">
+							<div class="date" aria-time="2015-10-05 14:45:25 +0700" data-original-title="" title="">2 tuần trước</div>
+							<div class="text">
+								<span>
+									Bán nhà phố biệt thự dự án Cityland Garden Hills TTTM Emart Hàn Quốc, Gò Vấp
+								</span>							
+							</div>
+						</div>
+						<div class="details">
+							<div class="info">
+								<span class="poster">Người đăng</span>
+								<span class="name">Nguyễn Minh Châu</span>
+								<span class="type-contact">Liên hệ</span>
+								<span class="infocontact">0939262426</span>
+							</div>
+							<div class="text">
+								Ϲông ty ƬNHH đầu tư điɑ ốc thành phố - Ϲitylɑnd mở bán dự án 14hɑ Ϲitylɑnd Gɑrden Hills, 168 Ƥhɑn Văn Ƭrị, Ƥ. 5, Gò Vấp, cạnh nhà hàng Vườn Ϲɑu.
+								Ɗự án đầy đủ tiện ích cho khu dân cư. Ϲông viên, trung tâm thể dục thể thɑo, trường học. Đặc biệt có ƬƬ thương mại 3hɑ E-mɑrt Hàn Quốc sẽ khɑi trường năm 2017.
+								Vị trí thoáng mát sạch sẽ, khu dân cư dân trí cɑo, bảo vệ 24/24.
+								Biệt thự, nhà phố 5x20m, 6x19m, 9x20m, 1 hầm, 1 trệt 3 lầu. Thiệt kế đẹp phong cách Pháp.
+								Nhận nền XƊ ngɑy.
+								Giá chỉ từ 5,6 đến 14 tỷ. Ƭhɑnh toán dài, linh hoạt.
+							</div>
+						</div>
+					</div>
+				</li>
+			</div>
+		</div>		
+		<div class="paging">
+			<div class="left">
+				<i class="pe-7s-angle-left"></i>
+			</div>
+			<div class="number">
+				<span>2/3</span>
+			</div>
+			<div class="right">
+				<i class="pe-7s-angle-right"></i>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->
+
+<!-- start project result -->
+<section class="result-project container">
+	<article class="title">
+		<h3>[DỰ ÁN] Nhà phố Quận 2</h3>
+	</article>
+	<article class="content">
+		<div class="row">
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm" data-value="6">
+					<a href="/projects/6">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Dự án căn hộ 12 View của Công ty Cổ phần Đầu tư Kinh doanh Địa ốc Hưng Thịnh (Hung Thinh Corp)">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="12 View">
+								<span>12 View</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle done"></i>
+									<span>Đã hoàn thành</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Phan Văn Hớn, Tân Thới Nhất, Quận 12, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Phan Văn Hớn, Tân Thới Nhất, Quận 12, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">11 triệu 300 nghìn/m<sup>2</sup></p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm" data-value="7">
+					<a href="/projects/7">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Biệt thự Sea Links - Mũi Né">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Biệt thự Sea Links - Mũi Né">
+								<span>Biệt thự Sea Links - Mũi Né</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle working"></i>
+									<span>Đang thực hiện</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Nguyễn Đình Chiểu, Hàm Tiến, Tp. Phan Thiết, Bình Thuận">
+								<i class="icon-16 icon-position"></i>
+								<span> Nguyễn Đình Chiểu, Hàm Tiến, Tp. Phan Thiết, Bình Thuận</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">Chưa có giá</p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+				<li class="item-sm" data-value="8">
+					<a href="/projects/8">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="An Phú Plaza">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="An Phú Plaza">
+								<span>An Phú Plaza</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Phức hợp</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle done"></i>
+									<span>Đã hoàn thành</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title="117-119 Lý Chính Thắng, Phường 7, Quận 3, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span>117-119 Lý Chính Thắng, Phường 7, Quận 3, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">Chưa có giá</p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+				<li class="item-sm" data-value="9">
+					<a href="/projects/9">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Khu căn hộ Regency Park">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Regency Park">
+								<span>Regency Park</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle done"></i>
+									<span>Đã hoàn thành</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Tp. Hồ Chí Minh - Long Thành - Dầu Giây, An Phú, Quận 2, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Tp. Hồ Chí Minh - Long Thành - Dầu Giây, An Phú, Quận 2, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">Chưa có giá</p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<li class="item-sm" data-value="10">
+					<a href="/projects/10">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Căn hộ cao cấp An Phú - Giai đoạn 1">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Căn hộ cao cấp An Phú - Giai Đoạn 1">
+								<span>Căn hộ cao cấp An Phú - Giai Đoạn 1</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle working"></i>
+									<span>Đang thực hiện</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title="961 Hậu Giang, Phường 12, Quận 6, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span>961 Hậu Giang, Phường 12, Quận 6, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">Chưa có giá</p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-6 hidden-xs">
+				<li class="item-sm" data-value="11">
+					<a href="/projects/11">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Mở bán Block B2 căn hộ cao cấp City Gate Towers">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="City Gate Towers">
+								<span>City Gate Towers</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle working"></i>
+									<span>Đang thực hiện</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Số 41, Phường 16, Quận 8, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Số 41, Phường 16, Quận 8, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">14 triệu 500 nghìn/m<sup>2</sup></p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 col-md-4 hidden-sm hidden-xs">
+				<li class="item-sm" data-value="10">
+					<a href="/projects/10">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Căn hộ cao cấp An Phú - Giai đoạn 1">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="Căn hộ cao cấp An Phú - Giai Đoạn 1">
+								<span>Căn hộ cao cấp An Phú - Giai Đoạn 1</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle working"></i>
+									<span>Đang thực hiện</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title="961 Hậu Giang, Phường 12, Quận 6, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span>961 Hậu Giang, Phường 12, Quận 6, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">Chưa có giá</p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+			<div class="col-lg-3 hidden-md hidden-sm hidden-xs">
+				<li class="item-sm" data-value="11">
+					<a href="/projects/11">
+						<div class="picture">
+							<img class="" src="/assets/projects/thumb/default.png" alt="Mở bán Block B2 căn hộ cao cấp City Gate Towers">
+						</div>
+						<div class="info">
+							<div class="title" data-toggle="tooltip" data-placement="auto" title="" data-original-title="City Gate Towers">
+								<span>City Gate Towers</span>
+							</div>				
+							<div class="type-real">
+								<i class="fa fa-home"></i>
+								<span>Căn hộ</span>
+							</div>		
+							<div class="status">							
+									<i class="fa fa-circle working"></i>
+									<span>Đang thực hiện</span>
+							</div>
+							<div class="address" data-toggle="tooltip" data-placement="top" title="" data-original-title=" Số 41, Phường 16, Quận 8, Tp. Hồ Chí Minh">
+								<i class="icon-16 icon-position"></i>
+								<span> Số 41, Phường 16, Quận 8, Tp. Hồ Chí Minh</span>
+							</div>
+							<div class="price">
+								<i class="icon-16 icon-dollar"></i>
+									<p class="number sale">14 triệu 500 nghìn/m<sup>2</sup></p>
+							</div>
+						</div>
+					</a>
+					<div class="function">
+						<a href="javascript:void(0)" aria-click="user_favorite" data-type="project" class="icon-favor " title="" data-original-title="Lưu vào danh sách yêu thích"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-buy" data-toggle="tooltip" data-placement="top" title="" data-original-title="Đăng ký mua"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="" data-original-title="Chia sẽ tin này lên mạng xã hội"></a>
+						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="" data-original-title="Định gía căn nhà này"></a>
+					</div>
+				</li>
+			</div>
+		</div>
+		<div class="paging">
+			<div class="left">
+				<i class="pe-7s-angle-left"></i>
+			</div>
+			<div class="number">
+				<span>2/3</span>
+			</div>
+			<div class="right">
+				<i class="pe-7s-angle-right"></i>
+			</div>
+		</div>
+	</article>
+</section>
+<!-- end -->

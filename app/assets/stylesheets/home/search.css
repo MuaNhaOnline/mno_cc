@@ -203,7 +203,7 @@
 
 /*start result-real*/
 .result-real {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 	/*border: 1px solid #eee;
 	border-radius: 4px;
 	background-color: #fff;
@@ -217,7 +217,7 @@
 
 /*start short item*/
 .short-real {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 	/*start title*/
 	.short-real > .title {
@@ -246,7 +246,7 @@
 				border-right: 3px solid #ccc;
 				padding: 0 5px;
 				text-align: center;
-				width: 80px;
+				width: 90px;
 				font-size: 12px;
 				display: inline-block;
 				color: #999;
@@ -255,7 +255,7 @@
 				margin-left: 10px;
 				display: inline-block;
 				vertical-align: 1px;
-				width: calc(100% - 100px);
+				width: calc(100% - 110px);
 			}
 				.item-xs .title .text span {
 					overflow: hidden;
@@ -332,6 +332,6 @@
 
 /*start result project*/
 .result-project {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 /*end*/

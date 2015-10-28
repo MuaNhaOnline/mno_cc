@@ -26,6 +26,9 @@
 .real-estimate {
 	margin-bottom: 40px;
 }
+	.real-estimate > .title {
+		margin-bottom: 40px;
+	}
 	.real-estimate .content {
 		border: 1px solid #f2f2f2;
 		display: -webkit-flex;
@@ -40,12 +43,10 @@
 	/*Left Panel*/
 	.real-estimate .panel-switch {
 		width: 300px;
-		height: 440px;
-		background-color: #4B944B;
-		border-right: 0px;
+		/*height: 440px;*/
+		border-right: 1px solid #4B944B;		
 		padding-top: 75px;
 		z-index: 0;
-		box-shadow: 1px 2px 6px #4B944B;
 		border-radius: 3px;
 		border-top-right-radius: 0;
 	}
@@ -53,7 +54,6 @@
 
 	/*Right Panel*/
 	.real-estimate .content-switch {
-		background-color: #fff;
 		width: 100%;
 	}
 	/*end*/
@@ -67,22 +67,34 @@
 		.panel-switch li a {
 			text-align: center;
 			text-transform: uppercase;
-			color: #f3f3f3;
+			color: #999;
 			height: 60px;
 			line-height: 40px;
+			font-size: 86.67%;
 		}
 		.panel-switch li:hover a,
 		.panel-switch li.active a:focus,
 		.panel-switch li.active a:hover,
 		.panel-switch li.active a {
-			background-color: #FFFFFF;
-			color: #666;
+			background-color: #fff;
+			color: #2E9854;
+			font-weight: bold;
 			border-radius: 1px;
-			box-shadow: 0px 0 5px #FFFFFF;
-			width: calc(100% + 5px);
-			margin-left: -2px;
 			z-index: 1;
+			position: relative;
+			font-size: 100%;
 		}
+			.panel-switch li.active a:after {
+				content: '';
+				bottom: calc(50% - 15px);
+				right: 0;
+				position: absolute;
+				width: 0;
+				height: 0;
+				border-right: 15px solid #2E9854;
+				border-top: 15px solid transparent;
+				border-bottom: 15px solid transparent;
+			}			
 		/*end*/
 
 		/*start content switch*/
@@ -91,11 +103,14 @@
 		}
 			/*start tab*/
 			.content-switch .tab-pane ul.structure {
+				display: -webkit-flex;
+				display: -ms-flexbox;
 				display: flex;
 				width: 100%;
-				justify-content: center;
+				-webkit-justify-content: center;
+				    -ms-flex-pack: center;
+				        justify-content: center;
 				padding: 10px;
-				background-color: #5CB85C;
 				border-top-right-radius: 3px;
 			}
 				ul.structure li + li,
@@ -104,7 +119,7 @@
 				}
 				ul.structure li a {
 					position: relative;
-					color: #fff;
+					color: #999;
 					background-color: ;
 					padding: 7px 20px;
 					border-radius: 3px;
@@ -120,7 +135,7 @@
 				}
 				ul.structure li.active a:after {
 					content: '';
-					bottom: -20px;
+					bottom: -10px;
 					left: calc(50% - 15px);
 					position: absolute;
 					width: 0;
@@ -202,13 +217,15 @@
 			display: -webkit-flex;
 			display: -moz-flex;
 			display: -o-flex;
+			display: -ms-flexbox;
 			display: flex;
 		}
 			form .btn-search button {
 				height: 24px;
 				width: 24px;
 				border: none;
-				align-self: center;
+				-ms-flex-item-align: center;
+				    align-self: center;
 				-webkit-align-self: center;
 				text-decoration: none;
 				outline: none;
@@ -253,12 +270,36 @@
 .real-estimated {
 
 }
+	.real-estimated .item-sm:hover {
+		border: 1px solid #046492;
+		box-shadow: 0px 0px 3px #046492;
+	}
+	.real-estimated .panel-switch li:hover a,
+	.real-estimated .panel-switch li.active a:focus,
+	.real-estimated .panel-switch li.active a:hover,
+	.real-estimated .panel-switch li.active a {
+		color: #046492;
+	}
+		.real-estimated .panel-switch li.active a:after {
+			content: '';
+			bottom: calc(50% - 15px);
+			right: 0;
+			position: absolute;
+			width: 0;
+			height: 0;
+			border-right: 15px solid #046492;
+			border-top: 15px solid transparent;
+			border-bottom: 15px solid transparent;
+		}
 	.real-estimated .content-switch .tab-pane ul.structure {
+		display: -webkit-flex;
+		display: -ms-flexbox;
 		display: flex;
 		width: 100%;
-		justify-content: center;
+		-webkit-justify-content: center;
+		    -ms-flex-pack: center;
+		        justify-content: center;
 		padding: 10px;
-		background-color: #038ED1;
 		border-top-right-radius: 3px;
 	}
 	.real-estimated ul.structure li.active a, 
@@ -272,14 +313,12 @@
 	}
 	.real-estimated .panel-switch {
 		width: 300px;
-		height: 440px;
-		background-color: #046492;
 		border-right: 0px;
 		padding-top: 75px;
 		z-index: 0;
-		box-shadow: 1px 2px 6px #038ED1;
 		border-radius: 3px;
-		border-top-right-radius: 0;
+		border-top-right-radius: 0;		
+		border-right: 1px solid #046492;	
 	}
 	.real-estimated .position-real-tool li > a:hover {
 		background-color: #046492;
