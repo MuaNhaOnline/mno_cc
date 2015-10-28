@@ -5,7 +5,8 @@ class RealEstate < ActiveRecord::Base
     meta_search_1: 'A',
     meta_search_2: 'B',
     meta_search_3: 'C'
-  }, using: { tsearch: { prefix: true, any_word: false } }
+  }
+  # }, using: { tsearch: { prefix: true, any_word: false } }
 
   serialize :params, JSON
 
