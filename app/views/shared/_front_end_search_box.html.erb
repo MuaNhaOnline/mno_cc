@@ -3,12 +3,12 @@
 		<div class="title">
 			<h3>Hãy để MuanhaOnline tìm nhà giúp bạn.</h3>
 		</div>
-		<form id="search_form">
+		<form method="GET" action="/search">
 			<!-- Purpose -->
 
 				<div class="tab">
-					<label><input type="radio" name="search[purpose]" <%= 'checked' if current_purpose == 's' %>><i class="icon-32 icon-home-sale"></i><span>Đang bán</span></label>
-					<label><input type="radio" name="search[purpose]" <%= 'checked' if current_purpose == 'r' %>><i class="icon-32 icon-home-rent"></i><span>Cho thuê</span></label>       
+					<label><input type="radio" value="s" name="purpose" <%= 'checked' if current_purpose != 'r' %>><i class="icon-32 icon-home-sale"></i><span>Đang bán</span></label>
+					<label><input type="radio" value="r" name="purpose" <%= 'checked' if current_purpose == 'r' %>><i class="icon-32 icon-home-rent"></i><span>Cho thuê</span></label>       
 				</div>
 
 			<!-- / Purpose -->
@@ -31,7 +31,7 @@
 						<span>|</span>
 					</div>
 					<div class="btn-search">
-						<button type="submit"></button>
+						<button type="submit" name="search[basic]"></button>
 						<div class="btn-more" data-function="show-search-plus">
 							<span class="caret"></span>
 						</div>
@@ -42,59 +42,104 @@
 
 			<!-- Advance -->
 
-				<section class="more-search" id="more_search" style="display:none">
+				<section class="more-search" id="more_search">
 					<div class="form-group-custom container-fluid">
 						<div class="row">
 							<div class="col-md-6 input-inline">
-							<select class="form-control input-sm">
-							<option>--Chọn thành phố/Tỉnh--</option>
-							<option>Thành phố Hồ Chí Minh</option>
-							<option>Hà Nội</option>
-							<option>Bà Rịa - Vũng Tàu</option>
-							</select>
+								<select class="form-control input-sm" name="search[province]">
+									<option hidden value="">--Chọn thành phố/Tỉnh--</option>
+									<% Province.all.each do |province| %>
+										<option value="<%= province.id %>"><%= province.name %></option>
+									<% end %>
+								</select>
 							</div>
 							<div class="col-md-6">
-							<select class="form-control input-sm">
-							<option>--Chọn quận/huyện--</option>
-							<option>Quận 1</option>
-							<option>Quận 5</option>
-							</select>
+								<select class="form-control input-sm" name="search[district]">
+									<option hidden value="">--Chọn quận/huyện--</option>
+									<% District.all.each do |district| %>
+										<option value="<%= district.id %>"><%= district.name %></option>
+									<% end %>
+								</select>
 							</div>
 						</div>
 					</div>
 					<div class="form-group-custom">
-						<select class="form-control input-sm">
-							<option>--Chọn giá tiền--</option>
-							<option>1 tỷ - 3 tỷ</option>
-							<option>3 tỷ - 5 tỷ</option>
-							<option>trên 5 tỷ</option>
-						</select>
+						<div class="input-group">
+						  <input name="search[price_from]" type="text" class="form-control" placeholder="Giá từ" />
+						  <span class="input-group-addon" style="border-left: 0; border-right: 0; width: 0">đến</span>
+						  <input name="search[price_to]" type="text" class="form-control" placeholder="..." style="border-right: 0" />
+						  <span style="display:table-cell;width:0"></span>
+						  <span>
+                <div class="input-group-btn">
+                	<input aria-input-type="dropdownselect" type="hidden" name="search[currency_unit]" />
+                  <button type="button" style="border-radius: 0" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span></button>
+                  <ul class="dropdown-menu pull-right">
+                  	<li>
+                  		<a data-selected data-value="million">triệu</a>
+                  	</li>
+                  	<li>
+                  		<a data-value="billion">tỷ</a>
+                  	</li>
+                  	<li>
+                  		<a data-value="usd">USD</a>
+                  	</li>
+                  	<li>
+                  		<a data-value="sjc">SJC</a>
+                  	</li>
+                  </ul>
+              	</div>
+              </span>
+						  <span class="input-group-addon" style="border-left: 0;border-right: 0; width: 0">/</span>
+              <div class="input-group-btn">
+              	<input aria-input-type="dropdownselect" type="hidden" name="search[unit]" />
+                <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span></button>
+                <ul class="dropdown-menu pull-right">
+                	<li data-for="sell">
+                		<a data-value="square_meter">m<sup>2</sup></a>
+                	</li>
+                	<li data-for="sell">
+                		<a data-value="per">căn</a>
+                	</li>
+                	<li data-for="sell">
+                		<a data-value="per">nền</a>
+                	</li>
+                	<li data-for="rent">
+                		<a data-value="month">tháng</a>
+                	</li>
+                	<li data-for="rent">
+                		<a data-value="year">năm</a>
+                	</li>
+                </ul>
+              </div>
+						</div>
 					</div>
 					<div class="form-group-custom">
-						<select class="form-control input-sm">
-							<option>--Chọn diện tích--</option>
-							<option>50m2 - 100m2</option>
-							<option>100m2 - 200m2</option>
-							<option>trên 200m2</option>
-						</select>
+								<select class="form-control input-sm" name="search[area]">
+									<option hidden value="">--Chọn diện tích--</option>
+									<option value="0-50">Dưới 50m2</option>
+									<option value="50-100">50m2 - 100m2</option>
+									<option value="100-150">100m2 - 150m2</option>
+									<option value="150-200">150m2 - 200m2</option>
+									<option value="200-0">Trên 200m2</option>
+								</select>
 					</div>
 					<div class="form-group-custom container-fluid">
 						<div class="row">
-							<div class="col-md-6 input-inline">
-								<select class="form-control input-sm">
-									<option>--Chọn loại dự án--</option>
-									<option>Dự án căn hộ liên kế</option>
-									<option>Dự án biệt thự cao cấp</option>
-									<option>Dự án nhà ở xã hội</option>
+							<div class="col-md-12 input-inline">
+								<select class="form-control input-sm" name="search[project]">
+									<option hidden value="">--Chọn danh sách dự án--</option>
+									<% Project.all.each do |project| %>
+										<option value="<%= project.id %>"><%= project.project_name %></option>
+									<% end %>
 								</select>
 							</div>
-							<div class="col-md-6 input-inline">
+							<!-- <div class="col-md-6 input-inline">
 								<select class="form-control input-sm">
 									<option>--Chọn tình trạng dự án--</option>
 									<option>Dự án đã hoàn thành</option>
 									<option>Dự án đang hoàn thành</option>
 								</select>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<div class="form-group">
@@ -107,7 +152,7 @@
 			<!-- Buttons -->
 
 				<div class="btn-plus">
-					<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+					<button type="submit" class="btn btn-success btn-sm btn-search-plus" name="search[advance]">
 						<img src="/assets/icon/search-plus.png">
 						Tìm nâng cao
 					</button>

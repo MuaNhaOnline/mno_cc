@@ -105,7 +105,8 @@ RealEstateType.create [
 	{ name: 'medium_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
 	{ name: 'low_apartment', code: '|apartment|', options: '{"group":"apartment"}' },
 	{ name: 'villa', code: '|house|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
-	{ name: 'town_house', code: '|house|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' }
+	{ name: 'town_house', code: '|house|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' },
+	{ name: 'social_home', code: '|apartment|social_home|', options: '{"group":"apartment"}' }
 ]
 
 RegionUtility.delete_all
@@ -124,21 +125,23 @@ RegionUtility.create [
 Unit.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE units_id_seq RESTART WITH 1')
 Unit.create [
-	{ name: 'area', options: '{"group":"sell","default":""}' },
-	{ name: 'square_meter', options: '{"group":"sell"}' },
-	{ name: 'square_meter', options: '{"group":"rent"}' },
-	{ name: 'month', options: '{"group":"rent","default":""}' },
-	{ name: 'year', options: '{"group":"rent"}' },
-	{ name: 'square_meter', options: '{"group":"project"}' },
-	{ name: 'per', options: '{"group":"project"}' },
-	{ name: 'platform', options: '{"group":"project","default":""}' }
+	{ name: 'area', code: 'per', options: '{"group":"sell","default":""}' },
+	{ name: 'square_meter', code: 'square_meter', options: '{"group":"sell"}' },
+	{ name: 'square_meter', code: 'square_meter', options: '{"group":"rent"}' },
+	{ name: 'month', code: 'month', options: '{"group":"rent","default":""}' },
+	{ name: 'year', code: 'year', options: '{"group":"rent"}' },
+	{ name: 'square_meter', code: 'square_meter', options: '{"group":"project"}' },
+	{ name: 'per', code: 'per', options: '{"group":"project"}' },
+	{ name: 'platform', code: 'per', options: '{"group":"project","default":""}' }
 ]
 
 ProjectType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE project_types_id_seq RESTART WITH 1')
 ProjectType.create [
-	{ name: 'apartment', options: '{"default":""}' },
-	{ name: 'office' },
-	{ name: 'complex' },
-	{ name: 'land' }
+	{ name: 'apartment', order: 1, options: '{"default":""}' },
+	{ name: 'office', order: 4 },
+	{ name: 'complex', order: 6 },
+	{ name: 'land', order: 5 },
+	{ name: 'complex_apartment', order: 2 },
+	{ name: 'adjacent_house', order: 3 }
 ]

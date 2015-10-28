@@ -379,7 +379,7 @@ class RealEstate < ActiveRecord::Base
     assign_meta_search
 
     if save validate: !is_draft
-      User.increase_real_estate_count User.current.id if _is_new_record
+      User.increase_real_estate_count User.current.id if User.signed? && _is_new_record
       { status: 0 }
     else 
       { status: 3, result: errors.full_messages }
@@ -392,7 +392,7 @@ class RealEstate < ActiveRecord::Base
 
 # Get
 
-  # Get by current purpose
+  # Get by purpose
 
   def self.get_by_current_purpose
     purpose_condition = nil
@@ -406,7 +406,7 @@ class RealEstate < ActiveRecord::Base
     joins(:purpose).where(purpose_condition)
   end
 
-  # / Get by current purpose
+  # / Get by purpose
 
   # Get random
 
@@ -419,7 +419,7 @@ class RealEstate < ActiveRecord::Base
   # Search with params
 
   # params: 
-  #   keyword, price(x;y), real_estate_type, is_full, district
+  #   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area
   #   is_favorite
   #   newest, cheapest
   def self.search_with_params params = {}
@@ -427,6 +427,7 @@ class RealEstate < ActiveRecord::Base
     joins = []
     order = {}
 
+    # Price
     if params.has_key? :price
       price_range = params[:price].split(';')
 
@@ -437,24 +438,81 @@ class RealEstate < ActiveRecord::Base
       end
     end
 
-    if params.has_key? :real_estate_type
-      joins << :real_estate_type
-      where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
+    # Price range
+    if params[:price_from].present? || params[:price_to].present?
+      # Format number
+      params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f if params[:price_from].present?
+      params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f if params[:price_to].present?
+
+      # Get currency unit & parse number
+      currency_unit = 'VND'
+
+      case params[:currency_unit]
+      when 'billion'
+        params[:price_from] *= 1000000000 if params[:price_from].present?
+        params[:price_to] *= 1000000000 if params[:price_to].present?
+      when 'million'
+        params[:price_from] *= 1000000 if params[:price_from].present?
+        params[:price_to] *= 1000000 if params[:price_to].present?
+      when 'USD'
+        currency_unit = 'USD'
+      when 'SJC'
+        currency_unit = 'SJC'
+      end
+
+      # Get unit
+      unit = params[:unit].present? ? params[:unit] : 'per'
+
+      # Call
+      # Join currency
+      joins << :currency
+      # Join unit
+      if User.options[:current_purpose] == 'r'
+        joins << :rent_unit
+      else
+        joins << :sell_unit
+      end
+
+      # Condition
+      where += " AND currencies.code = '#{currency_unit}' AND units.code = '#{unit}'"
+      if User.options[:current_purpose] == 'r'
+        where += " AND rent_price >= #{params[:price_from]}" if params[:price_from].present?
+        where += " AND rent_price <= #{params[:price_to]}" if params[:price_to].present?
+      else
+        where += " AND sell_price >= #{params[:price_from]}" if params[:price_from].present?
+        where += " AND sell_price <= #{params[:price_to]}" if params[:price_to].present?
+      end
     end
 
-    if params.has_key? :district
+    # Real estate type
+    if params[:real_estate_type].present?
+      if ApplicationHelper.numeric? params[:real_estate_type]
+        where += " AND real_estate_type_id = #{params[:real_estate_type]}"
+      else
+        joins << :real_estate_type
+        where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
+      end
+    end
+
+    # District
+    if params[:district].present?
       joins << :district
-      where += " AND districts.id = #{params[:district]} "
+      where += " AND districts.id = #{params[:district]}"
     end
 
+    # Area
+    if params[:area].present?
+      params[:area] = params[:area].split('-')
+      params[:area][1] = '1000000' if params[:area][1] == '0'
+      where += " AND ((#{params[:area][0]} <= constructional_area AND constructional_area <= #{params[:area][1]}) OR (#{params[:area][0]} <= using_area AND using_area <= #{params[:area][1]}) OR (#{params[:area][0]} <= campus_area AND campus_area <= #{params[:area][1]}))"
+    end
+
+    # Favorite
     if params.has_key? :is_favorite
       where += " AND is_favorite = #{params[:is_favorite]}"
     end
 
-    if params.has_key? :keyword
-      search params[:keyword]
-    end
-
+    # Price order
     if params.has_key?(:cheapest) || params.has_key?(:price)
       if User.options[:current_purpose] == 'r'
         order[:rent_price] = 'asc'
@@ -463,13 +521,21 @@ class RealEstate < ActiveRecord::Base
       end
     end
 
+    # Time order
     if params.has_key? :newest
       order[:created_at] = 'asc'
     end
 
     where += " AND is_full = #{params[:is_full] || 'true'}"
 
-    joins(joins).get_by_current_purpose.where(where).order(order)
+    joins = joins.uniq
+
+    # Keyword
+    if params[:keyword].present?
+      search(params[:keyword]).joins(joins).get_by_current_purpose.where(where).order(order)
+    else
+      joins(joins).get_by_current_purpose.where(where).order(order)
+    end
   end
 
   # params: 

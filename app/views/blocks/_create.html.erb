@@ -1,59 +1,57 @@
-<article class="row wrapper">
-  <article class="main-content col-sm-12">    
-		<form class="form-horizontal" id="create_block_form" action="#">
-      <input type="hidden" name="block[project_id]" value="<%= @project_id %>">
-      <section class="main-title">
-        Tạo block mới 
-      </section>
-      <ul class="item-wrapper">
-        
-        <!-- region Input -->
-        
-        <li class="item">
-          <div class="item-title">Thông tin block</div>
-          <ul class="item-content">
-            <li class="form-group">
-              <label class="control-label col-sm-3" for="name">Tên</label>
-              <div class="col-sm-9">
-                <input name="block[name]" class="form-control" data-validate="required" id="name">
-              </div>
-            </li>          
-            <li class="form-group">
-              <label class="control-label col-sm-3" for="description">Mô tả</label>
-              <div class="col-sm-9">
-                <textarea name="block[description]" class="form-control" data-validate="required" id="description"></textarea>
-              </div>
-            </li>
-            <li class="form-group">
-              <label class="control-label col-sm-3" for="direction_id">Hướng:</label>
-              <div class="col-sm-4">
-                <select class="form-control" name="block[direction_id]" id="direction_id">
-                  <% Direction.get_options.each do |direction| %>
-                      <option value="<%= direction.id %>"><%= direction.name %></option>
-                  <% end %>
-                </select>
-              </div>
-            </li>
-          </ul>
-        </li>
-  
-        <!-- endregion -->
-  
-        <!-- region Nút xử lý -->
-  
-        <li class="item">
-          <ul class="item-content">
-            <li class="submit-button">
-              <p class="text-center">
-                <button type="submit" class="btn btn-primary">Tạo mới</button>
-              </p>
-            </li>
-          </ul>
-        </li>
-  
-        <!-- endregion -->
-  
-      </ul>
-    </form>
-  </article>              
+<% 
+	# Use in create details
+
+	# params: @block
+%>
+
+<article class="box box-default">
+	<section class="box-header">
+		<h2 class="box-title">
+			Thông tin block
+		</h2>
+	</section>
+	<section class="box-body">
+		<form class="form">
+
+			<!-- Name -->
+
+				<article class="form-group">
+					<label class="control-label" for="block_name">
+						Tên
+						<sup class="required-label"></sup>
+					</label>
+					<input class="form-control" name="block[name]" id="block_name" />
+				</article>
+
+			<!-- / Name -->
+
+			<!-- Image -->
+
+				<article class="form-group margin-0">
+					<label class="control-label">
+						Hình ảnh
+						<sup class="required-label"></sup>
+					</label>
+	        <input class="file-upload" type="file" multiple name="block[images][]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png" data-init-value="" data-has_description data-has_avatar />
+	      </article>
+
+	     <!-- / Image -->
+
+      <!-- Button -->
+
+        <section class="box-body">
+        	<div class="row">
+	          <div class="margin-top-bottom-5 col-sm-6">
+	            <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'form.finish' %></b></button>
+	          </div>
+	          <div class="margin-top-bottom-5 col-sm-6">
+	            <button type="submit" class="btn btn-default btn-block btn-flat"><b><%= t 'form.cancel' %></b></button>
+	          </div>
+        	</div>
+        </section>
+
+      <!-- / Button -->
+
+		</form>
+	</section>
 </article>

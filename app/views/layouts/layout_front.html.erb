@@ -24,6 +24,16 @@
 </head>
 
 <body data-spy="scroll" data-target=".scrollspy" data-width="<%= current_width_type %>" <%= 'data-signed' if signed? %>>
+<div id="loading_page" style="
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 9999;
+    text-align: center;
+">
+  <i class="fa fa-refresh fa-spin"></i>
+</div>
 <section class="notice">
 	Website đang trong giai đoạn hoàn thiện
 </section>
@@ -130,7 +140,7 @@
 							request.GET['purpose'] = 's'
 						%>
 						<input type="radio" name="switchType" id="sale">
-						<a href="?<%= request.GET.map { |k,v| "#{k}=#{v}" }.join('&') %>">Bán</a>
+						<a href="?<%= request.GET.to_query %>">Bán</a>
 					<% else %>
 						<input type="radio" name="switchType" id="sale" checked>
 						<a>Bán</a>
@@ -142,7 +152,7 @@
 							request.GET['purpose'] = 'r'
 						%>
 						<input type="radio" name="switchType" id="rent">
-						<a href="?<%= request.GET.map { |k,v| "#{k}=#{v}" }.join('&') %>">Cho thuê</a>
+						<a href="?<%= request.GET.to_query %>">Cho thuê</a>
 					<% else %>
 						<input type="radio" name="switchType" id="rent" checked>
 						<a>Cho thuê</a>

@@ -50,6 +50,30 @@ class TemporaryFile < ActiveRecord::Base
     end
   end
 
+  # def self.transfer_to file_infos
+  #   file_infos.each do |_v|
+  #     _value = JSON.parse _v
+  #     _value['is_avatar'] ||= false
+
+  #     if _value['is_new']
+  #       TemporaryFile.get_file(_value['id']) do |_image, _id|
+  #         _images << RealEstateImage.new(image: _image, is_avatar: _value['is_avatar'], description: _value['description'])
+
+  #         _has_avatar = true if _value['is_avatar']
+  #       end
+  #     else
+  #       _image = RealEstateImage.find _value['id']
+  #       _image.description = _value['description']
+  #       _image.is_avatar = _value['is_avatar']
+  #       _image.save if _image.changed?          
+
+  #       _has_avatar = true if _value['is_avatar']
+
+  #       _images << _image
+  #     end
+  #   end
+  # end
+
   def self.get_file_name_by_file file
     File.basename(file.path).split('_', 2)[1]
   end

@@ -15,6 +15,10 @@ module ApplicationHelper
     end
   end
 
+  def self.numeric? string
+    Float(string) != nil rescue false
+  end
+
   def self.id_format id, code, length = 6
     "\##{code}#{id.to_s.rjust(6, '0')}"
   end

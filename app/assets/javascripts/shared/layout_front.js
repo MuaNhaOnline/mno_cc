@@ -332,6 +332,26 @@ function _initItemList($container) {
 	/*
 		/ User favorite
 	*/
+
+	/*
+		Toggle object
+	*/
+
+		initToggleElement(typeof($container) == 'undefined' ? $('.item-xs[data-toggle-object]') : $container.find('[data-toggle-object]'), false);
+
+	/*
+		/ Toggle object
+	*/
+
+	/*
+		Time
+	*/
+
+		initReadTime($container);
+
+	/*
+		/ Time
+	*/
 }
 // end
 
@@ -450,17 +470,38 @@ function initMiniMenu(objBtnPress, objContent) {
 function initMore() {
 	$('[data-function="show-search-plus"]').on('click', function () {
 		var searchPlus = $('#more_search');
-		searchPlus.fadeToggle(500);
+		searchPlus.fadeToggle(500, function () {
+			searchPlus.find(':input').prop('disabled', !searchPlus.is(':visible'));
+		});
 
 		$('.btn-search-plus').fadeToggle();
+	}).click();
+
+	$('[aria-input-type="dropdownselect"]').each(function () {
+		var $input = $(this);
+
+		$input.find('~ ul a').on('click', function () {
+			$input.find('~ button span').html($(this).html());
+			$input.val($(this).data('value'));
+		}).filter('[data-selected]').click();
 	});
+
+	$('[name="purpose"]').on('change', function () {
+		if (this.value == 'r') {
+			$('[data-for="sell"]').hide();
+			$('[data-for="rent"]').show().first().find('a').click();
+		}
+		else {
+			$('[data-for="rent"]').hide();
+			$('[data-for="sell"]').show().first().find('a').click();
+		}
+	}).filter(':checked').change();
 }
 //end
 
 // start ToggleElement
 function initToggleElement($listObject, isFunction) {
 	$listObject.off('click.on_off').on('click.on_off', function (e) {
-		console.log(123);
 		//Lấy đối tượng 
 		// $btn: nút nhấn
 		// $object: đối tượng popup sẽ được hiển thị

@@ -5,8 +5,36 @@
 	
 	type ||= 1
 %>
-
-<% if type == 2 %>
+<% if type == 3 %>
+	<% res.each do |re| %>
+		<li class="item-xs" data-toggle-object="idMe<%= re.id %>">
+			<div class="title">
+				<div class="date" aria-time="<%= re.created_at %>"></div>
+				<div class="text">
+					<span><%= re.title %></span>
+					<i class="fa fa-caret-down"></i>
+				</div>
+			</div>
+			<div class="content-item-xs" data-object="idMe<%= re.id %>" style="display: none;">
+				<div class="title">
+					<div class="date" aria-time="<%= re.created_at %>"></div>
+					<div class="text">
+						<span><%= re.title %></span>
+					</div>
+				</div>
+				<div class="details">
+					<div class="info">
+						<span class="poster">Người đăng</span>
+						<span class="name"><%= re.display_user_name %></span>
+						<span class="type-contact">Liên hệ</span>
+						<span class="infocontact"><%= re.display_user_phone_number || re.display_user_email %></span>
+					</div>
+					<div class="text"><%= re.description %></div>
+				</div>
+			</div>
+		</li>
+	<% end %>
+<% elsif type == 2 %>
 	<% res.each do |re| %>
 		<div class="item-lg" data-value="<%= re.id %>">
 			<div class="row">

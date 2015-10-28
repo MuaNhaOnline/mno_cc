@@ -147,6 +147,20 @@ table + div {
 */
 
 /*
+  Custom template
+*/
+
+.box.transparent {
+  background-color: transparent;
+  box-shadow: none;
+  border-top: 0;
+}
+
+/*
+  / Custom template
+*/
+
+/*
   Loading
 */
 
@@ -263,7 +277,24 @@ body.no-scroll {
         text-align: left;
         position: relative;
         overflow: auto;
+        max-width: 90vw;
       }
+
+        .popup-full-container[aria-width="small"] > .popup-full > .popup-content {
+          width: 300px;
+        }
+
+        .popup-full-container[aria-width="medium"] > .popup-full > .popup-content {
+          width: 550px;
+        }
+
+        .popup-full-container[aria-width="large"] > .popup-full > .popup-content {
+          width: 800px;
+        }
+
+        .popup-full-container[aria-width="maximum"] > .popup-full > .popup-content {
+          width: 100%;
+        }
 
         .popup-full-container.on  > .popup-full > .popup-content {
           animation: turn-on-popup-content 0.5s;
