@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
     get 'real_estates/index'
     get 'real_estates/demo'
+    get 'real_estate/list'
     get 'real_estates/estimate'
     get 'real_estates/category'
     get 'real_estates/create(/:id)' => 'real_estates#create'

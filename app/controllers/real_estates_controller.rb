@@ -7,6 +7,9 @@ class RealEstatesController < ApplicationController
   def demo
   end
 
+  def list
+  end
+
   def estimate
   end
 

@@ -122,14 +122,26 @@
 		position: relative;
 		margin-bottom: 60px;
 	}
+		.item-general .info {
+			position: absolute;
+			left: 10px;
+			top: 40px;
+		}
+			.item-general span {
+				display: block;
+				color: #fff;
+			}
 		.item-general img {
 			width: 100%;
+		}
+		.item-general:hover img {
+			border-color: #3DA93C;
 		}
 		.item-general .name {
 			position: absolute;
 			left: calc(50% - 60px);
 			bottom: -20px;
-			background-color: rgba(74, 73, 73, 0.9);
+			background-color: #3DA93C;
 			padding: 10px 20px;
 			text-align: center;
 			color: #fff;
