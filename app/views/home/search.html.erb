@@ -44,6 +44,30 @@
 </section>
 <!-- end navigator -->
 
+<!-- Error -->
+
+<% if params[:error].present? %>
+	<% 
+		error = '' 
+		case params[:error]
+		when '404'
+			error = 'Trang không tồn tại hoặc đã bị gỡ bỏ'
+		when '422'
+			error = 'Truy cập không hợp lệ'
+		when '500'
+			error = 'Có lỗi xảy ra trong quá trình xử lý	'
+		when 'author'
+			error = 'Bạn không có quyền thực hiện chức năng này'
+		end
+	%>
+
+	<section class="result-real container">
+		<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-exclamation fa-lg"></i> <%= error %></h4><p>Bạn có thể tìm thấy thông tin cần thiết bằng cách tìm kiếm</p></div>
+	</section>
+<% end %>
+
+<!-- / Error -->
+
 <!--start Search Box -->
 <section class="search-result container">
 	<div class="search-box-result">
@@ -207,7 +231,7 @@
 </section>
 <!-- end Search Box-->
 
-<% if @res.blank? && @res_short.blank? && @projects.blank? %>
+<% if params[:search].present? && @res.blank? && @res_short.blank? && @projects.blank? %>
 	<section class="result-real container">
 		<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả phù hợp</h4></div>
 	</section>

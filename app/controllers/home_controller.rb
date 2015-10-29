@@ -9,7 +9,7 @@ class HomeController < ApplicationController
     # Handle => View
     # params: search form
     def search
-      @res = nil
+      @res = @res_short = @projects = nil
       @search_params = {}
       if params[:search].present?
 
@@ -85,5 +85,14 @@ class HomeController < ApplicationController
   def end_session
     current_user.update(is_online: false) if signed?
     render plain: '0'
+  end
+
+  # View/Handle
+  # params
+  def error
+    respond_to do |format|
+      format.html { redirect_to "/search?error=#{params[:error]}" }
+      format.json { render json: { status: params[:error] == '404' ? 1 : 2, result: params[:error] } }
+    end
   end
 end
