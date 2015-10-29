@@ -1,0 +1,43 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" href="/assets/blogs/index.css" />
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/blogs/index.js"></script>
+<% end %>
+
+<!--start Search Box -->
+<%= render partial: 'shared/front_end_search_box' %>
+<!-- end Search Box-->
+
+<!-- start navigator -->
+<section class="navigator container">
+	<ol class="breadcrumb">
+		<li><a href="/">Trang chủ</a></li>
+		<li class="active">Blog</li>
+	</ol>
+</section>
+<!-- end navigator -->
+
+<!-- start list blog -->
+<section class="list-blog container">
+	<ul class="wrapper">
+		<% @blogs.each do |blog| %>
+			<li class="item-blog">
+				<div class="title">
+					<a href="#">
+						<h3 style="display: inline"><%= blog.title %></h3>
+					</a>
+					<% if can? :edit, blog %>
+						<a href="/blogs/create/<%= blog.id %>" class="small">[Sửa]</a>
+					<% end %>
+				</div>
+				<div class="content"><%= blog.content.html_safe %></div>
+				<div class="info">
+					<span class="time" aria-time="<%= blog.created_at %>"></span>
+				</div>
+			</li>
+		<% end %>
+	</ul>	
+</section>
+<!-- end -->

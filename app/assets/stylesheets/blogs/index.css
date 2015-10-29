@@ -1,0 +1,66 @@
+/*start search-box*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 25px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search-box*/
+
+/*start navigator*/
+.navigator {
+	font-size: 86.67%;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+		margin-bottom: 15px;
+	}
+/*end navigator*/
+
+/*start list blog*/
+.list-blog {
+	width: 70%;
+	margin: 10px auto;
+}
+/*end*/
+
+/*start item blog*/
+.item-blog {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 0 6px #ccc;
+	margin-bottom: 40px;
+}
+	/*start title*/
+	.item-blog .title {
+		padding: 10px;
+		color: #666;
+		border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
+		background-color: #EAEAEA;
+		border-bottom: 1px solid #ccc;
+	}
+		.item-blog .title h3 {
+			margin-top: 9px;
+		}
+	/*end*/
+
+	/*start content*/
+	.item-blog .content {
+		padding: 10px;
+	}
+	/*end*/
+
+	/*start info*/
+	.item-blog .info {
+		padding: 10px;
+		text-align: right;
+		color: #999;
+		font-size: 86.67%;
+	}
+	/*end*/
+/*end*/

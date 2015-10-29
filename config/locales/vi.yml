@@ -401,6 +401,11 @@
         save_draft: 'Lưu tạm'
         reply: 'Trả lời'
         delete: 'Xóa'
+  blog:
+    view:
+      create:
+        page_title: 'Tạo blog'
+        form_title: 'Tạo blog'
   question:
     view:
       manager:
