@@ -103,8 +103,15 @@
 		.content-switch .sub-content {
 			background-color: #fff;
 		}
+			.content-switch .dropdown-menu {
+				border-radius: 3px;
+			}
 			.content-switch .dropdown-menu a {
 				border-radius: 0;
+			}
+			.content-switch .dropdown-menu li:first-child,
+			.content-switch .dropdown-menu li + li {
+				margin-right: 0;
 			}
 			/*start tab*/
 			.content-switch .tab-pane ul.structure {
@@ -328,5 +335,5 @@
 	}
 	.real-estimated .position-real-tool li > a:hover {
 		background-color: #046492;
-	}
+	}#2E9854
 /*end*/
