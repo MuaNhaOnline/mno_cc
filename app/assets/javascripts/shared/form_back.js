@@ -1099,16 +1099,20 @@ function initForm($form, params) {
 
 	function initEditor() {
 		$form.find('[aria-input-type="editor"]').each(function () {
-			CKEDITOR.replace(this.id);
-
 			var $input = $(this);
+
+			CKEDITOR.replace(this.id, $input.data('editor'));
 			
 			CKEDITOR.on('instanceReady', function() { $input.siblings('.cke').addClass('form-control'); }); 
 
 			var ckeditor = CKEDITOR.instances[this.id];
 
+			ckeditor.on('change', function () {
+				$input.val(ckeditor.getData());
+			});
+
 			ckeditor.on('blur', function () {
-				$input.val(ckeditor.getData()).change();
+				$input.change();
 			});
 		});
 	}

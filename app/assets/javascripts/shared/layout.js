@@ -612,11 +612,19 @@ function read_money (number) {
 
 function initReadTime($container) {
   (typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')).each(function () {
-    var $item = $(this);
-    var time = readTime($item.attr('aria-time'));
-    $item.text(time.short);
-    $item.tooltip({ title: time.full });
+    setTime($(this));
   });
+}
+
+function setTime($item) {
+  var time = readTime($item.attr('aria-time'));
+  $item.text(time.short);
+  $item.tooltip({ title: time.full });
+  if (repeat != -1) {
+    setTimeout(function () {
+      setTime($item);
+    }, repeat * 1000);
+  }
 }
 
 function readTime(time) {
@@ -624,8 +632,10 @@ function readTime(time) {
   now = new Date();
   shortText = '';
   fullText = '';
+  repeat = -1;
 
-  minutes =   ~~((now - time) / 60000);
+  seconds =   ~~((now - time) / 1000)
+  minutes =   ~~(seconds / 60);
   hours =     ~~(minutes / 60);
   days =      ~~(hours / 24);
   years =     ~~(days / 365);
@@ -643,9 +653,11 @@ function readTime(time) {
             else {
               shortText = minutes + ' phút trước';
             }
+            repeat = 60 - seconds;
           }
           else {
             shortText = hours + ' giờ trước';
+            repeat = (60 - minutes) * 60;
           }
         }
         else {
@@ -658,6 +670,7 @@ function readTime(time) {
           else {
             shortText = days + ' ngày trước';
           }
+          repeat = (24 - hours) * 3600;
         }
       }
       else {
@@ -674,7 +687,7 @@ function readTime(time) {
 
   fullText = time.getDate() + ' tháng ' + (time.getMonth() + 1) + ' năm ' + time.getFullYear() + ' lúc ' + time.getHours() + ' giờ ' + time.getMinutes();
 
-  return { short: shortText, full: fullText };
+  return { short: shortText, full: fullText, repeat: repeat };
 }
 
 /*

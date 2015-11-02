@@ -20,9 +20,10 @@ class ApplicationController < ActionController::Base
 	helper_method :signed?, :current_user, :current_purpose, :current_width_type
 
 	rescue_from CanCan::AccessDenied do |e|
-		redirect_to '/'
+    format.html { redirect_to "/search?error=author" }
+    format.json { render json: { status: 6, result: 'author' } }
 	end
-
+	
 	def init
 		unless cookies.has_key? :width_type
 			if params.has_key? :width_type

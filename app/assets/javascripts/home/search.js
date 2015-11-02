@@ -1,8 +1,6 @@
 // Initilization
 $(function() {
 	Jump();
-
-	initSearchForm();
 });
 // end
 

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 
   # Home, shared
 
+    get '/404', to: 'home#error', defaults: { error: '404' }
+    get '/422', to: 'home#error', defaults: { error: '422' }
+    get '/500', to: 'home#error', defaults: { error: '500' }
+
     get 'home/result'
     get 'home/index'
     get 'home/back'
@@ -29,6 +33,7 @@ Rails.application.routes.draw do
 
     get 'real_estates/index'
     get 'real_estates/demo'
+    get 'real_estate/list'
     get 'real_estates/estimate'
     get 'real_estates/category'
     get 'real_estates/create(/:id)' => 'real_estates#create'
@@ -139,15 +144,23 @@ Rails.application.routes.draw do
 
   # / Appraisal company
 
+  # Blog
+
+    get 'blogs/create(/:id)' => 'blogs#create'
+    get 'blogs' => 'blogs#index'
+    post 'blogs/create' => 'blogs#save'
+
+  # / Blog
+
   # Question
 
-    get '/questions/create'
-    get '/questions/manager'
-    get '/questions/_manager_list'
-    post '/questions/create' => 'questions#save'
-    post '/questions/answer' => 'questions#answer'
-    post '/questions/pin/:id/:status' => 'questions#pin'
-    post '/questions/delete/:id' => 'questions#delete'
+    get 'questions/create'
+    get 'questions/manager'
+    get 'questions/_manager_list'
+    post 'questions/create' => 'questions#save'
+    post 'questions/answer' => 'questions#answer'
+    post 'questions/pin/:id/:status' => 'questions#pin'
+    post 'questions/delete/:id' => 'questions#delete'
 
   # / Question
 

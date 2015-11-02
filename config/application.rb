@@ -36,5 +36,7 @@ module Mno
     config.item_per_page = 8
     config.real_estate_item_per_page = 4
     config.mail_item_per_page = 20
+    
+    config.exceptions_app = self.routes
   end
 end
