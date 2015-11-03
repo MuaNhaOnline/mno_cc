@@ -1,3 +1,5 @@
+var signed;
+
 $(function () {
   var 
     $formNavigator = $('#form_navigator'),
@@ -27,7 +29,25 @@ $(function () {
       }).done(function (data) {
         if (data.status == 0) {
           if ($form.find('#is_full').val() == 'true') {
-            window.location = '/real_estates/my';
+            if (signed) {
+              window.location = '/real_estates/my';
+            }
+            else {
+              popupPrompt({
+                title: 'Đăng tin thành công',
+                content: 'Bạn vui lòng vào email để kích hoạt tin',
+                type: 'success',
+                buttons: [
+                  {
+                    text: 'Về trang chủ',
+                    type: 'primary'
+                  }
+                ],
+                onEscape: function () {
+                  window.location = '/';
+                }
+              })              
+            }
           }
           else {
             popupPrompt({
@@ -50,7 +70,26 @@ $(function () {
                 }, {
                   text: _t.form.no,
                   handle: function () {
-                    window.location = '/real_estates/my';
+                    if (signed) {
+                      window.location = '/real_estates/my';
+                    }
+                    else {
+                      popupPrompt({
+                        title: 'Đăng tin thành công',
+                        content: 'Bạn vui lòng vào email để kích hoạt tin',
+                        type: 'success',
+                        buttons: [
+                          {
+                            text: 'Về trang chủ',
+                            type: 'primary'
+                          }
+                        ],
+                        onEscape: function () {
+                          window.location = '/';
+                        }
+                      });
+                      return false;          
+                    }
                   }
                 }
               ]
