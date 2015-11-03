@@ -20,8 +20,10 @@ class ApplicationController < ActionController::Base
 	helper_method :signed?, :current_user, :current_purpose, :current_width_type
 
 	rescue_from CanCan::AccessDenied do |e|
-    format.html { redirect_to "/search?error=author" }
-    format.json { render json: { status: 6, result: 'author' } }
+		respond_to do |format|
+			format.html { redirect_to('/search?error=author') }
+	    format.json { render json: { status: 6, result: 'author' } }
+    end
 	end
 	
 	def init
