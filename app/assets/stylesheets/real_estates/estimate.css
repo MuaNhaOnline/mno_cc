@@ -62,11 +62,11 @@
 
 	/*start custom tab*/
 		/*start panel switch*/
-		.panel-switch li + li,
-		.panel-switch li:first-child {
+		.vertical-tabs li + li,
+		.vertical-tabs li:first-child {
 			margin-bottom: 20px;
 		}
-		.panel-switch li a {		
+		.vertical-tabs li a {		
 			text-align: center;
 			text-transform: uppercase;
 			color: #999;
@@ -74,10 +74,10 @@
 			line-height: 40px;
 			font-size: 86.67%;			
 		}		
-		.panel-switch li:hover a,
-		.panel-switch li.active a:focus,
-		.panel-switch li.active a:hover,
-		.panel-switch li.active a {
+		.vertical-tabs li:hover a,
+		.vertical-tabs li.active a:focus,
+		.vertical-tabs li.active a:hover,
+		.vertical-tabs li.active a {
 			color: #2E9854;
 			font-weight: bold;
 			border-radius: 1px;
@@ -86,7 +86,7 @@
 			font-size: 86.67%;
 			background-color: #efefef;
 		}
-			.panel-switch li.active a:after {
+			.vertical-tabs li.active a:after {
 				content: '';
 				bottom: calc(50% - 15px);
 				right: 0;
@@ -114,7 +114,7 @@
 				margin-right: 0;
 			}
 			/*start tab*/
-			.content-switch .tab-pane ul.structure {
+			.content-switch .tab-pane ul.structure-tabs {
 				display: -webkit-flex;
 				display: -ms-flexbox;
 				display: flex;
@@ -126,28 +126,28 @@
 				border-top-right-radius: 3px;
 				background-color: #fff;
 			}
-				ul.structure li + li,
-				ul.structure li:first-child {
+				ul.structure-tabs li + li,
+				ul.structure-tabs li:first-child {
 					margin-right: 15px;
 				}
-				ul.structure li a {
+				ul.structure-tabs li a {
 					position: relative;
 					color: #999;
 					background-color: ;
 					padding: 7px 20px;
 					border-radius: 3px;
 				}
-				ul.structure li.active a,
-				ul.structure li.active a:hover,
-				ul.structure li.active a:focus,
-				ul.structure li a:hover,
-				ul.structure li a:focus {
+				ul.structure-tabs li.active a,
+				ul.structure-tabs li.active a:hover,
+				ul.structure-tabs li.active a:focus,
+				ul.structure-tabs li a:hover,
+				ul.structure-tabs li a:focus {
 					position: relative;
 					color: #ffffff;
 					background-color: #2E9854 !important;
 				}
-				ul.structure li.active a:after,
-				ul.structure li a:hover:after {
+				ul.structure-tabs li.active a:after,
+				ul.structure-tabs li a:hover:after {
 					content: '';
 					bottom: -10px;
 					left: calc(50% - 15px);
@@ -158,9 +158,18 @@
 					border-right: 15px solid transparent;
 					border-bottom: 15px solid #fff;
 				}
-					ul.structure .dropdown-menu li a:hover:after {
+					/*structure dropdownmenu*/
+					ul.structure-tabs .dropdown-menu li a:hover:after {
 						display: none;
 					}
+					ul.structure-tabs .dropdown-menu li {
+						margin-right: 0;
+					}
+					ul.structure-tabs .dropdown-menu li a:hover {
+						border-radius: 0;
+						width: 100%;
+					}
+					/*end*/
 			/*end*/
 
 			/*start content*/
@@ -279,7 +288,7 @@
 	/*end*/
 /*end*/
 
-/*start estimate company*/
+/*start stimate company*/
 	/*start search-tool*/
 	.company-tool {
 		width: 500px;
@@ -310,57 +319,44 @@
 .real-estimated {
 
 }
-	.real-estimated .item-sm:hover {
-		border: 1px solid #046492;
-		box-shadow: 0px 0px 3px #046492;
+	.real-estimated > .title {
+		margin-bottom: 60px;
 	}
-	.real-estimated .panel-switch li:hover a,
-	.real-estimated .panel-switch li.active a:focus,
-	.real-estimated .panel-switch li.active a:hover,
-	.real-estimated .panel-switch li.active a {
-		color: #046492;
+	.real-estimated .content {
+		border: 0;
 	}
-		.real-estimated .panel-switch li.active a:after {
-			content: '';
-			bottom: calc(50% - 15px);
-			right: 0;
-			position: absolute;
-			width: 0;
-			height: 0;
-			border-right: 15px solid #046492;
-			border-top: 15px solid transparent;
-			border-bottom: 15px solid transparent;
-		}
-	.real-estimated .content-switch .tab-pane ul.structure {
+	.real-estimated .tab-pane {
+		width: 100%;
+	}
+	.real-estimated .structure-tabs {
 		display: -webkit-flex;
 		display: -ms-flexbox;
 		display: flex;
-		width: 100%;
 		-webkit-justify-content: center;
 		    -ms-flex-pack: center;
-		        justify-content: center;
-		padding: 10px;
-		border-top-right-radius: 3px;
+		      	justify-content: center;
+	      	margin-bottom: 30px;
 	}
-	.real-estimated ul.structure li.active a, 
-	.real-estimated ul.structure li.active a:hover,
-	.real-estimated ul.structure li.active a:focus, 
-	.real-estimated ul.structure li a:hover, 
-	.real-estimated ul.structure li a:focus {
-		position: relative;
-		color: #ffffff;
-		background-color: #046492;
+	.real-estimated .tool-box {
+		border: 1px solid #eee;
+		background-color: #fff;
+		padding: 10px 0;
 	}
-	.real-estimated .panel-switch {
-		width: 300px;
-		border-right: 0px;
-		padding-top: 75px;
-		z-index: 0;
-		border-radius: 3px;
-		border-top-right-radius: 0;		
-		border-right: 1px solid #046492;	
+	/*start position-selector*/
+	.position-selector {
+		margin-bottom: 20px;
+		text-align: center;
 	}
-	.real-estimated .position-real-tool li > a:hover {
-		background-color: #046492;
-	}#2E9854
+	/*end*/
+	/*start price-selector*/
+	.price-selector {
+		max-width: 500px;
+		margin: 5px auto;
+	}	
+	/*end*/
+	/*start item-sm*/
+	.real-estimated .item-sm .function {
+		font-size: 86.67%;
+	}
+	/*end*/
 /*end*/
