@@ -96,7 +96,9 @@ Rails.application.routes.draw do
 
   # Block
 
-    get 'blocks/_create'
+    get 'blocks/_create/:project_id(/:id)' => 'blocks#_create'
+    post 'blocks/create' => 'blocks#save'
+    post 'blocks/delete'
 
   # / Block
 

@@ -343,7 +343,8 @@ function initForm($form, params) {
               $descriptionForm = $html.find('form');
 
             var $popup = popupFull({
-              html: $html
+              html: $html,
+              id: 'input_description_popup'
             });
 
             // Adjust values
@@ -628,7 +629,8 @@ function initForm($form, params) {
               $descriptionForm = $html.find('form');
 
             var $popup = popupFull({
-              html: $html
+              html: $html,
+              id: 'input_description_popup'
             });
 
             // Adjust values

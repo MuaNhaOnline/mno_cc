@@ -299,7 +299,6 @@ class RealEstate < ActiveRecord::Base
     params[:region_utility_ids] = [] unless params.has_key? :region_utility_ids
 
     # Images
-
     _images = []
     _has_avatar = false
     if params[:image_ids].present?
