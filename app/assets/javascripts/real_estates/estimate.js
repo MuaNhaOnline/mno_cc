@@ -26,4 +26,41 @@ $(function() {
 			}
 		]
 	});
+
+	ToggleCountry();
+	ToggleDistrict();
 });
+
+function ToggleCountry() {
+	$country = $('.country');
+	$li = $('.country').find('li');
+
+	$li.on('click', function(e) {
+		e = e || window.event;
+		var $this = $(this);
+
+		if ($this.hasClass("divider-vertical") || $this.hasClass("more")) {
+			return;
+		}
+
+		$country.find('.active').removeClass('active');
+		$this.addClass('active');
+	});
+}
+
+function ToggleDistrict() {
+	$district = $('.district');
+	$li = $('.district').find('li');
+
+	$li.on('click', function(e) {
+		e = e || window.event;
+		var $this = $(this);
+
+		if ($this.hasClass("divider-vertical") || $this.hasClass("more")) {
+			return;
+		}
+
+		$district.find('.active').removeClass('active');
+		$this.addClass('active');
+	});
+}
