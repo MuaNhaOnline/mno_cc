@@ -91,7 +91,7 @@ class HomeController < ApplicationController
   # params
   def error
     respond_to do |format|
-      format.html { redirect_to "/search?error=#{params[:error]}" }
+      format.html { redirect_to("/search?error=#{params[:error]}") }
       format.json { render json: { status: params[:error] == '404' ? 1 : 2, result: params[:error] } }
     end
   end
