@@ -12,7 +12,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
 		[ 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ],
 		'/',
-		[ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', '-', 'Link', 'Unlink', 'Image' ],
+		[ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', '-', 'Link', 'Unlink', 'Image', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent' ],
 	]
 
 	// The toolbar groups arrangement, optimized for a single toolbar row.
