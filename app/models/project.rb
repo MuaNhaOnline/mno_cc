@@ -23,6 +23,7 @@ class Project < ActiveRecord::Base
 
   has_many :images, class_name: 'ProjectImage'
   has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
+  has_many :blocks
 
 # / Associates
 

@@ -230,7 +230,7 @@
               <select data-constraint="required" name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose" autofocus>
                 <option data-off="sell rent" value hidden>Chọn mục đích</option>
                 <% Purpose.get_options.each do |p| %>
-                    <option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
+                  <option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
                 <% end %>
               </select>
             </article>

@@ -25,6 +25,8 @@ $(function () {
       method: 'POST'
     });
   });
+
+  initHorizontalListScroll($('.horizontal-list-container'))
 });
 
 /*
@@ -692,4 +694,52 @@ function readTime(time) {
 
 /*
   / Read time
+*/
+
+/*
+  Horizontal list scroll
+*/
+
+  function initHorizontalListScroll($containers) {
+    $containers.each(function () {
+      var startTouch, $container = $(this);
+
+      if (isMobile()) {
+        $container.on({
+          touchstart: function (e) {
+            startTouch = e.originalEvent.changedTouches[0].clientX;
+            startItemList = $container.scrollLeft();
+          },
+          touchmove: function (e) {
+            e.preventDefault();
+            $container.scrollLeft(startItemList + startTouch - e.originalEvent.changedTouches[0].clientX);
+          }
+        });
+      }
+      else {
+        $container.on({
+          mouseenter: function (e) {
+            var 
+              scrollableWidth = $container.children()[0].getBoundingClientRect().width - $container[0].getBoundingClientRect().width,
+              offsetLeft = $container.offset().left,
+              panelWidth = $container.width() - 500;
+
+            if (scrollableWidth > 0) {
+              $container.on({
+                mousemove: function (e) {
+                  $container.scrollLeft(scrollableWidth * ((e.clientX - offsetLeft - 250) / panelWidth));
+                }
+              })
+            }
+          },
+          mouseleave: function () {
+            $container.off('mousemove');
+          }
+        });
+      }
+    })
+  }
+  
+/*
+  / Horizontal list scroll
 */

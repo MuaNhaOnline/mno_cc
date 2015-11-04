@@ -36,7 +36,7 @@
           Nội dung
           <sup class="required-label"></sup>
         </label>
-        <textarea data-editor='{"extraPlugins":"font"}' data-constraint="required" class="form-control" aria-input-type="editor" name="blog[content]" id="content"><%= @blog.content %></textarea>
+        <textarea data-editor-extra-plugins=",font,image,uploadimage,filebrowser" data-constraint="required" class="form-control" aria-input-type="editor" name="blog[content]" id="content"><%= @blog.content %></textarea>
       </article>
     </section>
     <section class="box-footer text-center">

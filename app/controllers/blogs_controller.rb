@@ -41,4 +41,14 @@ class BlogsController < ApplicationController
 
 	# / Create
 
+	# View
+
+		# View
+		# params: id(*)
+		def view
+			@blog = Blog.find(params[:id])
+		end
+
+	# / View
+
 end

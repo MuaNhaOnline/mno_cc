@@ -16,7 +16,7 @@
   </script>
 <% end %>
 
-<article class="create-details-container open">
+<article class="create-details-container">
 	<section id="view" class="view-container">
 		<svg id="svg">
 			<g>
@@ -34,60 +34,72 @@
 	<section class="items-container">
 		<article class="item-container show">
 			<div class="item-list">
-				<article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article>
+				<article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article>
+			</div>
+		</article>
+		<article class="item-container horizontal-list-container">
+			<div class="item-list horizontal-list">
+				<article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article>
 			</div>
 		</article>
 		<article class="item-container">
 			<div class="item-list">
-				<article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article>
-			</div>
-		</article>
-		<article class="item-container">
-			<div class="item-list">
-				<article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article><article class="item"></article>
+				<article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article><article class="item horizontal-item"></article>
 			</div>
 		</article>
 	</section>
 </article>
 
-<button id="a">Mở</button>
-<br />
-<br />
-<br />
-<br />
-<br />
+<!-- 
+	<button id="a">Mở</button>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
 
+ -->
 
 <div id="view_part">
 
-	<article class="blocks-container box transparent">
-		<section class="box-header">
-			<h2 class="box-title">Danh sách block</h2>
-			<div class="box-tools pull-right">
-	      <button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
-	    </div>
-		</section>
-		<section class="box-body">
-			<div class="item-list">
-				<div class="col-md-3 col-sm-4 col-ss-6 col-xs-12">
-					<article class="item">
-						<section class="top">
-							<a href="javascript:void(0)">
-								<img src="#">
-							</a>
-							<section class="left">
-								<article class="node font-bold">
-									Khu A
-								</article>
-							</section>
+	<article class="blocks-container box transparent with-border">
+
+		<!-- Block -->
+
+			<section class="box-header">
+				<h2 class="box-title">Danh sách block</h2>
+				<div class="box-tools pull-right">
+		      <button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
+		    </div>
+			</section>
+			<section class="box-body">
+				<div class="horizontal-list-container">
+					<div id="block_list" class="horizontal-list item-list block-list">
+						<%= render partial: 'blocks/item_list', locals: { blocks: @project.blocks } %>
+					</div>
+				</div>
+
+				<!-- Real-estate -->
+
+					<article class="real-estate-container box">
+						<section class="box-header">
+							<h2 class="box-title">Danh sách loại bất động sản</h2>
+							<div class="box-tools pull-right">
+					      <button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
+					    </div>
+						</section>
+						<section class="box-body">
+							<div id="real_estate_list" class="item-list">
+								asdfasdfasdf
+							</div>
 						</section>
 					</article>
-				</div>
-			</div>
-		</section>
-	</article>
-	<article class="platform-templates-container">
-		
-	</article>
+
+				<!-- / Real-estate -->
+
+			</section>
+		</article>
+
+	<!-- / Block -->
 
 </div>

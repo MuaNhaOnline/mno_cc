@@ -1,4 +1,4 @@
-var project_id
+var project_id;
 
 $(function () {
 
@@ -431,70 +431,159 @@ $(function () {
 		View
 	*/
 
-		var $viewPart = $('#view_part');
+		var 
+			$viewPart = $('#view_part'),
+			$blockList = $('#block_list'),
+			selectedBlockId;
 
-		view_initBlockButtons();
+		initCreateBlock();
+		initBlock($blockList.find('.item'));
 
 		/*
 			Block
 		*/
 
-			function view_initBlockButtons() {
+			/*
+				Create block
+			*/
 
-				/*
-					Create block
-				*/
+				function initCreateBlock() {
+					$viewPart.find('[aria-click="create_block"]').on('click', function () {
+						toggleLoadStatus(true);
+						$.ajax({
+							url: '/blocks/_create/' + project_id,
+							dataType: 'JSON'
+						}).always(function () {
+							toggleLoadStatus(false);
+						}).done(function (data) {
+							if (data.status == 0) {
+								var 
+									$html = $(data.result),
+									$form = $html.find('form');
 
-				$viewPart.find('[aria-click="create_block"]').on('click', function () {
-					createBlock();
-				});
+								var $popup = popupFull({
+									html: $html,
+									width: 'medium'
+								});
 
-				/*
-					/ Create block
-				*/
-			}
-
-		/*
-			/ Block
-		*/
-
-
-
-	/*
-		/ View
-	*/
-
-	/*
-		Function
-	*/
-
-		function createBlock() {
-			$.ajax({
-				url: '/blocks/_create',
-				data: 'JSON'
-			}).done(function (data) {
-				if (data.status == 0) {
-					var 
-						$html = $(data.result),
-						$form = $html.find('form');
-
-					var $popup = popupFull({
-						html: $html,
-						width: 'medium'
+								initForm($form, {
+									submit: function () {
+										toggleLoadStatus(true);
+										$.ajax({
+											url: '/blocks/create',
+											method: 'POST',
+											data: $form.serialize(),
+											dataType: 'JSON'
+										}).always(function () {
+											$popup.off();
+											toggleLoadStatus(false);
+										}).done(function (data) {
+											if (data.status == 0) {
+												data.result = $(data.result);
+												initBlock(data.result.find('.item'));
+												$blockList.prepend(data.result);
+											}
+											else {
+							          popupPrompt({
+							            title: _t.form.error_title,
+							            type: 'danger',
+							            content: _t.form.error_content
+							          })
+											}
+										}).fail(function () {
+						          popupPrompt({
+						            title: _t.form.error_title,
+						            type: 'danger',
+						            content: _t.form.error_content
+						          })
+										});
+									}
+								});
+							}
+							else {
+			          popupPrompt({
+			            title: _t.form.error_title,
+			            type: 'danger',
+			            content: _t.form.error_content
+			          })
+							}
+						}).fail(function () {
+			        popupPrompt({
+			          title: _t.form.error_title,
+			          type: 'danger',
+			          content: _t.form.error_content
+			        })
+						})
 					});
+				}
 
-					initForm($form, {
-						submit: function () {
-							console.log($form.serialize());
-							return;
+			/*
+				/ Create block
+			*/
+
+			/*
+				Init block
+			*/
+
+				function initBlock($items) {
+
+					/*
+						Edit block
+					*/
+
+						$items.find('[aria-click="edit_block"]').on('click', function () {
+							var $item = $(this).closest('.item');
+
+							toggleLoadStatus(true);
 							$.ajax({
-								url: '/blocks/create',
-								method: 'POST',
-								data: $form.serialize() + 'block%5Bproject_id%5D=' + project_id,
+								url: '/blocks/_create/' + project_id + '/' + $item.data('value'),
 								dataType: 'JSON'
+							}).always(function () {
+								toggleLoadStatus(false);
 							}).done(function (data) {
 								if (data.status == 0) {
-									alert('OK');
+									var 
+										$html = $(data.result),
+										$form = $html.find('form');
+
+									var $popup = popupFull({
+										html: $html,
+										width: 'medium'
+									});
+
+									initForm($form, {									
+										submit: function () {
+											toggleLoadStatus(true);
+											$.ajax({
+												url: '/blocks/create',
+												method: 'POST',
+												data: $form.serialize(),
+												dataType: 'JSON'
+											}).always(function () {
+												toggleLoadStatus(false);
+												$popup.off();
+											}).done(function (data) {
+												if (data.status == 0) {
+													data.result = $(data.result);
+													initBlock(data.result.find('.item'));
+													$item.replaceWith(data.result);
+												}
+												else {
+								          popupPrompt({
+								            title: _t.form.error_title,
+								            type: 'danger',
+								            content: _t.form.error_content
+								          })
+												}
+											}).fail(function () {
+							          popupPrompt({
+							            title: _t.form.error_title,
+							            type: 'danger',
+							            content: _t.form.error_content
+							          })
+											});
+										}
+									});
 								}
 								else {
 				          popupPrompt({
@@ -504,33 +593,178 @@ $(function () {
 				          })
 								}
 							}).fail(function () {
+				        popupPrompt({
+				          title: _t.form.error_title,
+				          type: 'danger',
+				          content: _t.form.error_content
+				        })
+							})
+						});
+
+					/*
+						/ Edit block
+					*/
+
+					/*
+						Delete
+					*/
+
+						$items.find('[aria-click="delete_block"]').on('click', function () {
+							var $item = $(this).closest('.item');
+
+							toggleLoadStatus(true);
+							$.ajax({
+								url: '/blocks/delete',
+								method: 'POST',
+								data: { id: $item.data('value') },
+								dataType: 'JSON'
+							}).always(function () {
+								toggleLoadStatus(false);
+							}).done(function (data) {
+								if (data.status == 0) {
+									$item.remove();
+								}
+								else {
+				          popupPrompt({
+				            title: _t.form.error_title,
+				            type: 'danger',
+				            content: _t.form.error_content
+				          })
+								}
+							}).fail(function () {
+				        popupPrompt({
+				          title: _t.form.error_title,
+				          type: 'danger',
+				          content: _t.form.error_content
+				        })
+							})
+						});
+
+					/*
+						/ Delete
+					*/
+
+					/*
+						Select
+					*/
+
+						$items.find('[aria-click="select_block"]').on('click', function () {
+							var $item = $(this).closest('.item');
+
+							if ($item.hasClass('active')) {
+								return;
+							}
+
+							$item.siblings('.active').removeClass('active');
+							$item.addClass('active');
+
+							selectedBlockId = $item.data('value');
+						});
+
+					/*
+						/ Select
+					*/
+
+				}
+
+			/*
+				/ Init block
+			*/
+
+		/*
+			/ Block
+		*/
+
+		/*
+			Real-estate
+		*/
+
+			initCreateRealEstate();
+
+			/*
+				Create
+			*/
+
+				function initCreateRealEstate() {
+					$viewPart.find('[aria-click="create_real_estate"]').on('click', function () {
+						toggleLoadStatus(true);
+						$.ajax({
+							url: '/real_estates/_block_create/' + selectedBlockId,
+							dataType: 'JSON'
+						}).always(function () {
+							toggleLoadStatus(false);
+						}).done(function (data) {
+							if (data.status == 0) {
+								var 
+									$html = $(data.result),
+									$form = $html.find('form');
+
+								var $popup = popupFull({
+									html: $html,
+									width: 'maximum'
+								});
+
+								initForm($form, {
+									submit: function () {
+										toggleLoadStatus(true);
+										$.ajax({
+											url: '/blocks/create',
+											method: 'POST',
+											data: $form.serialize(),
+											dataType: 'JSON'
+										}).always(function () {
+											$popup.off();
+											toggleLoadStatus(false);
+										}).done(function (data) {
+											if (data.status == 0) {
+												data.result = $(data.result);
+												initBlock(data.result.find('.item'));
+												$blockList.prepend(data.result);
+											}
+											else {
+							          popupPrompt({
+							            title: _t.form.error_title,
+							            type: 'danger',
+							            content: _t.form.error_content
+							          })
+											}
+										}).fail(function () {
+						          popupPrompt({
+						            title: _t.form.error_title,
+						            type: 'danger',
+						            content: _t.form.error_content
+						          })
+										});
+									}
+								});
+							}
+							else {
 			          popupPrompt({
 			            title: _t.form.error_title,
 			            type: 'danger',
 			            content: _t.form.error_content
 			          })
-							});
-						}
+							}
+						}).fail(function () {
+			        popupPrompt({
+			          title: _t.form.error_title,
+			          type: 'danger',
+			          content: _t.form.error_content
+			        })
+						})
 					});
 				}
-				else {
-          popupPrompt({
-            title: _t.form.error_title,
-            type: 'danger',
-            content: _t.form.error_content
-          })
-				}
-			}).fail(function () {
-        popupPrompt({
-          title: _t.form.error_title,
-          type: 'danger',
-          content: _t.form.error_content
-        })
-			})
-		}
+
+			/*
+				/ Create
+			*/
+
+		/*
+			Real-estate
+		*/
 
 	/*
-		/ Function
+		/ View
 	*/
 
 })

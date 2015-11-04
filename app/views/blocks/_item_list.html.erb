@@ -1,0 +1,29 @@
+<% 
+=begin
+	params: @blocks
+=end
+ 
+%>
+
+<% blocks.each do |block| %>
+	<article class="item horizontal-item" data-value="<%= block.id %>">
+		<section class="top">
+			<a href="javascript:void(0)" aria-click="select_block">
+				<%= block_avatar block %>
+			</a>
+			<section class="left">
+				<article class="node font-bold">
+					<%= block.name %>
+				</article>
+			</section>
+		</section>
+    <section class="control">
+      <span class="node">
+        <a aria-click="edit_block" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
+      </span>
+      <span class="node">
+        <a aria-click="delete_block" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+      </span>
+    </section>
+	</article>
+<% end %>

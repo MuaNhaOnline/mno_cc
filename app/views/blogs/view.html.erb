@@ -1,0 +1,39 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" href="/assets/blogs/index.css" />
+	<link rel="stylesheet" href="/assets/blogs/view.css" />
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/blogs/view.js"></script>
+<% end %>
+
+<!--start Search Box -->
+<%= render partial: 'shared/front_end_search_box' %>
+<!-- end Search Box-->
+
+<!-- start title blog -->
+<section class="title-blog container">
+	<div class="logo-blog"></div>
+</section>
+<!-- end -->
+
+<!-- start detail blog -->
+<section class="detail-blog container">
+	<ul class="wrapper">
+		<li class="item-blog">
+			<div class="title">
+				<a href="#">
+					<h1><%= @blog.title %></h1>
+				</a>					
+			</div>
+			<div class="info">
+				<span style="color: #666; font-style: Italic;" aria-time="<%= @blog.created_at %>"></span><% if can? :edit, @blog %> <a href="/blogs/create/<%= @blog.id %>" class="small">[Sửa]</a><% end %>	
+			</div>
+			<div class="content" data-dot><%= @blog.content.html_safe %></div>
+			<div class="function">
+				<a href="javascript:void(0)" data-toggle="tooltip" data-placement="auto" title="Share bài viết này"><i class="fa fa-share-alt"></i></a>
+			</div>
+		</li>
+	</ul>
+</section>
+<!-- end -->

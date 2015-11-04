@@ -1,7 +1,17 @@
 <% 
 	# Use in create details
 
-	# params: @block
+	# params: @block, @project
+
+  # Image
+  image_init_value = ''
+  unless @block.new_record?
+    _images = []
+    @block.images.each do |block_image|
+      _images << { 'id'=> block_image.id, 'url'=> block_image.image.url, 'description'=> block_image.description, 'is_avatar'=> block_image.is_avatar }
+    end
+    image_init_value = _images.to_json
+  end
 %>
 
 <article class="box box-default">
@@ -13,6 +23,18 @@
 	<section class="box-body">
 		<form class="form">
 
+			<!-- Id -->
+
+				<input type="hidden" name="block[id]" value="<%= @block.id %>" />
+
+			<!-- / Id -->
+
+			<!-- Project -->
+
+				<input type="hidden" name="block[project_id]" value="<%= @project.id %>" />
+
+			<!-- Project -->
+
 			<!-- Name -->
 
 				<article class="form-group">
@@ -20,7 +42,7 @@
 						Tên
 						<sup class="required-label"></sup>
 					</label>
-					<input class="form-control" name="block[name]" id="block_name" />
+					<input class="form-control" name="block[name]" id="block_name" value="<%= @block.name %>" />
 				</article>
 
 			<!-- / Name -->
@@ -32,7 +54,7 @@
 						Hình ảnh
 						<sup class="required-label"></sup>
 					</label>
-	        <input class="file-upload" type="file" multiple name="block[images][]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png" data-init-value="" data-has_description data-has_avatar />
+	        <input class="file-upload" type="file" multiple name="block[images][]" aria-name="image_upload" data-amount="5" data-type="jpg jpeg png gif" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar />
 	      </article>
 
 	     <!-- / Image -->
@@ -45,7 +67,7 @@
 	            <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'form.finish' %></b></button>
 	          </div>
 	          <div class="margin-top-bottom-5 col-sm-6">
-	            <button type="submit" class="btn btn-default btn-block btn-flat"><b><%= t 'form.cancel' %></b></button>
+	            <button type="button" aria-click="close-popup" class="btn btn-default btn-block btn-flat"><b><%= t 'form.cancel' %></b></button>
 	          </div>
         	</div>
         </section>

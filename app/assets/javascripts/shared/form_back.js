@@ -1103,7 +1103,13 @@ function initForm($form, params) {
 		$form.find('[aria-input-type="editor"]').each(function () {
 			var $input = $(this);
 
-			CKEDITOR.replace(this.id, $input.data('editor'));
+			a = $input;
+			var extraPlugins = 'resize';
+			extraPlugins += $input.data('editor-extra-plugins') || '';
+
+			CKEDITOR.replace(this.id, {
+				extraPlugins: extraPlugins
+			});
 			
 			CKEDITOR.on('instanceReady', function() { $input.siblings('.cke').addClass('form-control'); }); 
 

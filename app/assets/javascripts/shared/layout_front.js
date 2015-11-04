@@ -211,46 +211,7 @@ function _initItemList($container) {
 			Scroll list item
 		*/
 
-		initScrollListItem();
-
-		function initScrollListItem() {
-			var startTouch, $itemListPanel = $html.find('.image-list-panel');
-
-			if (isMobile()) {
-				$itemListPanel.on({
-					touchstart: function (e) {
-						startTouch = e.originalEvent.changedTouches[0].clientX;
-						startItemList = $itemListPanel.scrollLeft();
-					},
-					touchmove: function (e) {
-						e.preventDefault();
-						$itemListPanel.scrollLeft(startItemList + startTouch - e.originalEvent.changedTouches[0].clientX);
-					}
-				});
-			}
-			else {
-				$itemListPanel.on({
-					mouseover: function (e) {
-						var 
-							scrollableWidth = $itemList[0].getBoundingClientRect().width - $itemListPanel[0].getBoundingClientRect().width,
-							offsetLeft = $itemListPanel.offset().left
-							panelWidth = $itemListPanel.width() - 100;
-
-						if (scrollableWidth > 0) {
-							$itemListPanel.on({
-								mousemove: function (e) {
-									var position = e.clientX - offsetLeft - 50;
-									$itemListPanel.scrollLeft(scrollableWidth * (position / panelWidth));
-								}
-							})
-						}
-					},
-					mouseout: function () {
-						$itemListPanel.off('mousemove');
-					}
-				});
-			}
-		}
+			initHorizontalListScroll($html.find('.image-list-panel'));
 
 		/*
 			/ Scroll list item

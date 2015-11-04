@@ -8,29 +8,36 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
+	config.toolbar = [
+		{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
+		[ 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ],
+		'/',
+		[ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', '-', 'Link', 'Unlink', 'Image' ],
+	]
+
 	// The toolbar groups arrangement, optimized for a single toolbar row.
-	config.toolbarGroups = [
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		{ name: 'forms' },
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		{ name: 'links' },
-		{ name: 'insert' },
-		{ name: 'styles' },
-		{ name: 'colors' },
-		{ name: 'tools' },
-		{ name: 'others' },
-		{ name: 'about' }
-	];
+	// config.toolbarGroups = [
+	// 	{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+	// 	{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+	// 	{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+	// 	{ name: 'forms' },
+	// 	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+	// 	{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+	// 	{ name: 'links' },
+	// 	{ name: 'insert' },
+	// 	{ name: 'styles' },
+	// 	{ name: 'colors' },
+	// 	{ name: 'tools' },
+	// 	{ name: 'others' }
+	// ];
 
 	// The default plugins included in the basic setup define some buttons that
 	// are not needed in a basic editor. They are removed here.
-	config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Underline,Strike,Subscript,Superscript';
+	// config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Underline,Strike,Subscript,Superscript';
 
 	// Dialog windows are also simplified.
-	config.removeDialogTabs = 'link:advanced';
+	// config.removeDialogTabs = 'link:advanced';
 
-	config.extraPlugins = 'richcombo,listblock,floatpanel,panel,resize';
+	config.imageUploadUrl = '/image_contents/upload';
+  config.filebrowserImageUploadUrl = '/image_contents/upload?type=link';
 };

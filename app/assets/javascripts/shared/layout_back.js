@@ -339,6 +339,11 @@ function popupFull(params) {
     // Turn on popup    
     $popup.on();
 
+    // Turn off popup
+    $popup.find('[aria-click="close-popup"]').on('click', function () {
+      $popup.off();
+    });
+
     return $popup
   }
   else {
@@ -460,6 +465,11 @@ function popupPrompt(params) {
 
   // Turn on popup    
   $popup.on();
+
+  // Turn off popup
+  $popup.find('[aria-click="close-popup"]').on('click', function () {
+    $popup.off();
+  });
 }
 
 /* 
