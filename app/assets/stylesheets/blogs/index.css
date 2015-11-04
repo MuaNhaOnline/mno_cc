@@ -76,6 +76,9 @@
 			max-height: 300px;
 		}
 	}
+		.item-blog .content img {
+			width: 100%;
+		}
 	/*end*/
 
 	/*start info*/

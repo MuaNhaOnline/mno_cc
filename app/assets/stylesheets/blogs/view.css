@@ -29,4 +29,7 @@
 	.detail-blog .item-blog .title {
 		margin-bottom: 0;
 	}
+	.detail-blog .item-blog .conten {
+		height: auto;
+	}
 /*end*/
