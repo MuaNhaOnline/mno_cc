@@ -22,6 +22,7 @@ function initForm($form, params) {
 	initFileInput_2();
 	initAutoComplete();
 	initEditor();
+	initDropdownselect();
 	initSeparateNumber();
 	initConstraint();
 	initSubmit();
@@ -1127,6 +1128,59 @@ function initForm($form, params) {
 
 	/*
 		Editor
+	*/
+
+	/*
+		Dropdownselect
+	*/
+
+		function initDropdownselect() {
+			$form.find('[aria-input-type="dropdownselect"]').each(function () {
+				var $container = $(this);
+
+				/*
+					Init value
+				*/
+				a = $container;
+
+					// Get selected item
+					var $selectedItem = $container.find('ul a[data-selected]');
+					if ($selectedItem.length == 0) {
+						$selectedItem = $container.find('ul a:eq(0)');
+					}
+
+					// Set text
+					$container.find('button .text').text($selectedItem.text());
+
+					// Set value
+					$container.find('input[type="hidden"]').val($selectedItem.data('value')).change();
+
+				/*
+					Init value
+				*/
+
+				/*
+					Event button
+				*/
+
+					$container.find('ul a').on('click', function () {
+
+						// Set text
+						$container.find('button .text').text($(this).text());
+
+						// Set value
+						$container.find('input[type="hidden"]').val($(this).data('value'));
+					});
+
+				/*
+					/ Event button
+				*/
+
+			});
+		}
+
+	/*
+		/ Dropdownselect
 	*/
 
 	/*

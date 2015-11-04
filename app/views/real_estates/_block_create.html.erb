@@ -5,21 +5,12 @@
 
   # Unit options
   sell_unit_html = rent_unit_html = ''
-  current_sell_unit = current_rent_unit = nil
   Unit.get_options.each do |u|
     case u.options_hash['group']
-      when 'sell'
-        if u.id == @re.sell_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.sell_unit_id.blank?)
-          current_sell_unit = u
-        end
-
-        sell_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' aria-click='change-unit'>#{t 'unit.text.' + u.name}</a>"
-      when 'rent'
-        if u.id == @re.rent_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.rent_unit_id.blank?)
-          current_rent_unit = u
-        end
-
-        rent_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' aria-click='change-unit'>#{t 'unit.text.' + u.name}</a>"
+    when 'sell'
+      sell_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' #{'data-selected' if u.id == @re.sell_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.sell_unit_id.blank?)}>#{t 'unit.text.' + u.name}</a>"
+    when 'rent'
+      rent_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' #{'data-selected' if u.id == @re.rent_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.rent_unit_id.blank?)}>#{t 'unit.text.' + u.name}</a>"
     end
   end
 
@@ -34,6 +25,12 @@
   end
 %>
 
+<style type="text/css">
+	.re-form .unit-label:before {
+		content: attr(data-currency) ' / ';
+	}
+</style>
+
 <article class="box box-default">
 	<section class="box-header with-border">
 		<h2 class="box-title">
@@ -41,7 +38,7 @@
 		</h2>
 	</section>
 	<section class="box-body">
-		<form class="form">
+		<form class="form re-form">
 
 			<!-- Id -->
 
@@ -110,9 +107,9 @@
               <div class="input-group">
                 <input data-constraint="integer rang
                 e" data-maxvalue="1000000000000" value="<%= @re.sell_price.to_i unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
-                <div class="input-group-btn">
-                  <input type="hidden" name="real_estate[sell_unit_id]" value="<%= current_sell_unit.id %>" />
-                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_sell_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
+                <div class="input-group-btn" aria-input-type="dropdownselect">
+                  <input type="hidden" name="real_estate[sell_unit_id]" value="" />
+                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span><span class="fa fa-caret-down margin-left-5"></span></button>
                   <ul class="dropdown-menu pull-right">
                     <%= sell_unit_html.html_safe %>
                   </ul>
@@ -125,9 +122,9 @@
               <label class="control-label" for="rent_price"><%= t 'real_estate.attribute.rent_price' %></label>
               <div class="input-group">
                 <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.rent_price.to_i unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
-                <div class="input-group-btn">
-                  <input type="hidden" name="real_estate[rent_unit_id]" value="<%= current_rent_unit.id %>" />
-                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"><%= t 'unit.text.' + current_rent_unit.name %></span><span class="fa fa-caret-down margin-left-5"></span></button>
+                <div class="input-group-btn" aria-input-type="dropdownselect">
+                  <input type="hidden" name="real_estate[rent_unit_id]" value="" />
+                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span><span class="fa fa-caret-down margin-left-5"></span></button>
                   <ul class="dropdown-menu pull-right">
                     <%= rent_unit_html.html_safe %>
                   </ul>
