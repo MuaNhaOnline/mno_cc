@@ -1,0 +1,32 @@
+/*start search-box*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 40px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search-box*/
+
+/*start logo blog*/
+.title-blog {
+	margin-bottom: 30px;
+}
+	.logo-blog {
+		background: url('/assets/icon/logoBlog.png') no-repeat center center;
+		width: 262px;
+		height: 73px;
+		margin: 20px auto;
+	}
+/*end*/
+
+/*start detail blog*/
+.detail-blog {
+	width: 70%;
+}
+	.detail-blog .item-blog .title {
+		margin-bottom: 0;
+	}
+/*end*/

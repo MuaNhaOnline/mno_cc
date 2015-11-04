@@ -64,6 +64,9 @@ class HomeController < ApplicationController
   def blog
 
   end
+
+  def detail
+  end
   
   def back
   	render layout: 'layout_back'

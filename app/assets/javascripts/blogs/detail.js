@@ -1,10 +1,5 @@
 $(function() {
 	Jump();
-
-	//init dot dot dot
-	$('[data-dot]').dotdotdot({
-		watch: 'window'
-	});
 });
 // init Jump
 function Jump() {
