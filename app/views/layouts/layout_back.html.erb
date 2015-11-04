@@ -158,6 +158,16 @@
                 </ul>
               </li>
             <% end %>
+            <% if can? :create, Blog %>
+              <li>
+                <a href="#">
+                  <i class="fa fa-yelp"></i> <span>Blog</span> <i class="fa fa-caret-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/blogs/create"><i class="fa fa-circle-o"></i> Tạo blog</a></li>
+                </ul>
+              </li>
+            <% end %>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-yelp"></i> <span>Bất động sản</span> <i class="fa fa-caret-left pull-right"></i>

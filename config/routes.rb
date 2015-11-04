@@ -152,6 +152,7 @@ Rails.application.routes.draw do
     get 'blogs/:id' => 'blogs#view'
     get 'blogs' => 'blogs#index'
     post 'blogs/create' => 'blogs#save'
+    post 'blogs/delete'
 
   # / Blog
 

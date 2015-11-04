@@ -51,4 +51,14 @@ class BlogsController < ApplicationController
 
 	# / View
 
+	# Delete
+
+		# Handle
+		# params: id(*)
+		def delete
+			render json: Blog.delete_by_id(params[:id])
+		end
+
+	# / Delete
+
 end

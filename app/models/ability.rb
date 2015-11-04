@@ -46,7 +46,7 @@ class Ability
             can [:manage, :rename, :delete], Investor
             can :manage, User
             can [:manager, :create, :edit, :delete], AppraisalCompany
-            can [:create, :edit], Blog
+            can [:create, :edit, :delete], Blog
           end
 
         # / Admin

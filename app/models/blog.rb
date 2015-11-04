@@ -53,4 +53,20 @@ class Blog < ActiveRecord::Base
 
 	# / Insert
 
+	# Delete
+
+		def self.delete_by_id id
+			blog = find(id)
+
+			return { status: 6 } if User.current.cannot? :delete, blog
+
+			if delete id
+				{ status: 0 }
+			else
+				{ status: 2}
+			end
+		end
+
+	# / Delete
+
 end
