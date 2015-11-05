@@ -49,6 +49,7 @@
 		z-index: 0;
 		border-radius: 3px;
 		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
 		background-color: #efefef;
 		box-shadow: 0 0 4px #ddd;
 	}
@@ -109,6 +110,9 @@
 			.content-switch .dropdown-menu a {
 				border-radius: 0;
 			}
+				.content-switch .dropdown-menu a:hover {
+					background-color: #eee;
+				}				
 			.content-switch .dropdown-menu li:first-child,
 			.content-switch .dropdown-menu li + li {
 				margin-right: 0;
@@ -156,7 +160,7 @@
 					height: 0;
 					border-left: 15px solid transparent;
 					border-right: 15px solid transparent;
-					border-bottom: 15px solid #f6f6f6;
+					border-bottom: 15px solid #fff;
 				}
 					/*structure dropdownmenu*/
 					ul.structure-tabs .dropdown-menu li a:hover:after {
@@ -253,101 +257,105 @@
 	/*end*/
 	
 	/*find estimate company*/
-		/*start function*/
-		.function {
-			margin-bottom: 32px;
+		.estimate-company {
+			padding: 30px;
 		}
-			/*start form search company*/
-			form .form-group-custom {
-				position: relative;
-				margin-bottom: 10px;			
+			/*start function*/
+			.function {
+				margin-bottom: 32px;
 			}
-				form .form-group-custom input {
-					margin-left: auto;
-					width: 400px;
+				/*start form search company*/
+				form .form-group-custom {
+					position: relative;
+					margin-bottom: 10px;			
 				}
-				form .btn-search {
-					height: 100%;
+					form .form-group-custom input {
+						margin-left: auto;
+						width: 400px;
+					}
+					form .btn-search {
+						height: 100%;
+						position: absolute;
+						top: 0;
+						right: 0;
+						padding: 0 10px;			
+						display: -webkit-flex;
+						display: -moz-flex;
+						display: -o-flex;
+						display: -ms-flexbox;
+						display: flex;
+					}
+						form .btn-search button {
+							height: 24px;
+							width: 24px;
+							border: none;
+							-ms-flex-item-align: center;
+							    align-self: center;
+							-webkit-align-self: center;
+							text-decoration: none;
+							outline: none;
+							vertical-align: middle;
+							padding: 0;
+							background: url('/assets/icon/icon.png') no-repeat -16px 0;
+						}
+							form .btn-search button:hover {
+								background-position: -16px -24px ;
+							}
+				/*end*/
+				/*start list company*/
+				.list-company {
+					border: 1px solid #ccc;
+					border-radius: 3px;
 					position: absolute;
-					top: 0;
+					top: 37px;
 					right: 0;
-					padding: 0 10px;			
-					display: -webkit-flex;
-					display: -moz-flex;
-					display: -o-flex;
-					display: -ms-flexbox;
-					display: flex;
+					max-width: 437px;
 				}
-					form .btn-search button {
-						height: 24px;
-						width: 24px;
-						border: none;
-						-ms-flex-item-align: center;
-						    align-self: center;
-						-webkit-align-self: center;
-						text-decoration: none;
-						outline: none;
-						vertical-align: middle;
-						padding: 0;
-						background: url('/assets/icon/icon.png') no-repeat -16px 0;
+					.list-company li {
+						display: inline-block;
+						margin: 5px;
 					}
-						form .btn-search button:hover {
-							background-position: -16px -24px ;
+						.list-company li a {
+							display: block;
+							width: 100px;
+							height: 50px;
 						}
+							.list-company li a:hover {
+								background-color: #e1e1e1;
+							}
+							.list-company li a img {
+								width: 100%;
+								height: 100%;
+							}
+				/*end*/
 			/*end*/
-			/*start list company*/
-			.list-company {
-				border: 1px solid #ccc;
-				border-radius: 3px;
-				position: absolute;
-				top: 37px;
-				right: 0;
-				max-width: 437px;
-			}
-				.list-company li {
-					display: inline-block;
-					margin: 5px;
-				}
-					.list-company li a {
-						display: block;
-						width: 100px;
-						height: 50px;
-					}
-						.list-company li a:hover {
-							background-color: #e1e1e1;
-						}
-						.list-company li a img {
-							width: 100%;
-							height: 100%;
-						}
-			/*end*/
-		/*end*/
-		/*start result-search-company*/
-		.result-search-company {
-		}
-			/*start info-company*/
-			.info-company {
-				width: 60%;
-				margin: 0 auto;
-				color: #666;
-				text-align: center;
-				margin-bottom: 30px;
-			}
-				.company-logo {
-					margin: 0 auto;
-				}
-					.company-logo img {
-						max-width: 70%;
-					}
-				.company-name {
 
+			/*start result-search-company*/
+			.result-search-company {
+			}
+				/*start info-company*/
+				.info-company {
+					width: 60%;
+					margin: 0 auto;
+					color: #666;
+					text-align: center;
+					margin-bottom: 30px;
 				}
-				.company-description {
-					color: #999;
-					font-size: 93.33%;
-				}
+					.company-logo {
+						margin: 0 auto;
+					}
+						.company-logo img {
+							max-width: 70%;
+						}
+					.company-name {
+
+					}
+					.company-description {
+						color: #999;
+						font-size: 93.33%;
+					}
+				/*end*/
 			/*end*/
-		/*end*/
 	/*end*/
 /*end*/
 
@@ -400,6 +408,10 @@
 		      	justify-content: center;
 	      	margin-bottom: 30px;
 	}
+		.real-estimated .structure-tabs li.active a:after,
+		.real-estimated .structure-tabs li a:after {
+			border-bottom: 15px solid #f6f6f6;
+		}
 	.real-estimated .tool-box {
 		border: 1px solid #eee;
 		background-color: #fff;
