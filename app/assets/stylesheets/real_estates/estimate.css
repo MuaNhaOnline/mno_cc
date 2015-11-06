@@ -269,7 +269,7 @@
 					position: relative;
 					margin-bottom: 10px;			
 				}
-					form .form-group-custom input {
+					.estimate-company form .form-group-custom input {
 						margin-left: auto;
 						width: 400px;
 					}
@@ -410,7 +410,7 @@
 	}
 		.real-estimated .structure-tabs li.active a:after,
 		.real-estimated .structure-tabs li a:after {
-			border-bottom: 15px solid #f6f6f6;
+			border-bottom: 15px solid #f6f6f6 !important;
 		}
 	.real-estimated .tool-box {
 		border: 1px solid #eee;

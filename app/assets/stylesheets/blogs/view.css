@@ -29,7 +29,8 @@
 	.detail-blog .item-blog .title {
 		margin-bottom: 0;
 	}
-	.detail-blog .item-blog .conten {
+	.detail-blog .item-blog .content {
 		height: auto;
+		max-height: inherit;
 	}
 /*end*/
