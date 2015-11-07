@@ -1,0 +1,27 @@
+<% res.each do |re| %>
+  <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+    <article class="item" data-value="<%= re.id %>">
+      <section class="top">
+        <%= real_estate_avatar re %>
+        <section class="left">
+          <article class="node">
+            <span><b><%= re.label %></b></span>
+          </article>
+        </section>
+      </section>
+      <section class="bottom">
+        <p class="title">
+          <%= re.title %>
+        </p>
+      </section>
+      <section class="control">
+        <span class="node">
+          <a aria-click="edit" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
+        </span>
+        <span class="node">
+          <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+        </span>
+      </section>
+    </article>
+  </article>
+<% end %>

@@ -4,13 +4,13 @@
 	# params: @block, @re
 
   # Unit options
-  sell_unit_html = rent_unit_html = ''
+  sell_unit_options = rent_unit_options = ''
   Unit.get_options.each do |u|
     case u.options_hash['group']
     when 'sell'
-      sell_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' #{'data-selected' if u.id == @re.sell_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.sell_unit_id.blank?)}>#{t 'unit.text.' + u.name}</a>"
+    	sell_unit_options += "<option value='#{u.id}' #{'selected' if u.id == @re.sell_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.sell_unit_id.blank?)}>#{t 'unit.text.' + u.name}</option>"
     when 'rent'
-      rent_unit_html += "<li><a data-value='#{u.id}' href='javascript:void(0)' #{'data-selected' if u.id == @re.rent_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.rent_unit_id.blank?)}>#{t 'unit.text.' + u.name}</a>"
+    	rent_unit_options += "<option value='#{u.id}' #{'selected' if u.id == @re.rent_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.rent_unit_id.blank?)}>#{t 'unit.text.' + u.name}</option>"
     end
   end
 
@@ -31,14 +31,14 @@
 	}
 </style>
 
-<article class="box box-default">
-	<section class="box-header with-border">
-		<h2 class="box-title">
-			Thông tin loại bất động sản
-		</h2>
-	</section>
-	<section class="box-body">
-		<form class="form re-form">
+<form class="form re-form">
+	<article class="box box-primary no-margin">
+		<section class="box-header with-border">
+			<h2 class="box-title">
+				Thông tin loại bất động sản
+			</h2>
+		</section>
+		<section class="box-body bg-light-gray">
 
 			<!-- Id -->
 
@@ -48,7 +48,7 @@
 
 			<!-- Project -->
 
-				<input type="hidden" name="real_estate[block_id]" value="<%= @block.id %>" />
+				<input type="hidden" name="real_estate[block][block_id]" value="<%= @block.id %>" />
 
 			<!-- Project -->
 
@@ -64,7 +64,7 @@
 									Mã
 									<sup class="required-label"></sup>
 								</label>
-								<input class="form-control" name="real_estate[label]" id="label" value="<%= @re.label %>" />
+								<input class="form-control" name="real_estate[block][label]" id="label" value="<%= @re.label %>" />
 							</article>
 
 						<!-- / Label -->
@@ -83,61 +83,6 @@
 
 					</div>
 
-          <!-- Purpose -->
-            
-            <article class="form-group">
-              <label class="control-label" for="purpose">
-              	Loại giao dịch
-              	<sup class="required-label"></sup>
-              </label>
-              <select data-constraint="required" name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose">
-                <option data-off="sell rent" value hidden>Chọn mục đích</option>
-                <% Purpose.get_options.each do |p| %>
-                  <option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
-                <% end %>
-              </select>
-            </article>
-
-          <!-- / Purpose -->
-          
-          <!-- Price -->
-
-            <article class="form-group" data-toggled-element="sell un-rent">
-              <label class="control-label" for="sell_price"><%= t 'real_estate.attribute.sell_price' %></label>
-              <div class="input-group">
-                <input data-constraint="integer rang
-                e" data-maxvalue="1000000000000" value="<%= @re.sell_price.to_i unless @re.sell_price.blank? %>" name="real_estate[sell_price]" class="form-control separate-number" id="sell_price">
-                <div class="input-group-btn" aria-input-type="dropdownselect">
-                  <input type="hidden" name="real_estate[sell_unit_id]" value="" />
-                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span><span class="fa fa-caret-down margin-left-5"></span></button>
-                  <ul class="dropdown-menu pull-right">
-                    <%= sell_unit_html.html_safe %>
-                  </ul>
-                </div>
-              </div>
-              <section class="money-text font-size-12"><%= @re.new_record? || @re.sell_price.blank? ? 'Giá thỏa thuận' : @re.sell_price_text %></section>
-            </article>
-
-            <article class="form-group" data-toggled-element="rent un-sell">
-              <label class="control-label" for="rent_price"><%= t 'real_estate.attribute.rent_price' %></label>
-              <div class="input-group">
-                <input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @re.rent_price.to_i unless @re.rent_price.blank? %>" name="real_estate[rent_price]" class="form-control separate-number" id="rent_price">
-                <div class="input-group-btn" aria-input-type="dropdownselect">
-                  <input type="hidden" name="real_estate[rent_unit_id]" value="" />
-                  <button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span><span class="fa fa-caret-down margin-left-5"></span></button>
-                  <ul class="dropdown-menu pull-right">
-                    <%= rent_unit_html.html_safe %>
-                  </ul>
-                </div>
-              </div>
-              <section class="money-text font-size-12"><%= @re.new_record? || @re.rent_price.blank? ? 'Giá thỏa thuận' : @re.rent_price_text %></section>
-            </article>
-
-          <!-- / Price -->
-
-				</div>
-				<div class="col-md-6">
-					
 					<!-- Area -->
 
 						<div class="row">
@@ -146,7 +91,7 @@
 
 			          <article class="form-group col-ss-6">
 			            <label class="control-label" for="using_area">
-			              Diện tích
+			              Diện tích sử dụng
 			              <sup class="required-label"></sup>
 			            </label>
 			            <div class="input-group">
@@ -161,7 +106,8 @@
 
 			          <article class="form-group col-ss-6">
 			            <label class="control-label" for="garden_area">
-			              Vườn
+			              Diện tích vườn
+			              <sup class="required-label"></sup>
 			            </label>
 			            <div class="input-group">
 			              <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[garden_area]" id="garden_area" value="<%= @re.garden_area %>" />
@@ -237,6 +183,200 @@
 		      <!-- / Num of rooms -->
 
 				</div>
+				<div class="col-md-6">
+
+	        <!-- Purpose -->
+	          
+	          <article class="form-group">
+	            <label class="control-label" for="purpose">
+	            	Loại giao dịch
+	            	<sup class="required-label"></sup>
+	            </label>
+	            <select data-constraint="required" name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose">
+	              <option data-off="sell rent" value hidden>Chọn mục đích</option>
+	              <% Purpose.get_options.each do |p| %>
+	                <option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
+	              <% end %>
+	            </select>
+	          </article>
+
+	        <!-- / Purpose -->
+
+	        <!-- Unit -->
+
+	        	<article class="form-group" data-toggled-element="sell un-rent">
+	        		<label class="control-label">
+	        			Bán theo
+	        			<sup class="required-label"></sup>
+	        		</label>
+	        		<select data-contraint="required" class="form-control" name="real_estate[sell_unit_id]">
+	        			<option hidden value>Chọn loại</option>
+	        			<%= sell_unit_options.html_safe %>
+	        		</select>
+	        	</article>
+
+	        	<article class="form-group" data-toggled-element="rent un-sell">
+	        		<label class="control-label">
+	        			Cho thuê theo
+	        			<sup class="required-label"></sup>
+	        		</label>
+	        		<select data-contraint="required" class="form-control" name="real_estate[rent_unit_id]">
+	        			<option hidden value>Chọn loại</option>
+	        			<%= rent_unit_options.html_safe %>
+	        		</select>
+	        	</article>
+
+	        <!-- / Unit -->
+
+	        <article class="tab-container ">
+	        	<section class="tab-list horizontal-list-container">
+	        		<ul class="horizontal-list">
+	        		</ul>
+	        	</section>
+	          <section class="tab-content-list">
+
+	          	<% if @re.new_record? %>
+
+		          	<article class="tab-content" aria-name="new">
+
+									<!-- Floors -->
+
+										<article class="form-group">
+											<label class="control-label">
+												Tại tầng
+			              		<sup class="required-label"></sup>
+											</label>
+											<input data-constraint="required" name="real_estate[block][floors][]" class="form-control" />
+										</article>
+
+									<!-- / Floors -->
+			          
+				          <!-- Sell price -->
+
+				          	<div class="row" data-toggled-element="sell un-rent">
+
+					            <article class="form-group col-md-6">
+					              <label class="control-label">
+					              	Giá bán
+			              			<sup class="required-label"></sup>
+				              	</label>
+				                <input data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][sell_price][]" class="form-control separate-number read-money">
+					              <section class="money-text font-size-12"></section>
+					            </article>
+
+											<article class="form-group col-md-6">
+												<label class="control-label">
+													Hệ số giá
+												</label>
+												<input name="real_estate[block][sell_floor_coefficient][]" value="" class="form-control" />
+											</article>
+
+				          	</div>
+
+				          <!-- / Sell price -->
+			          
+				          <!-- Rent price -->
+
+				          	<div class="row" data-toggled-element="rent un-sell">
+
+					            <article class="form-group col-md-6">
+					              <label class="control-label">
+					              	Giá cho thuê
+			              			<sup class="required-label"></sup>
+				              	</label>
+				                <input data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][rent_price][]" class="form-control separate-number read-money">
+					              <section class="money-text font-size-12"></section>
+					            </article>
+
+											<article class="form-group col-md-6">
+												<label class="control-label">
+													Hệ số giá
+												</label>
+												<input name="real_estate[block][rent_floor_coefficient][]" class="form-control" />
+											</article>
+
+				          	</div>
+
+				          <!-- / Rent price -->
+
+								</article>
+
+							<% else %>
+
+								<% @re.floor_infos_text.each_with_index do |info, index| %>
+
+			          	<article class="tab-content" aria-name="init_<%= index %>">
+
+										<!-- Floors -->
+
+											<article class="form-group">
+												<label class="control-label">
+													Tại tầng
+				              		<sup class="required-label"></sup>
+												</label>
+												<input data-constraint="required" name="real_estate[block][floors][]" value="<%= info['floors'] %>" class="form-control" />
+											</article>
+
+										<!-- / Floors -->
+				          
+					          <!-- Sell price -->
+
+					          	<div class="row" data-toggled-element="sell un-rent">
+
+						            <article class="form-group col-md-6">
+						              <label class="control-label">
+						              	Giá bán
+			              				<sup class="required-label"></sup>
+			              			</label>
+					                <input data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['sell_price'] %>" name="real_estate[block][sell_price][]" class="form-control separate-number read-money">
+						              <section class="money-text font-size-12"></section>
+						            </article>
+
+												<article class="form-group col-md-6">
+													<label class="control-label">
+														Hệ số giá
+													</label>
+													<input name="real_estate[block][sell_floor_coefficient][]" value="<%= info['sell_floor_coefficient'] %>" class="form-control" />
+												</article>
+
+					          	</div>
+
+					          <!-- / Sell price -->
+				          
+					          <!-- Rent price -->
+
+					          	<div class="row" data-toggled-element="rent un-sell">
+
+						            <article class="form-group col-md-6">
+						              <label class="control-label">
+						              	Giá cho thuê
+			              				<sup class="required-label"></sup>
+			              			</label>
+					                <input data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['rent_price'] %>" name="real_estate[block][rent_price][]" class="form-control separate-number read-money">
+						              <section class="money-text font-size-12"></section>
+						            </article>
+
+												<article class="form-group col-md-6">
+													<label class="control-label">
+														Hệ số giá
+													</label>
+													<input name="real_estate[block][rent_floor_coefficient][]" value="<%= info['rent_floor_coefficient'] %>" class="form-control" />
+												</article>
+
+					          	</div>
+
+					          <!-- / Rent price -->
+
+									</article>
+
+								<% end %>
+
+							<% end %>
+
+						</section>
+	        </article>
+
+				</div>
 			</div>
 
 			<!-- Image -->
@@ -251,21 +391,21 @@
 
 	    <!-- / Image -->
 
-      <!-- Button -->
+	    <!-- Button -->
 
-        <section class="box-body">
-        	<div class="row">
+	      <section class="box-body">
+	      	<div class="row">
 	          <div class="margin-top-bottom-5 col-sm-6">
 	            <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'form.finish' %></b></button>
 	          </div>
 	          <div class="margin-top-bottom-5 col-sm-6">
 	            <button type="button" aria-click="close-popup" class="btn btn-default btn-block btn-flat"><b><%= t 'form.cancel' %></b></button>
 	          </div>
-        	</div>
-        </section>
+	      	</div>
+	      </section>
 
-      <!-- / Button -->
+	    <!-- / Button -->
 
-		</form>
-	</section>
-</article>
+		</section>
+	</article>
+</form>

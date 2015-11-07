@@ -120,12 +120,53 @@ class RealEstatesController < ApplicationController
     def _block_create
       @block = Block.find params[:block_id]
 
-      @re = RealEstate.new
+      @re = params[:id].present? ? RealEstate.find(params[:id]) : RealEstate.new
 
       render json: { status: 0, result: render_to_string(partial: 'real_estates/block_create') }
     end
 
+    # Handle
+    # params: real_estate form
+    def block_save
+      params[:real_estate][:user_id] = current_user.id
+
+      re = params[:real_estate][:id].blank? ? RealEstate.new : RealEstate.find(params[:real_estate][:id])
+
+      result = re.block_save_with_params params[:real_estate]
+
+      return render json: result if result[:status] != 0
+
+      render json: { status: 0, result: re.id }
+    end
+
   # / Block create
+
+  # Block list
+
+    # Partial view
+    # params: block_id(*)
+    def _block_item_list
+      per = Rails.application.config.item_per_page
+
+      params[:page] ||= 1
+      params[:page] = params[:page].to_i
+
+      res = RealEstate.block_search_with_params params[:block_id], params
+
+      count = res.count
+
+      return render json: { status: 1 } if count == 0
+
+      render json: {
+        status: 0,
+        result: {
+          list: render_to_string(partial: 'real_estates/block_item_list', locals: { res: res.page(params[:page], per) }),
+          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+        }
+      }
+    end
+
+  # / Block list
 
   # My list
 
@@ -416,7 +457,7 @@ class RealEstatesController < ApplicationController
     # Handle
     # params: id
     def get_gallery
-      images = RealEstateImage.where real_estate_id: params[:id]
+      images = RealEstateImage.where(real_estate_id: params[:id]).reorder('"order" asc')
 
       render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url, description: image.description } } }
     end

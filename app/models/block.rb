@@ -44,7 +44,7 @@ class Block < ActiveRecord::Base
 
 		        if _value['is_new']
 		          TemporaryFile.get_file(_value['id']) do |_image, _id|
-		            _images << BlockImage.new(image: _image, is_avatar: _value['is_avatar'], description: _value['description'])
+		            _images << BlockImage.new(image: _image, is_avatar: _value['is_avatar'], order: _value['order'], description: _value['description'])
 
 		            _has_avatar = true if _value['is_avatar']
 		          end
@@ -52,6 +52,7 @@ class Block < ActiveRecord::Base
 		          _image = BlockImage.find _value['id']
 		          _image.description = _value['description']
 		          _image.is_avatar = _value['is_avatar']
+              _image.order = _value['order']
 		          _image.save if _image.changed?          
 
 		          _has_avatar = true if _value['is_avatar']

@@ -7,6 +7,6 @@ class BlockImage < ActiveRecord::Base
   	:url => "/assets/block_images/:style/:id_:filename"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
-  default_scope { order('is_avatar desc') }
+  default_scope { order('is_avatar desc, "order" asc') }
 
 end

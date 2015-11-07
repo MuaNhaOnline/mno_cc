@@ -121,8 +121,12 @@
 	height: auto;
 	border: 2px dashed #eee;
 	margin-bottom: 0;
-	background-color: #fafafa;
+	background-color: #fff;
 }
+
+	.form .file-uploader.active {
+		border-color: #3c8dbc;
+	}
 
 	.form .file-uploader:after {
 		content: '';
@@ -137,6 +141,10 @@
     clear: both;
     padding: 10px 0;
 	}
+
+		.form .file-uploader.active .file-upload-label {
+			display: none;
+		}
 
 		.form .file-uploader .preview ~ .file-upload-label :not(.fa) {
 			display: none;

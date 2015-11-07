@@ -1,4 +1,4 @@
-/*
+
   Custom media
 */
 
@@ -49,6 +49,10 @@
   Custom layout
 */
 
+.bg-light-gray {
+  background-color: #fafafa;
+}
+
 .margin-0 {
   margin: 0 !important;
 }
@@ -64,6 +68,10 @@
 
 .margin-top-0 {
   margin-top: 0 !important;
+}
+
+.margin-top-15 {
+  margin-top: 15px !important;
 }
 
 .margin-left-5 {
@@ -301,11 +309,6 @@ body.no-scroll {
 
         .popup-full-container.on  > .popup-full > .popup-content {
           animation: turn-on-popup-content 0.5s;
-        }
-
-        .popup-full-container > .popup-full > .popup-content > .box {
-          margin-bottom: 0;
-          border-radius: 0;
         }
 
 /* 
@@ -657,6 +660,84 @@ body.no-scroll {
 
 /*
   Horizontal list
+*/
+
+/*
+  Tab container
+*/
+  
+  .tab-container {
+    
+  }
+  
+    .tab-container .tab-list {
+      margin-bottom: -1px;
+    }
+  
+      .tab-container .tab-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        word-spacing: -4px;
+      }
+  
+      .tab-container .tab-list li {
+        display: inline-block;
+        border: 1px solid #ddd;
+        background-color: #f0f0f0;
+        margin-right: 4px;
+      }
+  
+        .tab-container .tab-list li[data-status="error"] {
+          background-color: #dd4b39;
+        }
+  
+        .tab-container .tab-list li.active {
+          border-bottom-color: #fff;
+          background-color: #fff;
+        }
+  
+      .tab-container .tab-list a {
+        display: inline-block;
+        padding: 3px 10px 0px 10px;
+        line-height: 25px;
+        color: #333;
+      }
+    
+        .tab-container .tab-list li[data-status="error"] a {
+          color: #fff;
+        }
+    
+        .tab-container .tab-list li.active a {
+          color: #333;
+          font-weight: bold;
+        }
+  
+        .tab-container .tab-list a:hover {
+          color: #3c8dbc;
+        }
+  
+        .tab-container .tab-list li:not(.active) a.remove {
+          display: none;
+        }
+  
+    .tab-container .tab-content-list {
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+  
+      .tab-container .tab-content-list .tab-content {
+        padding: 10px;
+        display: none;
+      }
+  
+        .tab-container .tab-content-list .tab-content.active {
+          display: block;
+        }
+
+
+/*
+  / Tab container
 */
 
 /*

@@ -211,7 +211,7 @@ function _initItemList($container) {
 			Scroll list item
 		*/
 
-			initHorizontalListScroll($html.find('.image-list-panel'));
+			_initHorizontalListScroll($html.find('.image-list-panel'));
 
 		/*
 			/ Scroll list item

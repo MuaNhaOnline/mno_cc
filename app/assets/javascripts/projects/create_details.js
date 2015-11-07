@@ -434,7 +434,8 @@ $(function () {
 		var 
 			$viewPart = $('#view_part'),
 			$blockList = $('#block_list'),
-			selectedBlockId;
+			selectedBlockId,
+			realEstateFind;
 
 		initCreateBlock();
 		initBlock($blockList.find('.item'));
@@ -655,10 +656,28 @@ $(function () {
 								return;
 							}
 
+							/*
+								Change status
+							*/
+
 							$item.siblings('.active').removeClass('active');
 							$item.addClass('active');
 
 							selectedBlockId = $item.data('value');
+
+							/*
+								Change status
+							*/
+
+							/*
+								Get real-estates
+							*/
+
+								realEstateFind();
+
+							/*
+								/ Get real-estates
+							*/
 						});
 
 					/*
@@ -680,6 +699,7 @@ $(function () {
 		*/
 
 			initCreateRealEstate();
+			initRealEstateList();
 
 			/*
 				Create
@@ -695,47 +715,8 @@ $(function () {
 							toggleLoadStatus(false);
 						}).done(function (data) {
 							if (data.status == 0) {
-								var 
-									$html = $(data.result),
-									$form = $html.find('form');
-
-								var $popup = popupFull({
-									html: $html,
-									width: 'maximum'
-								});
-
-								initForm($form, {
-									submit: function () {
-										toggleLoadStatus(true);
-										$.ajax({
-											url: '/blocks/create',
-											method: 'POST',
-											data: $form.serialize(),
-											dataType: 'JSON'
-										}).always(function () {
-											$popup.off();
-											toggleLoadStatus(false);
-										}).done(function (data) {
-											if (data.status == 0) {
-												data.result = $(data.result);
-												initBlock(data.result.find('.item'));
-												$blockList.prepend(data.result);
-											}
-											else {
-							          popupPrompt({
-							            title: _t.form.error_title,
-							            type: 'danger',
-							            content: _t.form.error_content
-							          })
-											}
-										}).fail(function () {
-						          popupPrompt({
-						            title: _t.form.error_title,
-						            type: 'danger',
-						            content: _t.form.error_content
-						          })
-										});
-									}
+								startRealEstateCreateForm($(data.result), function () {
+									realEstateFind();
 								});
 							}
 							else {
@@ -757,6 +738,239 @@ $(function () {
 
 			/*
 				/ Create
+			*/
+
+			/*
+				Init real-estate list
+			*/
+
+				function initRealEstateList() {
+			    realEstateFind = _initPagination({
+			      url: '/real_estates/_block_item_list',
+			      list: $viewPart.find('#real_estate_list'),
+			      pagination: $viewPart.find('#real_estate_pagination'),
+			      data: function () {
+			        return { block_id: selectedBlockId };
+			      },
+			      init_list: function ($list) {
+
+			      	/*
+			      		Delete
+			      	*/
+
+				      	$list.find('[aria-click="delete"]').on('click', function () {
+				      		$item = $(this).closest('.item');
+
+				      		toggleLoadStatus(true);
+				      		$.ajax({
+				      			url: '/real_estates/delete/' + $item.data('value'),
+				      			method: 'POST',
+				      			dataType: 'JSON'
+				      		}).always(function () {
+				      			toggleLoadStatus(false);
+				      		}).done(function (data) {
+				      			if (data.status == 0) {
+											realEstateFind({
+												data: 'last_data'
+											});
+				      			}
+				      			else {
+				      				errorPopup();
+				      			}
+				      		}).fail(function () {
+				      			errorPopup();
+				      		})
+				      	});
+
+			      	/*
+			      		Delete
+			      	*/
+
+			      	/*
+			      		Edit
+			      	*/
+
+			      		$list.find('[aria-click="edit"]').on('click', function () {
+			      			$item = $(this).closest('.item');
+
+			      			toggleLoadStatus(true);
+			      			$.ajax({
+			      				url: '/real_estates/_block_create/' + selectedBlockId + '/' + $item.data('value'),
+			      				dataType: 'JSON'
+			      			}).always(function () {
+			      				toggleLoadStatus(false);
+			      			}).done(function (data) {
+			      				if (data.status == 0) {
+											startRealEstateCreateForm($(data.result), function () {
+												realEstateFind();
+											});
+			      				}
+			      				else {
+			      					errorPopup();
+			      				}
+			      			}).fail(function () {
+			      				errorPopup();
+			      			})
+			      		});
+
+			      	/*
+			      		/ Edit
+			      	*/
+
+			      }
+			    });
+				}
+
+			/*
+				/ Init real-estate list
+			*/
+
+			/*
+				Real-estate create form
+			*/
+
+				function startRealEstateCreateForm($form, done) {
+					var $popup = popupFull({
+						html: $form,
+						width: 'maximum'
+					});
+
+
+					var $tabContainer = $form.find('.tab-container');
+
+					/*
+						Create tab buttons
+					*/
+
+						$tabListButtons = $tabContainer.find('.tab-list ul');
+						$tabContainer.find('.tab-content').each(function () {
+							$tabListButtons.append(
+								'<li class="horizontal-item" aria-name="' + this.getAttribute('aria-name') + '">' +
+	        				'<a href="javascript:void(0)" aria-click="change_tab"></a>' +
+	        				'<a href="javascript:void(0)" aria-click="remove_tab" class="remove">&times;</a>' +
+	        			'</li>');
+						});
+						$tabListButtons.append(
+        			'<li class="horizontal-item">' +
+        				'<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>' +
+        			'</li>');
+
+						resetTab();
+
+					/*
+						/ Create tab buttons
+					*/
+
+					initForm($form, {
+						submit: function () {
+							toggleLoadStatus(true);
+							$.ajax({
+								url: '/real_estates/block_create',
+								method: 'POST',
+								data: $form.serialize(),
+								dataType: 'JSON'
+							}).always(function () {
+								$popup.off();
+								toggleLoadStatus(false);
+							}).done(function (data) {
+								if (data.status == 0) {
+									done();
+								}
+								else {
+				          popupPrompt({
+				            title: _t.form.error_title,
+				            type: 'danger',
+				            content: _t.form.error_content
+				          })
+								}
+							}).fail(function () {
+			          popupPrompt({
+			            title: _t.form.error_title,
+			            type: 'danger',
+			            content: _t.form.error_content
+			          })
+							});
+						}
+					});
+
+					/*
+						Init events tab
+					*/
+	        			
+						/*
+							Remove
+						*/
+
+							$tabContainer.find('.tab-list [aria-click="remove_tab"]').on('click', function () {
+								var $item = $(this).parent();
+
+								// Remove tab content
+								$tabContainer.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').remove();
+
+								// Remove button
+								$item.remove();
+
+								resetTab();
+								$tabContainer.find('.tab-list [aria-click="change_tab"]:eq(0)').click();
+							});
+
+						/*
+							/ Remove
+						*/
+
+						/*
+							Add
+						*/
+
+							// Get template contents
+							var
+								$templateTabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active'),
+								$templateTabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
+							$templateTabContent.find(':input').val('');
+							$templateTabContent.find('.money-text').text('');
+
+							$tabContainer.find('.tab-list [aria-click="add_tab"]').on('click', function () {
+								// Get contents
+								var 
+									$tabButton = $templateTabButton.clone(true),
+									$tabContent = $templateTabContent.clone(true);
+
+								// Append
+								$tabContainer.find('.tab-list li:last-child').before($tabButton);
+								$tabContainer.find('.tab-content-list').append($tabContent);
+
+								// Set new values
+								resetTab();
+								$tabButton.find('[aria-click="change_tab"]').click();
+
+								$form.find('#purpose').change();
+							});
+
+						/*
+							/ Add
+						*/
+
+						function resetTab() {
+							$tabContainer.find('.tab-list li[aria-name]').each(function (index) {
+								var $item = $(this);
+
+								if ($item.attr('aria-name') == index + 1) {
+									return;
+								}
+
+								$tabContainer.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').attr('aria-name', index + 1);
+								$item.attr('aria-name', index + 1);
+								$item.find('[aria-click="change_tab"]').text(index + 1);
+							});
+						}
+
+					/*
+						/ Tab
+					*/
+				}
+
+			/*
+				Real-estate create form
 			*/
 
 		/*

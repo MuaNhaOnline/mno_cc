@@ -71,16 +71,16 @@
         color: #aaa;
       }
 
-        .create-form-re .form-navigator .item.active .icon {
-          color: #3c8cbc;
-        }
-
         .create-form-re .form-navigator .item[data-status="success"] .icon {
           color: #00a65a;
         }
 
         .create-form-re .form-navigator .item[data-status="error"]  .icon {
           color: #f56954;
+        }
+
+        .create-form-re .form-navigator .item.active .icon {
+          color: #3c8cbc;
         }
 
         .create-form-re .form-navigator .item:hover .icon {

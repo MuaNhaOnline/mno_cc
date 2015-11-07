@@ -18,12 +18,14 @@ function initForm($form, params) {
 	});
 
 	initToggle();
+	initTabContainer();
 	initFileInput();
 	initFileInput_2();
 	initAutoComplete();
 	initEditor();
 	initDropdownselect();
 	initSeparateNumber();
+	initReadMoney();
 	initConstraint();
 	initSubmit();
 	initHelper();
@@ -41,152 +43,188 @@ function initForm($form, params) {
 		Toggle
 	*/
 
-	function initToggle() {
-		$form.find('.input-toggle').on('change', function () {
-			toggle($(this));
-		}).each(function () {
-			toggle($(this));  
-		});
-		
-		$form.inputToggle = function () {
-			$form.find('.input-toggle:enabled').each(function () {
+		function initToggle() {
+			$form.find('.input-toggle').on('change', function () {
 				toggle($(this));
+			}).each(function () {
+				toggle($(this));  
 			});
-		}
-
-		function toggle($input) {
-			// Get elements will be affect
-			var offElements = onElements = '';
-			if ($input.is('input[type="checkbox"], input[type="radio"]')) {
-				if ($input.prop('checked')) {
-					onElements = $input.attr('data-on');
-					offElements = $input.attr('data-off');
-				}
-				else {
-					onElements = $input.attr('data-off');
-					offElements = $input.attr('data-on');
-				}
-			}
-			else if ($input.is('select')) {
-				var $option = $input.children(':selected');
-				onElements = $option.attr('data-on');
-				offElements = $option.attr('data-off');
-			}
-
-			// Turn on elements
-			if (onElements && !$input.is(':disabled')) {
-				// Create elements list
-				var onElementsList = '';
-				$(onElements.split(' ')).each(function () {
-					onElementsList += ',[data-toggled-element~="' + this + '"]';
+			
+			$form.inputToggle = function () {
+				$form.find('.input-toggle:enabled').each(function () {
+					toggle($(this));
 				});
+			}
 
-				// Turn on all elements & process their child
-				$form.find(onElementsList.substr(1)).each(function () {
-					var $element = $(this);
+			function toggle($input) {
+				// Get elements will be affect
+				var offElements = onElements = '';
+				if ($input.is('input[type="checkbox"], input[type="radio"]')) {
+					if ($input.prop('checked')) {
+						onElements = $input.attr('data-on');
+						offElements = $input.attr('data-off');
+					}
+					else {
+						onElements = $input.attr('data-off');
+						offElements = $input.attr('data-on');
+					}
+				}
+				else if ($input.is('select')) {
+					var $option = $input.children(':selected');
+					onElements = $option.attr('data-on');
+					offElements = $option.attr('data-off');
+				}
 
-					// Turn on element
-					toggleElement($element, true)
+				// Turn on elements
+				if (onElements && !$input.is(':disabled')) {
+					// Create elements list
+					var onElementsList = '';
+					$(onElements.split(' ')).each(function () {
+						onElementsList += ',[data-toggled-element~="' + this + '"]';
+					});
 
-					// Process this element
-					if ($element.is('.input-toggle')) {
-						toggle($element);
+					// Turn on all elements & process their child
+					$form.find(onElementsList.substr(1)).each(function () {
+						var $element = $(this);
+
+						// Turn on element
+						toggleElement($element, true)
+
+						// Process this element
+						if ($element.is('.input-toggle')) {
+							toggle($element);
+						}
+
+						// Process element's child if exists
+						$element.find('.input-toggle').each(function () {
+							toggle($(this));
+						});
+					});
+				}
+
+				// Turn off elements
+				if (offElements) {
+					// Create elements list
+					var offElementsList = '';
+					$(offElements.split(' ')).each(function () {
+						offElementsList += ',[data-toggled-element~="' + this + '"]';
+					}); 
+
+					// Turn off all elements & process their child
+					$form.find(offElementsList.substr(1)).each(function () {
+						var $element = $(this);
+
+						// Turn off element
+						toggleElement($element, false)
+
+						// Process this element
+						// if ($element.is('.input-toggle')) {
+						// 	// toggle($element);
+						// }
+
+						// // Process element's child if exists
+						// $element.find('.input-toggle').each(function () {
+						// 	// toggle($(this));
+						// });
+					});
+				}
+			}
+
+			function toggleElement($element, on) {
+				if (!$element.is(':input')) {
+					// if ($element.is('#level')) {
+					// 	console.log(on);	
+					// }
+					if (on) {
+						$element.removeClass('off');
+
+						$element.find(':input:disabled').prop('disabled', false).trigger('enable');
+						// .each(function () {
+						//  var $input = $(this);
+						//  var invalid = checkInvalidInput($input);
+						//  if (invalid) {
+						//    toggleValidInput($input, false, invalid);           
+						//  }
+						// });
+					}
+					else {
+						$element.addClass('off');
+
+						$element.find(':input:enabled').prop('disabled', true).trigger('disable').each(function () {
+							var $input = $(this);
+
+							removeSuccessLabel($input);
+							toggleValidInput($input, 1);
+						});
 					}
 
-					// Process element's child if exists
-					$element.find('.input-toggle').each(function () {
-						toggle($(this));
-					});
-				});
-			}
-
-			// Turn off elements
-			if (offElements) {
-				// Create elements list
-				var offElementsList = '';
-				$(offElements.split(' ')).each(function () {
-					offElementsList += ',[data-toggled-element~="' + this + '"]';
-				}); 
-
-				// Turn off all elements & process their child
-				$form.find(offElementsList.substr(1)).each(function () {
-					var $element = $(this);
-
-					// Turn off element
-					toggleElement($element, false)
-
-					// Process this element
-					// if ($element.is('.input-toggle')) {
-					// 	// toggle($element);
+					// if ($element.is('.form-group')) {
+					//  initConstraintFormGroup($element);
 					// }
-
-					// // Process element's child if exists
-					// $element.find('.input-toggle').each(function () {
-					// 	// toggle($(this));
-					// });
-				});
-			}
-		}
-
-		function toggleElement($element, on) {
-			if (!$element.is(':input')) {
-				// if ($element.is('#level')) {
-				// 	console.log(on);	
-				// }
-				if (on) {
-					$element.removeClass('off');
-
-					$element.find(':input:disabled').prop('disabled', false).trigger('enable');
-					// .each(function () {
-					//  var $input = $(this);
-					//  var invalid = checkInvalidInput($input);
-					//  if (invalid) {
-					//    toggleValidInput($input, false, invalid);           
-					//  }
-					// });
-				}
-				else {
-					$element.addClass('off');
-
-					$element.find(':input:enabled').prop('disabled', true).trigger('disable').each(function () {
-						var $input = $(this);
-
-						removeSuccessLabel($input);
-						toggleValidInput($input, 1);
-					});
-				}
-
-				// if ($element.is('.form-group')) {
-				//  initConstraintFormGroup($element);
-				// }
-				// else {
-				//  initConstraintFormGroup($element.find('.form-group'));
-				// }
-			}
-			else {
-				$element.prop('disabled', !on);
-				if (on) {
-					removeSuccessLabel($element.removeClass('off').trigger('enable'));
-
-					// var invalid = checkInvalidInput($element);
-					// if (invalid) {
-					//  toggleValidInput($element, false, invalid);           
+					// else {
+					//  initConstraintFormGroup($element.find('.form-group'));
 					// }
 				}
 				else {
-					$element.addClass('off').trigger('disable');;
+					$element.prop('disabled', !on);
+					if (on) {
+						removeSuccessLabel($element.removeClass('off').trigger('enable'));
 
-					removeSuccessLabel($element);
-					toggleValidInput($element, 1);   
+						// var invalid = checkInvalidInput($element);
+						// if (invalid) {
+						//  toggleValidInput($element, false, invalid);           
+						// }
+					}
+					else {
+						$element.addClass('off').trigger('disable');;
+
+						removeSuccessLabel($element);
+						toggleValidInput($element, 1);   
+					}
+
+					// initConstraintFormGroup($element.closest('.form-group'));
 				}
-
-				// initConstraintFormGroup($element.closest('.form-group'));
 			}
 		}
-	}
 
 	/*
 		/Toggle
+	*/
+
+	/*
+		Tab container
+	*/
+
+		function initTabContainer() {
+			_initTabContainer($form.find('.tab-container'));
+
+			_initHorizontalListScroll($form.find('.tab-container .horizontal-list-container'));
+
+			$form.find('.tab-container').each(function () {
+				$(this).find(':input').on({
+					change_valid_status: function () {
+						var $input = $(this);
+						$container = $input.closest('.tab-container');
+						$tabContent = $input.closest('.tab-content');
+						
+						switch ($input.attr('data-valid-status')) {
+							case 'error':
+								$container.find('.tab-list li[aria-name="' + $tabContent.attr('aria-name') + '"]').attr('data-status', 'error');
+								break;
+							case 'success':
+								if ($tabContent.find(':input:enabled[data-valid-status="error"]').length == 0) {
+									$container.find('.tab-list li[aria-name="' + $tabContent.attr('aria-name') + '"]').attr('data-status', '');
+								}
+								break;
+						}
+					}
+				})
+			})
+			
+		}
+
+	/*
+		/ Tab container
 	*/
 
 	/*
@@ -195,323 +233,337 @@ function initForm($form, params) {
 
 	function initFileInput() {
 		//Get element
-		var $fileUploads = $form.find('.file-upload');
+		var 
+			$fileUploads = $form.find('.file-upload'),
+			ordering = false;
 
 		/*
 			Progress on choose new file
 		*/
-		$fileUploads.on('change', function () {
-			if (this.files.length == 0) { 
-				return; 
-			}
 
-			// Get fileupload
-			var $fileUpload = $(this),
-				amount = $fileUpload.data('amount'),
-				size = $fileUpload.data('size'),
-				types = $fileUpload.data('type'),
-				ratio = $fileUpload.data('ratio'),
-				hasDescription = $fileUpload.is('[data-has_description]'),
-				hasAvatar = $fileUpload.is('[data-has_avatar]');
-
-			if (types) {
-				types = types.split(' ');
-			}
-
-			var isMulti = $fileUpload.is('[multiple]');
-
-			// Get params
-
-			var controls = null, onItemRemove = null, onItemAdd = null;
-
-			if ('imageInputs' in params && $fileUpload.attr('aria-name') in params['imageInputs']) {
-				if ('controls' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
-					controls = params['imageInputs'][$fileUpload.attr('aria-name')]['controls'];					
+			$fileUploads.on('change', function () {
+				if (this.files.length == 0) { 
+					return; 
 				}
-				if ('onItemRemove' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
-					onItemRemove = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemRemove'];
+
+				// Get fileupload
+				var $fileUpload = $(this),
+					amount = $fileUpload.data('amount'),
+					size = $fileUpload.data('size'),
+					types = ['jpg','jpeg','png','gif'],
+					ratio = $fileUpload.data('ratio'),
+					hasDescription = $fileUpload.is('[data-has_description]'),
+					hasOrder = $fileUpload.is('[data-has_order]'),
+					hasAvatar = $fileUpload.is('[data-has_avatar]');
+
+				var isMulti = $fileUpload.is('[multiple]');
+
+				// Get params
+
+				var controls = null, onItemRemove = null, onItemAdd = null;
+
+				if ('imageInputs' in params && $fileUpload.attr('aria-name') in params['imageInputs']) {
+					if ('controls' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+						controls = params['imageInputs'][$fileUpload.attr('aria-name')]['controls'];					
+					}
+					if ('onItemRemove' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+						onItemRemove = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemRemove'];
+					}
+					if ('onItemAdd' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
+						onItemAdd = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemAdd'];
+					}
 				}
-				if ('onItemAdd' in params['imageInputs'][$fileUpload.attr('aria-name')]) {
-					onItemAdd = params['imageInputs'][$fileUpload.attr('aria-name')]['onItemAdd'];
-				}
-			}
 
-			// Get wrapper
-			var $wrapper = $fileUpload.parent();
+				// Get wrapper
+				var $previewList = $fileUpload.parent().find('.preview-list');
 
-			// Check amount
-			currentAmount = $wrapper.find('.preview').count;
+				// Check amount
+				currentAmount = $previewList.find('input[type="hidden"]').length;
 
-			/* 
-				Init for read file
-			*/
-
-			var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section>' + (hasDescription ? '<section class="box-body"><input class="form-control" aria-name="description" placeholder="Mô tả" /></section>' : '') + '<section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : '<button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</section></article></section></article>'),
-				fileReader = new FileReader(),
-				currentIndex = 0;
-
-			fileReader.onload = function (e, i) {
-
-				/*
-					Crop
+				/* 
+					Init for read file
 				*/
 
-				var
-					orginalImageData = e.target.result,
-					$img = $('<img src="' + orginalImageData + '" />');
+				var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section>' + (hasDescription ? '<section class="box-body"><input class="form-control" aria-name="description" placeholder="Mô tả" /></section>' : '') + '<section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : '<button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</section></article></section></article>'),
+					fileReader = new FileReader(),
+					currentIndex = 0;
 
-				$html.find('.image-cropper').html($img);
+				fileReader.onload = function (e, i) {
 
-				var $popup = popupFull({
-					html: $html,
-					id: 'image_cropper',
-					'z-index': 35,
-					esc: false
-				});
+					/*
+						Crop
+					*/
 
-				// Create image cropper
-				$img.cropper({
-					aspectRatio: ratio
-				});
+					var
+						orginalImageData = e.target.result,
+						$img = $('<img src="' + orginalImageData + '" />');
 
-				/*
-					Set button event
-				*/
+					$html.find('.image-cropper').html($img);
 
-				$html.find('[aria-click="close"]').on('click', function () {
-					$popup.off();
-					readNext();
-				});
+					var $popup = popupFull({
+						html: $html,
+						id: 'image_cropper',
+						'z-index': 35,
+						esc: false
+					});
 
-				$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
-					var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
+					// Create image cropper
+					$img.cropper({
+						aspectRatio: ratio
+					});
 
-					currentAmount++;
-					$popup.off();
-					readNext();
+					/*
+						Set button event
+					*/
 
-					var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
+					$html.find('[aria-click="close"]').on('click', function () {
+						$popup.off();
+						readNext();
+					});
 
-					var $item = $('<article class="preview" data-uploading></article>');
-					$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+					$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
+						var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
 
-					$item.data('control_show', null);
+						currentAmount++;
+						$popup.off();
+						readNext();
 
-					$form.submitStatus(true);
+						var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
 
-					// Create control from param
-					if (controls) {
-						var 
-							$controls = $item.find('.control');
+						var $item = $('<article class="preview" data-uploading></article>');
+						$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
-						$(controls).each(function () {
-							var controlParams = this;
-							var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+						$item.data('control_show', null);
 
-							if ('handle' in controlParams) {
-								$control.on('click', function (e) {
-									controlParams['handle']($item);
-								});
+						$form.submitStatus(true);
+
+						// Create control from param
+						if (controls) {
+							var 
+								$controls = $item.find('.control');
+
+							$(controls).each(function () {
+								var controlParams = this;
+								var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+
+								if ('handle' in controlParams) {
+									$control.on('click', function (e) {
+										controlParams['handle']($item);
+									});
+								}
+
+								$controls.prepend($control);
+							});		
+						}
+
+						// Event click to control
+						$item.on('click', function (e) {
+							e.preventDefault();
+
+							if (ordering) {
+								return;
 							}
 
-							$controls.prepend($control);
-						});		
-					}
-
-					// Event click to control
-					$item.on('click', function (e) {
-						e.preventDefault();
-						if ($item.hasClass('control-show')) {
-							clearTimeout($item.data('control_show'));
-							$item.removeClass('control-show');
-						}
-						else {
-							$item.addClass('control-show');
-							clearTimeout($item.data('control_show'));
-							$item.data('control_show', setTimeout(function () {
+							if ($item.hasClass('control-show')) {
+								clearTimeout($item.data('control_show'));
 								$item.removeClass('control-show');
-							}, 5000));	
+							}
+							else {
+								$item.addClass('control-show');
+								clearTimeout($item.data('control_show'));
+								$item.data('control_show', setTimeout(function () {
+									$item.removeClass('control-show');
+								}, 5000));	
+							}
+						});
+
+						$item.find('.btn').on('click', function (e) {
+							e.preventDefault();
+						});
+
+						$item.find('[aria-click="description"]').on('click', function () {
+							var 
+								$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+	              $descriptionForm = $html.find('form');
+
+	            var $popup = popupFull({
+	              html: $html,
+	              id: 'input_description_popup'
+	            });
+
+	            // Adjust values
+	            $descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
+	            $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
+
+	            initForm($descriptionForm, {
+	              submit: function () {
+	                $popup.off();
+
+	                var value = $item.data('value');
+	                value['description'] = $descriptionForm[0].elements['description'].value;
+	                $item.data('value', value);
+	                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+	              }
+	            });
+
+	            $descriptionForm.find('[type="button"]').on('click', function () {
+	              $popup.off();
+	            });
+						});
+
+						$item.find('[aria-click="avatar"]').on('click', function () {
+							if ($item.is('[data-avatar]')) {
+	              var value = $item.data('value');
+	              value['is_avatar'] = false
+	              $item.data('value', value);
+	              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+	              $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+	            }
+	            else {
+	              var value = $item.data('value');
+	              value['is_avatar'] = true
+	              $item.data('value', value);
+	              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+	              $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
+	                var $item2 = $(this)
+	                var value2 = $item2.data('value');
+	                value2['is_avatar'] = false
+	                $item2.data('value', value2);
+	                $item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
+	              }).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+
+	              $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+	            }
+						});
+
+						$item.find('[aria-click="remove"]').on('click', function () {
+							if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
+								$form.submitStatus(false);
+							}
+
+							if (onItemRemove) {
+								onItemRemove($item);
+							}
+
+							$item.remove();
+						});
+
+						if (!isMulti) {
+							$previewList.children().remove();
 						}
-					});
 
-					$item.find('.btn').on('click', function (e) {
-						e.preventDefault();
-					});
+						$previewList.append($item);
 
-					$item.find('[aria-click="description"]').on('click', function () {
-						var 
-							$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
-              $descriptionForm = $html.find('form');
+						// Get data
+						var data = new FormData();
+						data.append('file', dataURLToBlob(imageData, fileReader.fileType));
+						data.append('file_name', fileReader.fileName);
 
-            var $popup = popupFull({
-              html: $html,
-              id: 'input_description_popup'
-            });
+						// Preparing upload
+						var $progressBar = $item.find('.progress-bar');
+						$item.attr('data-status', 'uploading');
+						$item.find('img').css('opacity', '.5');
 
-            // Adjust values
-            $descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
-            $descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
-
-            initForm($descriptionForm, {
-              submit: function () {
-                $popup.off();
-
-                var value = $item.data('value');
-                value['description'] = $descriptionForm[0].elements['description'].value;
-                $item.data('value', value);
-                $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-              }
-            });
-
-            $descriptionForm.find('[type="button"]').on('click', function () {
-              $popup.off();
-            });
-					});
-
-					$item.find('[aria-click="avatar"]').on('click', function () {
-						if ($item.is('[data-avatar]')) {
-              var value = $item.data('value');
-              value['is_avatar'] = false
-              $item.data('value', value);
-              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-              $item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-            }
-            else {
-              var value = $item.data('value');
-              value['is_avatar'] = true
-              $item.data('value', value);
-              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-              $item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
-                var $item2 = $(this)
-                var value2 = $item2.data('value');
-                value2['is_avatar'] = false
-                $item2.data('value', value2);
-                $item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
-              }).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-
-              $item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-            }
-					});
-
-					$item.find('[aria-click="remove"]').on('click', function () {
-						if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
-							$form.submitStatus(false);
-						}
-
-						if (onItemRemove) {
-							onItemRemove($item);
-						}
-
-						$item.remove();
-					});
-
-					if (!isMulti) {
-						$wrapper.children('.preview').remove();
-					}
-
-					$wrapper.append($item);
-
-					// Get data
-					var data = new FormData();
-					data.append('file', dataURLToBlob(imageData, fileReader.fileType));
-					data.append('file_name', fileReader.fileName);
-
-					// Preparing upload
-					var $progressBar = $item.find('.progress-bar');
-					$item.attr('data-status', 'uploading');
-					$item.find('img').css('opacity', '.5');
-
-					// Upload file
-					$.ajax({
-							url: '/temporary_files/upload',
-							method: 'POST',
-							data: data,
-							processData: false,
-							contentType: false,
-							dataType: 'JSON',
-							xhr: function() {
+						var order = currentAmount;
+						// Upload file
+						$.ajax({
+								url: '/temporary_files/upload',
+								method: 'POST',
+								data: data,
+								processData: false,
+								contentType: false,
+								dataType: 'JSON',
+								xhr: function() {
 									var xhr = $.ajaxSettings.xhr();
 									if(xhr.upload){ //Check if upload property exists
-											xhr.upload.addEventListener('progress', function(e) {
-													if(e.lengthComputable){
-															$progressBar.css('width', (e.loaded/e.total * 100) + '%');
-													}
-											}, false); //For handling the progress of the upload
+										xhr.upload.addEventListener('progress', function(e) {
+											if(e.lengthComputable){
+												$progressBar.css('width', (e.loaded/e.total * 100) + '%');
+											}
+										}, false); //For handling the progress of the upload
 									}
 									return xhr;
+								}
+						}).always(function () {
+							$item.removeAttr('data-uploading');
+							if ($form.find('[data-uploading]').length == 0) {
+								$form.submitStatus(false);
 							}
-					}).always(function () {
-						$item.removeAttr('data-uploading');
-						if ($form.find('[data-uploading]').length == 0) {
-							$form.submitStatus(false);
-						}
-					}).done(function(data) {
-						if (data.status == 0) {
-							var value = {
-								'id': data.result,
-								'is_new': true,
-								'description': description
-							}
+						}).done(function(data) {
+							if (data.status == 0) {
+								var value = {
+									'id': data.result,
+									'is_new': true,
+									'description': description
+								}
 
-							$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-							// Display
-							$item.data('value', value);
-							$item.find('img').css('opacity', '1');
-							$progressBar.parent().remove();
+								if (hasOrder) {
+									value['order'] = order;
+								}
 
-							if (onItemAdd) {
-								onItemAdd($item);
+								$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+								// Display
+								$item.data('value', value);
+								$item.find('img').css('opacity', '1');
+								$progressBar.parent().remove();
+
+								if (onItemAdd) {
+									onItemAdd($item);
+								}
 							}
-						}
-						else {
+							else {
+								$progressBar.parent().remove();
+							}
+						}).fail(function() {
 							$progressBar.parent().remove();
-						}
-					}).fail(function() {
-						$progressBar.parent().remove();
+						});
 					});
-				});
 
-				/*
-					/ Set button event
-				*/
+					/*
+						/ Set button event
+					*/
 
-				/*
-					/ Crop
-				*/
-			}
-
-			/* 
-				/ Init for read file
-			*/
-
-			// Read files
-			var files = this.files;
-
-			function readNext() {
-				// Check index & amount
-				if (currentIndex >= files.length || (amount && currentAmount >= amount)) {
-					return false;
+					/*
+						/ Crop
+					*/
 				}
 
-				// Get file
-				var file = files[currentIndex++];
+				/* 
+					/ Init for read file
+				*/
 
-				// Check type
-				if (types && $.inArray(file.name.split('.').pop().toLowerCase(), types) == -1) {
-					return;
+				// Read files
+				var files = this.files;
+
+				function readNext() {
+					// Check index & amount
+					if (currentIndex >= files.length || (amount && currentAmount >= amount)) {
+						return false;
+					}
+
+					// Get file
+					var file = files[currentIndex++];
+
+					// Check type
+					if (types && $.inArray(file.name.split('.').pop().toLowerCase(), types) == -1) {
+						return;
+					}
+
+					// Set info
+					fileReader.fileName = file.name;
+					fileReader.fileType = file.type;
+
+					// Read file
+					fileReader.readAsDataURL(file);
 				}
+				readNext();
+			});
 
-				// Set info
-				fileReader.fileName = file.name;
-				fileReader.fileType = file.type;
-
-				// Read file
-				fileReader.readAsDataURL(file);
-			}
-			readNext();
-		});
+		/*
+			/ Progress on choose new file
+		*/
 
 		// Create element
 
@@ -520,6 +572,7 @@ function initForm($form, params) {
 				$fileUpload = $(this),
 				hasDescription = $fileUpload.is('[data-has_description]'),
 				hasAvatar = $fileUpload.is('[data-has_avatar]'),
+				hasOrder = $fileUpload.is('[data-has_order]'),
 				controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
 
 			// Get params
@@ -543,10 +596,87 @@ function initForm($form, params) {
 
 			var $wrapper = $('<label class="file-uploader form-control"></label>');
 			var $label = $('<div class="file-upload-label"><div class="fa fa-photo"></div><div>' + _t.form.label_image_upload + '</div></div>');
+			var $previewList = $('<div class="preview-list"></div>');
 
 			$fileUpload.after($wrapper);
 			$fileUpload.appendTo($wrapper);
 			$label.appendTo($wrapper);
+			$previewList.appendTo($wrapper);
+
+			/*
+				Create order button
+			*/
+
+				if (hasOrder) {
+					var 
+						$orderButtonContainer = $('<div class="margin-top-15 text-right"><div>'),
+						$orderButton = $('<button type="button" class="btn btn-flat btn-default">Sắp xếp</button>');
+
+					$orderButtonContainer.html($orderButton);
+					$wrapper.after($orderButtonContainer);
+
+					$orderButton.on('click', function () {
+						if (ordering) {
+							// Set status
+							ordering = false;
+							$wrapper.removeClass('active');
+							$orderButton.text('Sắp xếp').prev().remove();
+						}
+						else {
+							var $previewItems = $previewList.children();
+							if ($previewItems.length == 0) {
+								return;
+							}
+
+							// Set status
+							ordering = true;
+							$wrapper.addClass('active');
+							$orderButton.text('Hủy').before('<small>(Hãy chọn hình theo thứ tự bạn muốn)</small> ');
+
+							var order = 0;
+
+							$previewItems.append('<section class="order" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; line-height: 150px; text-align: center; background-color: rgba(0,0,0,.6); font-size: 50px; color: #fff;"></section>')
+
+							$previewItems.removeClass('control-show').data('order', false).on('click.order', function (e) {
+								var $item = $(this);
+								if ($item.data('order') == false) {
+									$item.data('order', ++order);
+									$item.find('.order').text(order);
+
+									if (order >= $previewItems.length) {
+										// Done
+										var itemsWithOrder = new Array($previewItems.length);
+										$previewItems.off('click.order').each(function () {
+											$item = $(this);
+				              value = $item.data('value');
+				              value['order'] = $item.data('order');
+				              $item.data('value', value);
+				              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+				              itemsWithOrder[$item.data('order') - 1] = $item;
+										}).find('.order').remove();
+
+										$(itemsWithOrder).each(function () {
+											$(this).appendTo($previewList);
+										});
+										
+										$orderButton.click();
+									}
+								}
+							});
+						}
+					});
+
+					$wrapper.on('click', function (e) {
+						if (ordering) {
+							e.preventDefault();
+						}
+					})
+				}
+
+			/*
+				/ Create order button
+			*/
 
 			var constraint = $fileUpload.attr('data-constraint');
 			constraint = constraint ? 'data-constraint="' + constraint + '"' : '';			
@@ -607,6 +737,11 @@ function initForm($form, params) {
 					// Event click to control
 					$item.on('click', function (e) {
 						e.preventDefault();
+
+						if (ordering) {
+							return;
+						}
+
 						if ($item.hasClass('control-show')) {
 							clearTimeout($item.data('control_show'));
 							$item.removeClass('control-show');
@@ -689,7 +824,7 @@ function initForm($form, params) {
 						$item.remove();
 					});
 
-					$wrapper.append($item);
+					$previewList.append($item);
 					if (onInitItemAdd) {
 						onInitItemAdd($item);
 					}
@@ -1104,7 +1239,6 @@ function initForm($form, params) {
 		$form.find('[aria-input-type="editor"]').each(function () {
 			var $input = $(this);
 
-			a = $input;
 			var extraPlugins = 'resize';
 			extraPlugins += $input.data('editor-extra-plugins') || '';
 
@@ -1141,7 +1275,6 @@ function initForm($form, params) {
 				/*
 					Init value
 				*/
-				a = $container;
 
 					// Get selected item
 					var $selectedItem = $container.find('ul a[data-selected]');
@@ -1181,6 +1314,48 @@ function initForm($form, params) {
 
 	/*
 		/ Dropdownselect
+	*/
+
+	/*
+		Read money
+	*/
+
+		function initReadMoney() {
+	    _temp['read_money_to'] = null;
+	    $form.find('.read-money').on({
+	      keyup: function () {
+	        var $input = $(this);
+
+	        clearTimeout(_temp['read_money_to']);
+	        _temp['read_money_to'] = setTimeout(function () {
+	          if ($input.val() != $input.data('old-value')) {
+	            var value = $input.val().replace(/\D/g, '');
+
+	            $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+
+	            $input.data('old-value', $input.val());
+	          }
+	        }, 200);
+	      },
+	      change: function () {
+	        var $input = $(this);
+	        
+	        var value = $input.val().replace(/\D/g, '');
+
+	        $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+
+	        $input.data('old-value', $input.val());
+	      }
+	    }).each(function () {
+	    	var $input = $(this)
+        var value = $input.val().replace(/\D/g, '');
+
+	    	$input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+	    });
+		}
+
+	/*
+		Read money
 	*/
 
 	/*
@@ -1474,6 +1649,7 @@ function initForm($form, params) {
 		if (isValid) {
 			// Set valid input
 			$input.data('invalid', false);
+			$input.attr('data-valid-status', 'success').trigger('change_valid_status');
 
 			// Remove error class from form group if all input in valid
 			var $formGroup = $input.closest('.form-group');
@@ -1524,14 +1700,14 @@ function initForm($form, params) {
 
 			// Set invalid input with constraint
 			$input.data('invalid', constraint);
+			$input.attr('data-valid-status', 'error').trigger('change_valid_status');
 
 			// Add error class to form group
 			var $formGroup = $input.closest('.form-group');
 			$formGroup.removeClass('has-success').addClass('has-error');
 
 			// Add error class to box
-			var 
-				$box = $formGroup.closest('.box');
+			var $box = $formGroup.closest('.box');
 
 			if ($box.data('status') != 'error') {
 				$box.addClass('box-danger').removeClass('box-success').data('status', 'error').trigger('changeStatus');	
@@ -1664,7 +1840,7 @@ function initForm($form, params) {
 			}
 
 			// Check validate
-			$form.find(':input:enabled:not([data-nonvalid])').each(function () {
+			$form.find(':input:enabled:not([data-nonvalid]):not(button)').each(function () {
 				checkInvalidInput($(this));  
 			});
 

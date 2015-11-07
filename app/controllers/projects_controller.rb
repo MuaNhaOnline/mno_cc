@@ -317,7 +317,7 @@ end
   # Handle
   # params: id
   def get_gallery
-    images = ProjectImage.where project_id: params[:id]
+    images = ProjectImage.where(project_id: params[:id]).reorder('"order" asc')
 
     render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url, description: image.description } } }
   end
