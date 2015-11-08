@@ -793,6 +793,9 @@ function initSize() {
           if (evt.lengthComputable) {
             updateProgressBar((evt.loaded / evt.total) * 50);
           }
+          else {
+            updateProgressBar(100);
+          }
         }, false);
       }
 
@@ -800,6 +803,9 @@ function initSize() {
       xhr.addEventListener("progress", function (evt) {
         if (evt.lengthComputable) {
           updateProgressBar(50 + (evt.loaded / evt.total) * 50);
+        }
+        else {
+          updateProgressBar(100);
         }
       }, false);
 
