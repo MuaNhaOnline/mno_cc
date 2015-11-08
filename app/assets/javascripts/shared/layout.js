@@ -785,50 +785,7 @@ function initSize() {
     }
 
     return function () {
-      var xhr = $.ajaxSettings.xhr();
-
-      //Upload progress
-      if (xhr.upload) {
-        xhr.upload.addEventListener("progress", function (evt) {
-          if (evt.lengthComputable) {
-            updateProgressBar((evt.loaded / evt.total) * 50);
-          }
-          else {
-            updateProgressBar(100);
-          }
-        }, false);
-      }
-
-      //Download progress
-      xhr.addEventListener("progress", function (evt) {
-        if (evt.lengthComputable) {
-          updateProgressBar(50 + (evt.loaded / evt.total) * 50);
-        }
-        else {
-          updateProgressBar(100);
-        }
-      }, false);
-
       // Create progress bar
-      // var $progress_bar_container = $('<div style="position: ' + ($element.is($body) ? 'fixed' : 'absolute') + '; z-index: 50;"><div class="progress no-margin xs"><div class="progress-bar" style="width: 0%;"></div></div></div>');
-      // if ($element.is('.row')) {
-      //   $progress_bar_container.css({
-      //     width: ($element.width() - 30) + 'px',
-      //     top: $element.offset().top,
-      //     left: $element.offset().left + 15
-      //   });  
-      // }
-      // else {
-      //   $progress_bar_container.css({
-      //     width: $element.width() + 'px',
-      //     top: $element.offset().top,
-      //     left: $element.offset().left
-      //   }); 
-      // }
-      // var $progress_bar = $progress_bar_container.find('.progress-bar');
-
-      // $body.append($progress_bar_container);
-
       var $progress_bar_container = $(
         '<div style="position: ' + ($element.is($body) ? 'fixed' : 'absolute') + '; z-index: 50;">' +
           '<span style="background-color: #00c0ef; padding: 5px; border-radius: 3px; color: #fff; font-weight: bold; font-size: 11px">' +
@@ -855,21 +812,41 @@ function initSize() {
 
       // Update progress bar
       function updateProgressBar(percent) {
-        // $progress_bar.css('width', percent + '%');
+        $percent.text(percent);
+      }
 
-        // if (percent == 100) {
-        //   setTimeout(function () {
-        //     $progress_bar_container.remove();
-        //   }, 600);
-        // }
+      var xhr = $.ajaxSettings.xhr();
 
-        if (percent == 100) {
-          $progress_bar_container.remove();
+      // Upload progress
+      if (xhr.upload) {
+        xhr.upload.addEventListener('progress', function (e) {
+          if (e.lengthComputable) {
+            updateProgressBar((e.loaded / e.total) * 50);
+          }
+          else {
+            xhr.upload.removeEventListener('progress');
+            xhr.removeEventListener('progress');
+            $percent.parent().html('<i class="fa fa-refresh fa-spin"></i>');
+          }
+        }, false);
+      }
+
+      // Download progress
+      xhr.addEventListener('progress', function (e) {
+        if (e.lengthComputable) {
+          updateProgressBar(50 + (e.loaded / e.total) * 50);
         }
         else {
-          $percent.text(percent);
+          xhr.upload.removeEventListener('progress');
+          xhr.removeEventListener('progress');
+          $percent.parent().html('<i class="fa fa-refresh fa-spin"></i>');
         }
-      }
+      }, false);
+
+      // Status change
+      xhr.addEventListener('load', function (e) {
+        $progress_bar_container.remove();
+      });
 
       return xhr;
     }
