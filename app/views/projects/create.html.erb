@@ -39,7 +39,7 @@
   unless @p.new_record?
     _images = []
     @p.images.each do |p_image|
-      _images << { 'id': p_image.id, 'url': p_image.image.url, 'description': p_image.description, 'is_avatar': p_image.is_avatar }
+      _images << { 'id': p_image.id, 'url': p_image.image.url, 'description': p_image.description, 'is_avatar': p_image.is_avatar, 'order' => p_image.order }
     end
     image_init_value = _images.to_json
   end
@@ -493,7 +493,7 @@
               <sup class="required-label"></sup>
               <p>Bạn có thể đăng 10 ảnh mô tả dự án của mình</p>
               <p>Hãy chọn <b>hình đại diện</b> bằng cách click vào hình</p>
-              <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png gif" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar />
+              <input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-type="jpg jpeg png gif" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar data-has_order />
             </article>
           </section>
         </article>

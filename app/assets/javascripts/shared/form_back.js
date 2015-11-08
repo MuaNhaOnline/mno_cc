@@ -621,6 +621,7 @@ function initForm($form, params) {
 							ordering = false;
 							$wrapper.removeClass('active');
 							$orderButton.text('Sắp xếp').prev().remove();
+							$previewList.find('.order').remove();
 						}
 						else {
 							var $previewItems = $previewList.children();
@@ -654,7 +655,7 @@ function initForm($form, params) {
 				              $item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
 
 				              itemsWithOrder[$item.data('order') - 1] = $item;
-										}).find('.order').remove();
+										});
 
 										$(itemsWithOrder).each(function () {
 											$(this).appendTo($previewList);
@@ -1593,7 +1594,7 @@ function initForm($form, params) {
 				}
 			}
 			else if ($input.is('.file-upload')) {
-				if ($input.siblings('.preview').length == 0) {
+				if ($input.siblings('.preview-list').children().length == 0) {
 					toggleValidInput($input, false, 'required');
 					return 'required';
 				}
