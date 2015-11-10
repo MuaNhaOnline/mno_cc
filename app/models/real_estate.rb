@@ -12,7 +12,7 @@ class RealEstate < ActiveRecord::Base
 
   # / PgSearch
 
-  # Associates
+  # Associations
 
     belongs_to :user
     belongs_to :real_estate_type
@@ -42,9 +42,9 @@ class RealEstate < ActiveRecord::Base
     has_and_belongs_to_many :advantages
     has_and_belongs_to_many :disadvantages
     
-  # / Associates
+  # / Associations
 
-  # Validates
+  # Validations
 
     validate :custom_validate
 
@@ -241,7 +241,7 @@ class RealEstate < ActiveRecord::Base
       end
     end
 
-  # / Validates
+  # / Validations
 
   # Insert
 
@@ -584,7 +584,7 @@ class RealEstate < ActiveRecord::Base
 
       # Time order
       if params.has_key? :newest
-        order[:created_at] = 'asc'
+        order[:created_at] = 'desc'
       end
 
       where += " AND is_full = #{params[:is_full] || 'true'}"

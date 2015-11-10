@@ -96,13 +96,13 @@
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="active">
-					<a href="#suggest_property" role="tab" data-toggle="tab">
-						Có thể bạn quan tâm
+					<a href="#new_property" role="tab" data-toggle="tab">
+						Bất động sản mới rao bán
 					</a>
 				</li>
 				<li>
-					<a href="#new_property" role="tab" data-toggle="tab">
-						Bất động sản mới rao bán
+					<a href="#suggest_property" role="tab" data-toggle="tab">
+						Có thể bạn quan tâm
 					</a>
 				</li>
 			</ul>
@@ -110,9 +110,9 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="suggest_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>, "newset":""}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="new_property">
 					<%
-						res = RealEstate.search_with_params
+						res = RealEstate.search_with_params newest: ''
 					%>
 					<div class="row">
 						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
@@ -121,7 +121,7 @@
 						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
 					</div>
 				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="new_property">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="suggest_property">
 					<%
 						res = RealEstate.search_with_params
 					%>
