@@ -531,7 +531,7 @@ class Project < ActiveRecord::Base
       tempLocale = I18n.locale
       I18n.locale = 'vi'
 
-      assign_attributes meta_search_1: "#{display_id} #{id} #{district.name.gsub('Quận', '') if district.present?} #{street.name if street.present?} #{project_name}", meta_search_2: "#{province.name if province.present?} #{investor.name if investor.present?}", meta_search_3: "#{title} #{user.full_name + ' ' + user.email + ' ' + user.phone_number if user.present?} #{I18n.t('project_type.text.' + project_type.name) if project_type.present?}"
+      assign_attributes meta_search_1: "#{display_id} #{id} #{district.name.gsub('Quận', '') if district.present?} #{street.name if street.present?} #{project_name}", meta_search_2: "#{province.name if province.present?} #{investor.name if investor.present?}", meta_search_3: "#{title.gsub('Quận', '').gsub('quận', '')} #{user.full_name + ' ' + user.email + ' ' + user.phone_number if user.present?} #{I18n.t('project_type.text.' + project_type.name) if project_type.present?}"
 
       I18n.locale = tempLocale
     end
