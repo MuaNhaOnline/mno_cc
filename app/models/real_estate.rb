@@ -9,12 +9,7 @@ class RealEstate < ActiveRecord::Base
       meta_search_3: 'C'
     }, using: { 
       tsearch: { 
-        prefix: true, 
         any_word: true
-      },
-      dmetaphone: {
-        any_word: true,
-        sort_only: true
       }
     }
 
