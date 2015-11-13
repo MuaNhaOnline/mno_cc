@@ -6,15 +6,15 @@ class MailBox < ActiveRecord::Base
     :to => [:full_name]
   }
 
-# Associates
+# Associations
 
 	belongs_to :from, class_name: 'User'
 	belongs_to :to, class_name: 'User'
 	belongs_to :attachment_file, class_name: 'Image'
 
-# / Associates
+# / Associations
 
-# Validates
+# Validations
 
 	validates :from_id, presence: { message: 'Người gửi không được bỏ trống' }
 	validates :to_id, presence: { message: 'Người nhận không được bỏ trống' }
@@ -25,7 +25,7 @@ class MailBox < ActiveRecord::Base
 	def custom_validate
 	end
 
-# / Validates
+# / Validations
 
 # Insert
 

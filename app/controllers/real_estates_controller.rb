@@ -38,7 +38,7 @@ class RealEstatesController < ApplicationController
       end
     end
 
-  # /View
+  # / View
 
   # Create
 
@@ -163,6 +163,26 @@ class RealEstatesController < ApplicationController
           list: render_to_string(partial: 'real_estates/block_item_list', locals: { res: res.page(params[:page], per) }),
           pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
         }
+      }
+    end
+
+    # Partial view
+    # params: block_id(*)
+    def _block_description_item_list
+      per = Rails.application.config.item_per_page
+
+      params[:page] ||= 1
+      params[:page] = params[:page].to_i
+
+      res = RealEstate.block_search_with_params params[:block_id], params
+
+      count = res.count
+
+      return render json: { status: 1 } if count == 0
+
+      render json: {
+        status: 0,
+        result: render_to_string(partial: 'real_estates/block_description_item_list', locals: { res: res })
       }
     end
 

@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     get 'real_estates/delete/:id' => 'real_estates#delete'
     get 'real_estates/_block_create/:block_id(/:id)' => 'real_estates#_block_create'
     get 'real_estates/_block_item_list'
+    get 'real_estates/_block_description_item_list/:block_id' => 'real_estates#_block_description_item_list'
     get 'real_estates/my'
     get 'real_estates/_my_list'
     get 'real_estates/pending'
@@ -74,6 +75,7 @@ Rails.application.routes.draw do
     get 'projects/index'
     get 'projects/create(/:id)' => 'projects#create'
     get 'projects/create_details(/:id)' => 'projects#create_details'
+    get 'projects/get_image_for_interact_build/:id' => 'projects#get_image_for_interact_build'
     get 'projects/my'
     get 'projects/_my_list'
     get 'projects/my_favorite'
@@ -93,14 +95,18 @@ Rails.application.routes.draw do
     post 'projects/change_force_hide_status/:id/:is_force_hide' => 'projects#change_force_hide_status'
     post 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
     post 'projects/user_favorite/:id/:is_add' => 'projects#user_favorite'
+    post 'projects/save_interact_images'
 
   # / Project
 
   # Block
 
     get 'blocks/_create/:project_id(/:id)' => 'blocks#_create'
+    get 'blocks/_description_item_list/:project_id' => 'blocks#_description_item_list'
+    get 'blocks/get_image_for_interact_build/:id' => 'blocks#get_image_for_interact_build'
     post 'blocks/create' => 'blocks#save'
     post 'blocks/delete'
+    post 'blocks/save_interact_images'
 
   # / Block
 

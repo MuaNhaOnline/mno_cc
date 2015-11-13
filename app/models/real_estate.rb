@@ -7,8 +7,16 @@ class RealEstate < ActiveRecord::Base
       meta_search_1: 'A',
       meta_search_2: 'B',
       meta_search_3: 'C'
+    }, using: { 
+      tsearch: { 
+        prefix: true, 
+        any_word: true
+      },
+      dmetaphone: {
+        any_word: true,
+        sort_only: true
+      }
     }
-    # }, using: { tsearch: { prefix: true, any_word: false } }
 
   # / PgSearch
 
@@ -880,7 +888,7 @@ class RealEstate < ActiveRecord::Base
       tempLocale = I18n.locale
       I18n.locale = 'vi'
 
-      assign_attributes meta_search_1: "#{display_id} #{id} #{district.name if district.present?} #{street.name if street.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{title} #{I18n.t('purpose.text.' + purpose.name) if purpose.present?} #{province.name if province.present?}", meta_search_3: "#{user_id == 0 ? user_full_name + ' ' + user_email + ' ' + user_phone_number : user.full_name + ' ' + user.email + ' ' + user.phone_number} #{ward.name if ward.present?}"
+      assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{I18n.t('purpose.text.' + purpose.name) if purpose.present?} #{province.name if province.present?}", meta_search_3: "#{user_id == 0 ? user_full_name + ' ' + user_email + ' ' + user_phone_number : user.full_name + ' ' + user.email + ' ' + user.phone_number} #{title}"
 
       I18n.locale = tempLocale
     end

@@ -1,6 +1,6 @@
 class Blog < ActiveRecord::Base
 	
-	# Validates
+	# Validations
 
 		validate :custom_validate
 
@@ -18,7 +18,7 @@ class Blog < ActiveRecord::Base
 			end
 		end
 
-	# / Validates
+	# / Validations
 
 	# Insert
 

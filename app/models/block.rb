@@ -1,14 +1,14 @@
 class Block < ActiveRecord::Base
 
-	# Associates
+	# Associations
   
 		belongs_to :project
 
   	has_many :images, class_name: 'BlockImage'
 
-	# / Associates
+	# / Associations
 
-	# Validates
+	# Validations
 
 		validate :custom_validate
 
@@ -26,7 +26,7 @@ class Block < ActiveRecord::Base
 			# end
 		end
 
-	# / Validates
+	# / Validations
 
 	# Insert
 

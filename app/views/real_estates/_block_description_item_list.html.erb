@@ -1,0 +1,17 @@
+<% res.each do |re| %>
+  <a href="javascript:void(0)" class="horizontal-item item margin-left-right-10 width-250" data-value="<%= re.id %>">
+    <section class="top">
+      <%= real_estate_avatar re %>
+      <section class="left">
+        <article class="node">
+          <span><b><%= re.label %></b></span>
+        </article>
+      </section>
+    </section>
+    <section class="bottom">
+      <p class="title">
+        <%= re.title %>
+      </p>
+    </section>
+  </a>
+<% end %>

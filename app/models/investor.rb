@@ -10,9 +10,9 @@ class Investor < ActiveRecord::Base
     :url => "/assets/investor_images/:style/:id_:filename"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
-# Associates
+# Associations
 
-# / Associates
+# / Associations
 
 # Delete
   

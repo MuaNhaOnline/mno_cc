@@ -10,7 +10,7 @@ class Question < ActiveRecord::Base
 
 # / Associate
 
-# Validates
+# Validations
 
 	validate :custom_validate
 
@@ -48,7 +48,7 @@ class Question < ActiveRecord::Base
 		end
 	end
 
-# / Validates
+# / Validations
 
 # Get
 
