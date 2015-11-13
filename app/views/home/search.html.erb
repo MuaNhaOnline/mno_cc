@@ -154,7 +154,7 @@
 		                  <button type="button" style="border-radius: 0" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span></button>
 		                  <ul class="dropdown-menu pull-right">
 		                  	<li>
-		                  		<a <%= 'data-selected' if @search_params[:currency_unit] == 'million' || @search_params[:currency_unit].present? %> data-value="million">triệu</a>
+		                  		<a <%= 'data-selected' if @search_params[:currency_unit] == 'million' || @search_params[:currency_unit].blank? %> data-value="million">triệu</a>
 		                  	</li>
 		                  	<li>
 		                  		<a <%= 'data-selected' if @search_params[:currency_unit] == 'billion' %> data-value="billion">tỷ</a>
