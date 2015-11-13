@@ -444,17 +444,17 @@ function initMore() {
 		$input.find('~ ul a').on('click', function () {
 			$input.find('~ button span').html($(this).html());
 			$input.val($(this).data('value'));
-		}).filter('[data-selected]').click();
+		}).filter('[data-selected]:eq(0)').click();
 	});
 
 	$('[name="purpose"]').on('change', function () {
 		if (this.value == 'r') {
 			$('[data-for="sell"]').hide();
-			$('[data-for="rent"]').show().first().find('a').click();
+			$('[data-for="rent"]').show().first().find('[data-selected]').click();
 		}
 		else {
 			$('[data-for="rent"]').hide();
-			$('[data-for="sell"]').show().first().find('a').click();
+			$('[data-for="sell"]').show().first().find('[data-selected]').click();
 		}
 	}).filter(':checked').change();
 }
