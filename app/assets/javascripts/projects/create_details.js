@@ -678,7 +678,6 @@ $(function () {
 					toggleLoadStatus(false);
 				}).done(function (data) {
 					if (data.status == 0) {
-						alert('OK');
 					}
 					else {
 						errorPopup();
@@ -692,6 +691,7 @@ $(function () {
 
 				$designPart.find('[aria-click="save"]').on('click', function () {
 					$designPart.removeClass('open');
+					$body.removeClass('no-scroll');
 
 					if ($selectedItem) {
 						saveItem();
@@ -710,6 +710,7 @@ $(function () {
 
 				$designPart.find('[aria-click="exit"]').on('click', function () {
 					$designPart.removeClass('open');
+					$body.removeClass('no-scroll');
 				});
 
 			// / Close button

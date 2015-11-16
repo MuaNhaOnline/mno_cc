@@ -1,4 +1,4 @@
-	/*
+/*
 	Design panel
 */
 
@@ -236,7 +236,7 @@
 				border: 10px solid transparent;
 				border-bottom-color: #3c8dbc;
 				position: absolute;
-				top: calc(100% - 9px);
+				top: 100%;
 				left: calc(50% - 5px);
 			}
 
@@ -251,6 +251,7 @@
 		.real-estate-container {
 			border-top: 5px solid #3c8dbc !important;
 			border-radius: 0;
+			margin-top: -11px;
 		}
 
 	/*

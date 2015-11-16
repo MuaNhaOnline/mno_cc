@@ -21,7 +21,8 @@ $(function () {
         $form.submitStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
-          window.location = '/projects/create_details/' + data.result;
+          window.location = '/projects/my';
+          // window.location = '/projects/create_details/' + data.result;
         }
         else {
           popupPrompt({

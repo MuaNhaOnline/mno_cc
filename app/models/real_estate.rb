@@ -883,7 +883,7 @@ class RealEstate < ActiveRecord::Base
       tempLocale = I18n.locale
       I18n.locale = 'vi'
 
-      assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{I18n.t('purpose.text.' + purpose.name) if purpose.present?} #{province.name if province.present?}", meta_search_3: "#{user_id == 0 ? user_full_name + ' ' + user_email + ' ' + user_phone_number : user.full_name + ' ' + user.email + ' ' + user.phone_number} #{title.gsub('Quận', '').gsub('quận', '')}"
+      assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_id == 0 ? user_full_name + ' ' + user_email + ' ' + user_phone_number : user.full_name + ' ' + user.email + ' ' + user.phone_number} #{title.gsub('Quận', '').gsub('quận', '')}"
 
       I18n.locale = tempLocale
     end
@@ -903,9 +903,10 @@ class RealEstate < ActiveRecord::Base
       return { status: 6 } if User.current.cannot? :delete, real_estate
 
       _user_id = real_estate.user_id
+      _belongs_to_block = real_estate.block_id.present?
 
       if delete id
-        User.decrease_real_estate_count _user_id if _user_id != 0
+        User.decrease_real_estate_count _user_id if _user_id != 0 && _belongs_to_block
         { status: 0 }
       else
         { status: 2 }

@@ -189,8 +189,7 @@ function initSize() {
       _temp[keyFind] = $.ajax({
           url: url,
           data: data,
-          dataType: 'JSON',
-          xhr: _getAjaxLoadingFunction(params['list'])
+          dataType: 'JSON'
       }).always(function () {
         _temp[keyFind] = false;
       }).done(function (data) {
