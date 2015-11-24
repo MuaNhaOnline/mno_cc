@@ -8,7 +8,10 @@ $(function () {
 			$viewPart = $('#view_part'),
 			$blockList = $('#block_list'),
 			selectedBlockId,
-			realEstateFind;
+			$selectedBlockItem,
+			$realEstateList = $('#real_estate_list'),
+			realEstateFind,
+			realEstateList = $viewPart.find('#real_estate_list');
 
 		initCreateBlock();
 		initBlock($blockList.find('.item'));
@@ -17,6 +20,10 @@ $(function () {
 
 			$viewPart.find('[aria-click="project_image_interact"]').on('click', function () {
 				startDesign('project', project_id);
+			});
+
+			$viewPart.find('[aria-click="build_finish"]').on('click', function () {
+				window.location = '/projects/set_finished_status/' + project_id;
 			});
 
 		// / Project
@@ -35,47 +42,10 @@ $(function () {
 							toggleLoadStatus(false);
 						}).done(function (data) {
 							if (data.status == 0) {
-								var 
-									$html = $(data.result),
-									$form = $html.find('form');
-
-								var $popup = popupFull({
-									html: $html,
-									width: 'medium'
-								});
-
-								initForm($form, {
-									submit: function () {
-										toggleLoadStatus(true);
-										$.ajax({
-											url: '/blocks/create',
-											method: 'POST',
-											data: $form.serialize(),
-											dataType: 'JSON'
-										}).always(function () {
-											$popup.off();
-											toggleLoadStatus(false);
-										}).done(function (data) {
-											if (data.status == 0) {
-												data.result = $(data.result);
-												initBlock(data.result);
-												$blockList.prepend(data.result);
-											}
-											else {
-												popupPrompt({
-													title: _t.form.error_title,
-													type: 'danger',
-													content: _t.form.error_content
-												})
-											}
-										}).fail(function () {
-											popupPrompt({
-												title: _t.form.error_title,
-												type: 'danger',
-												content: _t.form.error_content
-											})
-										});
-									}
+								startBlockCreateForm($(data.result), function (result) {
+									result = $(result);
+									initBlock(result);
+									$blockList.prepend(result);
 								});
 							}
 							else {
@@ -116,48 +86,11 @@ $(function () {
 								toggleLoadStatus(false);
 							}).done(function (data) {
 								if (data.status == 0) {
-									var 
-										$html = $(data.result),
-										$form = $html.find('form');
-
-									var $popup = popupFull({
-										html: $html,
-										width: 'medium'
-									});
-
-									initForm($form, {									
-										submit: function () {
-											toggleLoadStatus(true);
-											$.ajax({
-												url: '/blocks/create',
-												method: 'POST',
-												data: $form.serialize(),
-												dataType: 'JSON'
-											}).always(function () {
-												toggleLoadStatus(false);
-												$popup.off();
-											}).done(function (data) {
-												if (data.status == 0) {
-													data.result = $(data.result);
-													initBlock(data.result);
-													$item.replaceWith(data.result);
-												}
-												else {
-													popupPrompt({
-														title: _t.form.error_title,
-														type: 'danger',
-														content: _t.form.error_content
-													})
-												}
-											}).fail(function () {
-												popupPrompt({
-													title: _t.form.error_title,
-													type: 'danger',
-													content: _t.form.error_content
-												})
-											});
-										}
-									});
+									startBlockCreateForm($(data.result), function (result) {
+										result = $(result);
+										initBlock(result);
+										$item.replaceWith(result);
+									})
 								}
 								else {
 									popupPrompt({
@@ -197,6 +130,10 @@ $(function () {
 							}).done(function (data) {
 								if (data.status == 0) {
 									$item.remove();
+
+									if ($item.data('value') == selectedBlockId) {
+										$viewPart.find('.real-estate-container').hide();
+									}
 								}
 								else {
 									popupPrompt({
@@ -236,7 +173,12 @@ $(function () {
 								$item.siblings('.active').removeClass('active');
 								$item.addClass('active');
 
+								$selectedBlockItem = $item;
 								selectedBlockId = $item.data('value');
+
+								$viewPart.find('.real-estate-container').show();
+
+								$viewPart.find('#selected_block_name').text($item.find('[aria-object="name"]').text());
 
 							/*
 								Change status
@@ -273,20 +215,98 @@ $(function () {
 
 			// / Init block
 
+			// Block create form
+
+				function startBlockCreateForm($form, done) {
+					var $popup = popupFull({
+						html: $form,
+						width: 'maximum',
+						esc: false
+					});
+
+					var $tabContainers = $form.find('.tab-container');
+					
+					initForm($form, {
+						submit: function () {
+							toggleLoadStatus(true);
+							$.ajax({
+								url: '/blocks/create',
+								method: 'POST',
+								data: $form.serialize(),
+								dataType: 'JSON'
+							}).always(function () {
+								$popup.off();
+								toggleLoadStatus(false);
+							}).done(function (data) {
+								if (data.status == 0) {
+									done(data.result);
+								}
+								else {
+									popupPrompt({
+										title: _t.form.error_title,
+										type: 'danger',
+										content: _t.form.error_content
+									})
+								}
+							}).fail(function () {
+								popupPrompt({
+									title: _t.form.error_title,
+									type: 'danger',
+									content: _t.form.error_content
+								})
+							});
+						}
+					});
+				}
+
+			// / Block create form
+
 		// / Block
 
 		// Real-estate
 
 			initCreateRealEstate();
 			initRealEstateList();
+			$viewPart.find('.real-estate-container').hide();
 
 			// Create
 
 				function initCreateRealEstate() {
 					$viewPart.find('[aria-click="create_real_estate"]').on('click', function () {
+
+						$html = $(
+							'<article class="box box-primary">' +
+								'<section class="box-header">' +
+									'<h2 class="box-title small">' +
+										'Thêm bất động sản thuộc loại nào?' +
+									'</h2>' +
+								'<section>' +
+								'<section class="box-body text-center">' +
+									'<article class="flex flex-column flex-inline group-list">' +
+									'</article>' +
+								'</section>' +
+							'</article>'
+						);
+
+						var $popup = popupFull({
+							html: $html
+						});
+
+						$groupList = $html.find('.group-list');
+						$($selectedBlockItem.data('groups')).each(function () {
+							$button = $('<button data-value="' + this.id + '" class="btn btn-block btn-default">' + this.name + '</button>');
+							$button.on('click', function () {
+								getRealEstateCreateForm($(this).data('value'));
+							});
+							$groupList.append($button);
+						});
+
+					});
+
+					function getRealEstateCreateForm(group_id) {
 						toggleLoadStatus(true);
 						$.ajax({
-							url: '/real_estates/_block_create/' + selectedBlockId,
+							url: '/real_estates/_block_create/' + selectedBlockId + '/' + group_id,
 							dataType: 'JSON'
 						}).always(function () {
 							toggleLoadStatus(false);
@@ -310,7 +330,7 @@ $(function () {
 								content: _t.form.error_content
 							})
 						})
-					});
+					}
 				}
 
 			// / Create
@@ -318,80 +338,94 @@ $(function () {
 			// Init real-estate list
 
 				function initRealEstateList() {
-					realEstateFind = _initPagination({
-						url: '/real_estates/_block_item_list',
-						list: $viewPart.find('#real_estate_list'),
-						pagination: $viewPart.find('#real_estate_pagination'),
-						data: function () {
-							return { block_id: selectedBlockId };
-						},
-						init_list: function ($list) {
+					realEstateFind = function () {
+						$.ajax({
+							url: '/real_estates/_block_item_list/' + selectedBlockId,
+							dataType: 'JSON'
+						}).done(function (data) {
+							if (data.status == 0) {
+								$realEstateList.html(data.result);
 
-							/*
-								Delete
-							*/
+								_initTabContainer($realEstateList.find('.free-style-tab-container'));
 
-								$list.find('[aria-click="delete"]').on('click', function () {
-									$item = $(this).closest('.item');
+								// Image interact
 
-									toggleLoadStatus(true);
-									$.ajax({
-										url: '/real_estates/delete/' + $item.data('value'),
-										method: 'POST',
-										dataType: 'JSON'
-									}).always(function () {
-										toggleLoadStatus(false);
-									}).done(function (data) {
-										if (data.status == 0) {
-											realEstateFind({
-												data: 'last_data'
-											});
-										}
-										else {
+									$realEstateList.find('[aria-click="image_interact"]').on('click', function () {
+										startDesign('real_estate', $(this).closest('.tab-content').data('value'));
+									});
+
+								// / Image interact
+
+								/*
+									Delete
+								*/
+
+									$realEstateList.find('[aria-click="delete"]').on('click', function () {
+										$item = $(this).closest('.item');
+
+										toggleLoadStatus(true);
+										$.ajax({
+											url: '/real_estates/delete/' + $item.data('value'),
+											method: 'POST',
+											dataType: 'JSON'
+										}).always(function () {
+											toggleLoadStatus(false);
+										}).done(function (data) {
+											if (data.status == 0) {
+												realEstateFind({
+													data: 'last_data'
+												});
+											}
+											else {
+												errorPopup();
+											}
+										}).fail(function () {
 											errorPopup();
-										}
-									}).fail(function () {
-										errorPopup();
-									})
-								});
+										})
+									});
 
-							/*
-								Delete
-							*/
+								/*
+									Delete
+								*/
 
-							/*
-								Edit
-							*/
+								/*
+									Edit
+								*/
 
-								$list.find('[aria-click="edit"]').on('click', function () {
-									$item = $(this).closest('.item');
+									$realEstateList.find('[aria-click="edit"]').on('click', function () {
+										$item = $(this).closest('.item');
 
-									toggleLoadStatus(true);
-									$.ajax({
-										url: '/real_estates/_block_create/' + selectedBlockId + '/' + $item.data('value'),
-										dataType: 'JSON'
-									}).always(function () {
-										toggleLoadStatus(false);
-									}).done(function (data) {
-										if (data.status == 0) {
-											startRealEstateCreateForm($(data.result), function () {
-												realEstateFind();
-											});
-										}
-										else {
+										toggleLoadStatus(true);
+										$.ajax({
+											url: '/real_estates/_block_edit/' + $item.data('value'),
+											dataType: 'JSON'
+										}).always(function () {
+											toggleLoadStatus(false);
+										}).done(function (data) {
+											if (data.status == 0) {
+												startRealEstateCreateForm($(data.result), function () {
+													realEstateFind();
+												});
+											}
+											else {
+												errorPopup();
+											}
+										}).fail(function () {
 											errorPopup();
-										}
-									}).fail(function () {
-										errorPopup();
-									})
-								});
+										})
+									});
 
-							/*
-								/ Edit
-							*/
-
-						}
-					});
+								/*
+									/ Edit
+								*/
+							}
+							else {
+								errorPopup();
+							}
+						}).fail(function () {
+							errorPopup();
+						})
+					}
 				}
 
 			// / Init real-estate list
@@ -401,34 +435,166 @@ $(function () {
 				function startRealEstateCreateForm($form, done) {
 					var $popup = popupFull({
 						html: $form,
-						width: 'maximum'
+						width: 'maximum',
+						esc: false
 					});
 
+				  function parseFloors(stringList) {
+				    // Format
+				    stringList = stringList.replace(/[^0-9-,]/g, '');
 
-					var $tabContainer = $form.find('.tab-container');
+				    list = []
+				    $(stringList.split(',')).each(function () {
+				      // remove redundancy
+				      value = this.replace(/-.*-/, '-').split('-');
 
-					/*
-						Create tab buttons
-					*/
+				      // case: just a number
+				      if (value.length == 1) {
+				        list.push(parseInt(value));
+				      }
+				      // case: in range
+				      else {
+				        // case: full param
+				        if (value[0] && value[1]) {
+				          value[0] = parseInt(value[0]);
+				          value[1] = parseInt(value[1]);
 
-						$tabListButtons = $tabContainer.find('.tab-list ul');
-						$tabContainer.find('.tab-content').each(function () {
-							$tabListButtons.append(
-								'<li class="horizontal-item" aria-name="' + this.getAttribute('aria-name') + '">' +
-									'<a href="javascript:void(0)" aria-click="change_tab"></a>' +
-									'<a href="javascript:void(0)" aria-click="remove_tab" class="remove">&times;</a>' +
-								'</li>');
-						});
-						$tabListButtons.append(
-							'<li class="horizontal-item">' +
-								'<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>' +
-							'</li>');
+				          // exchange for correct format (increase)
+				          if (value[0] > value[1]) {
+				            temp = value[0];
+				            value[0] = value[1];
+				            value[1] = temp;
+				          }
 
-						resetTab();
+				          while (value[0] <= value[1]) {
+				            list.push(value[0]++);
+				          }
+				        }
+				        // case: one in => same a number
+				        else if (value[0]) {
+				          list.push(parseInt(value[0]));
+				        }
+				        else if (value[1]) {
+				          list.push(parseInt(value[1]));
+				        }
+				      }
+				    });
 
-					/*
-						/ Create tab buttons
-					*/
+
+
+				    return $.unique(list).sort(function (a, b) { return a - b });
+				  }
+
+					$form.find('[aria-click="price_preview"]').on('click', function () {
+						$button = $(this);
+						$row = $button.closest('.row');
+						$container = $row.closest('.tab-content');
+
+						// Get infos
+
+							price = $row.find('[aria-object="price"]').val();
+							if (!price) {
+								popupPrompt({
+									type: 'warning',
+									content: 'Vui lòng nhập giá'
+								});
+								return;
+							}
+							price = intFormat(price);
+							coefficient = $row.find('[aria-object="coefficient"]').val();
+							if (!coefficient) {
+								popupPrompt({
+									type: 'warning',
+									content: 'Vui lòng nhập hệ số'
+								});
+								return;
+							}
+							floors = $container.find('[aria-object="floors"]').val();
+							if (!floors) {
+								popupPrompt({
+									type: 'warning',
+									content: 'Vui lòng nhập vị trí/tầng'
+								});
+								return;
+							}
+							floors = parseFloors(floors);
+							label = $form.find('[aria-object="label"]').val();
+							if (!label) {
+								popupPrompt({
+									type: 'warning',
+									content: 'Vui lòng nhập mã'
+								});
+								return;
+							}
+
+
+						// / Get infos
+
+						// Replace operator
+
+							// x => *
+							coefficient = coefficient.replace(/x(?!(^{)*})/gi, '*');
+							// : => /
+							coefficient = coefficient.replace(/:(?!(^{)*})/g, '/');
+							// \D & operator => ''
+							coefficient = coefficient.replace(/[^\d\+\-\*\/\(\)\{\}](?!(^{)*})/g, '');
+							// ++ => +
+							coefficient = coefficient.replace(/\+[\+\-\*\/](?!(^{)*})/g, '+');
+							coefficient = coefficient.replace(/\-[\+\-\*\/](?!(^{)*})/g, '-');
+							coefficient = coefficient.replace(/\*[\+\-\*\/](?!(^{)*})/g, '*');
+							coefficient = coefficient.replace(/\/[\+\-\*\/](?!(^{)*})/g, '/');
+
+						// / Replace operator
+
+						// Popup
+
+							$html = $(
+								'<article class="box box-primary">' +
+									'<section class="box-header">' +
+										'<h2 class="box-title">' +
+											'Bảng giá' +
+										'</h2>' +
+									'</section>' +
+									'<section class="box-body text-center no-padding">' +
+										'<table class="table table-striped width-auto inline-block">' +
+											'<thead>' +
+												'<tr>' +
+													'<th>' +
+														'Mã' +
+													'</th>' +
+													'<th>' +
+														'Giá <small class="font-normal">' + coefficient + '</small>' +
+													'</th>' +
+												'</tr>' +
+											'</thead>' +
+											'<tbody>' +
+											'</tbody>' +
+										'</table>' +
+									'</section>' +
+								'</article>'
+							);
+
+							$tbody = $html.find('tbody');
+							$(floors).each(function () {
+								$tbody.append(
+									'<tr>' +
+										'<td>' +
+											label.replace('{f}', this) +
+										'</td>' +
+										'<td>' +
+											moneyFormat(eval(coefficient.replace(/\{f\}/g, this).replace(/\{p\}/g, price)), ',') +
+										'</td>' +
+									'</tr>'
+								)
+							});
+
+							popupFull({
+								html: $html,
+								id: 'price_preview_popup'
+							});
+
+						// / Popup
+					});
 
 					initForm($form, {
 						submit: function () {
@@ -461,81 +627,6 @@ $(function () {
 							});
 						}
 					});
-
-					/*
-						Init events tab
-					*/
-								
-						/*
-							Remove
-						*/
-
-							$tabContainer.find('.tab-list [aria-click="remove_tab"]').on('click', function () {
-								var $item = $(this).parent();
-
-								// Remove tab content
-								$tabContainer.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').remove();
-
-								// Remove button
-								$item.remove();
-
-								resetTab();
-								$tabContainer.find('.tab-list [aria-click="change_tab"]:eq(0)').click();
-							});
-
-						/*
-							/ Remove
-						*/
-
-						/*
-							Add
-						*/
-
-							// Get template contents
-							var
-								$templateTabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active'),
-								$templateTabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
-							$templateTabContent.find(':input').val('');
-							$templateTabContent.find('.money-text').text('');
-
-							$tabContainer.find('.tab-list [aria-click="add_tab"]').on('click', function () {
-								// Get contents
-								var 
-									$tabButton = $templateTabButton.clone(true),
-									$tabContent = $templateTabContent.clone(true);
-
-								// Append
-								$tabContainer.find('.tab-list li:last-child').before($tabButton);
-								$tabContainer.find('.tab-content-list').append($tabContent);
-
-								// Set new values
-								resetTab();
-								$tabButton.find('[aria-click="change_tab"]').click();
-
-								$form.find('#purpose').change();
-							});
-
-						/*
-							/ Add
-						*/
-
-						function resetTab() {
-							$tabContainer.find('.tab-list li[aria-name]').each(function (index) {
-								var $item = $(this);
-
-								if ($item.attr('aria-name') == index + 1) {
-									return;
-								}
-
-								$tabContainer.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').attr('aria-name', index + 1);
-								$item.attr('aria-name', index + 1);
-								$item.find('[aria-click="change_tab"]').text(index + 1);
-							});
-						}
-
-					/*
-						/ Tab
-					*/
 				}
 
 			// / Real-estate create form
@@ -799,7 +890,7 @@ $(function () {
 							var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 							circle.setAttribute('cx', this.x);
 							circle.setAttribute('cy', this.y);
-							circle.setAttribute('r', 5);
+							circle.setAttribute('r', 5 / scale);
 							circle.setAttribute('aria-object', 'edit_point');
 							circle.style.stroke = '#000';
 							circle.style.fill = '#fff';
@@ -1046,7 +1137,7 @@ $(function () {
 
 					function updateViewBox() {
 						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
-					}
+						$g.find('[aria-object="edit_point"]').attr('r', 5 / scale); }
 
 					function updateViewBoxWithValue(tranX, tranY, scale) {
 						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
@@ -1095,7 +1186,7 @@ $(function () {
 										circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 										circle.setAttribute('cx', pos.x);
 										circle.setAttribute('cy', pos.y);
-										circle.setAttribute('r', 5);
+										circle.setAttribute('r', 10);
 										circle.style.stroke = '#000';
 										circle.style.fill = '#fff';
 										circle.style.cursor = 'pointer';
@@ -1179,12 +1270,10 @@ $(function () {
 					image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 					image.setAttribute('width', this.width);
 					image.setAttribute('height', this.height);
-					image.setAttribute('x', $svg.width() / 2 - this.width / 2);
-					image.setAttribute('y', $svg.height() / 2 - this.height / 2);
 					image.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
 					$g.prepend(image);
-					tranX = 0;
-					tranY = 0;
+					tranX = $svg.width() / 2 - this.width / 2;
+					tranY = $svg.height() / 2 - this.height / 2;
 					scale = 1;
 					updateViewBox();
 					$g.show();
@@ -1234,6 +1323,8 @@ $(function () {
 				closeSelectDescription();
 			});
 
+			_initTabContainer($selectDescriptionPart.find('.free-style-tab-container'));
+
 			function initSelectDescription(type, id) {
 
 				// Get description objects
@@ -1245,21 +1336,21 @@ $(function () {
 							dataType: 'JSON'
 						}).done(function (data) {
 							if (data.status == 0) {
-								$selectDescriptionPart.find('#block_description_list').html(data.result).find('.item').on('click', function () {
+								var $list = $('#block_description_list');
+								$list.html(data.result).find('.item').on('click', function () {
 									$item = $(this);
 
-									$selectDescriptionPart.find('.active').removeClass('active');
-									$item.addClass('active').closest('.box').addClass('active');
-
-									$selectDescriptionPart.data('description', { type: 'block', id: $item.data('value') });
+									$list.find('.active').removeClass('active');
+									$item.addClass('active');
 								});
-							}
-							else {
-								errorPopup();
+								$('#group_description_list').find('[aria-name="block"]').show();
 							}
 						}).fail(function () {
 							errorPopup();
 						});
+					}
+					else {
+						$('#group_description_list').find('[aria-name="block"]').hide();
 					}
 
 					// Real-estates
@@ -1269,21 +1360,23 @@ $(function () {
 							dataType: 'JSON'
 						}).done(function (data) {
 							if (data.status == 0) {
-								$selectDescriptionPart.find('#real_estate_description_list').html(data.result).find('.item').on('click', function () {
+								var $list = $selectDescriptionPart.find('#real_estate_description_list');
+								$list.html(data.result).find('.item').on('click', function () {
 									$item = $(this);
 
-									$selectDescriptionPart.find('.active').removeClass('active');
-									$item.addClass('active').closest('.box').addClass('active');
-
-									$selectDescriptionPart.data('description', { type: 'real_estate', id: $item.data('value') });
+									$list.find('.tab-content .active').removeClass('active');
+									$item.addClass('active').closest('.tab-content').addClass('active');
 								});
-							}
-							else {
-								errorPopup();
+								_initTabContainer($list.find('.free-style-tab-container'));
+
+								$('#group_description_list').find('[aria-name="real_estate"]').show();
 							}
 						}).fail(function () {
 							errorPopup();
 						});
+					}
+					else {
+						$('#group_description_list').find('[aria-name="real_estate"]').hide();
 					}
 
 				// / Get description objects
@@ -1301,13 +1394,97 @@ $(function () {
 			function openSelectDescription(params) {
 				$selectDescriptionPart.addClass('open');
 
+				// Close event
+
+					$document.on('keydown.close_select_description', function (e) {
+						if (e.keyCode == 27) {
+							e.preventDefault();
+							closeSelectDescription();
+						}
+					})
+
+				// / Close event
+
 				// Save
 
 					$selectDescriptionPart.find('[aria-click="save"]').off('click').on('click', function () {
-						closeSelectDescription();
+						// Get description
+						description = {};
+						switch ($('#group_description_list [aria-name].active').attr('aria-name')) {
+							case 'block':
+								$selected = $('#block_description_list').find('.item.active');
+								if ($selected.length != 0) {
+									description.type = 'block';
+									description.id = $selected.data('value');
+									returnResult();
+								}
+								else {
+						      popupPrompt({
+						        title: 'Xác nhận',
+						        content: 'Chưa có block được chọn. Sẽ không có đối tượng được mô tả. Bạn vẫn muốn tiếp tục?',
+						        type: 'warning',
+						        buttons: [
+						          {
+						            text: 'Tiếp tục',
+						            type: 'primary',
+						            primaryButton: true,
+						            handle: function () {
+													returnResult();
+						            }
+						          },
+						          {
+						            text: 'Quay lại'
+						          }
+						        ]
+						      })
+								}
+								break;
+							case 'real_estate':
+								$selected = $('#real_estate_description_list').find('.item.active:visible');
+								if ($selected.length != 0) {
+									description.type = 'real_estate';
+									description.id = $selected.data('value');
+									returnResult();
+								}
+								else {
+						      popupPrompt({
+						        title: 'Xác nhận',
+						        content: 'Chưa có bất động sản được chọn. Sẽ không có đối tượng được mô tả. Bạn vẫn muốn tiếp tục?',
+						        type: 'warning',
+						        buttons: [
+						          {
+						            text: 'Tiếp tục',
+						            type: 'primary',
+						            primaryButton: true,
+						            handle: function () {
+													returnResult();
+						            }
+						          },
+						          {
+						            text: 'Quay lại'
+						          }
+						        ]
+						      })
+								}
+								break;
+							case 'text_image':
+								var $form = $('#text_image_description_form');
+								description.type = 'text_image';
+								description.data = $form.serialize();
+								description.preview_list = $form.find('.preview-list');
+								description.description = $form.find('[name="description"]').val();
+								returnResult();
+								break;
+							default:
+								returnResult();
+								break;
+						}
 
-						if (typeof params['save'] == 'function') {
-							params['save']($selectDescriptionPart.data('description'));
+						function returnResult() {
+							if (typeof params['save'] == 'function') {
+								params['save'](description);
+							}
+							closeSelectDescription();
 						}
 					});
 
@@ -1315,15 +1492,50 @@ $(function () {
 
 				// Set value
 
+					$form = $('<form class="form" id="text_image_description_form">' +
+	    			'<article class="form-group">' +
+	    				'<label class="control-label">' +
+	    					'Mô tả' +
+	    				'</label>' +
+	    				'<textarea class="form-control" name="description"></textarea>' +
+	    			'</article>' +
+	    			'<article class="form-group">' +
+	    				'<label class="control-label">' +
+	    					'Hình ảnh' +
+	    				'</label>' +
+	    				'<input class="file-upload" type="file" multiple name="images[]" data-amount="5" data-has_description data-has_avatar data-has_order />' +
+	    			'</article>' +
+	    		'</form>')
+					$('#text_image_description_form_container').html($form);	
+					initForm($form);
+
 					description = params['description'] || {};
 					$selectDescriptionPart.data('description', description).find('.active').removeClass('active');
 
 					switch (description['type']) {
 						case 'block':
-							$selectDescriptionPart.find('#block_description_list [data-value="' + description['id'] + '"]').addClass('active').closest('.box').addClass('active');
+							$('#group_description_list').find('[aria-name="block"] [aria-click="change_tab"]').click();
+							$('#block_description_list').find('[data-value="' + description['id'] + '"]').addClass('active').closest('.box').addClass('active');
 							break;
 						case 'real_estate':
-							$selectDescriptionPart.find('#real_estate_description_list [data-value="' + description['id'] + '"]').addClass('active').closest('.box').addClass('active');
+							$('#group_description_list').find('[aria-name="real_estate"] [aria-click="change_tab"]').click();
+							tabContentName = $('#real_estate_description_list').find('[data-value="' + description['id'] + '"]').addClass('active').closest('.tab-content').attr('aria-name');
+							$('#real_estate_description_list').find('.tab-list [aria-name="' + tabContentName + '"] [aria-click="change_tab"]').click();
+							break;
+						case 'text_image':
+							if (typeof description['preview_list'] == 'undefined') {
+								$form.find('.file-upload').attr('data-init-value', description['data']['images']).trigger('initValue');
+								$form.find('[name="description"]').val(description['data']['description']);
+							}
+							else {
+								$form.find('.preview-list').html(description['preview_list'].html());
+								$form.find('.file-upload').trigger('initItem');
+								$form.find('[name="description"]').val(description['description']);
+							}
+							$('#group_description_list').find('[aria-name="text_image"] [aria-click="change_tab"]').click();
+							break;
+						default:
+							$('#group_description_list').find('[aria-name="text_image"] [aria-click="change_tab"]').click();
 							break;
 					}
 
@@ -1343,7 +1555,7 @@ $(function () {
 				$object.on('contextmenu', function (e) {
 					e.preventDefault();
 
-					var $contextMenu = $('<article class="context-menu-container" style="top: ' + e.clientY + 'px; left: ' + e.clientX + 'px"></article>');
+					var $contextMenu = $('<article class="context-menu-container" style="top: ' + e.pageY + 'px; left: ' + e.pageX + 'px"></article>');
 					$contextMenu.html(
 						'<ul>' +
 							'<li>' +
@@ -1365,7 +1577,12 @@ $(function () {
 							openSelectDescription({
 								save: function (data) {
 									$object.data('description', data);
-									$object.css('fill', 'rgba(0, 166, 91, .3)');
+									if ($.isEmptyObject(data)) {
+										$object.css('fill', 'rgba(255, 255, 255, .3)');
+									}
+									else {
+										$object.css('fill', 'rgba(0, 166, 91, .3)');
+									}
 								},
 								description: $object.data('description')
 							});

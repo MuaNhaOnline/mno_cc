@@ -60,6 +60,9 @@ class Project < ActiveRecord::Base
     # Get params
 
     def assign_attributes_with_params params
+      # Project type
+      params[:project_type_id] = params[:detail_project_type_id].present? ? params[:detail_project_type_id].present? : params[:project_type_id]
+
       # Description
       if params[:payment_method].present?
         params[:payment_method] = ApplicationHelper.encode_plain_text params[:payment_method]
@@ -119,7 +122,7 @@ class Project < ActiveRecord::Base
           _value['is_avatar'] ||= false
 
           if _value['is_new']
-            TemporaryFile.get_file(_value['id']) do |_image, _id|
+            TemporaryFile.get_file(_value['id']) do |_image|
               _images << ProjectImage.new(image: _image, is_avatar: _value['is_avatar'], order: _value['order'], description: _value['description'])
 
               _has_avatar = true if _value['is_avatar']
@@ -149,7 +152,7 @@ class Project < ActiveRecord::Base
         if _value['is_new']
           attachment.destroy if attachment.present?
           
-          TemporaryFile.get_file(_value['id']) do |_file, _id|
+          TemporaryFile.get_file(_value['id']) do |_file|
             assign_attributes attachment: ProjectAttachment.new(attachment: _file)
           end
         end
@@ -164,7 +167,7 @@ class Project < ActiveRecord::Base
         :project_type_id, :campus_area, :width_x, :width_y, :is_draft,
         :using_ratio, :estimate_starting_date, :estimate_finishing_date,
         :starting_date, :finished_base_date, :transfer_date, :docs_issue_date,
-        :investor_id, :execute_unit, :design_unit, :manage_unit, :user_id, :date_display_type
+        :investor_id, :unit_description,:user_id, :date_display_type
       ]
     end
 

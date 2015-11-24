@@ -1,501 +1,560 @@
 class RealEstatesController < ApplicationController
-  layout 'layout_front'
-
-  def index
-  end
-
-  def demo
-  end
-
-  def list
-  end
-
-  def estimate
-  end
-
-  def category
-
-  end
-
-  # View
-    
-    # View
-    # params: id(*)
-    def view
-      begin
-        @re = RealEstate.find params[:id]
-
-        # Author
-        authorize! :view, @re
-
-        session[:real_estate_viewed] ||= []
-        unless session[:real_estate_viewed].include? params[:id]
-          @re.update(view_count: @re.view_count + 1)
-          session[:real_estate_viewed] << params[:id]
-        end
-      rescue
-        redirect_to '/'
-      end
-    end
-
-  # / View
+	layout 'layout_front'
+
+	def index
+	end
+
+	def demo
+	end
+
+	def list
+	end
+
+	def estimate
+	end
+
+	def category
+
+	end
+
+	# View
+		
+		# View
+		# params: id(*)
+		def view
+			begin
+				@re = RealEstate.find params[:id]
+
+				# Author
+				authorize! :view, @re
+
+				session[:real_estate_viewed] ||= []
+				unless session[:real_estate_viewed].include? params[:id]
+					@re.update(view_count: @re.view_count + 1)
+					session[:real_estate_viewed] << params[:id]
+				end
+			rescue
+				redirect_to '/'
+			end
+		end
+
+	# / View
+
+	# Create
+
+		# View
+		# params: id (if edit)
+		def create
+			if params.has_key? :id
+				begin
+					@re = RealEstate.find params[:id]
+				rescue
+					@re = RealEstate.new
+				end
+			else
+				@re = RealEstate.new
+			end
+			
+			# Author
+			if @re.new_record?
+				authorize! :create, RealEstate
+				@is_appraisal = params.has_key? :appraisal
+			else
+				authorize! :edit, @re
+				@is_appraisal = @re.appraisal_type != 0
+
+				if @re.user_id == 0
+					@re.params['remote_ip'] = request.remote_ip
+					@re.save
+				end
+			end
+
+			render layout: 'layout_back'
+		end  
+
+		# Handle
+		# params: real-estate form
+		def save
+			is_draft = params.has_key? :draft
+
+			if params[:real_estate][:id].blank?
+				params[:real_estate][:user_id] = signed? ? current_user.id : 0
+				real_estate = RealEstate.new
+			else 
+				real_estate = RealEstate.find(params[:real_estate][:id])
+				return render json: { status: 1 } if real_estate.nil?
+			end
+
+			unless signed?
+				params[:real_estate][:remote_ip] = request.remote_ip
+			end
+
+			result = real_estate.save_with_params(params[:real_estate], is_draft)
+
+			return render json: result if result[:status] != 0
+
+			if !signed? && params[:real_estate][:id].blank?
+				RealEstateMailer.active(real_estate).deliver_later
+			end
+
+			render json: { status: 0, result: real_estate.id }
+		end
+
+		# Handle => View
+		# params: id, secure_code
+		def active
+			result = RealEstate.active params[:id], params[:secure_code]
 
-  # Create
+			return redirect_to '/' if result[:status] != 0
 
-    # View
-    # params: id (if edit)
-    def create
-      if params.has_key? :id
-        begin
-          @re = RealEstate.find params[:id]
-        rescue
-          @re = RealEstate.new
-        end
-      else
-        @re = RealEstate.new
-      end
-      
-      # Author
-      if @re.new_record?
-        authorize! :create, RealEstate
-        @is_appraisal = params.has_key? :appraisal
-      else
-        authorize! :edit, @re
-        @is_appraisal = @re.appraisal_type != 0
+			@status = result[:result]
+			render layout: 'layout_back'
+		end
 
-        if @re.user_id == 0
-          @re.params['remote_ip'] = request.remote_ip
-          @re.save
-        end
-      end
+	# / Create
 
-      render layout: 'layout_back'
-    end  
+	# Block create
 
-    # Handle
-    # params: real-estate form
-    def save
-      is_draft = params.has_key? :draft
+		# Partial view
+		# params: block_id(*)
+		def _block_create
+			@is_create_new = params[:id].blank?
+			if @is_create_new
+				# Create
+				@block = Block.find params[:block_id]
+				@selected_group = BlockRealEstateGroup.find params[:group_id]
+				@re = RealEstate.new
+			else
+				# Edit
+				@re = RealEstate.find(params[:id])
+				@selected_group = @re.block_group
+				@block = @re.block
+			end
+
+
+			render json: { status: 0, result: render_to_string(partial: 'real_estates/block_create') }
+		end
+
+		# Handle
+		# params: real_estate form
+		def block_save
+			params[:real_estate][:user_id] = current_user.id
+
+			re = params[:real_estate][:id].blank? ? RealEstate.new : RealEstate.find(params[:real_estate][:id])
+
+			result = re.block_save_with_params params[:real_estate]
+
+			return render json: result if result[:status] != 0
+
+			render json: { status: 0, result: re.id }
+		end
+
+	# / Block create
+
+	# Block list
+
+		# Partial view
+		# params: block_id(*)
+		def _block_item_list
+			groups = BlockRealEstateGroup.where block_id: params[:block_id]
+
+			render json: {
+				status: 0,
+				result: render_to_string(partial: 'real_estates/block_item_list', locals: { groups: groups })
+			}
+		end
+
+		# Partial view
+		# params: block_id(*)
+		def _block_description_item_list
+			groups = BlockRealEstateGroup.where block_id: params[:block_id]
+
+			render json: {
+				status: 0,
+				result: render_to_string(partial: 'real_estates/block_description_item_list', locals: { groups: groups })
+			}
+		end
 
-      if params[:real_estate][:id].blank?
-        params[:real_estate][:user_id] = signed? ? current_user.id : 0
-        real_estate = RealEstate.new
-      else 
-        real_estate = RealEstate.find(params[:real_estate][:id])
-        return render json: { status: 1 } if real_estate.nil?
-      end
+	# / Block list
 
-      unless signed?
-        params[:real_estate][:remote_ip] = request.remote_ip
-      end
+	# Build interact image
 
-      result = real_estate.save_with_params(params[:real_estate], is_draft)
+		# Get values
+		# params: id(*)
+		def get_image_for_interact_build
+			# Result for request
+			images = []
+
+			# Get block's image
+			real_estate_group_images = BlockRealEstateGroupImage.where(block_real_estate_group_id: params[:id])
 
-      return render json: result if result[:status] != 0
+			# Get all info of each image
+			real_estate_group_images.each do |real_estate_group_image|
+				image = {}
 
-      if !signed? && params[:real_estate][:id].blank?
-        RealEstateMailer.active(real_estate).deliver_later
-      end
+				# Get url for display
+				image[:id] = real_estate_group_image.id
+				image[:url] = real_estate_group_image.image.url
+				image[:thumb_url] = real_estate_group_image.image.url('thumb')
 
-      render json: { status: 0, result: real_estate.id }
-    end
+				if real_estate_group_image.image_descriptions.present?
+					image[:descriptions] = []
 
-    # Handle => View
-    # params: id, secure_code
-    def active
-      result = RealEstate.active params[:id], params[:secure_code]
+					real_estate_group_image.image_descriptions.each do |image_description|
+						description = { tag_name: image_description.area_type }
 
-      return redirect_to '/' if result[:status] != 0
+						# Area info
+						case image_description.area_type
+						when 'polyline'
+							description[:points] = image_description.area_info['points']
+						else
+							next
+						end
 
-      @status = result[:result]
-      render layout: 'layout_back'
-    end
+						# Description info
+						description[:description] = { type: image_description.description_type }
+						case image_description.description_type
+						when 'text_image'
+							description[:description][:data] = {}
+							if image_description.text_description.present?
+								description[:description][:data][:description] = image_description.text_description.description
+							end
 
-  # / Create
+							if image_description.image_descriptions.present?
+								image_data = []
+								image_description.image_descriptions.each do |data|
+									image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+								end
+								description[:description][:data][:images] = image_data.to_json
+							end
+						end
 
-  # Block create
+						image[:descriptions] << description
+					end
+				end
 
-    # Partial view
-    # params: block_id(*)
-    def _block_create
-      @block = Block.find params[:block_id]
+				images << image
+			end
 
-      @re = params[:id].present? ? RealEstate.find(params[:id]) : RealEstate.new
+			render json: { status: 0, result: images }
+		end
 
-      render json: { status: 0, result: render_to_string(partial: 'real_estates/block_create') }
-    end
+		# Handle
+		# params: data(*)
+		def save_interact_images
+			render json: BlockRealEstateGroupImage.save_description(JSON.parse(params[:data]))
+		end
 
-    # Handle
-    # params: real_estate form
-    def block_save
-      params[:real_estate][:user_id] = current_user.id
+	# / Build interact image
 
-      re = params[:real_estate][:id].blank? ? RealEstate.new : RealEstate.find(params[:real_estate][:id])
+	# My list
 
-      result = re.block_save_with_params params[:real_estate]
+		# View
+		def my
+			# Author
+			authorize! :view_my, RealEstate
 
-      return render json: result if result[:status] != 0
+			@res = RealEstate.my_search_with_params interact: 'desc'
 
-      render json: { status: 0, result: re.id }
-    end
+			render layout: 'layout_back'
+		end
 
-  # / Block create
+		# Partial view
+		# params: keyword, page
+		def _my_list
+			# Author
+			return render json: { status: 6 } if cannot? :view_my, RealEstate
 
-  # Block list
+			per = Rails.application.config.item_per_page
 
-    # Partial view
-    # params: block_id(*)
-    def _block_item_list
-      per = Rails.application.config.item_per_page
+			params[:page] ||= 1
+			params[:page] = params[:page].to_i
 
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
+			res = RealEstate.my_search_with_params params
 
-      res = RealEstate.block_search_with_params params[:block_id], params
+			count = res.count
 
-      count = res.count
+			return render json: { status: 1 } if count == 0
 
-      return render json: { status: 1 } if count == 0
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/my_list', locals: { res: res.page(params[:page], per) }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+				}
+			}
+		end
 
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/block_item_list', locals: { res: res.page(params[:page], per) }),
-          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
-        }
-      }
-    end
+		def change_show_status
+			RealEstate.update_show_status params[:id], params[:is_show]
 
-    # Partial view
-    # params: block_id(*)
-    def _block_description_item_list
-      per = Rails.application.config.item_per_page
+			render json: Hash[status: 0]
+		end
 
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
+	# / My list
 
-      res = RealEstate.block_search_with_params params[:block_id], params
+	# My favorite list
 
-      count = res.count
+		# View
+		def my_favorite
+			# Author
+			authorize! :view_my_favorite, RealEstate
 
-      return render json: { status: 1 } if count == 0
+			@res = RealEstate.my_favorite_search_with_params interact: 'desc'
 
-      render json: {
-        status: 0,
-        result: render_to_string(partial: 'real_estates/block_description_item_list', locals: { res: res })
-      }
-    end
+			render layout: 'layout_back'
+		end
 
-  # / Block list
+		# Partial view
+		# params: keyword, page
+		def _my_favorite_list
+			# Author
+			return render json: { status: 6 } if cannot? :view_my_favorite, RealEstate
 
-  # My list
+			per = Rails.application.config.item_per_page
 
-    # View
-    def my
-      # Author
-      authorize! :view_my, RealEstate
+			params[:page] ||= 1
+			params[:page] = params[:page].to_i
 
-      @res = RealEstate.my_search_with_params interact: 'desc'
+			res = RealEstate.my_favorite_search_with_params params
 
-      render layout: 'layout_back'
-    end
+			count = res.count
 
-    # Partial view
-    # params: keyword, page
-    def _my_list
-      # Author
-      return render json: { status: 6 } if cannot? :view_my, RealEstate
+			return render json: { status: 1 } if count === 0
 
-      per = Rails.application.config.item_per_page
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/my_favorite_list', locals: { res: res.page(params[:page], per) }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+				}
+			}
+		end
 
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
+	# / My favorite list
 
-      res = RealEstate.my_search_with_params params
+	# Pending
 
-      count = res.count
+		# View
+		def pending
+			# Author
+			authorize! :approve, RealEstate
 
-      return render json: { status: 1 } if count == 0
+			@res = RealEstate.pending_search_with_params interact: 'desc'
 
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/my_list', locals: { res: res.page(params[:page], per) }),
-          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
-        }
-      }
-    end
+			render layout: 'layout_back'
+		end
 
-    def change_show_status
-      RealEstate.update_show_status params[:id], params[:is_show]
+		# Partial view
+		# params: keyword
+		def _pending_list
+			# Author
+			return render json: { staus: 6 } if cannot? :approve, RealEstate
 
-      render json: Hash[status: 0]
-    end
+			per = Rails.application.config.item_per_page
+			
+			params[:page] ||= 1
+			params[:page] = params[:page].to_i
 
-  # / My list
+			res = RealEstate.pending_search_with_params params
 
-  # My favorite list
+			count = res.count
 
-    # View
-    def my_favorite
-      # Author
-      authorize! :view_my_favorite, RealEstate
+			return render json: { status: 1 } if count == 0
 
-      @res = RealEstate.my_favorite_search_with_params interact: 'desc'
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/pending_list', locals: { res: res.page(params[:page], per) }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+				}
+			}
+		end
 
-      render layout: 'layout_back'
-    end
+		# Handle
+		# params: id(*)
+		def approve   
+			render json: RealEstate.update_pending_status(params[:id], 0)
+		end
 
-    # Partial view
-    # params: keyword, page
-    def _my_favorite_list
-      # Author
-      return render json: { status: 6 } if cannot? :view_my_favorite, RealEstate
+	# / Pending
 
-      per = Rails.application.config.item_per_page
+	# Manager
 
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
+		# View
+		def manager
+			# Author
+			authorize! :manage, RealEstate
 
-      res = RealEstate.my_favorite_search_with_params params
+			@res = RealEstate.manager_search_with_params interact: 'desc'
 
-      count = res.count
+			render layout: 'layout_back'
+		end
 
-      return render json: { status: 1 } if count === 0
+		# Partial view
+		# params: keyword, page
+		def _manager_list
+			# Author
+			return render json: { status: 6 } if cannot? :manage, RealEstate
 
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/my_favorite_list', locals: { res: res.page(params[:page], per) }),
-          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
-        }
-      }
-    end
+			per = Rails.application.config.item_per_page
 
-  # / My favorite list
+			params[:page] ||= 1
+			params[:page] = params[:page].to_i
 
-  # Pending
+			res = RealEstate.manager_search_with_params params
 
-    # View
-    def pending
-      # Author
-      authorize! :approve, RealEstate
+			count = res.count
 
-      @res = RealEstate.pending_search_with_params interact: 'desc'
+			return render json: { status: 1 } if count == 0
 
-      render layout: 'layout_back'
-    end
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page], per) }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+				}
+			}
+		end
 
-    # Partial view
-    # params: keyword
-    def _pending_list
-      # Author
-      return render json: { staus: 6 } if cannot? :approve, RealEstate
+		# Handle
+		# params: id, is_force_hide
+		def change_force_hide_status
+			RealEstate.update_force_hide_status params[:id], params[:is_force_hide]
 
-      per = Rails.application.config.item_per_page
-      
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
+			render json: { status: 0 }
+		end
 
-      res = RealEstate.pending_search_with_params params
 
-      count = res.count
+		# Handle
+		# params: id, is_favorite
+		def change_favorite_status
+			RealEstate.update_favorite_status params[:id], params[:is_favorite]
 
-      return render json: { status: 1 } if count == 0
+			render json: { status: 0 }
+		end
 
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/pending_list', locals: { res: res.page(params[:page], per) }),
-          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
-        }
-      }
-    end
+	# / Manager
 
-    # Handle
-    # params: id(*)
-    def approve   
-      render json: RealEstate.update_pending_status(params[:id], 0)
-    end
+	# Appraise
 
-  # / Pending
+		# View
+		def appraise
+			# Author
+			return render json: { staus: 6 } if cannot? :appraise, RealEstate
 
-  # Manager
+			@res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').order(updated_at: 'asc')
 
-    # View
-    def manager
-      # Author
-      authorize! :manage, RealEstate
+			render layout: 'layout_back'
+		end
 
-      @res = RealEstate.manager_search_with_params interact: 'desc'
+		# Partial view
+		def _appraise_list
+			# Author
+			return render json: { staus: 6 } if cannot? :appraise, RealEstate
 
-      render layout: 'layout_back'
-    end
+			per = Rails.application.config.item_per_page
 
-    # Partial view
-    # params: keyword, page
-    def _manager_list
-      # Author
-      return render json: { status: 6 } if cannot? :manage, RealEstate
+			if params[:keyword].blank?
+				res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').order(updated_at: 'asc')
+			else
+				res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').search(params[:keyword])
+			end
 
-      per = Rails.application.config.item_per_page
+			count = res.count
 
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
+			return render json: { status: 1 } if count == 0
 
-      res = RealEstate.manager_search_with_params params
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/appraise_list', locals: { res: res.page(params[:page].to_i, per) }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
+				}
+			}
+		end
 
-      count = res.count
+		# Handle
+		# params: id(*), ac_id(*)
+		def set_appraisal_company
+			result = AppraisalCompaniesRealEstate.assign params[:id], params[:ac_id]
 
-      return render json: { status: 1 } if count == 0
+			if result[:status] != 0
+				render json: result
+			else
+				render json: { status: 0 }
+			end
+		end
+		
+	# / Appraise
 
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page], per) }),
-          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
-        }
-      }
-    end
+	# Delete
 
-    # Handle
-    # params: id, is_force_hide
-    def change_force_hide_status
-      RealEstate.update_force_hide_status params[:id], params[:is_force_hide]
+		# Handle
+		# params: id(*)
+		def delete
+			result = RealEstate.delete_by_id(params[:id])
 
-      render json: { status: 0 }
-    end
+			respond_to do |format|
+				format.html { redirect_to '/' }
+				format.json { render json: result }
+			end
+		end
 
+	# / Delete
 
-    # Handle
-    # params: id, is_favorite
-    def change_favorite_status
-      RealEstate.update_favorite_status params[:id], params[:is_favorite]
+	# Search
 
-      render json: { status: 0 }
-    end
+		# Partial view
+		# params: 
+		#   per, page, price(x;y), real_estate_type, is_full, district
+		#   newest, cheapest
+		def search
+			res = RealEstate.search_with_params params
+			
+			params[:per] ||= Rails.application.config.real_estate_item_per_page
+			params[:per] = params[:per].to_i
 
-  # / Manager
+			params[:page] ||= 1
+			params[:page] = params[:page].to_i
+			
+			return render json: { status: 1 } if res.count == 0
 
-  # Appraise
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]) }),
+					pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: params[:per], page: params[:page] })
+				}
+			}
+		end
 
-    # View
-    def appraise
-      # Author
-      return render json: { staus: 6 } if cannot? :appraise, RealEstate
+	# / Search
 
-      @res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').order(updated_at: 'asc')
+	# Gallery
 
-      render layout: 'layout_back'
-    end
+		# Handle
+		# params: id
+		def get_gallery
+			images = RealEstateImage.where(real_estate_id: params[:id]).reorder('"order" asc')
 
-    # Partial view
-    def _appraise_list
-      # Author
-      return render json: { staus: 6 } if cannot? :appraise, RealEstate
+			render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url, description: image.description } } }
+		end
 
-      per = Rails.application.config.item_per_page
+	# / Gallery
 
-      if params[:keyword].blank?
-        res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').order(updated_at: 'asc')
-      else
-        res = RealEstate.where('appraisal_type <> 0 AND appraisal_price IS NULL').search(params[:keyword])
-      end
+	# Favorite
 
-      count = res.count
+		# Handle
+		# params: id, is_add
+		def user_favorite
+			if params[:is_add] == '1'
+				render json: UsersFavoriteRealEstate.add_favorite(params[:id])
+			else
+				render json: UsersFavoriteRealEstate.remove_favorite(params[:id])
+			end
+		end
 
-      return render json: { status: 1 } if count == 0
-
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/appraise_list', locals: { res: res.page(params[:page].to_i, per) }),
-          pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
-        }
-      }
-    end
-
-    # Handle
-    # params: id(*), ac_id(*)
-    def set_appraisal_company
-      result = AppraisalCompaniesRealEstate.assign params[:id], params[:ac_id]
-
-      if result[:status] != 0
-        render json: result
-      else
-        render json: { status: 0 }
-      end
-    end
-    
-  # / Appraise
-
-  # Delete
-
-    # Handle
-    # params: id(*)
-    def delete
-      result = RealEstate.delete_by_id(params[:id])
-
-      respond_to do |format|
-        format.html { redirect_to '/' }
-        format.json { render json: result }
-      end
-    end
-
-  # / Delete
-
-  # Search
-
-    # Partial view
-    # params: 
-    #   per, page, price(x;y), real_estate_type, is_full, district
-    #   newest, cheapest
-    def search
-      res = RealEstate.search_with_params params
-      
-      params[:per] ||= Rails.application.config.real_estate_item_per_page
-      params[:per] = params[:per].to_i
-
-      params[:page] ||= 1
-      params[:page] = params[:page].to_i
-      
-      return render json: { status: 1 } if res.count == 0
-
-      render json: {
-        status: 0,
-        result: {
-          list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]) }),
-          pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: params[:per], page: params[:page] })
-        }
-      }
-    end
-
-  # / Search
-
-  # Gallery
-
-    # Handle
-    # params: id
-    def get_gallery
-      images = RealEstateImage.where(real_estate_id: params[:id]).reorder('"order" asc')
-
-      render json: { status: 0, result: images.map { |image| { id: image.id, small: image.image.url(:thumb), original: image.image.url, description: image.description } } }
-    end
-
-  # / Gallery
-
-  # Favorite
-
-    # Handle
-    # params: id, is_add
-    def user_favorite
-      if params[:is_add] == '1'
-        render json: UsersFavoriteRealEstate.add_favorite(params[:id])
-      else
-        render json: UsersFavoriteRealEstate.remove_favorite(params[:id])
-      end
-    end
-
-  # / Favorite
+	# / Favorite
 
 end

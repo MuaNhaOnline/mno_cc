@@ -489,9 +489,10 @@ $(function () {
 */
 
   function moneyFormat(number, separate) {
-    if (typeof separate === 'undefined') {
+    if (typeof separate == 'undefined') {
       separate = ',';
     }
+    number = number.toString();
 
     return insertSeparate(number, separate);
   }
@@ -559,7 +560,7 @@ $(function () {
     $containers.each(function () {
       var $container = $(this);
 
-      $container.find('.tab-list [aria-click="change_tab"]').on('click', function () {
+      $first = $container.find('> .tab-list [aria-click="change_tab"]').on('click', function () {
         var $item = $(this).parent();
 
         // If inactive => return
@@ -568,12 +569,19 @@ $(function () {
         }
 
         // Remove tab inactive
-        $container.find('.tab-list li.active, .tab-content.active').removeClass('active');
+        $container.find('> .tab-list li.active, > .tab-content-list > .tab-content.active').removeClass('active');
 
         // Set select tab to active
         $item.addClass('active');
-        $container.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').addClass('active');
-      }).first().click();
+        
+        $container.find('> .tab-content-list > .tab-content[aria-name="' + $item.attr('aria-name') + '"]').addClass('active');
+      }).filter(':visible').first();
+
+      if ($first.length == 0) {
+        $first = $container.find('> .tab-list [aria-click="change_tab"]:eq(0)');
+      }
+
+      $first.click();
     });
   }
 

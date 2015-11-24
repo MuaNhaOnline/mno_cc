@@ -23,51 +23,53 @@
 			<article class="close-popup"></article>
 			<aricle class="select-description">
 
-				<!-- Block -->
+				<!-- Content -->
 
-					<article class="blocks-container box box-transparent">
-						<section class="box-header">
-							<h2 class="box-title">Danh sách block</h2>
-						</section>
-						<section class="box-body">
-						<div class="horizontal-list-container">
-							<div id="block_description_list" class="horizontal-list item-list">
-							</div>
-						</div>
-						</section>
-					</article>
+	        <article class="free-style-tab-container">
+	        	<section class="tab-list horizontal-list-container text-left">
+	        		<ul class="horizontal-list" id="group_description_list">
+	        			<li class="horizontal-item active" aria-name="block">
+	        				<a href="javascript:void(0)" aria-click="change_tab">Block</a>
+	        			</li>
+	        			<li class="horizontal-item" aria-name="real_estate">
+	        				<a href="javascript:void(0)" aria-click="change_tab">Bất động sản</a>
+	        			</li>
+	        			<li class="horizontal-item" aria-name="text_image">
+	        				<a href="javascript:void(0)" aria-click="change_tab">Mô tả <small>&amp;</small> hình ảnh</a>
+	        			</li>
+	        		</ul>
+	        	</section>
+	          <section class="tab-content-list">
 
-				<!-- Block -->
+		          <!-- Block -->
 
-				<!-- Real-estate -->
+		          	<article class="tab-content" aria-name="block">
+		          		<div class="row item-list" id="block_description_list">
+		          		</div>
+		          	</article>
 
-					<article class="blocks-container box box-transparent">
-						<section class="box-header">
-							<h2 class="box-title">Danh sách loại bất động sản</h2>
-						</section>
-						<section class="box-body">
-						<div class="horizontal-list-container text-left">
-							<div id="real_estate_description_list" class="horizontal-list item-list">
-							</div>
-						</div>
-						</section>
-					</article>
+		          <!-- / Block -->
 
-				<!-- Real-estate -->
+		          <!-- Real-estate -->
 
-				<!-- Text -->
+		          	<article class="tab-content" aria-name="real_estate">
+		          		<div class="row item-list" id="real_estate_description_list">
+		          		</div>
+		          	</article>
 
-					<article class="blocks-container box box-transparent">
-						<section class="box-header">
-							<h2 class="box-title">Chú thích</h2>
-						</section>
-						<section class="box-body">
-						<div class="horizontal-list-container">
-						</div>
-						</section>
-					</article>
+		          <!-- / Real-estate -->
 
-				<!-- Text -->
+		          <!-- Image & text -->
+
+		          	<article class="tab-content" aria-name="text_image" id="text_image_description_form_container">
+		          	</article>
+
+		          <!-- / Image & text -->
+
+	          </section>
+	        </article>
+
+				<!-- / Content -->
 
 				<!-- Button -->
 
@@ -117,14 +119,14 @@
 		<!-- Project -->
 
 			<section class="margin-bottom-15 text-right">
-				<a aria-click="project_image_interact" class="btn btn-flat btn-default">Thiết lập hình ảnh dự án</a>
+				<a aria-click="project_image_interact" class="btn btn-flat btn-default"><span class="fa fa-picture-o fa-lg"></span> Thiết lập hình ảnh dự án</a>
 			</section>
 
 		<!-- / Project -->
 
 		<!-- Block -->
 
-			<article class="blocks-container box box-default">
+			<article class="blocks-container box box-primary">
 
 				<section class="box-header">
 					<h2 class="box-title">Các block trong dự án <%= @project.project_name %></h2>
@@ -141,15 +143,13 @@
 				</section>
 				<article class="real-estate-container">
 					<section class="box-header">
-						<h2 class="box-title">Danh sách loại bất động sản</h2>
+						<h2 class="box-title" id="selected_block_name"></h2>
 						<div class="box-tools pull-right">
 				      <button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
 				    </div>
 					</section>
 					<section class="box-body">
-						<section id="real_estate_list" class="item-list row">
-						</section>
-						<section id="real_estate_pagination" class="text-center">
+						<section id="real_estate_list">
 						</section>
 					</section>
 				</article>
@@ -157,24 +157,13 @@
 
 		<!-- / Block -->
 
-		<!-- Real-estate -->
+		<!-- Finish -->
 
-			<!-- <article class="real-estate-container box">
-				<section class="box-header">
-					<h2 class="box-title">Danh sách loại bất động sản</h2>
-					<div class="box-tools pull-right">
-			      <button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
-			    </div>
-				</section>
-				<section class="box-body">
-					<section id="real_estate_list" class="item-list row">
-					</section>
-					<section id="real_estate_pagination" class="text-center">
-					</section>
-				</section>
-			</article> -->
+			<section class="text-center">
+				<a class="btn btn-primary" aria-click="build_finish">Hoàn tất</a>
+			</section>
 
-		<!-- / Real-estate -->
+		<!-- / Finish -->
 
 	</div>
 

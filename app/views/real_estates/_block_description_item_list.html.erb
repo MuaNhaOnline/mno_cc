@@ -1,17 +1,36 @@
-<% res.each do |re| %>
-  <a href="javascript:void(0)" class="horizontal-item item margin-left-right-10 width-250" data-value="<%= re.id %>">
-    <section class="top">
-      <%= real_estate_avatar re %>
-      <section class="left">
-        <article class="node">
-          <span><b><%= re.label %></b></span>
-        </article>
-      </section>
-    </section>
-    <section class="bottom">
-      <p class="title">
-        <%= re.title %>
-      </p>
-    </section>
-  </a>
-<% end %>
+<article class="free-style-tab-container">
+  <section class="tab-list horizontal-list-container text-left">
+    <ul class="horizontal-list">
+      <% groups.each do |group| %>
+        <li class="horizontal-item" aria-name="group_<%= group.id %>">
+          <a href="javascript:void(0)" aria-click="change_tab"><%= group.name %></a>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+  <section class="tab-content-list">
+    <% groups.each do |group| %>
+      <article class="tab-content row item-list" aria-name="group_<%= group.id %>">
+        <% group.real_estates.each do |re| %>
+          <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+            <article class="item" data-value="<%= re.id %>">
+              <section class="top">
+                <%= real_estate_avatar re %>
+                <section class="left">
+                  <article class="node">
+                    <span><b><%= re.label %></b></span>
+                  </article>
+                </section>
+              </section>
+              <section class="bottom">
+                <p class="title">
+                  <%= re.title %>
+                </p>
+              </section>
+            </article>
+          </article>
+        <% end %>
+      </article>
+    <% end %>
+  </section>
+</article>

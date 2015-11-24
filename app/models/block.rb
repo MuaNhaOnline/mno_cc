@@ -3,8 +3,11 @@ class Block < ActiveRecord::Base
 	# Associations
   
 		belongs_to :project
+    belongs_to :block_type
 
-  	has_many :images, class_name: 'BlockImage'
+  	has_many :images, class_name: 'BlockImage', autosave: true
+  	has_many :floors, class_name: 'BlockFloor', autosave: true
+  	has_many :real_estate_groups, class_name: 'BlockRealEstateGroup', autosave: true
 
 	# / Associations
 
@@ -34,6 +37,9 @@ class Block < ActiveRecord::Base
 
 			def assign_attributes_with_params params
 
+	      # Block type
+	      params[:block_type_id] = params[:detail_block_type_id].present? ? params[:detail_block_type_id] : params[:block_type_id]
+
 		    # Images
 		    _images = []
 		    _has_avatar = false
@@ -52,8 +58,7 @@ class Block < ActiveRecord::Base
 		          _image = BlockImage.find _value['id']
 		          _image.description = _value['description']
 		          _image.is_avatar = _value['is_avatar']
-              _image.order = _value['order']
-		          _image.save if _image.changed?          
+              _image.order = _value['order']         
 
 		          _has_avatar = true if _value['is_avatar']
 
@@ -66,7 +71,85 @@ class Block < ActiveRecord::Base
 		    end
 		    assign_attributes images: _images
 
-				assign_attributes params.permit [:name, :description, :project_id]
+		    # Floor
+
+			    _floor_params = params[:floor]
+			    _floors = []
+
+			    _floor_params.each_value do |_value_params|
+			    	_floor = _value_params[:id].present? ? BlockFloor.find(_value_params[:id]) : BlockFloor.new
+
+			    	_floor.floors_text = _value_params[:floors_text]
+			    	_floor.name = _value_params[:name]
+			    	_floor.description = _value_params[:description]
+
+			    	_value_params[:surface] = JSON.parse _value_params[:surface]
+			    	if _value_params[:surface]['is_new']
+				    	TemporaryFile.get_file(_value_params[:surface]['id']) do |_image|
+					    	_floor.surface = _image
+					    end
+				   	end
+
+				    _floors << _floor
+			    end
+
+		    	assign_attributes floors: _floors
+
+			  # / Floor
+
+			  # Real-estate group
+
+			  	_group_params = params[:group]
+			  	_groups = []
+
+			  	_group_params.each_value do |_value_params|
+			  		_group = _value_params[:id].present? ? BlockRealEstateGroup.find(_value_params[:id]) : BlockRealEstateGroup.new
+			  		
+			  		_group.name = _value_params[:name]
+			  		_group.bedroom_number = ApplicationHelper.format_i _value_params[:bedroom_number] if _value_params[:bedroom_number].present?
+			  		_group.area = ApplicationHelper.format_f _value_params[:area] if _value_params[:area].present?
+			  		_group.real_estate_type_id = _value_params[:real_estate_type_id] if _value_params[:area].present?
+			  		_group.description = _value_params[:description] if _value_params[:description].present?
+
+				    # Images
+				    _images = []
+				    _has_avatar = false
+				    if _value_params[:images].present?
+				      _value_params[:images].each do |_v|
+				        _value = JSON.parse _v
+				        _value['is_avatar'] ||= false
+
+				        if _value['is_new']
+				          TemporaryFile.get_file(_value['id']) do |_image|
+				            _images << BlockRealEstateGroupImage.new(image: _image, is_avatar: _value['is_avatar'], order: _value['order'], description: _value['description'])
+
+				            _has_avatar = true if _value['is_avatar']
+				          end
+				        else
+				          _image = BlockRealEstateGroupImage.find _value['id']
+				          _image.description = _value['description']
+				          _image.is_avatar = _value['is_avatar']
+		              _image.order = _value['order']         
+
+				          _has_avatar = true if _value['is_avatar']
+
+				          _images << _image
+				        end
+				      end
+				    end
+				    if !_has_avatar && _images.length != 0
+				      _images[0].assign_attributes is_avatar: true
+				    end
+				    _group.images = _images
+
+				    _groups << _group
+			  	end
+
+		    	assign_attributes real_estate_groups: _groups
+
+			  # / Real-estate group
+
+				assign_attributes params.permit [:name, :block_type_id, :description, :project_id]
 			end
 
 		# / Assign with params

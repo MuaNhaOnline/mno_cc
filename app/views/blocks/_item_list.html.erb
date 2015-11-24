@@ -6,13 +6,22 @@
 %>
 
 <% blocks.each do |block| %>
-	<article class="item horizontal-item width-250" data-value="<%= block.id %>">
+	<% 
+		groups = []
+		block.real_estate_groups.each do |g|
+			groups << {
+				id: g.id,
+				name: g.name
+			}
+		end
+	%>
+	<article class="item horizontal-item width-250" data-value="<%= block.id %>" data-groups="<%= groups.to_json %>">
 		<section class="top">
 			<a href="javascript:void(0)" aria-click="select_block">
 				<%= block_avatar block %>
 			</a>
 			<section class="left">
-				<article class="node font-bold">
+				<article class="node font-bold" aria-object="name">
 					<%= block.name %>
 				</article>
 			</section>

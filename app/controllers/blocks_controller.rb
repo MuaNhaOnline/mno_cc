@@ -95,6 +95,19 @@ class BlocksController < ApplicationController
 							description[:description][:id] = image_description.block_description.block_id
 						when 'real_estate'
 							description[:description][:id] = image_description.real_estate_description.real_estate_id
+						when 'text_image'
+							description[:description][:data] = {}
+							if image_description.text_description.present?
+								description[:description][:data][:description] = image_description.text_description.description
+							end
+
+							if image_description.image_descriptions.present?
+								image_data = []
+								image_description.image_descriptions.each do |data|
+									image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+								end
+								description[:description][:data][:images] = image_data.to_json
+							end
 						end
 
 						image[:descriptions] << description

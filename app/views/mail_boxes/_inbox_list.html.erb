@@ -5,7 +5,7 @@
 %>
 
 <% mails.each do |m| %>
-  <tr class="pointer-cursor" data-value="<%= m.id %>">
+  <tr class="cursor-pointer" data-value="<%= m.id %>">
     <td class="min-width-cell"><input type="checkbox" /></td>
     <td class="mailbox-name min-width-cell"><%= m.from.full_name %></td>
     <td class="mailbox-subject"><%= m.subject %></td>

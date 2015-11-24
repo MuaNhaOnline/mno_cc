@@ -53,6 +53,10 @@
   background-color: #fafafa;
 }
 
+.width-auto {
+  width: auto !important;
+}
+
 .width-250 {
   width: 250px !important;
 }
@@ -145,7 +149,7 @@
   white-space: nowrap;
 }
 
-.pointer-cursor {
+.cursor-pointer {
   cursor: pointer;
 }
 
@@ -174,6 +178,24 @@ table + div {
 a {
   cursor: pointer;
 }
+
+.flex {
+  display: flex;
+  dispaly: -webkit-flex;
+  dispaly: -ms-flexbox;
+}
+
+  .flex.flex-inline {
+    display: inline-flex;
+    dispaly: -webkit-inline-flex;
+    dispaly: -ms-inline-flexbox;
+  }
+
+  .flex.flex-column {
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+  }
 
 /*
   / Custom layout
@@ -705,7 +727,6 @@ body.no-scroll {
         list-style: none;
         padding: 0;
         margin: 0;
-        word-spacing: -4px;
       }
   
       .tab-container .tab-list li {
@@ -765,6 +786,70 @@ body.no-scroll {
 
 /*
   / Tab container
+*/
+
+/*
+  Tab container (Free style)
+*/
+  
+  .free-style-tab-container {
+    
+  }
+  
+    .free-style-tab-container .tab-list {
+      margin-bottom: 10px;
+    }
+  
+      .free-style-tab-container .tab-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+  
+      .free-style-tab-container .tab-list li {
+        display: inline-block;
+      }
+  
+        .free-style-tab-container .tab-list li.active {
+
+        }
+  
+      .free-style-tab-container .tab-list a {
+        display: inline-block;
+        padding: 3px 10px 0px 10px;
+        line-height: 25px;
+        color: #555;
+        font-size: 18px;
+      }
+    
+        .free-style-tab-container .tab-list li.active a {
+          color: #333;
+          border-bottom: 3px solid #3c8dbc;
+        }
+  
+        .free-style-tab-container .tab-list a:hover {
+          color: #3c8dbc;
+        }
+  
+        .free-style-tab-container .tab-list li:not(.active) a.remove {
+          display: none;
+        }
+  
+    .free-style-tab-container .tab-content-list {
+      background-color: #fff;
+    }
+  
+      .free-style-tab-container .tab-content-list .tab-content {
+        padding: 10px;
+        display: none;
+      }
+  
+        .free-style-tab-container .tab-content-list .tab-content.active {
+          display: block;
+        }
+
+/*
+  / Tab container (Free style)
 */
 
 /*

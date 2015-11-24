@@ -6,14 +6,16 @@
 %>
 
 <% blocks.each do |block| %>
-	<a href="javascript:void(0)" class="item horizontal-item margin-left-right-10" data-value="<%= block.id %>">
-		<section class="top">
-			<%= block_avatar block %>
-			<section class="left">
-				<article class="node font-bold">
-					<%= block.name %>
-				</article>
+  <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+		<a href="javascript:void(0)" class="item" data-value="<%= block.id %>">
+			<section class="top">
+				<%= block_avatar block %>
+				<section class="left">
+					<article class="node font-bold">
+						<%= block.name %>
+					</article>
+				</section>
 			</section>
-		</section>
-	</a>
+		</a>
+	</article>
 <% end %>

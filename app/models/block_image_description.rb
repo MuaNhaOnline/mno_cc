@@ -8,11 +8,11 @@ class BlockImageDescription < ActiveRecord::Base
 
 	# Associations
 
-		# has_one :text_description, class_name: 'BlockImageTextDescription'
+		has_one :text_description, class_name: 'BlockImageTextDescription'
 		has_one :real_estate_description, class_name: 'BlockImageRealEstateDescription'
 		has_one :block_description, class_name: 'BlockImageBlockDescription'
 
-		# has_many :image_descriptions, class_name: 'BlockImageImageDescription'
+		has_many :image_descriptions, class_name: 'BlockImageImageDescription'
 
 	# / Associations
 

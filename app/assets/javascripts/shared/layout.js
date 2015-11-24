@@ -26,7 +26,7 @@ $(function () {
     });
   });
 
-  _initHorizontalListScroll($('.horizontal-list-container'))
+  _initHorizontalListScroll($('.horizontal-list-container'));
 });
 
 /*

@@ -54,6 +54,27 @@ class ProjectsController < ApplicationController
     	render layout: 'layout_back'
     end
 
+    # Handle => View
+    # params: id(*), is_full(*)
+    def set_is_full_status
+      is_full = params[:is_full] == '1'
+      Project.where(id: params[:id]).update_all(is_full: is_full, is_draft: is_full)
+
+      if is_full
+        redirect_to "/projects/create_details/#{params[:id]}"
+      else
+        redirect_to '/projects/my'
+      end
+    end
+
+    # Handle => View
+    # params: id(*), is_full(*)
+    def set_finished_status
+      Project.where(id: params[:id]).update_all(is_draft: false)
+
+      redirect_to "/projects/my"
+    end
+
     # Handle
     # params: project form
     def save
@@ -125,6 +146,19 @@ class ProjectsController < ApplicationController
             case image_description.description_type
             when 'block'
               description[:description][:id] = image_description.block_description.block_id
+            when 'text_image'
+              description[:description][:data] = {}
+              if image_description.text_description.present?
+                description[:description][:data][:description] = image_description.text_description.description
+              end
+
+              if image_description.image_descriptions.present?
+                image_data = []
+                image_description.image_descriptions.each do |data|
+                  image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+                end
+                description[:description][:data][:images] = image_data.to_json
+              end
             end
 
             image[:descriptions] << description

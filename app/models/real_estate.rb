@@ -31,6 +31,8 @@ class RealEstate < ActiveRecord::Base
     belongs_to :planning_status_type
     belongs_to :constructional_level
     belongs_to :direction
+    belongs_to :block
+    belongs_to :block_group, class_name: 'BlockRealEstateGroup', foreign_key: 'block_real_estate_group_id'
 
     has_many :images, class_name: 'RealEstateImage'
     has_many :appraisal_companies_real_estates
@@ -313,7 +315,7 @@ class RealEstate < ActiveRecord::Base
             _value['is_avatar'] ||= false
 
             if _value['is_new']
-              TemporaryFile.get_file(_value['id']) do |_image, _id|
+              TemporaryFile.get_file(_value['id']) do |_image|
                 _images << RealEstateImage.new(image: _image, is_avatar: _value['is_avatar'], order: _value['order'], description: _value['description'])
 
                 _has_avatar = true if _value['is_avatar']
@@ -405,14 +407,14 @@ class RealEstate < ActiveRecord::Base
 
           _floor_infos_text = []
 
-          (0...params[:floors].count).each do |i|
+          params[:floors].each_value do |_value_params|
             _hash = {}
 
-            _hash['floors'] = params[:floors][i] if params[:floors].present?
-            _hash['sell_price'] = ApplicationHelper.format_i(params[:sell_price][i]) if params[:sell_price].present?
-            _hash['sell_floor_coefficient'] = params[:sell_floor_coefficient][i] if params[:sell_floor_coefficient].present?
-            _hash['rent_price'] = ApplicationHelper.format_i(params[:rent_price][i]) if params[:rent_price].present?
-            _hash['rent_floor_coefficient'] = params[:rent_floor_coefficient][i] if params[:rent_floor_coefficient].present?
+            _hash['floors'] = _value_params[:floors] if _value_params[:floors].present?
+            _hash['sell_price'] = ApplicationHelper.format_i(_value_params[:sell_price]) if _value_params[:sell_price].present?
+            _hash['sell_floor_coefficient'] = _value_params[:sell_floor_coefficient] if _value_params[:sell_floor_coefficient].present?
+            _hash['rent_price'] = ApplicationHelper.format_i(_value_params[:rent_price]) if _value_params[:rent_price].present?
+            _hash['rent_floor_coefficient'] = _value_params[:rent_floor_coefficient] if _value_params[:rent_floor_coefficient].present?
 
             _floor_infos_text << _hash
           end
@@ -422,7 +424,7 @@ class RealEstate < ActiveRecord::Base
         # / Floor infos
 
         assign_attributes params.permit [
-          :label, :block_id
+          :label, :block_id, :block_real_estate_group_id
         ]
 
       end

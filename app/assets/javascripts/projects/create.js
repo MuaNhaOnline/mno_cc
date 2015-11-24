@@ -21,8 +21,26 @@ $(function () {
         $form.submitStatus(false);
       }).done(function (data) {
         if (data.status == 0) {
-          window.location = '/projects/my';
-          // window.location = '/projects/create_details/' + data.result;
+          popupPrompt({
+            title: _t.form.success_title,
+            content: 'Chúc mừng, bạn đã đăng dự án thành công, nếu đăng chi tiết, bạn có thể xây dựng dự án rõ ràng hơn. Bạn có muốn tiếp tục đăng chi tiết hay không?',
+            type: 'success',
+            esc: false,
+            buttons: [
+              {
+                text: 'Chi tiết',
+                type: 'primary',
+                handle: function () {
+                  window.location = '/projects/set_is_full_status/' + data.result + '/1';
+                }
+              }, {
+                text: 'Không',
+                handle: function () {
+                  window.location = '/projects/set_is_full_status/' + data.result + '/0';
+                }
+              }
+            ]
+          })
         }
         else {
           popupPrompt({

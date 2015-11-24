@@ -3,6 +3,8 @@
 
 	# params: @block, @re
 
+	general_type = @block.block_type.present? ? (@block.block_type.options['parent'] || @block.block_type.name) : (@block.project.project_type.options['parent'] || @block.project.project_type.name)
+
   # Unit options
   sell_unit_options = rent_unit_options = ''
   Unit.get_options.each do |u|
@@ -40,17 +42,29 @@
 		</section>
 		<section class="box-body bg-light-gray">
 
-			<!-- Id -->
+			<% if @is_create_new %>
 
-				<input type="hidden" name="real_estate[id]" value="<%= @re.id %>" />
+				<!-- Block -->
 
-			<!-- / Id -->
+					<input type="hidden" name="real_estate[block][block_id]" value="<%= @block.id %>" />
 
-			<!-- Project -->
+				<!-- / Block -->
 
-				<input type="hidden" name="real_estate[block][block_id]" value="<%= @block.id %>" />
+				<!-- Group -->
 
-			<!-- Project -->
+					<input type="hidden" name="real_estate[block][block_real_estate_group_id]" value="<%= @selected_group.id %>" />
+
+				<!-- / Group -->
+
+			<% else %>
+
+				<!-- Id -->
+
+					<input type="hidden" name="real_estate[id]" value="<%= @re.id %>" />
+
+				<!-- / Id -->
+
+			<% end %>
 
 			<div class="row">
 				<div class="col-md-6">
@@ -64,7 +78,7 @@
 									Mã
 									<sup class="required-label"></sup>
 								</label>
-								<input class="form-control" name="real_estate[block][label]" id="label" value="<%= @re.label %>" />
+								<input class="form-control" name="real_estate[block][label]" id="label" value="<%= @re.label %>" aria-object="label" />
 							</article>
 
 						<!-- / Label -->
@@ -83,47 +97,51 @@
 
 					</div>
 
+					<!-- Real-estate type -->
+
+						<% if (@block.block_type.present? ? @block.block_type.name : @block.project.project_type.name) == 'adjacent_house' %>
+
+		          <article class="form-group">
+		            <label class="control-label" for="real_estate_type">
+		              Loại bất động sản
+		              <sup class="required-label"></sup>
+		            </label>
+		            <select class="form-control" name="real_estate[real_estate_type_id]" id="real_estate_type">
+		            	<option value hidden>Chọn loại</option>
+		            	<% RealEstateType.where('code LIKE \'%|house|%\'').each do |t| %>
+		            		<option value="<%= t.id %>"><%= t 'real_estate_type.text.' + t.name %></option>
+		            	<% end %>
+		            </select>
+		          </article>
+
+						<% end %>
+
+					<!-- / Real-estate type -->
+
 					<!-- Area -->
 
-						<div class="row">
-
-							<!-- Using area -->
-
-			          <article class="form-group col-ss-6">
-			            <label class="control-label" for="using_area">
-			              Diện tích sử dụng
-			              <sup class="required-label"></sup>
-			            </label>
-			            <div class="input-group">
-			              <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[using_area]" id="using_area" value="<%= @re.using_area %>" />
-			              <div class="input-group-addon">m<sup>2</sup></div>
-			            </div>
-			          </article>
-
-							<!-- / Using area -->
-
-							<!-- Garden area -->
-
-			          <article class="form-group col-ss-6">
-			            <label class="control-label" for="garden_area">
-			              Diện tích vườn
-			              <sup class="required-label"></sup>
-			            </label>
-			            <div class="input-group">
-			              <input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[garden_area]" id="garden_area" value="<%= @re.garden_area %>" />
-			              <div class="input-group-addon">m<sup>2</sup></div>
-			            </div>
-			          </article>
-
-							<!-- / Garden area -->
-
-						</div>
+	          <article class="form-group">
+	            <label class="control-label" for="campus_area">
+	              Diện tích
+	            	<% unless @selected_group.area.present? %>
+	              	<sup class="required-label"></sup>
+	              <% end %>
+	            </label>
+	            <div class="input-group">
+	            	<% if @selected_group.area.present? %>
+	              	<input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[campus_area]" id="campus_area" value="<%= @selected_group.area %>" readonly="true" />
+	              <% else %>
+	              	<input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="real_estate[campus_area]" id="campus_area" value="<%= @re.campus_area %>" />
+	              <% end %>
+	              <div class="input-group-addon">m<sup>2</sup></div>
+	            </div>
+	          </article>
 
 					<!-- / Area -->
 
 	        <!-- Width -->
 
-	        <div class="row">
+	        <!-- <div class="row">
 	          <article class="form-group col-ss-6">
 	            <label class="control-label" for="width_x">
 	              Chiều ngang
@@ -143,49 +161,90 @@
 	              <div class="input-group-addon">m</div>
 	            </div>
 	          </article>
-	        </div>
+	        </div> -->
 
 	        <!-- / Width -->
 
-		      <!-- Num of rooms -->
+	      	<% if ['apartment', 'complex_apartment', 'adjacent_house'].include? general_type %>
 
 			      <div class="row">
-			        <article class="form-group col-ss-6">
-			          <label class="control-label" for="bedroom_number">
-			            Phòng ngủ
-			            <sup class="required-label"></sup>
-			          </label>
-			          <select data-constraint="required" class="form-control" name="real_estate[bedroom_number]" id="bedroom_number">
-			            <option value hidden>Chọn số lượng</option>
-			            <option <%= 'selected' if @re.bedroom_number == 0 %> value="0">0</option>
-			            <option <%= 'selected' if @re.bedroom_number == 1 %> value="1">1</option>
-			            <option <%= 'selected' if @re.bedroom_number == 2 %> value="2">2</option>
-			            <option <%= 'selected' if @re.bedroom_number == 3 %> value="3">3</option>
-			            <option <%= 'selected' if @re.bedroom_number == 4 %> value="4">Hơn 4</option>
-			          </select>
-			        </article>
-			        <article class="form-group col-ss-6">
-			          <label class="control-label" for="restroom_number">
-			            Phòng vệ sinh
-			            <sup class="required-label"></sup>
-			          </label>
-			          <select data-constraint="required" class="form-control" name="real_estate[restroom_number]" id="restroom_number">
-			            <option value hidden>Chọn số lượng</option>
-			            <option <%= 'selected' if @re.restroom_number == 0 %> value="0">0</option>
-			            <option <%= 'selected' if @re.restroom_number == 1 %> value="1">1</option>
-			            <option <%= 'selected' if @re.restroom_number == 2 %> value="2">2</option>
-			            <option <%= 'selected' if @re.restroom_number == 3 %> value="3">3</option>
-			            <option <%= 'selected' if @re.restroom_number == 4 %> value="4">Hơn 4</option>
-			          </select>
-			        </article>
+
+		     			<!-- Num of rooms -->
+
+				        <article class="form-group col-ss-4">
+				          <label class="control-label" for="bedroom_number">
+				            Phòng ngủ
+			            	<% unless @selected_group.bedroom_number.present? %>
+					            <sup class="required-label"></sup>
+				           	<% end %>
+				          </label>
+			            <div class="input-group">
+			            	<% if @selected_group.bedroom_number.present? %>
+				          		<input data-constraint="required integer" class="form-control" name="real_estate[bedroom_number]" id="bedroom_number" value="<%= @selected_group.bedroom_number %>" readonly="true" />
+			              <% else %>
+				          		<input data-constraint="required integer" class="form-control" name="real_estate[bedroom_number]" id="bedroom_number" value="<%= @re.bedroom_number %>" />
+			              <% end %>
+			              <div class="input-group-addon">phòng</div>
+			            </div>
+				        </article>
+				        <article class="form-group col-ss-4">
+				          <label class="control-label" for="restroom_number">
+				            Phòng vệ sinh
+				            <sup class="required-label"></sup>
+				          </label>
+			            <div class="input-group">
+				          	<input data-constraint="required integer" class="form-control" name="real_estate[restroom_number]" id="restroom_number" value="<%= @re.restroom_number %>" />
+			              <div class="input-group-addon">phòng</div>
+			            </div>
+				        </article>
+				    
+	      			<!-- / Num of rooms -->
+
+	            <!-- Direction -->
+
+		            <article class="form-group col-ss-4" data-toggled-element="un-land house apartment space">
+		              <label class="control-label" for="direction_id">
+		                Hướng
+		              </label>
+	                <select data-constraint="required" class="form-control" name="real_estate[direction_id]" id="direction_id">
+	                  <% Direction.get_options.each do |d| %>
+	                    <option <%= 'selected' if @re.direction_id.blank? ? d.options.has_key?('default') : d.id == @re.direction_id %> value="<%= d.id %>"><%= t 'direction.text.' + d.name %></option>
+	                  <% end %>
+	                </select>
+		            </article>
+
+	            <!-- / Direction -->
+
 			      </div>
 
-		      <!-- / Num of rooms -->
+		   		<% end %>
+
+		   		<article class="form-group">
+		   			<label class="control-label" for="description">
+		   				Mô tả
+		   			</label>
+          	<textarea class="form-control" name="real_estate[description]" id="description" aria-input-type="editor"><%= @re.description %></textarea>
+		   		</article>
 
 				</div>
 				<div class="col-md-6">
 
 	        <!-- Purpose -->
+	        	<% 
+	        		# Default
+	        		default_purpose_name = ''
+	        		if !@re.new_record? && @re.purpose.present?
+	        			default_purpose_name = @re.purpose.name
+	        		else
+	        			if general_type == 'office'
+	        				default_purpose_name = 'rent'
+	        			else
+	        				default_purpose_name = 'sell'
+	        			end
+	        		end
+
+
+	        	%>
 	          
 	          <article class="form-group">
 	            <label class="control-label" for="purpose">
@@ -195,7 +254,7 @@
 	            <select data-constraint="required" name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose">
 	              <option data-off="sell rent" value hidden>Chọn mục đích</option>
 	              <% Purpose.get_options.each do |p| %>
-	                <option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
+	                <option value="<%= p.id %>" <%= 'selected' if p.name == default_purpose_name %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
 	              <% end %>
 	            </select>
 	          </article>
@@ -228,7 +287,7 @@
 
 	        <!-- / Unit -->
 
-	        <article class="tab-container">
+	        <article class="tab-container input" data-relative_inputs="real_estate[purpose_id]">
 	        	<section class="tab-list horizontal-list-container text-left">
 	        		<ul class="horizontal-list">
 	        		</ul>
@@ -243,10 +302,14 @@
 
 										<article class="form-group">
 											<label class="control-label">
-												Tại tầng
+												<% if ['apartment', 'complex_apartment', 'office'].include? general_type %>
+													Các tầng
+												<% else %>
+													Các vị trí
+												<% end %>
 			              		<sup class="required-label"></sup>
 											</label>
-											<input data-constraint="required" name="real_estate[block][floors][]" class="form-control" />
+											<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" class="form-control" />
 										</article>
 
 									<!-- / Floors -->
@@ -255,20 +318,21 @@
 
 				          	<div class="row" data-toggled-element="sell un-rent">
 
-					            <article class="form-group col-md-6">
+					            <article class="form-group col-ss-4">
 					              <label class="control-label">
 					              	Giá bán
 			              			<sup class="required-label"></sup>
 				              	</label>
-				                <input data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][sell_price][]" class="form-control separate-number read-money">
+				                <input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][floors][tab_name][sell_price]" class="form-control separate-number read-money">
 					              <section class="money-text font-size-12"></section>
 					            </article>
 
-											<article class="form-group col-md-6">
+											<article class="form-group col-ss-8">
 												<label class="control-label">
 													Hệ số giá
 												</label>
-												<input name="real_estate[block][sell_floor_coefficient][]" value="" class="form-control" />
+												<a class="small pull-right text-muted" aria-click="price_preview">Xem trước</a>
+												<input aria-object="coefficient" name="real_estate[block][floors][tab_name][sell_floor_coefficient]" value="" class="form-control" />
 											</article>
 
 				          	</div>
@@ -279,20 +343,21 @@
 
 				          	<div class="row" data-toggled-element="rent un-sell">
 
-					            <article class="form-group col-md-6">
+					            <article class="form-group col-ss-4">
 					              <label class="control-label">
 					              	Giá cho thuê
 			              			<sup class="required-label"></sup>
 				              	</label>
-				                <input data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][rent_price][]" class="form-control separate-number read-money">
+				                <input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][floors][tab_name][rent_price]" class="form-control separate-number read-money">
 					              <section class="money-text font-size-12"></section>
 					            </article>
 
-											<article class="form-group col-md-6">
+											<article class="form-group col-ss-8">
 												<label class="control-label">
 													Hệ số giá
 												</label>
-												<input name="real_estate[block][rent_floor_coefficient][]" class="form-control" />
+												<a class="small pull-right text-muted" aria-click="price_preview">Xem trước</a>
+												<input aria-object="coefficient" name="real_estate[block][floors][tab_name][rent_floor_coefficient]" class="form-control" />
 											</article>
 
 				          	</div>
@@ -311,10 +376,14 @@
 
 											<article class="form-group">
 												<label class="control-label">
-													Tại tầng
+													<% if ['adjacent_house', 'landl'].include? general_type %>
+														Các vị trí
+													<% else %>
+														Các tầng
+													<% end %>
 				              		<sup class="required-label"></sup>
 												</label>
-												<input data-constraint="required" name="real_estate[block][floors][]" value="<%= info['floors'] %>" class="form-control" />
+												<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" value="<%= info['floors'] %>" class="form-control" />
 											</article>
 
 										<!-- / Floors -->
@@ -323,20 +392,21 @@
 
 					          	<div class="row" data-toggled-element="sell un-rent">
 
-						            <article class="form-group col-md-6">
+						            <article class="form-group col-ss-4">
 						              <label class="control-label">
 						              	Giá bán
 			              				<sup class="required-label"></sup>
 			              			</label>
-					                <input data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['sell_price'] %>" name="real_estate[block][sell_price][]" class="form-control separate-number read-money">
+					                <input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['sell_price'] %>" name="real_estate[block][floors][tab_name][sell_price]" class="form-control separate-number read-money">
 						              <section class="money-text font-size-12"></section>
 						            </article>
 
-												<article class="form-group col-md-6">
+												<article class="form-group col-md-8">
 													<label class="control-label">
 														Hệ số giá
 													</label>
-													<input name="real_estate[block][sell_floor_coefficient][]" value="<%= info['sell_floor_coefficient'] %>" class="form-control" />
+													<a class="small pull-right text-muted" aria-click="price_preview">Xem trước</a>
+													<input aria-object="coefficient" name="real_estate[block][floors][tab_name][sell_floor_coefficient]" value="<%= info['sell_floor_coefficient'] %>" class="form-control" />
 												</article>
 
 					          	</div>
@@ -347,20 +417,21 @@
 
 					          	<div class="row" data-toggled-element="rent un-sell">
 
-						            <article class="form-group col-md-6">
+						            <article class="form-group col-ss-4">
 						              <label class="control-label">
 						              	Giá cho thuê
 			              				<sup class="required-label"></sup>
 			              			</label>
-					                <input data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['rent_price'] %>" name="real_estate[block][rent_price][]" class="form-control separate-number read-money">
+					                <input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['rent_price'] %>" name="real_estate[block][floors][tab_name][rent_price]" class="form-control separate-number read-money">
 						              <section class="money-text font-size-12"></section>
 						            </article>
 
-												<article class="form-group col-md-6">
+												<article class="form-group col-ss-8">
 													<label class="control-label">
 														Hệ số giá
 													</label>
-													<input name="real_estate[block][rent_floor_coefficient][]" value="<%= info['rent_floor_coefficient'] %>" class="form-control" />
+													<a class="small pull-right text-muted" aria-click="price_preview">Xem trước</a>
+													<input aria-object="coefficient" name="real_estate[block][floors][tab_name][rent_floor_coefficient]" value="<%= info['rent_floor_coefficient'] %>" class="form-control" />
 												</article>
 
 					          	</div>
@@ -378,18 +449,6 @@
 
 				</div>
 			</div>
-
-			<!-- Image -->
-
-				<article class="form-group margin-0">
-					<label class="control-label">
-						Hình ảnh
-						<sup class="required-label"></sup>
-					</label>
-	        <input class="file-upload" data-constraint="required" type="file" multiple name="real_estate[images][]" aria-name="image_upload" data-amount="5" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar />
-	      </article>
-
-	    <!-- / Image -->
 
 	    <!-- Button -->
 

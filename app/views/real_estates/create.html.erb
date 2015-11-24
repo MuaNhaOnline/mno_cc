@@ -686,7 +686,7 @@
                   </label>
                   <select data-constraint="required" class="form-control" name="real_estate[direction_id]" id="direction_id">
                     <% Direction.get_options.each do |d| %>
-                      <option <%= 'selected' if d.id == @re.direction_id || (!d.options_hash.nil? && d.options_hash.has_key?('default') && @re.direction_id.blank?) %> value="<%= d.id %>"><%= t 'direction.text.' + d.name %></option>
+                      <option <%= 'selected' if @re.direction_id.blank? ? d.options.has_key?('default') : d.id == @re.direction_id %> value="<%= d.id %>"><%= t 'direction.text.' + d.name %></option>
                     <% end %>
                   </select>
                 </article>

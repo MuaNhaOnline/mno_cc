@@ -1,30 +1,47 @@
-<% res.each do |re| %>
-  <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
-    <article class="item" data-value="<%= re.id %>">
-      <section class="top">
-        <%= real_estate_avatar re %>
-        <section class="left">
-          <article class="node">
-            <span><b><%= re.label %></b></span>
+<article class="free-style-tab-container">
+  <section class="tab-list horizontal-list-container text-left">
+    <ul class="horizontal-list">
+      <% groups.each do |group| %>
+        <li class="horizontal-item" aria-name="group_<%= group.id %>">
+          <a href="javascript:void(0)" aria-click="change_tab"><%= group.name %></a>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+  <section class="tab-content-list">
+    <% groups.each do |group| %>
+      <article class="tab-content row item-list" aria-name="group_<%= group.id %>" data-value="<%= group.id %>">
+        <article class="col-xs-12 margin-bottom-15 text-right">
+          <a aria-click="image_interact" class="btn btn-flat btn-default"><span class="fa fa-picture-o fa-lg"></span> Thiết lập hình ảnh</a>
+        </article>
+        <% group.real_estates.each do |re| %>
+          <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+            <article class="item" data-value="<%= re.id %>">
+              <section class="top">
+                <%= real_estate_avatar re %>
+                <section class="left">
+                  <article class="node">
+                    <span><b><%= re.label %></b></span>
+                  </article>
+                </section>
+              </section>
+              <section class="bottom">
+                <p class="title">
+                  <%= re.title %>
+                </p>
+              </section>
+              <section class="control">
+                <span class="node">
+                  <a aria-click="edit" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
+                </span>
+                <span class="node">
+                  <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+                </span>
+              </section>
+            </article>
           </article>
-        </section>
-      </section>
-      <section class="bottom">
-        <p class="title">
-          <%= re.title %>
-        </p>
-      </section>
-      <section class="control">
-        <span class="node">
-          <a aria-click="image_interact" href="javascript:void(0)" class="fa fa-picture-o fa-lg"></a>
-        </span>
-        <span class="node">
-          <a aria-click="edit" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
-        </span>
-        <span class="node">
-          <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
-        </span>
-      </section>
-    </article>
-  </article>
-<% end %>
+        <% end %>
+      </article>
+    <% end %>
+  </section>
+</article>

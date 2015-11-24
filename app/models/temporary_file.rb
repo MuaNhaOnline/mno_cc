@@ -32,7 +32,7 @@ class TemporaryFile < ActiveRecord::Base
     if File.exists? _f.path
       _file = File.new _f.path
 
-      yield _file, _f.id
+      yield _file
 
       _file.close
     end
@@ -43,7 +43,7 @@ class TemporaryFile < ActiveRecord::Base
       if File.exists? _f.path
         _file = File.new _f.path
 
-        yield _file, _f.id
+        yield _file
 
         _file.close
       end
