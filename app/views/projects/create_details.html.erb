@@ -114,56 +114,64 @@
 
 <!-- View -->
 
-	<div id="view_part">
+	<div id="view_part" class="view-part">
 
-		<!-- Project -->
+		<section class="line-part">
+			
+		</section>
 
-			<section class="margin-bottom-15 text-right">
-				<a aria-click="project_image_interact" class="btn btn-flat btn-default"><span class="fa fa-picture-o fa-lg"></span> Thiết lập hình ảnh dự án</a>
-			</section>
+		<section class="content-part">
 
-		<!-- / Project -->
+			<!-- Project -->
 
-		<!-- Block -->
-
-			<article class="blocks-container box box-primary">
-
-				<section class="box-header">
-					<h2 class="box-title">Các block trong dự án <%= @project.project_name %></h2>
-					<div class="box-tools pull-right">
-			      <button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
-			    </div>
+				<section class="margin-bottom-15 text-right">
+					<a aria-click="project_image_interact" class="btn btn-flat btn-default"><span class="fa fa-picture-o fa-lg"></span> Thiết lập hình ảnh dự án</a>
 				</section>
-				<section class="box-body">
-					<div class="horizontal-list-container padding-bottom-10">
-						<div id="block_list" class="horizontal-list item-list block-list">
-							<%= render partial: 'blocks/item_list', locals: { blocks: @project.blocks } %>
-						</div>
-					</div>
-				</section>
-				<article class="real-estate-container">
+
+			<!-- / Project -->
+
+			<!-- Block -->
+
+				<article class="blocks-container box box-primary">
+
 					<section class="box-header">
-						<h2 class="box-title" id="selected_block_name"></h2>
+						<h2 class="box-title">Các block trong dự án <%= @project.project_name %></h2>
 						<div class="box-tools pull-right">
-				      <button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
+				      <button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
 				    </div>
 					</section>
 					<section class="box-body">
-						<section id="real_estate_list">
-						</section>
+						<div class="horizontal-list-container padding-bottom-10">
+							<div id="block_list" class="horizontal-list item-list block-list">
+								<%= render partial: 'blocks/item_list', locals: { blocks: @project.blocks } %>
+							</div>
+						</div>
 					</section>
+					<article class="real-estate-container">
+						<section class="box-header">
+							<h2 class="box-title" id="selected_block_name"></h2>
+							<div class="box-tools pull-right">
+					      <button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
+					    </div>
+						</section>
+						<section class="box-body">
+							<section id="real_estate_list">
+							</section>
+						</section>
+					</article>
 				</article>
-			</article>
 
-		<!-- / Block -->
+			<!-- / Block -->
 
-		<!-- Finish -->
+			<!-- Finish -->
 
-			<section class="text-center">
-				<a class="btn btn-primary" aria-click="build_finish">Hoàn tất</a>
-			</section>
+				<section class="text-center">
+					<a class="btn btn-primary" aria-click="build_finish">Hoàn tất</a>
+				</section>
 
-		<!-- / Finish -->
+			<!-- / Finish -->
+			
+		</section>
 
 	</div>
 

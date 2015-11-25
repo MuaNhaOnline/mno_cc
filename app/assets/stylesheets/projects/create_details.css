@@ -217,6 +217,26 @@
 	View panel
 */
 
+	/*.view-part {
+		display: flex;
+		dispaly: -ms-flex;
+		dispaly: -webkit-flex;
+	}
+
+		.view-part .line-part {
+			min-height: 100%;
+			min-width: 3px;
+			max-width: 3px;
+			margin-left: 5px;
+			margin-right: 10px;
+			background-color: #d2d6de;
+		}
+
+		.view-part .content-part {
+			min-height: 100%;
+			width: 100%;
+		}*/
+
 	/*
 		Block
 	*/

@@ -149,24 +149,6 @@
 								<span><%= t 'project.attribute.investor' %>: <b><%= @project.investor.name %></b></span>
 							</li>
 						<% end %>
-						<% if @project.execute_unit.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.execute_unit' %>: <b><%= @project.execute_unit %></b></span>
-							</li>
-						<% end %>
-						<% if @project.design_unit.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.design_unit' %>: <b><%= @project.design_unit %></b></span>
-							</li>
-						<% end %>
-						<% if @project.manage_unit.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.manage_unit' %>: <b><%= @project.manage_unit %></b></span>
-							</li>
-						<% end %>
 					</ul>
 				</div>
 				<div class="col-sm-6">
