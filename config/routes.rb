@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get '/422', to: 'home#error', defaults: { error: '422' }
     get '/500', to: 'home#error', defaults: { error: '500' }
 
-    get '/google19b4bbc4d37be3f0.html', to: redirect('/google19b4bbc4d37be3f0.html')
+    get '/google19b4bbc4d37be3f0.html', to: render(file: 'public/google19b4bbc4d37be3f0.html')
 
     get 'home/result'
     get 'home/index'
