@@ -158,28 +158,40 @@
 	</article>
 	<div class="row">
 		<% 
-			re = RealEstate.search_with_params(real_estate_type: 'town_house').first 
+			query = {
+				real_estate_type: 'social_home'
+			}
+			re = RealEstate.search_with_params(query).first 
 		%>
 		<% if re.present? %>
 			<div class="col-md-6">
 				<div class="item-general">
-					<a href="#">
+					<% 
+											%>
+					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+					</a>
+					<a href="/search?<%= query.to_query 'search' %>">
 						<div class="name">
-							<a href="#">Nhà ở xã hội</a>
+							<span>Nhà ở xã hội</span>
 						</div>
 					</a>
 				</div>
 			</div>
 		<% end %>
 		<% 
-			re = RealEstate.search_with_params(real_estate_type: 'villa').first 
+			query = {
+				real_estate_type: 'villa'
+			}
+			re = RealEstate.search_with_params(query).first 
 		%>
 		<% if re.present? %>
 			<div class="col-md-6">
 				<div class="item-general">
-					<a href="#">
+					<a href="/real_estate/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+					</a>
+					<a href="/search?<%= query.to_query 'search' %>">
 						<div class="name">
 							<span>Biệt thự cao cấp</span>
 						</div>
@@ -188,28 +200,42 @@
 			</div>
 		<% end %>
 		<% 
-			re = RealEstate.search_with_params(real_estate_type: 'apartment').first 
+			query = {
+				real_estate_type: 'apartment',
+				utilities: {
+					pool: ''
+				}
+			}
+			re = RealEstate.search_with_params(query).first 
 		%>
 		<% if re.present? %>
 			<div class="col-md-6">
 				<div class="item-general">
-					<a href="#">
+					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+					</a>
+					<a href="/search?<%= query.to_query 'search' %>">
 						<div class="name">
-							<span>Căn hộ cao cấp</span>
+							<span>Căn hộ có hồ bơi</span>
 						</div>
 					</a>
 				</div>
 			</div>
 		<% end %>
 		<% 
-			re = RealEstate.search_with_params(real_estate_type: 'town_house', cheapest: nil).first 
+			query = {
+				real_estate_type: 'town_house',
+				price: '0;1000000000'
+			}
+			re = RealEstate.search_with_params(query).first 
 		%>
 		<% if re.present? %>
 			<div class="col-md-6">
 				<div class="item-general">
-					<a href="#">
+					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
+					</a>
+					<a href="/search?<%= query.to_query 'search' %>">
 						<div class="name">
 							<span>Nhà phố giá rẻ</span>
 						</div>
@@ -217,20 +243,6 @@
 				</div>
 			</div>
 		<% end %>
-		<!-- <div class="col-md-6">
-			<div class="item-general">
-				<a href="#">
-					<div class="info">
-						<span>Nhà riêng biệt Quận 7</span>
-						<span>24 Nguyễn Hữu Thọ, Phường Tân Quy, Quận 7</span>
-					</div>
-					<img class="img-responsive img-thumbnail" src="/assets/real_estates/slide/default.png" alt="Bán nhà phố ở quận 11 ">
-				</a>
-				<div class="name"><a href="#">
-					</a><a href="#">Nhà ở xã hội</a>
-				</div>			
-			</div>
-		</div>		 -->
 	</div>
 </section>
 <!-- end propensity property -->

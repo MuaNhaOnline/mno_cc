@@ -84,7 +84,7 @@ PropertyUtility.create [
 	{ name: 'n_3' },
 	{ name: 'n_4' },
 	{ name: 'n_5' },
-	{ name: 'n_6' }
+	{ name: 'n_6', code: '|pool|' }
 ]
 
 Purpose.delete_all
@@ -111,9 +111,7 @@ RealEstateType.create [
 	{ name: 'low_apartment', code: '|apartment|complex_apartment|', options: '{"group":"apartment"}' },
 	{ name: 'villa', code: '|house|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
 	{ name: 'town_house', code: '|house|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' },
-	{ name: 'social_home', code: '|apartment|social_home|', options: '{"group":"apartment"}' },
-	{ name: 'penthouse', code: '|apartment|complex_apartment|', options: '{"group":"apartment"}' },
-	{ name: 'duplex', code: '|apartment|complex_apartment|', options: '{"group":"apartment"}' }
+	{ name: 'social_home', code: '|social_home|', options: '{"group":"apartment"}' }
 ]
 
 RegionUtility.delete_all

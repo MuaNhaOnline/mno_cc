@@ -560,6 +560,14 @@ class RealEstate < ActiveRecord::Base
         end
       end
 
+      if params[:utilities].present?
+        # Pool
+        if params[:utilities].has_key? :pool
+          joins << :property_utilities
+          where += " AND property_utilities.code LIKE '%|pool|%'"
+        end
+      end
+
       # District
       if params[:district].present?
         joins << :district
