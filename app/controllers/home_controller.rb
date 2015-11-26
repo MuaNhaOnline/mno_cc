@@ -20,8 +20,10 @@ class HomeController < ApplicationController
 
         @projects = Project.search_with_params params[:search].clone
         
-        @search_params = params[:search]
+        @search_params = params[:search] unless params.has_key? :no_continue
       end
+
+      params.delete :search 
     end
 
     def _search_list
