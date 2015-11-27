@@ -186,7 +186,7 @@ class RealEstate < ActiveRecord::Base
 
       # Constructional level
       if fields.include?(:constructional_level) && constructional_level.blank?
-        errors.add :constructional_leval, 'Loại nhà không thể bỏ trống'
+        errors.add :constructional_level, 'Loại nhà không thể bỏ trống'
         return
       end
 
@@ -485,7 +485,7 @@ class RealEstate < ActiveRecord::Base
     # Search with params
 
     # params: 
-    #   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area
+    #   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area, constructional_level
     #   is_favorite
     #   newest, cheapest
     def self.search_with_params params = {}
@@ -566,6 +566,12 @@ class RealEstate < ActiveRecord::Base
           joins << :property_utilities
           where += " AND property_utilities.code LIKE '%|pool|%'"
         end
+      end
+
+      # Contructional level
+      if params[:constructional_level].present?
+        joins << :constructional_level
+        where += " AND constructional_levels.code LIKE '%|#{params[:constructional_level]}|%'"
       end
 
       # District

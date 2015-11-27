@@ -159,6 +159,7 @@
 	<div class="row">
 		<% 
 			query = {
+				search_name: 'noxh',
 				real_estate_type: 'social_home'
 			}
 			re = RealEstate.search_with_params(query).first 
@@ -166,12 +167,10 @@
 		<% if re.present? %>
 			<div class="col-md-6">
 				<div class="item-general">
-					<% 
-											%>
 					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 					</a>
-					<a href="/search?no_continue&<%= query.to_query 'search' %>">
+					<a href="/real_estates/list?<%= query.to_query 'search' %>">
 						<div class="name">
 							<span>Nhà ở xã hội</span>
 						</div>
@@ -181,6 +180,7 @@
 		<% end %>
 		<% 
 			query = {
+				search_name: 'bt',
 				real_estate_type: 'villa'
 			}
 			re = RealEstate.search_with_params(query).first 
@@ -188,10 +188,10 @@
 		<% if re.present? %>
 			<div class="col-md-6">
 				<div class="item-general">
-					<a href="/real_estate/<%= re.id %>">
+					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 					</a>
-					<a href="/search?no_continue&<%= query.to_query 'search' %>">
+					<a href="/real_estates/list?<%= query.to_query 'search' %>">
 						<div class="name">
 							<span>Biệt thự cao cấp</span>
 						</div>
@@ -201,6 +201,7 @@
 		<% end %>
 		<% 
 			query = {
+				search_name: 'chhb',
 				real_estate_type: 'apartment',
 				utilities: {
 					pool: ''
@@ -214,7 +215,7 @@
 					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 					</a>
-					<a href="/search?no_continue&<%= query.to_query 'search' %>">
+					<a href="/real_estates/list?<%= query.to_query 'search' %>">
 						<div class="name">
 							<span>Căn hộ có hồ bơi</span>
 						</div>
@@ -224,7 +225,8 @@
 		<% end %>
 		<% 
 			query = {
-				real_estate_type: 'town_house',
+				search_name: 'nt1t',
+				constructional_level: 'temporary',
 				price: '0;1000000000'
 			}
 			re = RealEstate.search_with_params(query).first 
@@ -235,9 +237,9 @@
 					<a href="/real_estates/<%= re.id %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive img-thumbnail', style: 'slide' %>
 					</a>
-					<a href="/search?no_continue&<%= query.to_query 'search' %>">
+					<a href="/real_estates/list?<%= query.to_query 'search' %>">
 						<div class="name">
-							<span>Nhà phố giá rẻ</span>
+							<span>Nhà nát dưới 1 tỷ</span>
 						</div>
 					</a>
 				</div>

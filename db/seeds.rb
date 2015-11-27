@@ -18,7 +18,7 @@ ConstructionalLevel.create [
 	{ name: 'level_2' },
 	{ name: 'level_3' },
 	{ name: 'level_4' },
-	{ name: 'temporary' },
+	{ name: 'temporary', code: '|temporary|' },
 	{ name: 'empty' }
 ]
 
@@ -98,20 +98,23 @@ Purpose.create [
 RealEstateType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
 RealEstateType.create [
-	{ name: 'residential_land', code: '|land|', options: '{"group":"land"}' },
-	{ name: 'vacant_land', code: '|land|', options: '{"group":"land"}' },
+	{ name: 'residential_land', code: '|land|residential_land|', options: '{"group":"land"}' },
+	{ name: 'vacant_land', code: '|land|vacant_land|', options: '{"group":"land"}' },
 	{ name: 'other_land', code: '|land|', options: '{"group":"land"}' },
-	{ name: 'office', code: '|space|complex_apartment|', options: '{"group":"space","html":{"attributes":"data-on=office"}}' },
-	{ name: 'motel', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ name: 'store', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ name: 'restaurant_hotel', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ name: 'storage_workshop', code: '|space|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
+	{ name: 'office', code: '|space|complex_apartment|office|', options: '{"group":"space","html":{"attributes":"data-on=office"}}' },
+	{ name: 'motel', code: '|space|motel|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
+	{ name: 'store', code: '|space|store|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
+	{ name: 'restaurant_hotel', code: '|space|restaurant_hotel|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
+	{ name: 'storage_workshop', code: '|space|storage_workshop|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
 	{ name: 'high_apartment', code: '|apartment|complex_apartment|', options: '{"group":"apartment"}' },
 	{ name: 'medium_apartment', code: '|apartment|complex_apartment|', options: '{"group":"apartment"}' },
 	{ name: 'low_apartment', code: '|apartment|complex_apartment|', options: '{"group":"apartment"}' },
 	{ name: 'villa', code: '|house|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
 	{ name: 'town_house', code: '|house|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' },
-	{ name: 'social_home', code: '|social_home|', options: '{"group":"apartment"}' }
+	{ name: 'social_home', code: '|social_home|', options: '{"group":"apartment"}' },
+	{ name: 'forest_land', code: '|land|forest_land|', options: '{"group":"land"}' },
+	{ name: 'productive_land', code: '|land|productive_land|', options: '{"group":"land"}' },
+	{ name: 'project_land', code: '|land|project_land|', options: '{"group":"land"}' }
 ]
 
 RegionUtility.delete_all

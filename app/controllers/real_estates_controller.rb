@@ -7,15 +7,47 @@ class RealEstatesController < ApplicationController
 	def demo
 	end
 
-	def list
-	end
-
 	def estimate
 	end
 
 	def category
 
 	end
+
+	# List
+
+		# View
+		# params: search params
+		def list
+			redirect_to '/real_estates' if params[:search].blank?
+
+			@res = RealEstate.search_with_params params[:search].clone
+		end
+
+		# Partial view
+		# params: search params, page
+		def _list_list
+			per = 8
+
+			params[:page] ||= 1
+			params[:page] = params[:page].to_i
+
+			res = RealEstate.search_with_params params[:search]
+
+			count = res.count
+
+			return render json: { status: 1 } if count == 0
+
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], per) }),
+					pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: count, per: per, page: params[:page] })
+				}
+			}
+		end
+
+	# / List
 
 	# View
 		
