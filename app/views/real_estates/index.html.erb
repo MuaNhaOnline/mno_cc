@@ -406,8 +406,9 @@
 		<% end %>
 		<% 
 			query = {
-				search_name: 'nt1t',
-				constructional_level: 'temporary',
+				search_name: 'np1t',
+				# constructional_level: 'temporary',
+				real_estate_type: 'town_house',
 				price: '0;1000000000'
 			}
 			re = RealEstate.search_with_params(query).first 
@@ -420,7 +421,7 @@
 					</a>
 					<a href="/real_estates/list?<%= query.to_query 'search' %>">
 						<div class="name">
-							<span>Nhà nát dưới 1 tỷ</span>
+							<span>Nhà phố dưới 1 tỷ</span>
 						</div>
 					</a>
 				</div>

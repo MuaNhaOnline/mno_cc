@@ -1,10 +1,10 @@
 // Initilization
-_scrollToContent();
 $(function() {
 	var $item = $('#real_estate_info');
 
 	initPriceBox();
 	initPosition();
+	Jump();
 	
 	initFavoriteButton();
 
@@ -92,3 +92,14 @@ function initPosition() {
   });
 }
 // end
+
+// init Jump
+function Jump() {
+	var top;
+	$(window).load(function() {
+		top = $('.navigator').offset().top;
+		$body.animate({
+			scrollTop: top
+		}, 500)
+	});
+}
