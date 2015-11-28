@@ -1323,21 +1323,17 @@ function initForm($form, params) {
 	*/
 
 		function initReadMoney() {
-	    _temp['read_money_to'] = null;
 	    $form.find('.read-money').on({
 	      keyup: function () {
 	        var $input = $(this);
 
-	        clearTimeout(_temp['read_money_to']);
-	        _temp['read_money_to'] = setTimeout(function () {
-	          if ($input.val() != $input.data('old-value')) {
-	            var value = $input.val().replace(/\D/g, '');
+          if ($input.val() != $input.data('old-value')) {
+            var value = $input.val().replace(/\D/g, '');
 
-	            $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+            $input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
 
-	            $input.data('old-value', $input.val());
-	          }
-	        }, 200);
+            $input.data('old-value', $input.val());
+          }
 	      },
 	      change: function () {
 	        var $input = $(this);
@@ -1365,36 +1361,32 @@ function initForm($form, params) {
 	*/
 
 	function initSeparateNumber() {
-		_temp['separate_number_to'] = null;
 		$form.find('.separate-number').on({
 			focus: function () {
 				_temp['price'] = this.value;
 				_temp['is_changed'] = false;
 			},
 			keyup: function () {
-				clearTimeout(_temp['separate_number_to']);
 				var input = this;
-				_temp['separate_number_to'] = setTimeout(function () {
-					var value = input.value;
+				var value = input.value;
 
-					if (_temp['price'] == value) {
-						return;
-					}
+				if (_temp['price'] == value) {
+					return;
+				}
 
-					// Get current selection end
-					var selectionEnd = value.length - input.selectionEnd;
+				// Get current selection end
+				var selectionEnd = value.length - input.selectionEnd;
 
-					var value_ = value.split('.');
-					value_[0] = moneyFormat(intFormat(value_[0]), ',');
-					value = value_.join('.');
+				var value_ = value.split('.');
+				value_[0] = moneyFormat(intFormat(value_[0]), ',');
+				value = value_.join('.');
 
-					input.value = value;
-					selectionEnd = value.length - selectionEnd;
-					input.setSelectionRange(selectionEnd, selectionEnd);
+				input.value = value;
+				selectionEnd = value.length - selectionEnd;
+				input.setSelectionRange(selectionEnd, selectionEnd);
 
-					_temp['price'] = value;
-					_temp['is_changed'] = true;
-				}, 200);
+				_temp['price'] = value;
+				_temp['is_changed'] = true;
 			},
 			focusout: function () {
 				_temp['is_changed'] = false;
@@ -1540,10 +1532,6 @@ function initForm($form, params) {
 								'<a href="javascript:void(0)" aria-click="remove_tab" class="remove">&times;</a>' +
 							'</li>');
 					});
-					$tabListButtons.append(
-						'<li class="horizontal-item">' +
-							'<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>' +
-						'</li>');
 
 					_initTabContainer($tabContainer);
 					$form.resetTabName($tabContainer);
@@ -1556,17 +1544,18 @@ function initForm($form, params) {
 					Remove
 				*/
 
-					$tabContainer.find('.tab-list [aria-click="remove_tab"]').on('click', function () {
+					$tabContainer.find('.tab-list [aria-click="remove_tab"]').on('click', function (e) {
 						var $item = $(this).parent();
-
-						// Remove tab content
-						$tabContainer.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').remove();
 
 						// Remove button
 						$item.remove();
 
-						$form.resetTabName($tabContainer);
 						$tabContainer.find('.tab-list [aria-click="change_tab"]:visible:eq(0)').click();
+
+						// Remove tab content
+						$tabContainer.find('.tab-content[aria-name="' + $item.attr('aria-name') + '"]').remove();
+
+						$form.resetTabName($tabContainer);
 					});
 
 				/*
@@ -1578,21 +1567,19 @@ function initForm($form, params) {
 				*/
 
 					// Get template contents
-					var
-						$templateTabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active'),
-						$templateTabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
-					$templateTabContent.find('.preview-list').html('');
-					$templateTabContent.find(':input').val('');
-					$templateTabContent.find('.money-text').text('');
 
 					$tabContainer.find('.tab-list [aria-click="add_tab"]').on('click', function () {
 						// Get contents
-						var 
-							$tabButton = $templateTabButton.clone(true),
-							$tabContent = $templateTabContent.clone(true);
-
+						var
+							$tabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active'),
+							$tabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
+						$tabContent.find('.preview-list').html('');
+						$tabContent.find(':input').val('');
+						$tabContent.find('.form-group').removeClass('has-success has-error').find('.success-label, .callout-error').remove();
+						$tabContent.find('.money-text').text('');
+						
 						// Append
-						$tabContainer.find('.tab-list li:last-child').before($tabButton);
+						$tabContainer.find('.tab-list ul').append($tabButton);
 						$tabContainer.find('.tab-content-list').append($tabContent);
 
 						// Set new values
@@ -1785,6 +1772,7 @@ function initForm($form, params) {
 	/*
 		Toggle valid input
 	*/
+	
 	$form.toggleValidInput = function ($input, isValid, constraint, name) {
 		toggleValidInput($input, isValid, constraint, name);
 	};

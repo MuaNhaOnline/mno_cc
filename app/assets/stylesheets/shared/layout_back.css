@@ -721,7 +721,14 @@ body.no-scroll {
   
     .tab-container .tab-list {
       margin-bottom: -1px;
+      display: flex;
+      display: -webkit-flex;
+      display: -ms-flex;
     }
+
+      .tab-container .list {
+        width: 100%;
+      }
   
       .tab-container .tab-list ul {
         list-style: none;
@@ -765,7 +772,8 @@ body.no-scroll {
           color: #3c8dbc;
         }
   
-        .tab-container .tab-list li:not(.active) a.remove {
+        .tab-container .tab-list li:not(.active) a.remove,
+        .tab-container .tab-list li:only-child a.remove {
           display: none;
         }
   

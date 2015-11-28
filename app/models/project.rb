@@ -61,7 +61,7 @@ class Project < ActiveRecord::Base
 
     def assign_attributes_with_params params
       # Project type
-      params[:project_type_id] = params[:detail_project_type_id].present? ? params[:detail_project_type_id].present? : params[:project_type_id]
+      params[:project_type_id] = params[:detail_project_type_id].present? ? params[:detail_project_type_id] : params[:project_type_id]
 
       # Description
       if params[:payment_method].present?

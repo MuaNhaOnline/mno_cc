@@ -160,7 +160,8 @@
 		<% 
 			query = {
 				search_name: 'noxh',
-				real_estate_type: 'social_home'
+				real_estate_type: 'social_home',
+				newest: ''
 			}
 			re = RealEstate.search_with_params(query).first 
 		%>
@@ -181,7 +182,8 @@
 		<% 
 			query = {
 				search_name: 'bt',
-				real_estate_type: 'villa'
+				real_estate_type: 'villa',
+				newest: ''
 			}
 			re = RealEstate.search_with_params(query).first 
 		%>
@@ -205,7 +207,8 @@
 				real_estate_type: 'apartment',
 				utilities: {
 					pool: ''
-				}
+				},
+				newest: ''
 			}
 			re = RealEstate.search_with_params(query).first 
 		%>
@@ -228,7 +231,8 @@
 				search_name: 'np1t',
 				# constructional_level: 'temporary',
 				real_estate_type: 'town_house',
-				price: '0;1000000000'
+				price: '0;1000000000',
+				newest: ''
 			}
 			re = RealEstate.search_with_params(query).first 
 		%>
