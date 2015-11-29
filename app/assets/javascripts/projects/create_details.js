@@ -647,9 +647,16 @@ $(function () {
 			tranX = 0,
 			tranY = 0,
 			scale = 1,
+
+			$currentToolButton = $designPart.find('.toolbox-container .active'),
+			$drawPolylineButton = $designPart.find('[aria-click="polyline"]'),
+			$cutButton = $designPart.find('[aria-click="cut"]'),
+
 			isSelected = false, 
 			isViewMoving = false,
-			isMoveEditPoint = false;
+			isMoveEditPoint = false,
+			isUseCutTool = false,
+			isCreateCutPoint = false;
 
 		// Start
 
@@ -708,7 +715,7 @@ $(function () {
 								loadItem($item);
 
 								$selectedItem = $item;
-							});
+							}).first().click();
 
 						// / Item click event
 
@@ -870,22 +877,23 @@ $(function () {
 					});
 
 					$polyline.data('start_edit_method', function () {
+						if (isUseCutTool) {
+							return;
+						}
+
+						isSelected = true;
+
 						// Remove current edit points
 						removeEditPoints();
 
 						// Edit point
-						var points = $polyline.attr('points').split(' ').map(function (value) {
+						var points = $polyline.attr('points').split(' ').slice(1).map(function (value) {
 							value = value.split(',');
 							return { x: value[0], y: value[1] }
 						});
 						
 						// Create edit point events
 						$(points).each(function (index) {
-							// Skip last
-							if (index == points.length - 1) {
-								return;
-							}
-
 							// Add points
 							var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 							circle.setAttribute('cx', this.x);
@@ -897,6 +905,9 @@ $(function () {
 							circle.style.cursor = 'pointer';
 							$(circle).data('index', index).on({
 								mousedown: function (e) {
+									if (isUseCutTool) {
+										return;
+									}
 									isMoveEditPoint = true;
 
 									init = { x: parseInt(circle.getAttribute('cx')), y: parseInt(circle.getAttribute('cy')) };
@@ -943,9 +954,10 @@ $(function () {
 
 					$polyline.on({
 						mousedown: function(e) {
-							if (e.button != 0) {
+							if (e.button != 0 || isUseCutTool) {
 								return;
 							}
+							$body.css('cursor', '-webkit-grabbing');
 
 							// Edit points
 							first = true;
@@ -969,6 +981,7 @@ $(function () {
 										$polyline.css('transform', 'translate(' + (moved.x = current.x - start.x) + 'px, ' + (moved.y = current.y - start.y) + 'px)');
 									},
 									'mouseup.move_polyline': function(e) {
+										$body.css('cursor', 'default');
 										// Change all points
 										$polyline.attr('points', $polyline.attr('points').split(' ').map(function (value) {
 											value = value.split(',');
@@ -1006,12 +1019,11 @@ $(function () {
 								$polyline.data('remove_method')();
 							}
 						},
-						focus: function () {
-							isSelected = true;
+						focus: function () {							
 							$polyline.data('start_edit_method')();
 						},
 						focusout: function () {
-							if (isMoveEditPoint) {
+							if (isMoveEditPoint || isCreateCutPoint) {
 								return;
 							}
 							isSelected = false;
@@ -1022,6 +1034,8 @@ $(function () {
 					setContextMenuObject($polyline);
 
 				// Events
+
+				return $polyline;
 			}
 
 		// / Add object
@@ -1045,23 +1059,11 @@ $(function () {
 
 			// View, tool
 
-				/*
-					General
-				*/
+				// General
 
-					// Polyline
-					var
-						polyline = null,
-						points = '',
-						circle;
+				// / General
 
-				/*
-					/ General
-				*/
-
-				/*
-					Move, zoom
-				*/
+				// Move, zoom
 
 					// Mouse wheel always zoom
 					$svg.on({
@@ -1143,128 +1145,465 @@ $(function () {
 						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
 					}
 
-				/*
-					/ Move, zoom
-				*/
+				// / Move, zoom
 
-				/*
-					Paint
-				*/
+				// Tools
 
 					$('.toolbox-container').find('[aria-type="tool"]').on('click', function () {
 						if ($(this).hasClass('active')) {
 							return;
 						}
-						$(this).addClass('active').siblings('[aria-type="tool"].active').removeClass('active').trigger('end');
+						if ($currentToolButton) {
+							$currentToolButton.removeClass('active').trigger('endTool');
+						}
+						$currentToolButton = $(this);
+						$currentToolButton.addClass('active').trigger('startTool');
+					});
+
+					$(document).on('keydown', function (e) {
+						if (e.keyCode == 27) {
+							$currentToolButton.trigger('clearTool');
+						}
 					});
 
 					// Polyline
 
-						function startPolyline() {
-							polyline = null;
-							points = '';
+						{
+							var 
+								polyline,
+								points,
+								endCircle,
+								mouseCircle;
 
-							$g.on({
-								'click.polyline': function (e) {
-									if (isSelected) {
-										return;
-									}
-									pos = getPosition(e);
-
-									if (polyline == null) {
-										// Begin
-										points = pos.x + ',' + pos.y;
-
-										// Start point
-										polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-										polyline.setAttribute('points', points);
-										polyline.style.stroke = '#000';
-										polyline.style.fill = 'rgba(255, 255, 255, .5)';
-										$g.append(polyline);
-
-										// End point
-										circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-										circle.setAttribute('cx', pos.x);
-										circle.setAttribute('cy', pos.y);
-										circle.setAttribute('r', 10);
-										circle.style.stroke = '#000';
-										circle.style.fill = '#fff';
-										circle.style.cursor = 'pointer';
-										$g.append(circle);
-
-										// Display line on move
-										$g.on('mousemove.polyline', function (e) {
-											if (isViewMoving) {
+							$drawPolylineButton.on({
+								startTool: function () {
+									$g.on({
+										'click.draw_polyline': function (e) {
+											// If select object
+											if (isSelected) {
 												return;
 											}
+											var isEnterEndPoint = false;
+
+											// Get click position
 											pos = getPosition(e);
-											polyline.setAttribute("points", points + ' ' + pos.x + ',' + pos.y);
-										});
 
-										// Click to end point => finish
-										$(circle).on('click', function (e) {
-											// For stop create next point
-											e.stopPropagation();
+											// If start polyline => create new polyline
+											if (polyline == null) {
+												// Start point
+												points = pos.x + ',' + pos.y;
 
-											// Stop envent
-											$g.off('mousemove.polyline');
+												// Create polyline with start point
+												polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+												polyline.setAttribute('points', points);
+												polyline.style.stroke = '#000';
+												polyline.style.fill = 'rgba(255, 255, 255, .5)';
+												$g.append(polyline);
 
-											// Create end point
-											points += ' ' + circle.getAttribute('cx') + ',' + circle.getAttribute('cy');
-											polyline.setAttribute('points', points);
+												// Create mouse circle
+												mouseCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+												mouseCircle.setAttribute('cx', pos.x);
+												mouseCircle.setAttribute('cy', pos.y);
+												mouseCircle.setAttribute('r', 5);
+												mouseCircle.style.stroke = '#000';
+												mouseCircle.style.fill = '#fff';
+												mouseCircle.style['pointer-events'] = 'none';
+												$g.append(mouseCircle);
 
-											addPolyline({
-												points: points
-											});
+												// Create start point for end
+												endCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+												endCircle.setAttribute('cx', pos.x);
+												endCircle.setAttribute('cy', pos.y);
+												endCircle.setAttribute('r', 10 / scale);
+												endCircle.style.stroke = '#000';
+												endCircle.style.fill = '#fff';
+												endCircle.style.cursor = 'pointer';
+												$g.append(endCircle);
 
-											endPolyline();
-										});
+												// Display line on move
+												$g.on('mousemove.drawing_polyline', function (e) {
+													if (isViewMoving || isEnterEndPoint) {
+														return;
+													}
 
-										// Esc to end
-										$document.on('keydown.create_polyline', function (e) {
-											if (e.keyCode == 27) {
-												$g.off('mousemove.polyline');
-												endPolyline();
+													pos = getPosition(e);
+													// Set line & circle to mouse
+													polyline.setAttribute("points", points + ' ' + pos.x + ',' + pos.y);
+													mouseCircle.setAttribute('cx', pos.x);
+													mouseCircle.setAttribute('cy', pos.y);
+												});
+
+												// Click to end point => finish
+												$(endCircle).on({
+													click: function (e) {
+														// For stop create next point
+														e.stopPropagation();
+
+														// Stop envent
+														$g.off('mousemove.drawing_polyline');
+
+														// Create end point
+														points += ' ' + endCircle.getAttribute('cx') + ',' + endCircle.getAttribute('cy');
+														polyline.setAttribute('points', points);
+
+														if (points.split(' ').length > 3) {
+															addPolyline({
+																points: points
+															});	
+														}
+
+														$drawPolylineButton.trigger('clearTool');
+													},
+													mouseenter: function () {
+														mouseCircle.style.visibility = 'hidden';
+														isEnterEndPoint = true;
+
+														// Set line & circle to end point
+														pos = { x: endCircle.getAttribute('cx'), y: endCircle.getAttribute('cy') }
+														polyline.setAttribute("points", points + ' ' + pos.x + ',' + pos.y);
+														mouseCircle.setAttribute('cx', pos.x);
+														mouseCircle.setAttribute('cy', pos.y);
+													},
+													mouseleave: function () {
+														mouseCircle.style.visibility = 'visible';
+														isEnterEndPoint = false;
+													}
+												});
 											}
-										})
+											// Else => create new point
+											else {
+												// New point
+												points += ' ' + pos.x + ',' + pos.y;
+												polyline.setAttribute("points", points);
+											}
+										}
+									});
+								},
+								endTool: function () {
+									$(this).trigger('clearTool');
+
+									$g.off('.draw_polyline');
+								},
+								clearTool: function () {
+									if (polyline) {
+										polyline.remove();
+										polyline = null;
 									}
-									else {
-										// New point
-										points += ' ' + pos.x + ',' + pos.y;
-										polyline.setAttribute("points", points);
+									if (endCircle) {
+										endCircle.remove();
+										endCircle = null;
 									}
+									if (mouseCircle) {
+										mouseCircle.remove();
+										mouseCircle = null;	
+									}
+
+									$g.off('.drawing_polyline');
 								}
 							});
 						}
 
-						function endPolyline(isTerminate) {
-							if (polyline != null) {
-								points = '';
-								polyline.remove();
-								circle.remove();
-								polyline = null;
-								circle = null;
-							}
-
-							if (isTerminate) {
-								$g.off('.polyline');
-							}
-						}
-
-						$('[aria-click="polyline"]').on({
-							click: function () {
-								startPolyline();
-							},
-							end: function () {
-								endPolyline(true);
-							}
-						});
-
 					// / Polyline
 
-				/*
-					/ Paint
-				*/
+					// Cut
+
+						{
+							var
+								cutPolyline,
+								circle,
+								cutPolylinePoints,
+								$currentPolyline,
+								isCutting,
+								startPointIndex,
+								circleMouse;
+
+							function getLinearEquation(pointA, pointB) {
+								// Tính vector pháp tuyến (đảo 2 tọa độ + đổi dấu 1 tọa độ của vector chỉ phương)
+								vector = { 
+									x: pointB.y - pointA.y, 
+									y: pointA.x - pointB.x 
+								}
+
+								// Phương trình đường thẳng (a(x-x0)+b(y-y0)) => ax + by - ax0 - by0
+								equation = {
+									a: vector.x,
+									b: vector.y,
+									c: -vector.x * pointA.x - vector.y * pointA.y
+								}
+
+								return equation;
+							}
+
+							function getNearestPoint(pos, equation) {
+								// Lấy phương trình đường thẳng theo vector chỉ phương (vuông góc với đường thẳng hiện tại)
+								vector2 = { 
+									x: equation.b,
+									y: -equation.a
+								}
+								equation2 = {
+									a: vector2.x,
+									b: vector2.y,
+									c: -vector2.x * pos.x - vector2.y * pos.y
+								}
+
+								// Lấy giao điểm 2 đường thẳng
+								intersectionPoint = {};
+								intersectionPoint.x = (equation.b * equation2.c / equation2.b - equation.c) / (equation.a - equation.b * equation2.a / equation2.b);
+								intersectionPoint.y = -equation2.a * intersectionPoint.x / equation2.b - equation2.c / equation2.b;
+
+								return intersectionPoint;
+							}
+
+							$cutButton.on({
+								startTool: function () {
+									isUseCutTool = true;
+
+									function setEvent($polylines) {
+										($polylines || $g.find('polyline')).on({
+											'focus.cut': function () {
+												// Prevent refocus if is cutting
+												if (isCutting) {
+													return;
+												}
+												isCutting = true;
+
+												// Save current poyline
+												$currentPolyline = $(this);
+
+												// Get all points of polyline
+												var 
+													$points = $($currentPolyline.attr('points').split(' ').map(function (value) {
+														value = value.split(',');
+														return { x: parseInt(value[0]), y: parseInt(value[1]) };
+													}));
+
+												// Get linear equation of all line
+												length = $points.length - 1;
+												for (var i = 0; i < length; i++) {
+													equation = getLinearEquation($points[i], $points[i + 1]);
+													$points[i].equation_with_next = equation;
+													$points[i].denominator = Math.sqrt(equation.a * equation.a + equation.b * equation.b);
+												}
+
+												// Remove last point
+												$points = $points.slice(0, -1);
+
+												// Set visible status
+												$currentPolyline.css({
+													'stroke-width': '2px'
+												});
+
+												// Create circle mouse
+												cutPolyline = null, circleMouse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+												circleMouse.setAttribute('r', 5);
+												circleMouse.style.stroke = '#000';
+												circleMouse.style.fill = '#fff';
+												$g.append(circleMouse);
+
+												// Mouse on poline
+												$currentPolyline.add(circleMouse).on({
+													'mousemove.cutting': function (e) {
+														// Mouse position
+														pos = getPosition(e);
+
+														// Find nearest line with maximun is 15
+														nearest = { distance: 15, pointIndex: -1 };
+														$points.each(function (index) {
+															distance = Math.abs(this.equation_with_next.a * pos.x + this.equation_with_next.b * pos.y + this.equation_with_next.c) / this.denominator;
+															if (distance < nearest.distance) {
+																nearest.distance = distance;
+																nearest.pointIndex = index;
+															}
+														});
+
+														// If has nearest line => get intersection point
+														if (nearest.pointIndex != -1) {
+															startPoint = $points[nearest.pointIndex];
+															endPoint = $points[nearest.pointIndex == $points.length - 1 ? 0 : nearest.pointIndex + 1];
+
+															pos = getNearestPoint(pos, startPoint.equation_with_next);
+
+															if (startPoint.x < endPoint.x) {
+																minX = startPoint.x;
+																maxX = endPoint.x
+															}
+															else {
+																minX = endPoint.x;
+																maxX = startPoint.x
+															}
+															if (startPoint.y < endPoint.y) {
+																minY = startPoint.y;
+																maxY = endPoint.y
+															}
+															else {
+																minY = endPoint.y;
+																maxY = startPoint.y
+															}
+
+															if (pos.x < minX) {
+																pos.x = minX;
+															}
+															else if (pos.x > maxX) {
+																pos.x = maxX;
+															}
+															if (pos.y < minY) {
+																pos.y = minY;
+															}
+															else if (pos.y > maxY) {
+																pos.y = maxY;
+															}
+
+															circleMouse.setAttribute('data-lying_border', nearest.pointIndex);
+														}
+														else {
+															circleMouse.setAttribute('data-lying_border', '');
+														}
+														circleMouse.setAttribute('cx', pos.x);
+														circleMouse.setAttribute('cy', pos.y);
+													}
+												});
+
+												$currentPolyline.on('focusout.cutting', function () {
+													// For click to create point
+													if (isCreateCutPoint) {
+														return;
+													}
+													$cutButton.trigger('clearTool');
+												});
+
+												$g.on({
+													'mousedown.cutting': function () {
+														isCreateCutPoint = true;
+
+														// If begin
+														if (!cutPolyline) {
+															// Must click to border
+															if (!circleMouse.getAttribute('data-lying_border')) {
+																return;
+															}
+
+															// Set start point index
+															startPointIndex = circleMouse.getAttribute('data-lying_border');
+
+															// Create cut polyline
+															cutPolylinePoints = circleMouse.getAttribute('cx') + ',' + circleMouse.getAttribute('cy');
+															cutPolyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+															cutPolyline.style.stroke = '#000';
+															cutPolyline.style.fill = 'none';
+															cutPolyline.getAttribute('points', cutPolylinePoints);
+
+															$g.append(cutPolyline);
+															$g.append(circleMouse); // Bring up
+
+															$g.on('mousemove.cutting', function () {
+																if (isViewMoving) {
+																	return;
+																}
+																// Create start point
+																pos = { x: circleMouse.getAttribute('cx'), y: circleMouse.getAttribute('cy') };
+																cutPolyline.setAttribute("points", cutPolylinePoints + ' ' + pos.x + ',' + pos.y);
+															});
+														}
+														// Next point
+														else {
+															cutPolylinePoints += ' ' + pos.x + ',' + pos.y;
+															cutPolyline.getAttribute('points', cutPolylinePoints);
+
+															// If click to border again => end
+															if (circleMouse.getAttribute('data-lying_border')) {
+																// Get end point index
+																endPointIndex = circleMouse.getAttribute('data-lying_border');
+
+																// Get current polygon points
+																points = $currentPolyline.attr('points').split(' ').slice(0, -1);
+
+																// If start > end => reserve
+																if (startPointIndex > endPointIndex) {
+																	// Exchange index
+																	t = startPointIndex;
+																	startPointIndex = endPointIndex;
+																	endPointIndex = t;
+
+																	// Reverse cut polyline points
+																	cutPolylinePoints = cutPolylinePoints.split(' ').reverse().join(' ');
+																}
+
+																// Create first
+																pointsA = '';
+																for (i = 0; i <= startPointIndex; i++) {
+																	pointsA += ' ' + points[i];
+																}
+																pointsA += ' ' + cutPolylinePoints;
+																for (i = parseInt(endPointIndex) + 1; i < points.length; i++) {
+																	pointsA += ' ' + points[i];
+																}
+																pointsA = pointsA.substr(1);
+																// Add last points
+																pointsA += ' ' + pointsA.split(' ')[0];
+																setEvent(addPolyline({
+																	points: pointsA
+																}));
+
+																// Create second
+																pointsB = cutPolylinePoints;
+																for (i = endPointIndex; i > startPointIndex; i--) {
+																	pointsB += ' ' + points[i];
+																}
+																// Add last points
+																pointsB += ' ' + pointsB.split(' ')[0];
+																setEvent(addPolyline({
+																	points: pointsB
+																}));																
+
+																$currentPolyline.remove();
+
+																$cutButton.trigger('clearTool');
+															}
+														}
+													},
+													'mouseup.cutting': function () {
+														isCreateCutPoint = false;
+													}
+												});
+											}
+										});
+									}
+
+									setEvent();
+								},
+								endTool: function () {
+									isUseCutTool = false;
+									$g.find('polyline').off('.cut');
+									$cutButton.trigger('clearTool');
+								},
+								clearTool: function () {
+									isCutting = false;
+									if (cutPolyline) {
+										cutPolyline.remove();
+										cutPolyline = null;
+									}
+									if (circle) {
+										circle.remove();
+										circle = null;
+									}
+									if (circleMouse) {
+										circleMouse.remove();
+										circleMouse = null;
+									}
+									if ($currentPolyline) {
+										$currentPolyline.css({
+											'stroke-width': '1px'
+										});
+									}
+									$g.off('.cutting');
+									$g.find('polyline').off('.cutting');
+								}
+							});
+						}
+
+					// / Cut
+
+				// / Tools
 
 				loadImage.onload = function() {
 					image = document.createElementNS("http://www.w3.org/2000/svg", "image");
