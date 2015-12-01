@@ -22,16 +22,16 @@ class ApplicationController < ActionController::Base
 	rescue_from CanCan::AccessDenied do |e|
 		respond_to do |format|
 			format.html { redirect_to('/search?error=author') }
-	    format.json { render json: { status: 6, result: 'author' } }
-    end
+			format.json { render json: { status: 6, result: 'author' } }
+		end
 	end
 	
 	def init
 		unless cookies.has_key? :width_type
 			if params.has_key? :width_type
 				cookies[:width_type] = params[:width_type]
-  			render plain: '0'
-  		else
+				render plain: '0'
+			else
 				@location = request.path
 				render 'home/get_width', layout: false
 			end
@@ -42,9 +42,6 @@ class ApplicationController < ActionController::Base
 
 		@current_user = User.current = get_current_user
 		session[:user_id] = current_user.id
-		
-		current_user.update(last_interact_at: DateTime.now, is_online: true) if signed?
-    Session.where(session_id: session.id).update_all(updated_at: DateTime.now)
 
 		@current_ability = User.ability = Ability.new(current_user, request)
 
@@ -53,6 +50,43 @@ class ApplicationController < ActionController::Base
 
 		@current_purpose = User.options[:current_purpose] = get_current_purpose
 		cookies[:purpose] = current_purpose
+
+		# If first time
+		unless session[:is_not_first]
+			session[:is_not_first] = true
+			@is_first_time_visit = true
+
+			# If was not give info
+			unless cookies[:was_give_info]
+				# If first time in browser (use cookie to detect)
+				# => Set current_session cookie data is begin session (befor save)
+				# Else
+				# => Set current begin_session_id to current_session (after save)
+				s = Session.new
+				if cookies[:begin_session].present?
+					s.begin_session_id = cookies[:begin_session]
+				end
+
+				s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
+				s.utm_source = params[:utm_source] if params[:utm_source].present?
+				s.utm_medium = params[:utm_medium] if params[:utm_medium].present?
+				s.utm_term = params[:utm_term] if params[:utm_term].present?
+				s.utm_content = params[:utm_content] if params[:utm_content].present?
+
+				if request.referrer.present?
+					s.referrer_host = URI(request.referrer).host
+					s.referrer_source = request.referrer
+				end
+
+				s.save
+
+				if cookies[:begin_session].blank?
+					cookies[:begin_session] = s.id
+				end
+
+				session[:current_session_id] = s.id
+			end
+		end
 	end
  
 	private

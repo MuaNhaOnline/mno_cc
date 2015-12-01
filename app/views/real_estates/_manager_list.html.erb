@@ -43,13 +43,13 @@
           </span>
         </p>
         <p>
-          <span class="fa fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %>
+          <span class="fa fa-fw fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %>
         </p>
         <p>
-          <span class="fa fa-tag"></span> <%= re.display_purpose %>
+          <span class="fa fa-fw fa-tag"></span> <%= re.display_purpose %>
         </p>
         <p class="address">
-          <span class="fa fa-map-marker"></span> <%= re.display_address %>
+          <span class="fa fa-fw fa-map-marker"></span> <%= re.display_address %>
         </p>
       </section>
       <section class="control">

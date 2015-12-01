@@ -175,6 +175,12 @@ table + div {
     opacity: 1;
   }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 a {
   cursor: pointer;
 }
@@ -407,26 +413,26 @@ body.no-scroll {
     Top
   */
 
-  .item-list .item .top {
+  .item-list .item > .top {
     position: relative;
   }
 
-    .item-list .item .top img {
+    .item-list .item > .top img {
       width: 100%;
     }
 
-    .item-list .item .top .left,
-    .item-list .item .top .right {
+    .item-list .item > .top .left,
+    .item-list .item > .top .right {
       position: absolute;
       top: 0;
       padding: 5px 0;
     }
 
-    .item-list .item .top .left {
+    .item-list .item > .top .left {
       left: -7px;
     }
 
-      .item-list .item .top .left .node {
+      .item-list .item > .top .left .node {
         margin-top: 5px;
         margin-bottom: 5px;
         padding: 0 5px;
@@ -441,8 +447,8 @@ body.no-scroll {
           border-color: #3c8dbc;
         }
 
-        .item-list .item .top .left .node:before,
-        .item-list .item .top .left .node:after {
+        .item-list .item > .top .left .node:before,
+        .item-list .item > .top .left .node:after {
           content: '';
           display: block;
           width: 0px;
@@ -452,7 +458,7 @@ body.no-scroll {
           transform: rotate(45deg);
         }
 
-        .item-list .item .top .left .node:before {
+        .item-list .item > .top .left .node:before {
           border-width: 5px;
           border-bottom-color: #ddd;
           bottom: -6px;
@@ -463,14 +469,14 @@ body.no-scroll {
             border-bottom-color: #3c8dbc;
           }
 
-        .item-list .item .top .left .node:after {
+        .item-list .item > .top .left .node:after {
           border-width: 4px;
           border-bottom-color: #fff;
           bottom: -5px;
           left: 2px;
         }
 
-    .item-list .item .top .right {
+    .item-list .item > .top .right {
       right: 20px;
     }
 
@@ -482,30 +488,29 @@ body.no-scroll {
     Bottom
   */
 
-  .item-list .item .bottom {
+  .item-list .item > .bottom {
     border-top: 1px solid #eee;
     padding: 10px;
   }
 
-    .item-list .item .bottom p {
+    .item-list .item > .bottom p {
       margin-bottom: 5px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .item-list .item .bottom .fa {
+    .item-list .item > .bottom .fa {
       color: #555;
       margin-right: 4px;
-      width: 15px;
       text-align: center;
     }
 
-    .item-list .item .bottom .title {
+    .item-list .item > .bottom .title {
       font-size: 17px;
     }
 
-    .item-list .item .bottom .address {
+    .item-list .item > .bottom .address {
       height: 40px;
     }
 

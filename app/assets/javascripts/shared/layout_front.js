@@ -28,6 +28,63 @@ $(function () {
 	// init MiniMenu
 	// initMiniMenu();
 	initMiniMenu($('#mini_menu'), $('#content_mini_menu'));
+
+	// Contact box
+	(function () {
+		var $contactBox = $('.contact-box-container .contact-box');
+		$contactBox.find('.box-header').on({
+			'click': function () {
+				if ($contactBox.find('.box-body').slideToggle(200).is(':visible')){
+					$contactBox.find(':input:eq(0)').focus();
+				}
+			}
+		});
+
+		$contactBox.find('.box-body').hide();
+
+		$contactBox.find('#contact_form').on('submit', function (e) {
+			e.preventDefault();
+			var form = this;
+
+			if (!form['contact[name]'].value) {
+				alert('Vui lòng nhập tên');
+				return;
+			}
+
+			if (!form['contact[phone_number]'].value) {
+				alert('Vui lòng nhập số điện thoại');
+				return;
+			}
+
+			if (/\D/.test(form['contact[phone_number]'].value) || form['contact[phone_number]'].value.length > 11 || form['contact[phone_number]'].value.length < 10) {
+				alert('Số điện thoại không hợp lệ');
+				return;
+			}
+
+			if (!form['contact[email]'].value) {
+				alert('Vui lòng nhập email');
+				return;
+			}
+
+			if (!/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test(form['contact[email]'].value)) {
+				alert('Email không hợp lệ');
+				return;
+			}
+
+			return;
+			$.ajax({
+				url: '/contact_user_infos/create',
+				method: 'POST',
+				data: $(form).serialize(),
+				dataType: 'JSON'
+			}).done(function () {
+				$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
+				$.cookie('was_give_info', true);
+			}).fail(function () {
+				alert('Rất tiếc, đã có lỗi xảy ra');
+			});
+		});
+	})();
 });
 
 //endregion

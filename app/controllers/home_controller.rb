@@ -82,15 +82,15 @@ class HomeController < ApplicationController
   end
 
   # Handle
-  def nothing
-    render plain: '0'
-  end
+  # def nothing
+  #   render plain: '0'
+  # end
 
   # Handle
-  def end_session
-    current_user.update(is_online: false) if signed?
-    render plain: '0'
-  end
+  # def end_session
+  #   current_user.update(is_online: false) if signed?
+  #   render plain: '0'
+  # end
 
   # View/Handle
   # params

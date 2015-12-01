@@ -258,6 +258,49 @@
 </main>
 <!-- #end main frame -->
 
+<!-- Contact box -->
+	
+	<section class="contact-box-container">
+		<% if !cookies[:was_give_info] %>
+			<article class="contact-box" style="width: auto;">
+				<section class="box-header">
+					<h2 class="box-title">
+						<span class="fa fa-phone fa-lg"></span> 0939.26.24.26
+					</h2>
+				</section>
+			</article>
+		<% else %>
+			<article class="contact-box">
+				<section class="box-header">
+					<h2 class="box-title">
+						Hãy liên hệ với chúng tôi
+						<br />
+						<span class="fa fa-phone fa-lg"></span> 0939.26.24.26
+					</h2>
+				</section>
+				<section class="box-body">
+					<p class="or" style="text-align: center; color: #888; margin-top: -10px; font-weight: bold;">Hoặc gửi</p>
+					<form id="contact_form">
+						<article class="form-group">
+							<input class="form-control" type="text" name="contact[name]" placeholder="Tên của bạn" />
+						</article>
+						<article class="form-group">
+							<input class="form-control" type="text" name="contact[phone_number]" placeholder="Điện thoại của bạn" />
+						</article>
+						<article class="form-group">
+							<input class="form-control" type="text" name="contact[email]" placeholder="Email của bạn" />
+						</article>
+						<article class="text-center">
+							<button type="submit" class="btn btn-primary btn-link">Gửi</button>
+						</article>
+					</form>
+				</section>
+			</article>
+		<% end %>
+	</section>
+
+<!-- / Contact box -->
+
 <!-- #start footer -->
 <footer>
 	<div class="container">

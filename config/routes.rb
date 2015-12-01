@@ -16,8 +16,8 @@ Rails.application.routes.draw do
     get 'home/index'
     get 'home/back'
     post 'set_width/:width_type' => 'home#set_width'
-    post 'nothing' => 'home#nothing'
-    post 'end_session' => 'home#end_session'
+    # post 'nothing' => 'home#nothing'
+    # post 'end_session' => 'home#end_session'
 
   # / Home, shared
 
@@ -145,6 +145,20 @@ Rails.application.routes.draw do
     post 'users/cancel_change_email/:id' => 'users#cancel_change_email'
 
   # / User
+
+  # Contact user info
+
+    get 'contact_user_infos/_index_list'
+    get 'contact_user_infos/index'
+    get 'contact_user_infos/_view_history/:id' => 'contact_user_infos#_view_history'
+    get 'contact_user_infos' => 'contact_user_infos#index'
+    post 'contact_user_infos/create' => 'contact_user_infos#save'
+
+  # / Contact user info
+
+  # Session
+
+  # / Session
 
   # Appraisal company
 

@@ -153,8 +153,8 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="/users/manager"><i class="fa fa-street-view"></i> Quản lý nhóm</a></li>
-                  <li><a href="/users/visit_counter"><i class="fa fa-circle-o"></i> Lượng truy cập</a></li>
-                  <li><a href="/users/view_all"><i class="fa fa-circle-o"></i> Danh sách</a></li>
+                  <!-- <li><a href="/users/visit_counter"><i class="fa fa-circle-o"></i> Lượng truy cập</a></li>
+                  <li><a href="/users/view_all"><i class="fa fa-circle-o"></i> Danh sách</a></li> -->
                 </ul>
               </li>
             <% end %>
@@ -227,6 +227,15 @@
                 <% if can? :view_assigned_list, AppraisalCompany %>
                   <li><a href="/appraisal_companies/appraise"><i class="fa fa-circle-o"></i> Thẩm định</a></li>
                 <% end %>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-yelp"></i> <span>Thống kê</span> <i class="fa fa-caret-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/contact_user_infos"><i class="fa fa-circle-o"></i> Thông tin liên hệ</a></li>
+                <li><a href="/sessions"><i class="fa fa-circle-o"></i> Lượt truy cập (đến lead)</a></li>
               </ul>
             </li>
           </ul>

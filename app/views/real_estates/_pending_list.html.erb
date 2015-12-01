@@ -16,16 +16,16 @@
           <%= re.title %>
         </p>
         <p>
-          <span class="fa fa-user"></span> <%= re.user_id == 0 ? re.user_full_name : "<a href=\"/users/#{re.user.id}\">#{re.user.full_name}</a>".html_safe %>
+          <span class="fa fa-fw fa-user"></span> <%= re.user_id == 0 ? re.user_full_name : "<a href=\"/users/#{re.user.id}\">#{re.user.full_name}</a>".html_safe %>
         </p>
         <p>
-          <span class="fa fa-home"></span> <%= re.display_real_estate_type %>
+          <span class="fa fa-fw fa-home"></span> <%= re.display_real_estate_type %>
         </p>
         <p>
-          <span class="fa fa-tag"></span> <%= re.display_purpose %>
+          <span class="fa fa-fw fa-tag"></span> <%= re.display_purpose %>
         </p>
         <p class="address">
-          <span class="fa fa-map-marker"></span> <%= re.display_address %>
+          <span class="fa fa-fw fa-map-marker"></span> <%= re.display_address %>
         </p>
       </section>
       <section class="control">

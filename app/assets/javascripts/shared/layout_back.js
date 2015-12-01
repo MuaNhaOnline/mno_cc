@@ -343,12 +343,49 @@ $(function () {
       $popup.find('[aria-click="close-popup"]').on('click', function () {
         $popup.off();
       });
-
-      return $popup
     }
     else {
-      // URL
+      // Url
+      $.ajax({
+        url: params.url,
+        dataType: 'JSON'
+      }).always(function () {
+        if ('always' in params) {
+          params['always']();
+        }
+      }).done(function (data) {
+        if (data.status == 0) {
+          $popupContent.html(data.result);
+
+          // Turn on popup    
+          $popup.on();
+
+          // Turn off popup
+          $popup.find('[aria-click="close-popup"]').on('click', function () {
+            $popup.off();
+          });
+
+          if ('success' in params) {
+            params['success']($popup);
+          }
+        }
+        else {
+          $popup.remove();
+
+          if ('fail' in params) {
+            params['fail']();
+          }
+        }
+      }).fail(function () {
+        $popup.remove();
+
+        if ('fail' in params) {
+          params['fail']();
+        }
+      });
     }
+
+    return $popup;
   }
 
   /*

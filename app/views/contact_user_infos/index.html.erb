@@ -1,0 +1,33 @@
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" src="/assets/contact_user_infos/index.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+  Danh sách liên hệ
+<% end %>
+
+<%
+=begin
+  @contacts
+=end
+  total = @contacts.count
+  per = 12
+%>
+
+<section>
+  <article id="contact_list" class="row item-list">
+    <% if total != 0 %>
+      <%= render partial: 'contact_user_infos/index_list', locals: { contacts: @contacts.page(1, per) } %>
+    <% else %>
+      <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có thông tin liên hệ nào</h4></div>
+    <% end %>
+  </article>
+  <nav class="text-center" id="pagination">
+    <% if total != 0 %>
+      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+    <% end %>
+  </nav>
+</section>

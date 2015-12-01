@@ -1,0 +1,62 @@
+<% 
+=begin
+  params: @contact, @sessions
+=end
+
+%>
+
+<article class="box box-primary">
+  <section class="box-header with-border">
+    <h2 class="box-title">
+      Lịch sử truy cập
+    </h2>
+  </section>
+  <section class="box-body text-center no-padding">
+    <table class="table table-striped width-auto inline-block">
+      <thead>
+        <tr>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            Đến từ
+          </th>
+          <th>
+            Đường dẫn
+          </th>
+          <th>
+            Chiến dịch
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sessions.each_with_index do |s, index| %>
+          <tr>
+            <% if index == 0 %>
+              <td><%= s.created_at.strftime '%d/%m/%Y lúc %H:%M' %></td>
+            <% else %>
+              <td data-time-range="<%= @session[index - 1].created_at %>;<%= s.created_at %>"></td>
+            <% end %>
+            <td>
+              <% case s.referrer_host %>
+              <% when '' %>
+                Trực tiếp
+              <% when ['muanhaonline.vn','muanhaonline.com.vn'] %>
+                Nội bộ
+              <% else %>
+                <%= s.referrer_host %>
+              <% end %>
+            </td>
+            <td class="ellipsis" style="max-width: 200px;">
+              <a href="<%= s.referrer_source %>"><%= s.referrer_source %></a>              
+            </td>
+            <td>
+              <%= s.utm_campaign %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <p>Tổng thời gian: <b aria-time-range="<%= @sessions[0].created_at %>;<%= @contact.created_at %>"></b></p>
+  </section>
+</article>

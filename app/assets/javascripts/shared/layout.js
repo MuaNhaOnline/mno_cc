@@ -12,19 +12,19 @@ $(function () {
   _startPagination();
   initReadTime();
 
-  setInterval(function () {
-    $.ajax({
-      url: '/nothing',
-      method: 'POST'
-    });
-  }, 870000);
+  // setInterval(function () {
+  //   $.ajax({
+  //     url: '/nothing',
+  //     method: 'POST'
+  //   });
+  // }, 870000);
 
-  $window.on('unload', function () {
-    $.ajax({
-      url: '/end_session',
-      method: 'POST'
-    });
-  });
+  // $window.on('unload', function () {
+  //   $.ajax({
+  //     url: '/end_session',
+  //     method: 'POST'
+  //   });
+  // });
 
   _initHorizontalListScroll($('.horizontal-list-container'));
 });
@@ -33,9 +33,15 @@ $(function () {
   Helper
 */
 
-function isMobile() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB10|IEMobile|Opera Mini|Touch/i.test(navigator.userAgent);
-}
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB10|IEMobile|Opera Mini|Touch/i.test(navigator.userAgent);
+  }
+
+  function getUrlInfo(url) {
+    var urlInfo = document.createElement('a');
+    urlInfo.href = href;
+    return urlInfo;
+  }
 
 /*
   / Helper
@@ -622,17 +628,26 @@ function initSize() {
     (typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')).each(function () {
       setTime($(this));
     });
+    (typeof($container) == 'undefined' ? $('[aria-time-range]') : $container.find('[aria-time-range]')).each(function () {
+      setTimeRange($(this));
+    });
   }
 
   function setTime($item) {
     var time = readTime($item.attr('aria-time'));
     $item.text(time.short);
     $item.tooltip({ title: time.full });
-    if (repeat != -1) {
+    if (time.repeat != -1) {
       setTimeout(function () {
         setTime($item);
-      }, repeat * 1000);
+      }, time.repeat * 1000);
     }
+  }
+
+  function setTimeRange($item) {
+    var time = readTimeRange($item.attr('aria-time-range').split(';'));
+    $item.text(time.short);
+    $item.tooltip({ title: time.full });
   }
 
   function readTime(time) {
@@ -661,11 +676,11 @@ function initSize() {
               else {
                 shortText = minutes + ' phút trước';
               }
-              repeat = 60 - seconds;
+              repeat = 60 * (minutes + 1) - seconds;
             }
             else {
               shortText = hours + ' giờ trước';
-              repeat = (60 - minutes) * 60;
+              repeat = (60 * (hours + 1) - minutes) * 60;
             }
           }
           else {
@@ -678,7 +693,7 @@ function initSize() {
             else {
               shortText = days + ' ngày trước';
             }
-            repeat = (24 - hours) * 3600;
+            repeat = (24 * (days + 1) - hours) * 3600;
           }
         }
         else {
@@ -694,6 +709,59 @@ function initSize() {
     }
 
     fullText = time.getDate() + ' tháng ' + (time.getMonth() + 1) + ' năm ' + time.getFullYear() + ' lúc ' + time.getHours() + ' giờ ' + time.getMinutes();
+
+    return { short: shortText, full: fullText, repeat: repeat };
+  }
+
+  function readTimeRange(timeRange) {
+    timeFrom = new Date(timeRange[0]);
+    timeTo = new Date(timeRange[1]);
+    shortText = '';
+    fullText = '';
+
+    seconds =   ~~((timeTo - timeFrom) / 1000)
+    minutes =   ~~(seconds / 60);
+    hours =     ~~(minutes / 60);
+    days =      ~~(hours / 24);
+    years =     ~~(days / 365);
+    months =    ~~(days / 30);
+    weeks =     ~~(days / 7);
+
+    if (years == 0) {
+      if (months == 0) {
+        if (weeks == 0) {
+          if (days == 0) {
+            if (hours == 0) {
+              if (minutes == 0) {
+                shortText = 'Một lát';
+              }
+              else {
+                shortText = 'Khoảng' + minutes + ' phút';
+              }
+            }
+            else {
+              shortText = 'Khoảng' + hours + ' tiếng';
+            }
+          }
+          else {
+            shortText = 'Khoảng' + days + ' ngày';
+          }
+        }
+        else {
+          shortText = 'Khoảng' + weeks + ' tuần';
+        }
+      }
+      else {
+        shortText = 'Khoảng' + months + ' tháng';
+      }
+    }
+    else {
+      shortText = 'Khoảng' + years + ' năm';
+    }
+
+    fullText = 
+      timeFrom.getDate() + '/' + (timeFrom.getMonth() + 1) + '/' + timeFrom.getFullYear() + ' lúc ' + timeFrom.getHours() + ':' + timeFrom.getMinutes() + ' - ' +
+      timeTo.getDate() + '/' + (timeTo.getMonth() + 1) + '/' + timeTo.getFullYear() + ' lúc ' + timeTo.getHours() + ':' + timeTo.getMinutes();
 
     return { short: shortText, full: fullText, repeat: repeat };
   }

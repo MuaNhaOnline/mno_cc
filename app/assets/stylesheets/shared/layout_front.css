@@ -1510,3 +1510,100 @@ footer {
 /*--------------------------------------------------------*/
 /*end*/
 /*--------------------------------------------------------*/
+
+/*
+	Contact box
+*/
+
+	.contact-box-container {
+		position: fixed;
+		right: 5vw;
+		bottom: 0;
+		z-index: 5;
+	}
+
+		.contact-box-container .contact-box {
+			background-color: #fff;
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, .2);
+			width: 250px;
+		}
+
+			.contact-box-container .contact-box .box-header {
+				padding: 10px;
+				border-bottom: 2px solid #1265ab;
+				background-color: #337bb7;
+				cursor: pointer;
+				text-align: center;
+			}
+
+				.contact-box-container .contact-box .box-header .box-title {
+					font-size: 18px;
+					margin: 0;
+					color: #fff;
+				}
+
+				.contact-box-container .contact-box .box-header .box-title .fa-phone {
+					animation: phone-ring 10s linear infinite;
+				}
+  
+			  @keyframes phone-ring {
+			    0% {
+			    	transform: rotate(-15deg);
+			    }
+			    1% {
+			    	transform: rotate(15deg);
+			    }
+			    2% {
+			    	transform: rotate(-15deg);
+			    }
+			    3% {
+			    	transform: rotate(15deg);
+			    }
+			    4% {
+			    	transform: none;
+			    }
+			  }
+
+			.contact-box-container .contact-box .box-body {
+				padding: 20px;
+			}
+
+				.contact-box-container .contact-box .box-body .or {
+			    text-align: center;
+			    color: #888;
+			    margin-top: -10px;
+			    font-weight: bold;
+				}
+
+				.contact-box-container .contact-box .box-body .form-control {
+					border-radius: 0;
+					border: none;
+					box-shadow: none;
+					border-bottom: 2px solid #ddd;
+					transition: .5s;
+					font-size: 18px;
+				}
+
+					.contact-box-container .contact-box .box-body .form-control:focus {
+						border-bottom-color: #337bb7;
+					}
+
+				.contact-box-container .contact-box .box-body .btn-link {
+					font-size: 18px;
+					font-weight: bold;
+					border: 0;
+					border-bottom: 2px solid #aaa;
+					padding-bottom: 0px;
+					text-decoration: none;
+					transition: .5s;
+					outline: 0;
+				}
+
+					.contact-box-container .contact-box .box-body .btn-link:hover,
+					.contact-box-container .contact-box .box-body .btn-link:focus {
+						border-bottom-color: #1265ab;
+					}
+
+/*
+	/ Contact box
+*/
