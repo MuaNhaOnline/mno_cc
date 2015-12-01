@@ -36,8 +36,24 @@ $(function () {
 			'click': function () {
 				if ($contactBox.find('.box-body').slideToggle(200).is(':visible')){
 					$contactBox.find(':input:eq(0)').focus();
+					$document.on({
+						'click.close_contact_form': function () {
+							$contactBox.find('.box-body').slideUp(200);
+							$document.off('click.close_contact_form');
+						},
+						'keydown.close_contact_form': function (e) {
+							if (e.keyCode == 27) {
+								$contactBox.find('.box-body').slideUp(200);
+								$document.off('click.close_contact_form');	
+							}
+						}
+					});
 				}
 			}
+		});
+		// For click inside when open (click outside to close event)
+		$contactBox.on('click', function (e) {
+			e.stopPropagation();
 		});
 
 		$contactBox.find('.box-body').hide();

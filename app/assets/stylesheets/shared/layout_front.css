@@ -1530,8 +1530,8 @@ footer {
 
 			.contact-box-container .contact-box .box-header {
 				padding: 10px;
-				border-bottom: 2px solid #1265ab;
-				background-color: #337bb7;
+				border-bottom: 2px solid #1B7C1B;
+				background-color: #369836;
 				cursor: pointer;
 				text-align: center;
 			}
@@ -1585,7 +1585,7 @@ footer {
 				}
 
 					.contact-box-container .contact-box .box-body .form-control:focus {
-						border-bottom-color: #337bb7;
+						border-bottom-color: #369836;
 					}
 
 				.contact-box-container .contact-box .box-body .btn-link {
@@ -1597,11 +1597,13 @@ footer {
 					text-decoration: none;
 					transition: .5s;
 					outline: 0;
+					color: #369836;
 				}
 
 					.contact-box-container .contact-box .box-body .btn-link:hover,
 					.contact-box-container .contact-box .box-body .btn-link:focus {
-						border-bottom-color: #1265ab;
+						border-bottom-color: #369836;
+						color: #1B7C1B;
 					}
 
 /*
