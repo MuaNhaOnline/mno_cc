@@ -39,12 +39,12 @@ $(function () {
 					$document.on({
 						'click.close_contact_form': function () {
 							$contactBox.find('.box-body').slideUp(200);
-							$document.off('click.close_contact_form');
+							$document.off('.close_contact_form');
 						},
 						'keydown.close_contact_form': function (e) {
 							if (e.keyCode == 27) {
 								$contactBox.find('.box-body').slideUp(200);
-								$document.off('click.close_contact_form');	
+								$document.off('.close_contact_form');	
 							}
 						}
 					});
