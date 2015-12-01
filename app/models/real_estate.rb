@@ -592,6 +592,11 @@ class RealEstate < ActiveRecord::Base
         where += " AND is_favorite = #{params[:is_favorite]}"
       end
 
+      # Time order
+      if params.has_key? :newest
+        order[:created_at] = 'desc'
+      end
+
       # Price order
       if params.has_key?(:cheapest) || params.has_key?(:price)
         if User.options[:current_purpose] == 'r'
@@ -599,11 +604,6 @@ class RealEstate < ActiveRecord::Base
         else
           order[:sell_price] = 'asc'
         end
-      end
-
-      # Time order
-      if params.has_key? :newest
-        order[:created_at] = 'desc'
       end
 
       where += " AND is_full = #{params[:is_full] || 'true'}"
