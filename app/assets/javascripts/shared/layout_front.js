@@ -87,7 +87,6 @@ $(function () {
 				return;
 			}
 
-			return;
 			$.ajax({
 				url: '/contact_user_infos/create',
 				method: 'POST',
