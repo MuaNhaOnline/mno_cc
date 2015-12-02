@@ -158,6 +158,9 @@ Rails.application.routes.draw do
 
   # Session
 
+    get 'sessions' => 'sessions#index'
+    get 'sessions/get_data'
+
   # / Session
 
   # Appraisal company

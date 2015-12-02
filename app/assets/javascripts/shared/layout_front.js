@@ -95,7 +95,6 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function () {
 				$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
-				$.cookie('was_give_info', true);
 			}).fail(function () {
 				alert('Rất tiếc, đã có lỗi xảy ra');
 			});

@@ -61,7 +61,15 @@ class ContactUserInfosController < ApplicationController
 		def save
 			contact = ContactUserInfo.new
 			params[:contact][:session_id] = session[:current_session_id]
-			render json: contact.save_with_params(params[:contact])
+
+			result = contact.save_with_params(params[:contact])
+
+			if result[:status] == 0
+				cookies[:was_give_info] = true
+				Session.find(session[:current_session_id]).update(user_info_type: 'contact', user_info_id: contact.id)
+			end
+
+			render json: result
 		end
 
 	# / Create

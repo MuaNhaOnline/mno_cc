@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     # Handle
     # params: form user
     def save
-      if params[:user][:id].blank?
+      if is_sign_up = params[:user][:id].blank?
         user = User.new
       else 
         user = User.find(params[:user][:id])
@@ -39,6 +39,12 @@ class UsersController < ApplicationController
       
       # If error
       return render json: result if result[:status] != 0
+
+      # If signup
+      if is_sign_up
+        cookies[:was_give_info] = true
+        Session.find(session[:current_session_id]).update(user_info_type: 'sign_up', user_info_id: user.id)
+      end
 
       # Send active mail
       case user.active_status
