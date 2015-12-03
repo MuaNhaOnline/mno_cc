@@ -30,6 +30,9 @@ $(function () {
 							options = {
 				        axisY: {
 				        	includeZero: false
+				        },
+				        axisX: {
+				        	valueFormatString: "D/M/YY", 
 				        }
 							}
 							data.push({

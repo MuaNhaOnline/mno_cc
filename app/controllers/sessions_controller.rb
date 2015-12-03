@@ -32,10 +32,10 @@ class SessionsController < ApplicationController
 					}
 				end
 			when 'time'
-				sessions.group(:created_at).count.each do |created_at, count|
+				Session.reorder('').group_by { |m| m.created_at.day.to_s + '/' + m.created_at.month.to_s + '/' + m.created_at.year.to_s  }.each do |day, s|
 					data << {
-						label: created_at,
-						count: count
+						label: day,
+						count: s.count
 					}
 				end
 			end
