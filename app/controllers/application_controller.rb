@@ -44,24 +44,24 @@ class ApplicationController < ActionController::Base
 					s.begin_session_id = cookies[:begin_session]
 				end
 
-				s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
-				s.utm_source = params[:utm_source] if params[:utm_source].present?
-				s.utm_medium = params[:utm_medium] if params[:utm_medium].present?
-				s.utm_term = params[:utm_term] if params[:utm_term].present?
-				s.utm_content = params[:utm_content] if params[:utm_content].present?
-
 				if request.referrer.present?
 					s.referrer_host = URI(request.referrer).host
 					s.referrer_source = request.referrer
 					s.referrer_host_name = case s.referrer_host
 						when 'facebook.com', 'www.facebook.com'
 							'Facebook'
-						when 'muanhaonline.vn'
+						when 'muanhaonline.vn', 'www.muanhaonline.vn'
 							'MuanhaOnline'
 						else
 							s.referrer_host
 						end
 				end
+
+				s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
+				s.utm_source = params[:utm_source] if params[:utm_source].present?
+				s.utm_medium = params[:utm_medium] if params[:utm_medium].present?
+				s.utm_term = params[:utm_term] if params[:utm_term].present?
+				s.utm_content = params[:utm_content] if params[:utm_content].present?
 
 				s.save
 
