@@ -32,7 +32,9 @@ $(function () {
 				        	includeZero: false
 				        },
 				        axisX: {
-				        	valueFormatString: "D/M/YY", 
+        					interval: '1',
+        					intervalType: 'day',
+				        	valueFormatString: 'D/M/YY', 
 				        }
 							}
 							data.push({
