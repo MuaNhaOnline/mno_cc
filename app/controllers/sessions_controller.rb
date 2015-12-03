@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
 					}
 				end
 			when 'time'
-				Session.reorder('').group_by { |m| m.created_at.day.to_s + '/' + m.created_at.month.to_s + '/' + m.created_at.year.to_s  }.each do |day, s|
+				Session.reorder('').group_by { |m| m.created_at.month.to_s + '/' m.created_at.day.to_s + '/' + m.created_at.year.to_s  }.each do |day, s|
 					data << {
 						label: day,
 						count: s.count
