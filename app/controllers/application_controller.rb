@@ -27,29 +27,6 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def init
-		unless cookies.has_key? :width_type
-			if params.has_key? :width_type
-				cookies[:width_type] = params[:width_type]
-				render plain: '0'
-			else
-				@location = request.path
-				render 'home/get_width', layout: false
-			end
-			return
-		end
-
-		User.options = {}
-
-		@current_user = User.current = get_current_user
-		session[:user_id] = current_user.id
-
-		@current_ability = User.ability = Ability.new(current_user, request)
-
-		@current_width_type = User.options[:current_width_type] = get_current_width_type
-		cookies[:width_type] = current_width_type
-
-		@current_purpose = User.options[:current_purpose] = get_current_purpose
-		cookies[:purpose] = current_purpose
 
 		# If first time
 		unless session[:is_not_first]
@@ -76,6 +53,14 @@ class ApplicationController < ActionController::Base
 				if request.referrer.present?
 					s.referrer_host = URI(request.referrer).host
 					s.referrer_source = request.referrer
+					s.referrer_host_name = case s.referrer_host
+						when 'facebook.com', 'www.facebook.com'
+							'Facebook'
+						when 'muanhaonline.vn'
+							'MuanhaOnline'
+						else
+							s.referrer_host
+						end
 				end
 
 				s.save
@@ -87,6 +72,30 @@ class ApplicationController < ActionController::Base
 				session[:current_session_id] = s.id
 			end
 		end
+
+		unless cookies.has_key? :width_type
+			if params.has_key? :width_type
+				cookies[:width_type] = params[:width_type]
+				render plain: '0'
+			else
+				@location = request.path
+				render 'home/get_width', layout: false
+			end
+			return
+		end
+
+		User.options = {}
+
+		@current_user = User.current = get_current_user
+		session[:user_id] = current_user.id
+
+		@current_ability = User.ability = Ability.new(current_user, request)
+
+		@current_width_type = User.options[:current_width_type] = get_current_width_type
+		cookies[:width_type] = current_width_type
+
+		@current_purpose = User.options[:current_purpose] = get_current_purpose
+		cookies[:purpose] = current_purpose
 	end
  
 	private

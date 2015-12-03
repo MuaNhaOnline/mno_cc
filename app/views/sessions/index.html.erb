@@ -11,4 +11,30 @@
   Thống kê lượt truy cập
 <% end %>
 
-<section id="view_part"></section>
+<section class="box box-solid">
+  <section class="box-body">
+    <article class="row">
+      <article class="form-group col-md-3">
+        <label class="control-label" for="purpose">
+          Thống kê
+        </label>
+        <select class="form-control" id="purpose">
+          <option value="host">Nguồn</option>
+          <option value="campaign">Chiến dịch</option>
+          <option value="time">Thời gian</option>
+        </select>
+      </article>
+    </article>
+  </section>
+</section>
+
+<section class="box box-primary">
+  <section class="box-header">
+    <h2 class="box-title" id="chart_label">
+      Các quý năm 2015
+    </h2>
+  </section>  
+  <section class="box-body">
+    <article id="chart" style="height: 300px"></article>
+  </section>
+</section>

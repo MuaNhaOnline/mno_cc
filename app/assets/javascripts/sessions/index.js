@@ -1,39 +1,96 @@
-$(function () {
+$(function () {	
+	purpose = $('#purpose').val();
 
-	    var chart = new CanvasJS.Chart('view_part', {
+	// Statistic by
 
-	      title:{
-	        text: "Fruits sold in First Quarter"              
-	      },
-	      data: [//array of dataSeries              
-	        { //dataSeries object
+		(function () {
+			$('#purpose').on('change', function () {
+				purpose = this.value;
+				render();
+			});
 
-	         /*** Change type "column" to "bar", "area", "line" or "pie"***/
-	         type: "column",
-	         dataPoints: [
-	         { label: "banana", y: 18 },
-	         { label: "orange", y: 29 },
-	         { label: "apple", y: 40 },                                    
-	         { label: "mango", y: 34 },
-	         { label: "grape", y: 24 }
-	         ]
-	       }
-	       ]
-	     });
+			render();
+		})();
 
-	    chart.render();
-	    return;
-	$.ajax({
-		url: '/sessions/get_data',
-		data: [],
-		dataType: 'JSON'
-	}).done(function (data) {
-		if (data.status == 0) {
+	// / Statistic by
+
+	// Render chart
+
+		function render() {
+			$.ajax({
+				url: '/sessions/get_data',
+				data: { purpose: purpose },
+				dataType: 'JSON'
+			}).done(function (d) {
+				if (d.status == 0) {
+				 	var options, data = [];
+
+					switch (purpose) {
+						case 'time':
+							options = {
+				        axisY: {
+				        	includeZero: false
+				        }
+							}
+							data.push({
+								type: 'line',
+								markerSize: 5,
+								toolTipContent: "{x}: <strong>{y}</strong>",
+								dataPoints: d.result.map(function (value) {
+									return {
+										x: new Date(value.label),
+										y: value.count,
+									}
+								})
+							});
+							break;
+						default:
+							data.push({
+								type: 'pie',
+								toolTipContent: "{label}: <strong>{y}</strong>",
+								dataPoints: d.result.map(function (value) {
+									return {
+										y: value.count,
+										label: value.label,
+										legendText: value.label
+									}
+								})
+							});
+							break;
+					}
+
+					label = ''
+					switch (purpose) {
+						case 'time':
+							label = 'Thống kê theo thời gian';
+							break;
+						case 'host':
+							label = 'Thống kê theo nguồn';
+							break;
+						case 'campaign':
+							label = 'Thống kê theo chiến dịch';
+							break;
+					}
+					$('#chart_label').text(label);
+
+					var chart = new CanvasJS.Chart("chart", $.extend({
+						animationEnabled: true,
+						legend:{
+							verticalAlign: "bottom",
+							horizontalAlign: "center"
+						},
+						data: data
+					}, options));
+
+					chart.render();
+				}
+				else {
+					errorPopup();
+				}
+			}).fail(function () {
+				errorPopup();
+			});
 		}
-		else {
-			errorPopup();
-		}
-	}).fail(function () {
-		errorPopup();
-	});
+
+	// / Render chart
 });

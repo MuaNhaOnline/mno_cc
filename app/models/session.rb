@@ -14,4 +14,16 @@ class Session < ActiveRecord::Base
 
 	# / Associations
 
+	# Get
+
+		def self.search_with_params _params
+			where = ''
+
+			where = "created_at >= '#{Date.new 2015, 1, 1}' AND created_at <= '#{Date.new 2015, 12, 31}'"
+
+			where(where)
+		end
+
+	# / Get
+
 end
