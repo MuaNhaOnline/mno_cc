@@ -48,13 +48,15 @@ class ApplicationController < ActionController::Base
 					s.referrer_host = URI(request.referrer).host
 					s.referrer_source = request.referrer
 					s.referrer_host_name = case s.referrer_host
-						when 'facebook.com', 'www.facebook.com'
-							'Facebook'
-						when 'muanhaonline.vn', 'www.muanhaonline.vn'
-							'MuanhaOnline'
-						else
-							s.referrer_host
-						end
+					when 'facebook.com', 'www.facebook.com'
+						'Facebook'
+					when 'muanhaonline.vn', 'www.muanhaonline.vn'
+						'MuanhaOnline'
+					else
+						s.referrer_host
+					end
+				else
+					s.referrer_host_name = 'Direct'
 				end
 
 				s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
