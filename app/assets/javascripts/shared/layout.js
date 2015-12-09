@@ -736,27 +736,27 @@ function initSize() {
                 shortText = 'Một lát';
               }
               else {
-                shortText = 'Khoảng' + minutes + ' phút';
+                shortText = 'Khoảng ' + minutes + ' phút';
               }
             }
             else {
-              shortText = 'Khoảng' + hours + ' tiếng';
+              shortText = 'Khoảng ' + hours + ' tiếng';
             }
           }
           else {
-            shortText = 'Khoảng' + days + ' ngày';
+            shortText = 'Khoảng ' + days + ' ngày';
           }
         }
         else {
-          shortText = 'Khoảng' + weeks + ' tuần';
+          shortText = 'Khoảng ' + weeks + ' tuần';
         }
       }
       else {
-        shortText = 'Khoảng' + months + ' tháng';
+        shortText = 'Khoảng ' + months + ' tháng';
       }
     }
     else {
-      shortText = 'Khoảng' + years + ' năm';
+      shortText = 'Khoảng ' + years + ' năm';
     }
 
     fullText = 

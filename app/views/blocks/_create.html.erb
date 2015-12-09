@@ -5,22 +5,22 @@
 
 	general_project_type = @project.project_type.options['parent'] || @project.project_type.name
 
-  # Block type
-  block_types = BlockType.get_options
-  selected_block_type_parent = ''
-  if !@block.new_record? && @block.block_type.present? && @block.block_type.options['parent']
-    selected_block_type_parent = @block.block_type.options['parent']
-  end
+	# Block type
+	block_types = BlockType.get_options
+	selected_block_type_parent = ''
+	if !@block.new_record? && @block.block_type.present? && @block.block_type.options['parent']
+		selected_block_type_parent = @block.block_type.options['parent']
+	end
 
-  # Image
-  image_init_value = ''
-  unless @block.new_record?
-    _images = []
-    @block.images.each do |block_image|
-      _images << { 'id'=> block_image.id, 'url'=> block_image.image.url, 'description'=> block_image.description, 'is_avatar'=> block_image.is_avatar, 'order' => block_image.order }
-    end
-    image_init_value = _images.to_json
-  end
+	# Image
+	image_init_value = ''
+	unless @block.new_record?
+		_images = []
+		@block.images.each do |block_image|
+			_images << { 'id'=> block_image.id, 'url'=> block_image.image.url, 'description'=> block_image.description, 'is_avatar'=> block_image.is_avatar, 'order' => block_image.order }
+		end
+		image_init_value = _images.to_json
+	end
 %>
 
 <form class="form">
@@ -62,74 +62,74 @@
 
 					<!-- Block type -->
 
-		      	<% if @project.project_type.name == 'complex' %>
-		        	<div class="row">
-			          <article class="form-group col-ss-6">
-			            <label class="control-label" for="block_type">
-			            	Loại block
+						<% if @project.project_type.name == 'complex' %>
+							<div class="row">
+								<article class="form-group col-ss-6">
+									<label class="control-label" for="block_type">
+										Loại block
 										<sup class="required-label"></sup>
 									</label>
-			            <select data-constraint="required" class="form-control input-toggle" id="block_type" name="block[block_type_id]">
-		              	<option data-off="un-land un-apartment un-complex_apartment un-adjacent_house un-office un-complex" value hidden>Chọn loại</option>
-			              <% block_types.each do |t| %>
-			                <% next if t.options.has_key? 'parent' %>
-			                <option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id || t.name == selected_block_type_parent %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'block_type.text.' + t.name %></option>
-			              <% end %>
-			            </select>
-			          </article>
-			          <article class="form-group col-ss-6">
-			            <label class="control-label">&nbsp;</label>
-			            <select data-constraint="required" class="form-control" name="x" data-toggled-element="apartment un-complex_apartment un-adjacent_house un-office un-land">
-			              <option value hidden>Chọn chi tiết</option>
-			              <% block_types.each do |t| %>
-			                <% if t.options['parent'] == 'apartment' %>
-			                  <option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-			                <% end %>
-			              <% end %>
-			            </select>
-			            <select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="land un-complex_apartment un-adjacent_house un-office un-apartment">
-			              <option value hidden>Chọn chi tiết</option>
-			              <% block_types.each do |t| %>
-			                <% if t.options['parent'] == 'land' %>
-			                  <option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-			                <% end %>
-			              <% end %>
-			            </select>
-			            <select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="adjacent_house un-complex_apartment un-office un-apartment un-land">
-			              <option value hidden>Chọn chi tiết</option>
-			              <% block_types.each do |t| %>
-			                <% if t.options['parent'] == 'adjacent_house' %>
-			                  <option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-			                <% end %>
-			              <% end %>
-			            </select>
-			          </article>
-			        </div>
-		        <% elsif ['apartment', 'adjacent_house'].include? @project.project_type.name %>
-		          <article class="form-group">
-		            <label class="control-label" for="block_type">
-		            	Loại block
+									<select data-constraint="required" class="form-control input-toggle" id="block_type" name="block[block_type_id]">
+										<option data-off="un-block_land un-block_apartment un-complex_apartment un-adjacent_house un-block_office un-complex" value hidden>Chọn loại</option>
+										<% block_types.each do |t| %>
+											<% next if t.options.has_key? 'parent' %>
+											<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id || t.name == selected_block_type_parent %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'block_type.text.' + t.name %></option>
+										<% end %>
+									</select>
+								</article>
+								<article class="form-group col-ss-6">
+									<label class="control-label">&nbsp;</label>
+									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_apartment un-complex_apartment un-adjacent_house un-block_office un-block_land">
+										<option value hidden>Chọn chi tiết</option>
+										<% block_types.each do |t| %>
+											<% if t.options['parent'] == 'apartment' %>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+											<% end %>
+										<% end %>
+									</select>
+									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_land un-complex_apartment un-adjacent_house un-block_office un-block_apartment">
+										<option value hidden>Chọn chi tiết</option>
+										<% block_types.each do |t| %>
+											<% if t.options['parent'] == 'land' %>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+											<% end %>
+										<% end %>
+									</select>
+									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="adjacent_house un-complex_apartment un-block_office un-block_apartment un-block_land">
+										<option value hidden>Chọn chi tiết</option>
+										<% block_types.each do |t| %>
+											<% if t.options['parent'] == 'adjacent_house' %>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+											<% end %>
+										<% end %>
+									</select>
+								</article>
+							</div>
+						<% elsif ['apartment', 'adjacent_house'].include? @project.project_type.name %>
+							<article class="form-group">
+								<label class="control-label" for="block_type">
+									Loại block
 									<sup class="required-label"></sup>
-	            	</label>
-		            <select data-constraint="required" class="form-control" name="block[detail_block_type_id]" id="block_type">
-		              <option value hidden>Chọn loại</option>
-				        	<% case @project.project_type.name %>
-				        	<% when 'apartment' %>
-			              <% block_types.each do |t| %>
-			                <% if t.options['parent'] == 'apartment' %>
-			                  <option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-			                <% end %>
-			              <% end %>
-				        	<% when 'adjacent_house' %>
-			              <% block_types.each do |t| %>
-			                <% if t.options['parent'] == 'adjacent_house' %>
-			                  <option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-			                <% end %>
-			              <% end %>
-		             	<% end %>
-		            </select>
-		          </article>
-		        <% end %>
+								</label>
+								<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" id="block_type">
+									<option value hidden>Chọn loại</option>
+									<% case @project.project_type.name %>
+									<% when 'apartment' %>
+										<% block_types.each do |t| %>
+											<% if t.options['parent'] == 'apartment' %>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+											<% end %>
+										<% end %>
+									<% when 'adjacent_house' %>
+										<% block_types.each do |t| %>
+											<% if t.options['parent'] == 'adjacent_house' %>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+											<% end %>
+										<% end %>
+									<% end %>
+								</select>
+							</article>
+						<% end %>
 
 					<!-- / Block type -->
 
@@ -144,98 +144,107 @@
 								Hình ảnh block
 								<sup class="required-label"></sup>
 							</label>
-			        <input class="file-upload" data-constraint="required" type="file" multiple name="block[images][]" data-amount="5" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar data-has_order />
-			      </article>
+							<input class="file-upload" data-constraint="required" type="file" multiple name="block[images][]" data-amount="5" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar data-has_order />
+						</article>
 
-			    <!-- / Image -->
+					<!-- / Image -->
 
-			  </div>
+				</div>
 
-     	</div>
+			</div>
 
 			<div class="row">
 
-	     	<div class="col-md-6">
+				<div class="col-md-6">
 
-	     		<label class="control-label">Nhóm bất động sản</label>
-	     		
-	        <article class="tab-container input" data-relative_inputs="block[block_type_id]">
-	        	<section class="tab-list">
-	        		<section class="list horizontal-list-container text-left">
-		        		<ul class="horizontal-list">
-		        		</ul>
-	        		</section>
-	        		<section class="add-button">
-	        			<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
-	        		</section>
-	        	</section>
-	          <section class="tab-content-list">
+					<label class="control-label">Nhóm bất động sản</label>
+					
+					<article class="tab-container input" data-relative_inputs="block[block_type_id]">
+						<section class="tab-list">
+							<section class="list horizontal-list-container text-left">
+								<ul class="horizontal-list">
+								</ul>
+							</section>
+							<section class="add-button">
+								<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+							</section>
+						</section>
+						<section class="tab-content-list">
 
-	          	<% if @block.new_record? %>
+							<% if @block.new_record? %>
 
-		          	<article class="tab-content" aria-name="new">
+								<article class="tab-content" aria-name="new">
 
-		          		<input type="hidden" value="" name="block[group][tab_name][id]" />
+									<input type="hidden" value="" name="block[group][tab_name][id]" />
 
-		          		<article class="form-group">
-		          			<label class="control-label">
-		          				Tên
+									<article class="form-group">
+										<label class="control-label">
+											Tên
 											<sup class="required-label"></sup>
-		          			</label>
-		          			<input data-constraint="required" class="form-control" name="block[group][tab_name][name]" />
-		          		</article>
+										</label>
+										<input data-constraint="required" class="form-control" name="block[group][tab_name][name]" />
+									</article>
 
-		          		<% if ['complex', 'complex_apartment'].include? @project.project_type.name %>
-					          <article class="form-group" <%= 'data-toggled-element="complex_apartment un-apartment un-adjacent_house un-office un-land"'.html_safe if @project.project_type.name == 'complex' %>>
-					            <label class="control-label">
-					              Loại bất động sản
-					              <sup class="required-label"></sup>
-					            </label>
-					            <select data-constraint="required" class="form-control" name="block[group][tab_name][real_estate_type_id]">
-					            	<option value hidden>Chọn loại</option>
-					            	<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
-					            		<option value="<%= t.id %>"><%= t 'real_estate_type.text.' + t.name %></option>
-					            	<% end %>
-					            </select>
-					          </article>
-					        <% end %>
+									<% if ['complex', 'complex_apartment'].include? @project.project_type.name %>
+										<article class="form-group" <%= 'data-toggled-element="complex_apartment un-block_apartment un-adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
+											<label class="control-label">
+												Loại bất động sản
+												<sup class="required-label"></sup>
+											</label>
+											<select data-constraint="required" class="form-control input-toggle" name="block[group][tab_name][real_estate_type_id]">
+												<option value hidden data-off="apartment office">Chọn loại</option>
+												<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
+													<option value="<%= t.id %>" <%= defined?(t.options_hash['html']['attributes']) ? t.options_hash['html']['attributes'] : '' %>><%= t 'real_estate_type.text.' + t.name %></option>
+												<% end %>
+											</select>
+										</article>
+									<% end %>
 
-		          		<div class="row">
+									<div class="row">
 
-		          			<% if ['complex', 'complex_apartment', 'apartment', 'adjacent_house'].include? @project.project_type.name  %>
-						        	<article class="form-group col-ss-6" <%= 'data-toggled-element="complex_apartment apartment adjacent_house un-office un-land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
-							          <label class="control-label">
-							            Phòng ngủ
-							          </label>
-						            <div class="input-group">
-							          	<input data-constraint="integer" class="form-control" name="block[group][tab_name][bedroom_number]" />
-						              <div class="input-group-addon">phòng</div>
-						            </div>
-							        </article>
-							      <% end %>
+										<% if ['complex', 'complex_apartment', 'apartment', 'adjacent_house'].include? @project.project_type.name  %>
+											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+												<label class="control-label">
+													Phòng ngủ
+												</label>
+												<div class="input-group">
+													<input data-constraint="integer" class="form-control" name="block[group][tab_name][bedroom_number]" />
+													<div class="input-group-addon">phòng</div>
+												</div>
+											</article>
+											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+												<label class="control-label">
+													Phòng vệ sinh
+												</label>
+												<div class="input-group">
+													<input data-constraint="integer" class="form-control" name="block[group][tab_name][restroom_number]" />
+													<div class="input-group-addon">phòng</div>
+												</div>
+											</article>
+										<% end %>
 
-					          <article class="form-group col-ss-6">
-					            <label class="control-label">
-					              Diện tích
-					            </label>
-					            <div class="input-group">
-					              <input data-constraint="real range" data-maxvalue="1000000" class="form-control separate-number" name="block[group][tab_name][area]" />
-					              <div class="input-group-addon">m<sup>2</sup></div>
-					            </div>
-					          </article>
-		          				
-		          		</div>
+										<article class="form-group col-ss-4">
+											<label class="control-label">
+												Diện tích
+											</label>
+											<div class="input-group">
+												<input data-constraint="real range" data-maxvalue="1000000" class="form-control separate-number" name="block[group][tab_name][area]" />
+												<div class="input-group-addon">m<sup>2</sup></div>
+											</div>
+										</article>
+											
+									</div>
 
-		          		<!-- Description -->
+									<!-- Description -->
 
-				            <article class="form-group">
-				              <label class="control-label">
-				                Mô tả
-				              </label>
-				              <textarea class="form-control" name="block[group][tab_name][description]"></textarea>
-				            </article>
+										<article class="form-group">
+											<label class="control-label">
+												Mô tả
+											</label>
+											<textarea class="form-control" name="block[group][tab_name][description]"></textarea>
+										</article>
 
-		          		<!-- / Description -->
+									<!-- / Description -->
 
 									<!-- Image -->
 
@@ -244,10 +253,10 @@
 												Hình ảnh loại bất động sản
 												<sup class="required-label"></sup>
 											</label>
-							        <input class="file-upload" multiple data-constraint="required" type="file" name="block[group][tab_name][images][]" data-init-value="" data-has_avatar data-has_description data-has_order />
-							      </article>
+											<input class="file-upload" multiple data-constraint="required" type="file" name="block[group][tab_name][images][]" data-init-value="" data-has_avatar data-has_description data-has_order />
+										</article>
 
-							    <!-- / Image -->
+									<!-- / Image -->
 
 								</article>
 
@@ -255,79 +264,88 @@
 
 								<% @block.real_estate_groups.each do |group| %>
 
-			          	<article class="tab-content" aria-name="init_<%= group.id %>">
+									<article class="tab-content" aria-name="init_<%= group.id %>">
 
-			          		<input type="hidden" value="<%= group.id %>" name="block[group][tab_name][id]" />
+										<input type="hidden" value="<%= group.id %>" name="block[group][tab_name][id]" />
 
-			          		<article class="form-group">
-			          			<label class="control-label">
-			          				Tên
+										<article class="form-group">
+											<label class="control-label">
+												Tên
 												<sup class="required-label"></sup>
-			          			</label>
-			          			<input data-constraint="required" class="form-control" name="block[group][tab_name][name]" value="<%= group.name %>" />
-			          		</article>
+											</label>
+											<input data-constraint="required" class="form-control" name="block[group][tab_name][name]" value="<%= group.name %>" />
+										</article>
 
-			          		<% if ['complex', 'complex_apartment'].include? @project.project_type.name %>
-						          <article class="form-group" <%= 'data-toggled-element="complex_apartment un-apartment un-adjacent_house un-office un-land"'.html_safe if @project.project_type.name == 'complex' %>>
-						            <label class="control-label" for="real_estate_type">
-						              Loại bất động sản
-						              <sup class="required-label"></sup>
-						            </label>
-						            <select data-constraint="required" class="form-control" name="block[group][tab_name][real_estate_type_id]">
-						            	<option value hidden>Chọn loại</option>
-						            	<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
-						            		<option value="<%= t.id %>" <%= 'selected' if group.real_estate_type_id == t.id %>><%= t 'real_estate_type.text.' + t.name %></option>
-						            	<% end %>
-						            </select>
-						          </article>
-						        <% end %>
+										<% if ['complex', 'complex_apartment'].include? @project.project_type.name %>
+											<article class="form-group" <%= 'data-toggled-element="complex_apartment un-block_apartment un-adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
+												<label class="control-label" for="real_estate_type">
+													Loại bất động sản
+													<sup class="required-label"></sup>
+												</label>
+												<select data-constraint="required" class="form-control input-toggle" name="block[group][tab_name][real_estate_type_id]">
+													<option value hidden data-off="apartment office">Chọn loại</option>
+													<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
+														<option value="<%= t.id %>" <%= 'selected' if group.real_estate_type_id == t.id %> <%= defined?(t.options_hash['html']['attributes']) ? t.options_hash['html']['attributes'] : '' %>><%= t 'real_estate_type.text.' + t.name %></option>
+													<% end %>
+												</select>
+											</article>
+										<% end %>
 
-			          		<div class="row">
+										<div class="row">
 
-			          			<% if ['complex', 'complex_apartment', 'apartment', 'adjacent_house'].include? @project.project_type.name  %>
-							        	<article class="form-group col-ss-6" <%= 'data-toggled-element="complex_apartment apartment adjacent_house un-office un-land"'.html_safe if @project.project_type.name == 'complex' %>>
-								          <label class="control-label">
-								            Phòng ngủ
-								          </label>
-							            <div class="input-group">
-								          	<input data-constraint="integer" class="form-control" name="block[group][tab_name][bedroom_number]" value="<%= group.bedroom_number %>" />
-							              <div class="input-group-addon">phòng</div>
-							            </div>
-								        </article>
-								      <% end %>
+											<% if ['complex', 'complex_apartment', 'apartment', 'adjacent_house'].include? @project.project_type.name  %>
+												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+													<label class="control-label">
+														Phòng ngủ
+													</label>
+													<div class="input-group">
+														<input data-constraint="integer" class="form-control" name="block[group][tab_name][bedroom_number]" value="<%= group.bedroom_number %>" />
+														<div class="input-group-addon">phòng</div>
+													</div>
+												</article>
+												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+													<label class="control-label">
+														Phòng vệ sinh
+													</label>
+													<div class="input-group">
+														<input data-constraint="integer" class="form-control" name="block[group][tab_name][restroom_number]" value="<%= group.restroom_number %>" />
+														<div class="input-group-addon">phòng</div>
+													</div>
+												</article>
+											<% end %>
 
-						          <article class="form-group col-ss-6">
-						            <label class="control-label" for="area">
-						              Diện tích
-						            </label>
-						            <div class="input-group">
-						              <input data-constraint="real range" data-maxvalue="1000000" class="form-control separate-number" name="block[group][tab_name][area]" id="area" value="<%= group.area %>" />
-						              <div class="input-group-addon">m<sup>2</sup></div>
-						            </div>
-						          </article>
-			          				
-			          		</div>
+											<article class="form-group col-ss-4">
+												<label class="control-label" for="area">
+													Diện tích
+												</label>
+												<div class="input-group">
+													<input data-constraint="real range" data-maxvalue="1000000" class="form-control separate-number" name="block[group][tab_name][area]" id="area" value="<%= group.area %>" />
+													<div class="input-group-addon">m<sup>2</sup></div>
+												</div>
+											</article>
+												
+										</div>
 
-		          			<!-- Description -->
+										<!-- Description -->
 
-					            <article class="form-group">
-					              <label class="control-label">
-					                Mô tả
-					              </label>
-					              <textarea class="form-control" name="block[group][tab_name][description]"><%= group.description %></textarea>
-					            </article>
+											<article class="form-group">
+												<label class="control-label">
+													Mô tả
+												</label>
+												<textarea class="form-control" name="block[group][tab_name][description]"><%= group.description %></textarea>
+											</article>
 
-		          			<!-- / Description -->
+										<!-- / Description -->
 
 										<!-- Image -->
 
 											<% 
-											  image_init_value = ''
-										    _images = []
-										    group.images.each do |group_image|
-										      _images << { 'id'=> group_image.id, 'url'=> group_image.image.url, 'description'=> group_image.description, 'is_avatar'=> group_image.is_avatar }
-										    end
-										    image_init_value = _images.to_json
+												image_init_value = ''
+												_images = []
+												group.images.each do |group_image|
+													_images << { 'id'=> group_image.id, 'url'=> group_image.image.url, 'description'=> group_image.description, 'is_avatar'=> group_image.is_avatar }
+												end
+												image_init_value = _images.to_json
 											%>		
 
 											<article class="form-group">
@@ -335,10 +353,10 @@
 													Hình ảnh loại bất động sản
 													<sup class="required-label"></sup>
 												</label>
-								        <input class="file-upload" multiple data-constraint="required" type="file" name="block[group][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_avatar data-has_description data-has_order />
-								      </article>
+												<input class="file-upload" multiple data-constraint="required" type="file" name="block[group][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_avatar data-has_description data-has_order />
+											</article>
 
-								    <!-- / Image -->
+										<!-- / Image -->
 
 									</article>
 
@@ -347,66 +365,66 @@
 							<% end %>
 
 						</section>
-	        </article>
+					</article>
 
-	     	</div>
+				</div>
 
-	     	<% if ['apartment', 'complex_apartment', 'office', 'complex'].include? @project.project_type.name %>
+				<% if ['apartment', 'complex_apartment', 'office', 'complex'].include? @project.project_type.name %>
 
-		     	<div class="col-md-6" <%= 'data-toggled-element="complex_apartment apartment un-adjacent_house office un-land"'.html_safe if @project.project_type.name == 'complex' %>>
+					<div class="col-md-6" <%= 'data-toggled-element="complex_apartment block_apartment un-adjacent_house block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
 
-		     		<label class="control-label">Phân bố tầng</label>
-		     		
-		        <article class="tab-container input">
-		        	<section class="tab-list">
-		        		<section class="list horizontal-list-container text-left">
-			        		<ul class="horizontal-list">
-			        		</ul>
-		        		</section>
-		        		<section class="add-button">
-		        			<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
-		        		</section>
-		        	</section>
-		          <section class="tab-content-list">
+						<label class="control-label">Phân bố tầng</label>
+						
+						<article class="tab-container input">
+							<section class="tab-list">
+								<section class="list horizontal-list-container text-left">
+									<ul class="horizontal-list">
+									</ul>
+								</section>
+								<section class="add-button">
+									<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+								</section>
+							</section>
+							<section class="tab-content-list">
 
-		          	<% if @block.new_record? %>
+								<% if @block.new_record? %>
 
-			          	<article class="tab-content" aria-name="new">
+									<article class="tab-content" aria-name="new">
 
-			          		<input type="hidden" value="" name="block[floor][tab_name][id]" />
+										<input type="hidden" value="" name="block[floor][tab_name][id]" />
 
-			          		<div class="row">
+										<div class="row">
 
-			          			<div class="col-ss-6">
+											<div class="col-ss-6">
 
-					          		<article class="form-group">
-					          			<label class="control-label">
-					          				Các tầng
+												<article class="form-group">
+													<label class="control-label">
+														Các tầng
 														<sup class="required-label"></sup>
-					          			</label>
-					          			<input data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" />
-					          		</article>
+													</label>
+													<input data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" />
+												</article>
 
-					          		<article class="form-group">
-					          			<label class="control-label">
-					          				Tên
+												<article class="form-group">
+													<label class="control-label">
+														Tên
 														<sup class="required-label"></sup>
-					          			</label>
-					          			<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" />
-					          		</article>     
-			          				
-			          			</div>
-			          			<div class="col-ss-6">
-					          		<article class="form-group">
-					          			<label class="control-label">
-					          				Mô tả
+													</label>
+													<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" />
+												</article>     
+												
+											</div>
+											<div class="col-ss-6">
+												<article class="form-group">
+													<label class="control-label">
+														Mô tả
 														<sup class="required-label"></sup>
-					          			</label>
-					          			<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"></textarea>
-					          		</article>
-			          			</div>     		
-			          			
-			          		</div>
+													</label>
+													<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"></textarea>
+												</article>
+											</div>     		
+											
+										</div>
 
 										<!-- Image -->
 
@@ -415,10 +433,10 @@
 													Hình ảnh sàn
 													<sup class="required-label"></sup>
 												</label>
-								        <input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
-								      </article>
+												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
+											</article>
 
-								    <!-- / Image -->
+										<!-- / Image -->
 
 									</article>
 
@@ -426,56 +444,56 @@
 
 									<% @block.floors.each do |floor| %>
 
-				          	<article class="tab-content" aria-name="init_<%= floor.id %>">
+										<article class="tab-content" aria-name="init_<%= floor.id %>">
 
-				          		<input type="hidden" value="<%= floor.id %>" name="block[floor][tab_name][id]" />
+											<input type="hidden" value="<%= floor.id %>" name="block[floor][tab_name][id]" />
 
-				          		<div class="row">
+											<div class="row">
 
-				          			<div class="col-ss-6">
+												<div class="col-ss-6">
 
-				          				<!-- Floor text -->
+													<!-- Floor text -->
 
-							          		<article class="form-group">
-							          			<label class="control-label">
-							          				Các tầng
+														<article class="form-group">
+															<label class="control-label">
+																Các tầng
 																<sup class="required-label"></sup>
-							          			</label>
-							          			<input data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" value="<%= floor.floors_text %>" />
-							          		</article>
+															</label>
+															<input data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" value="<%= floor.floors_text %>" />
+														</article>
 
-				          				<!-- / Floor text -->
+													<!-- / Floor text -->
 
-				          				<!-- Name -->
+													<!-- Name -->
 
-							          		<article class="form-group">
-							          			<label class="control-label">
-							          				Tên
+														<article class="form-group">
+															<label class="control-label">
+																Tên
 																<sup class="required-label"></sup>
-							          			</label>
-							          			<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" value="<%= floor.name %>" />
-							          		</article>     
+															</label>
+															<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" value="<%= floor.name %>" />
+														</article>     
 
-				          				<!-- / Name -->					          		
-				          				
-				          			</div>
-				          			<div class="col-ss-6">
+													<!-- / Name -->					          		
+													
+												</div>
+												<div class="col-ss-6">
 
-					          			<!-- Description -->
+													<!-- Description -->
 
-							          		<article class="form-group">
-							          			<label class="control-label">
-							          				Mô tả
+														<article class="form-group">
+															<label class="control-label">
+																Mô tả
 																<sup class="required-label"></sup>
-							          			</label>
-							          			<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"><%= floor.description %></textarea>
-							          		</article>
+															</label>
+															<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"><%= floor.description %></textarea>
+														</article>
 
-					          			<!-- / Description -->
+													<!-- / Description -->
 
-				          			</div>     		
-				          			
-				          		</div>
+												</div>     		
+												
+											</div>
 
 											<!-- Image -->
 
@@ -484,10 +502,10 @@
 														Hình ảnh sàn
 														<sup class="required-label"></sup>
 													</label>
-									        <input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json %>" />
-									      </article>
+													<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json %>" />
+												</article>
 
-									    <!-- / Image -->
+											<!-- / Image -->
 
 										</article>
 
@@ -496,29 +514,29 @@
 								<% end %>
 
 							</section>
-		        </article>
+						</article>
 
-		     	</div>
+					</div>
 
-		   	<% end %>
+				<% end %>
 
-	    </div>
+			</div>
 
 		</section>
 
-	  <!-- Button -->
+		<!-- Button -->
 
-	    <section class="box-footer">
-	    	<div class="row">
-	        <div class="margin-top-bottom-5 col-ss-6">
-	          <button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'form.finish' %></b></button>
-	        </div>
-	        <div class="margin-top-bottom-5 col-ss-6">
-	          <button type="button" aria-click="close-popup" class="btn btn-default btn-block btn-flat"><b><%= t 'form.cancel' %></b></button>
-	        </div>
-	    	</div>
-	    </section>
+			<section class="box-footer">
+				<div class="row">
+					<div class="margin-top-bottom-5 col-ss-6">
+						<button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'form.finish' %></b></button>
+					</div>
+					<div class="margin-top-bottom-5 col-ss-6">
+						<button type="button" aria-click="close-popup" class="btn btn-default btn-block btn-flat"><b><%= t 'form.cancel' %></b></button>
+					</div>
+				</div>
+			</section>
 
-	  <!-- / Button -->
+		<!-- / Button -->
 	</div>
 </form>

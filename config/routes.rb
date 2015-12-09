@@ -74,7 +74,7 @@ Rails.application.routes.draw do
 
   # Project
 
-    get 'projects/view'
+    get 'projects/view_2/:id' => 'projects#view_2'
     get 'projects/demo'
     get 'projects/index'
     get 'projects/create(/:id)' => 'projects#create'
@@ -113,6 +113,9 @@ Rails.application.routes.draw do
     post 'blocks/create' => 'blocks#save'
     post 'blocks/delete'
     post 'blocks/save_interact_images'
+
+    get 'blocks/floors/get_image_for_interact_build/:id' => 'blocks#floor_get_image_for_interact_build'
+    post 'blocks/floors/save_interact_images' => 'blocks#floor_save_interact_images'
 
   # / Block
 

@@ -489,7 +489,7 @@ class RealEstate < ActiveRecord::Base
     #   is_favorite
     #   newest, cheapest
     def self.search_with_params params = {}
-      where = 'is_pending = false AND is_show = true AND is_force_hide = false'
+      where = 'is_pending = false AND is_show = true AND is_force_hide = false AND block_real_estate_group_id IS NULL'
       joins = []
       order = {}
 
@@ -618,20 +618,11 @@ class RealEstate < ActiveRecord::Base
       end
     end
 
-    # params
-    def self.block_search_with_params block_id, params = {}
-      where = "block_id = #{block_id}"
-      joins = []
-      order = { updated_at: 'desc' }
-
-      joins(joins).where(where).order(order)
-    end
-
     # params: 
     #   keyword,
     #   newest, cheapest, interact, view, id
     def self.my_search_with_params params = {}
-      where = "user_id = #{User.current.id}"
+      where = "user_id = #{User.current.id} AND block_real_estate_group_id IS NULL"
       joins = []
       order = {}
 
@@ -685,7 +676,7 @@ class RealEstate < ActiveRecord::Base
     #   keyword,
     #   newest, cheapest, interact, view, id
     def self.pending_search_with_params params = {}
-      where = 'is_pending = true AND is_draft = false AND is_active = true'
+      where = 'is_pending = true AND is_draft = false AND is_active = true AND block_real_estate_group_id IS NULL'
       joins = []
       order = {}
 
@@ -712,7 +703,7 @@ class RealEstate < ActiveRecord::Base
     #   keyword,
     #   newest, cheapest, interact, view, id, favorite
     def self.manager_search_with_params params = {}
-      where = 'is_pending = false'
+      where = 'is_pending = false AND block_real_estate_group_id IS NULL'
       joins = []
       order = {}
 

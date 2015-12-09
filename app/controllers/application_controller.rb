@@ -45,15 +45,16 @@ class ApplicationController < ActionController::Base
 				end
 
 				if request.referrer.present?
-					s.referrer_host = URI(request.referrer).host
+					s.referrer_host = URI(request.referrer).host.gsub(/\bwww./, '')
 					s.referrer_source = request.referrer
-					s.referrer_host_name = case s.referrer_host
-					when 'facebook.com', 'www.facebook.com'
-						'Facebook'
-					when 'muanhaonline.vn', 'www.muanhaonline.vn'
-						'MuanhaOnline'
+					if s.referrer_host.include? 'facebook.com'
+						s.referrer_host_name = 'Facebook'
+					elsif s.referrer_host.include? 'muanhaonline.vn'
+						s.referrer_host_name = 'MuanhaOnline'
+					elsif s.referrer_host.include? 'google.com'
+						s.referrer_host_name = 'Google'
 					else
-						s.referrer_host
+						s.referrer_host_name = s.referrer_host
 					end
 				else
 					s.referrer_host_name = 'Direct'

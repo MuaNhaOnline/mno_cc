@@ -22,10 +22,19 @@
             Đến từ
           </th>
           <th>
-            Đường dẫn
+            Tên chiến dịch
           </th>
           <th>
-            Chiến dịch
+            Nội dung chiến dịch
+          </th>
+          <th>
+            Từ khóa chiến dịch
+          </th>
+          <th>
+            Phương tiện chiến dịch
+          </th>
+          <th>
+            Nguồn chiến dịch
           </th>
         </tr>
       </thead>
@@ -38,20 +47,22 @@
               <td data-time-range="<%= @session[index - 1].created_at %>;<%= s.created_at %>"></td>
             <% end %>
             <td>
-              <% case s.referrer_host %>
-              <% when '' %>
-                Trực tiếp
-              <% when ['muanhaonline.vn','muanhaonline.com.vn'] %>
-                Nội bộ
-              <% else %>
-                <%= s.referrer_host %>
-              <% end %>
-            </td>
-            <td class="ellipsis" style="max-width: 200px;">
-              <a href="<%= s.referrer_source %>"><%= s.referrer_source %></a>              
+              <%= s.referrer_host_name %>
             </td>
             <td>
               <%= s.utm_campaign %>
+            </td>
+            <td>
+              <%= s.utm_content %>
+            </td>
+            <td>
+              <%= s.utm_term %>
+            </td>
+            <td>
+              <%= s.utm_medium %>
+            </td>
+            <td>
+              <%= s.utm_source %>
             </td>
           </tr>
         <% end %>

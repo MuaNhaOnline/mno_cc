@@ -26,12 +26,4 @@ class Session < ActiveRecord::Base
 
 	# / Get
 
-	# Attribute
-
-		def created_year
-			created_at.year
-		end
-
-	# / Attribute
-
 end

@@ -8,7 +8,10 @@ class BlockFloorSurfaceDescription < ActiveRecord::Base
 
 	# Associations
 	
-		has_one :real_estate_description, class_name: 'RealEstateDescription'
+		has_one :real_estate_description, class_name: 'BlockFloorSurfaceRealEstateDescription'
+		has_one :text_description, class_name: 'BlockFloorSurfaceTextDescription'
+
+		has_many :image_descriptions, class_name: 'BlockFloorSurfaceImageDescription'
 
 	# / Associations
 

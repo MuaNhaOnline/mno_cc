@@ -2,11 +2,12 @@ class BlockFloor < ActiveRecord::Base
 
 	# Attributes
 
-	  has_attached_file :surface, 
-	  	default_url: "/assets/block_floors/:style/default.png", 
-	  	:path => ":rails_root/app/assets/file_uploads/block_floor_surfaces/:style/:id_:filename", 
-	  	:url => "/assets/block_floor_surfaces/:style/:id_:filename"
-	  validates_attachment_content_type :surface, content_type: /\Aimage\/.*\Z/
+		has_attached_file :surface, 
+			styles: { thumb: '360x270#' },
+			default_url: "/assets/block_floors/:style/default.png", 
+			:path => ":rails_root/app/assets/file_uploads/block_floor_surfaces/:style/:id_:filename", 
+			:url => "/assets/block_floor_surfaces/:style/:id_:filename"
+		validates_attachment_content_type :surface, content_type: /\Aimage\/.*\Z/
 
 	# / Attributes
 
@@ -18,37 +19,73 @@ class BlockFloor < ActiveRecord::Base
 
 	# Save description
 
-		def self.save_description id, descriptions_data
-			# Get image
-			floor = find id
-
+		def self.save_description surface_data
 			# Read each image
-			descriptions_data.each do |data|
+			surface_data.each do |data|
+				# Get image
+				floor = find data['id']
 
 				# Create image description
-				surface_descriptions = []
+				_surface_descriptions = []
 
 				# Read each description
 				data['descriptions'].each do |description_data|
-					surface_description = BlockFloorSurfaceDescription.new description_type: description_data['description']['type'], area_type: description_data['tag_name']
+					_surface_description = BlockFloorSurfaceDescription.new description_type: description_data['description']['type'], area_type: description_data['tag_name']
 
 					# Area info
 					case description_data['tag_name']
 					when 'polyline'
-						surface_description.area_info = { points: description_data['points'] }
+						_surface_description.area_info = { points: description_data['points'] }
 					end
 
 					# Description info
 					case description_data['description']['type']
 					when 'real_estate'
-						surface_description.real_estate_description = BlockFloorSurfaceRealEstateDescription.new real_estate_id: description_data['description']['id']
+						_surface_description.real_estate_description = BlockFloorSurfaceRealEstateDescription.new real_estate_id: description_data['description']['id']
+					when 'text_image'
+						_data =  description_data['description']['data']
+
+						return unless _data.instance_of? String
+						
+						_data = Rack::Utils.parse_nested_query _data
+
+						if _data['description'].present?
+							_surface_description.text_description = BlockFloorSurfaceTextDescription.new description: _data['description']
+						end
+
+						if _data['images'].present?
+							_images = []
+							_data['images'].each do |_image_data|
+								_image_data = JSON.parse _image_data
+								_image_data['is_avatar'] ||= false
+
+								if _image_data['is_new']
+									TemporaryFile.get_file(_image_data['id']) do |_image|
+										_images << BlockFloorSurfaceImageDescription.new(image: _image, is_avatar: _image_data['is_avatar'], order: _image_data['order'], description: _image_data['description'])
+
+										_has_avatar = true if _image_data['is_avatar']
+									end
+								else
+									_image = BlockFloorSurfaceImageDescription.find _image_data['id']
+									_image.description = _image_data['description']
+									_image.is_avatar = _image_data['is_avatar']
+									_image.order = _image_data['order']
+									_image.save if _image.changed?          
+
+									_has_avatar = true if _image_data['is_avatar']
+
+									_images << _image
+								end
+							end
+							_surface_description.image_descriptions = _images
+						end
 					end
 
-					surface_descriptions << surface_description
+					_surface_descriptions << _surface_description
 				end
 
 				# Set & save
-				floor.surface_descriptions = surface_descriptions
+				floor.surface_descriptions = _surface_descriptions
 				floor.save
 			end
 

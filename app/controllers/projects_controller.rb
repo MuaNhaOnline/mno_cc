@@ -27,6 +27,14 @@ class ProjectsController < ApplicationController
       end
     end
 
+    # View
+    # params: id(*)
+    def view_2
+      @project = Project.find params[:id]
+
+      render layout: nil
+    end
+
   # / View
 
   # Create

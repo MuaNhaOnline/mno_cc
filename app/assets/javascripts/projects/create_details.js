@@ -303,6 +303,10 @@ $(function () {
 
 					});
 
+					$viewPart.find('[aria-click="floor_surface_interact"]').on('click', function () {
+						startDesign('blocks/floor', selectedBlockId);
+					});
+
 					function getRealEstateCreateForm(group_id) {
 						toggleLoadStatus(true);
 						$.ajax({
@@ -1693,7 +1697,7 @@ $(function () {
 					}
 
 					// Real-estates
-					if (type == 'block') {
+					if (type == 'block' || type == "blocks/floor") {
 						$.ajax({
 							url: '/real_estates/_block_description_item_list/' + id,
 							dataType: 'JSON'

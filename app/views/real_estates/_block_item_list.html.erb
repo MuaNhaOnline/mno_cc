@@ -12,7 +12,7 @@
     <% groups.each do |group| %>
       <article class="tab-content row item-list" aria-name="group_<%= group.id %>" data-value="<%= group.id %>">
         <article class="col-xs-12 margin-bottom-15 text-right">
-          <a aria-click="image_interact" class="btn btn-flat btn-default"><span class="fa fa-picture-o fa-lg"></span> Thiết lập hình ảnh</a>
+          <a aria-click="image_interact" class="btn btn-flat btn-default"><span class="fa fa-picture-o fa-lg"></span> Thiết lập hình ảnh nhóm</a>
         </article>
         <% group.real_estates.each do |re| %>
           <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
@@ -24,11 +24,6 @@
                     <span><b><%= re.label %></b></span>
                   </article>
                 </section>
-              </section>
-              <section class="bottom">
-                <p class="title">
-                  <%= re.title %>
-                </p>
               </section>
               <section class="control">
                 <span class="node">

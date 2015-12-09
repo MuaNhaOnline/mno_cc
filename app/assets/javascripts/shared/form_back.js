@@ -75,6 +75,11 @@ function initForm($form, params) {
 					offElements = $option.attr('data-off');
 				}
 
+				$context = $input.closest('.tab-content', $form[0]);
+				if ($context.length == 0) {
+					$context = $form;
+				}
+
 				// Turn on elements
 				if (onElements && !$input.is(':disabled')) {
 					// Create elements list
@@ -84,7 +89,7 @@ function initForm($form, params) {
 					});
 
 					// Turn on all elements & process their child
-					$form.find(onElementsList.substr(1)).each(function () {
+					$context.find(onElementsList.substr(1)).each(function () {
 						var $element = $(this);
 
 						// Turn on element
@@ -111,7 +116,7 @@ function initForm($form, params) {
 					}); 
 
 					// Turn off all elements & process their child
-					$form.find(offElementsList.substr(1)).each(function () {
+					$context.find(offElementsList.substr(1)).each(function () {
 						var $element = $(this);
 
 						// Turn off element
@@ -1909,7 +1914,7 @@ function initForm($form, params) {
 	}
 
 	/*
-		/Enter key
+		/ Enter key
 	*/
 
 	/*

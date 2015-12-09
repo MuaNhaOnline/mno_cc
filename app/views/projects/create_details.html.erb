@@ -6,14 +6,14 @@
 %>
 
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="/assets/projects/create_details.css">
+	<link rel="stylesheet" type="text/css" href="/assets/projects/create_details.css">
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/projects/create_details.js"></script>
-  <script type="text/javascript">
-  	project_id = <%= @project.id %>;
-  </script>
+	<script type="text/javascript" src="/assets/projects/create_details.js"></script>
+	<script type="text/javascript">
+		project_id = <%= @project.id %>;
+	</script>
 <% end %>
 
 <!-- Design -->
@@ -25,49 +25,49 @@
 
 				<!-- Content -->
 
-	        <article class="free-style-tab-container">
-	        	<section class="tab-list horizontal-list-container text-left">
-	        		<ul class="horizontal-list" id="group_description_list">
-	        			<li class="horizontal-item active" aria-name="block">
-	        				<a href="javascript:void(0)" aria-click="change_tab">Block</a>
-	        			</li>
-	        			<li class="horizontal-item" aria-name="real_estate">
-	        				<a href="javascript:void(0)" aria-click="change_tab">Bất động sản</a>
-	        			</li>
-	        			<li class="horizontal-item" aria-name="text_image">
-	        				<a href="javascript:void(0)" aria-click="change_tab">Mô tả <small>&amp;</small> hình ảnh</a>
-	        			</li>
-	        		</ul>
-	        	</section>
-	          <section class="tab-content-list">
+					<article class="free-style-tab-container">
+						<section class="tab-list horizontal-list-container text-left">
+							<ul class="horizontal-list" id="group_description_list">
+								<li class="horizontal-item active" aria-name="block">
+									<a href="javascript:void(0)" aria-click="change_tab">Block</a>
+								</li>
+								<li class="horizontal-item" aria-name="real_estate">
+									<a href="javascript:void(0)" aria-click="change_tab">Bất động sản</a>
+								</li>
+								<li class="horizontal-item" aria-name="text_image">
+									<a href="javascript:void(0)" aria-click="change_tab">Mô tả <small>&amp;</small> hình ảnh</a>
+								</li>
+							</ul>
+						</section>
+						<section class="tab-content-list">
 
-		          <!-- Block -->
+							<!-- Block -->
 
-		          	<article class="tab-content" aria-name="block">
-		          		<div class="row item-list" id="block_description_list">
-		          		</div>
-		          	</article>
+								<article class="tab-content" aria-name="block">
+									<div class="row item-list" id="block_description_list">
+									</div>
+								</article>
 
-		          <!-- / Block -->
+							<!-- / Block -->
 
-		          <!-- Real-estate -->
+							<!-- Real-estate -->
 
-		          	<article class="tab-content" aria-name="real_estate">
-		          		<div class="row item-list" id="real_estate_description_list">
-		          		</div>
-		          	</article>
+								<article class="tab-content" aria-name="real_estate">
+									<div class="row item-list" id="real_estate_description_list">
+									</div>
+								</article>
 
-		          <!-- / Real-estate -->
+							<!-- / Real-estate -->
 
-		          <!-- Image & text -->
+							<!-- Image & text -->
 
-		          	<article class="tab-content" aria-name="text_image" id="text_image_description_form_container">
-		          	</article>
+								<article class="tab-content" aria-name="text_image" id="text_image_description_form_container">
+								</article>
 
-		          <!-- / Image & text -->
+							<!-- / Image & text -->
 
-	          </section>
-	        </article>
+						</section>
+					</article>
 
 				<!-- / Content -->
 
@@ -138,8 +138,8 @@
 					<section class="box-header">
 						<h2 class="box-title">Các block trong dự án <%= @project.project_name %></h2>
 						<div class="box-tools pull-right">
-				      <button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
-				    </div>
+							<button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
+						</div>
 					</section>
 					<section class="box-body">
 						<div class="horizontal-list-container padding-bottom-10">
@@ -152,8 +152,9 @@
 						<section class="box-header">
 							<h2 class="box-title" id="selected_block_name"></h2>
 							<div class="box-tools pull-right">
-					      <button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
-					    </div>
+								<button class="btn btn-box-tool" aria-click="floor_surface_interact"><i class="fa fa-picture-o"></i> Hình ảnh sàn</button>
+								<button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
+							</div>
 						</section>
 						<section class="box-body">
 							<section id="real_estate_list">
