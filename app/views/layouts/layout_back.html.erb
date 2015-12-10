@@ -324,7 +324,7 @@
   <script type="text/javascript" src="/assets/shared/ckeditor/ckeditor.js"></script>
 	<%= yield :scripts %>
 
-  <% if @first_request %>
+  <% if session[:counter] == 1 %>
     <!-- Track -->
       <script type="text/javascript">
         $(function () {

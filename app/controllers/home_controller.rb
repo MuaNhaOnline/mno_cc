@@ -152,8 +152,8 @@ class HomeController < ApplicationController
 			# 	end
 			# end
 
-			unless session[:is_not_first]
-				Session.find(sessions[current_session_id]).update(user_info_type: nil) if session[:current_session_id].present?
+			if session[:counter] == 1
+				Session.find(session[:current_session_id]).update(user_info_type: nil) if session[:current_session_id].present?
 			end
 
 			render nothing: true

@@ -619,7 +619,7 @@
 	</script>
 <!-- / Google analytics -->
 
-<% if @first_request %>
+<% if session[:counter] == 1 %>
 	<!-- Track -->
 		<script type="text/javascript">
 			$(function () {

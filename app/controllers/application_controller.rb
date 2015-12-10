@@ -27,52 +27,54 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def init
-		unless session[:is_not_first]
-			session[:is_not_first] = true
-			@first_request = true
+		if request.get?
+			session[:counter] ||= 0
+			session[:counter] += 1
 
-			# If was not give info
-			unless cookies[:was_give_info]
-				# If first time in browser (use cookie to detect)
-				# => Set current_session cookie data is begin session (befor save)
-				# Else
-				# => Set current begin_session_id to current_session (after save)
-				s = Session.new
-				if cookies[:begin_session_id].present?
-					s.begin_session_id = cookies[:begin_session_id]
-				end
-
-				if request.referrer.present?
-					s.referrer_host = URI(request.referrer).host.gsub(/\bwww./, '')
-					s.referrer_source = request.referrer
-					if s.referrer_host.include? 'facebook.com'
-						s.referrer_host_name = 'Facebook'
-					elsif s.referrer_host.include? 'muanhaonline.vn'
-						s.referrer_host_name = 'MuanhaOnline'
-					elsif s.referrer_host.include? 'google.com'
-						s.referrer_host_name = 'Google'
-					else
-						s.referrer_host_name = s.referrer_host
+			if session[:counter] == 1
+				# If was not give info
+				unless cookies[:was_give_info]
+					# If first time in browser (use cookie to detect)
+					# => Set current_session cookie data is begin session (befor save)
+					# Else
+					# => Set current begin_session_id to current_session (after save)
+					s = Session.new
+					if cookies[:begin_session_id].present?
+						s.begin_session_id = cookies[:begin_session_id]
 					end
-				else
-					s.referrer_host_name = 'Direct'
+
+					if request.referrer.present?
+						s.referrer_host = URI(request.referrer).host.gsub(/\bwww./, '')
+						s.referrer_source = request.referrer
+						if s.referrer_host.include? 'facebook.com'
+							s.referrer_host_name = 'Facebook'
+						elsif s.referrer_host.include? 'muanhaonline.vn'
+							s.referrer_host_name = 'MuanhaOnline'
+						elsif s.referrer_host.include? 'google.com'
+							s.referrer_host_name = 'Google'
+						else
+							s.referrer_host_name = s.referrer_host
+						end
+					else
+						s.referrer_host_name = 'Direct'
+					end
+
+					s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
+					s.utm_source = params[:utm_source] if params[:utm_source].present?
+					s.utm_medium = params[:utm_medium] if params[:utm_medium].present?
+					s.utm_term = params[:utm_term] if params[:utm_term].present?
+					s.utm_content = params[:utm_content] if params[:utm_content].present?
+
+					# Temporary
+					s.user_info_type = 'unactive'
+					s.save
+
+					if cookies[:begin_session_id].blank?
+						cookies[:begin_session_id] = s.id
+					end
+
+					session[:current_session_id] = s.id
 				end
-
-				s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
-				s.utm_source = params[:utm_source] if params[:utm_source].present?
-				s.utm_medium = params[:utm_medium] if params[:utm_medium].present?
-				s.utm_term = params[:utm_term] if params[:utm_term].present?
-				s.utm_content = params[:utm_content] if params[:utm_content].present?
-
-				# Temporary
-				s.user_info_type = 'unactive'
-				s.save
-
-				if cookies[:begin_session_id].blank?
-					cookies[:begin_session_id] = s.id
-				end
-
-				session[:current_session_id] = s.id
 			end
 		end
 
