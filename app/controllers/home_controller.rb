@@ -116,8 +116,8 @@ class HomeController < ApplicationController
 					# Else
 					# => Set current begin_session_id to current_session (after save)
 					s = Session.new
-					if cookies[:begin_session].present?
-						s.begin_session_id = cookies[:begin_session]
+					if cookies[:begin_session_id].present?
+						s.begin_session_id = cookies[:begin_session_id]
 					end
 
 					if request.referrer.present?
@@ -144,8 +144,8 @@ class HomeController < ApplicationController
 
 					s.save
 
-					if cookies[:begin_session].blank?
-						cookies[:begin_session] = s.id
+					if cookies[:begin_session_id].blank?
+						cookies[:begin_session_id] = s.id
 					end
 
 					session[:current_session_id] = s.id
