@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
 	def init
 		unless session[:is_not_first]
 			session[:is_not_first] = true
+			@first_request = true
 
 			# If was not give info
 			unless cookies[:was_give_info]
