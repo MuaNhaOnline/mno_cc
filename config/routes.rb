@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     post 'set_width/:width_type' => 'home#set_width'
     # post 'nothing' => 'home#nothing'
     # post 'end_session' => 'home#end_session'
+    post 'track_session' => 'home#track_session'
 
   # / Home, shared
 

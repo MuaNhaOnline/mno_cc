@@ -323,5 +323,15 @@
   <script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
   <script type="text/javascript" src="/assets/shared/ckeditor/ckeditor.js"></script>
 	<%= yield :scripts %>
+
+  <% unless session[:is_not_first] %>
+    <!-- Track -->
+      <script type="text/javascript">
+        $(function () {
+          track_session();
+        });
+      </script>
+    <!-- / Track -->
+  <% end %>
 </body>
 </html>

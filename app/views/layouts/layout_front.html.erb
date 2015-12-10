@@ -618,4 +618,14 @@
 	  ga('send', 'pageview');
 	</script>
 <!-- / Google analytics -->
+
+<% unless session[:is_not_first] %>
+	<!-- Track -->
+		<script type="text/javascript">
+			$(function () {
+				track_session();
+			});
+		</script>
+	<!-- / Track -->
+<% end %>
 </html>

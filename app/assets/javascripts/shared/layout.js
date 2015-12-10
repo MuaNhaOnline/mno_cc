@@ -92,6 +92,17 @@ function initSize() {
   / Size
 */
 
+// Track session
+
+  function track_session() {
+    $.ajax({
+      url: 'track_session',
+      method: 'POST'
+    })
+  }
+
+// / Track session
+
 /*
   Pagination
 */
