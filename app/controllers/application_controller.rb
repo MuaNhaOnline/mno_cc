@@ -40,8 +40,8 @@ class ApplicationController < ActionController::Base
 					# Else
 					# => Set current begin_session_id to current_session (after save)
 					s = Session.new
-					if cookies[:v1_0_begin_session_id].present?
-						s.begin_session_id = cookies[:v1_0_begin_session_id]
+					if cookies[:v1_1_begin_session_id].present?
+						s.begin_session_id = cookies[:v1_1_begin_session_id]
 					end
 
 					if request.referrer.present?
@@ -70,8 +70,8 @@ class ApplicationController < ActionController::Base
 					s.user_info_type = 'unactive'
 					s.save
 
-					if cookies[:v1_0_begin_session_id].blank?
-						cookies[:v1_0_begin_session_id] = s.id
+					if cookies[:v1_1_begin_session_id].blank?
+						cookies[:v1_1_begin_session_id] = s.id
 					end
 
 					session[:current_session_id] = s.id
