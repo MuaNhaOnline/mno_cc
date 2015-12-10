@@ -27,6 +27,17 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def init
+		unless cookies.has_key? :width_type
+			if params.has_key? :width_type
+				cookies[:width_type] = params[:width_type]
+				render plain: '0'
+			else
+				@location = request.path
+				render 'home/get_width', layout: false
+			end
+			return
+		end
+		
 		if request.get?
 			session[:get_counter] ||= 0
 			session[:get_counter] += 1
@@ -76,17 +87,6 @@ class ApplicationController < ActionController::Base
 					session[:current_session_id] = s.id
 				end
 			end
-		end
-
-		unless cookies.has_key? :width_type
-			if params.has_key? :width_type
-				cookies[:width_type] = params[:width_type]
-				render plain: '0'
-			else
-				@location = request.path
-				render 'home/get_width', layout: false
-			end
-			return
 		end
 
 		User.options = {}

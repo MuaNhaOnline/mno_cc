@@ -96,7 +96,7 @@ function initSize() {
 
   function track_session() {
     $.ajax({
-      url: 'track_session',
+      url: '/track_session',
       method: 'POST'
     })
   }
