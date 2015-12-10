@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 
 			if session[:get_counter] == 1
 				# If was not give info
-				unless cookies[:was_give_info]
+				if !cookies[:was_give_info] && session[:current_session_id].blank?
 					# If first time in browser (use cookie to detect)
 					# => Set current_session cookie data is begin session (befor save)
 					# Else
