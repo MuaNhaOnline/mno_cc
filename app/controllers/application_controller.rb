@@ -28,10 +28,10 @@ class ApplicationController < ActionController::Base
 	
 	def init
 		if request.get?
-			session[:counter] ||= 0
-			session[:counter] += 1
+			session[:get_counter] ||= 0
+			session[:get_counter] += 1
 
-			if session[:counter] == 1
+			if session[:get_counter] == 1
 				# If was not give info
 				unless cookies[:was_give_info]
 					# If first time in browser (use cookie to detect)

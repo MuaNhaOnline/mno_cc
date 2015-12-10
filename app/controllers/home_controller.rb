@@ -152,7 +152,7 @@ class HomeController < ApplicationController
 			# 	end
 			# end
 
-			if session[:counter] == 1
+			if session[:get_counter] == 1
 				Session.find(session[:current_session_id]).update(user_info_type: nil) if session[:current_session_id].present?
 			end
 
