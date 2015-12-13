@@ -172,7 +172,6 @@ class User < ActiveRecord::Base
 		
 		# Active code
 		if new_record?
-			user_params[:session_id] = session[:current_session_id]
 			user_params[:last_interact_at] = DateTime.now
 			user_params[:active_status] = 1 
 			user_params[:params] = { active_code: SecureRandom.base64 }

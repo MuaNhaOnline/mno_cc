@@ -28,6 +28,7 @@ class UsersController < ApplicationController
     def save
       if is_sign_up = params[:user][:id].blank?
         user = User.new
+        user.session_id = session[:current_session_id] if session[:current_session_id].present?
       else 
         user = User.find(params[:user][:id])
         if user.nil?
@@ -43,7 +44,7 @@ class UsersController < ApplicationController
       # If signup
       if is_sign_up
         cookies[:was_give_info] = true
-        Session.find(session[:current_session_id]).update(user_info_type: 'sign_up', user_info_id: user.id)
+        Session.find(session[:current_session_id]).update(user_info_type: 'sign_up')
       end
 
       # Send active mail
