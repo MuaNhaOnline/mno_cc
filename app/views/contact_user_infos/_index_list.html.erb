@@ -17,9 +17,11 @@
         </p>
       </section>
       <section class="control">
-        <span class="node">
-          <a aria-click="view_history" href="javascript:void(0)" class="fa fa-lg fa-history"></a>
-        </span>
+        <% if contact.session_id.present? %>
+          <span class="node">
+            <a aria-click="view_history" href="javascript:void(0)" class="fa fa-lg fa-history"></a>
+          </span>
+        <% end %>
       </section>
     </article>
   </article>

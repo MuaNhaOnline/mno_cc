@@ -34,7 +34,8 @@ $(function () {
 				        axisX: {
         					interval: '1',
         					intervalType: 'day',
-				        	valueFormatString: 'D/M/YY', 
+				        	valueFormatString: 'D/M/YY',
+				        	labelAngle: -45
 				        }
 							}
 							data.push({

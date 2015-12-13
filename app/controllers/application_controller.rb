@@ -27,23 +27,20 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def init
-
 		if request.get?
-			session[:get_counter] ||= 0
-			session[:get_counter] += 1
+			if session[:first_get] != false
+				session[:first_get] = false
 
-			if session[:get_counter] == 1
-				# If was not give info
-				if !cookies[:was_give_info] && session[:current_session_id].blank?
+				# Track if user was not give info && has referrer or campaign
+				if !cookies[:was_give_info] && session[:current_session_id].blank? && (cookies[:begin_session_id].present? || request.referrer.present? || params[:utm_campaign].present?)
 					# If first time in browser (use cookie to detect)
 					# => Set current_session cookie data is begin session (befor save)
 					# Else
 					# => Set current begin_session_id to current_session (after save)
 					s = Session.new
-					if cookies[:v1_1_begin_session_id].present?
-						s.begin_session_id = cookies[:v1_1_begin_session_id]
-					end
 
+					s.begin_session_id = cookies[:begin_session_id]
+					
 					if request.referrer.present?
 						s.referrer_host = URI(request.referrer).host.gsub(/\bwww./, '')
 						s.referrer_source = request.referrer
@@ -60,18 +57,18 @@ class ApplicationController < ActionController::Base
 						s.referrer_host_name = 'Direct'
 					end
 
-					s.utm_campaign = params[:utm_campaign] if params[:utm_campaign].present?
-					s.utm_source = params[:utm_source] if params[:utm_source].present?
-					s.utm_medium = params[:utm_medium] if params[:utm_medium].present?
-					s.utm_term = params[:utm_term] if params[:utm_term].present?
-					s.utm_content = params[:utm_content] if params[:utm_content].present?
+					if params[:utm_campaign].present?
+						s.utm_campaign = params[:utm_campaign]
+						s.utm_source = params[:utm_source]
+						s.utm_medium = params[:utm_medium]
+						s.utm_term = params[:utm_term]
+						s.utm_content = params[:utm_content]
+					end
 
-					# Temporary
-					s.user_info_type = 'unactive'
 					s.save
 
-					if cookies[:v1_1_begin_session_id].blank?
-						cookies[:v1_1_begin_session_id] = s.id
+					if cookies[:begin_session_id].blank?
+						cookies[:begin_session_id] = s.id
 					end
 
 					session[:current_session_id] = s.id
@@ -79,10 +76,6 @@ class ApplicationController < ActionController::Base
 			end
 			
 			unless cookies.has_key? :width_type
-				if session[:get_counter].present?
-					session[:get_counter] -= 1
-				end
-
 				if params.has_key? :width_type
 					cookies[:width_type] = params[:width_type]
 					render plain: '0'

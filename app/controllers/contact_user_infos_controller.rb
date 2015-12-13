@@ -40,6 +40,8 @@ class ContactUserInfosController < ApplicationController
 		def _view_history
 			@contact = ContactUserInfo.find(params[:id])
 
+			return render json: { status: 1 } if @contact.session_id.blank?
+
 			if @contact.session.begin_session_id.blank?
 				@sessions = [ @contact.session ]
 			else
@@ -59,14 +61,35 @@ class ContactUserInfosController < ApplicationController
 		# Handle
 		# params: contact form
 		def save
-			contact = ContactUserInfo.new
-			params[:contact][:session_id] = session[:current_session_id]
+			unless params.has_key? :force
+				# Check if exist contact with same email or phone number
+				same_contacts = ContactUserInfo.where("phone_number = '#{params[:contact][:phone_number]}' OR email = '#{params[:contact][:email]}'")
+				
+				if same_contacts.count != 0
+					return render json: { 
+						status: 5,
+						result: render_to_string(partial: 'contact_user_infos/same_contacts', locals: { same_contacts: same_contacts })
+					}
+				end
+			end
+
+			contact = params[:replace].present? ? ContactUserInfo.find(params[:replace]) : ContactUserInfo.new
+			params[:contact][:session_id] = session[:current_session_id] if session[:current_session_id].present?
 
 			result = contact.save_with_params(params[:contact])
 
 			if result[:status] == 0
 				cookies[:was_give_info] = true
-				Session.find(session[:current_session_id]).update(user_info_type: 'contact', user_info_id: contact.id)
+
+				if session[:current_session_id].present?
+					s = Session.find(session[:current_session_id])
+					if s.user_info_type.present?
+						s.user_info_type += ',contact'
+					else
+						s.user_info_type = 'contact'
+					end
+					s.save
+				end
 			end
 
 			render json: result
