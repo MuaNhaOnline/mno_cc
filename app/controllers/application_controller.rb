@@ -38,18 +38,16 @@ class ApplicationController < ActionController::Base
 					# Else
 					# => Set current begin_session_id to current_session (after save)
 					s = Session.new
-
-					s.begin_session_id = cookies[:begin_session_id]
 					
 					if request.referrer.present?
 						s.referrer_host = URI(request.referrer).host.gsub(/\bwww./, '')
 						s.referrer_source = request.referrer
 						if s.referrer_host.include? 'facebook.com'
 							s.referrer_host_name = 'Facebook'
-						elsif s.referrer_host.include? 'muanhaonline.vn'
-							s.referrer_host_name = 'MuanhaOnline'
 						elsif s.referrer_host.include? 'google.com'
 							s.referrer_host_name = 'Google'
+						elsif s.referrer_host.include?('muanhaonline.vn') || s.referrer_host.include?('muanhaonline.com.vn')
+							s.referrer_host_name = 'MuanhaOnline'
 						else
 							s.referrer_host_name = s.referrer_host
 						end
@@ -57,21 +55,25 @@ class ApplicationController < ActionController::Base
 						s.referrer_host_name = 'Direct'
 					end
 
-					if params[:utm_campaign].present?
-						s.utm_campaign = params[:utm_campaign]
-						s.utm_source = params[:utm_source]
-						s.utm_medium = params[:utm_medium]
-						s.utm_term = params[:utm_term]
-						s.utm_content = params[:utm_content]
+					if referrer_host_name != 'MuanhaOnline'
+						if params[:utm_campaign].present?
+							s.utm_campaign = params[:utm_campaign]
+							s.utm_source = params[:utm_source]
+							s.utm_medium = params[:utm_medium]
+							s.utm_term = params[:utm_term]
+							s.utm_content = params[:utm_content]
+						end
+
+						s.begin_session_id = cookies[:begin_session_id]
+
+						s.save
+
+						if cookies[:begin_session_id].blank?
+							cookies[:begin_session_id] = s.id
+						end
+
+						session[:current_session_id] = s.id
 					end
-
-					s.save
-
-					if cookies[:begin_session_id].blank?
-						cookies[:begin_session_id] = s.id
-					end
-
-					session[:current_session_id] = s.id
 				end
 			end
 			
