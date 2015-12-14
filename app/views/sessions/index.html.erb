@@ -14,15 +14,31 @@
 <section class="box box-solid">
   <section class="box-body">
     <article class="row">
-      <article class="form-group col-md-3">
+      <article class="form-group col-sm-3">
         <label class="control-label" for="purpose">
           Thống kê
         </label>
         <select class="form-control" id="purpose">
           <option value="host">Nguồn</option>
           <option value="campaign">Chiến dịch</option>
-          <option value="time">Thời gian</option>
+          <optgroup label="Thời gian">
+            <option value="day">Ngày</option>
+            <option value="month">Tháng</option>
+            <option value="year">Năm</option>
+          </optgroup>
         </select>
+      </article>
+      <article class="form-group col-sm-3">
+        <label class="control-label" for="date_from">
+          Từ
+        </label>
+        <input class="form-control" id="date_from" />
+      </article>
+      <article class="form-group col-sm-3">
+        <label class="control-label" for="date_to">
+          Đến
+        </label>
+        <input class="form-control" id="date_to" />
       </article>
     </article>
   </section>
