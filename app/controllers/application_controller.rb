@@ -28,11 +28,11 @@ class ApplicationController < ActionController::Base
 	
 	def init
 		if request.get?
-			if session[:first_get] != false
-				session[:first_get] = false
+			if true #session[:first_get] != false
+				#session[:first_get] = false
 
 				# Track if user was not give info && has referrer or campaign
-				if !cookies[:was_give_info] && session[:current_session_id].blank? && (cookies[:begin_session_id].present? || request.referrer.present? || params[:utm_campaign].present?)
+				if session[:current_session_id].blank? #|| (!cookies[:was_give_info] && session[:current_session_id].blank? && (cookies[:begin_session_id].present? || request.referrer.present? || params[:utm_campaign].present?))
 					# If first time in browser (use cookie to detect)
 					# => Set current_session cookie data is begin session (befor save)
 					# Else
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
 						s.referrer_host_name = 'Direct'
 					end
 
-					if referrer_host_name != 'MuanhaOnline'
+					if true || referrer_host_name != 'MuanhaOnline'
 						if params[:utm_campaign].present?
 							s.utm_campaign = params[:utm_campaign]
 							s.utm_source = params[:utm_source]
@@ -65,6 +65,8 @@ class ApplicationController < ActionController::Base
 						end
 
 						s.begin_session_id = cookies[:begin_session_id]
+
+						s.user_info_type = request.user_agent
 
 						s.save
 

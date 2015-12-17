@@ -92,7 +92,7 @@ $(function () {
 					var options, data = [];
 
 					data.push({
-						type: 'stackedColumn',
+						type: 'stackedArea',
 						legendText: 'Vistor',
 						showInLegend: 'true',
 						toolTipContent: '{label}(visitor): <strong>{y}</strong>',
@@ -104,9 +104,7 @@ $(function () {
 						})
 					});
 					data.push({
-						indexLabel: '#total',
-						indexLabelPlacement: 'outside',
-						type: 'stackedColumn',
+						type: 'stackedArea',
 						legendText: 'Lead',
 						showInLegend: 'true',
 						toolTipContent: '{label}(lead): <strong>{y}</strong>',
