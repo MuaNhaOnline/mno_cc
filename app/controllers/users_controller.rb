@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     def save
       if is_sign_up = params[:user][:id].blank?
         user = User.new
-        user.session_id = session[:current_session_id] if session[:current_session_id].present?
+        user.session_id = session.id
       else 
         user = User.find(params[:user][:id])
         if user.nil?
@@ -43,16 +43,18 @@ class UsersController < ApplicationController
 
       # If signup
       if is_sign_up
-        cookies[:was_give_info] = true
-        Session.find(session[:current_session_id]).update(user_info_type: 'sign_up')
+        session_info = SessionInfo.find session[:session_info_id]
+        session_info.leave_infos ||= []
+        session_info.leave_infos << ['user', user.id]
+        session_info.save
       end
 
       # Send active mail
       case user.active_status
-        when 1
-          UserMailer.active_account(user).deliver_now
-        when 2
-          UserMailer.active_old_email(user).deliver_now
+      when 1
+        UserMailer.active_account(user).deliver_now
+      when 2
+        UserMailer.active_old_email(user).deliver_now
       end
 
       render json: { status: 0, result: user.id, email_changed: result[:email_changed] }
@@ -192,6 +194,12 @@ class UsersController < ApplicationController
           format.json { render json: { status: 5, result: { status: 3, result: user.id } } }
         end
       end
+
+      # Track session sign in
+      session_info = SessionInfo.find session[:session_info_id]
+      session_info.signed_users ||= []
+      session_info.signed_users << user.id unless session_info.signed_users.include? user.id
+      session_info.save
 
       # Store id into session
       session[:user_id] = user.id

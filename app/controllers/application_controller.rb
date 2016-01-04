@@ -28,55 +28,37 @@ class ApplicationController < ActionController::Base
 	
 	def init
 		if request.get?
-			if true #session[:first_get] != false
-				#session[:first_get] = false
+			session[:first_get] = true unless session.has_key? :first_get
 
-				# Track if user was not give info && has referrer or campaign
-				if session[:current_session_id].blank? #|| (!cookies[:was_give_info] && session[:current_session_id].blank? && (cookies[:begin_session_id].present? || request.referrer.present? || params[:utm_campaign].present?))
-					# If first time in browser (use cookie to detect)
-					# => Set current_session cookie data is begin session (befor save)
-					# Else
-					# => Set current begin_session_id to current_session (after save)
-					s = Session.new
-					
-					if request.referrer.present?
-						s.referrer_host = URI(request.referrer).host.gsub(/\bwww./, '')
-						s.referrer_source = request.referrer
-						if s.referrer_host.include? 'facebook.com'
-							s.referrer_host_name = 'Facebook'
-						elsif s.referrer_host.include? 'google.com'
-							s.referrer_host_name = 'Google'
-						elsif s.referrer_host.include?('muanhaonline.vn') || s.referrer_host.include?('muanhaonline.com.vn')
-							s.referrer_host_name = 'MuanhaOnline'
-						else
-							s.referrer_host_name = s.referrer_host
-						end
-					else
-						s.referrer_host_name = 'Direct'
-					end
+			if session[:first_get]
+				session[:first_get] = false
 
-					if true || referrer_host_name != 'MuanhaOnline'
-						if params[:utm_campaign].present?
-							s.utm_campaign = params[:utm_campaign]
-							s.utm_source = params[:utm_source]
-							s.utm_medium = params[:utm_medium]
-							s.utm_term = params[:utm_term]
-							s.utm_content = params[:utm_content]
-						end
+				session_info = SessionInfo.new
 
-						s.begin_session_id = cookies[:begin_session_id]
-
-						s.user_info_type = request.user_agent
-
-						s.save
-
-						if cookies[:begin_session_id].blank?
-							cookies[:begin_session_id] = s.id
-						end
-
-						session[:current_session_id] = s.id
-					end
+				# Track campaign
+				if params[:utm_campaign].present?
+					session_info.utm_campaign 	= params[:utm_campaign]
+					session_info.utm_source 	= params[:utm_source]
+					session_info.utm_medium 	= params[:utm_medium]
+					session_info.utm_term 		= params[:utm_term]
+					session_info.utm_content 	= params[:utm_content]
 				end
+
+				# Track if have begin session
+				if cookies[:begin_session_info_id].present?
+					session_info.begin_session_info_id = cookies[:begin_session_info_id]
+				end
+
+				session_info.save
+				
+				if cookies[:begin_session_info_id].blank?
+					cookies[:begin_session_info_id] = {
+					  value: session_info.id,
+					  expires: 6.months.from_now
+					}
+				end
+
+				session[:session_info_id] = session_info.id
 			end
 			
 			unless cookies.has_key? :width_type

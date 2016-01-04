@@ -1,0 +1,63 @@
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/contact_requests/index.js"></script>
+<% end %>
+
+<% content_for :content_header do %>
+	Danh sách liên hệ
+<% end %>
+
+<%
+=begin
+	@contacts
+=end
+	total = @contacts.count
+	per = 12
+%>
+
+<section>
+	<article id="contact_list" class="row item-list">
+		<% if total != 0 %>
+			<%= render partial: 'contact_requests/index_list', locals: { contacts: @contacts.page(1, per) } %>
+		<% else %>
+			<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có thông tin liên hệ nào</h4></div>
+		<% end %>
+	</article>
+	<nav class="text-center" id="pagination">
+		<% if total != 0 %>
+			<%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+		<% end %>
+	</nav>
+</section>
+
+<article class="box box-primary" aria-popupcontent="result">
+	<section class="box-header with-border">
+		<h2 class="box-title">Kết quả</h2>
+	</section>
+	<section class="box-body">
+		<form class="form">
+			<input type="hidden" name="result[contact_request_id]" />
+			<article class="form-group">
+				<label class="control-label">
+					Trạng thái
+				</label>
+				<select class="form-control" name="result[status]">
+					<option value="2">Liên hệ lại</option>
+					<option value="3">Loại bỏ</option>
+					<option value="4">Kết thúc</option>
+				</select>
+			</article>
+			<article class="form-group">
+				<label class="control-label">
+					Nội dung
+				</label>
+				<textarea class="form-control" name="result[content]"></textarea>
+			</article>
+			<article class="text-center">
+				<button type="submit" class="btn btn-default" aria-click="close-popup">Hoàn tất</button>
+			</article>
+		</form>
+	</section>
+</article>

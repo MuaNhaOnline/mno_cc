@@ -1,61 +1,5 @@
 class ContactUserInfosController < ApplicationController
 
-	# Index
-
-		# View
-		def index
-			@contacts = ContactUserInfo.order created_at: 'desc'
-			render layout: 'layout_back'
-		end
-
-		# Partial view
-		# params: page
-		def _index_list
-			per = 12
-
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
-
-			contacts = ContactUserInfo.order created_at: 'desc'
-
-			count = contacts.count
-
-			return render json: { status: 1 } if count == 0
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'contact_user_infos/index_list', locals: { contacts: contacts.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
-				}
-			}
-		end
-
-	# / Index
-
-	# View history
-
-		# Partial view
-		# params: id(*)
-		def _view_history
-			@contact = ContactUserInfo.find(params[:id])
-
-			return render json: { status: 1 } if @contact.session_id.blank?
-
-			if @contact.session.begin_session_id.blank?
-				@sessions = [ @contact.session ]
-			else
-				@sessions = @contact.session.begin_session.flow_sessions
-			end
-
-			render json: {
-				status: 0,
-				result: render_to_string(partial: 'contact_user_infos/view_history')
-			}
-		end
-
-	# / View history
-
 	# Create
 
 		# Handle
@@ -63,8 +7,8 @@ class ContactUserInfosController < ApplicationController
 		def save
 			unless params.has_key? :force
 				# Check if exist contact with same email or phone number
-				same_contacts = ContactUserInfo.where("phone_number = '#{params[:contact][:phone_number]}' OR email = '#{params[:contact][:email]}'")
-				
+				same_contacts = ContactUserInfo.where("phone_number ~ '(\\y|,){1}#{params[:contact][:phone_number]}(\\y|,){1}' OR email LIKE '(\\y|,){1}#{params[:contact][:email]}(\\y|,){1}'")
+
 				if same_contacts.count != 0
 					return render json: { 
 						status: 5,
@@ -73,23 +17,27 @@ class ContactUserInfosController < ApplicationController
 				end
 			end
 
-			contact = params[:replace].present? ? ContactUserInfo.find(params[:replace]) : ContactUserInfo.new
-			params[:contact][:session_id] = session[:current_session_id] if session[:current_session_id].present?
+			contact = nil
+			if params[:append].present?
+				contact = ContactUserInfo.find(params[:append])
+				params[:contact][:phone_number] = "#{contact.phone_number},#{params[:contact][:phone_number]}" unless contact.phone_number =~ /(\b|,){1}#{Regexp.escape(params[:contact][:phone_number])}(\b|,){1}/
+				params[:contact][:email] = "#{contact.email},#{params[:contact][:email]}" unless contact.email =~ /(\b|,){1}#{Regexp.escape(params[:contact][:email])}(\b|,){1}/
+			else
+				contact = ContactUserInfo.new
+			end
+
+			params[:contact][:session_info_id] = session[:session_info_id]
 
 			result = contact.save_with_params(params[:contact])
 
 			if result[:status] == 0
-				cookies[:was_give_info] = true
+				session_info = SessionInfo.find session[:session_info_id]
+				session_info.leave_infos ||= []
+				session_info.leave_infos << ['contact_user', contact.id]
+				session_info.save
 
-				if session[:current_session_id].present?
-					s = Session.find(session[:current_session_id])
-					if s.user_info_type.present?
-						s.user_info_type += ',contact'
-					else
-						s.user_info_type = 'contact'
-					end
-					s.save
-				end
+				# Add request
+				ContactRequest.create user_id: contact.id, user_type: 'contact_user', message: params[:contact][:message], status: 1
 			end
 
 			render json: result

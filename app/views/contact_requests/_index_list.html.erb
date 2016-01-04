@@ -1,0 +1,59 @@
+<% contacts.each do |contact| %>
+	<article class="col-md-3 col-sm-4 col-ss-6 col-xs-12">
+		<article class="item" data-value="<%= contact.id %>">
+			<section class="bottom">
+				<% case contact.user_type %>
+				<% when 'contact_user' %>
+					<% 
+						phone_number = contact.contact_user_request.phone_number.gsub(',', ', ')
+						email = contact.contact_user_request.email.gsub(',', ', ') 
+					%>
+					<p class="title">
+						<span class="fa fa-fw fa-user"></span> <%= contact.contact_user_request.name %>
+					</p>
+					<p title="<%= phone_number %>">
+						<span class="fa fa-fw fa-phone"></span> <%= phone_number %>
+					</p>
+					<p title="<%= email %>">
+						<span class="fa fa-fw fa-envelope"></span> <%= email %>
+					</p>
+					<p class="small text-muted">
+						<span class="pull-right" aria-time="<%= contact.created_at %>">
+						</span>
+					</p>
+				<% when 'user' %>
+					<% 
+						phone_number = contact.user_request.phone_number.gsub(',', ', ')
+						email = contact.user_request.email.gsub(',', ', ') 
+					%>
+					<p class="title">
+						<span class="fa fa-fw fa-user"></span> <%= contact.user_request.name %>
+					</p>
+					<p title="<%= phone_number %>">
+						<span class="fa fa-fw fa-phone"></span> <%= phone_number %>
+					</p>
+					<p title="<%= email %>">
+						<span class="fa fa-fw fa-envelope"></span> <%= email %>
+					</p>
+					<p class="small text-muted">
+						<span class="pull-right" aria-time="<%= contact.created_at %>">
+						</span>
+					</p>
+				<% end %>
+				<% if contact.message.present? %>
+					<p>
+						<%= contact.message.gsub(/\r\n/, '<br />').html_safe %>
+					</p>
+				<% end %>
+			</section>
+			<section class="control">
+				<span class="node">
+					<a aria-click="view_statistic" href="#" class="fa fa-lg fa-bar-chart" title="Thống kê"></a>
+				</span>
+				<span class="node">
+					<a aria-click="contacted" href="#" class="fa fa-lg fa-check" title="Đã liên hệ"></a>
+				</span>
+			</section>
+		</article>
+	</article>
+<% end %>

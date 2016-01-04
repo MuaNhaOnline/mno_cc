@@ -34,10 +34,10 @@
               <%= contact.name %>
             </td>
             <td>
-              <%= contact.email %>
+              <%= contact.email.gsub(',', '<br />').html_safe %>
             </td>
             <td>
-              <%= contact.phone_number %>
+              <%= contact.phone_number.gsub(',', '<br />').html_safe %>
             </td>
             <td>
               <a class="font-bold" aria-click="select">

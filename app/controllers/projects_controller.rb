@@ -78,7 +78,10 @@ class ProjectsController < ApplicationController
     # Handle => View
     # params: id(*), is_full(*)
     def set_finished_status
-      Project.where(id: params[:id]).update_all(is_draft: false)
+      # Project.where(id: params[:id]).update_all(is_draft: false)
+
+      project = Project.find params[:id]
+      
 
       redirect_to "/projects/my"
     end

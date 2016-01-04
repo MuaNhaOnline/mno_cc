@@ -27,6 +27,10 @@ $(function () {
 	// });
 
 	_initHorizontalListScroll($('.horizontal-list-container'));
+
+	$('a[href="#"]').on('click', function (e) {
+		e.preventDefault();
+	});
 });
 
 /*
@@ -947,4 +951,47 @@ function initSize() {
 	
 /*
 	/ Ajax loading
+*/
+
+/*
+	Tab container
+*/
+
+	function _initTabContainer($containers) {
+		$containers.each(function () {
+			var $container = $(this);
+
+			$container.find('> .tab-list [aria-click="change_tab"]').on('click', function () {
+				var $item = $(this).parent();
+
+				// If inactive => return
+				if ($item.hasClass('active')) {
+					return;
+				}
+
+				// Remove tab inactive
+				$container.find('> .tab-list li.active, > .tab-content-list > .tab-content.active').removeClass('active').trigger('close');
+
+				// Set select tab to active
+				$item.addClass('active');
+				
+				$container.find('> .tab-content-list > .tab-content[aria-name="' + $item.attr('aria-name') + '"]').addClass('active').trigger('open');
+			});
+
+			$firstItem = $container.find('> .tab-list .horizontal-item.active:eq(0)');
+
+			if ($firstItem.length == 0) {
+				$firstItem = $container.find('> .tab-list .horizontal-item:visible:eq(0)');
+			}			
+
+			if ($firstItem.length == 0) {
+				$firstItem = $container.find('> .tab-list .horizontal-item:eq(0)');
+			}
+
+			$firstItem.removeClass('active').find('[aria-click="change_tab"]').click();
+		});
+	}
+
+/*
+	/ Tab container
 */

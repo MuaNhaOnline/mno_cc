@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     post 'set_width/:width_type' => 'home#set_width'
     # post 'nothing' => 'home#nothing'
     # post 'end_session' => 'home#end_session'
-    post 'track_session' => 'home#track_session'
+    # post 'track_session' => 'home#track_session'
 
   # / Home, shared
 
@@ -152,13 +152,20 @@ Rails.application.routes.draw do
 
   # Contact user info
 
-    get 'contact_user_infos/_index_list'
-    get 'contact_user_infos/index'
-    get 'contact_user_infos/_view_history/:id' => 'contact_user_infos#_view_history'
     get 'contact_user_infos' => 'contact_user_infos#index'
     post 'contact_user_infos/create' => 'contact_user_infos#save'
 
   # / Contact user info
+
+  # Contact request
+
+    get 'contact_requests/index'
+    get 'contact_requests/_index_list'
+    get 'contact_requests/_view_statistic/:id' => 'contact_requests#_view_statistic'
+    get 'contact_requests' => 'contact_requests#index'
+    post 'contact_requests/set_result'
+
+  # / Contact request
 
   # Session
 

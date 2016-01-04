@@ -1,17 +1,11 @@
-class ContactUserInfo < ActiveRecord::Base
-
-	# Associations
-
-		belongs_to :session_info
-
-	# / Associations
+class ContactRequestResult < ActiveRecord::Base
 
 	# Insert
 
 		# Assign params
 
 			def assign_attributes_with_params _params
-				assign_attributes _params.permit [ :name, :phone_number, :email, :session_info_id ]
+				assign_attributes _params.permit [ :contact_result_id, :content ]
 			end
 
 		# / Assign params

@@ -475,7 +475,7 @@
 					focusout: function () {
 						gmapContext.map.setOptions({'scrollwheel': false});
 					}
-				})
+				}).attr('tabindex', '0').css('outline', '0');
 			}
 
 			$target.data("locationpicker", gmapContext);

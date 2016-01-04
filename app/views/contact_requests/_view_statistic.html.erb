@@ -1,0 +1,85 @@
+<% 
+=begin
+	params: @contact, @sessions
+=end
+
+%>
+
+<article class="box box-primary">
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			Lịch sử truy cập
+		</h2>
+	</section>
+	<section class="box-body text-center no-padding">
+		<table class="table table-striped width-auto inline-block">
+			<thead>
+				<tr>
+					<th>
+						&nbsp;
+					</th>
+					<th>
+						Tên
+					</th>
+					<th>
+						Nhóm
+					</th>
+					<th>
+						Nội dung
+					</th>
+					<th>
+						Phương tiện
+					</th>
+					<th>
+						Nguồn
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @sessions.each_with_index do |s, index| %>
+					<tr>
+						<% if index == 0 %>
+							<td><%= s.created_at.strftime '%d/%m/%Y lúc %H:%M' %></td>
+						<% else %>
+							<td data-time-range="<%= @session[index - 1].created_at %>;<%= s.created_at %>"></td>
+						<% end %>
+						<% if s.utm_campaign.present? %>
+							<td>
+								<%= s.utm_campaign %>
+							</td>
+							<td>
+								<%= s.utm_term %>
+							</td>
+							<td>
+								<%= s.utm_content %>
+							</td>
+							<td>
+								<%= s.utm_medium %>
+							</td>
+							<td>
+								<%= s.utm_source %>
+							</td>
+						<% else %>
+							<td colspan="5">
+								&nbsp;
+							</td>
+						<% end %>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</section>
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			Bất động sản
+		</h2>
+	</section>
+	<section class="box-body text-center">
+		<p>Thống kê theo giá, vị trí, .....</p>
+	</section>
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			Dự án
+		</h2>
+	</section>
+</article>

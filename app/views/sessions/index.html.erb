@@ -1,56 +1,189 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="/assets/sessions/index.css">
+	<link rel="stylesheet" type="text/css" href="/assets/sessions/index.css">
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/sessions/index.js"></script>
-  <script type="text/javascript" src="/assets/shared/canvasjs.min.js"></script>
+	<script type="text/javascript" src="/assets/sessions/index.js"></script>
+	<script type="text/javascript" src="/assets/shared/canvasjs.min.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  Thống kê lượt truy cập
+	Thống kê lượt truy cập
 <% end %>
 
-<section class="box box-solid">
-  <section class="box-body">
-    <article class="row">
-      <article class="form-group col-sm-3">
-        <label class="control-label" for="purpose">
-          Thống kê
-        </label>
-        <select class="form-control" id="purpose">
-          <option value="host">Nguồn</option>
-          <option value="campaign">Chiến dịch</option>
-          <optgroup label="Thời gian">
-            <option value="day">Ngày</option>
-            <option value="month">Tháng</option>
-            <option value="year">Năm</option>
-          </optgroup>
-        </select>
-      </article>
-      <article class="form-group col-sm-3">
-        <label class="control-label" for="date_from">
-          Từ
-        </label>
-        <input class="form-control" id="date_from" />
-      </article>
-      <article class="form-group col-sm-3">
-        <label class="control-label" for="date_to">
-          Đến
-        </label>
-        <input class="form-control" id="date_to" />
-      </article>
-    </article>
-  </section>
-</section>
+<!-- <section class="box box-solid">
+	<section class="box-body">
+		<article class="row">
+			<article class="form-group col-sm-3">
+				<label class="control-label" for="purpose">
+					Thống kê
+				</label>
+				<select class="form-control" id="purpose">
+					<option value="host">Nguồn</option>
+					<option value="campaign">Chiến dịch</option>
+					<optgroup label="Thời gian">
+						<option value="day">Ngày</option>
+						<option value="month">Tháng</option>
+						<option value="year">Năm</option>
+					</optgroup>
+				</select>
+			</article>
+			<article class="form-group col-sm-3">
+				<label class="control-label" for="date_from">
+					Từ
+				</label>
+				<input class="form-control" id="date_from" />
+			</article>
+			<article class="form-group col-sm-3">
+				<label class="control-label" for="date_to">
+					Đến
+				</label>
+				<input class="form-control" id="date_to" />
+			</article>
+		</article>
+	</section>
+</section> -->
 
-<section class="box box-primary">
-  <section class="box-header">
-    <h2 class="box-title" id="chart_label">
-      Các quý năm 2015
-    </h2>
-  </section>  
-  <section class="box-body">
-    <article id="chart" style="height: 300px"></article>
-  </section>
-</section>
+<!-- <section class="box box-primary">
+	<section class="box-header">
+		<h2 class="box-title" id="chart_label">
+			Các quý năm 2015
+		</h2>
+	</section>  
+	<section class="box-body">
+		<article id="chart" style="height: 300px"></article>
+	</section>
+</section> -->
+
+<article class="free-style-tab-container">
+	<section class="tab-list horizontal-list-container text-left">
+		<ul class="horizontal-list">
+			<li class="horizontal-item active" aria-name="campaign">
+				<a href="javascript:void(0)" aria-click="change_tab">Chiến dịch</a>
+			</li>
+			<li class="horizontal-item" aria-name="term">
+				<a href="javascript:void(0)" aria-click="change_tab">Nhóm</a>
+			</li>
+			<li class="horizontal-item" aria-name="content">
+				<a href="javascript:void(0)" aria-click="change_tab">Quảng cáo</a>
+			</li>
+		</ul>
+	</section>
+	<section class="tab-content-list">
+
+		<!-- Campaign -->
+
+			<article class="tab-content" aria-name="campaign" id="campaign_container">
+				<article class="box box-default box-solid">
+					<section class="box-body">
+						<p class="text-right">
+							Theo
+							<select aria-object="date_type">
+								<option value="day">ngày</option>
+								<option value="month">tháng</option>
+								<option value="quarter">quý</option>
+								<option value="year">năm</option>
+							</select>
+						</p>
+						<article id="campaign_chart"></article>
+					</section>
+					<section class="box-body no-padding">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										Chiến dịch
+									</th>
+									<th>
+										Số lượt
+									</th>
+								</tr>
+							</thead>
+							<tbody id="campaign_table">
+								
+							</tbody>
+						</table>
+					</section>
+				</article>
+			</article>
+
+		<!-- / Campaign -->
+
+		<!-- Term -->
+
+			<article class="tab-content" aria-name="term" id="term_container">
+				<article class="box box-default box-solid">
+					<section class="box-body">
+						<p class="text-right">
+							Theo
+							<select aria-object="date_type">
+								<option value="day">ngày</option>
+								<option value="month">tháng</option>
+								<option value="quarter">quý</option>
+								<option value="year">năm</option>
+							</select>
+						</p>
+						<article id="term_chart"></article>
+					</section>
+					<section class="box-body no-padding">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										Nhóm
+									</th>
+									<th>
+										Số lượt
+									</th>
+								</tr>
+							</thead>
+							<tbody id="term_table">
+								
+							</tbody>
+						</table>
+					</section>
+				</article>
+			</article>
+
+		<!-- / Term -->
+
+		<!-- Content -->
+
+			<article class="tab-content" aria-name="content" id="content_container">
+				<article class="box box-default box-solid">
+					<section class="box-body">
+						<p class="text-right">
+							Theo
+							<select aria-object="date_type">
+								<option value="day">ngày</option>
+								<option value="month">tháng</option>
+								<option value="quarter">quý</option>
+								<option value="year">năm</option>
+							</select>
+						</p>
+						<article id="content_chart"></article>
+					</section>
+					<section class="box-body no-padding">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										Quảng cáo
+									</th>
+									<th>
+										Số lượt
+									</th>
+								</tr>
+							</thead>
+							<tbody id="content_table">
+								
+							</tbody>
+						</table>
+					</section>
+				</article>
+			</article>
+
+		<!-- / Content -->
+
+	</section>
+</article>

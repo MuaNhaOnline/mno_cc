@@ -108,7 +108,7 @@ $(function () {
 						$.ajax({
 							url: '/contact_user_infos/create',
 							method: 'POST',
-							data: $(form).serialize() + '&force&replace=' + $(this).closest('tr').data('value'),
+							data: $(form).serialize() + '&force&append=' + $(this).closest('tr').data('value'),
 							dataType: 'JSON'
 						}).done(function () {
 							$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
@@ -680,7 +680,7 @@ function initMap(id, params) {
 		focusout: function () {
 			map.setOptions({'scrollwheel': false});
 		}
-	});
+	}).attr('tabindex', '0').css('outline', '0');
 
 	return map;
 }
