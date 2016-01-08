@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     get 'real_estates/_block_item_list/:block_id' => 'real_estates#_block_item_list'
     get 'real_estates/_block_description_item_list/:block_id' => 'real_estates#_block_description_item_list'
     get 'real_estates/get_image_for_interact_build/:id' => 'real_estates#get_image_for_interact_build'
+    get 'real_estates/get_data_for_interact_view/:id' => 'real_estates#get_data_for_interact_view'
     get 'real_estates/my'
     get 'real_estates/_my_list'
     get 'real_estates/pending'
@@ -83,6 +84,7 @@ Rails.application.routes.draw do
     get 'projects/set_finished_status/:id' => 'projects#set_finished_status'
     get 'projects/create_details(/:id)' => 'projects#create_details'
     get 'projects/get_image_for_interact_build/:id' => 'projects#get_image_for_interact_build'
+    get 'projects/get_data_for_interact_view/:id' => 'projects#get_data_for_interact_view'
     get 'projects/my'
     get 'projects/_my_list'
     get 'projects/my_favorite'
@@ -111,11 +113,13 @@ Rails.application.routes.draw do
     get 'blocks/_create/:project_id(/:id)' => 'blocks#_create'
     get 'blocks/_description_item_list/:project_id' => 'blocks#_description_item_list'
     get 'blocks/get_image_for_interact_build/:id' => 'blocks#get_image_for_interact_build'
+    get 'blocks/get_data_for_interact_view/:id' => 'blocks#get_data_for_interact_view'
     post 'blocks/create' => 'blocks#save'
     post 'blocks/delete'
     post 'blocks/save_interact_images'
 
     get 'blocks/floors/get_image_for_interact_build/:id' => 'blocks#floor_get_image_for_interact_build'
+    get 'blocks/floors/get_data_for_interact_view/:id' => 'blocks#floor_get_data_for_interact_view'
     post 'blocks/floors/save_interact_images' => 'blocks#floor_save_interact_images'
 
   # / Block

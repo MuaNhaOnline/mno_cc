@@ -2,18 +2,18 @@ class BlockImage < ActiveRecord::Base
 
 	# Attributes
 
-	  has_attached_file :image, 
-	  	styles: { thumb: '360x270#' },
-	  	default_url: "/assets/blocks/:style/default.png", 
-	  	:path => ":rails_root/app/assets/file_uploads/block_images/:style/:id_:filename", 
-	  	:url => "/assets/block_images/:style/:id_:filename"
-	  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+		has_attached_file :image, 
+			styles: { thumb: '360x270#' },
+			default_url: "/assets/blocks/:style/default.png", 
+			:path => ":rails_root/app/assets/file_uploads/block_images/:style/:id_:filename", 
+			:url => "/assets/block_images/:style/:id_:filename"
+		validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
 	# / Attributes
 
 	# Defaults
 
-  	default_scope { order('is_avatar desc, "order" asc') }
+		default_scope { order('is_avatar desc, "order" asc') }
 
 	# / Defaults
 
@@ -46,8 +46,6 @@ class BlockImage < ActiveRecord::Base
 
 					# Description info
 					case description_data['description']['type']
-					when 'block'
-						_image_description.block_description = BlockImageBlockDescription.new block_id: description_data['description']['id']
 					when 'real_estate'
 						_image_description.real_estate_description = BlockImageRealEstateDescription.new real_estate_id: description_data['description']['id']
 					when 'text_image'
@@ -64,26 +62,26 @@ class BlockImage < ActiveRecord::Base
 						if _data['images'].present?
 							_images = []
 							_data['images'].each do |_image_data|
-		            _image_data = JSON.parse _image_data
-		            _image_data['is_avatar'] ||= false
+								_image_data = JSON.parse _image_data
+								_image_data['is_avatar'] ||= false
 
-		            if _image_data['is_new']
-		              TemporaryFile.get_file(_image_data['id']) do |_image|
-		                _images << BlockImageImageDescription.new(image: _image, is_avatar: _image_data['is_avatar'], order: _image_data['order'], description: _image_data['description'])
+								if _image_data['is_new']
+									TemporaryFile.get_file(_image_data['id']) do |_image|
+										_images << BlockImageImageDescription.new(image: _image, is_avatar: _image_data['is_avatar'], order: _image_data['order'], description: _image_data['description'])
 
-		                _has_avatar = true if _image_data['is_avatar']
-		              end
-		            else
-		              _image = BlockImageImageDescription.find _image_data['id']
-		              _image.description = _image_data['description']
-		              _image.is_avatar = _image_data['is_avatar']
-		              _image.order = _image_data['order']
-		              _image.save if _image.changed?          
+										_has_avatar = true if _image_data['is_avatar']
+									end
+								else
+									_image = BlockImageImageDescription.find _image_data['id']
+									_image.description = _image_data['description']
+									_image.is_avatar = _image_data['is_avatar']
+									_image.order = _image_data['order']
+									_image.save if _image.changed?          
 
-		              _has_avatar = true if _image_data['is_avatar']
+									_has_avatar = true if _image_data['is_avatar']
 
-		              _images << _image
-		            end
+									_images << _image
+								end
 							end
 							_image_description.image_descriptions = _images
 						end

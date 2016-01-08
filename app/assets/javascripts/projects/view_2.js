@@ -77,6 +77,7 @@ $(function () {
 					$g = $('#g_ground'),
 					$svg = $g.closest('svg'),
 					$imageList = $('#ground_image_list'),
+					patternImage = $('#pattern_image image')[0],
 					loadImage = new Image(),
 					tranX = 0,
 					tranY = 0,
@@ -86,42 +87,53 @@ $(function () {
 
 			// Start new
 
-				function startDesign(type, id) {
-					// Get images
+				function startInteractImage(type, id) {
+					// Get data
 					$.ajax({
-						url: '/' + type + 's/get_image_for_interact_build/' + id,
+						url: '/' + type + 's/get_data_for_interact_view/' + id,
 						dataType: 'JSON'
 					}).done(function (data) {
 						if (data.status == 0) {
-							$imageList.html('');
 
-							$(data.result).each(function () {
-								var $item = $('<li><a><span></span></a></li>');
+							// Create image list
 
-								$item.data('value', this);
+								$imageList.html('');
 
-								$imageList.append($item);
-							});
+								$(data.result.images).each(function () {
+									var $item = $('<li><a><span></span></a></li>');
 
-							if (data.result.length >= 2) {
-								$imageList.show();
-							}
-							else {
-								$imageList.hide();
-							}
+									$item.data('value', this);
 
-							$imageList.find('li').on('click', function () {
-								$item = $(this);
+									$imageList.append($item);
+								});
 
-								if ($item.hasClass('active')) {
-									return;
+								if (data.result.images.length >= 2) {
+									$imageList.show();
+								}
+								else {
+									$imageList.hide();
 								}
 
-								$item.siblings('.active').removeClass('active');
-								$item.addClass('active');
+								$imageList.find('li').on('click', function () {
+									$item = $(this);
 
-								showImage($item.data('value'));
-							}).first().click();
+									if ($item.hasClass('active')) {
+										return;
+									}
+
+									$item.siblings('.active').removeClass('active');
+									$item.addClass('active');
+
+									showImage($item.data('value'));
+								}).first().click();
+
+							// / Create image list
+
+							// Create info
+
+
+
+							// / Create info
 
 						}
 						else {
@@ -132,7 +144,7 @@ $(function () {
 					});
 				}
 
-				startDesign('project', projectId);
+				startInteractImage('project', projectId);
 
 			// / Start new
 
@@ -153,16 +165,13 @@ $(function () {
 						image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 						image.setAttribute('width', this.width);
 						image.setAttribute('height', this.height);
+						image.style['z-index'] = 2;
 						image.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
 						$g.prepend(image);
 
-						pattern = document.createElementNS("http://www.w3.org/2000/svg", 'pattern');
-						pattern.setAttribute('id', 'pattern_image');
-						pattern.setAttribute('patternunits', 'userSpaceOnUse');
-						pattern.setAttribute('width', this.width);
-						pattern.setAttribute('height', this.height);
-						$(pattern).html($(image).clone());
-						$svg.prepend(pattern);
+						patternImage.setAttribute('width', this.width);
+						patternImage.setAttribute('height', this.height);
+						patternImage.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
 
 						scale = 1;
 						if (this.width > maxWidth) {
@@ -199,17 +208,36 @@ $(function () {
 						$polyline.attr({
 							'aria-object': 'description',
 							points: description_data.points
+						}).css({
+							fill: 'url(#pattern_image)',
+							transition: '.3s',
+							'transform-origin': '50% 50%',
+							cursor: 'pointer'
 						});
 
 						$polyline.on({
 							mouseenter: function () {
-								$polyline.css({
-									stroke: '#888',
-									fill: 'url(#pattern_image)'
+								this.parentNode.appendChild(this); 
+								setTimeout(function () {
+									$polyline.css({
+										transform: 'scale(1.05)'
+									});
 								})
 							},
 							mouseleave: function () {
-
+								$polyline.css({
+									transform: 'none'
+								});
+							},
+							click: function () {
+								switch (description_data.description.type) {
+									case 'block':
+									case 'real_estate':
+										startInteractImage(description_data.description.type, description_data.description.id);
+										break;
+									default:
+										break;
+								}
 							}
 						})
 					});

@@ -891,13 +891,13 @@ $(function () {
 						removeEditPoints();
 
 						// Edit point
-						var points = $polyline.attr('points').split(' ').slice(1).map(function (value) {
+						var points = $polyline.attr('points').split(' ').map(function (value) {
 							value = value.split(',');
 							return { x: value[0], y: value[1] }
 						});
 						
 						// Create edit point events
-						$(points).each(function (index) {
+						$(points.slice(0, points.length - 1)).each(function (index) {
 							// Add points
 							var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 							circle.setAttribute('cx', this.x);

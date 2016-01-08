@@ -209,7 +209,7 @@ class RealEstatesController < ApplicationController
 
 	# / Block list
 
-	# Build interact image
+	# Interact image
 
 		# Get values
 		# params: id(*)
@@ -277,7 +277,76 @@ class RealEstatesController < ApplicationController
 			render json: BlockRealEstateGroupImage.save_description(JSON.parse(params[:data]))
 		end
 
-	# / Build interact image
+		# Get values
+		# params: id(*)
+		def get_data_for_interact_view
+
+			# Images
+
+				# Result for request
+				images = []
+
+				# Get block's image
+				real_estate_group_images = BlockRealEstateGroupImage.where(block_real_estate_group_id: params[:id])
+
+				# Get all info of each image
+				real_estate_group_images.each do |real_estate_group_image|
+					image = {}
+
+					# Get url for display
+					image[:thumb_url] = real_estate_group_image.image.url('thumb')
+
+					if real_estate_group_image.image_descriptions.present?
+						image[:descriptions] = []
+
+						real_estate_group_image.image_descriptions.each do |image_description|
+							description = { tag_name: image_description.area_type }
+
+							# Area info
+							case image_description.area_type
+							when 'polyline'
+								description[:points] = image_description.area_info['points']
+							else
+								next
+							end
+
+							# Description info
+							description[:description] = { type: image_description.description_type }
+							case image_description.description_type
+							when 'text_image'
+								description[:description][:data] = {}
+								if image_description.text_description.present?
+									description[:description][:data][:description] = image_description.text_description.description
+								end
+
+								if image_description.image_descriptions.present?
+									image_data = []
+									image_description.image_descriptions.each do |data|
+										image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+									end
+									description[:description][:data][:images] = image_data.to_json
+								end
+							end
+
+							image[:descriptions] << description
+						end
+					end
+
+				# / Images
+
+				render json: { 
+					status: 0, 
+					result: {
+						images: images 
+					} 
+				}
+			end
+
+			render json: { status: 0, result: images }
+		end
+
+
+	# / Interact image
 
 	# My list
 
