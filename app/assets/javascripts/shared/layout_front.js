@@ -144,12 +144,14 @@ function _initItemList($container) {
 	// Popup alert
 	(typeof($container) == 'undefined' ? $('[data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function(e) {
 		e.preventDefault();
-		if ($body.is('[data-signed]')) {
-			$('#coming_soon_popup').modal('show');
-		}
-		else {
-			$('[data-toggle="modal"][data-target="#signin"]').click();
-		}
+		$('#coming_soon_popup').modal('show');
+		
+		// if ($body.is('[data-signed]')) {
+		// 	$('#coming_soon_popup').modal('show');
+		// }
+		// else {
+		// 	$('[data-toggle="modal"][data-target="#signin"]').click();
+		// }
 	});
 
 	// Tooltip
