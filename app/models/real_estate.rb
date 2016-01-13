@@ -239,10 +239,6 @@ class RealEstate < ActiveRecord::Base
           errors.add :user_full_name, 'Họ tên liên lạc không thể bỏ trống'
           return
         end
-        if user_email.blank?
-          errors.add :user_email, 'Email liên lạc không thể bỏ trống'
-          return
-        end
       end
     end
 

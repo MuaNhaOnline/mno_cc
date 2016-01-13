@@ -1017,9 +1017,9 @@
                 <article class="form-group col-sm-6">
                   <label class="control-label" for="user_email">
                     <%= t 'real_estate.attribute.user_email' %>
-                    <sup class="required-label email"></sup>
+                    <!-- <sup class="required-label email"></sup> -->
                   </label>
-                  <input data-toggle="popover" data-trigger="focus" data-content="Hãy sử dụng email thật để có thể <b>kích hoạt</b> tin và nhận thông báo." data-placement="auto" data-constraint="required email" class="form-control" name="real_estate[user_email]" id="user_email" value="<%= @re.user_email %>" <%= 'disabled="true"' unless @re.new_record? %> />
+                  <input data-toggle="popover" data-trigger="focus" data-content="Hãy sử dụng email thật để có thể <b>kích hoạt</b> tin và nhận thông báo." data-placement="auto" data-constraint="email" class="form-control" name="real_estate[user_email]" id="user_email" value="<%= @re.user_email %>" <%= 'disabled="true"' unless @re.new_record? %> />
                 </article>
 
                 <!-- / User email -->
