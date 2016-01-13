@@ -35,7 +35,7 @@ $(function () {
             else {
               popupPrompt({
                 title: 'Đăng tin thành công',
-                content: 'Bạn vui lòng vào email để kích hoạt tin',
+                content: 'Tin của bạn sẽ được hiển thị sau khi xử lý',
                 type: 'success',
                 buttons: [
                   {

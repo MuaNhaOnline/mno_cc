@@ -376,8 +376,8 @@ class RealEstate < ActiveRecord::Base
           if new_record?
             _is_new_record = true
             other_params[:user_email] = params[:user_email]
-            other_params[:is_active] = false
-            other_params[:params]['secure_code'] = SecureRandom.base64
+          #   other_params[:is_active] = false
+          #   other_params[:params]['secure_code'] = SecureRandom.base64
           end
         end
 
