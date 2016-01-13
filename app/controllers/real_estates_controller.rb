@@ -125,9 +125,9 @@ class RealEstatesController < ApplicationController
 
 			return render json: result if result[:status] != 0
 
-			if !signed? && params[:real_estate][:id].blank?
-				RealEstateMailer.active(real_estate).deliver_later
-			end
+			# if !signed? && params[:real_estate][:id].blank?
+			# 	RealEstateMailer.active(real_estate).deliver_later
+			# end
 
 			render json: { status: 0, result: real_estate.id }
 		end

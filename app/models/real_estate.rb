@@ -373,12 +373,12 @@ class RealEstate < ActiveRecord::Base
           other_params = other_params.merge params.permit(:user_full_name, :user_phone_number)
           other_params[:params] = { 'remote_ip' => params[:remote_ip] }
 
-          if new_record?
-            _is_new_record = true
-            other_params[:user_email] = params[:user_email]
-            other_params[:is_active] = false
-            other_params[:params]['secure_code'] = SecureRandom.base64
-          end
+          # if new_record?
+          #   _is_new_record = true
+          #   other_params[:user_email] = params[:user_email]
+          #   other_params[:is_active] = false
+          #   other_params[:params]['secure_code'] = SecureRandom.base64
+          # end
         end
 
         assign_attributes other_params
