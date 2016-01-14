@@ -160,13 +160,6 @@
 		/*end*/
 	/*end*/
 
-	/*start item*/
-	.item > .title {
-		color: #333;
-		font-size: 20px;
-	}
-	/*end*/
-
 	/*start new project*/
 	.new-project {
 		margin-bottom: 20px;
