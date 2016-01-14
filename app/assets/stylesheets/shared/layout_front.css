@@ -1045,7 +1045,7 @@ footer {
 		font-size: 18px;
 		width: 100%;
 		overflow: hidden;
-		tẽt-overflow: ellipsis;
+		text-overflow: ellipsis;
 		white-space: nowrap;
 		padding: 0 3px;
 		color: #333;

@@ -186,109 +186,127 @@
 							</article>
 						</div>
 						<div class="col-md-9">
-							<section class="item new-project" id="new_project">
-								<article class="title">
-									<span>Khu căn hộ mới nhất</span>
-								</article>
-								<article aria-pagination data-url="/projects/search" data-data='{"list_type":2,"per":<%= per_2_row %>}' data-list="#newest_apartment > .row" data-init_list="_initItemList($list)" data-pagination="#newest_apartment > .paging" class="content" id="newest_apartment">
-									<% 
-										projects = Project.search_with_params(newest: nil).limit per_2_row
-									%>
-									<div class="row">
-										<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
-									</div>
-									<div class="paging">
-										<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
-									</div>
-								</article>
-							</section>
-							<section class="item price-project" id="price_project" >
-								<article class="title">
-									<span>Khu căn hộ theo giá</span>
-								</article>
-								<article class="content">
-									<ul class="suggest">
-										<li>
-											<a href="#" class="suggest-item">Khu căn hộ giá 1tỷ</a>
-										</li>
-										<li>
-											<a href="#">Khu căn hộ giá 1tỷ - 2tỷ</a>
-										</li>
-										<li>
-											<a href="#">Khu căn hộ giá 2tỷ - 5tỷ</a>
-										</li>						
-									</ul>
-									<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per_2_row %>" />
-									<% 
-										projects = Project.search_with_params price: '0;2000000000'
-									%>
-									<ul id="price_list" class="row" style="margin-top: 15px;">			
-										<%= render partial: 'projects/item_list', locals: { projects: projects.take(per_2_row), type: 2 } %>
-									</ul>
-									<div id="price_pagination">
-										<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
-									</div>
-								</article>
-							</section>
-							<section class="item position-project" id="position_project">
-								<article class="title">
-									<span>Khu căn hộ tại </span>
-									<div class="btn-group">
-										<a class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thành phố Hồ Chí Minh<span class="caret"></span></a>
-										<ul class="dropdown-menu">
-											<li><a href="">Hà Nội</a></li>
-											<li><a href="">Đà Nẵng</a></li>
-											<li><a href="">Hội An</a></li>
-											<li><a href="">Hải Phòng</a></li>
-											<li><a href="">Cần Thơ</a></li>
-											<li><a href="">Tiền Giang</a></li>
-											<li><a href="">Bến Tre</a></li>
-										</ul>
-									</div>
-									<div class="dropdown-district">
-										<% 
-											# districts = District.order name: 'asc'
-											districts = District.all
-										%>
-										<div class="btn-group">
-											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												<span aria-name="district_name"><%= districts[0].name %></span> <span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu pull-right">
+							<article class="block" style="margin-top: 0;">
+								<section class="block-title">
+									<a href="" class="link">
+										Khu căn hộ mới nhất
+									</a>
+								</section>
+								<section class="block-content block-content-empty">
+									<section class="item new-project" id="new_project">
+										<article aria-pagination data-url="/projects/search" data-data='{"list_type":2,"per":<%= per_2_row %>}' data-list="#newest_apartment > .row" data-init_list="_initItemList($list)" data-pagination="#newest_apartment > .paging" class="content" id="newest_apartment">
+											<% 
+												projects = Project.search_with_params(newest: nil).limit per_2_row
+											%>
+											<div class="row">
+												<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
+											</div>
+											<div class="paging">
+												<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
+											</div>
+										</article>
+									</section>
+								</section>	
+							</article>
+							<article class="block">
+								<section class="block-title">
+									<a href="" class="link">
+										Khu căn hộ theo giá
+									</a>
+								</section>
+								<section class="block-content block-content-empty">
+									<section class="item price-project" id="price_project" >
+										<article class="content">
+											<ul class="suggest">
 												<li>
-													<div class="row-fluid dropdown-box">
-														<div class="col-sm-6">
-															<ul class="unstyled span4">
-																<% districts.take((districts.count / 2.0).ceil).each do |district| %>
-																	<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
-																<% end %>
-															</ul>
-														</div>
-														<div class="col-sm-6">
-															<ul class="unstyled span4">
-																<% districts.offset((districts.count / 2.0).ceil).each do |district| %>
-																	<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
-																<% end %>
-															</ul>
-														</div>										
-													</div>
+													<a href="#" class="suggest-item">Khu căn hộ giá 1tỷ</a>
 												</li>
+												<li>
+													<a href="#">Khu căn hộ giá 1tỷ - 2tỷ</a>
+												</li>
+												<li>
+													<a href="#">Khu căn hộ giá 2tỷ - 5tỷ</a>
+												</li>						
+											</ul>
+											<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per_2_row %>" />
+											<% 
+												projects = Project.search_with_params price: '0;2000000000'
+											%>
+											<ul id="price_list" class="row" style="margin-top: 15px;">			
+												<%= render partial: 'projects/item_list', locals: { projects: projects.take(per_2_row), type: 2 } %>
+											</ul>
+											<div id="price_pagination" class="paging">
+												<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
+											</div>
+										</article>
+									</section>
+								</section>	
+							</article>
+							<article class="block">
+								<section class="block-title">
+									<a href="" class="link">
+										<span>Khu căn hộ tại </span>
+										<div class="btn-group" style="vertical-align: bottom;">
+											<a class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thành phố Hồ Chí Minh<span class="caret"></span></a>
+											<ul class="dropdown-menu">
+												<li><a href="">Hà Nội</a></li>
+												<li><a href="">Đà Nẵng</a></li>
+												<li><a href="">Hội An</a></li>
+												<li><a href="">Hải Phòng</a></li>
+												<li><a href="">Cần Thơ</a></li>
+												<li><a href="">Tiền Giang</a></li>
+												<li><a href="">Bến Tre</a></li>
 											</ul>
 										</div>
-									</div>
-								</article>
-								<article class="content">
-									<% 
-										projects = Project.search_with_params(district: districts[0].id).limit per_2_row
-									%>
-									<div id="position_list" class="row">
-										<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
-									</div>
-									<div id="position_pagination" class="paging">
-										<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
-									</div>
-								</article>
-							</section>
+									</a>
+								</section>
+								<section class="block-content block-content-empty">
+									<section class="item position-project" id="position_project">
+										<div class="dropdown-district">
+											<% 
+												# districts = District.order name: 'asc'
+												districts = District.all
+											%>
+											<div class="btn-group">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<span aria-name="district_name"><%= districts[0].name %></span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu pull-right">
+													<li>
+														<div class="row-fluid dropdown-box">
+															<div class="col-sm-6">
+																<ul class="unstyled span4">
+																	<% districts.take((districts.count / 2.0).ceil).each do |district| %>
+																		<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
+																	<% end %>
+																</ul>
+															</div>
+															<div class="col-sm-6">
+																<ul class="unstyled span4">
+																	<% districts.offset((districts.count / 2.0).ceil).each do |district| %>
+																		<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
+																	<% end %>
+																</ul>
+															</div>										
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<article class="content">
+											<% 
+												projects = Project.search_with_params(district: districts[0].id).limit per_2_row
+											%>
+											<div id="position_list" class="row">
+												<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
+											</div>
+											<div id="position_pagination" class="paging">
+												<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
+											</div>
+										</article>
+									</section>
+								</section>	
+							</article>
 						</div>
 					</div>
 				</div>		
@@ -303,7 +321,7 @@
 <section class="container block distributor-project">
 	<article class="block-title">
 		<a href="#" class="link">
-			<span>DỰ ÁN THEO CHỦ ĐẦU TƯ</span>
+			<span>Dự án theo chủ đầu tư</span>
 		</a>
 	</article>
 	<article class="block-content block-content-empty">
