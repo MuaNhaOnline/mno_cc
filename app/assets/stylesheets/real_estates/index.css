@@ -46,10 +46,8 @@
 
 /*start structure-property*/
 .structure-property {
-	margin-bottom: 40px;
 }
 	.structure-property .nav a {
-		font-size: 86.67%;
 	}
 	/*Tab panes*/
 	.structure-property .tab-content > div {

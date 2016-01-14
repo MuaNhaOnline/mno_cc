@@ -1247,7 +1247,7 @@ footer {
 	/*start Title*/
 	.block > .block-title {
 		text-align: center;
-		font-size: 25px;
+		font-size: 27px;
 		margin-bottom: 7px;
 		position: relative;
 		transition: 0.2s;
@@ -1257,7 +1257,6 @@ footer {
 		color: #333;
 		transition: 0.2s;
 		position: relative;
-		font-weight: bold;
 	}
 		/*.block > .title > a:before {
 			content: '';
