@@ -38,7 +38,6 @@
 
 /*start user-property*/
 .user-projects {
-	margin-bottom: 30px;
 }
 	/*Tab panes*/
 	.user-projects .tab-content > div {
@@ -63,48 +62,28 @@
 
 /*start seo-word*/
 .seo-word {
-	margin-bottom: 60px;
-	border: 1px solid #eee;
-	padding: 10px;	
 }
-	/*start title*/
-	.seo-word .title {
-		text-transform: uppercase;
-		font-size: 138.46%;
-		color: #666;
-		margin-bottom: 40px;
-		padding: 10px;		
-	}
-	/*end*/
-
 	/*start details*/
 	.seo-word .content {
 		text-align: center;
 	}
 	.seo-word img {
 		width: 200px;
-		Pight: 200px;
+		height: 200px;
 		display: block;	
 		margin: 0 auto;	
-		margin-bottom: 12px;		
+		margin-bottom: 7px;	
+		padding: 5px;
+		background-color: #fff;
+		border: 1px solid #ddd;
 	}
-		.seo-word a:hover img {
-			border: 3px solid #54b40d;
-			padding: 2px;
-		}
 	.seo-word span {
 		font-size: 130.77%;
-		color: #666;
+		color: #333;
 	}
 		.seo-word a:hover span {
-			color: #54b40d;
+			color: #1B7C1B;
 		}
-	/*end*/
-
-	/*start seo item*/
-	.seo-word .seo-item {
-		margin-bottom: 30px;
-	}
 	/*end*/
 /*end*/
 
@@ -135,7 +114,7 @@
 		.tabs-scroll li.active a,
 		.tabs-scroll li.active a:link,
 		.tabs-scroll li.active a:focus {
-			background-color: #54b40d;
+			background-color: #369836;
 		}	
 			.tabs-scroll li:hover a {
 				background-color: transparent;
@@ -166,7 +145,7 @@
 			 }
 				.panel-left-box li a {	
 					display: block;
-					color: #666;
+					color: #333;
 				}
 				.panel-left-box .active {
 					border-left: 2px solid #54b40d;
@@ -183,7 +162,7 @@
 
 	/*start item*/
 	.item > .title {
-		color: #666;
+		color: #333;
 		text-transform: uppercase;
 		font-size: 123.08%;
 	}
@@ -213,17 +192,17 @@
 			background-color: #fff;
 			padding: 10px;
 			border: 1px solid #ccc;
-			color: #666;
+			color: #333;
 			transition: 0.2s;
 			cursor: pointer;
 		}
 			.price-project ul.suggest li a:hover {
-				background-color: #54b40d;
+				background-color: #1B7C1B;
 				color: #fff;
 			}
 		/*start title*/
 		.price-project label {
-			color: #666;
+			color: #333;
 			font-size: 115.38%;
 			font-weight: normal;
 		}
@@ -236,16 +215,16 @@
 		/*start title*/F
 		.position-project > .title {
 			font-size: 130.77%;
-			color: #666;
+			color: #333;
 			font-weight: bold;
 			text-transform: uppercase;
 		}
 		.position-project .title span {
-			color: #666;
+			color: #333;
 		}
 		.position-project .title a {
 			cursor: pointer;
-			color: #666;
+			color: #333;
 		}
 		.position-project .dropdown-menu {
 			margin-top: 5px;

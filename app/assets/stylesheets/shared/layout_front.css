@@ -121,7 +121,7 @@ body.no-scroll {
 /*start general*/
 body {
 	position: relative;
-	background-color: #f6f6f6;
+	background-color: #f5f5f5;
 	font-family: "Segoe UI";
 	font-size: 15px;
 }
@@ -279,7 +279,7 @@ header {
 				.mini-sitemap > ul > li > ul > li > a {
 					display: block;
 					background-color: #fff;
-					color: #666;
+					color: #333;
 				}
 			/*end*/
 	/*end*/
@@ -333,13 +333,13 @@ header {
 					padding: 0 10px;
 				}
 		.sitemap button[type="button"] {
-			color: #666;
+			color: #333;
 			font-size: 15px;
 			transition: 0.2s;
+			text-decoration: none;
 		}
-			.sitemap button[type="button"]:hover {
-				text-decoration: none;                
-				color: #54b40d;
+			.sitemap button[type="button"]:hover {                
+				color: #1B7C1B;
 			}
 		.sitemap .dropdown-menu {
 			margin-top: 8px;
@@ -377,9 +377,8 @@ header {
 			.switch-button a {
 				color: #666;
 				display: inline-block;
-				height: 35px;
-				line-height: 35px;
 				font-size: 93.33%;
+				padding: 0 5px;
 			}
 				.switch-button a:hover {
 					border-bottom: 1px solid #ccc;
@@ -389,8 +388,9 @@ header {
 				left: -99999px;
 			}
 			.switch-button input:checked ~ a {
+				color: #333;
 				font-weight: bold;
-				border-bottom: 1px solid #ccc;
+				border-bottom: 2px solid #999;
 				font-size: 100%;
 			}
 		/*end*/
@@ -426,12 +426,12 @@ header {
 			.user-box a {
 				padding: 9px 0;
 				display: block;
-				color: #666;
+				color: #333;
 				transition: 0.2s;
+				text-decoration: none !important;
 			}
 				.user-box a:hover {
-					text-decoration: none;
-					color: #54b40d;
+					color: #1B7C1B;
 				}
 				.user-box a:hover .img-user {
 					background: url('/assets/icon/login-hover.png') no-repeat;
@@ -488,7 +488,7 @@ header {
 				padding-left: 0;
 				padding-right: 0;
 				display: block;
-				color: #666;
+				color: #333;
 				transition: 0.2s;
 			}
 				.user-box-login a:hover {
@@ -552,7 +552,7 @@ footer {
 					margin-top: 10px;					
 				}
 			footer .content .title {
-				color: #666;
+				color: #333;
 				font-weight: bold;
 			}
 			footer .content .details {
@@ -578,7 +578,7 @@ footer {
 		footer .information p {
 			font-size: 13px;
 			text-align: center;
-			color: #666;
+			color: #333;
 		}
 	footer .social {
 		margin-top: 14px;
@@ -758,7 +758,7 @@ footer {
 	display: -moz-flex;
 	display: -o-flex;
 	display: flex;
-	color: #666;
+	color: #333;
 	font-size: 93.33%;
 }
 	.paging div {
@@ -771,7 +771,7 @@ footer {
 		cursor: pointer;
 	}
 		.paging div:hover {
-			color: #54b40d;
+			color: #1B7C1B;
 		}
 	.paging .left {
 		font-size: 30px;
@@ -793,17 +793,21 @@ footer {
 
 /*start item-lg*/
 .item-lg {
-	margin-bottom: 20px;
 	display: block;
 	position: relative;
 	font-size: 14px;
-}
+}	
+
+	.item-lg a {
+		outline: none;
+	}
+
 	/*start content*/
 	.item-lg .content {
-		color: #666;
+		color: #333;
 	}
 		/*start picture*/
-		.item-lg	.picture {
+		.item-lg .picture {
 			display: block;
 		}
 		.item-lg .picture img {
@@ -819,8 +823,8 @@ footer {
 
 		/*start name*/
 		.item-lg .name {
-			font-size: 123.08%;
-			color: #666;
+			font-size: 23px;
+			color: #333;
 			margin-bottom: 10px;
 			width: 100%;
 			overflow: hidden;
@@ -837,7 +841,7 @@ footer {
 		/*start subname*/
 		.item-lg .sub-name {
 			font-size: 100%;
-			color: #666;
+			color: #333;
 			margin-bottom: 10px;
 			width: 100%;
 			overflow: hidden;
@@ -858,10 +862,10 @@ footer {
 				text-align: center;
 				line-height: 16px;
 				font-size: 133.33% !important;
-				color: #666;
+				color: #333;
 			}
 			.item-lg .type-real span {
-				color: #666;
+				color: #333;
 			}
 		/*end*/
 
@@ -883,7 +887,7 @@ footer {
 					color: #d41212;
 				}
 			.item-lg .status span {
-				color: #666;
+				color: #333;
 			}
 		/*end*/
 
@@ -891,7 +895,7 @@ footer {
 		.item-lg .convenient {
 			display: block;
 			margin-bottom: 10px;
-			color: #666;
+			color: #333;
 		}
 			.item-lg .convenient div {
 				margin-right: 15px;
@@ -922,7 +926,7 @@ footer {
 		.item-lg .address {
 			margin-bottom: 10px;
 			overflow: hidden;
-			color: #666;
+			color: #333;
 			width: 100%;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -962,7 +966,7 @@ footer {
 			margin-bottom: 10px;
 			display: block;
 			height: 90px;
-			color: #666;
+			color: #333;
 		}
 		/*end*/
 
@@ -971,10 +975,10 @@ footer {
 			text-align: right;
 		}
 			.item-lg .btn-more a {
-				color: #54b40d;
+				color: #1B7C1B;
 			}
 			.item-lg .btn-more a:hover {
-				color: #ff6511;
+				color: #369836;
 			}
 		/*end*/
 
@@ -1003,18 +1007,11 @@ footer {
 .item-sm {
 	border: 1px solid #ddd;
 	width: 260px;
-	color: #666;
-	border-radius: 5px;
-	/*margin-bottom: 20px;*/
+	color: #333;
 	background-color: #fff;
 	margin: 15px auto;
-	box-shadow: 0px 0px 12px #ccc;
 }
-	.item-sm:hover {
-		border: 1px solid #54b40d;
-		box-shadow: 0px 0px 3px #54b40d;
-	}
-		.item-sm a:hover {
+		.item-sm a {
 			text-decoration: none;
 		}
 
@@ -1024,8 +1021,6 @@ footer {
 	}
 		.item-sm img {
 			width: 100%;
-			border-top-left-radius: 3px;
-			border-top-right-radius: 3px;
 		}
 		.item-sm .badge-new {
 			position: absolute;
@@ -1038,23 +1033,22 @@ footer {
 	/*end*/
 
 	.item-sm .info {
-		color: #666;
+		color: #333;
 		font-size: 13px;
-		padding: 17px 10px 0 10px;
+		padding: 10px 10px 0 10px;
 		display: block;
 	}
 
 	/*start title*/
 	.item-sm .title {
 		margin-bottom: 10px;
-		font-size: 123.08%;
+		font-size: 18px;
 		width: 100%;
 		overflow: hidden;
-		text-overflow: ellipsis;
+		tẽt-overflow: ellipsis;
 		white-space: nowrap;
 		padding: 0 3px;
-		color: #666;
-		text-transform: uppercase;
+		color: #333;
 	}
 	/*end*/
 
@@ -1069,10 +1063,10 @@ footer {
 			text-align: center;
 			line-height: 16px;
 			font-size: 133.33%;
-			color: #666;
+			color: #333;
 		}
 		.item-sm .type-real span {
-			color: #666;
+			color: #333;
 		}
 	/*end*/
 
@@ -1094,7 +1088,7 @@ footer {
 			color: #d41212;
 		}
 	.item-sm .status span {		
-		color: #666;
+		color: #333;
 	}
 	/*end*/
 
@@ -1107,7 +1101,7 @@ footer {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		color: #666;
+		color: #333;
 	}
 		.item-sm .address i {
 			margin-right: 5px;
@@ -1247,24 +1241,25 @@ footer {
 
 /*start block*/
 .block {
-
+	margin-top: 70px;
+	margin-bottom: 70px;
 }
 	/*start Title*/
-	.block > .title {
+	.block > .block-title {
 		text-align: center;
-		text-transform: uppercase;
-		font-size: 20px;
-		margin-bottom: 25px;
+		font-size: 25px;
+		margin-bottom: 7px;
 		position: relative;
 		transition: 0.2s;
-		color: #666;
+		color: #333;
 	}
-	.block > .title > a {
-		color: #666;
+	.block > .block-title > a {
+		color: #333;
 		transition: 0.2s;
 		position: relative;
+		font-weight: bold;
 	}
-		.block > .title > a:before {
+		/*.block > .title > a:before {
 			content: '';
 			position: absolute;
 			width: 300px;
@@ -1299,15 +1294,17 @@ footer {
 		.block a.link:hover {
 			text-decoration: none;
 			color: #54b40d;
-		}/*
+		}*//*
 	.block i {
 		font-size: 86%;
 	}*/
 	/*end Title*/
 
 	/*start content*/
-	.block .content {
-		display: block;
+	.block .block-content:not(.block-content-empty) {
+		background-color: #fff;
+		border: 1px solid #ddd;
+		padding: 10px;
 	}
 	/*end content*/
 /*end block*/
@@ -1322,10 +1319,10 @@ footer {
 		margin-bottom: 20px;
 		position: relative;
 		transition: 0.2s;
-		color: #666;		
+		color: #333;		
 	}
 	.block-info > .title .text {
-		color: #666;
+		color: #333;
 		font-size: 20px;
 	}
 	.block-info .date {
@@ -1343,7 +1340,7 @@ footer {
 		font-size: 20px;
 		border-bottom: 1px solid #eee;
 		margin-bottom: 20px;
-		color: #666;		
+		color: #333;		
 	}
 	/*end*/
 	
@@ -1377,7 +1374,7 @@ footer {
 	padding: 5px;
 	background-color: transparent;
 	border: transparent;
-	color: #666;
+	color: #333;
 }
 	.btn-icon-top > i {
 		display: block;
@@ -1395,18 +1392,18 @@ footer {
 /*Tab*/
 /*--------------------------------------------------------*/
 .nav-tabs {
-
+	font-size: 14px;
 }
 	.nav-tabs > li {		
 	}
 	.nav-tabs > li > a {
-		color: #666;
+		color: #333;
 		padding: 4px 7px;
 	}
 		.nav-tabs > li.active > a:link,
 		.nav-tabs > li.active > a:active {
 			color: #fff;
-			background-color: #54b40d;
+			background-color: #369836;
 		}
 
 /*--------------------------------------------------------*/
@@ -1457,9 +1454,6 @@ footer {
 	.slick-slide {
 		outline: none;
 	}
-	.slick-dots {
-		bottom: -10px !important;
-	}
 		.slick-dots > li > i {
 			width: 6px;
 			height: 6px;
@@ -1478,7 +1472,7 @@ footer {
 /*--------------------------------------------------------*/
 .btn-custom-default {
 	background-color: #eee;
-	color: #666;
+	color: #333;
 }
 
 /*--------------------------------------------------------*/
@@ -1487,10 +1481,10 @@ footer {
 
 /*start Modal*/
 .modal {
-	color: #666;
+	color: #333;
 }
 	.modal .btn-default {
-		color: #666;
+		color: #333;
 	}
 /*end*/
 

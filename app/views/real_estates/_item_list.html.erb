@@ -38,12 +38,12 @@
 	<% res.each do |re| %>
 		<div class="item-lg" data-value="<%= re.id %>">
 			<div class="row">
-				<div class="col-sm-8 col-sm-push-4 picture">
+				<div class="col-sm-8 picture">
 					<a href="/real_estates/<%= re.id %>">
-						<%= real_estate_avatar re, style_class: 'img-responsive thumbnail', style: 'slide' %>
+						<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 					</a>
 				</div>
-				<div class="col-sm-4 col-sm-pull-8">
+				<div class="col-sm-4">
 					<a href="/real_estates/<%= re.id %>" style="outline: none">
 						<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
 							<span>

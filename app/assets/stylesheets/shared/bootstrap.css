@@ -1108,7 +1108,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #54b40d;
+  color: #1B7C1B;
   text-decoration: underline;
 }
 a:focus {
@@ -3195,8 +3195,8 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-success {
   color: #ffffff;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  background-color: #369836;
+  border-color: #1B7C1B;
 }
 .btn-success:focus,
 .btn-success.focus {

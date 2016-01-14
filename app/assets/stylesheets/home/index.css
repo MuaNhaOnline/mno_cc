@@ -107,20 +107,16 @@
 	margin-bottom: 30px;
 }
 	.user-property ul.nav-tabs li a {
-		font-size: 86.67%;
 	}
 /*end*/
 
 /*start propensity-property*/
 .propensity-property {
-	margin-bottom: 40px;
 }
-	.propensity-property .title {
-		margin-bottom: 40px;
-	}
 	.item-general {
 		position: relative;
-		margin-bottom: 60px;
+		margin-bottom: 40px;
+		margin-top: 20px;
 	}
 		.item-general .info {
 			position: absolute;
@@ -133,22 +129,28 @@
 			}
 		.item-general img {
 			width: 100%;
-		}
-		.item-general:hover img {
-			border-color: #3DA93C;
+			border: 5px solid #fff;
+			outline: 1px solid #eee;
 		}
 		.item-general .name {
 			position: absolute;
-			left: calc(50% - 60px);
-			bottom: -20px;
-			background-color: #3DA93C;
-			padding: 10px 20px;
+			width: 100%;
+			bottom: -30px;
 			text-align: center;
-			color: #fff;
 		}
 			.item-general .name a {
-				color: #fff;
-			}			
+				display: inline-block;
+				font-size: 16px;
+				font-weight: bold;
+				background-color: #369836;
+				border: 3px solid #fff;
+				outline: 1px solid #eee;
+				padding: 10px 15px;
+				transition: .2s;
+			}		
+				.item-general .name a:hover {
+					background-color: #1B7C1B;
+				}	
 /*end propensity-property*/
 
 /*start contact*/

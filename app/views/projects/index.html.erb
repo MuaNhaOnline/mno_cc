@@ -19,24 +19,15 @@
 <%= render partial: 'shared/front_end_search_box' %>
 <!-- end Search Box-->
 
-<!-- start navigator -->
-<section class="navigator container">
-	<ol class="breadcrumb">
-		<li><a href="/">Trang chủ</a></li>
-		<li class="active">Danh sách dự án</li>
-	</ol>
-</section>
-<!-- end navigator -->
-
 <!-- start favorite-property -->
 <section class="container block favorite-project">
-	<article class="title">
+	<article class="block-title">
 		<a href="#" class="link">
-			<i class="fa fa-link"></i>
-			<span>DỰ ÁN NỔI BẬT</span>
+			<span>Dự án yêu thích</span>
 		</a>
 	</article>
-	<article class="content">
+	<!-- margin-bottom for dots -->
+	<article class="block-content" style="margin-bottom: 30px;">
 		<section class="favorite">
 			<article class="slick" id="slick-favorite">
 				<% 
@@ -47,6 +38,12 @@
 			<button class="slider-control prev" id="favor-prev"></button>
 			<button class="slider-control next" id="favor-next"></button>			
 		</section>
+	</article>
+</section>
+<!-- end favorite-property -->
+
+<section class="container block">
+	<article class="block-content block-content-empty">
 		<section class="user-projects">		
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
@@ -108,200 +105,208 @@
 		</section>
 	</article>
 </section>
-<!-- end favorite-property -->
 
 <!-- start seo-word -->
-<section class="container">
-	<section class="seo-word">
-		<article class="title">đang nổi trên thị trường</article>
-		<article class="row content">
-			<div class="col-md-4 col-sm-6 seo-item">
-				<a href="#">
-					<img src="/assets/product/BDS01.jpg" class="img-circle img-responsive">
-					<span>Dự án giá 1 tỷ</span>
-				</a>
-			</div>
-			<div class="col-md-4 col-sm-6 seo-item">
-				<a href="#">
-					<img src="/assets/product/BDS09.jpg" class="img-circle img-responsive">
-					<span>Dự án biệt thự nghĩ dưỡng</span>
-				</a>
-			</div>
-			<div class="col-md-4 col-sm-6 seo-item">
-				<a href="#">
-					<img src="/assets/product/BDS03.jpg" class="img-circle img-responsive">
-					<span>Dự án căn hộ cao cấp</span>
-				</a>
-			</div>			
-		</article>
-	</section>	
+<section class="container block">
+	<section class="block-title">
+		<a href="#" class="link">
+			<span>Dự án nổi bật</span>
+		</a>
+	</section>
+	<section class="block-content block-content-empty">
+		<section class="seo-word">
+			<article class="row content">
+				<div class="col-md-4 col-sm-6 seo-item">
+					<a href="#">
+						<img src="/assets/product/BDS09.jpg" class="img-circle img-responsive">
+						<span>Dự án giá 1 tỷ</span>
+					</a>
+				</div>
+				<div class="col-md-4 col-sm-6 seo-item">
+					<a href="#">
+						<img src="/assets/product/BDS09.jpg" class="img-circle img-responsive">
+						<span>Dự án biệt thự nghĩ dưỡng</span>
+					</a>
+				</div>
+				<div class="col-md-4 col-sm-6 seo-item">
+					<a href="#">
+						<img src="/assets/product/BDS09.jpg" class="img-circle img-responsive">
+						<span>Dự án căn hộ cao cấp</span>
+					</a>
+				</div>			
+			</article>
+		</section>	
+	</section>
 </section>
 <!-- end -->
 
 <!-- start list-project -->
-<section class="list-project container">
-	<!-- start tab -->
-	<article class="tabs-wrapper">
-		<ul class="nav nav-pills nav-sm nav-justified tabs-scroll" role="tab-list-project">
-			<li class="active">
-				<a href="#apartment">Khu căn hộ</a>
-			</li>
-			<li>
-				<a href="#office">Cao ốc văn phòng</a>
-			</li>
-			<li>
-				<a href="#residental">Khu dân cư</a>
-			</li>
-			<li>
-				<a href="#residental">Khu công nghiệp</a>
-			</li>
-			<li>
-				<a href="#residental">Khu thương mại</a>
-			</li>
-		</ul>
-	</article>
-	<!-- end -->
+<section class="container block">
+	<section class="block-content block-content-empty">
+		<section class="list-project">
+			<!-- start tab -->
+			<article class="tabs-wrapper">
+				<ul class="nav nav-pills nav-sm nav-justified tabs-scroll" role="tab-list-project">
+					<li class="active">
+						<a href="#apartment">Khu căn hộ</a>
+					</li>
+					<li>
+						<a href="#office">Cao ốc văn phòng</a>
+					</li>
+					<li>
+						<a href="#residental">Khu dân cư</a>
+					</li>
+					<li>
+						<a href="#residental">Khu công nghiệp</a>
+					</li>
+					<li>
+						<a href="#residental">Khu thương mại</a>
+					</li>
+				</ul>
+			</article>
+			<!-- end -->
 
-	<!-- start content -->
-	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane fade in active" id="apartment">
-			<div class="row">
-				<div class="col-md-3">
-					<article class="panel-left-box scrollspy">
-						<ul class="panel-left nav hidden-xs hidden-sm">
-							<li>
-								<a href="#new_project">Dự án mới nhất</a>
-							</li>
-							<li>
-								<a href="#price_project">Dự án theo giá</a>
-							</li>
-							<li>
-								<a href="#position_project">Dự án theo vị trí</a>
-							</li>
-						</ul>
-					</article>
-				</div>
-				<div class="col-md-9">
-					<section class="item new-project" id="new_project">
-						<article class="title">
-							<span>Khu căn hộ mới nhất</span>
-						</article>
-						<article aria-pagination data-url="/projects/search" data-data='{"list_type":2,"per":<%= per_2_row %>}' data-list="#newest_apartment > .row" data-init_list="_initItemList($list)" data-pagination="#newest_apartment > .paging" class="content" id="newest_apartment">
-							<% 
-								projects = Project.search_with_params(newest: nil).limit per_2_row
-							%>
-							<div class="row">
-								<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
-							</div>
-							<div class="paging">
-								<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
-							</div>
-						</article>
-					</section>
-					<section class="item price-project" id="price_project" >
-						<article class="title">
-							<span>Khu căn hộ theo giá</span>
-						</article>
-						<article class="content">
-							<ul class="suggest">
-								<li>
-									<a href="#" class="suggest-item">Khu căn hộ giá 1tỷ</a>
-								</li>
-								<li>
-									<a href="#">Khu căn hộ giá 1tỷ - 2tỷ</a>
-								</li>
-								<li>
-									<a href="#">Khu căn hộ giá 2tỷ - 5tỷ</a>
-								</li>						
-							</ul>
-							<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per_2_row %>" />
-							<% 
-								projects = Project.search_with_params price: '0;2000000000'
-							%>
-							<ul id="price_list" class="row" style="margin-top: 15px;">			
-								<%= render partial: 'projects/item_list', locals: { projects: projects.take(per_2_row), type: 2 } %>
-							</ul>
-							<div id="price_pagination">
-								<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
-							</div>
-						</article>
-					</section>
-					<section class="item position-project" id="position_project">
-						<article class="title">
-							<span>Khu căn hộ tại </span>
-							<div class="btn-group">
-								<a class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thành phố Hồ Chí Minh<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><a href="">Hà Nội</a></li>
-									<li><a href="">Đà Nẵng</a></li>
-									<li><a href="">Hội An</a></li>
-									<li><a href="">Hải Phòng</a></li>
-									<li><a href="">Cần Thơ</a></li>
-									<li><a href="">Tiền Giang</a></li>
-									<li><a href="">Bến Tre</a></li>
+			<!-- start content -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane fade in active" id="apartment">
+					<div class="row">
+						<div class="col-md-3">
+							<article class="panel-left-box scrollspy">
+								<ul class="panel-left nav hidden-xs hidden-sm">
+									<li>
+										<a href="#new_project">Dự án mới nhất</a>
+									</li>
+									<li>
+										<a href="#price_project">Dự án theo giá</a>
+									</li>
+									<li>
+										<a href="#position_project">Dự án theo vị trí</a>
+									</li>
 								</ul>
-							</div>
-							<div class="dropdown-district">
-								<% 
-									# districts = District.order name: 'asc'
-									districts = District.all
-								%>
-								<div class="btn-group">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span aria-name="district_name"><%= districts[0].name %></span> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu pull-right">
+							</article>
+						</div>
+						<div class="col-md-9">
+							<section class="item new-project" id="new_project">
+								<article class="title">
+									<span>Khu căn hộ mới nhất</span>
+								</article>
+								<article aria-pagination data-url="/projects/search" data-data='{"list_type":2,"per":<%= per_2_row %>}' data-list="#newest_apartment > .row" data-init_list="_initItemList($list)" data-pagination="#newest_apartment > .paging" class="content" id="newest_apartment">
+									<% 
+										projects = Project.search_with_params(newest: nil).limit per_2_row
+									%>
+									<div class="row">
+										<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
+									</div>
+									<div class="paging">
+										<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
+									</div>
+								</article>
+							</section>
+							<section class="item price-project" id="price_project" >
+								<article class="title">
+									<span>Khu căn hộ theo giá</span>
+								</article>
+								<article class="content">
+									<ul class="suggest">
 										<li>
-											<div class="row-fluid dropdown-box">
-												<div class="col-sm-6">
-													<ul class="unstyled span4">
-														<% districts.take((districts.count / 2.0).ceil).each do |district| %>
-															<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
-														<% end %>
-													</ul>
-												</div>
-												<div class="col-sm-6">
-													<ul class="unstyled span4">
-														<% districts.offset((districts.count / 2.0).ceil).each do |district| %>
-															<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
-														<% end %>
-													</ul>
-												</div>										
-											</div>
+											<a href="#" class="suggest-item">Khu căn hộ giá 1tỷ</a>
 										</li>
+										<li>
+											<a href="#">Khu căn hộ giá 1tỷ - 2tỷ</a>
+										</li>
+										<li>
+											<a href="#">Khu căn hộ giá 2tỷ - 5tỷ</a>
+										</li>						
 									</ul>
-								</div>
-							</div>
-						</article>
-						<article class="content">
-							<% 
-								projects = Project.search_with_params(district: districts[0].id).limit per_2_row
-							%>
-							<div id="position_list" class="row">
-								<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
-							</div>
-							<div id="position_pagination" class="paging">
-								<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
-							</div>
-						</article>
-					</section>
-				</div>
+									<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per_2_row %>" />
+									<% 
+										projects = Project.search_with_params price: '0;2000000000'
+									%>
+									<ul id="price_list" class="row" style="margin-top: 15px;">			
+										<%= render partial: 'projects/item_list', locals: { projects: projects.take(per_2_row), type: 2 } %>
+									</ul>
+									<div id="price_pagination">
+										<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
+									</div>
+								</article>
+							</section>
+							<section class="item position-project" id="position_project">
+								<article class="title">
+									<span>Khu căn hộ tại </span>
+									<div class="btn-group">
+										<a class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thành phố Hồ Chí Minh<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="">Hà Nội</a></li>
+											<li><a href="">Đà Nẵng</a></li>
+											<li><a href="">Hội An</a></li>
+											<li><a href="">Hải Phòng</a></li>
+											<li><a href="">Cần Thơ</a></li>
+											<li><a href="">Tiền Giang</a></li>
+											<li><a href="">Bến Tre</a></li>
+										</ul>
+									</div>
+									<div class="dropdown-district">
+										<% 
+											# districts = District.order name: 'asc'
+											districts = District.all
+										%>
+										<div class="btn-group">
+											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span aria-name="district_name"><%= districts[0].name %></span> <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu pull-right">
+												<li>
+													<div class="row-fluid dropdown-box">
+														<div class="col-sm-6">
+															<ul class="unstyled span4">
+																<% districts.take((districts.count / 2.0).ceil).each do |district| %>
+																	<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
+																<% end %>
+															</ul>
+														</div>
+														<div class="col-sm-6">
+															<ul class="unstyled span4">
+																<% districts.offset((districts.count / 2.0).ceil).each do |district| %>
+																	<li><a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a></li>
+																<% end %>
+															</ul>
+														</div>										
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</article>
+								<article class="content">
+									<% 
+										projects = Project.search_with_params(district: districts[0].id).limit per_2_row
+									%>
+									<div id="position_list" class="row">
+										<%= render partial: 'projects/item_list', locals: { projects: projects, type: 2 } %>
+									</div>
+									<div id="position_pagination" class="paging">
+										<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: projects.count } %>
+									</div>
+								</article>
+							</section>
+						</div>
+					</div>
+				</div>		
 			</div>
-		</div>		
-	</div>
-	<!-- end -->
+			<!-- end -->
+		</section>
+	</section>
 </section>
 <!-- end -->
 
 <!-- start distributor project  -->
 <section class="container block distributor-project">
-	<article class="title">
+	<article class="block-title">
 		<a href="#" class="link">
-			<i class="fa fa-link"></i>
 			<span>DỰ ÁN THEO CHỦ ĐẦU TƯ</span>
 		</a>
 	</article>
-	<article class="content">
+	<article class="block-content block-content-empty">
 		<div class="wrapper">
 			<div class="single-logo">
 				<div class="item-logo">

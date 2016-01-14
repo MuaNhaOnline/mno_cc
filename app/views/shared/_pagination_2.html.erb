@@ -6,19 +6,21 @@
 	return if page_count <= 1
 %>
 
-<div class="paging">
+<% if page != 1 %>
 	<div class="left" aria-click="prev-page">
-		<% if page != 1 %>
-			<i class="pe-7s-angle-left"></i>
-		<% end %>
+		<i class="pe-7s-angle-left"></i>
 	</div>
-	<div class="number">
-		<span><%= page %>/<%= page_count %></span>
-	</div>
-	<div class="right" aria-click="next-page">
-		<% if page != page_count %>
-			<i class="pe-7s-angle-right"></i>
-		<% end %>					
-	</div>	
+<% else %>
+	<div></div>
+<% end %>
+<div class="number">
+	<span><%= page %>/<%= page_count %></span>
 </div>
+<% if page != page_count %>
+	<div class="right" aria-click="next-page">
+		<i class="pe-7s-angle-right"></i>
+	</div>	
+<% else %>
+	<div></div>
+<% end %>					
 <!-- aria-click="paging" data-page="3" -->
