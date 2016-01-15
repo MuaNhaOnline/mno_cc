@@ -1730,6 +1730,38 @@ function initForm($form, params) {
 				}
 			}
 		});
+
+		// Regexp
+		// $form.find('[data-constraint~="regexp"]').on({
+		// 	'keypress': function (e) {
+		// 		$input = $(this);
+		// 		c = String.fromCharCode(e.which);
+
+		// 		if (eval($input.data('regexp')).test(c)) {
+		// 			return;
+		// 		}
+
+		// 		e.preventDefault();
+		// 	},
+
+		// 	'paste': function () {
+		// 		var $input = $(this);
+
+		// 		setTimeout(function () {
+		// 			regexp = eval('/^' + $input.data('regexp').slice(1));
+
+		// 			newString = '';
+
+		// 			$($input.val().split('')).each(function () {
+		// 				if (regexp.test(this[0])) {
+		// 					newString += this[0];
+		// 				}
+		// 			});
+
+		// 			$input.val(newString).change();
+		// 		});
+		// 	}
+		// });
 	};
 
 	//Check input

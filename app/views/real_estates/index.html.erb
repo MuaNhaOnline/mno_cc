@@ -278,46 +278,54 @@
 			<span>Tin nhanh</span>
 		</a>
 	</article>
-	<article class="block-content block-content-empty">
-		<div class="row">
-			<div class="col-md-6">
-				<%
-					res = RealEstate.search_with_params(is_full: 'false').limit(5)
-				%>
-				<% res.each do |re| %>
-					<li class="item-xs" data-toggle-object="idMe<%= re.id %>">
-						<div class="title" >
-							<div class="date" aria-time="<%= re.created_at %>"></div>
-							<div class="text">
-								<span><%= re.title %></span>
-								<i class="fa fa-caret-down"></i>
-							</div>
-						</div>
-						<div class="content-item-xs" data-object="idMe<%= re.id %>" style="display: none;">
-							<div class="title">
-								<div class="date" aria-time="<%= re.created_at %>"></div>
-								<div class="text">
-									<span>
-										<%= re.title %>
-									</span>							
+	<article class="block-content block-content-empty short-re-container">
+		<%
+			res = RealEstate.search_with_params(is_full: 'false').limit(6)
+		%>
+		<% res.each_with_index do |re, index| %>
+			<% if index % 2 == 0 %>
+				<div class="row">
+			<% end %>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+					<article class="item">
+						<h3 class="title">
+							<%= re.title %>
+						</h3>
+						<section class="content" data-dot>
+							<%= re.description.html_safe %>
+						</section>
+						<section class="hidden-content">
+							<%= re.description.html_safe %>
+						</section>
+						<section class="infos">
+							<article class="node">
+								<div class="image">
+									<span class="fa fa-user fa-fw"></span>
 								</div>
-							</div>
-							<div class="details">
-								<div class="info">
-									<span class="poster">Người đăng</span>
-									<span class="name"><%= re.display_user_name %></span>
-									<span class="type-contact">Liên hệ</span>
-									<span class="infocontact"><%= re.display_user_phone_number || re.display_user_email %></span>
+								<div class="text"><%= re.display_user_name %></div>
+							</article>
+							<article class="node">
+								<div class="image">
+									<span class="fa fa-phone fa-fw"></span>
 								</div>
-								<div class="text">
-									<%= re.description.html_safe %>
+								<div class="text"><%= re.display_user_phone_number || re.display_user_email %></div>
+							</article>
+							<article class="node">
+								<div class="image">
+									<span class="fa fa-clock-o fa-fw"></span>
 								</div>
-							</div>
-						</div>
-					</li>
-				<% end %>
+								<div class="text" aria-time="<%= re.created_at %>"></div>
+							</article>
+						</section>
+					</article>
+				</div>
+			<% if index % 2 != 0 %>
+				</div>
+			<% end %>
+		<% end %>
+		<% if res.count % 2 != 0 %>
 			</div>
-		</div>
+		<% end %>
 	</article>
 </section>
 <!-- end short property -->
