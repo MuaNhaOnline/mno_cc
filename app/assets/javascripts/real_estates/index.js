@@ -133,6 +133,8 @@ $(function() {
 
 		(function () {
 			$('.short-re-container .content').on('click', function (e) {
+				e.stopPropagation();
+
 				$item = $(this).closest('.item');
 				$item.clone();
 				var $clone = $item.clone();

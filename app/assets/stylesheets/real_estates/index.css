@@ -210,7 +210,7 @@
 		.short-re-container .item {
 			background-color: #fff;
 			border: 1px solid #ddd;
-			margin-bottom: 10px;
+			margin-bottom: 15px;
 			max-width: 600px;
 			margin: 0 auto 15px auto;
 		}
@@ -222,8 +222,19 @@
 			line-height: 25px;
 			border-bottom: 1px solid #eee;
 			background-color: #f8f8f8;
-			box-shadow: inset 0px 0px 10px #f0f0f0;
+			position: relative;
 		}
+
+			.short-re-container .title:before {
+				content: '';
+				display: block;
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 3px;
+				height: 100%;
+				background-color: #369836;
+			}
 
 		.short-re-container .content {
 			height: 50px;
