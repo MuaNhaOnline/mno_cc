@@ -31,33 +31,11 @@ Rails.application.routes.draw do
 
   # Real estate
 
-    get 'real_estates/index'
-    get 'real_estates/list'
-    get 'real_estates/_list_list'
-    get 'real_estates/demo'
-    get 'real_estates/estimate'
-    get 'real_estates/category'
-    get 'real_estates/create(/:id)' => 'real_estates#create'
     get 'real_estates/active/:id' => 'real_estates#active'
     get 'real_estates/delete/:id' => 'real_estates#delete'
     get 'real_estates/_block_create/:block_id/:group_id' => 'real_estates#_block_create'
-    get 'real_estates/_block_edit/:id' => 'real_estates#_block_create'
     get 'real_estates/_block_item_list/:block_id' => 'real_estates#_block_item_list'
     get 'real_estates/_block_description_item_list/:block_id' => 'real_estates#_block_description_item_list'
-    get 'real_estates/get_image_for_interact_build/:id' => 'real_estates#get_image_for_interact_build'
-    get 'real_estates/get_data_for_interact_view/:id' => 'real_estates#get_data_for_interact_view'
-    get 'real_estates/my'
-    get 'real_estates/_my_list'
-    get 'real_estates/pending'
-    get 'real_estates/_pending_list'
-    get 'real_estates/manager'
-    get 'real_estates/_manager_list'
-    get 'real_estates/appraise'
-    get 'real_estates/_appraise_list'
-    get 'real_estates/my_favorite'
-    get 'real_estates/_my_favorite_list'
-    get 'real_estates/search'
-    get 'real_estates/get_gallery/:id' => 'real_estates#get_gallery'
     get 'real_estates/:id' => 'real_estates#view'
     get 'real_estates' => 'real_estates#index'
     post 'real_estates/preview' => 'real_estates#preview'
@@ -71,6 +49,21 @@ Rails.application.routes.draw do
     post 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
     post 'real_estates/approve/:id' => 'real_estates#approve'
     post 'real_estates/user_favorite/:id/:is_add' => 'real_estates#user_favorite'
+
+
+    get 'bat-dong-san/danh-sach' => 'real_estates#list' 
+    get 'bat-dong-san/tao-moi(/:id)' => 'real_estates#create'
+    get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
+    get 'bat-dong-san/cua-toi' => 'real_estates#my'
+    get 'bat-dong-san/yeu-thich-cua-toi' => 'real_estates#my_favorite'
+    get 'bat-dong-san/kiem-duyet' => 'real_estates#pending'
+    get 'bat-dong-san/quan-ly' => 'real_estates#manager'
+    get 'bat-dong-san/tim-kiem' => 'real_estates#manager'
+
+    get 'bat-dong-san/:slug', constraints: { slug: /(\w|-)*\d*/ }, controller: 'real_estates', action: 'view'
+
+    get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index'
+    get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'
 
   # / Real estate
 

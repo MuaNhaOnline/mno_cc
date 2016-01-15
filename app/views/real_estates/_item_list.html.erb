@@ -4,8 +4,83 @@
 =end
 	
 	type ||= 1
+	type = type.to_i
 %>
-<% if type == 3 %>
+
+<% if type == 4 %>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<% res[0...(res.count / 2.0).ceil].each do |re| %>
+				<article class="item">
+					<h3 class="title">
+						<%= re.title %>
+					</h3>
+					<section class="content" data-dot>
+						<%= re.description.html_safe %>
+					</section>
+					<section class="hidden-content">
+						<%= re.description.html_safe %>
+					</section>
+					<section class="infos">
+						<article class="node">
+							<div class="image">
+								<span class="fa fa-user fa-fw"></span>
+							</div>
+							<div class="text"><%= re.display_user_name %></div>
+						</article>
+						<article class="node">
+							<div class="image">
+								<span class="fa fa-phone fa-fw"></span>
+							</div>
+							<div class="text"><%= re.display_user_phone_number || re.display_user_email %></div>
+						</article>
+						<article class="node">
+							<div class="image">
+								<span class="fa fa-clock-o fa-fw"></span>
+							</div>
+							<div class="text" aria-time="<%= re.created_at %>"></div>
+						</article>
+					</section>
+				</article>
+			<% end %>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<% res[((res.count / 2.0).ceil)...res.count].each do |re| %>
+				<article class="item">
+					<h3 class="title">
+						<%= re.title %>
+					</h3>
+					<section class="content" data-dot>
+						<%= re.description.html_safe %>
+					</section>
+					<section class="hidden-content">
+						<%= re.description.html_safe %>
+					</section>
+					<section class="infos">
+						<article class="node">
+							<div class="image">
+								<span class="fa fa-user fa-fw"></span>
+							</div>
+							<div class="text"><%= re.display_user_name %></div>
+						</article>
+						<article class="node">
+							<div class="image">
+								<span class="fa fa-phone fa-fw"></span>
+							</div>
+							<div class="text"><%= re.display_user_phone_number || re.display_user_email %></div>
+						</article>
+						<article class="node">
+							<div class="image">
+								<span class="fa fa-clock-o fa-fw"></span>
+							</div>
+							<div class="text" aria-time="<%= re.created_at %>"></div>
+						</article>
+					</section>
+				</article>
+			<% end %>
+		</div>
+	</div>
+<% elsif type == 3 %>
 	<% res.each do |re| %>
 		<li class="item-xs" data-toggle-object="idMe<%= re.id %>">
 			<div class="title">
@@ -39,12 +114,12 @@
 		<div class="item-lg" data-value="<%= re.id %>">
 			<div class="row">
 				<div class="col-sm-8 picture">
-					<a href="/real_estates/<%= re.id %>">
+					<a href="/bat-dong-san/<%= re.full_slug %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 					</a>
 				</div>
 				<div class="col-sm-4">
-					<a href="/real_estates/<%= re.id %>" style="outline: none">
+					<a href="/bat-dong-san/<%= re.full_slug %>" style="outline: none">
 						<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">
 							<span>
 								<%= re.title %>
@@ -91,13 +166,13 @@
 						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-share" data-toggle="tooltip" data-placement="top" title="Chia sẽ tin này lên mạng xã hội"></a>
 						<a href="javascript:void(0)" data-popup="coming-soon" class="icon-zestimate" data-toggle="tooltip" data-placement="top" title="Định giá dự án này"></a>
 					</div>
-					<a href="/real_estate/<%= re.id %>">
+					<a href="/real_estate/<%= re.full_slug %>">
 						<div class="detail" data-dot>
 								<%= re.description.html_safe %>
 						</div>
 					</a>
 					<div class="btn-more">
-						<a href="/real_estates/<%= re.id %>">Xem chi tiết</a>
+						<a href="/bat-dong-san/<%= re.full_slug %>">Xem chi tiết</a>
 					</div>
 				</div>
 			</div>
@@ -106,8 +181,8 @@
 <% else %>
 	<% res.each do |re| %>
 		<div class="col-lg-3 col-md-4 col-sm-6">
-			<li data-value="<%= re.id %>" class="item-sm">
-				<a href="/real_estates/<%= re.id %>">
+			<li data-value="<%= re.full_slug %>" class="item-sm">
+				<a href="/bat-dong-san/<%= re.full_slug %>">
 					<div class="picture">
 						<%= real_estate_avatar re %>
 					</div>

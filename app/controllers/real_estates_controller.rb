@@ -19,7 +19,7 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: search params
 		def list
-			redirect_to '/real_estates' if params[:search].blank?
+			redirect_to '/bat-dong-san' if params[:search].blank?
 
 			@res = RealEstate.search_with_params params[:search].clone
 		end
@@ -52,21 +52,19 @@ class RealEstatesController < ApplicationController
 	# View
 		
 		# View
-		# params: id(*)
+		# params: slug(*)
 		def view
-			begin
-				@re = RealEstate.find params[:id]
+			id = params[:slug][(params[:slug].rindex('-') + 1)...params[:slug].length]
 
-				# Author
-				authorize! :view, @re
+			@re = RealEstate.find id
 
-				session[:real_estate_viewed] ||= []
-				unless session[:real_estate_viewed].include? params[:id]
-					@re.update(view_count: @re.view_count + 1)
-					session[:real_estate_viewed] << params[:id]
-				end
-			rescue
-				redirect_to '/'
+			# Author
+			authorize! :view, @re
+
+			session[:real_estate_viewed] ||= []
+			unless session[:real_estate_viewed].include? id
+				@re.update(view_count: @re.view_count + 1)
+				session[:real_estate_viewed] << params[:id]
 			end
 		end
 
@@ -608,6 +606,7 @@ class RealEstatesController < ApplicationController
 
 		# Partial view
 		# params: 
+		# 	type
 		#   per, page, price(x;y), real_estate_type, is_full, district
 		#   newest, cheapest
 		def search
@@ -615,6 +614,8 @@ class RealEstatesController < ApplicationController
 			
 			params[:per] ||= Rails.application.config.real_estate_item_per_page
 			params[:per] = params[:per].to_i
+
+			params[:type] ||= 1
 
 			params[:page] ||= 1
 			params[:page] = params[:page].to_i
@@ -624,7 +625,7 @@ class RealEstatesController < ApplicationController
 			render json: {
 				status: 0,
 				result: {
-					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]) }),
+					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: params[:type] }),
 					pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: params[:per], page: params[:page] })
 				}
 			}

@@ -30,7 +30,7 @@ $(function () {
         if (data.status == 0) {
           if ($form.find('#is_full').val() == 'true') {
             if (signed) {
-              window.location = '/real_estates/my';
+              window.location = '/bat-dong-san/cua-toi';
             }
             else {
               popupPrompt({
@@ -71,7 +71,7 @@ $(function () {
                   text: _t.form.no,
                   handle: function () {
                     if (signed) {
-                      window.location = '/real_estates/my';
+                      window.location = '/bat-dong-san/cua-toi';
                     }
                     else {
                       popupPrompt({

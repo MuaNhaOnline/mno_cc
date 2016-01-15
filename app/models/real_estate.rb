@@ -365,7 +365,8 @@ class RealEstate < ActiveRecord::Base
         other_params = {
           is_draft: is_draft,
           is_full: params[:is_full],
-          is_pending: true
+          is_pending: true,
+          slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.name))
         }
 
         _is_new_record = false
@@ -930,7 +931,12 @@ class RealEstate < ActiveRecord::Base
 
     # Name
     def name
-      @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}."
+      @name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}"
+    end
+
+    # Slug
+    def full_slug
+      @full_slug ||= "#{slug}-#{id}"
     end
 
     # ID

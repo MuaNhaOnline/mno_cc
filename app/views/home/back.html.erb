@@ -1,4 +1,2 @@
-<%
-	a = 'u'
-%>
-<%= // =~ 'abcdef' ? 'abc' : 'def' %>
+<% a = 'asdfa-123' %>
+<%= a[(a.rindex('-') + 1)...a.length] %>
