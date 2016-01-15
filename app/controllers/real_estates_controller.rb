@@ -54,7 +54,7 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: slug(*)
 		def view
-			id = params[:slug][(params[:slug].rindex('-') + 1)...params[:slug].length]
+			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
 
 			@re = RealEstate.find id
 
