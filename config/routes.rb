@@ -114,7 +114,6 @@ Rails.application.routes.draw do
     get 'signout' => 'users#signout'
     get 'active_account_signin' => 'users#active_account_signin'
     get 'auth/:provider/callback' => 'users#facebook_signin'
-    get 'users/:id' => 'users#view'
     post 'register' => 'users#save'
     post 'signin' => 'users#signin_handle'
     post 'users/forgot_password' => 'users#forgot_password_handle'
@@ -130,8 +129,10 @@ Rails.application.routes.draw do
 
     get 'thanh-vien/:id', constraints: { id: /\d+/ }, controller: 'users', action: 'view'
 
-    get 'thanh-vien/:action(/:id)', controller: 'users', action: 'index'
-    get 'users/:action(/:id)', controller: 'users', action: 'index'
+    get 'users/:id', constraints: { id: /\d+/ }, controller: 'users', action: 'view'
+
+    get 'thanh-vien/:action(/:id)', controller: 'users'
+    get 'users/:action(/:id)', controller: 'users'
 
     post 'dang-nhap' => 'users#signin_handle'
 
