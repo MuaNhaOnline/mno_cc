@@ -180,8 +180,8 @@
 									<li><a href="/bat-dong-san/yeu-thich-cua-toi"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
 								<% end %>
 								<% if can? :create, RealEstate %>
-									<li><a href="/bat-dong-san/tao-moi"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
-									<li style="display: none"><a href="/bat-dong-san/tao-moi?appraisal"><i class="fa fa-circle-o"></i>  Đăng tin thẩm định</a></li>
+									<li><a href="/bat-dong-san/dang-tin"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
+									<li style="display: none"><a href="/bat-dong-san/dang-tin?appraisal"><i class="fa fa-circle-o"></i>  Đăng tin thẩm định</a></li>
 								<% end %>
 								<% if can? :manage, RealEstate %>
 									<li><a href="/bat-dong-san/kiem-duyet"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>
@@ -202,7 +202,7 @@
 									<li><a href="/du-an/yeu-thich-cua-toi"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
 								<% end %>
 								<% if can? :create, Project %>
-									<li><a href="/du-an/tao-moi"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
+									<li><a href="/du-an/dang-tin"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
 								<% end %>
 								<% if can? :manage, Project %>
 									<li><a href="/du-an/kiem-duyet"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>

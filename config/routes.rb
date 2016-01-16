@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
     get 'bat-dong-san/danh-sach' => 'real_estates#list'
     get 'bat-dong-san/danh-sach-:search' => 'real_estates#list'
-    get 'bat-dong-san/tao-moi(/:id)' => 'real_estates#create'
+    get 'bat-dong-san/dang-tin(/:id)' => 'real_estates#create'
     get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
     get 'bat-dong-san/cua-toi' => 'real_estates#my'
     get 'bat-dong-san/yeu-thich-cua-toi' => 'real_estates#my_favorite'
@@ -77,7 +77,7 @@ Rails.application.routes.draw do
     post 'projects/user_favorite/:id/:is_add' => 'projects#user_favorite'
     post 'projects/save_interact_images'
 
-    get 'du-an/tao-moi(/:id)' => 'projects#create'
+    get 'du-an/dang-tin(/:id)' => 'projects#create'
     get 'du-an/chinh-sua(/:id)' => 'projects#create'
     get 'du-an/cua-toi' => 'projects#my'
     get 'du-an/yeu-thich-cua-toi' => 'projects#my_favorite'
