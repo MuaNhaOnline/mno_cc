@@ -99,7 +99,7 @@
 									<!-- Menu Footer-->
 									<li class="user-footer">
 										<div class="pull-left">
-											<a href="/users/<%= current_user.id %>" class="btn btn-primary btn-flat"><%= t 'layout.header.user_profile' %></a>
+											<a href="/thanh-vien/<%= current_user.id %>" class="btn btn-primary btn-flat"><%= t 'layout.header.user_profile' %></a>
 										</div>
 										<div class="pull-right">
 											<a href="/signout" class="btn btn-primary btn-flat"><%= t 'layout.header.signout' %></a>
@@ -109,12 +109,12 @@
 							</li>
 						<% else %>
 							<li class="dropdown user user-menu">
-								<a href="/signin">
+								<a href="/dang-nhap">
 									<span>Đăng nhập</span>
 								</a>
 							</li>
 							<li class="dropdown user user-menu">
-								<a href="/signup">
+								<a href="/dang-ky">
 									<span>Đăng ký</span>
 								</a>
 							</li>
@@ -131,13 +131,13 @@
 					<!-- Sidebar user panel -->
 					<div class="user-panel">
 						<div class="pull-left image">
-							<a href="/users/<%= current_user.id %>">
+							<a href="/thanh-vien/<%= current_user.id %>">
 								<%= user_avatar current_user %>
 							</a>
 						</div>
 						<div class="pull-left info">
 							<p>
-								<a style="color: #eee" href="/users/<%= current_user.id %>"><%= current_user.full_name %></a>
+								<a style="color: #eee" href="/thanh-vien/<%= current_user.id %>"><%= current_user.full_name %></a>
 							</p>
 							<p>
 								<a href="/mail_boxes" class="fa fa-envelope"></a>
@@ -152,7 +152,7 @@
 									<i class="fa fa-user"></i> <span>Người dùng</span> <i class="fa fa-caret-left pull-right"></i>
 								</a>
 								<ul class="treeview-menu">
-									<li><a href="/users/manager"><i class="fa fa-street-view"></i> Quản lý nhóm</a></li>
+									<li><a href="/thanh-vien/quan-ly"><i class="fa fa-street-view"></i> Quản lý nhóm</a></li>
 									<!-- <li><a href="/users/visit_counter"><i class="fa fa-circle-o"></i> Lượng truy cập</a></li>
 									<li><a href="/users/view_all"><i class="fa fa-circle-o"></i> Danh sách</a></li> -->
 								</ul>
@@ -196,17 +196,17 @@
 							</a>
 							<ul class="treeview-menu">
 								<% if can? :view_my, Project %>
-									<li><a href="/projects/my"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
+									<li><a href="/du-an/cua-toi"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
 								<% end %>
 								<% if can? :view_my_favorite, Project %>
-									<li><a href="/projects/my_favorite"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
+									<li><a href="/du-an/yeu-thich-cua-toi"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
 								<% end %>
 								<% if can? :create, Project %>
-									<li><a href="/projects/create"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
+									<li><a href="/du-an/tao-moi"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
 								<% end %>
 								<% if can? :manage, Project %>
-									<li><a href="/projects/pending"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>
-									<li><a href="/projects/manager"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
+									<li><a href="/du-an/kiem-duyet"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>
+									<li><a href="/du-an/quan-ly"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
 								<% end %>
 								<% if can? :manage, Investor %>
 									<li><a href="/investors/manager"><i class="fa fa-circle-o"></i> Quản lý nhà đầu tư</a></li>

@@ -34,7 +34,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-user"></i>
 						</div>
-						<input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" autofocus />
+						<input name="user[account]" value="<%= account if defined? account %>" data-constraint="required" type="text" class="form-control" id="account" autofocus />
 					</div>
 				</article>
 

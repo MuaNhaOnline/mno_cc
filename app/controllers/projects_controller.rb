@@ -16,14 +16,16 @@ class ProjectsController < ApplicationController
 	# View
 
 		# View
-		# params: id(*)
+		# params: slug(*)
 		def view
-			@project = Project.find params[:id]
+			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
+
+			@project = Project.find id
 
 			session[:project_viewed] ||= []
-			unless session[:project_viewed].include? params[:id]
+			unless session[:project_viewed].include? id
 				@project.update(view_count: @project.view_count + 1)
-				session[:project_viewed] << params[:id]
+				session[:project_viewed] << id
 			end
 		end
 
@@ -69,9 +71,9 @@ class ProjectsController < ApplicationController
 			Project.where(id: params[:id]).update_all(is_full: is_full, is_draft: is_full)
 
 			if is_full
-				redirect_to "/projects/create_details/#{params[:id]}"
+				redirect_to "/du-an/create_details/#{params[:id]}"
 			else
-				redirect_to '/projects/my'
+				redirect_to '/du-an/cua-toi'
 			end
 		end
 
@@ -83,7 +85,7 @@ class ProjectsController < ApplicationController
 			project = Project.find params[:id]
 			
 
-			redirect_to "/projects/my"
+			redirect_to "/du-an/cua-toi"
 		end
 
 		# Handle

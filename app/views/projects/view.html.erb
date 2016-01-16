@@ -33,12 +33,12 @@
 
 	<!-- #start image infos -->
 	<section class="block container highlight">
-		<article class="title">
+		<article class="block-title">
 			<a>			
 				<span><%= @project.project_name %></span>			
 			</a>
 		</article>
-		<article class="content">
+		<article class="block-content block-content-empty">
 			<section class="image-info">
 				<div class="main-image">
 					<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}", open_gallery: true %>

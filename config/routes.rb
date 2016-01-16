@@ -58,9 +58,8 @@ Rails.application.routes.draw do
     get 'bat-dong-san/yeu-thich-cua-toi' => 'real_estates#my_favorite'
     get 'bat-dong-san/kiem-duyet' => 'real_estates#pending'
     get 'bat-dong-san/quan-ly' => 'real_estates#manager'
-    get 'bat-dong-san/tim-kiem' => 'real_estates#manager'
 
-    get 'bat-dong-san/:slug', constraints: { slug: /(\w|-)*\d*/ }, controller: 'real_estates', action: 'view'
+    get 'bat-dong-san/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'real_estates', action: 'view'
 
     get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index'
     get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'
@@ -69,27 +68,7 @@ Rails.application.routes.draw do
 
   # Project
 
-    get 'projects/view_2/:id' => 'projects#view_2'
-    get 'projects/demo'
-    get 'projects/index'
-    get 'projects/create(/:id)' => 'projects#create'
     get 'projects/set_is_full_status/:id/:is_full' => 'projects#set_is_full_status'
-    get 'projects/set_finished_status/:id' => 'projects#set_finished_status'
-    get 'projects/create_details(/:id)' => 'projects#create_details'
-    get 'projects/get_image_for_interact_build/:id' => 'projects#get_image_for_interact_build'
-    get 'projects/get_data_for_interact_view/:id' => 'projects#get_data_for_interact_view'
-    get 'projects/my'
-    get 'projects/_my_list'
-    get 'projects/my_favorite'
-    get 'projects/_my_favorite_list'
-    get 'projects/pending'
-    get 'projects/_pending_list'
-    get 'projects/manager'
-    get 'projects/_manager_list'
-    get 'projects/search'
-    get 'projects/get_gallery/:id' => 'projects#get_gallery'
-    get 'projects/:id' => 'projects#view'
-    get 'projects' => 'projects#index'
     post 'projects/create' => 'projects#save'
     post 'projects/delete/:id' => 'projects#delete'
     post 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
@@ -98,6 +77,18 @@ Rails.application.routes.draw do
     post 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
     post 'projects/user_favorite/:id/:is_add' => 'projects#user_favorite'
     post 'projects/save_interact_images'
+
+    get 'du-an/tao-moi(/:id)' => 'projects#create'
+    get 'du-an/chinh-sua(/:id)' => 'projects#create'
+    get 'du-an/cua-toi' => 'projects#my'
+    get 'du-an/yeu-thich-cua-toi' => 'projects#my_favorite'
+    get 'du-an/kiem-duyet' => 'projects#pending'
+    get 'du-an/quan-ly' => 'projects#manager'
+
+    get 'du-an/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'projects', action: 'view'
+
+    get 'du-an(/:action(/:id))', controller: 'projects', action: 'index'
+    get 'projects(/:action(/:id))', controller: 'projects', action: 'index'
 
   # / Project
 
@@ -119,23 +110,10 @@ Rails.application.routes.draw do
 
   # User
 
-    get 'users/autocomplete'
     get 'signup' => 'users#create'
-    get 'users/active_callout/:id' => 'users#active_callout'
-    get 'users/active_account/:id' => 'users#active_account'
-    get 'active_account_signin' => 'users#active_account_signin'
-    get 'users/resend_active_account/:id' => 'users#resend_active_account'
-    get 'users/forgot_password'
-    get 'users/create/:id' => 'users#create'  
-    get 'users/check_unique_account'
-    get 'users/check_unique_email'
     get 'signin' => 'users#signin'
-    get 'users/view_all'
-    get 'users/_view_all_list'
-    get 'users/manager'
-    get 'users/_manager_list'
-    get 'users/visit_counter'
     get 'signout' => 'users#signout'
+    get 'active_account_signin' => 'users#active_account_signin'
     get 'auth/:provider/callback' => 'users#facebook_signin'
     get 'users/:id' => 'users#view'
     post 'register' => 'users#save'
@@ -144,6 +122,19 @@ Rails.application.routes.draw do
     post 'users/change_type'
     post 'users/change_password'
     post 'users/cancel_change_email/:id' => 'users#cancel_change_email'
+
+
+    get 'dang-ky' => 'users#create'
+    get 'dang-nhap' => 'users#signin'
+    get 'quen-mat-khau' => 'users#forgot_password'
+    get 'thanh-vien/quan-ly' => 'users#manager'
+
+    get 'thanh-vien/:id', constraints: { id: /\d+/ }, controller: 'users', action: 'view'
+
+    get 'thanh-vien/:action(/:id)', controller: 'users', action: 'index'
+    get 'users/:action(/:id)', controller: 'users', action: 'index'
+
+    post 'dang-nhap' => 'users#signin_handle'
 
   # / User
 

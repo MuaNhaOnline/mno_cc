@@ -2,7 +2,7 @@
   <article class="col-md-3 col-sm-4 col-ss-6 col-xs-12">
     <article class="item" data-value="<%= p.id %>">
       <section class="top">
-        <a href="/projects/<%= p.id %>">
+        <a href="/du-an/<%= p.full_slug %>">
           <%= project_avatar p %>
         </a>
         <section class="left">
@@ -16,7 +16,7 @@
           <%= p.title %>
         </p>
         <p>
-          <span class="fa fa-fw fa-user"></span> <a href="/users/#{p.user.id}"><%= p.user.full_name %></a>
+          <span class="fa fa-fw fa-user"></span> <a href="/thanh-vien/#{p.user.id}"><%= p.user.full_name %></a>
         </p>
         <p class="address">
           <span class="fa fa-fw fa-map-marker"></span> <%= p.display_address %>

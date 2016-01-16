@@ -64,7 +64,7 @@ class RealEstatesController < ApplicationController
 			session[:real_estate_viewed] ||= []
 			unless session[:real_estate_viewed].include? id
 				@re.update(view_count: @re.view_count + 1)
-				session[:real_estate_viewed] << params[:id]
+				session[:real_estate_viewed] << id
 			end
 		end
 

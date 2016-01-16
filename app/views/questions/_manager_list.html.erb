@@ -24,7 +24,7 @@
         Người đăng:
       </label>
       <span class="font-bold">
-        <%= q.user_id == 0 ? "Khách vãng lai (#{q.email.present? ? q.email : q.phone_number})" : "<a href='/users/#{q.user.id}' target='_blank'>#{q.user.full_name}</a>".html_safe %>
+        <%= q.user_id == 0 ? "Khách vãng lai (#{q.email.present? ? q.email : q.phone_number})" : "<a href='/thanh-vien/#{q.user.id}' target='_blank'>#{q.user.full_name}</a>".html_safe %>
       </span>
     </section>
     <section class="box-footer" aria-name="answer">

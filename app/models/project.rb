@@ -185,7 +185,8 @@ class Project < ActiveRecord::Base
 
       other_params = {
         is_draft: is_draft,
-        is_pending: true
+        is_pending: true,
+        slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.project_name))
       }
 
       assign_attributes other_params
@@ -543,6 +544,11 @@ class Project < ActiveRecord::Base
     # ID
     def display_id
       @id ||= ApplicationHelper.id_format id, 'PR'
+    end
+
+    # Slug
+    def full_slug
+      @full_slug ||= "#{slug}-#{id}"
     end
 
     # Full address

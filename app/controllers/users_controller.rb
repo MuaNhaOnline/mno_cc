@@ -180,7 +180,7 @@ class UsersController < ApplicationController
       if result[:status] != 0
         return redirect_to '/' if result[:status] == 6
         return respond_to do |format|
-          format.html { render 'users/signin', locals: { error: result[:result][:result] } }
+          format.html { render '/users/signin', locals: { error: result[:result][:result], account: params[:user][:account] } }
           format.json { render json: result }
         end
       end

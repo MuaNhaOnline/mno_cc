@@ -95,14 +95,14 @@
 								Dự án <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href="/projects">Xem tất cả</a></li>
+								<li><a href="/du-an">Xem tất cả</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="/projects">Cao ốc văn phòng</a></li>
-								<li><a href="/projects">Khu căn hộ</a></li>
-								<li><a href="/projects">Khu dân cư - đô thị mới</a></li>
-								<li><a href="/projects">Khu phức hợp - thương mại</a></li>
-								<li><a href="/projects">Khu du lịch - nghĩ dưỡng</a></li>
-								<li><a href="/projects">Khu công nghiệp</a></li>
+								<li><a href="/du-an">Cao ốc văn phòng</a></li>
+								<li><a href="/du-an">Khu căn hộ</a></li>
+								<li><a href="/du-an">Khu dân cư - đô thị mới</a></li>
+								<li><a href="/du-an">Khu phức hợp - thương mại</a></li>
+								<li><a href="/du-an">Khu du lịch - nghĩ dưỡng</a></li>
+								<li><a href="/du-an">Khu công nghiệp</a></li>
 							</ul>
 						</div>
 					</li>
@@ -220,7 +220,7 @@
 							<%= user_avatar current_user %>
 						</a>
 						<ul class="dropdown-menu pull-right">
-							<li><a href="/users/<%= current_user.id %>">Thông tin tài khoản</a></li>
+							<li><a href="/thanh-vien/<%= current_user.id %>">Thông tin tài khoản</a></li>
 							<li><a href="javascript:void(0)" data-popup="coming-soon">Nâng cấp VIP</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="/signout">Đăng xuất</a></li>
@@ -401,7 +401,7 @@
 	<div class="content">
 		<% unless signed? %>
 			<section class="mini-user-box">			
-				<a href="/signin" class="btn btn-primary btn-sm">Đăng nhập</a>
+				<a href="/dang-nhap" class="btn btn-primary btn-sm">Đăng nhập</a>
 				<a class="btn btn-primary btn-sm">Đăng ký</a>			
 				<div class="sign-with-social">
 					<span>Đăng nhập với:</span>
@@ -440,13 +440,13 @@
 				</li>
 				<li data-object="du-an-dropdownmenu" style="display: none">
 					<ul>
-						<li class="all"><a href="/projects">Xem tất cả</a></li>
-						<li><a href="/projects">Cao ốc văn phòng</a></li>
-						<li><a href="/projects">Khu căn hộ</a></li>
-						<li><a href="/projects">Khu dân cư - đô thị mới</a></li>
-						<li><a href="/projects">Khu phức hợp - thương mại</a></li>
-						<li><a href="/projects">Khu du lịch - nghĩ dưỡng</a></li>
-						<li><a href="/projects">Khu công nghiệp</a></li>
+						<li class="all"><a href="/du-an">Xem tất cả</a></li>
+						<li><a href="/du-an">Cao ốc văn phòng</a></li>
+						<li><a href="/du-an">Khu căn hộ</a></li>
+						<li><a href="/du-an">Khu dân cư - đô thị mới</a></li>
+						<li><a href="/du-an">Khu phức hợp - thương mại</a></li>
+						<li><a href="/du-an">Khu du lịch - nghĩ dưỡng</a></li>
+						<li><a href="/du-an">Khu công nghiệp</a></li>
 					</ul>
 				</li>
 				<li>
@@ -471,7 +471,7 @@
 <!-- Đăng nhập Modal -->
 <div class="modal fade" id="signin">
 	<div class="modal-dialog modal-sm">
-		<form class="modal-content" action="/signin" method="POST">
+		<form class="modal-content" action="/dang-nhap" method="POST">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">Đăng nhập</h4>
@@ -501,7 +501,7 @@
 				</div> -->
 			</div>
 			<div class="modal-footer">
-				<a href="/users/forgot_password" class="btn btn-default">Quên mật khẩu</a>
+				<a href="/quen-mat-khau" class="btn btn-default">Quên mật khẩu</a>
 				<button type="submit" class="btn btn-primary">Đăng nhập</button>
 			</div>
 		</form><!-- /.modal-content -->
