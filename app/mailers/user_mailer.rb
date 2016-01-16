@@ -1,6 +1,4 @@
 class UserMailer < ApplicationMailer
-	default from: 'admin@muanhaonline.com.vn'
-
 	def active_account user
     @user = user
     mail to: @user.email, subject: 'Kích hoạt tài khoản MuaNhaOnline'
