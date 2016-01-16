@@ -122,9 +122,19 @@
 	border: 2px dashed #ddd;
 	margin-bottom: 0;
 	background-color: #fff;
+	transition: .3s;
 }
 
-	.form .file-uploader.active {
+	.form .file-uploader:hover {
+		border-color: #3c8dbc;
+	}
+
+	.form .file-uploader.has {
+		border-color: transparent;
+	}
+
+	.form .file-uploader.active,
+	.form .file-uploader.drag {
 		border-color: #3c8dbc;
 	}
 
@@ -137,16 +147,16 @@
 	.form .file-uploader .file-upload-label {
 		text-align: center;
 		font-size: 17px;
-    color: #bbb;
-    clear: both;
-    padding: 10px 0;
+	    color: #999;
+	    clear: both;
+	    padding: 10px 0;
+	    font-weight: normal;
+	    cursor: pointer;
+	    transition: .3s;
 	}
 
+		.form .file-uploader.has .file-upload-label,
 		.form .file-uploader.active .file-upload-label {
-			display: none;
-		}
-
-		.form .file-uploader .preview ~ .file-upload-label :not(.fa) {
 			display: none;
 		}
 
@@ -158,6 +168,32 @@
 		position: absolute;
 		left: -9999px;
 	}
+
+	.form .file-uploader .add-button {
+		position: relative;
+		width: 160px;
+		height: 160px;
+		box-sizing: border-box;
+		border: 2px dashed #ddd;
+		display: none;
+		font-size: 60px;
+		color: #ccc;
+		text-align: center;
+		line-height: 160px;
+		margin: 5px;
+		float: left;
+		transition: .3s;
+		cursor: pointer
+	}
+
+		.form .file-uploader .add-button:hover {
+			color: #3c8dbc;
+			border-color: #3c8dbc;
+		}
+
+		.form .file-uploader.has .add-button {
+			display: block;
+		}
 
 	.form .file-uploader .preview {
 		position: relative;

@@ -1,0 +1,15 @@
+<%
+=begin
+	params: @floor
+=end
+%> 
+
+Danh sách mặt cắt khác
+<ul>
+	<% @floor.block.floors.each do |floor| %>
+		<% next if floor.id == @floor.id %>
+		<li>
+			<a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a>
+		</li>
+	<% end %>
+</ul>

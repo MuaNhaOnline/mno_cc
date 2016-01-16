@@ -77,11 +77,20 @@ $(function () {
 					$g = $('#g_ground'),
 					$svg = $g.closest('svg'),
 					$imageList = $('#ground_image_list'),
-					patternImage = $('#pattern_image image')[0],
 					loadImage = new Image(),
 					tranX = 0,
 					tranY = 0,
-					scale = 1;
+					scale = 1,
+
+					$pattern = $('#pattern_image'),
+					patternImage = $('#pattern_image image')[0],
+					$infoPanelContent = $('#info_panel_ground .content'),
+
+					history = [],
+					$backButton = $('[aria-click="back_to_prev"]');
+
+
+				$backButton.hide();
 
 			// / General
 
@@ -94,47 +103,8 @@ $(function () {
 						dataType: 'JSON'
 					}).done(function (data) {
 						if (data.status == 0) {
-
-							// Create image list
-
-								$imageList.html('');
-
-								$(data.result.images).each(function () {
-									var $item = $('<li><a><span></span></a></li>');
-
-									$item.data('value', this);
-
-									$imageList.append($item);
-								});
-
-								if (data.result.images.length >= 2) {
-									$imageList.show();
-								}
-								else {
-									$imageList.hide();
-								}
-
-								$imageList.find('li').on('click', function () {
-									$item = $(this);
-
-									if ($item.hasClass('active')) {
-										return;
-									}
-
-									$item.siblings('.active').removeClass('active');
-									$item.addClass('active');
-
-									showImage($item.data('value'));
-								}).first().click();
-
-							// / Create image list
-
-							// Create info
-
-
-
-							// / Create info
-
+							history.push(data.result);
+							createInteractImage();
 						}
 						else {
 							errorPopup();
@@ -142,6 +112,65 @@ $(function () {
 					}).fail(function () {
 						errorPopup();
 					});
+				}
+
+				function createInteractImage() {
+					data = history[history.length - 1];
+					if (history.length > 1) {
+						$backButton.show();
+					}
+					else {
+						$backButton.hide();
+					}
+
+					// Create image list
+
+						$imageList.html('');
+
+						$(data.images).each(function () {
+							var $item = $('<li><a><span></span></a></li>');
+
+							$item.data('value', this);
+
+							$imageList.append($item);
+						});
+
+						if (data.images.length >= 2) {
+							$imageList.show();
+						}
+						else {
+							$imageList.hide();
+						}
+
+						$imageList.find('li').on('click', function () {
+							$item = $(this);
+
+							if ($item.hasClass('active')) {
+								return;
+							}
+
+							$item.siblings('.active').removeClass('active');
+							$item.addClass('active');
+
+							showImage($item.data('value'));
+						}).first().click();
+
+					// / Create image list
+
+					// Create info
+
+						$infoPanelContent.html(data.info);
+
+						// Events
+
+							$infoPanelContent.find('[aria-click="interact"]').on('click', function () {
+								startInteractImage($(this).data('type'), $(this).data('value'));
+							});
+
+						// / Events
+
+					// / Create info
+
 				}
 
 				startInteractImage('project', projectId);
@@ -172,6 +201,11 @@ $(function () {
 						patternImage.setAttribute('width', this.width);
 						patternImage.setAttribute('height', this.height);
 						patternImage.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
+
+						$pattern.attr({
+							width: this.width,
+							height: this.height
+						});
 
 						scale = 1;
 						if (this.width > maxWidth) {
@@ -264,17 +298,34 @@ $(function () {
 			// Buttons
 
 				$('[aria-click="active_info_panel"]').on({
-					click: function () {
+					click: function (e) {
 						$('#info_panel_ground').addClass('active');
 
 						setTimeout(function () {
-							$document.on('click.active_info_panel', function () {
+							$document.on({
+								'click.active_info_panel': function () {
 								$('#info_panel_ground').removeClass('active');
-								$document.off('click.active_info_panel');
-							});	
+								$document.off('.active_info_panel');
+								},
+								'keydown.active_info_panel': function (e) {
+									if (e.keyCode == 27) {
+										$('#info_panel_ground').removeClass('active');
+										$document.off('.active_info_panel');
+									}
+								}
+							})
 						});
 					}
+				});
+
+				$('#info_panel_ground').on('click', function (e) {
+					e.stopPropagation();
 				})
+
+				$backButton.on('click', function () {
+					history.pop();
+					createInteractImage();
+				});
 
 			// / Buttons
 

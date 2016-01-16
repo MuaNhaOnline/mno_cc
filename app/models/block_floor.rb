@@ -13,6 +13,8 @@ class BlockFloor < ActiveRecord::Base
 
 	# Associations
 
+		belongs_to :block
+
 		has_many :surface_descriptions, class_name: 'BlockFloorSurfaceDescription'
 
 	# / Associations

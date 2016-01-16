@@ -145,24 +145,25 @@ body {
 					width: 100%;
 				}
 
-				.ground-description .image-panel .info-button {
-					position: absolute;
-					top: 10px;
-					right: 10px;
+				.ground-description .image-panel .button-in-panel a {
+					color: #aaa;
+					text-decoration: none;
 				}
 
-					.ground-description .image-panel .info-button a {
-						color: #aaa;
-						text-decoration: none;
+					.ground-description .image-panel .button-in-panel a:hover {
+						color: #0089cc;
 					}
 
-						.ground-description .image-panel .info-button a:hover {
-							color: #0089cc;
-						}
-
 				/*
-					Info panel
+					Info
 				*/
+
+					.ground-description .image-panel .info-button {
+						position: absolute;
+						top: 10px;
+						right: 10px;
+					}
+
 
 					.ground-description .info-panel {
 						position: absolute;
@@ -183,7 +184,7 @@ body {
 							animation: active_info_panel .5s;
 							display: block;
 						}
-  
+
 						@keyframes active_info_panel {
 							from {
 								transform: scale(0);
@@ -196,7 +197,21 @@ body {
 						}
 
 				/*
-					/ Info panel
+					/ Info
+				*/
+
+				/*
+					Back button
+				*/
+
+					.back-button {
+						position: absolute;
+						top: 10px;
+						left: 10px;
+					}
+
+				/*
+					/ Back button
 				*/
 
 			.ground-description .images-list {

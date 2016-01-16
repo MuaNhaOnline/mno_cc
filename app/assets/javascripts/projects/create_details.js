@@ -355,7 +355,7 @@ $(function () {
 								// Image interact
 
 									$realEstateList.find('[aria-click="image_interact"]').on('click', function () {
-										startDesign('real_estate', $(this).closest('.tab-content').data('value'));
+										startDesign('real_estates/group', $(this).closest('.tab-content').data('value'));
 									});
 
 								// / Image interact

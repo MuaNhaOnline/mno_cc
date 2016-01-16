@@ -9,7 +9,7 @@ var _t = {
 		yes: 'Có',
 		no: 'Không',
 		close: 'Đóng',
-		label_image_upload: 'Đăng hình ảnh tại đây',
+		label_image_upload: 'Kéo hoặc chọn hình để thêm vào',
 		search_no_result: 'Không tìm thấy kết quả phù hợp',
 		keyword_for_search: 'Nhập từ khóa để tìm kiếm',
 		keyword_for_search_or_new: 'Nhập từ khóa để tìm kiếm hoặc thêm mới',

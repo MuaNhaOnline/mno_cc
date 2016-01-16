@@ -194,6 +194,8 @@ class ProjectsController < ApplicationController
 		# params: id(*)
 		def get_data_for_interact_view
 
+			@project = Project.find params[:id]
+
 			# Images
 
 				# Result for request
@@ -252,10 +254,17 @@ class ProjectsController < ApplicationController
 
 			# / Images
 
+			# Info
+
+				info = render_to_string(partial: 'projects/info_for_interact_view')
+
+			# / Info
+
 			render json: { 
 				status: 0, 
 				result: {
-					images: images 
+					images: images,
+					info: info
 				} 
 			}
 		end

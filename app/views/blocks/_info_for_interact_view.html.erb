@@ -1,0 +1,23 @@
+<%
+=begin
+	params: @block
+=end
+%>
+
+Danh sách sản phẩm
+<ul>
+	<% @block.real_estate_groups.each do |group| %>
+		<li>
+			<a aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a>
+		</li>
+	<% end %>
+</ul>
+
+Danh sách mặt cắt
+<ul>
+	<% @block.floors.each do |floor| %>
+		<li>
+			<a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a>
+		</li>
+	<% end %>
+</ul>

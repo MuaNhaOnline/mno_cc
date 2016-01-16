@@ -1,0 +1,14 @@
+<%
+=begin
+	params: @project
+=end
+%>
+
+Danh sách block
+<ul>
+	<% @project.blocks.each do |block| %>
+		<li>
+			<a aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a>
+		</li>
+	<% end %>
+</ul>

@@ -257,7 +257,7 @@ class RealEstatesController < ApplicationController
 
 		# Get values
 		# params: id(*)
-		def get_image_for_interact_build
+		def groups_get_image_for_interact_build
 			# Result for request
 			images = []
 
@@ -323,7 +323,7 @@ class RealEstatesController < ApplicationController
 
 		# Get values
 		# params: id(*)
-		def get_data_for_interact_view
+		def groups_get_data_for_interact_view
 
 			# Images
 
@@ -338,7 +338,7 @@ class RealEstatesController < ApplicationController
 					image = {}
 
 					# Get url for display
-					image[:thumb_url] = real_estate_group_image.image.url('thumb')
+					image[:url] = real_estate_group_image.image.url
 
 					if real_estate_group_image.image_descriptions.present?
 						image[:descriptions] = []
@@ -376,17 +376,18 @@ class RealEstatesController < ApplicationController
 						end
 					end
 
-				# / Images
+				images << image
 
-				render json: { 
-					status: 0, 
-					result: {
-						images: images 
-					} 
-				}
+				# / Images
 			end
 
-			render json: { status: 0, result: images }
+			render json: { 
+				status: 0,
+				result: {
+					images: images,
+					info: 'asdfasdfasdf'
+				}
+			}
 		end
 
 
