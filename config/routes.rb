@@ -31,13 +31,9 @@ Rails.application.routes.draw do
 
   # Real estate
 
-    get 'real_estates/active/:id' => 'real_estates#active'
-    get 'real_estates/delete/:id' => 'real_estates#delete'
     get 'real_estates/_block_create/:block_id/:group_id' => 'real_estates#_block_create'
     get 'real_estates/_block_item_list/:block_id' => 'real_estates#_block_item_list'
     get 'real_estates/_block_description_item_list/:block_id' => 'real_estates#_block_description_item_list'
-    get 'real_estates/:id' => 'real_estates#view'
-    get 'real_estates' => 'real_estates#index'
     post 'real_estates/preview' => 'real_estates#preview'
     post 'real_estates/create' => 'real_estates#save'
     post 'real_estates/block_create' => 'real_estates#block_save'
@@ -51,7 +47,8 @@ Rails.application.routes.draw do
     post 'real_estates/user_favorite/:id/:is_add' => 'real_estates#user_favorite'
 
 
-    get 'bat-dong-san/danh-sach' => 'real_estates#list' 
+    get 'bat-dong-san/danh-sach' => 'real_estates#list'
+    get 'bat-dong-san/danh-sach-:search' => 'real_estates#list'
     get 'bat-dong-san/tao-moi(/:id)' => 'real_estates#create'
     get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
     get 'bat-dong-san/cua-toi' => 'real_estates#my'

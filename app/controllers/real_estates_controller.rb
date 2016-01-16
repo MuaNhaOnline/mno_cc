@@ -16,10 +16,55 @@ class RealEstatesController < ApplicationController
 
 	# List
 
+		private def get_search_param_from_keyword search
+			case search
+			when 'nha-pho'
+				{ search_name: 'Nhà phố', real_estate_type: 'town_house' }
+			when 'biet-thu'
+				{ search_name: 'Villa - Biệt thự', real_estate_type: 'villa' }
+			when 'can-ho'
+				{ search_name: 'Căn hộ chung cư', real_estate_type: 'apartment' }
+			when 'dat-tho-cu'
+				{ search_name: 'Đất ở - Đất thổ cư', real_estate_type: 'residential_land' }
+			when 'dat-lam-nghiep'
+				{ search_name: 'Đất lâm nghiệp', real_estate_type: 'vacant_land' }
+			when 'dat-nong-nghiep'
+				{ search_name: 'Đất nông nghiệp', real_estate_type: 'forest_land' }
+			when 'dat-san-xuat'
+				{ search_name: 'Đất cho sản xuất', real_estate_type: 'productive_land' }
+			when 'dat-du-an'
+				{ search_name: 'Đất dự án', real_estate_type: 'project_land' }
+			when 'nha-tam'
+				{ search_name: 'Nhà tạm', constructional_level: 'temporary' }
+			when 'van-phong'
+				{ search_name: 'Văn phòng', real_estate_type: 'office' }
+			when 'phong-tro'
+				{ search_name: 'Phòng trọ', real_estate_type: 'motel' }
+			when 'mat-bang-cua-hang'
+				{ search_name: 'Mặt bằng - Cửa hàng', real_estate_type: 'store' }
+			when 'nha-hang-khach-san'
+				{ search_name: 'Nhà hàng - Khách sạn', real_estate_type: 'restaurant_hotel' }
+			when 'nha-kho-xuong'
+				{ search_name: 'Nhà kho - Xưởng', real_estate_type: 'storage_workshop' }
+
+			when 'nha-o-xa-hoi'
+				{ search_name: 'Nhà ở xã hội', real_estate_type: 'social_home' }
+			when 'can-ho-co-ho-boi'
+				{ search_name: 'Căn hộ có hồ bơi', real_estate_type: 'apartment', utilities: { pool: '' } }
+			when 'nha-pho-duoi-1-ty' 
+				{ search_name: 'Nhà phố dưới 1 tỷ', real_estate_type: 'town_house', price: '0;1000000000', }
+
+			else
+				{}
+			end
+		end
+
 		# View
 		# params: search params
 		def list
-			redirect_to '/bat-dong-san' if params[:search].blank?
+			return redirect_to '/bat-dong-san' if params[:search].blank?
+
+			params[:search] = get_search_param_from_keyword(params[:search]) if params[:search].is_a? String
 
 			@res = RealEstate.search_with_params params[:search].clone
 		end
@@ -54,6 +99,7 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: slug(*)
 		def view
+			byebug
 			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
 
 			@re = RealEstate.find id

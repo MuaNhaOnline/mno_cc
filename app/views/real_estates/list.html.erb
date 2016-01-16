@@ -19,28 +19,7 @@
 	<ol class="breadcrumb">
 		<li><a href="/">Trang chủ</a></li>
 		<li><a href="/bat-dong-san">Danh sách BĐS</a></li>
-		<% 
-			title = ''
-			if params[:search][:search_name]
-				case params[:search][:search_name]
-				when 'noxh'
-					title = 'Nhà ở xã hội'
-				when 'noxh'
-					title = 'bt'
-				when 'chhb'
-					title = 'Căn hộ có hồ bơi'
-				when 'np1t'
-					title = 'Nhà phố dưới 1 tỷ'
-				when 'nt'
-					title = 'Nhà tạm'
-				end
-			elsif params[:search][:real_estate_type].present?
-				title = t('real_estate_type.text.' + RealEstateType.where("code LIKE '%|#{params[:search][:real_estate_type]}|%'").first.name)
-			else
-				title = 'Tìm kiếm'
-			end
-		%>
-		<li class="active"><%= title %></li>
+		<li class="active"><%= params[:search][:search_name] || 'Tiêu đề' %></li>
 	</ol>
 </section>
 <!-- end navigator -->
@@ -71,18 +50,24 @@
 		</div>
 	</div> -->
 
-	<% if @res.count == 0 %>
-		<section class="result-real container">
-			<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-exclamation fa-lg"></i> Xin lỗi</h4><p>Rất tiếc. Không tìm thấy kết quả phù hợp</p></div>
-		</section>
-	<% end %>
-	<div aria-pagination data-url="/real_estates/_list_list" data-data='<%= { search: params[:search] }.to_json %>' data-list="#real_estate_list > .row" data-pagination="#real_estate_list > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="real_estate_list">
-		<div class="row">
-			<%= render partial: 'real_estates/item_list', locals: { res: @res.take(per) } %>
+	<section class="block-title">
+		<%= params[:search][:search_name] || 'Tiêu đề' %>
+	</section>
+	<section class="block-content block-content-empty">
+		<% if @res.count == 0 %>
+			<section class="result-real container">
+				<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-exclamation fa-lg"></i> Xin lỗi</h4><p>Rất tiếc. Không tìm thấy kết quả phù hợp</p></div>
+			</section>
+		<% end %>
+		<div aria-pagination data-url="/real_estates/_list_list" data-data='<%= { search: params[:search] }.to_json %>' data-list="#real_estate_list > .row" data-pagination="#real_estate_list > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="real_estate_list">
+			<div class="row">
+				<%= render partial: 'real_estates/item_list', locals: { res: @res.take(per) } %>
+			</div>
+			<div class="paging">
+				<%= render partial: 'shared/pagination_2', locals: { per: per, total: @res.count, page: 1 } %>						
+			</div>
 		</div>
-		<div class="paging">
-			<%= render partial: 'shared/pagination_2', locals: { per: per, total: @res.count, page: 1 } %>						
-		</div>
-	</div>
+	</section>
+	
 </section>
 <!-- end -->

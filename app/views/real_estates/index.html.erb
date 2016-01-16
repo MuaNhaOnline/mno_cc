@@ -305,7 +305,6 @@
 		<div class="row">
 			<% 
 				query = {
-					search_name: 'noxh',
 					real_estate_type: 'social_home',
 					newest: ''
 				}
@@ -318,7 +317,7 @@
 							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 						</a>
 						<div class="name">
-							<a href="/bat-dong-san/danh-sach?<%= query.to_query 'search' %>">
+							<a href="/bat-dong-san/danh-sach-nha-o-xa-hoi">
 								<span>Nhà ở xã hội</span>
 							</a>
 						</div>
@@ -327,7 +326,6 @@
 			<% end %>
 			<% 
 				query = {
-					search_name: 'bt',
 					real_estate_type: 'villa',
 					newest: ''
 				}
@@ -340,7 +338,7 @@
 							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 						</a>
 						<div class="name">
-							<a href="/bat-dong-san/danh-sach?<%= query.to_query 'search' %>">
+							<a href="/bat-dong-san/biet-thu">
 								<span>Biệt thự cao cấp</span>
 							</a>
 						</div>
@@ -349,7 +347,6 @@
 			<% end %>
 			<% 
 				query = {
-					search_name: 'chhb',
 					real_estate_type: 'apartment',
 					utilities: {
 						pool: ''
@@ -365,7 +362,7 @@
 							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 						</a>
 						<div class="name">
-							<a href="/bat-dong-san/danh-sach?<%= query.to_query 'search' %>">
+							<a href="/bat-dong-san/danh-sach-can-ho-co-ho-boi">
 								<span>Căn hộ có hồ bơi</span>
 							</a>
 						</div>
@@ -374,8 +371,6 @@
 			<% end %>
 			<% 
 				query = {
-					search_name: 'np1t',
-					# constructional_level: 'temporary',
 					real_estate_type: 'town_house',
 					price: '0;1000000000',
 					newest: ''
@@ -389,7 +384,7 @@
 							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 						</a>
 						<div class="name">
-							<a href="/bat-dong-san/danh-sach?<%= query.to_query 'search' %>">
+							<a href="/bat-dong-san/danh-sach-nha-pho-duoi-1-ty">
 								<span>Nhà phố dưới 1 tỷ</span>
 							</a>
 						</div>
