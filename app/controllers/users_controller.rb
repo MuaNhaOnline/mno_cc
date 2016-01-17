@@ -28,7 +28,6 @@ class UsersController < ApplicationController
     def save
       if is_sign_up = params[:user][:id].blank?
         user = User.new
-        user.session_id = session.id
       else 
         user = User.find(params[:user][:id])
         if user.nil?
