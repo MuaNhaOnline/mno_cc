@@ -346,12 +346,13 @@ Notification.prototype = {
 
 		notificationMessageElement = new CKEDITOR.dom.element( 'p' );
 		notificationMessageElement.addClass( 'cke_notification_message' );
+		notificationMessageElement.setStyle( 'margin', '0' );
 		notificationMessageElement.setHtml( this.message );
 		notificationElement.append( notificationMessageElement );
 
 		notificationCloseElement = CKEDITOR.dom.element.createFromHtml(
-			'<a class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
-				'<span class="cke_label">X</span>' +
+			'<a style="position: absolute; top: 0; right: 0" class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
+				'<span class="cke_label fa fa-close fa-fw"></span>' +
 			'</a>' );
 		notificationElement.append( notificationCloseElement );
 
@@ -566,6 +567,10 @@ Area.prototype = {
 		notificationArea.addClass( 'cke_notifications_area' );
 		notificationArea.setAttribute( 'id', 'cke_notifications_area_' + editor.name );
 		notificationArea.setStyle( 'z-index', config.baseFloatZIndex - 2 );
+		notificationArea.setStyle( 'background-color', '#fff' );
+		notificationArea.setStyle( 'border',  '1px solid #ddd');
+		notificationArea.setStyle( 'padding',  '15px');
+		notificationArea.setStyle( 'margin',  '10px');
 
 		return notificationArea;
 	},
