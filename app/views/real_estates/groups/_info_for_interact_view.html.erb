@@ -1,0 +1,14 @@
+<%
+=begin
+	params: @group
+=end
+%> 
+
+Các sản phẩm
+<ul>
+	<% @group.real_estates.each do |re| %>
+		<li>
+			<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+		</li>
+	<% end %>
+</ul>

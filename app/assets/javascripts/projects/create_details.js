@@ -443,52 +443,219 @@ $(function () {
 						esc: false
 					});
 
-				  function parseFloors(stringList) {
-				    // Format
-				    stringList = stringList.replace(/[^0-9-,]/g, '');
+					// Position
 
-				    list = []
-				    $(stringList.split(',')).each(function () {
-				      // remove redundancy
-				      value = this.replace(/-.*-/, '-').split('-');
+						var 
+							loadImage = new Image(),
+							$svg = $('#block_floor_surface'),
+							selectedBlockFloorValue,
+							$surfaceDescription = $('#block_floor_surface_description_id');
 
-				      // case: just a number
-				      if (value.length == 1) {
-				        list.push(parseInt(value));
-				      }
-				      // case: in range
-				      else {
-				        // case: full param
-				        if (value[0] && value[1]) {
-				          value[0] = parseInt(value[0]);
-				          value[1] = parseInt(value[1]);
+						loadImage.onload = function () {
+							var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 
-				          // exchange for correct format (increase)
-				          if (value[0] > value[1]) {
-				            temp = value[0];
-				            value[0] = value[1];
-				            value[1] = temp;
-				          }
+							image.setAttribute('width', this.width);
+							image.setAttribute('height', this.height);
+							$svg.attr({
+								width: this.width,
+								height: this.height
+							});
+							image.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
 
-				          while (value[0] <= value[1]) {
-				            list.push(value[0]++);
-				          }
-				        }
-				        // case: one in => same a number
-				        else if (value[0]) {
-				          list.push(parseInt(value[0]));
-				        }
-				        else if (value[1]) {
-				          list.push(parseInt(value[1]));
-				        }
-				      }
-				    });
+							$svg.html(image);
+
+							$(selectedBlockFloorValue.descriptions).each(function () {
+								if (this.id == $surfaceDescription.val()) {
+									var $polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
+
+									$polyline.attr({
+										points: this.points,
+										stroke: '#ddd'
+									});
+
+									$polyline.css('fill', 'rgba(0, 166, 91, .3)');
+
+									$svg.append($polyline);
+
+									$svgParent = $svg.parent();
+									rect = $polyline[0].getBoundingClientRect();
+									$svgParent.scrollLeft((rect.left - $svgParent.offset().left) - ($svgParent.width() - rect.width) / 2);
+									$svgParent.scrollTop((rect.top - $svgParent.offset().top) - ($svgParent.height() - rect.height) / 2);
+								}
+							});
+						};
+
+						$svg.on('click', function () {
+							$html = $('<svg style="height: 90vh; width: 90vw"><g><g id="g"></g></g></svg>');
+							$g = $html.find('#g');
+
+							var $popup = popupFull({
+								html: $html,
+								id: 'select_position_popup',
+								'z-index': 32,
+								width: 'maximum'
+							});
+
+							$popup.find('.popup-content').css('overflow-y', 'hidden');
+
+							var loadImage2 = new Image();
+							loadImage2.onload = function () {
+								var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+
+								image.setAttribute('width', this.width);
+								image.setAttribute('height', this.height);
+								image.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
+
+								$g.css('transform', 'translate(' + ($html.width() / 2 - this.width / 2) + 'px,' + ($html.height() / 2 - this.height / 2) + 'px)');
+
+								$g.html(image);
+
+								// Add description (just polyline because have only polyline)
+								$(selectedBlockFloorValue.descriptions).each(function () {
+
+									var $polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
+
+									$g.append($polyline);
+
+									$polyline.attr({
+										points: this.points,
+										stroke: '#ddd'
+									});
+
+									$polyline.data('id', this.id);
+
+									switch (this.status) {
+										case 'current':
+											// Not change
+											if ($surfaceDescription.val() == this.id) {
+												$polyline.data('status', 'current').css('fill', 'rgba(0, 166, 91, .3)');
+											}
+											// Was changed
+											else {
+												$polyline.attr('data-empty', '').data('status', 'empty').css({
+													fill: 'rgba(255, 255, 255, .3)',
+													cursor: 'pointer'
+												});
+											}
+											break;
+										case 'empty':
+											// Was changed
+											if ($surfaceDescription.val() == this.id) {
+
+												$polyline.data('status', 'current').css('fill', 'rgba(0, 166, 91, .3)');
+											}
+											// Not change
+											else {
+												$polyline.attr('data-empty', '').data('status', 'empty').css({
+													'fill': 'rgba(255, 255, 255, .3)',
+													'cursor': 'pointer'
+												});
+											}
+											break;
+										case 'used':
+											$polyline.data('status', 'used').css('fill', 'rgba(255, 153, 0, .3)');
+											break;
+									}
+
+									$g.append($polyline);
+
+								});
+
+								// / Add descriptions
+
+								// Event
+
+									$g.find('[data-empty]').on('click', function () {
+										$p = $(this);
+										$surfaceDescription.val($p.data('id')).change();
+										$popup.off();
+
+
+										var $polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
+
+										$polyline.attr({
+											points: $p.attr('points'),
+											stroke: '#ddd'
+										});
+
+										$polyline.css('fill', 'rgba(0, 166, 91, .3)');
+
+										$svg.append($polyline);
+
+										$svgParent = $svg.parent();
+										rect = $polyline[0].getBoundingClientRect();
+										$svgParent.scrollLeft((rect.left - $svgParent.offset().left) - ($svgParent.width() - rect.width) / 2);
+										$svgParent.scrollTop((rect.top - $svgParent.offset().top) - ($svgParent.height() - rect.height) / 2);
+									});
+
+								// / Event
+							}
+							loadImage2.src = selectedBlockFloorValue.url;
+						});
+
+						$('#block_floor').on('change', function () {
+							if (this.value) {
+								selectedBlockFloorValue = $(this).find(':selected').data('value');
+								loadImage.src = selectedBlockFloorValue.url;
+								$surfaceDescription.val('');
+							}
+						});
+
+						selectedBlockFloorValue = $('#block_floor :selected').data('value');
+						if (selectedBlockFloorValue) {
+							loadImage.src = selectedBlockFloorValue.url;
+						}
+
+					// / Position
+
+					// Floor
+					function parseFloors(stringList) {
+						// Format
+						stringList = stringList.replace(/[^0-9-,]/g, '');
+
+						list = []
+						$(stringList.split(',')).each(function () {
+							// remove redundancy
+							value = this.replace(/-.*-/, '-').split('-');
+
+							// case: just a number
+							if (value.length == 1) {
+								list.push(parseInt(value));
+							}
+							// case: in range
+							else {
+								// case: full param
+								if (value[0] && value[1]) {
+									value[0] = parseInt(value[0]);
+									value[1] = parseInt(value[1]);
+
+									// exchange for correct format (increase)
+									if (value[0] > value[1]) {
+										temp = value[0];
+										value[0] = value[1];
+										value[1] = temp;
+									}
+
+									while (value[0] <= value[1]) {
+										list.push(value[0]++);
+									}
+								}
+								// case: one in => same a number
+								else if (value[0]) {
+									list.push(parseInt(value[0]));
+								}
+								else if (value[1]) {
+									list.push(parseInt(value[1]));
+								}
+							}
+						});
 
 
 
-				    return $.unique(list).sort(function (a, b) { return a - b });
-				  }
+						return $.unique(list).sort(function (a, b) { return a - b });
+					}
 
+					// Price
 					$form.find('[aria-click="price_preview"]').on('click', function () {
 						$button = $(this);
 						$row = $button.closest('.row');
@@ -1143,7 +1310,8 @@ $(function () {
 
 					function updateViewBox() {
 						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
-						$g.find('[aria-object="edit_point"]').attr('r', 5 / scale); }
+						$g.find('[aria-object="edit_point"]').attr('r', 5 / scale); 
+					}
 
 					function updateViewBoxWithValue(tranX, tranY, scale) {
 						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
@@ -1410,7 +1578,7 @@ $(function () {
 														// Mouse position
 														pos = getPosition(e);
 
-														// Find nearest line with maximun is 15
+														// Find nearest line with maximum is 15
 														nearest = { distance: 15, pointIndex: -1 };
 														$points.each(function (index) {
 															distance = Math.abs(this.equation_with_next.a * pos.x + this.equation_with_next.b * pos.y + this.equation_with_next.c) / this.denominator;
@@ -1762,24 +1930,24 @@ $(function () {
 									returnResult();
 								}
 								else {
-						      popupPrompt({
-						        title: 'Xác nhận',
-						        content: 'Chưa có block được chọn. Sẽ không có đối tượng được mô tả. Bạn vẫn muốn tiếp tục?',
-						        type: 'warning',
-						        buttons: [
-						          {
-						            text: 'Tiếp tục',
-						            type: 'primary',
-						            primaryButton: true,
-						            handle: function () {
+									popupPrompt({
+										title: 'Xác nhận',
+										content: 'Chưa có block được chọn. Sẽ không có đối tượng được mô tả. Bạn vẫn muốn tiếp tục?',
+										type: 'warning',
+										buttons: [
+											{
+												text: 'Tiếp tục',
+												type: 'primary',
+												primaryButton: true,
+												handle: function () {
 													returnResult();
-						            }
-						          },
-						          {
-						            text: 'Quay lại'
-						          }
-						        ]
-						      })
+												}
+											},
+											{
+												text: 'Quay lại'
+											}
+										]
+									})
 								}
 								break;
 							case 'real_estate':
@@ -1790,24 +1958,24 @@ $(function () {
 									returnResult();
 								}
 								else {
-						      popupPrompt({
-						        title: 'Xác nhận',
-						        content: 'Chưa có bất động sản được chọn. Sẽ không có đối tượng được mô tả. Bạn vẫn muốn tiếp tục?',
-						        type: 'warning',
-						        buttons: [
-						          {
-						            text: 'Tiếp tục',
-						            type: 'primary',
-						            primaryButton: true,
-						            handle: function () {
+									popupPrompt({
+										title: 'Xác nhận',
+										content: 'Chưa có bất động sản được chọn. Sẽ không có đối tượng được mô tả. Bạn vẫn muốn tiếp tục?',
+										type: 'warning',
+										buttons: [
+											{
+												text: 'Tiếp tục',
+												type: 'primary',
+												primaryButton: true,
+												handle: function () {
 													returnResult();
-						            }
-						          },
-						          {
-						            text: 'Quay lại'
-						          }
-						        ]
-						      })
+												}
+											},
+											{
+												text: 'Quay lại'
+											}
+										]
+									})
 								}
 								break;
 							case 'text_image':
@@ -1836,19 +2004,19 @@ $(function () {
 				// Set value
 
 					$form = $('<form class="form" id="text_image_description_form">' +
-	    			'<article class="form-group">' +
-	    				'<label class="control-label">' +
-	    					'Mô tả' +
-	    				'</label>' +
-	    				'<textarea class="form-control" name="description"></textarea>' +
-	    			'</article>' +
-	    			'<article class="form-group">' +
-	    				'<label class="control-label">' +
-	    					'Hình ảnh' +
-	    				'</label>' +
-	    				'<input class="file-upload" type="file" multiple name="images[]" data-amount="5" data-has_description data-has_avatar data-has_order />' +
-	    			'</article>' +
-	    		'</form>')
+						'<article class="form-group">' +
+							'<label class="control-label">' +
+								'Mô tả' +
+							'</label>' +
+							'<textarea class="form-control" name="description"></textarea>' +
+						'</article>' +
+						'<article class="form-group">' +
+							'<label class="control-label">' +
+								'Hình ảnh' +
+							'</label>' +
+							'<input class="file-upload" type="file" multiple name="images[]" data-amount="5" data-has_description data-has_avatar data-has_order />' +
+						'</article>' +
+					'</form>')
 					$('#text_image_description_form_container').html($form);	
 					initForm($form);
 

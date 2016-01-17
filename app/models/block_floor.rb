@@ -93,6 +93,17 @@ class BlockFloor < ActiveRecord::Base
 
 			{ status: 0 }
 		end
+		
+		def self.add_description id, type, value
+			description = BlockFloorSurfaceDescription.find id
+
+			case type
+			when 'real_estate'
+				description.real_estate_description = BlockFloorSurfaceRealEstateDescription.new real_estate_id: value
+			end
+
+			description.save
+		end
 
 	# / Save description
 end

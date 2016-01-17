@@ -192,21 +192,21 @@ class RealEstatesController < ApplicationController
 	# Block create
 
 		# Partial view
-		# params: block_id(*)
+		# params: block_id(*), group_id(*)
 		def _block_create
-			@is_create_new = params[:id].blank?
-			if @is_create_new
-				# Create
-				@block = Block.find params[:block_id]
-				@selected_group = BlockRealEstateGroup.find params[:group_id]
-				@re = RealEstate.new
-			else
-				# Edit
-				@re = RealEstate.find(params[:id])
-				@selected_group = @re.block_group
-				@block = @re.block
-			end
+			@block = Block.find params[:block_id]
+			@selected_group = BlockRealEstateGroup.find params[:group_id]
+			@re = RealEstate.new
 
+			render json: { status: 0, result: render_to_string(partial: 'real_estates/block_create') }
+		end
+
+		# Partial view
+		# params: id(*)
+		def _block_edit
+			@re = RealEstate.find(params[:id])
+			@selected_group = @re.block_group
+			@block = @re.block
 
 			render json: { status: 0, result: render_to_string(partial: 'real_estates/block_create') }
 		end
@@ -325,12 +325,14 @@ class RealEstatesController < ApplicationController
 		# params: id(*)
 		def groups_get_data_for_interact_view
 
+			@group = BlockRealEstateGroup.find params[:id]
+
 			# Images
 
 				# Result for request
 				images = []
 
-				# Get block's image
+				# Get group's image
 				real_estate_group_images = BlockRealEstateGroupImage.where(block_real_estate_group_id: params[:id])
 
 				# Get all info of each image
@@ -376,20 +378,105 @@ class RealEstatesController < ApplicationController
 						end
 					end
 
-				images << image
+					images << image
 
-				# / Images
-			end
+				end
+
+			# / Images
+
+			# Info
+
+				info = render_to_string(partial: 'real_estates/groups/info_for_interact_view')
+
+			# / Info
 
 			render json: { 
 				status: 0,
 				result: {
 					images: images,
-					info: 'asdfasdfasdf'
+					info: info
 				}
 			}
 		end
 
+		# Get values
+		# params: id(*)
+		def get_data_for_interact_view
+
+			@re = RealEstate.find params[:id]
+
+			# Images
+
+				# Result for request
+				images = []
+
+				# Get all info of surface
+				image = {}
+
+				# Get url for display
+				image[:url] = @re.block_floor.surface.url
+
+				if @re.block_floor.surface_descriptions.present?
+					image[:descriptions] = []
+
+					@re.block_floor.surface_descriptions.each do |surface_description|
+						description = { tag_name: surface_description.area_type }
+
+						# Detect position
+						if @re.block_floor_surface_description_id == surface_description.id
+							description[:status] = 'highlight'
+						end
+
+						# Area info
+						case surface_description.area_type
+						when 'polyline'
+							description[:points] = surface_description.area_info['points']
+						else
+							next
+						end
+
+						# Description info
+						description[:description] = { type: surface_description.description_type }
+						case surface_description.description_type
+						when 'real_estate'
+							description[:description][:id] = surface_description.real_estate_description.real_estate_id
+						when 'text_image'
+							description[:description][:data] = {}
+							if surface_description.text_description.present?
+								description[:description][:data][:description] = surface_description.text_description.description
+							end
+
+							if surface_description.image_descriptions.present?
+								image_data = []
+								surface_description.image_descriptions.each do |data|
+									image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+								end
+								description[:description][:data][:images] = image_data.to_json
+							end
+						end
+
+						image[:descriptions] << description
+					end
+				end
+
+				images << image
+
+			# / Images
+
+			# Info
+
+				info = 'asdf'#render_to_string(partial: 'real_estates/info_for_interact_view')
+
+			# / Info
+
+			render json: { 
+				status: 0,
+				result: {
+					images: images,
+					info: info
+				}
+			}
+		end
 
 	# / Interact image
 

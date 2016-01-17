@@ -84,10 +84,12 @@ $(function () {
 
 					$pattern = $('#pattern_image'),
 					patternImage = $('#pattern_image image')[0],
-					$infoPanelContent = $('#info_panel_ground .content'),
 
 					history = [],
-					$backButton = $('[aria-click="back_to_prev"]');
+					$backButton = $('[aria-click="back_to_prev"]'),
+					$infoButton = $('[aria-click="active_info_panel"]'),
+					$infoPanel = $('#info_panel_ground');
+					$infoPanelContent = $('#info_panel_ground .content');
 
 
 				$backButton.hide();
@@ -171,6 +173,10 @@ $(function () {
 
 					// / Create info
 
+					if (!$infoPanel.hasClass('active')) {
+						$infoButton.click();
+					}
+
 				}
 
 				startInteractImage('project', projectId);
@@ -231,7 +237,7 @@ $(function () {
 
 			// Description
 
-				function addDescription (descriptions) {
+				function addDescription(descriptions) {
 					$(descriptions).each(function () {
 						description_data = this;
 
@@ -249,31 +255,39 @@ $(function () {
 							cursor: 'pointer'
 						});
 
-						$polyline.on({
-							mouseenter: function () {
-								this.parentNode.appendChild(this); 
-								setTimeout(function () {
+						if (description_data.status == 'highlight') {
+							$polyline.css({
+								fill: 'rgba(0, 166, 91, .3)',
+								stroke: '#ddd'
+							});
+						}
+						else {
+							$polyline.on({
+								mouseenter: function () {
+									this.parentNode.appendChild(this); 
+									setTimeout(function () {
+										$polyline.css({
+											transform: 'scale(1.05)'
+										});
+									})
+								},
+								mouseleave: function () {
 									$polyline.css({
-										transform: 'scale(1.05)'
+										transform: 'none'
 									});
-								})
-							},
-							mouseleave: function () {
-								$polyline.css({
-									transform: 'none'
-								});
-							},
-							click: function () {
-								switch (description_data.description.type) {
-									case 'block':
-									case 'real_estate':
-										startInteractImage(description_data.description.type, description_data.description.id);
-										break;
-									default:
-										break;
+								},
+								click: function () {
+									switch (description_data.description.type) {
+										case 'block':
+										case 'real_estate':
+											startInteractImage(description_data.description.type, description_data.description.id);
+											break;
+										default:
+											break;
+									}
 								}
-							}
-						})
+							})
+						}
 					});
 				}
 
@@ -297,19 +311,19 @@ $(function () {
 
 			// Buttons
 
-				$('[aria-click="active_info_panel"]').on({
+				$infoButton.on({
 					click: function (e) {
-						$('#info_panel_ground').addClass('active');
+						$infoPanel.addClass('active');
 
 						setTimeout(function () {
 							$document.on({
 								'click.active_info_panel': function () {
-								$('#info_panel_ground').removeClass('active');
+								$infoPanel.removeClass('active');
 								$document.off('.active_info_panel');
 								},
 								'keydown.active_info_panel': function (e) {
 									if (e.keyCode == 27) {
-										$('#info_panel_ground').removeClass('active');
+										$infoPanel.removeClass('active');
 										$document.off('.active_info_panel');
 									}
 								}
@@ -318,7 +332,7 @@ $(function () {
 					}
 				});
 
-				$('#info_panel_ground').on('click', function (e) {
+				$infoPanel.on('click', function (e) {
 					e.stopPropagation();
 				})
 

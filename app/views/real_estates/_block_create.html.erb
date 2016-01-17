@@ -1,7 +1,7 @@
 <% 
 	# Use in create details
 
-	# params: @block, @re
+	# params: @block, @re, @selected_group
 
 	general_type = @block.block_type.present? ? (@block.block_type.options['parent'] || @block.block_type.name) : (@block.project.project_type.options['parent'] || @block.project.project_type.name)
 
@@ -37,7 +37,7 @@
 	<article class="box box-primary no-margin">
 		<section class="box-header with-border">
 			<h2 class="box-title">
-				Thông tin loại bất động sản
+				Thông tin bất động sản - <b><%= @selected_group.name %></b>
 			</h2>
 		</section>
 		<section class="box-body bg-light-gray">
@@ -206,7 +206,71 @@
 				</div>
 				<div class="col-md-6">
 
+					<!-- Floor -->
+
+						<article class="form-group">
+							<label class="control-label" for="block_floor">
+								Tầng phân bố
+							</label>
+							<select data-constraint="required" name="real_estate[block][block_floor_id]" class="form-control" id="block_floor">
+								<option value hidden>Chọn tầng phân bố</option>
+								<% @block.floors.each do |floor| %>
+									<%
+										surface_data = {}
+										surface_data[:url] = floor.surface.url
+
+										if floor.surface_descriptions.present?
+											surface_data[:descriptions] = []
+
+											floor.surface_descriptions.each do |surface_description|
+												# Just get this group description
+												if surface_description.description_type.blank? || (surface_description.description_type == 'real_estate' && surface_description.real_estate_description.real_estate_id == @re.id)
+													description = { id: surface_description.id, tag_name: surface_description.area_type }
+
+													# Status (selected or not)
+													existed = RealEstate.where(block_floor_surface_description_id: surface_description.id).first
+													if existed.present?
+														if existed.id == @re.id
+															description[:status] = 'current'
+														else
+															description[:status] = 'used'
+														end
+													else
+														description[:status] = 'empty'
+													end
+
+													# Area info
+													case surface_description.area_type
+													when 'polyline'
+														description[:points] = surface_description.area_info['points']
+													else
+														next
+													end
+
+													surface_data[:descriptions] << description
+												end
+											end
+										end
+									%>
+									<option <%= 'selected' if floor.id == @re.block_floor_id %> data-value="<%= surface_data.to_json %>" value="<%= floor.id %>"><%= floor.name %> (<%= floor.floors_text %>)</option>
+								<% end %>
+							</select>
+						</article>
+
+						<article class="form-group">
+							<label class="control-label">
+								Vị trí
+							</label>
+							<input data-constraint="required" type="hidden" name="real_estate[block][block_floor_surface_description_id]" id="block_floor_surface_description_id" value="<%= @re.block_floor_surface_description_id %>" />
+							<article class="text-center form-control" style="overflow: auto; height: 200px; padding: 0">
+								<svg id="block_floor_surface"></svg>
+							</article>
+						</article>
+
+					<!-- / Floor -->
+
 					<!-- Purpose -->
+
 						<% 
 							# Default
 							default_purpose_name = ''

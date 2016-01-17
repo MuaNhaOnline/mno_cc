@@ -133,7 +133,7 @@
 		border-color: transparent;
 	}
 
-	.form .file-uploader.active,
+	.form .file-uploader.activeorder,
 	.form .file-uploader.drag {
 		border-color: #3c8dbc;
 	}
@@ -156,7 +156,7 @@
 	}
 
 		.form .file-uploader.has .file-upload-label,
-		.form .file-uploader.active .file-upload-label {
+		.form .file-uploader.order .file-upload-label {
 			display: none;
 		}
 
@@ -193,6 +193,11 @@
 
 		.form .file-uploader.has .add-button {
 			display: block;
+		}
+
+		.form .file-uploader.full .add-button,
+		.form .file-uploader.order .add-button {
+			display: none;
 		}
 
 	.form .file-uploader .preview {
@@ -241,6 +246,14 @@
 				.form .file-uploader .preview.control-show .control > * {
 					transform: none;
 				}
+
+	.form .file-uploader .alert-text {
+		color: #e00;
+		font-weight: normal;
+		border-left: 3px solid #e00;
+		padding: 5px 10px;
+		clear: both;
+	}
 
 /*
 	/ File input

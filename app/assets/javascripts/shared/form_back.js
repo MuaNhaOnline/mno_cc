@@ -199,7 +199,16 @@ function initForm($form, params) {
 	/*
 		File input
 	*/
-
+	/*
+		params:
+			fileUpload:
+				types
+				size
+				amount
+				ratio
+				has_order
+				has_avatar
+	*/
 	function initFileInput() {
 		//Get element
 		var 
@@ -221,16 +230,28 @@ function initForm($form, params) {
 			function readFiles($fileUpload, files) {
 
 				// Get fileupload
-				var $wrapper = $fileUpload.parent();
-					amount = $fileUpload.data('amount'),
-					size = $fileUpload.data('size'),
-					types = ['jpg','jpeg','png','gif'],
-					ratio = $fileUpload.data('ratio'),
+				var $wrapper = $fileUpload.parent(),
+					$alert = $wrapper.find('.alert-text').hide(),
+					amount = $fileUpload.data('amount') || false,
+					size = $fileUpload.data('size') || false,
+					ratio = $fileUpload.data('ratio') || false,
+					types,
 					hasDescription = $fileUpload.is('[data-has_description]'),
 					hasOrder = $fileUpload.is('[data-has_order]'),
-					hasAvatar = $fileUpload.is('[data-has_avatar]');
+					hasAvatar = $fileUpload.is('[data-has_avatar]'),
+					isMulti = $fileUpload.is('[multiple]');
 
-				var isMulti = $fileUpload.is('[multiple]');
+				// Type
+				types = $fileUpload.data('types');
+				if (types == 'image') {
+					types = ['jpg','jpeg','png','gif','bmp'];
+				}
+				else if (typeof types != 'undefined') {
+					types = types.split(',');
+				}
+				else {
+					types = false;
+				}
 
 				// Get params
 
@@ -252,7 +273,7 @@ function initForm($form, params) {
 				var $previewList = $wrapper.find('.preview-list');
 
 				// Check amount
-				currentAmount = $previewList.find('input[type="hidden"]').length;
+				currentAmount = $previewList.children('.preview').length;
 
 				/* 
 					Init for read file
@@ -262,52 +283,268 @@ function initForm($form, params) {
 					fileReader = new FileReader(),
 					currentIndex = 0;
 
-				fileReader.onload = function (e, i) {
+				fileReader.onload = function (e) {
 
-					/*
-						Crop
-					*/
+					if ($.inArray(e.target.fileName.split('.').pop().toLowerCase(), ['jpg','jpeg','png','gif','bmp']) != -1) {
 
-					var
-						orginalImageData = e.target.result,
-						$img = $('<img src="' + orginalImageData + '" />');
+						/*
+							Crop
+						*/
 
-					$html.find('.image-cropper').html($img);
+						var
+							orginalImageData = e.target.result,
+							$img = $('<img src="' + orginalImageData + '" />');
 
-					var $popup = popupFull({
-						html: $html,
-						id: 'image_cropper',
-						'z-index': 35,
-						esc: false
-					});
+						$html.find('.image-cropper').html($img);
 
-					// Create image cropper
-					$img.cropper({
-						aspectRatio: ratio
-					});
+						var $popup = popupFull({
+							html: $html,
+							id: 'image_cropper',
+							'z-index': 35,
+							esc: false
+						});
 
-					/*
-						Set button event
-					*/
+						// Create image cropper
+						$img.cropper({
+							aspectRatio: ratio
+						});
 
-					$html.find('[aria-click="close"]').on('click', function () {
-						$popup.off();
-						readNext();
-					});
+						/*
+							Set button event
+						*/
 
-					$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
+						$html.find('[aria-click="close"]').on('click', function () {
+							$popup.off();
+							readNext();
+						});
+
+						$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
+							$wrapper.addClass('has');
+
+							var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
+
+							currentAmount++;
+							$popup.off();
+							readNext();
+
+							var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
+
+							var $item = $('<article class="preview" data-uploading></article>');
+							$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+
+							$item.data('control_show', null);
+
+							$form.submitStatus(true);
+
+							// Create control from param
+							if (controls) {
+								var 
+									$controls = $item.find('.control');
+
+								$(controls).each(function () {
+									var controlParams = this;
+									var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+
+									if ('handle' in controlParams) {
+										$control.on('click', function (e) {
+											controlParams['handle']($item);
+										});
+									}
+
+									$controls.prepend($control);
+								});		
+							}
+
+							// Event click to control
+							$item.on('click', function (e) {
+								e.preventDefault();
+
+								if (ordering) {
+									return;
+								}
+
+								if ($item.hasClass('control-show')) {
+									clearTimeout($item.data('control_show'));
+									$item.removeClass('control-show');
+									$document.off('click.preview_image_control_show');
+								}
+								else {
+									$item.addClass('control-show');
+									clearTimeout($item.data('control_show'));
+									
+									setTimeout(function () {
+										$document.on('click.preview_image_control_show', function () {
+											clearTimeout($item.data('control_show'));
+											$item.removeClass('control-show');
+											$document.off('click.preview_image_control_show');
+										});
+									});
+								}
+							});
+
+							$item.find('.btn').on('click', function (e) {
+								e.preventDefault();
+							});
+
+							$item.find('[aria-click="description"]').on('click', function () {
+								var 
+									$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+									$descriptionForm = $html.find('form');
+
+								var $popup = popupFull({
+									html: $html,
+									id: 'input_description_popup'
+								});
+
+								// Adjust values
+								$descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
+								$descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
+
+								initForm($descriptionForm, {
+									submit: function () {
+										$popup.off();
+
+										var value = $item.data('value');
+										value['description'] = $descriptionForm[0].elements['description'].value;
+										$item.data('value', value);
+										$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+									}
+								});
+
+								$descriptionForm.find('[type="button"]').on('click', function () {
+									$popup.off();
+								});
+							});
+
+							$item.find('[aria-click="avatar"]').on('click', function () {
+								if ($item.is('[data-avatar]')) {
+									var value = $item.data('value');
+									value['is_avatar'] = false
+									$item.data('value', value);
+									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+									$item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+								}
+								else {
+									var value = $item.data('value');
+									value['is_avatar'] = true
+									$item.data('value', value);
+									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+									$item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
+										var $item2 = $(this)
+										var value2 = $item2.data('value');
+										value2['is_avatar'] = false
+										$item2.data('value', value2);
+										$item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
+									}).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+
+									$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+								}
+							});
+
+							$item.find('[aria-click="remove"]').on('click', function () {
+								if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
+									$form.submitStatus(false);
+								}
+
+								if (onItemRemove) {
+									onItemRemove($item);
+								}
+
+								$item.remove();
+								$wrapper.removeClass('full');
+							});
+
+							if (!isMulti) {
+								$previewList.children('.preview').remove();
+							}
+
+							$previewList.append($item);
+
+							// Get data
+							var data = new FormData();
+							data.append('file', dataURLToBlob(imageData, fileReader.fileType));
+							data.append('file_name', fileReader.fileName);
+
+							// Preparing upload
+							var $progressBar = $item.find('.progress-bar');
+							$item.attr('data-status', 'uploading');
+							$item.find('img').css('opacity', '.5');
+
+							var order = currentAmount;
+							// Upload file
+							$.ajax({
+									url: '/temporary_files/upload',
+									method: 'POST',
+									data: data,
+									processData: false,
+									contentType: false,
+									dataType: 'JSON',
+									xhr: function() {
+										var xhr = $.ajaxSettings.xhr();
+										if(xhr.upload){ //Check if upload property exists
+											xhr.upload.addEventListener('progress', function(e) {
+												if(e.lengthComputable){
+													$progressBar.css('width', (e.loaded/e.total * 100) + '%');
+												}
+											}, false); //For handling the progress of the upload
+										}
+										return xhr;
+									}
+							}).always(function () {
+								$item.removeAttr('data-uploading');
+								if ($form.find('[data-uploading]').length == 0) {
+									$form.submitStatus(false);
+								}
+							}).done(function(data) {
+								if (data.status == 0) {
+									var value = {
+										'id': data.result,
+										'is_new': true,
+										'description': description
+									}
+
+									if (hasOrder) {
+										value['order'] = order;
+									}
+
+									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+									// Display
+									$item.data('value', value);
+									$item.find('img').css('opacity', '1');
+									$progressBar.parent().remove();
+
+									if (onItemAdd) {
+										onItemAdd($item);
+									}
+								}
+								else {
+									$progressBar.parent().remove();
+								}
+							}).fail(function() {
+								$progressBar.parent().remove();
+							});
+						});
+
+						/*
+							/ Set button event
+						*/
+
+						/*
+							/ Crop
+						*/
+					}
+					else {
 						$wrapper.addClass('has');
 
-						var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
+						var orginalFileData = e.target.result;
 
 						currentAmount++;
-						$popup.off();
 						readNext();
 
-						var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
-
-						var $item = $('<article class="preview" data-uploading></article>');
-						$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+						var $item = $('<article class="preview" title="' + e.target.fileName + '" data-uploading></article>');
+						$item.html($fileUpload.data('input') + '<section class="image"><img src="/assets/file_extensions/' + e.target.fileName.split('.').pop() + '.png" onError="this.src=\'/assets/file_extensions/file.png\'" /></section><section class="control">' + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 						$item.data('control_show', null);
 
@@ -393,33 +630,6 @@ function initForm($form, params) {
 							});
 						});
 
-						$item.find('[aria-click="avatar"]').on('click', function () {
-							if ($item.is('[data-avatar]')) {
-								var value = $item.data('value');
-								value['is_avatar'] = false
-								$item.data('value', value);
-								$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-								$item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-							}
-							else {
-								var value = $item.data('value');
-								value['is_avatar'] = true
-								$item.data('value', value);
-								$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-								$item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
-									var $item2 = $(this)
-									var value2 = $item2.data('value');
-									value2['is_avatar'] = false
-									$item2.data('value', value2);
-									$item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
-								}).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-
-								$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-							}
-						});
-
 						$item.find('[aria-click="remove"]').on('click', function () {
 							if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
 								$form.submitStatus(false);
@@ -430,6 +640,7 @@ function initForm($form, params) {
 							}
 
 							$item.remove();
+							$wrapper.removeClass('full');
 						});
 
 						if (!isMulti) {
@@ -440,7 +651,7 @@ function initForm($form, params) {
 
 						// Get data
 						var data = new FormData();
-						data.append('file', dataURLToBlob(imageData, fileReader.fileType));
+						data.append('file', dataURLToBlob(orginalFileData, fileReader.fileType));
 						data.append('file_name', fileReader.fileName);
 
 						// Preparing upload
@@ -477,8 +688,7 @@ function initForm($form, params) {
 							if (data.status == 0) {
 								var value = {
 									'id': data.result,
-									'is_new': true,
-									'description': description
+									'is_new': true
 								}
 
 								if (hasOrder) {
@@ -501,15 +711,7 @@ function initForm($form, params) {
 						}).fail(function() {
 							$progressBar.parent().remove();
 						});
-					});
-
-					/*
-						/ Set button event
-					*/
-
-					/*
-						/ Crop
-					*/
+					}
 				}
 
 				/* 
@@ -520,7 +722,16 @@ function initForm($form, params) {
 
 				function readNext() {
 					// Check index & amount
-					if (currentIndex >= files.length || (amount && currentAmount >= amount)) {
+					if (amount && currentAmount >= amount) {
+						$wrapper.addClass('full');
+
+						if (currentIndex < files.length - 1) {
+							$alert.text('Tối đa có ' + amount + ' tập tin').show();
+						}
+
+						return false;
+					}
+					if (currentIndex >= files.length) {
 						return false;
 					}
 
@@ -529,6 +740,13 @@ function initForm($form, params) {
 
 					// Check type
 					if (types && $.inArray(file.name.split('.').pop().toLowerCase(), types) == -1) {
+						$alert.text('Chỉ có thể thêm tập tin ' + types.join(', ')).show();
+						return;
+					}
+
+					// Check size
+					if (size && file.size > size) {
+						$alert.text('Kích thước không thể lớn quá ' + size / 1024 + 'KB').show();
 						return;
 					}
 
@@ -576,7 +794,7 @@ function initForm($form, params) {
 			// Create html
 
 			var $wrapper = $('<label class="file-uploader form-control"></label>');
-			var $label = $('<div class="file-upload-label"><div class="fa fa-photo"></div><div>' + _t.form.label_image_upload + '</div></div>');
+			var $label = $('<div class="file-upload-label"><div class="fa fa-file-o"></div><div>' + _t.form.label_image_upload + '</div></div>');
 			var $previewList = $('<div class="preview-list"></div>');
 
 			if ($fileUpload.is('[multiple]')) {
@@ -587,6 +805,7 @@ function initForm($form, params) {
 			$fileUpload.appendTo($wrapper);
 			$label.appendTo($wrapper);
 			$previewList.appendTo($wrapper);
+			$wrapper.append('<div class="alert-text" style="display: none;">asdfasdfds</div>')
 
 			// Drop event
 
@@ -628,7 +847,7 @@ function initForm($form, params) {
 						if (ordering) {
 							// Set status
 							ordering = false;
-							$wrapper.removeClass('active');
+							$wrapper.removeClass('order');
 							$orderButton.text('Sắp xếp').prev().remove();
 							$previewList.find('.order').remove();
 						}
@@ -640,7 +859,7 @@ function initForm($form, params) {
 
 							// Set status
 							ordering = true;
-							$wrapper.addClass('active');
+							$wrapper.addClass('order');
 							$orderButton.text('Hủy').before('<small>(Hãy chọn hình theo thứ tự bạn muốn)</small> ');
 
 							var order = 0;
@@ -772,6 +991,9 @@ function initForm($form, params) {
 				}
 				else {
 					$wrapper.addClass('has');
+					if ($previewList.children('.preview').length == $fileUpload.data('amount')) {
+						$wrapper.addClass('full');
+					}
 				}
 			}).trigger('initValue');
 
@@ -878,6 +1100,7 @@ function initForm($form, params) {
 					}
 
 					$item.remove();
+					$wrapper.removeClass('full');
 				});
 			}
 		});

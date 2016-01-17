@@ -164,7 +164,6 @@ body {
 						right: 10px;
 					}
 
-
 					.ground-description .info-panel {
 						position: absolute;
 						top: 0;
@@ -177,23 +176,14 @@ body {
 						padding: 15px;
 						overflow-y: auto;
 						transform-origin: calc(100% - 15px) 15px;
-						display: none;
+						transform: scale(0);
+						transition: .3s;
+						opacity: 0;
 					}
 
 						.ground-description .info-panel.active {
-							animation: active_info_panel .5s;
-							display: block;
-						}
-
-						@keyframes active_info_panel {
-							from {
-								transform: scale(0);
-								opacity: .1;
-							}
-							to {
-								transform: none;
-								opacity: 1;
-							}
+							transform: scale(1);
+							opacity: 1;
 						}
 
 				/*
