@@ -203,7 +203,7 @@
 		</article>
 		<article class="content">
 			<div class="title">
-				<h5><%= @project.title %></h5>
+				<h5><%= @project.project_name %></h5>
 			</div>
 			<div class="details"><%= @project.description.html_safe %></div>
 			<% if @project.payment_method.present? %>

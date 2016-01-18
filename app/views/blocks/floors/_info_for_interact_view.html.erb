@@ -2,7 +2,16 @@
 =begin
 	params: @floor
 =end
-%> 
+%>
+
+Danh sách sản phẩm
+<ul>
+	<% @floor.real_estates.each do |re| %>
+		<li>
+			<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+		</li>
+	<% end %>
+</ul>
 
 Danh sách mặt cắt khác
 <ul>

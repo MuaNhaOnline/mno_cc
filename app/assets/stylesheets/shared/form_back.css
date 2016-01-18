@@ -133,7 +133,7 @@
 		border-color: transparent;
 	}
 
-	.form .file-uploader.activeorder,
+	.form .file-uploader.order,
 	.form .file-uploader.drag {
 		border-color: #3c8dbc;
 	}
@@ -173,17 +173,19 @@
 		position: relative;
 		width: 160px;
 		height: 160px;
+		max-width: 160px;
+		max-height: 160px;
+		min-width: 80px;
+		min-height: 80px;
 		box-sizing: border-box;
 		border: 2px dashed #ddd;
 		display: none;
-		font-size: 60px;
 		color: #ccc;
 		text-align: center;
-		line-height: 160px;
 		margin: 5px;
 		float: left;
 		transition: .3s;
-		cursor: pointer
+		cursor: pointer;
 	}
 
 		.form .file-uploader .add-button:hover {
@@ -199,6 +201,31 @@
 		.form .file-uploader.order .add-button {
 			display: none;
 		}
+
+		.form .file-uploader .add-button .fa {
+			position: absolute;
+			display: block;
+			width: 50px;
+			height: 50px;
+			font-size: 50px;
+			top: calc(50% - 25px);
+			left: calc(50% - 25px);
+			line-height: 55px;
+		}
+
+	.form .file-uploader .order-button-container {
+		display: none;
+	}
+
+		.form .file-uploader.has .order-button-container {
+			display: block;
+		}
+
+	.form .file-uploader .preview-list:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
 
 	.form .file-uploader .preview {
 		position: relative;
@@ -217,6 +244,7 @@
 				width: auto;
 				height: 150px;
 				max-width: 100%;
+				max-height: 150px;
 			}    
 
 		.form .file-uploader .preview .control {

@@ -47,6 +47,53 @@ $(function () {
 		return urlInfo;
 	}
 
+	function isLightColor(str) {
+		rgb = getRGBFromString(string);
+		return (
+			0.213 * rgb[0] +
+			0.715 * rgb[1] +
+			0.072 * rgb[2] >
+			255 / 2
+		)
+	}
+
+	function getRGBFromString(str) {
+		var m;
+		if (m = str.match(/^\W*([0-9A-F]{3}([0-9A-F]{3})?)\W*$/i)) {
+			if (m[1].length === 6) {
+				return [
+					parseInt(m[1].substr(0,2),16),
+					parseInt(m[1].substr(2,2),16),
+					parseInt(m[1].substr(4,2),16)
+				];
+			} else {
+				return [
+					parseInt(m[1].charAt(0) + m[1].charAt(0),16),
+					parseInt(m[1].charAt(1) + m[1].charAt(1),16),
+					parseInt(m[1].charAt(2) + m[1].charAt(2),16)
+				]
+			}
+
+		} else if (m = str.match(/^\W*rgba?\(([^)]*)\)\W*$/i)) {
+			var params = m[1].split(',');
+			var re = /^\s*(\d*)(\.\d+)?\s*$/;
+			var mR, mG, mB;
+			if (
+				params.length >= 3 &&
+				(mR = params[0].match(re)) &&
+				(mG = params[1].match(re)) &&
+				(mB = params[2].match(re))
+			) {
+				return [
+					parseFloat((mR[1] || '0') + (mR[2] || '')),
+					parseFloat((mG[1] || '0') + (mG[2] || '')),
+					parseFloat((mB[1] || '0') + (mB[2] || ''))
+				];
+			}
+		}
+		return false;
+	}
+
 /*
 	/ Helper
 */

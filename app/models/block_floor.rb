@@ -16,6 +16,7 @@ class BlockFloor < ActiveRecord::Base
 		belongs_to :block
 
 		has_many :surface_descriptions, class_name: 'BlockFloorSurfaceDescription'
+		has_many :real_estates
 
 	# / Associations
 

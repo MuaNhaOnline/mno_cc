@@ -6,6 +6,7 @@
 	<script type="text/javascript" src="/assets/projects/create.js"></script>
 	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/shared/jscolor.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -52,11 +53,13 @@
 	end
 
 	# Attachment
-	attachment_text = ''
-	attachment_value = ''
-	if !@p.new_record? && @p.attachment.present?
-		attachment_text = @p.attachment.name
-		attachment_value = { 'id': @p.attachment.id }.to_json
+	attachment_init_value = ''
+	unless @p.new_record?
+		attachments = []
+		@p.payment_attachments.each do |attachment|
+			attachments << { 'id': attachment.id, 'file_name': attachment.file_file_name, 'url': attachment.file.url, 'description': attachment.description, 'order' => attachment.order }
+		end
+		attachment_init_value = attachments.to_json
 	end
 %>
 
@@ -73,6 +76,9 @@
 			</a>
 			<a aria-name="architecture" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-home fa-lg "></i></div><div class="text"><%= t 'project.attribute.architecture_box' %></div>
+			</a>
+			<a aria-name="utility" href="javascript:void(0)" class="item">
+				<div class="icon"><i class="fa fa-yelp fa-lg "></i></div><div class="text">Tiện ích - Tính năng</div>
 			</a>
 			<a aria-name="progress" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-calendar fa-lg "></i></div><div class="text"><%= t 'project.attribute.progress_box' %></div>
@@ -169,10 +175,10 @@
 							<!-- Position description -->
 
 								<article class="form-group">
-									<label class="control-label" for="content">
+									<label class="control-label" for="position_description">
 										Mô tả vị trí
 									</label>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-constraint="required" class="form-control" aria-input-type="editor" name="blog[position_description]" id="position_description"></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" class="form-control" aria-input-type="editor" name="blog[position_description]" id="position_description"></textarea>
 								</article>
 
 							<!-- / Position description -->
@@ -266,6 +272,105 @@
 					</article>
 
 				<!-- / Architecture -->
+
+				<!-- Ultitity -->
+
+					<article aria-name="utility" class="box box-default">
+						<section class="box-header with-border">
+							<h2 class="box-title">Tiện ích - Tính năng</h2>
+						</section>
+						<section class="box-body">
+							<article class="tab-container input">
+								<section class="tab-list">
+									<section class="list horizontal-list-container text-left">
+										<ul class="horizontal-list">
+										</ul>
+									</section>
+									<section class="add-button">
+										<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+									</section>
+								</section>
+								<section class="tab-content-list">
+
+									<% if @p.new_record? || @p.utilities.blank? %>
+
+										<article class="tab-content" aria-name="new">
+
+											<input type="hidden" value="" name="project[utilities][tab_name][id]" />
+
+											<article class="form-group">
+												<label class="control-label">
+													Nhãn
+												</label>
+												<input type="text" class="form-control" name="project[utilities][tab_name][title]">
+											</article>
+
+											<article class="form-group">
+												<label class="control-label">
+													Mô tả
+												</label>
+												<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"></textarea>
+											</article>
+
+											<article class="form-group">
+												<label class="control-label">
+													Hình ảnh
+												</label>
+												<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
+											</article>
+
+										</article>
+
+									<% else %>
+
+										<% @p.utilities.each do |utility| %>
+
+											<article class="tab-content" aria-name="new_<%= utility.id %>">
+
+												<input type="hidden" value="<%= utility.id %>" name="project[utilities][tab_name][id]" />
+
+												<article class="form-group">
+													<label class="control-label">
+														Nhãn
+													</label>
+													<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
+												</article>
+
+												<article class="form-group">
+													<label class="control-label">
+														Mô tả
+													</label>
+													<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"><%= utility.description %></textarea>
+												</article>
+
+												<% 
+													utility_image_init_value = ''
+													_images = []
+													utility.images.each do |utility_image|
+														_images << { 'id'=> utility_image.id, 'url'=> utility_image.image.url, 'description'=> utility_image.description }
+													end
+													utility_image_init_value = _images.to_json
+												%>
+
+												<article class="form-group">
+													<label class="control-label">
+														Hình ảnh
+													</label>
+													<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
+												</article>
+
+											</article>
+
+										<% end %>
+
+									<% end %>
+
+								</section>
+							</article>
+						</section>
+					</article>
+
+				<!-- / Ultitity -->
 
 				<!-- Progress -->
 
@@ -395,14 +500,14 @@
 						</section>
 						<section class="box-body">
 
-							<!-- Currency -->
+							<!-- Investor -->
 
 								<article class="form-group">
 									<label class="control-label" for="investor_id"><%= t 'project.attribute.investor' %></label>
 									<input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@p.investor.name}\" data-value=\"#{@p.investor.id}\"".html_safe if @p.investor.present? %> data-free name="project[investor_id]" id="investor_id" />
 								</article>
 
-							<!-- / Currency -->
+							<!-- / Investor -->
 
 							<!-- Unit description -->
 
@@ -442,7 +547,9 @@
 							<!-- Price -->
 
 								<article class="form-group" data-toggled-element="sell un-rent">
-									<label class="control-label" for="unit_price"><%= t 'project.attribute.unit_price' %></label>
+									<label class="control-label" for="unit_price">
+										Đơn giá
+									</label>
 									<div class="input-group">
 										<input data-constraint="integer range" data-maxvalue="1000000000000" value="<%= @p.unit_price.to_i unless @p.unit_price.blank? %>" name="project[unit_price]" class="form-control separate-number" id="unit_price">
 										<div class="input-group-btn">
@@ -462,12 +569,13 @@
 
 								<article class="form-group">
 									<label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
-									<textarea name="project[payment_method]" class="form-control" id="payment_method"><%= ApplicationHelper.decode_plain_text(@p.payment_method) if @p.payment_method.present? %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= ApplicationHelper.decode_plain_text(@p.payment_method) if @p.payment_method.present? %></textarea>
 								</article>
 
-								<article class="form-group">
-									<input name="project[attachment]" data-label="Đính kèm" class="file-upload-2" type="file" data-text="<%= attachment_text %>" data-value="<%= attachment_value %>" />
-								</article>
+					            <article class="form-group">
+					            	<label class="control-label" for="payment_attachment">Đính kèm</label>
+				              		<input class="file-upload" type="file" multiple name="project[payment_attachment_ids][]" aria-name="image_upload" data-amount="5" data-init-value="<%= attachment_init_value %>" data-has_description data-has_order id="payment_attachment" />
+					            </article>
 
 							<!-- / Payment method -->
 
@@ -480,16 +588,18 @@
 
 					<article aria-name="content" class="box box-default">
 						<section class="box-header with-border">
-							<h2 class="box-title"><%= t 'project.attribute.content_box' %></h2>
+							<h2 class="box-title">
+								Giới thiệu
+							</h2>
 						</section>
 						<section class="box-body">
 
 							<!-- Title -->
 
 								<article class="form-group">
-									<label class="control-label" for="title"><%= t 'project.attribute.title' %></label>
+									<label class="control-label" for="slogan">Khẩu hiệu (slogan)</label>
 									<sup class="required-label"></sup>
-									<input data-constraint="required" value="<%= @p.title %>" name="project[title]" class="form-control" id="title">
+									<input data-constraint="required" value="<%= @p.slogan %>" name="project[slogan]" class="form-control" id="slogan">
 								</article>
 
 							<!-- / Title -->
@@ -497,9 +607,9 @@
 							<!-- Description -->
 
 								<article class="form-group">
-									<label class="control-label" for="description"><%= t 'project.attribute.description' %></label>
+									<label class="control-label" for="description">Giới thiệu</label>
 									<sup class="required-label"></sup>
-									<textarea data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @p.description %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @p.description %></textarea>
 								</article>
 
 							<!-- / Description -->

@@ -48,50 +48,6 @@
 	}
 /*end other-project*/
 
-/*start suggest project*/
-.suggest-project {
-	margin-bottom: 40px;
-}
-	/*start title*/
-	.suggest-project > .title {
-		font-size: 17px;
-		text-transform: uppercase;
-		color: #666;
-		margin-bottom: 15px;		
-	}
-	/*end title*/
-
-	/*start paging*/
-
-	/*.paging {
-		justify-content: center;
-		display: flex;
-		color: #666;
-	}
-		.paging div {
-			height: 30px;
-			width: 30px;
-			display: flex;
-			cursor: pointer;
-		}
-			.paging div:hover {
-				color: #54b40d;
-			}
-		.paging .left {
-			font-size: 30px;
-		}
-		.paging .number {
-			width: 40px;
-			justify-content: center;
-			height: 30px;			
-			line-height: 30px;
-		}
-		.paging .right {
-			font-size: 30px;
-		}*/
-	/*end paging*/
-/*end suggest project*/
-
 /*start favorite property*/
 	/*start other-property*/
 	.other-property .title {
@@ -155,7 +111,7 @@
 
 /*start contact*/
 .contact {
-	margin-bottom: 40px;
+	
 }
 	.contact img {
 		width: 100%;

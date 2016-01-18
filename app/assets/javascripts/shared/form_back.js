@@ -22,6 +22,7 @@ function initForm($form, params) {
 	initFileInput_2();
 	initAutoComplete();
 	initEditor();
+	initColor();
 	initDropdownselect();
 	initSeparateNumber();
 	initReadMoney();
@@ -209,11 +210,9 @@ function initForm($form, params) {
 				has_order
 				has_avatar
 	*/
-	function initFileInput() {
+	function initFileInput($fileUploads) {
 		//Get element
-		var 
-			$fileUploads = $form.find('.file-upload'),
-			ordering = false;
+		var $fileUploads = $fileUploads || $form.find('.file-upload');
 
 		/*
 			Progress on choose new file
@@ -235,6 +234,7 @@ function initForm($form, params) {
 					amount = $fileUpload.data('amount') || false,
 					size = $fileUpload.data('size') || false,
 					ratio = $fileUpload.data('ratio') || false,
+					dimension = $fileUpload.data('dimension') || false,
 					types,
 					hasDescription = $fileUpload.is('[data-has_description]'),
 					hasOrder = $fileUpload.is('[data-has_order]'),
@@ -251,6 +251,12 @@ function initForm($form, params) {
 				}
 				else {
 					types = false;
+				}
+
+				// Dimension 
+				if (dimension) {
+					dimension = dimension.split('x');
+					dimension = { width: dimension[0], height: dimension[1] };
 				}
 
 				// Get params
@@ -285,52 +291,274 @@ function initForm($form, params) {
 
 				fileReader.onload = function (e) {
 
-					if ($.inArray(e.target.fileName.split('.').pop().toLowerCase(), ['jpg','jpeg','png','gif','bmp']) != -1) {
+					read = function () {
+						if (!dimension && $.inArray(e.target.fileName.split('.').pop().toLowerCase(), ['jpg','jpeg','png','gif','bmp']) != -1) {
 
-						/*
-							Crop
-						*/
+							/*
+								Crop
+							*/
 
-						var
-							orginalImageData = e.target.result,
-							$img = $('<img src="' + orginalImageData + '" />');
+							var
+								orginalImageData = e.target.result,
+								$img = $('<img src="' + orginalImageData + '" />');
 
-						$html.find('.image-cropper').html($img);
+							$html.find('.image-cropper').html($img);
 
-						var $popup = popupFull({
-							html: $html,
-							id: 'image_cropper',
-							'z-index': 35,
-							esc: false
-						});
+							var $popup = popupFull({
+								html: $html,
+								id: 'image_cropper',
+								'z-index': 35,
+								esc: false
+							});
 
-						// Create image cropper
-						$img.cropper({
-							aspectRatio: ratio
-						});
+							// Create image cropper
+							$img.cropper({
+								aspectRatio: ratio
+							});
 
-						/*
-							Set button event
-						*/
+							/*
+								Set button event
+							*/
 
-						$html.find('[aria-click="close"]').on('click', function () {
-							$popup.off();
-							readNext();
-						});
+							$html.find('[aria-click="close"]').on('click', function () {
+								$popup.off();
+								readNext();
+							});
 
-						$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
+							$html.find('[aria-click="crop"],[aria-click="uncrop"]').on('click', function () {
+								$wrapper.addClass('has');
+
+								var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
+
+								currentAmount++;
+								$popup.off();
+								readNext();
+
+								var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
+
+								var $item = $('<article class="preview" data-uploading></article>');
+								$item.html($fileUpload.data('input') + '<section class="image"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+
+								$item.data('control_show', null);
+
+								$form.submitStatus(true);
+
+								// Create control from param
+								if (controls) {
+									var 
+										$controls = $item.find('.control');
+
+									$(controls).each(function () {
+										var controlParams = this;
+										var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+
+										if ('handle' in controlParams) {
+											$control.on('click', function (e) {
+												controlParams['handle']($item);
+											});
+										}
+
+										$controls.prepend($control);
+									});		
+								}
+
+								// Event click to control
+								$item.on('click', function (e) {
+									e.preventDefault();
+
+									if (ordering) {
+										return;
+									}
+
+									if ($item.hasClass('control-show')) {
+										clearTimeout($item.data('control_show'));
+										$item.removeClass('control-show');
+										$document.off('click.preview_image_control_show');
+									}
+									else {
+										$item.addClass('control-show');
+										clearTimeout($item.data('control_show'));
+										
+										setTimeout(function () {
+											$document.on('click.preview_image_control_show', function () {
+												clearTimeout($item.data('control_show'));
+												$item.removeClass('control-show');
+												$document.off('click.preview_image_control_show');
+											});
+										});
+									}
+								});
+
+								$item.find('.btn').on('click', function (e) {
+									e.preventDefault();
+								});
+
+								$item.find('[aria-click="description"]').on('click', function () {
+									var 
+										$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+										$descriptionForm = $html.find('form');
+
+									var $popup = popupFull({
+										html: $html,
+										id: 'input_description_popup'
+									});
+
+									// Adjust values
+									$descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
+									$descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
+
+									initForm($descriptionForm, {
+										submit: function () {
+											$popup.off();
+
+											var value = $item.data('value');
+											value['description'] = $descriptionForm[0].elements['description'].value;
+											$item.data('value', value);
+											$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+										}
+									});
+
+									$descriptionForm.find('[type="button"]').on('click', function () {
+										$popup.off();
+									});
+								});
+
+								$item.find('[aria-click="avatar"]').on('click', function () {
+									if ($item.is('[data-avatar]')) {
+										var value = $item.data('value');
+										value['is_avatar'] = false
+										$item.data('value', value);
+										$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+										$item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+									}
+									else {
+										var value = $item.data('value');
+										value['is_avatar'] = true
+										$item.data('value', value);
+										$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+
+										$item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
+											var $item2 = $(this)
+											var value2 = $item2.data('value');
+											value2['is_avatar'] = false
+											$item2.data('value', value2);
+											$item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
+										}).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
+
+										$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+									}
+								});
+
+								$item.find('[aria-click="remove"]').on('click', function () {
+									if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
+										$form.submitStatus(false);
+									}
+
+									if (onItemRemove) {
+										onItemRemove($item);
+									}
+
+									$item.remove();
+									$wrapper.removeClass('full');
+								});
+
+								if (isMulti) {
+									$previewList.children().last().before($item);
+								}
+								else {
+									$previewList.html($item);
+								}
+
+								// Get data
+								var data = new FormData();
+								data.append('file', dataURLToBlob(imageData, fileReader.fileType));
+								data.append('file_name', fileReader.fileName);
+
+								// Preparing upload
+								var $progressBar = $item.find('.progress-bar');
+								$item.attr('data-status', 'uploading');
+								$item.find('img').css('opacity', '.5');
+
+								var order = currentAmount;
+								// Upload file
+								$.ajax({
+										url: '/temporary_files/upload',
+										method: 'POST',
+										data: data,
+										processData: false,
+										contentType: false,
+										dataType: 'JSON',
+										xhr: function() {
+											var xhr = $.ajaxSettings.xhr();
+											if(xhr.upload){ //Check if upload property exists
+												xhr.upload.addEventListener('progress', function(e) {
+													if(e.lengthComputable){
+														$progressBar.css('width', (e.loaded/e.total * 100) + '%');
+													}
+												}, false); //For handling the progress of the upload
+											}
+											return xhr;
+										}
+								}).always(function () {
+									$item.removeAttr('data-uploading');
+									if ($form.find('[data-uploading]').length == 0) {
+										$form.submitStatus(false);
+									}
+								}).done(function(data) {
+									if (data.status == 0) {
+										var value = {
+											'id': data.result,
+											'is_new': true,
+											'description': description
+										}
+
+										if (hasOrder) {
+											value['order'] = order;
+										}
+
+										$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
+										// Display
+										$item.data('value', value);
+										$item.find('img').css('opacity', '1');
+										$progressBar.parent().remove();
+
+										if (onItemAdd) {
+											onItemAdd($item);
+										}
+									}
+									else {
+										$progressBar.parent().remove();
+									}
+								}).fail(function() {
+									$progressBar.parent().remove();
+								});
+							});
+
+							/*
+								/ Set button event
+							*/
+
+							/*
+								/ Crop
+							*/
+						}
+						else {
 							$wrapper.addClass('has');
 
-							var description = hasDescription ? $popup.find('[aria-name="description"]').val() : '';
+							var orginalFileData = e.target.result;
 
 							currentAmount++;
-							$popup.off();
 							readNext();
 
-							var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
-
-							var $item = $('<article class="preview" data-uploading></article>');
-							$item.html($fileUpload.data('input') + '<section class="image"><img src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+							var $item = $('<article class="preview" title="' + e.target.fileName + '" data-uploading></article>');
+							if ($.inArray(e.target.fileName.split('.').pop().toLowerCase(), ['jpg','jpeg','png','gif','bmp']) != -1) {
+								src = orginalFileData;
+							}
+							else {
+								src = '/assets/file_extensions/' + e.target.fileName.split('.').pop() + '.png'
+							}
+							$item.html($fileUpload.data('input') + '<section class="image"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" src="' + src + '" onError="this.src=\'/assets/file_extensions/file.png\'" /></section><section class="control">' + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 							$item.data('control_show', null);
 
@@ -416,33 +644,6 @@ function initForm($form, params) {
 								});
 							});
 
-							$item.find('[aria-click="avatar"]').on('click', function () {
-								if ($item.is('[data-avatar]')) {
-									var value = $item.data('value');
-									value['is_avatar'] = false
-									$item.data('value', value);
-									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-									$item.removeClass('bg-light-blue').removeAttr('data-avatar').find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-								}
-								else {
-									var value = $item.data('value');
-									value['is_avatar'] = true
-									$item.data('value', value);
-									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-									$item.siblings('[data-avatar]').removeClass('bg-light-blue').removeAttr('data-avatar').each(function () {
-										var $item2 = $(this)
-										var value2 = $item2.data('value');
-										value2['is_avatar'] = false
-										$item2.data('value', value2);
-										$item2.find('[aria-name="hidden_input"]').val(JSON.stringify(value2));
-									}).find('[aria-name="avatar-button"]').text('Làm ảnh đại diện');
-
-									$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-								}
-							});
-
 							$item.find('[aria-click="remove"]').on('click', function () {
 								if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
 									$form.submitStatus(false);
@@ -456,15 +657,17 @@ function initForm($form, params) {
 								$wrapper.removeClass('full');
 							});
 
-							if (!isMulti) {
-								$previewList.children('.preview').remove();
+							if (isMulti) {
+								$previewList.children().last().before($item);
+							}
+							else {
+								$previewList.html($item);
 							}
 
-							$previewList.append($item);
 
 							// Get data
 							var data = new FormData();
-							data.append('file', dataURLToBlob(imageData, fileReader.fileType));
+							data.append('file', dataURLToBlob(orginalFileData, fileReader.fileType));
 							data.append('file_name', fileReader.fileName);
 
 							// Preparing upload
@@ -501,8 +704,7 @@ function initForm($form, params) {
 								if (data.status == 0) {
 									var value = {
 										'id': data.result,
-										'is_new': true,
-										'description': description
+										'is_new': true
 									}
 
 									if (hasOrder) {
@@ -525,193 +727,27 @@ function initForm($form, params) {
 							}).fail(function() {
 								$progressBar.parent().remove();
 							});
-						});
+						}
+					}
 
-						/*
-							/ Set button event
-						*/
-
-						/*
-							/ Crop
-						*/
+					if (dimension) {
+						image = new Image();
+						image.onload = function () {
+							if (image.width == dimension.width && image.height == dimension.height) {
+								read();
+							}
+							else {
+								$alert.text('Kích thước yêu cầu: ' + dimension.width + 'x' + dimension.height).show();
+								return;
+								readNext();
+							}
+						}
+						image.src = e.target.result;
 					}
 					else {
-						$wrapper.addClass('has');
-
-						var orginalFileData = e.target.result;
-
-						currentAmount++;
-						readNext();
-
-						var $item = $('<article class="preview" title="' + e.target.fileName + '" data-uploading></article>');
-						$item.html($fileUpload.data('input') + '<section class="image"><img src="/assets/file_extensions/' + e.target.fileName.split('.').pop() + '.png" onError="this.src=\'/assets/file_extensions/file.png\'" /></section><section class="control">' + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
-
-						$item.data('control_show', null);
-
-						$form.submitStatus(true);
-
-						// Create control from param
-						if (controls) {
-							var 
-								$controls = $item.find('.control');
-
-							$(controls).each(function () {
-								var controlParams = this;
-								var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
-
-								if ('handle' in controlParams) {
-									$control.on('click', function (e) {
-										controlParams['handle']($item);
-									});
-								}
-
-								$controls.prepend($control);
-							});		
-						}
-
-						// Event click to control
-						$item.on('click', function (e) {
-							e.preventDefault();
-
-							if (ordering) {
-								return;
-							}
-
-							if ($item.hasClass('control-show')) {
-								clearTimeout($item.data('control_show'));
-								$item.removeClass('control-show');
-								$document.off('click.preview_image_control_show');
-							}
-							else {
-								$item.addClass('control-show');
-								clearTimeout($item.data('control_show'));
-								
-								setTimeout(function () {
-									$document.on('click.preview_image_control_show', function () {
-										clearTimeout($item.data('control_show'));
-										$item.removeClass('control-show');
-										$document.off('click.preview_image_control_show');
-									});
-								});
-							}
-						});
-
-						$item.find('.btn').on('click', function (e) {
-							e.preventDefault();
-						});
-
-						$item.find('[aria-click="description"]').on('click', function () {
-							var 
-								$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
-								$descriptionForm = $html.find('form');
-
-							var $popup = popupFull({
-								html: $html,
-								id: 'input_description_popup'
-							});
-
-							// Adjust values
-							$descriptionForm.find('[aria-name="preview_image"]').attr('src', $item.find('img').attr('src'));
-							$descriptionForm[0].elements['description'].value = $item.data('value')['description'] || '';
-
-							initForm($descriptionForm, {
-								submit: function () {
-									$popup.off();
-
-									var value = $item.data('value');
-									value['description'] = $descriptionForm[0].elements['description'].value;
-									$item.data('value', value);
-									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-								}
-							});
-
-							$descriptionForm.find('[type="button"]').on('click', function () {
-								$popup.off();
-							});
-						});
-
-						$item.find('[aria-click="remove"]').on('click', function () {
-							if ($item.is('[data-uploading]') && $form.find('[data-uploading]').length == 1) {
-								$form.submitStatus(false);
-							}
-
-							if (onItemRemove) {
-								onItemRemove($item);
-							}
-
-							$item.remove();
-							$wrapper.removeClass('full');
-						});
-
-						if (!isMulti) {
-							$previewList.children('.preview').remove();
-						}
-
-						$previewList.append($item);
-
-						// Get data
-						var data = new FormData();
-						data.append('file', dataURLToBlob(orginalFileData, fileReader.fileType));
-						data.append('file_name', fileReader.fileName);
-
-						// Preparing upload
-						var $progressBar = $item.find('.progress-bar');
-						$item.attr('data-status', 'uploading');
-						$item.find('img').css('opacity', '.5');
-
-						var order = currentAmount;
-						// Upload file
-						$.ajax({
-								url: '/temporary_files/upload',
-								method: 'POST',
-								data: data,
-								processData: false,
-								contentType: false,
-								dataType: 'JSON',
-								xhr: function() {
-									var xhr = $.ajaxSettings.xhr();
-									if(xhr.upload){ //Check if upload property exists
-										xhr.upload.addEventListener('progress', function(e) {
-											if(e.lengthComputable){
-												$progressBar.css('width', (e.loaded/e.total * 100) + '%');
-											}
-										}, false); //For handling the progress of the upload
-									}
-									return xhr;
-								}
-						}).always(function () {
-							$item.removeAttr('data-uploading');
-							if ($form.find('[data-uploading]').length == 0) {
-								$form.submitStatus(false);
-							}
-						}).done(function(data) {
-							if (data.status == 0) {
-								var value = {
-									'id': data.result,
-									'is_new': true
-								}
-
-								if (hasOrder) {
-									value['order'] = order;
-								}
-
-								$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-								// Display
-								$item.data('value', value);
-								$item.find('img').css('opacity', '1');
-								$progressBar.parent().remove();
-
-								if (onItemAdd) {
-									onItemAdd($item);
-								}
-							}
-							else {
-								$progressBar.parent().remove();
-							}
-						}).fail(function() {
-							$progressBar.parent().remove();
-						});
+						read();
 					}
+
 				}
 
 				/* 
@@ -772,7 +808,34 @@ function initForm($form, params) {
 				hasDescription = $fileUpload.is('[data-has_description]'),
 				hasAvatar = $fileUpload.is('[data-has_avatar]'),
 				hasOrder = $fileUpload.is('[data-has_order]'),
+				dimension = $fileUpload.data('dimension') || false,
 				controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
+				ordering = false;
+
+			// Recreate 
+
+			$fileUpload.attr('data-recreate', '').data('original_object', $fileUpload.clone(true));
+			$fileUpload.data('recreate', function (data) {
+				if (typeof data == 'undefined') {
+					data = {};
+				}
+				if (!('element' in data)) {
+					data.element = $fileUpload;
+				}
+
+				$original_object = data.element.data('original_object');
+				$original_object.attr('name', $original_object.data('original_name'));
+				if (data.new) {
+					$original_object.data('init-value', '');
+				}
+				data.element.closest('.file-uploader').replaceWith($original_object);
+				initFileInput($original_object);
+			});
+			// Dimension 
+			if (dimension) {
+				dimension = dimension.split('x');
+				dimension = { width: dimension[0], height: dimension[1] };
+			}
 
 			// Get params
 
@@ -798,7 +861,7 @@ function initForm($form, params) {
 			var $previewList = $('<div class="preview-list"></div>');
 
 			if ($fileUpload.is('[multiple]')) {
-				$previewList.html('<div class="add-button"><span class="fa fa-plus"></span></div>');
+				$previewList.html('<div class="add-button" style="' + (dimension ? ('width: ' + dimension.width + 'px; height: ' + dimension.height + 'px; ') : '') + '"><span class="fa fa-plus"></span></div>');
 			}
 
 			$fileUpload.after($wrapper);
@@ -837,13 +900,15 @@ function initForm($form, params) {
 
 				if (hasOrder) {
 					var 
-						$orderButtonContainer = $('<div class="margin-top-15 text-right"><div>'),
+						$orderButtonContainer = $('<div class="margin-top-15 text-right order-button-container"><div>'),
 						$orderButton = $('<button type="button" class="btn btn-flat btn-default">Sắp xếp</button>');
 
 					$orderButtonContainer.html($orderButton);
-					$wrapper.after($orderButtonContainer);
+					$wrapper.append($orderButtonContainer);
 
-					$orderButton.on('click', function () {
+					$orderButton.on('click', function (e) {
+						e.preventDefault();
+
 						if (ordering) {
 							// Set status
 							ordering = false;
@@ -857,6 +922,7 @@ function initForm($form, params) {
 								return;
 							}
 
+							console.log(a = $previewList);
 							// Set status
 							ordering = true;
 							$wrapper.addClass('order');
@@ -885,8 +951,9 @@ function initForm($form, params) {
 											itemsWithOrder[$item.data('order') - 1] = $item;
 										});
 
+										itemsWithOrder.reverse();
 										$(itemsWithOrder).each(function () {
-											$(this).appendTo($previewList);
+											$(this).prependTo($previewList);
 										});
 										
 										$orderButton.click();
@@ -935,64 +1002,77 @@ function initForm($form, params) {
 
 			// Init value
 
-			$fileUpload.on('initValue', function () {
-				$previewList.children('.preview').remove();
-				var initValues = $fileUpload.data('init-value');
-				if (initValues) {
-					$(initValues).each(function () {
-						value = this;
-						value['is_new'] = false;
+			$fileUpload.on({
+				'initValue': function () {
+					$previewList.children('.preview').remove();
+					var initValues = $fileUpload.data('init-value');
+					if (initValues) {
+						$(initValues).each(function () {
+							value = this;
+							value['is_new'] = false;
 
-						// Create item
-						var $item = $('<article class="preview"></article>');
-						$item.data('value', value);
-						$item.data('control_show', null);
+							// Create item
+							var $item = $('<article class="preview"></article>');
+							$item.data('value', value);
+							$item.data('control_show', null);
 
-						$item.html($fileUpload.data('input') + '<section class="image"><img src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
-						$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
-
-						// Avatar
-						if (value['is_avatar']) {
-							$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
-						}
-
-						// Create control from param
-						if (controls) {
-							var 
-								$controls = $item.find('.control');
-
-							$(controls).each(function () {
-								var controlParams = this;
-								var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
-
-								if ('handle' in controlParams) {
-									$control.on('click', function (e) {
-										controlParams['handle']($item);
-									});
+							if (value['file_name']) {
+								ext = value['file_name'].split('.').pop().toLowerCase();
+								if ($.inArray(ext, ['jpg','jpeg','png','gif','bmp']) == -1) {
+									value['url'] = '/assets/file_extensions/' + ext + '.png';
 								}
+							}
+							$item.html($fileUpload.data('input') + '<section class="image" title="' + value['file_name'] + '"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" onError="this.src=\'/assets/file_extensions/file.png\'" src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+							$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
 
-								$controls.prepend($control);
-							});		
-						}
+							// Avatar
+							if (value['is_avatar']) {
+								$item.addClass('bg-light-blue').attr('data-avatar', '').find('[aria-name="avatar-button"]').text('Hủy ảnh đại diện');
+							}
 
-						initPreviewItem($item);
+							// Create control from param
+							if (controls) {
+								var 
+									$controls = $item.find('.control');
 
-						$previewList.append($item);
-						if (onInitItemAdd) {
-							onInitItemAdd($item);
+								$(controls).each(function () {
+									var controlParams = this;
+									var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+
+									if ('handle' in controlParams) {
+										$control.on('click', function (e) {
+											controlParams['handle']($item);
+										});
+									}
+
+									$controls.prepend($control);
+								});		
+							}
+
+							initPreviewItem($item);
+
+							if ($fileUpload.is('[multiple]')) {
+								$previewList.children().last().before($item);
+							}
+							else {
+								$previewList.html($item);
+							}
+							if (onInitItemAdd) {
+								onInitItemAdd($item);
+							}
+							if (onItemAdd) {
+								onItemAdd($item);
+							}
+						});
+					}
+					if ($previewList.children('.preview').length == 0) {
+						$wrapper.removeClass('has');
+					}
+					else {
+						$wrapper.addClass('has');
+						if ($previewList.children('.preview').length == $fileUpload.data('amount')) {
+							$wrapper.addClass('full');
 						}
-						if (onItemAdd) {
-							onItemAdd($item);
-						}
-					});
-				}
-				if ($previewList.children('.preview').length == 0) {
-					$wrapper.removeClass('has');
-				}
-				else {
-					$wrapper.addClass('has');
-					if ($previewList.children('.preview').length == $fileUpload.data('amount')) {
-						$wrapper.addClass('full');
 					}
 				}
 			}).trigger('initValue');
@@ -1534,6 +1614,24 @@ function initForm($form, params) {
 		Editor
 	*/
 
+	// Color
+
+		function initColor() {
+			$form.find('[aria-input-type="color"]').attr('data-recreate', '').each(function () {
+				createColor(this);
+			});
+
+			function createColor(input) {
+				color = new jscolor(input);
+				if (input.value.length > 0 && input.value[0] != '#') {
+					input.value = '#' + input.value;
+				}
+				color.hash = true;
+			}
+		}
+
+	// / Color
+
 	/*
 		Dropdownselect
 	*/
@@ -1753,7 +1851,6 @@ function initForm($form, params) {
 					});
 				});
 			}
-				
 
 			$form.find('.tab-container.input').each(function () {
 				var $tabContainer = $(this);
@@ -1782,6 +1879,9 @@ function initForm($form, params) {
 					}).each(function () {
 						$input = $(this);
 						$input.attr('data-base_name', $input.is('.file-upload') ? $input.data('original_name') : $input.attr('name'));
+						if ($input.data('original_object')) {
+							$input.data('original_object').attr('data-base_name', $input.is('.file-upload') ? $input.data('original_name') : $input.attr('name'));
+						}
 					});
 
 				/*
@@ -1834,17 +1934,18 @@ function initForm($form, params) {
 					Add
 				*/
 
-					// Get template contents
-
 					$tabContainer.find('.tab-list [aria-click="add_tab"]').on('click', function () {
 						// Get contents
 						var
 							$tabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active'),
 							$tabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
-						$tabContent.find('.preview-list').html('');
+
 						$tabContent.find(':input').val('');
 						$tabContent.find('.form-group').removeClass('has-success has-error').find('.success-label, .callout-error').remove();
 						$tabContent.find('.money-text').text('');
+						$tabContent.find(':input[data-recreate]').each(function () {
+							$(this).data('recreate')({ new: true, element: $(this) });
+						});
 						
 						// Append
 						$tabContainer.find('.tab-list ul').append($tabButton);
@@ -1854,9 +1955,11 @@ function initForm($form, params) {
 						$form.resetTabName($tabContainer);
 						$tabButton.find('[aria-click="change_tab"]').click();
 
-						$($tabContainer.data('relative_inputs').split(' ')).each(function () {
-							$form.find('[name="' + this + '"]').change();
-						});
+						if ($tabContainer.data('relative_inputs')) {
+							$($tabContainer.data('relative_inputs').split(' ')).each(function () {
+								$form.find('[name="' + this + '"]').change();
+							});	
+						}
 					});
 
 				/*
