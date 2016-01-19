@@ -175,7 +175,7 @@ class Project < ActiveRecord::Base
 				_utility = _value[:id].present? ? ProjectUtility.find(_value[:id]) : ProjectUtility.new
 
 				_utility.title = _value[:title]
-				_utility.description = _value[:description]
+				_utility.description = ApplicationHelper.encode_plain_text(_value[:description])
 				_images = []
 				_value[:images].each do |_v|
 					_v = JSON.parse _v
@@ -593,6 +593,21 @@ class Project < ActiveRecord::Base
 		# Full address
 		def display_address
 			@display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
+		end
+
+		# Description
+		def display_description
+			@display_description ||= (description.present? ? description.html_safe : nil)
+		end
+
+		# Position description
+		def display_position_description
+			@display_position_description ||= (position_description.present? ? position_description.html_safe : nil)
+		end
+
+		# Payment method
+		def display_payment_method
+			@display_payment_method ||= (payment_method.present? ? payment_method.html_safe : nil)
 		end
 
 		# Deadline

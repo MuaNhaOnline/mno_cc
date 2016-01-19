@@ -19,7 +19,7 @@ class BlockRealEstateGroupImage < ActiveRecord::Base
 
 	# Associations
 
-		has_many :image_descriptions, class_name: 'BlockRealEstateGroupImageDescription'
+		has_many :image_descriptions, class_name: 'BlockRealEstateGroupImageDescription', dependent: :destroy, autosave: true
 
 	# / Associations
 
@@ -36,7 +36,9 @@ class BlockRealEstateGroupImage < ActiveRecord::Base
 
 				# Read each description
 				data['descriptions'].each do |description_data|
-					_image_description = BlockRealEstateGroupImageDescription.new description_type: description_data['description']['type'], area_type: description_data['tag_name']
+					_image_description = description_data['id'].present? ? BlockRealEstateGroupImageDescription.find(description_data['id']) : BlockRealEstateGroupImageDescription.new
+					_image_description.description_type = description_data['description']['type']
+					_image_description.area_type = description_data['tag_name']
 
 					# Area info
 					case description_data['tag_name']

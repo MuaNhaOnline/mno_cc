@@ -15,7 +15,7 @@ class BlockFloor < ActiveRecord::Base
 
 		belongs_to :block
 
-		has_many :surface_descriptions, class_name: 'BlockFloorSurfaceDescription'
+		has_many :surface_descriptions, class_name: 'BlockFloorSurfaceDescription', dependent: :destroy, autosave: true
 		has_many :real_estates
 
 	# / Associations
@@ -33,7 +33,9 @@ class BlockFloor < ActiveRecord::Base
 
 				# Read each description
 				data['descriptions'].each do |description_data|
-					_surface_description = BlockFloorSurfaceDescription.new description_type: description_data['description']['type'], area_type: description_data['tag_name']
+					_surface_description = description_data['id'].present? ? BlockFloorSurfaceDescription.find(description_data['id']) : BlockFloorSurfaceDescription.new
+					_surface_description.description_type = description_data['description']['type']
+					_surface_description.area_type = description_data['tag_name']
 
 					# Area info
 					case description_data['tag_name']

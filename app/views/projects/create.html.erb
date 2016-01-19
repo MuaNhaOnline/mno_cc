@@ -340,7 +340,7 @@
 													<label class="control-label">
 														Mô tả
 													</label>
-													<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"><%= utility.description %></textarea>
+													<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
 												</article>
 
 												<% 

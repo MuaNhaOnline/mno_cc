@@ -8,7 +8,7 @@ Danh sách sản phẩm
 <ul>
 	<% @floor.real_estates.each do |re| %>
 		<li>
-			<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+			<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'surface' }.to_json %>"><%= re.label %></a>
 		</li>
 	<% end %>
 </ul>

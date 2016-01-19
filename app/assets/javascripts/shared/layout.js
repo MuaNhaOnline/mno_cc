@@ -1042,3 +1042,221 @@ function initSize() {
 /*
 	/ Tab container
 */
+
+// Gallery
+	
+	/*
+		params:
+			data(*)
+					images: [
+						{ thumb(*), original(*), description, active }
+					]
+				or
+					images_url
+	*/
+	function _openGallery(params) {
+
+		// Validate
+
+			if (typeof params == 'undefined') {
+				return;
+			}
+
+			if (!('data' in params)) {
+				return;
+			}
+
+			if (!('images' in params['data']) && !('images_url' in params['data'])) {
+				return;
+			}
+
+		// / Validate
+
+		// Create html
+
+			var $html = $(
+				'<div class="gallery-popup">' +
+					'<section class="close-button">' +
+						'<button type="button" class="close" aria-click="close"><span aria-hidden="true">&times;</span></button>' +
+					'</section>' +
+					'<div class="gallery-container">' +
+						'<section class="image-view-panel">' +
+							'<span class="fa fa-spin fa-spinner" aria-name="spinner" style="display: none;"></span>' +
+							'<img aria-name="image" class="image" src="#" style="display: none;" />' +
+						'</section>' +
+						'<section class="image-description-panel">' +
+							'<div class="text-center" aria-name="description"></div>' +
+						'</section>' +
+						'<section class="image-list-panel">' +
+							'<ul class="item-list">' +
+							'</ul>' +
+						'</section>' +
+					'</div>' +
+				'</div>'
+			);
+
+			$body.append($html);
+
+		// / Create html
+
+		// Create items list
+
+			var $itemList = $html.find('.item-list');
+
+			if ('images' in params['data']) {
+				hasActive = false;
+				$(params['data']['images']).each(function() {
+					$itemList.append('<li class="item" data-description="' + (this.description || '') + '"><img src="' + this.thumb + '" data-src="' + this.original + '" /></li>');	
+					if (this.active) {
+						showImage($itemList.children().last());
+						hasActive = true;
+					}
+				});
+				if (!hasActive) {
+					showImage($itemList.children().first());
+				}
+				if (params['data']['images'].length == 1) {
+					$('.image-list-panel').hide();
+				}
+			}
+			else {
+				// $html.find('[aria-name="spinner"]').show();
+				// $html.find('[aria-name="image"]').hide();
+				// $.ajax({
+				// 	url: '/' + $button.attr('aria-gallery') + 's/get_gallery/' + $button.data('value'),
+				// 	dataType: 'JSON'
+				// }).always(function () {
+				// 	$html.find('[aria-name="spinner"]').hide();
+				// 	$html.find('[aria-name="image"]').show();
+				// }).done(function(data) {
+				// 	if (data.status == 0) {			
+				// 		$(data.result).each(function() {
+				// 			$itemList.append('<li class="item" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
+				// 			if (this.id == $button.data('id')) {
+				// 				showImage($itemList.children(':last-child'));
+				// 			}
+				// 		});		
+				// 		initChangeImage();
+				// 	}
+				// 	else {
+				// 		turn_off_popup_gallery();
+				// 	}
+				// }).fail(function() {
+				// 	turn_off_popup_gallery();
+				// });
+			}
+
+		// / Create items list
+
+		// Show image
+
+			function showImage($item) {
+				if ($item.hasClass('selected')) {
+					return;
+				}
+
+				var src = $item.find('img').data('src');
+
+				$item.siblings('.selected').removeClass('selected');
+				$item.addClass('selected');
+
+				// Set description
+				$html.find('[aria-name="description"]').text($item.data('description'));
+
+				// Set max height
+				$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
+
+				
+				$html.find('[aria-name="image"]').hide();
+				$html.find('[aria-name="spinner"]').show();	
+				var loadImage = new Image();
+				loadImage.onload = function(){
+					$html.find('[aria-name="image"]').attr('src', src);
+
+					$html.find('[aria-name="spinner"]').hide();
+					$html.find('[aria-name="image"]').show();
+				};
+				loadImage.src = src;
+			}
+
+		// / Show image
+
+		// Events
+
+			$itemList.find('.item').on('click', function () {
+				showImage($(this));
+			});
+
+			$document.on('keydown.popup_gallery', function (e) {
+				switch (e.keyCode) {
+					case 37:
+					case 40:
+						e.preventDefault();
+						prevImage();
+						break;
+					case 38:
+					case 39:
+						e.preventDefault();
+						nextImage();
+						break;
+					case 27:
+						e.preventDefault();
+						turn_off_popup_gallery();
+						break;
+				}
+			});
+
+			if (isMobile()) {
+				$html.find('.image-view-panel').on({
+					swipeleft: function () {
+						prevImage();
+					},
+					swiperight: function () {
+						nextImage();
+					}
+				});
+			}
+
+			$html.find('.image').on('click', function (e) {
+				e.stopPropagation();
+				nextImage();
+			});
+
+			function prevImage() {
+				var $selected = $itemList.find('.selected');
+
+				if ($selected.is(':first-child')) {
+					showImage($itemList.find('.item:last-child'));
+				}
+				else {
+					showImage($selected.prev());
+				}
+			}
+
+			function nextImage() {
+				var $selected = $itemList.find('.selected');
+
+				if ($selected.is(':last-child')) {
+					showImage($itemList.find('.item:first-child'));
+				}
+				else {
+					showImage($selected.next());
+				}
+			}
+
+			_initHorizontalListScroll($html.find('.image-list-panel'));
+
+			$html.find('[aria-click="close"], .image-view-panel').on('click', function () {
+				turn_off_popup_gallery();
+			});
+
+			function turn_off_popup_gallery() {
+				$(document).off('keydown.popup_gallery');
+				$html.remove();
+			};
+
+		// / Events
+
+	}
+
+// / Gallery

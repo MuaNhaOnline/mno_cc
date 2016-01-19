@@ -1,0 +1,26 @@
+<%
+=begin
+	params: @re
+=end
+%> 
+
+<% case params[:from] %>
+<% when 'group' %>
+	Các sản phẩm cùng nhóm
+	<ul>
+		<% RealEstate.where(block_real_estate_group_id: @re.block_real_estate_group_id).where("id <> #{@re.id}").each do |re| %>
+			<li>
+				<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'group' }.to_json %>"><%= re.label %></a>
+			</li>
+		<% end %>
+	</ul>
+<% when 'surface' %>
+	Các sản phẩm cùng mặt cắt
+	<ul>
+		<% RealEstate.where(block_floor_id: @re.block_floor_id).where("id <> #{@re.id}").each do |re| %>
+			<li>
+				<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'surface' }.to_json %>"><%= re.label %></a>
+			</li>
+		<% end %>
+	</ul>
+<% end %>

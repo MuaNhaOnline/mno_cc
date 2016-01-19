@@ -4,9 +4,7 @@ $(function () {
 	initMap('map');
 	_initTabContainer($('.free-style-tab-container'));
 
-	/*
-		Map
-	*/
+	// Map
 
 		/*
 			params:
@@ -63,9 +61,17 @@ $(function () {
 			return map;
 		}
 
-	/*
-		/ Map
-	*/
+	// / Map
+
+	// Utilities
+
+		(function () {
+			$('.utilities .item').on('click', function () {
+				_openGallery($(this).data('gallery'));
+			})
+		})();
+
+	// / Utilities
 
 	// Ground
 
@@ -98,10 +104,15 @@ $(function () {
 
 			// Start new
 
-				function startInteractImage(type, id) {
+				function startInteractImage(type, id, params) {
+					if (typeof params == 'undefined') {
+						params = {}
+					}
+
 					// Get data
 					$.ajax({
 						url: '/' + type + 's/get_data_for_interact_view/' + id,
+						data: params['data'] || {},
 						dataType: 'JSON'
 					}).done(function (data) {
 						if (data.status == 0) {
@@ -166,7 +177,12 @@ $(function () {
 						// Events
 
 							$infoPanelContent.find('[aria-click="interact"]').on('click', function () {
-								startInteractImage($(this).data('type'), $(this).data('value'));
+								$button = $(this);
+								params = {}
+								if ($button.data('data')) {
+									params['data'] = $button.data('data');
+								}
+								startInteractImage($button.data('type'), $button.data('value'), params);
 							});
 
 						// / Events

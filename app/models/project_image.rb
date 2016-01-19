@@ -19,7 +19,7 @@ class ProjectImage < ActiveRecord::Base
 
 	# Associations
 
-		has_many :image_descriptions, class_name: 'ProjectImageDescription'
+		has_many :image_descriptions, class_name: 'ProjectImageDescription', dependent: :destroy, autosave: true
 
 	# / Associations
 
@@ -36,7 +36,9 @@ class ProjectImage < ActiveRecord::Base
 
 				# Read each description
 				data['descriptions'].each do |description_data|
-					_image_description = ProjectImageDescription.new description_type: description_data['description']['type'], area_type: description_data['tag_name']
+					_image_description = description_data['id'].present? ? ProjectImageDescription.find(description_data['id']) : ProjectImageDescription.new
+					_image_description.description_type = description_data['description']['type']
+					_image_description.area_type = description_data['tag_name']
 
 					# Area info
 					case description_data['tag_name']

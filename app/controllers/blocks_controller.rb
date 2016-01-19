@@ -80,7 +80,7 @@ class BlocksController < ApplicationController
 							image[:descriptions] = []
 
 							block_image.image_descriptions.each do |image_description|
-								description = { tag_name: image_description.area_type }
+								description = { id: image_description.id, tag_name: image_description.area_type }
 
 								# Area info
 								case image_description.area_type
@@ -231,7 +231,7 @@ class BlocksController < ApplicationController
 						image[:descriptions] = []
 
 						floor.surface_descriptions.each do |surface_description|
-							description = { tag_name: surface_description.area_type }
+							description = { id: surface_description.id, tag_name: surface_description.area_type }
 
 							# Area info
 							case surface_description.area_type

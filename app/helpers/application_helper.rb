@@ -1,4 +1,14 @@
 module ApplicationHelper
+	def file_download_image file
+		ext = file[:url].split('?').first().split('.').last()
+		if ['jpg','jpeg','png','gif','bmp'].include? ext
+			img_src = file[:url]
+		else
+			img_src = "/assets/file_extensions/#{ext}.png"
+		end
+		"<a href='#{file[:url]}' download><img src='#{img_src}' onerror='this.src=\"/assets/file_extensions/file.png\"' /><span>#{file[:description] || ''}</span></a>".html_safe
+	end
+
 	def self.format_i string
 		begin
 			string.remove(/\D/)
@@ -33,11 +43,19 @@ module ApplicationHelper
 	end
 
 	def self.encode_plain_text string
-		('<p>' + string.gsub(/\r\n/, '</p><p>') + '</p>').gsub('<p></p>', '')
+		if string.present? && string[0..2] != '<p>'
+			('<p>' + string.gsub(/\r\n/, '</p><p>') + '</p>').gsub('<p></p>', '')
+		else
+			string
+		end
 	end
 
 	def self.decode_plain_text string
-		string[3...(string.length - 4)].gsub('</p><p>', "\r\n")
+		if string.present? && string[0..2] == '<p>'
+			string[3...(string.length - 4)].gsub('</p><p>', "\r\n")
+		else
+			string
+		end
 	end
 
 	# Read money

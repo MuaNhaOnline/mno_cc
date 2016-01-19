@@ -144,7 +144,7 @@ class ProjectsController < ApplicationController
 					image[:descriptions] = []
 
 					project_image.image_descriptions.each do |image_description|
-						description = { tag_name: image_description.area_type }
+						description = { id: image_description.id, tag_name: image_description.area_type }
 
 						# Area info
 						case image_description.area_type

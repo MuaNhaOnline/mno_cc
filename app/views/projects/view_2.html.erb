@@ -77,12 +77,7 @@
 						</section>
 						<section class="box-body">
 							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								<%= @project.display_description %>
 							</p>
 						</section>
 					</article>
@@ -94,20 +89,13 @@
 						</section>
 						<section class="box-body">
 							<p>
-								<span style="background-color: #666; color: #fff; padding: 5px 10px;"><span class="fa fa-map-marker fa-lg margin-right-5"></span> <b>Địa chỉ</b></span> 172/154 An Dương Vương, phường 16, quận 8, thành phố Hồ Chí Minh
+								<span style="background-color: #666; color: #fff; padding: 5px 10px;"><span class="fa fa-map-marker fa-lg margin-right-5"></span> <b>Địa chỉ</b></span> <%= @project.display_address %>
 							</p>
 							<p>
-								<article id="map" style="height: 50vh">
-									
-								</article>
+								<article id="map" style="height: 50vh" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>"></article>
 							</p>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								<%= @project.display_position_description %>
 							</p>
 						</section>
 					</article>
@@ -118,79 +106,37 @@
 							</h2>
 						</section>
 						<section class="box-body">
-							<article class="features row">
-								<article class="col-md-4 col-ss-6 col-xs-12">
-									<article class="item">
-										<section class="icon">
-											<span class="fa fa-leaf" style="color: #08c;"></span>
-										</section>
-										<section class="content">
-											<section class="title">
-												Gần trung tâm
+							<article class="utilities row">
+								<% @project.utilities.each do |utility| %>
+									<%
+										gallery_data = {
+											data: {
+												images: []
+											}
+										}
+										utility.images.each do |image_info|
+											gallery_data[:data][:images] << {
+												thumb: image_info.image.url('thumb'),
+												original: image_info.image.url
+											}
+										end
+									%>
+									<article class="col-md-4 col-ss-6 col-xs-12">
+										<article class="item" data-gallery="<%= gallery_data.to_json %>">
+											<section class="icon">
+												<span class="fa fa-leaf" style="color: #08c;"></span>
 											</section>
-											<section class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat.
+											<section class="content">
+												<section class="title">
+													<%= utility.title %>
+												</section>
+												<section class="description">
+													<%= utility.description %>
+												</section>
 											</section>
-										</section>
+										</article>
 									</article>
-								</article>
-								<article class="col-md-4 col-ss-6 col-xs-12">
-									<article class="item">
-										<section class="icon">
-											<span class="fa fa-leaf" style="color: #08c;"></span>
-										</section>
-										<section class="content">
-											<section class="title">
-												Gần trung tâm
-											</section>
-											<section class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat.
-											</section>
-										</section>
-									</article>
-								</article>
-								<article class="col-md-4 col-ss-6 col-xs-12">
-									<article class="item">
-										<section class="icon">
-											<span class="fa fa-leaf" style="color: #08c;"></span>
-										</section>
-										<section class="content">
-											<section class="title">
-												Gần trung tâm
-											</section>
-											<section class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat.
-											</section>
-										</section>
-									</article>
-								</article>
-								<article class="col-md-4 col-ss-6 col-xs-12">
-									<article class="item">
-										<section class="icon">
-											<span class="fa fa-leaf" style="color: #08c;"></span>
-										</section>
-										<section class="content">
-											<section class="title">
-												Gần trung tâm
-											</section>
-											<section class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-												consequat.
-											</section>
-										</section>
-									</article>
-								</article>
+								<% end %>
 							</article>
 						</section>
 					</article>
@@ -384,10 +330,18 @@
 								Phương thức thanh toán
 							</h2>
 						</section>
-						<section class="box-body">
-							<article style="text-align: center">
-								<img src="/assets/temporary/pttt.jpg" style="max-width: 100%;" />
-							</article>
+						<section class="box-body payment_method">
+							<section class="description">
+								<%= @project.display_payment_method %>
+							</section>
+							<section class="attachments">
+								<h3 class="title">Tập tin đính kèm</h3>
+								<% @project.payment_attachments.each do |attachment| %>
+									<article class="item">
+										<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
+									</article>
+								<% end %>
+							</section>
 						</section>
 					</article>
 					<article class="box">

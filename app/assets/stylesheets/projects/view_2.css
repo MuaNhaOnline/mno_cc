@@ -69,22 +69,23 @@ body {
 		Utilities
 	*/
 
-		.content-panel .features {
+		.content-panel .utilities {
 			padding: 20px;
 			margin-bottom: -30px;
 		}
 
-			.content-panel .features .item {
+			.content-panel .utilities .item {
 				border: 1px solid #e5e5e5;
 				padding: 20px;
 				padding-top: 60px;
 				position: relative;
-				margin-top: 50px;
-				margin-bottom: 30px;
 				background-color: #fff;
+				max-width: 300px;
+				margin: 50px auto 30px auto;
+				cursor: pointer;
 			}
 
-				.content-panel .features .item .icon {
+				.content-panel .utilities .item .icon {
 					position: absolute;
 					top: -50px;
 					left: calc(50% - 50px);
@@ -95,7 +96,7 @@ body {
 					background-color: #fff;
 				}
 
-					.content-panel .features .item .icon span {
+					.content-panel .utilities .item .icon span {
 						font-size: 40px;
 						border: 3px solid #08c;
 						border-radius: 50%;
@@ -105,20 +106,23 @@ body {
 						line-height: 85px;
 					}
 
-				.content-panel .features .item .content {
-					overflow: hidden;
-					height: 170px;
+				.content-panel .utilities .item .content {
 					position: relative;
 				}
 
-					.content-panel .features .item .title {
+					.content-panel .utilities .item .title {
 						font-size: 18px;
 						font-weight: bold;
 						margin-bottom: 10px;
 						text-align: center;
+						width: 100%;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
 					}
 
-					.content-panel .features .item .description {
+					.content-panel .utilities .item .description {
+						height: 140px;
 						text-align: justify;
 					}
 
@@ -309,6 +313,39 @@ body {
 
 	/*
 		/ Real-estate group list
+	*/
+
+	/*
+		Payment method
+	*/
+
+		.payment_method {
+			
+		}
+
+			.payment_method .attachments {
+				
+			}
+
+				.payment_method .attachments .title {
+					font-size: 18px;
+					font-weight: bold;
+				}
+
+				.payment_method .attachments .item {
+					margin-bottom: 5px;
+				}
+
+				.payment_method .attachments a {
+				}
+
+				.payment_method .attachments img {
+					height: 50px;
+					margin-right: 5px;
+				}
+
+	/*
+		/ Payment method
 	*/
 
 /*

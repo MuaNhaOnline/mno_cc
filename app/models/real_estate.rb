@@ -40,15 +40,16 @@ class RealEstate < ActiveRecord::Base
 		has_many :appraisal_companies_real_estates
 		has_many :appraisal_companies, through: :appraisal_companies_real_estates
 		has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,
-							source: :appraisal_company,
-							class_name: 'AppraisalCompany'
+			source: :appraisal_company,
+			class_name: 'AppraisalCompany'
 		has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
+		has_many :in_floors, class_name: 'FloorRealEstate', dependent: :destroy
 
 		has_and_belongs_to_many :property_utilities
 		has_and_belongs_to_many :region_utilities
 		has_and_belongs_to_many :advantages
 		has_and_belongs_to_many :disadvantages
-		
+
 	# / Associations
 
 	# Validations
@@ -56,6 +57,9 @@ class RealEstate < ActiveRecord::Base
 		validate :custom_validate
 
 		def custom_validate
+			if block_real_estate_group_id.present?
+				return
+			end
 			# Purpose
 			if fields.include?(:purpose) && purpose.blank?
 				errors.add :purpose, 'Mục đích không thể bỏ trống'
@@ -454,6 +458,123 @@ class RealEstate < ActiveRecord::Base
 			end
 
 		# / Block save with params
+
+		# Build in floor
+
+			def self.build_in_floors _id
+
+				re = find _id
+				re.in_floors = []
+
+				def self._parseFloors string
+					# Format
+					string = string.gsub(/[^0-9\-,]/, '')
+
+					list = []
+					string.split(',').each do |s|
+						# remove redundancy
+						value = s.gsub(/\-.*\-/, '-').split('-')
+
+						# case: just a number
+						if value.length == 1
+							list << value[0].to_i
+						# case: in range
+						else 
+							# case: full param
+							if value[0].present? && value[1].present?
+								value[0] = value[0].to_i
+								value[1] = value[1].to_i
+
+								# exchange for correct format (increase)
+								if value[0] > value[1]
+									temp = value[0]
+									value[0] = value[1]
+									value[1] = temp
+								end
+
+								(value[0]..value[1]).each do |v|
+									list << v
+								end
+							# case: one in => same a number
+							elsif value[0].present?
+								list << value[0].to_i
+							elsif value[1].present?
+								list << value[1].to_i
+							end
+						end
+					end
+					
+					list.uniq.sort
+				end
+
+				re.floor_infos_text.each do |_info|
+					_parseFloors(_info['floors']).each do |_floor_number|
+						_floor_info = FloorRealEstate.new
+
+						_floor_info.label = re.label.gsub('{f}', _floor_number.to_s)
+						_floor_info.floor = _floor_number
+
+						if _info['sell_price'].present?
+
+							if _info['sell_floor_coefficient'].present?
+								_coefficient = _info['sell_floor_coefficient']
+
+								# Replace operator
+								# x => *
+								_coefficient = _coefficient.gsub(/x(?!(^{)*})/i, '*')
+								# : => /
+								_coefficient = _coefficient.gsub(/:(?!(^{)*})/, '/')
+								# \D & operator => ''
+								_coefficient = _coefficient.gsub(/[^\d\+\-\*\/\(\)\{\}](?!(^{)*})/, '')
+								# ++ => +
+								_coefficient = _coefficient.gsub(/\+[\+\-\*\/](?!(^{)*})/, '+')
+								_coefficient = _coefficient.gsub(/\-[\+\-\*\/](?!(^{)*})/, '-')
+								_coefficient = _coefficient.gsub(/\*[\+\-\*\/](?!(^{)*})/, '*')
+								_coefficient = _coefficient.gsub(/\/[\+\-\*\/](?!(^{)*})/, '/')
+
+								# Calc
+								_floor_info.sell_price = eval(_coefficient.gsub('{f}', _floor_number.to_s).gsub('{p}', _info['sell_price'].to_s))
+							else
+								_floor_info.sell_price = _info['sell_price']
+							end
+
+						end
+
+						if _info['rent_price'].present?
+
+							if _info['rent_floor_coefficient'].present?
+								_coefficient = _info['rent_floor_coefficient']
+
+								# Replace operator
+								# x => *
+								_coefficient = _coefficient.gsub(/x(?!(^{)*})/i, '*')
+								# : => /
+								_coefficient = _coefficient.gsub(/:(?!(^{)*})/, '/')
+								# \D & operator => ''
+								_coefficient = _coefficient.gsub(/[^\d\+\-\*\/\(\)\{\}](?!(^{)*})/, '')
+								# ++ => +
+								_coefficient = _coefficient.gsub(/\+[\+\-\*\/](?!(^{)*})/, '+')
+								_coefficient = _coefficient.gsub(/\-[\+\-\*\/](?!(^{)*})/, '-')
+								_coefficient = _coefficient.gsub(/\*[\+\-\*\/](?!(^{)*})/, '*')
+								_coefficient = _coefficient.gsub(/\/[\+\-\*\/](?!(^{)*})/, '/')
+
+								# Calc
+								_floor_info.rent_price = eval(_coefficient.gsub('{f}', _floor_number.to_s).gsub('{p}', _info['rent_price'].to_s))
+							else
+								_floor_info.rent_price = _info['rent_price']
+							end
+
+						end
+
+						re.in_floors << _floor_info
+					end
+				end
+
+				re.save
+
+			end
+
+		# / Build in floor
 
 	# / Insert
 

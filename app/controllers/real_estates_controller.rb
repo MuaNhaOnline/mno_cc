@@ -277,7 +277,7 @@ class RealEstatesController < ApplicationController
 					image[:descriptions] = []
 
 					real_estate_group_image.image_descriptions.each do |image_description|
-						description = { tag_name: image_description.area_type }
+						description = { id: image_description.id, tag_name: image_description.area_type }
 
 						# Area info
 						case image_description.area_type
@@ -465,7 +465,7 @@ class RealEstatesController < ApplicationController
 
 			# Info
 
-				info = 'asdf'#render_to_string(partial: 'real_estates/info_for_interact_view')
+				info = render_to_string(partial: 'real_estates/info_for_interact_view')
 
 			# / Info
 

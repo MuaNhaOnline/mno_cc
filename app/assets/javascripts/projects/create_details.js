@@ -263,7 +263,7 @@ $(function () {
 
 		// / Block
 
-		// Real-estate
+		// Real-estate group
 
 			initCreateRealEstate();
 			initRealEstateList();
@@ -451,6 +451,9 @@ $(function () {
 							selectedBlockFloorValue,
 							$surfaceDescription = $('#block_floor_surface_description_id');
 
+						// Values for save selected description each floor
+						$surfaceDescription.data('values', {});
+
 						loadImage.onload = function () {
 							var image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 
@@ -475,12 +478,24 @@ $(function () {
 
 									$polyline.css('fill', 'rgba(0, 166, 91, .3)');
 
-									$svg.append($polyline);
+									$svg.append($polyline).load();
 
-									$svgParent = $svg.parent();
-									rect = $polyline[0].getBoundingClientRect();
-									$svgParent.scrollLeft((rect.left - $svgParent.offset().left) - ($svgParent.width() - rect.width) / 2);
-									$svgParent.scrollTop((rect.top - $svgParent.offset().top) - ($svgParent.height() - rect.height) / 2);
+									// Wait for loaded to get correct with of polyline
+									lastWidth = -1;
+									lastHeight = -1;
+									interval = setInterval(function () {
+										rect = $polyline[0].getBoundingClientRect();
+										if (rect.width == lastWidth && rect.height == lastHeight) {
+											// Loaded
+											clearInterval(interval);
+
+											$svgParent = $svg.parent();
+											$svgParent.scrollLeft(($polyline.offset().left - $svgParent.offset().left + $svgParent.scrollLeft()) - ($svgParent.width() - rect.width) / 2);
+											$svgParent.scrollTop(($polyline.offset().top - $svgParent.offset().top + $svgParent.scrollTop()) - ($svgParent.height() - rect.height) / 2);
+										}
+										lastWidth = rect.width;
+										lastHeight = rect.height;
+									}, 250);
 								}
 							});
 						};
@@ -570,7 +585,6 @@ $(function () {
 										$surfaceDescription.val($p.data('id')).change();
 										$popup.off();
 
-
 										var $polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
 
 										$polyline.attr({
@@ -580,12 +594,25 @@ $(function () {
 
 										$polyline.css('fill', 'rgba(0, 166, 91, .3)');
 
+										$svg.find('polyline').remove();
 										$svg.append($polyline);
 
-										$svgParent = $svg.parent();
-										rect = $polyline[0].getBoundingClientRect();
-										$svgParent.scrollLeft((rect.left - $svgParent.offset().left) - ($svgParent.width() - rect.width) / 2);
-										$svgParent.scrollTop((rect.top - $svgParent.offset().top) - ($svgParent.height() - rect.height) / 2);
+										// Wait for loaded to get correct with of polyline
+										lastWidth = -1;
+										lastHeight = -1;
+										interval = setInterval(function () {
+											rect = $polyline[0].getBoundingClientRect();
+											if (rect.width == lastWidth && rect.height == lastHeight) {
+												// Loaded
+												clearInterval(interval);
+
+												$svgParent = $svg.parent();
+												$svgParent.scrollLeft(($polyline.offset().left - $svgParent.offset().left + $svgParent.scrollLeft()) - ($svgParent.width() - rect.width) / 2);
+												$svgParent.scrollTop(($polyline.offset().top - $svgParent.offset().top + $svgParent.scrollTop()) - ($svgParent.height() - rect.height) / 2);
+											}
+											lastWidth = rect.width;
+											lastHeight = rect.height;
+										}, 250);
 									});
 
 								// / Event
@@ -597,175 +624,191 @@ $(function () {
 							if (this.value) {
 								selectedBlockFloorValue = $(this).find(':selected').data('value');
 								loadImage.src = selectedBlockFloorValue.url;
-								$surfaceDescription.val('');
+
+								// Reselect description was select
+								$surfaceDescription.val($surfaceDescription.data('values')[this.value] || '');
 							}
 						});
 
 						selectedBlockFloorValue = $('#block_floor :selected').data('value');
+						// If selected
 						if (selectedBlockFloorValue) {
 							loadImage.src = selectedBlockFloorValue.url;
+
+							// Save if this was select description in floor
+							$(selectedBlockFloorValue.descriptions).each(function () {
+								if (this['status'] == 'current') {
+									values = $surfaceDescription.data('values');
+									values[$('#block_floor').val()] = this['id'];
+									$surfaceDescription.data('values', values);
+								}
+							});
 						}
 
 					// / Position
 
 					// Floor
-					function parseFloors(stringList) {
-						// Format
-						stringList = stringList.replace(/[^0-9-,]/g, '');
 
-						list = []
-						$(stringList.split(',')).each(function () {
-							// remove redundancy
-							value = this.replace(/-.*-/, '-').split('-');
+						function parseFloors(stringList) {
+							// Format
+							stringList = stringList.replace(/[^0-9-,]/g, '');
 
-							// case: just a number
-							if (value.length == 1) {
-								list.push(parseInt(value));
-							}
-							// case: in range
-							else {
-								// case: full param
-								if (value[0] && value[1]) {
-									value[0] = parseInt(value[0]);
-									value[1] = parseInt(value[1]);
+							list = []
+							$(stringList.split(',')).each(function () {
+								// remove redundancy
+								value = this.replace(/-.*-/, '-').split('-');
 
-									// exchange for correct format (increase)
-									if (value[0] > value[1]) {
-										temp = value[0];
-										value[0] = value[1];
-										value[1] = temp;
+								// case: just a number
+								if (value.length == 1) {
+									list.push(parseInt(value));
+								}
+								// case: in range
+								else {
+									// case: full param
+									if (value[0] && value[1]) {
+										value[0] = parseInt(value[0]);
+										value[1] = parseInt(value[1]);
+
+										// exchange for correct format (increase)
+										if (value[0] > value[1]) {
+											temp = value[0];
+											value[0] = value[1];
+											value[1] = temp;
+										}
+
+										while (value[0] <= value[1]) {
+											list.push(value[0]++);
+										}
 									}
-
-									while (value[0] <= value[1]) {
-										list.push(value[0]++);
+									// case: one in => same a number
+									else if (value[0]) {
+										list.push(parseInt(value[0]));
+									}
+									else if (value[1]) {
+										list.push(parseInt(value[1]));
 									}
 								}
-								// case: one in => same a number
-								else if (value[0]) {
-									list.push(parseInt(value[0]));
-								}
-								else if (value[1]) {
-									list.push(parseInt(value[1]));
-								}
-							}
-						});
+							});
 
+							return $.unique(list).sort(function (a, b) { return a - b });
+						}
 
-
-						return $.unique(list).sort(function (a, b) { return a - b });
-					}
+					// / Floor
 
 					// Price
-					$form.find('[aria-click="price_preview"]').on('click', function () {
-						$button = $(this);
-						$row = $button.closest('.row');
-						$container = $row.closest('.tab-content');
 
-						// Get infos
+						$form.find('[aria-click="price_preview"]').on('click', function () {
+							$button = $(this);
+							$row = $button.closest('.row');
+							$container = $row.closest('.tab-content');
 
-							price = $row.find('[aria-object="price"]').val();
-							if (!price) {
-								popupPrompt({
-									type: 'warning',
-									content: 'Vui lòng nhập giá'
+							// Get infos
+
+								price = $row.find('[aria-object="price"]').val();
+								if (!price) {
+									popupPrompt({
+										type: 'warning',
+										content: 'Vui lòng nhập giá'
+									});
+									return;
+								}
+								price = intFormat(price);
+								coefficient = $row.find('[aria-object="coefficient"]').val();
+								if (!coefficient) {
+									popupPrompt({
+										type: 'warning',
+										content: 'Vui lòng nhập hệ số'
+									});
+									return;
+								}
+								floors = $container.find('[aria-object="floors"]').val();
+								if (!floors) {
+									popupPrompt({
+										type: 'warning',
+										content: 'Vui lòng nhập vị trí/tầng'
+									});
+									return;
+								}
+								floors = parseFloors(floors);
+								label = $form.find('[aria-object="label"]').val();
+								if (!label) {
+									popupPrompt({
+										type: 'warning',
+										content: 'Vui lòng nhập mã'
+									});
+									return;
+								}
+
+
+							// / Get infos
+
+							// Replace operator
+
+								// x => *
+								coefficient = coefficient.replace(/x(?!(^{)*})/gi, '*');
+								// : => /
+								coefficient = coefficient.replace(/:(?!(^{)*})/g, '/');
+								// \D & operator => ''
+								coefficient = coefficient.replace(/[^\d\+\-\*\/\(\)\{\}](?!(^{)*})/g, '');
+								// ++ => +
+								coefficient = coefficient.replace(/\+[\+\-\*\/](?!(^{)*})/g, '+');
+								coefficient = coefficient.replace(/\-[\+\-\*\/](?!(^{)*})/g, '-');
+								coefficient = coefficient.replace(/\*[\+\-\*\/](?!(^{)*})/g, '*');
+								coefficient = coefficient.replace(/\/[\+\-\*\/](?!(^{)*})/g, '/');
+
+							// / Replace operator
+
+							// Popup
+
+								$html = $(
+									'<article class="box box-primary">' +
+										'<section class="box-header">' +
+											'<h2 class="box-title">' +
+												'Bảng giá' +
+											'</h2>' +
+										'</section>' +
+										'<section class="box-body text-center no-padding">' +
+											'<table class="table table-striped width-auto inline-block">' +
+												'<thead>' +
+													'<tr>' +
+														'<th>' +
+															'Mã' +
+														'</th>' +
+														'<th>' +
+															'Giá <small class="font-normal">' + coefficient + '</small>' +
+														'</th>' +
+													'</tr>' +
+												'</thead>' +
+												'<tbody>' +
+												'</tbody>' +
+											'</table>' +
+										'</section>' +
+									'</article>'
+								);
+
+								$tbody = $html.find('tbody');
+								$(floors).each(function () {
+									$tbody.append(
+										'<tr>' +
+											'<td>' +
+												label.replace('{f}', this) +
+											'</td>' +
+											'<td>' +
+												moneyFormat(eval(coefficient.replace(/\{f\}/g, this).replace(/\{p\}/g, price)), ',') +
+											'</td>' +
+										'</tr>'
+									)
 								});
-								return;
-							}
-							price = intFormat(price);
-							coefficient = $row.find('[aria-object="coefficient"]').val();
-							if (!coefficient) {
-								popupPrompt({
-									type: 'warning',
-									content: 'Vui lòng nhập hệ số'
+
+								popupFull({
+									html: $html,
+									id: 'price_preview_popup'
 								});
-								return;
-							}
-							floors = $container.find('[aria-object="floors"]').val();
-							if (!floors) {
-								popupPrompt({
-									type: 'warning',
-									content: 'Vui lòng nhập vị trí/tầng'
-								});
-								return;
-							}
-							floors = parseFloors(floors);
-							label = $form.find('[aria-object="label"]').val();
-							if (!label) {
-								popupPrompt({
-									type: 'warning',
-									content: 'Vui lòng nhập mã'
-								});
-								return;
-							}
 
+							// / Popup
+						});
 
-						// / Get infos
-
-						// Replace operator
-
-							// x => *
-							coefficient = coefficient.replace(/x(?!(^{)*})/gi, '*');
-							// : => /
-							coefficient = coefficient.replace(/:(?!(^{)*})/g, '/');
-							// \D & operator => ''
-							coefficient = coefficient.replace(/[^\d\+\-\*\/\(\)\{\}](?!(^{)*})/g, '');
-							// ++ => +
-							coefficient = coefficient.replace(/\+[\+\-\*\/](?!(^{)*})/g, '+');
-							coefficient = coefficient.replace(/\-[\+\-\*\/](?!(^{)*})/g, '-');
-							coefficient = coefficient.replace(/\*[\+\-\*\/](?!(^{)*})/g, '*');
-							coefficient = coefficient.replace(/\/[\+\-\*\/](?!(^{)*})/g, '/');
-
-						// / Replace operator
-
-						// Popup
-
-							$html = $(
-								'<article class="box box-primary">' +
-									'<section class="box-header">' +
-										'<h2 class="box-title">' +
-											'Bảng giá' +
-										'</h2>' +
-									'</section>' +
-									'<section class="box-body text-center no-padding">' +
-										'<table class="table table-striped width-auto inline-block">' +
-											'<thead>' +
-												'<tr>' +
-													'<th>' +
-														'Mã' +
-													'</th>' +
-													'<th>' +
-														'Giá <small class="font-normal">' + coefficient + '</small>' +
-													'</th>' +
-												'</tr>' +
-											'</thead>' +
-											'<tbody>' +
-											'</tbody>' +
-										'</table>' +
-									'</section>' +
-								'</article>'
-							);
-
-							$tbody = $html.find('tbody');
-							$(floors).each(function () {
-								$tbody.append(
-									'<tr>' +
-										'<td>' +
-											label.replace('{f}', this) +
-										'</td>' +
-										'<td>' +
-											moneyFormat(eval(coefficient.replace(/\{f\}/g, this).replace(/\{p\}/g, price)), ',') +
-										'</td>' +
-									'</tr>'
-								)
-							});
-
-							popupFull({
-								html: $html,
-								id: 'price_preview_popup'
-							});
-
-						// / Popup
-					});
+					// / Price
 
 					initForm($form, {
 						submit: function () {
@@ -802,7 +845,7 @@ $(function () {
 
 			// / Real-estate create form
 
-		// / Real-estate
+		// / Real-estate group
 
 	// / View
 
@@ -908,10 +951,12 @@ $(function () {
 				descriptions = [];
 
 				$g.find('[aria-object="object"]').each(function () {
+					$object = $(this);
 
 					description = { 
+						id: $object.data('id'),
 						tag_name: this.tagName,
-						description: $(this).data('description') || []
+						description: $object.data('description') || {}
 					}
 
 					switch(this.tagName) {
@@ -959,12 +1004,12 @@ $(function () {
 			// Save & exit button
 
 				$designPart.find('[aria-click="save"]').on('click', function () {
-					$designPart.removeClass('open');
-					$body.removeClass('no-scroll');
-
 					if ($selectedItem) {
 						saveItem();
 					}
+					
+					$designPart.removeClass('open');
+					$body.removeClass('no-scroll');
 
 					saveAll();
 				});
@@ -997,12 +1042,15 @@ $(function () {
 				$(descriptions).each(function () {
 					switch(this.tag_name) {
 						case 'polyline':
-							addPolyline({
+							$object = addPolyline({
 								points: this.points,
 								description: this.description
 							});
 							break;
 					}
+
+					// Save id
+					$object.data('id', this.id);
 				});
 			}
 

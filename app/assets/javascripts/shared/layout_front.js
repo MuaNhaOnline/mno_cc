@@ -2,7 +2,7 @@ var $footer = $('footer');
 
 //region Initialization
 $(function () {
-  	_getPopupContent();
+		_getPopupContent();
 
 	//init Header	
 	initHeader();
@@ -243,7 +243,7 @@ function _initItemList($container) {
 						nextImage();
 						break;
 				}
-	    });
+			});
 
 			if (isMobile()) {
 				$html.find('.image-view-panel').on({
@@ -331,29 +331,29 @@ function _initItemList($container) {
 		*/
 
 		$(document).on('keydown.popup_gallery', function (e) {
-      if (e.keyCode == 27) {
+			if (e.keyCode == 27) {
 				e.preventDefault();
-        turn_off_popup_gallery();
-      }
-    });
+				turn_off_popup_gallery();
+			}
+		});
 
-    $html.on('click', function () {
-    	turn_off_popup_gallery();
-    });
+		$html.on('click', function () {
+			turn_off_popup_gallery();
+		});
 
-    $html.find('[aria-click="close"]').on('click', function () {
-    	turn_off_popup_gallery();
-    });
+		$html.find('[aria-click="close"]').on('click', function () {
+			turn_off_popup_gallery();
+		});
 
-    $html.children().on('click', function (e) {
-    	e.stopPropagation();
-    });
+		$html.children().on('click', function (e) {
+			e.stopPropagation();
+		});
 
-    function turn_off_popup_gallery() {
-	    $(document).off('keydown.popup_gallery');
+		function turn_off_popup_gallery() {
+			$(document).off('keydown.popup_gallery');
 
-	    $html.remove();
-	  };
+			$html.remove();
+		};
 
 		/*
 			/ Turn off
@@ -473,46 +473,46 @@ function initHeader() {
 
 // start mini menu
 function initMiniMenu(objBtnPress, objContent) {
-    var $btnMenu = $(objBtnPress);
-    var $contentMenu = $(objContent);
+		var $btnMenu = $(objBtnPress);
+		var $contentMenu = $(objContent);
 
-    $contentMenu.on('Off', function(e) {
-        e = e || window.event;
+		$contentMenu.on('Off', function(e) {
+				e = e || window.event;
 
-        $contentMenu.hide();
-        $body.css('overflow-y', 'auto');
+				$contentMenu.hide();
+				$body.css('overflow-y', 'auto');
 
-        $document.off('keydown.btn-close');
-    });
+				$document.off('keydown.btn-close');
+		});
 
-    $contentMenu.on('On', function(e) {
-        $contentMenu.show();
-        $body.css('overflow-y','hidden');
+		$contentMenu.on('On', function(e) {
+				$contentMenu.show();
+				$body.css('overflow-y','hidden');
 
-        $contentMenu.find('.popup-out').one('click', function() {
-            $contentMenu.trigger('Off');
-        });
+				$contentMenu.find('.popup-out').one('click', function() {
+						$contentMenu.trigger('Off');
+				});
 
-        $document.on('keydown.btn-close', function(e) {
-            e = e || window.event;
+				$document.on('keydown.btn-close', function(e) {
+						e = e || window.event;
 
-            if (e.keyCode == 27) {
-                $contentMenu.trigger('Off');
-            } else {
-                console.log('Key is press down! But not Esc key.');
-            }
-        });
-    });
+						if (e.keyCode == 27) {
+								$contentMenu.trigger('Off');
+						} else {
+								console.log('Key is press down! But not Esc key.');
+						}
+				});
+		});
 
-    $btnMenu.on('click', function(e) {
-        e = e || window.event;
+		$btnMenu.on('click', function(e) {
+				e = e || window.event;
 
-        if ($contentMenu.is(':visible')) {
-        	$contentMenu.trigger('Off');        	
-        } else {
-        	$contentMenu.trigger('On');        	
-        }
-    });
+				if ($contentMenu.is(':visible')) {
+					$contentMenu.trigger('Off');        	
+				} else {
+					$contentMenu.trigger('On');        	
+				}
+		});
 }
 
 // start initMiniMenu
@@ -731,332 +731,332 @@ function lockScrollBody(status) {
 	Popup 
 */
 
-  function _getPopupContent() {
-    $('[aria-popupcontent]').each(function () {
-      _popupContent[this.getAttribute('aria-popupcontent')] = this.outerHTML;
-      this.remove();
-    });
-  }
+	function _getPopupContent() {
+		$('[aria-popupcontent]').each(function () {
+			_popupContent[this.getAttribute('aria-popupcontent')] = this.outerHTML;
+			this.remove();
+		});
+	}
 
-  /*
-  	params:
-  		id: (popup_full)
-  			id of popup.
-  			if wanna show two popup, ids must different
-  		z-index: (30)
-  			z-index of popup
-      overlay:
-        transparent
-        gray
-      width: (none)
-        small, medium, large, maximum
-  		esc: (true)
-  			allow escape popup with click outside or 'esc' key
-  */
+	/*
+		params:
+			id: (popup_full)
+				id of popup.
+				if wanna show two popup, ids must different
+			z-index: (30)
+				z-index of popup
+			overlay:
+				transparent
+				gray
+			width: (none)
+				small, medium, large, maximum
+			esc: (true)
+				allow escape popup with click outside or 'esc' key
+	*/
 
-  function getPopup(params) {
-    if (typeof(params) === 'undefined')
-    {
-      params = {};
-    }
+	function getPopup(params) {
+		if (typeof(params) === 'undefined')
+		{
+			params = {};
+		}
 
-    var 
-      id = ('id' in params) ? params.id : 'popup_full',
-      zIndex = 'z-index' in params ? params['z-index'] : '30',
-      esc = !('esc' in params) || params.esc,
-      overlay = 'overlay' in params ? params['overlay'] : 'transparent',
-      width = 'width' in params ? params['width'] : '';
+		var 
+			id = ('id' in params) ? params.id : 'popup_full',
+			zIndex = 'z-index' in params ? params['z-index'] : '30',
+			esc = !('esc' in params) || params.esc,
+			overlay = 'overlay' in params ? params['overlay'] : 'transparent',
+			width = 'width' in params ? params['width'] : '';
 
-    var $popup = $('#' + id);
+		var $popup = $('#' + id);
 
-    if ($popup.length == 0) {
-      $popup = $('<article id="' + id + '" style="z-index: ' + zIndex + ';" class="popup-full-container"><section class="popup-close"></section><section class="popup-full"><article class="popup-content"></article></section></article>');
+		if ($popup.length == 0) {
+			$popup = $('<article id="' + id + '" style="z-index: ' + zIndex + ';" class="popup-full-container"><section class="popup-close"></section><section class="popup-full"><article class="popup-content"></article></section></article>');
 
-      $popup.find('.popup-close').on('click', function () {
-        if ($popup.is('[aria-esc]')) {
-          $popup.off();
-        }
-      });
+			$popup.find('.popup-close').on('click', function () {
+				if ($popup.is('[aria-esc]')) {
+					$popup.off();
+				}
+			});
 
-      $body.append($popup);
-    }
+			$body.append($popup);
+		}
 
-    $popup.attr('aria-width', width);
+		$popup.attr('aria-width', width);
 
-    if (esc) {
-      $popup.attr('aria-esc', '');
-    }
-    else {
-      $popup.removeAttr('aria-esc');
-    }
+		if (esc) {
+			$popup.attr('aria-esc', '');
+		}
+		else {
+			$popup.removeAttr('aria-esc');
+		}
 
-    if (overlay == 'gray') {
-        $popup.addClass('gray');
-    }
-    else {
-        $popup.removeClass('gray');
-    }
+		if (overlay == 'gray') {
+				$popup.addClass('gray');
+		}
+		else {
+				$popup.removeClass('gray');
+		}
 
-    $popup.on = function () {
-      $popup.addClass('on');
-      $(document).on('keydown.turn_off_popup_' + id, function (e) {
-        if ($popup.is('[aria-esc]')) {
-          if (e.keyCode == 27) {
-            e.preventDefault();
-            $popup.off();
-          }
-        }
-        if ('enterKey' in params) {
-          if (e.keyCode == 13) {
-            e.preventDefault();
-            $popup.find('[data-type="primary_button"]').click();
-          }
-        }
-      });
-      $body.addClass('no-scroll');
-    }
+		$popup.on = function () {
+			$popup.addClass('on');
+			$(document).on('keydown.turn_off_popup_' + id, function (e) {
+				if ($popup.is('[aria-esc]')) {
+					if (e.keyCode == 27) {
+						e.preventDefault();
+						$popup.off();
+					}
+				}
+				if ('enterKey' in params) {
+					if (e.keyCode == 13) {
+						e.preventDefault();
+						$popup.find('[data-type="primary_button"]').click();
+					}
+				}
+			});
+			$body.addClass('no-scroll');
+		}
 
-    $popup.off = function (isButtonClick) {
-      $popup.removeClass('on');
-      $(document).off('keydown.turn_off_popup_' + id);
-      $body.removeClass('no-scroll');
+		$popup.off = function (isButtonClick) {
+			$popup.removeClass('on');
+			$(document).off('keydown.turn_off_popup_' + id);
+			$body.removeClass('no-scroll');
 
-      // $popup.trigger('onEscape');
-      if ($popup.data('onEscape')) {
-        $popup.data('onEscape')(isButtonClick);
-      }
-    };
+			// $popup.trigger('onEscape');
+			if ($popup.data('onEscape')) {
+				$popup.data('onEscape')(isButtonClick);
+			}
+		};
 
-    return $popup;
-  }
+		return $popup;
+	}
 
-  /*
-    *
-      html: (* or url)
-        popup content
-    OR
-      url: (* or html)
-        url to load popup content
-      success:
-      always:
-      fail:
+	/*
+		*
+			html: (* or url)
+				popup content
+		OR
+			url: (* or html)
+				url to load popup content
+			success:
+			always:
+			fail:
 
-    esc: (true)
-      allow escape popup with click outside or 'esc' key
-    id: (popup_full)
-      id of popup.
-      if wanna show two popup, ids must different
-    z-index: (30)
-      z-index of popup
-    overlay: (transparent) 
-      transparent, gray
-    width: (none)
-      small, medium, large, maximum
-    onEscape:
-      handle on popup escape
-  */
-  function popupFull(params) {
-    if (typeof params === 'undefined' || !('url' in params || 'html' in params)) {
-      return;
-    }
+		esc: (true)
+			allow escape popup with click outside or 'esc' key
+		id: (popup_full)
+			id of popup.
+			if wanna show two popup, ids must different
+		z-index: (30)
+			z-index of popup
+		overlay: (transparent) 
+			transparent, gray
+		width: (none)
+			small, medium, large, maximum
+		onEscape:
+			handle on popup escape
+	*/
+	function popupFull(params) {
+		if (typeof params === 'undefined' || !('url' in params || 'html' in params)) {
+			return;
+		}
 
-    // Get popup
-    var popupParams = {};
-    popupParams.esc = !('esc' in params) || params.esc;
-    popupParams.id = 'id' in params ? params.id : 'popup_full';
-    popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
-    popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
-    popupParams['width'] = 'width' in params ? params['width'] : '';
+		// Get popup
+		var popupParams = {};
+		popupParams.esc = !('esc' in params) || params.esc;
+		popupParams.id = 'id' in params ? params.id : 'popup_full';
+		popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
+		popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
+		popupParams['width'] = 'width' in params ? params['width'] : '';
 
-    var $popup = getPopup(popupParams);
+		var $popup = getPopup(popupParams);
 
-    $popup.data('onEscape', params.onEscape);
+		$popup.data('onEscape', params.onEscape);
 
-    var $popupContent = $popup.find('.popup-content');
+		var $popupContent = $popup.find('.popup-content');
 
-    if ('html' in params) {
-      $popupContent.html(params.html);
+		if ('html' in params) {
+			$popupContent.html(params.html);
 
-      // Turn on popup    
-      $popup.on();
+			// Turn on popup    
+			$popup.on();
 
-      // Turn off popup
-      $popup.find('[aria-click="close-popup"]').on('click', function () {
-        $popup.off();
-      });
-    }
-    else {
-      // Url
-      $.ajax({
-        url: params.url,
-        dataType: 'JSON'
-      }).always(function () {
-        if ('always' in params) {
-          params['always']();
-        }
-      }).done(function (data) {
-        if (data.status == 0) {
-          $popupContent.html(data.result);
+			// Turn off popup
+			$popup.find('[aria-click="close-popup"]').on('click', function () {
+				$popup.off();
+			});
+		}
+		else {
+			// Url
+			$.ajax({
+				url: params.url,
+				dataType: 'JSON'
+			}).always(function () {
+				if ('always' in params) {
+					params['always']();
+				}
+			}).done(function (data) {
+				if (data.status == 0) {
+					$popupContent.html(data.result);
 
-          // Turn on popup    
-          $popup.on();
+					// Turn on popup    
+					$popup.on();
 
-          // Turn off popup
-          $popup.find('[aria-click="close-popup"]').on('click', function () {
-            $popup.off();
-          });
+					// Turn off popup
+					$popup.find('[aria-click="close-popup"]').on('click', function () {
+						$popup.off();
+					});
 
-          if ('success' in params) {
-            params['success']($popup);
-          }
-        }
-        else {
-          $popup.remove();
+					if ('success' in params) {
+						params['success']($popup);
+					}
+				}
+				else {
+					$popup.remove();
 
-          if ('fail' in params) {
-            params['fail']();
-          }
-        }
-      }).fail(function () {
-        $popup.remove();
+					if ('fail' in params) {
+						params['fail']();
+					}
+				}
+			}).fail(function () {
+				$popup.remove();
 
-        if ('fail' in params) {
-          params['fail']();
-        }
-      });
-    }
+				if ('fail' in params) {
+					params['fail']();
+				}
+			});
+		}
 
-    return $popup;
-  }
+		return $popup;
+	}
 
-  /*
-  	title:
-  		title of popup
-  	content:
-  		content of popup
-  	type: (default)
-  		type of popup
-  	buttons: (escape button - default - Close)
-  		array of button
-  			text: (Button)
-  				text of button
-  			type: (default)
-  				type of button
-  			handle: (close popup)
-  				handle on click button
-  				return false if want prevent close
-  	esc: (true)
-  		allow escape popup with click outside or 'esc' key
-    overlay: (transparent)
-      transparent, gray
-  	id: (popup_prompt)
-  		id of popup.
-  		if wanna show two popup, ids must different
-  	z-index: (31)
-  		z-index of popup
-  	onEscape:
-  		handle on popup escape
+	/*
+		title:
+			title of popup
+		content:
+			content of popup
+		type: (default)
+			type of popup
+		buttons: (escape button - default - Close)
+			array of button
+				text: (Button)
+					text of button
+				type: (default)
+					type of button
+				handle: (close popup)
+					handle on click button
+					return false if want prevent close
+		esc: (true)
+			allow escape popup with click outside or 'esc' key
+		overlay: (transparent)
+			transparent, gray
+		id: (popup_prompt)
+			id of popup.
+			if wanna show two popup, ids must different
+		z-index: (31)
+			z-index of popup
+		onEscape:
+			handle on popup escape
 
-  */
-  function popupPrompt(params) {
-    if (typeof params === 'undefined') {
-      params = {};
-    }
+	*/
+	function popupPrompt(params) {
+		if (typeof params === 'undefined') {
+			params = {};
+		}
 
-    // Get popup
+		// Get popup
 
-    var popupParams = { enterKey: true };
-    popupParams.esc = !('esc' in params) || params.esc;
-    popupParams.id = 'id' in params ? params.id : 'popup_prompt';
-    popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '31';
-    popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
+		var popupParams = { enterKey: true };
+		popupParams.esc = !('esc' in params) || params.esc;
+		popupParams.id = 'id' in params ? params.id : 'popup_prompt';
+		popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '31';
+		popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
 
-    var $popup = getPopup(popupParams);
+		var $popup = getPopup(popupParams);
 
-    $popup.data('onEscape', params.onEscape);
+		$popup.data('onEscape', params.onEscape);
 
-    // Get popup content
+		// Get popup content
 
-    var $popupContent = $popup.find('.popup-content');
+		var $popupContent = $popup.find('.popup-content');
 
-    $popupContent.css({
-        width: 'auto',
-        height: 'auto'
-    });
+		$popupContent.css({
+				width: 'auto',
+				height: 'auto'
+		});
 
-    var 
-    	type = 'type' in params ? params.type : 'default',
-    	title = 'title' in params ? params.title : null,
-    	content = 'content' in params ? params.content : null,
-    	buttons = 'buttons' in params ? params.buttons : null;
+		var 
+			type = 'type' in params ? params.type : 'default',
+			title = 'title' in params ? params.title : null,
+			content = 'content' in params ? params.content : null,
+			buttons = 'buttons' in params ? params.buttons : null;
 
-    var $box = $('<article class="box box-' + type + ' margin-0"></article>');
+		var $box = $('<article class="box box-' + type + ' margin-0"></article>');
 
-    $popupContent.html($box);
+		$popupContent.html($box);
 
-    // Popup title
-    if (title) {
-    	$box.append('<section class="box-header with-border"><h2 class="box-title">' + title + '</h2></section>');
-    }
+		// Popup title
+		if (title) {
+			$box.append('<section class="box-header with-border"><h2 class="box-title">' + title + '</h2></section>');
+		}
 
-    // Popup content
-    if (content) {
-    	$box.append('<section class="box-body">' + content + '</section>');
-    }
+		// Popup content
+		if (content) {
+			$box.append('<section class="box-body">' + content + '</section>');
+		}
 
-    // Popup buttons
+		// Popup buttons
 
-    var $buttonContainter = $('<section class="box-footer text-center"></section>');
-    $box.append($buttonContainter);
+		var $buttonContainter = $('<section class="box-footer text-center"></section>');
+		$box.append($buttonContainter);
 
-    if (buttons) {
-    	$(buttons).each(function () {
-    		var 
-    			button = this,
-    			text = 'text' in button ? button.text : 'Button',
-    			type = 'type' in button ? button.type : 'default',
-    			handle = 'handle' in button ? button.handle : null;
+		if (buttons) {
+			$(buttons).each(function () {
+				var 
+					button = this,
+					text = 'text' in button ? button.text : 'Button',
+					type = 'type' in button ? button.type : 'default',
+					handle = 'handle' in button ? button.handle : null;
 
-      	var $button = $('<button class="btn btn-flat btn-' + type + ' margin-5" ' + (button.primaryButton ? 'data-type="primary_button"' : '') + '>' + text + '</button>');
+				var $button = $('<button class="btn btn-flat btn-' + type + ' margin-5" ' + (button.primaryButton ? 'data-type="primary_button"' : '') + '>' + text + '</button>');
 
-        $button.on('click', function () {
-          if (handle) {
-            if (handle() == false) {
-              return;
-            }
-          }
-          $popup.off($(this));
-        });
+				$button.on('click', function () {
+					if (handle) {
+						if (handle() == false) {
+							return;
+						}
+					}
+					$popup.off($(this));
+				});
 
-      	$buttonContainter.append($button);
-    	});
-    }
-    else {
-      var $button = $('<button type="button" class="btn btn-flat btn-default margin-5">' + _t.form.close + '</button>');
+				$buttonContainter.append($button);
+			});
+		}
+		else {
+			var $button = $('<button type="button" class="btn btn-flat btn-default margin-5">' + _t.form.close + '</button>');
 
-      $button.on('click', function () {
-        $popup.off($(this));
-      });
+			$button.on('click', function () {
+				$popup.off($(this));
+			});
 
-      $buttonContainter.append($button);
-    }
+			$buttonContainter.append($button);
+		}
 
-    // Turn on popup    
-    $popup.on();
+		// Turn on popup    
+		$popup.on();
 
-    // Turn off popup
-    $popup.find('[aria-click="close-popup"]').on('click', function () {
-      $popup.off();
-    });
-  }
+		// Turn off popup
+		$popup.find('[aria-click="close-popup"]').on('click', function () {
+			$popup.off();
+		});
+	}
 
-  function errorPopup() {
-    popupPrompt({
-      title: _t.form.error_title,
-      type: 'danger',
-      content: _t.form.error_content
-    });
-  }
+	function errorPopup() {
+		popupPrompt({
+			title: _t.form.error_title,
+			type: 'danger',
+			content: _t.form.error_content
+		});
+	}
 
 /* 
 	/ Popup 
