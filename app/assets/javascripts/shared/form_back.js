@@ -1017,7 +1017,7 @@ function initForm($form, params) {
 										value['url'] = '/assets/file_extensions/' + ext + '.png';
 									}
 								}
-								$item.html($fileUpload.data('input') + '<section class="image" title="' + value['file_name'] + '"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" onError="this.src=\'/assets/file_extensions/file.png\'" src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+								$item.html($fileUpload.data('input') + '<section class="image" title="' + (value['file_name'] || '') + '"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" onError="this.src=\'/assets/file_extensions/file.png\'" src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
 								$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
 
 								// Avatar

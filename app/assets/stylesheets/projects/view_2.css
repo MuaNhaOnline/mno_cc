@@ -2,9 +2,7 @@ body {
 	background-color: #f5f5f5;
 }
 
-/*
-	Side bar
-*/
+/* Side bar */
 
 	.side-bar {
 		height: 100%;
@@ -34,13 +32,9 @@ body {
 				color: #fff;
 			}
 
-/*
-	/ Side bar
-*/
+/* / Side bar */
 
-/*
-	Content panel
-*/
+/* Content panel */
 
 	.content-panel {
 		height: 100%;
@@ -65,9 +59,7 @@ body {
 				padding: 10px;
 			}
 
-	/*
-		Utilities
-	*/
+	/* Utilities */
 
 		.content-panel .utilities {
 			padding: 20px;
@@ -126,35 +118,31 @@ body {
 						text-align: justify;
 					}
 
-	/*
-		/ Utilities
-	*/
+	/* / Utilities */
 
-	/*
-		Ground
-	*/
+	/* Interact image */
 
-		.ground-description {
+		.interact-image {
 		}
 
-			.ground-description .image-panel {
+			.interact-image .image-panel {
 				height: 80vh;
 				background-color: #fff;
 				border: 1px solid #eee;
 				position: relative;
 			}
 
-				.ground-description .image-panel svg {
+				.interact-image .image-panel svg {
 					height: 100%;
 					width: 100%;
 				}
 
-				.ground-description .image-panel .button-in-panel a {
+				.interact-image .image-panel .button-in-panel a {
 					color: #aaa;
 					text-decoration: none;
 				}
 
-					.ground-description .image-panel .button-in-panel a:hover {
+					.interact-image .image-panel .button-in-panel a:hover {
 						color: #0089cc;
 					}
 
@@ -162,13 +150,13 @@ body {
 					Info
 				*/
 
-					.ground-description .image-panel .info-button {
+					.interact-image .image-panel .info-button {
 						position: absolute;
 						top: 10px;
 						right: 10px;
 					}
 
-					.ground-description .info-panel {
+					.interact-image .info-panel {
 						position: absolute;
 						top: 0;
 						right: 0;
@@ -176,7 +164,7 @@ body {
 						max-width: 90%;
 						height: 100%;
 						background-color: #fafafa;
-						border-left: 1px solid #eee;
+						border: 10px solid #eee;
 						padding: 15px;
 						overflow-y: auto;
 						transform-origin: calc(100% - 15px) 15px;
@@ -185,11 +173,53 @@ body {
 						opacity: 0;
 					}
 
-						.ground-description .info-panel.active {
+						.interact-image .info-panel.active {
 							transform: scale(1);
 							opacity: 1;
 						}
 
+					/*
+						General
+					*/
+
+						.interact-image .info-panel .title {
+							display: inline-block;
+							margin: 0;
+							margin-bottom: 20px;
+							font-size: 20px;
+							padding: 0 30px 5px 10px;
+							border-bottom: 2px solid #08c;
+						}
+
+							.interact-image .info-panel .title .sub {
+								display: block;
+								font-size: 13px;
+								margin-top: 5px;
+							}
+
+						.interact-image .info-panel a.link {
+							color: #333;
+							font-weight: bold;
+						}
+
+						.interact-image .info-panel .info {
+							margin-bottom: 5px;
+						}
+
+						.interact-image .info-panel ul {
+							padding-left: 20px;
+							list-style: none;
+						}
+
+						.interact-image .info-panel li {
+						}
+
+							.interact-image .info-panel li .text {
+							}
+
+					/*
+						/ General
+					*/
 				/*
 					/ Info
 				*/
@@ -208,26 +238,26 @@ body {
 					/ Back button
 				*/
 
-			.ground-description .images-list {
+			.interact-image .images-list {
 				text-align: center;
 			}
-				.ground-description .images-list ul {
+				.interact-image .images-list ul {
 					padding: 0;
 					margin: 0;
 					list-style: none;
 				}
 
-				.ground-description .images-list li {
+				.interact-image .images-list li {
 					display: inline-block;
 				}
 
-				.ground-description .images-list a {
+				.interact-image .images-list a {
 					display: block;
 					cursor: pointer;
 					padding: 10px 5px;
 				}
 
-				.ground-description .images-list span {
+				.interact-image .images-list span {
 					display: block;
 					width: 16px;
 					height: 16px;
@@ -238,23 +268,19 @@ body {
 					transition: .5s;
 				}
 
-					.ground-description .images-list li a:hover span{
+					.interact-image .images-list li a:hover span{
 						transform: none;
 						border-color: #0089cc;
 					}
 
-					.ground-description .images-list li.active span {
+					.interact-image .images-list li.active span {
 						transform: none;
 						border: 2px solid #0089cc;
 					}
 
-	/*
-		/ Ground
-	*/
+	/* / Interact image */
 
-	/*
-		Real-estate group list
-	*/
+	/* Real-estate group list */
 
 		.re-group-list {
 			
@@ -311,13 +337,9 @@ body {
 					text-align: right;
 				}
 
-	/*
-		/ Real-estate group list
-	*/
+	/* / Real-estate group list */
 
-	/*
-		Payment method
-	*/
+	/* Payment method */
 
 		.payment_method {
 			
@@ -344,10 +366,6 @@ body {
 					margin-right: 5px;
 				}
 
-	/*
-		/ Payment method
-	*/
+	/* / Payment method */
 
-/*
-	/ Content panel
-*/
+/* / Content panel */

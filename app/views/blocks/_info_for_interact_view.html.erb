@@ -4,20 +4,44 @@
 =end
 %>
 
-Danh sách sản phẩm
-<ul>
-	<% @block.real_estate_groups.each do |group| %>
-		<li>
-			<a aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a>
-		</li>
-	<% end %>
-</ul>
+<h3 class="title">
+	<%= @block.name %>
+</h3>
 
-Danh sách mặt cắt
-<ul>
-	<% @block.floors.each do |floor| %>
-		<li>
-			<a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a>
-		</li>
-	<% end %>
-</ul>
+<section class="info">
+	Block gồm
+	<ul>
+		<% @block.real_estate_groups.each do |group| %>
+			<%
+				available_count = 0
+				count = 0
+				group.real_estates.each do |re|
+					available_count += re.available_in_floors.count
+					count += re.in_floors.count
+				end
+			%>
+			<li>
+				<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+			</li>
+		<% end %>
+	</ul>
+</section>
+
+<section class="info">
+	Cấu trúc
+	<ul>
+		<% @block.floors.each do |floor| %>
+			<%
+				available_count = 0
+				count = 0
+				floor.real_estates.each do |re|
+					available_count += re.available_in_floors.count
+					count += re.in_floors.count
+				end
+			%>
+			<li>
+				Tầng <%= floor.floors_text %>: <a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+			</li>
+		<% end %>
+	</ul>
+</section>

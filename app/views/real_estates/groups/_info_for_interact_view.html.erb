@@ -2,13 +2,19 @@
 =begin
 	params: @group
 =end
-%> 
+%>
 
-Các sản phẩm
-<ul>
-	<% @group.real_estates.each do |re| %>
-		<li>
-			<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'group' }.to_json %>"><%= re.label %></a>
-		</li>
-	<% end %>
-</ul>
+<h3 class="title">
+	<%= @group.name %>
+</h3>
+
+<section class="info">
+	Sản phẩm
+	<ul>
+		<% @group.real_estates.each do |re| %>
+			<li>
+				<a class="link" aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'group' }.to_json %>"><%= re.label %></a> <small><b>(<%= re.available_in_floors.count %>/<%= re.in_floors.count %>)</b></small>
+			</li>
+		<% end %>
+	</ul>
+</section>

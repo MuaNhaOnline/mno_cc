@@ -44,6 +44,7 @@ class RealEstate < ActiveRecord::Base
 			class_name: 'AppraisalCompany'
 		has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
 		has_many :in_floors, class_name: 'FloorRealEstate', dependent: :destroy
+		has_many :available_in_floors, -> { where('floor_real_estates.status <> \'sold\'') }, class_name: 'FloorRealEstate'
 
 		has_and_belongs_to_many :property_utilities
 		has_and_belongs_to_many :region_utilities
@@ -509,7 +510,7 @@ class RealEstate < ActiveRecord::Base
 
 				re.floor_infos_text.each do |_info|
 					_parseFloors(_info['floors']).each do |_floor_number|
-						_floor_info = FloorRealEstate.new
+						_floor_info = FloorRealEstate.new status: 'available'
 
 						_floor_info.label = re.label.gsub('{f}', _floor_number.to_s)
 						_floor_info.floor = _floor_number

@@ -9,6 +9,10 @@ module ApplicationHelper
 		"<a href='#{file[:url]}' download><img src='#{img_src}' onerror='this.src=\"/assets/file_extensions/file.png\"' /><span>#{file[:description] || ''}</span></a>".html_safe
 	end
 
+	def display_decimal number
+		'%g' % ('%.2f' % number)
+	end
+
 	def self.format_i string
 		begin
 			string.remove(/\D/)

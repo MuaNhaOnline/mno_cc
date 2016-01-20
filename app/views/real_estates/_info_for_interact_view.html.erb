@@ -2,13 +2,31 @@
 =begin
 	params: @re
 =end
-%> 
+%>
+
+<h3 class="title">
+	<%= @re.block_group.name %>
+	<span class="sub">
+		<%= @re.label %>
+	</span>
+</h3>
+
+<section class="info">
+	Vị trí
+	<ul>
+		<% @re.in_floors.each do |floor_re| %>
+			<li>
+				Tầng <%= floor_re.floor %> <small><b>(<%= floor_re.status == 'sold' ? 'Đã bán' : number_with_delimiter(display_decimal(floor_re.sell_price.present? ? floor_re.sell_price : floor_re.rent_price)) %>)</b></small>
+			</li>
+		<% end %>
+	</ul>
+</section>
 
 <% case params[:from] %>
 <% when 'group' %>
 	Các sản phẩm cùng nhóm
 	<ul>
-		<% RealEstate.where(block_real_estate_group_id: @re.block_real_estate_group_id).where("id <> #{@re.id}").each do |re| %>
+		<% @re.block_group.real_estates.where("id <> #{@re.id}").each do |re| %>
 			<li>
 				<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'group' }.to_json %>"><%= re.label %></a>
 			</li>
@@ -17,7 +35,7 @@
 <% when 'surface' %>
 	Các sản phẩm cùng mặt cắt
 	<ul>
-		<% RealEstate.where(block_floor_id: @re.block_floor_id).where("id <> #{@re.id}").each do |re| %>
+		<% @re.block_floor.real_estates.where("id <> #{@re.id}").each do |re| %>
 			<li>
 				<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'surface' }.to_json %>"><%= re.label %></a>
 			</li>
