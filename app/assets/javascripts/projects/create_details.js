@@ -2114,63 +2114,37 @@ $(function () {
 				$object.on('contextmenu', function (e) {
 					e.preventDefault();
 
-					var $contextMenu = $('<article class="context-menu-container" style="top: ' + e.pageY + 'px; left: ' + e.pageX + 'px"></article>');
-					$contextMenu.html(
-						'<ul>' +
-							'<li>' +
-								'<a aria-click="description">' +
-									'Mô tả' +
-								'</a>' +
-							'</li>' +
-							'<li>' +
-								'<a aria-click="delete">' +
-									'Xóa' +
-								'</a>' +
-							'</li>' +
-						'</ul>'
-					);
-
-					// Description
-
-						$contextMenu.find('[aria-click="description"]').on('click', function () {
-							openSelectDescription({
-								save: function (data) {
-									$object.data('description', data);
-									if ($.isEmptyObject(data)) {
-										$object.css('fill', 'rgba(255, 255, 255, .3)');
-									}
-									else {
-										$object.css('fill', 'rgba(0, 166, 91, .3)');
-									}
-								},
-								description: $object.data('description')
-							});
-						});
-
-					// / Description
-
-					// Delete
-
-						$contextMenu.find('[aria-click="delete"]').on('click', function () {
-							$object.data('remove_method')();
-						});
-
-					// / Delete
-
-					$body.append($contextMenu);
-
-					$document.click().on({
-						'click.context-menu': function () {
-							$contextMenu.remove();
-							$document.off('.context-menu');
+					_contextMenu({
+						position: {
+							x: e.pageX,
+							y: e.pageY
 						},
-						'keydown.context-menu': function (e) {
-							if (e.keyCode == 27) {
-								$contextMenu.remove();
-								$document.off('.context-menu');	
+						items: [
+							{
+								text: 'Mô tả',
+								handler: function () {
+									openSelectDescription({
+										save: function (data) {
+											$object.data('description', data);
+											if ($.isEmptyObject(data)) {
+												$object.css('fill', 'rgba(255, 255, 255, .3)');
+											}
+											else {
+												$object.css('fill', 'rgba(0, 166, 91, .3)');
+											}
+										},
+										description: $object.data('description')
+									});
+								}
+							},
+							{
+								text: 'Xóa',
+								handler: function () {
+									$object.data('remove_method')();
+								}
 							}
-						}
-					});
+						]
+					})
 				})
 			}
 

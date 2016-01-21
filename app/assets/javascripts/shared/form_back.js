@@ -361,7 +361,7 @@ function initForm($form, params) {
 								}
 
 								// Event click to control
-								$item.on('click', function (e) {
+								$item.on('click contextmenu', function (e) {
 									e.preventDefault();
 
 									if (ordering) {
@@ -852,19 +852,21 @@ function initForm($form, params) {
 
 				// Create html
 
-				var $wrapper = $('<label class="file-uploader form-control"></label>');
-				var $label = $('<div class="file-upload-label"><div class="fa fa-file-o"></div><div>' + _t.form.label_image_upload + '</div></div>');
-				var $previewList = $('<div class="preview-list"></div>');
+					var $wrapper = $('<label class="file-uploader form-control"></label>');
+					var $label = $('<div class="file-upload-label"><div class="fa fa-file-o"></div><div>' + _t.form.label_image_upload + '</div></div>');
+					var $previewList = $('<div class="preview-list"></div>');
 
-				if ($fileUpload.is('[multiple]')) {
-					$previewList.html('<div class="add-button" style="' + (dimension ? ('width: ' + dimension.width + 'px; height: ' + dimension.height + 'px; ') : '') + '"><span class="fa fa-plus"></span></div>');
-				}
+					if ($fileUpload.is('[multiple]')) {
+						$previewList.html('<div class="add-button" style="' + (dimension ? ('width: ' + dimension.width + 'px; height: ' + dimension.height + 'px; ') : '') + '"><span class="fa fa-plus"></span></div>');
+					}
 
-				$fileUpload.after($wrapper);
-				$fileUpload.appendTo($wrapper);
-				$label.appendTo($wrapper);
-				$previewList.appendTo($wrapper);
-				$wrapper.append('<div class="alert-text" style="display: none;">asdfasdfds</div>')
+					$fileUpload.after($wrapper);
+					$fileUpload.appendTo($wrapper);
+					$label.appendTo($wrapper);
+					$previewList.appendTo($wrapper);
+					$wrapper.append('<div class="alert-text" style="display: none;">asdfasdfds</div>')
+
+				// Create html
 
 				// Drop event
 
@@ -890,9 +892,7 @@ function initForm($form, params) {
 
 				// / Drop event
 
-				/*
-					Create order button
-				*/
+				// Create order button
 
 					if (hasOrder) {
 						var 
@@ -965,9 +965,7 @@ function initForm($form, params) {
 						})
 					}
 
-				/*
-					/ Create order button
-				*/
+				// / Create order button
 
 				var constraint = $fileUpload.attr('data-constraint');
 				constraint = constraint ? 'data-constraint="' + constraint + '"' : '';
@@ -996,7 +994,6 @@ function initForm($form, params) {
 				$fileUpload.trigger('nameChanged');
 
 				// Init value
-
 				$fileUpload.on({
 					'initValue': function () {
 						$previewList.children('.preview').remove();

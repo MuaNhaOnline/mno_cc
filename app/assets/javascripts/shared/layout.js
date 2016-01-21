@@ -33,9 +33,7 @@ $(function () {
 	});
 });
 
-/*
-	Helper
-*/
+// Helper
 
 	function isMobile() {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB10|IEMobile|Opera Mini|Touch/i.test(navigator.userAgent);
@@ -94,54 +92,48 @@ $(function () {
 		return false;
 	}
 
-/*
-	/ Helper
-*/
+// / Helper
 
-/*
-	Size
-*/
+// Size
 
-function initSize() {
-	_temp['resizing'] = null;
-	$window.on('resize', function () {
-		clearTimeout(_temp['resizing']);
-		_temp['resizing'] = setTimeout(function () {
-			var width = $(window).width(), widthType, oldWidthType = $body.data('width');
+	function initSize() {
+		_temp['resizing'] = null;
+		$window.on('resize', function () {
+			clearTimeout(_temp['resizing']);
+			_temp['resizing'] = setTimeout(function () {
+				var width = $(window).width(), widthType, oldWidthType = $body.data('width');
 
-			if (width >= 1200) {
-				widthType = 'lg';
-			}
-			else if (width >= 992) {
-				widthType = 'md';
-			}
-			else if (width >= 768) {
-				widthType = 'sm';
-			}
-			else {
-				widthType = 'xs';
-			}
+				if (width >= 1200) {
+					widthType = 'lg';
+				}
+				else if (width >= 992) {
+					widthType = 'md';
+				}
+				else if (width >= 768) {
+					widthType = 'sm';
+				}
+				else {
+					widthType = 'xs';
+				}
 
-			if (widthType == oldWidthType) {
-				return;
-			}
+				if (widthType == oldWidthType) {
+					return;
+				}
 
-			$body.data('width', widthType);
-			$.ajax({
-				url: '/set_width/' + widthType,
-				method: 'POST'
-			});
-		}, 500);
-	});
+				$body.data('width', widthType);
+				$.ajax({
+					url: '/set_width/' + widthType,
+					method: 'POST'
+				});
+			}, 500);
+		});
 
-	$window.isWidthType = function (arrayType) {
-		return arrayType.indexOf($body.data('width')) != -1;
+		$window.isWidthType = function (arrayType) {
+			return arrayType.indexOf($body.data('width')) != -1;
+		}
 	}
-}
 
-/*
-	/ Size
-*/
+// / Size
 
 // Track session
 
@@ -154,38 +146,35 @@ function initSize() {
 
 // / Track session
 
-/*
-	Pagination
-*/
+// Pagination
 
-/*
-	url(*)
-	data
-		data pass to url
-		{} or function return {}
-	list
-		list to display
-	pagination
-		pagination display
-	page(1)
-		page display
-	done
-		handle after load success
-		function(content, note)
-	fail
-		handle after load empty or fail
-		function()
-	init_list
-		function($list)
-	return find(findParams)
-		findParams:
-			url
-			data
-				data pass to find
-			use_last_data: bool
-			note
-*/
-
+	/*
+		url(*)
+		data
+			data pass to url
+			{} or function return {}
+		list
+			list to display
+		pagination
+			pagination display
+		page(1)
+			page display
+		done
+			handle after load success
+			function(content, note)
+		fail
+			handle after load empty or fail
+			function()
+		init_list
+			function($list)
+		return find(findParams)
+			findParams:
+				url
+				data
+					data pass to find
+				use_last_data: bool
+				note
+	*/
 	function _initPagination(params) {
 		// Check if have not params or url
 		if (typeof params === 'undefined' || typeof params.url === 'undefined') {
@@ -395,13 +384,9 @@ function initSize() {
 		})
 	}
 
-/*
-	/ Pagination
-*/
+// / Pagination
 
-/*
-	Read money
-*/
+// Read money
 
 	function read_money (number) {
 		var is_prev_block_empty = true;
@@ -678,13 +663,9 @@ function initSize() {
 		return text;
 	}
 
-/*
-	/ Read money
-*/
+// / Read money
 
-/*
-	Read time
-*/
+// Read time
 
 	function initReadTime($container) {
 		(typeof($container) == 'undefined' ? $('[aria-time]') : $container.find('[aria-time]')).each(function () {
@@ -843,13 +824,9 @@ function initSize() {
 		return result;
 	}
 
-/*
-	/ Read time
-*/
+// / Read time
 
-/*
-	Horizontal list scroll
-*/
+// Horizontal list scroll
 
 	function _initHorizontalListScroll($containers) {
 		$containers.each(function () {
@@ -915,13 +892,9 @@ function initSize() {
 		})
 	}
 	
-/*
-	/ Horizontal list scroll
-*/
+// / Horizontal list scroll
 
-/*
-	Ajax loadding
-*/
+// Ajax loadding
 
 	function _getAjaxLoadingFunction($element) {
 		if (typeof $element == 'undefined') {
@@ -996,13 +969,9 @@ function initSize() {
 		}
 	}
 	
-/*
-	/ Ajax loading
-*/
+// / Ajax loading
 
-/*
-	Tab container
-*/
+// Tab container
 
 	function _initTabContainer($containers) {
 		$containers.each(function () {
@@ -1039,9 +1008,7 @@ function initSize() {
 		});
 	}
 
-/*
-	/ Tab container
-*/
+// / Tab container
 
 // Gallery
 	
@@ -1260,3 +1227,62 @@ function initSize() {
 	}
 
 // / Gallery
+
+// Context menu
+
+	/*
+		params
+			position(*): {
+				x, y
+			}
+			items(*): [{
+				text, handler
+			}]
+	*/
+	function _contextMenu(params) {
+		if (typeof params == 'undefined' || !('items' in params)) {
+			return;
+		}
+		var 
+			$contextMenu = $('<article class="context-menu-container" style="top: ' + params['position']['y'] + 'px; left: ' + params['position']['x'] + 'px"></article>'),
+			$list = $('<ul></ul>');
+
+		$body.append($contextMenu);
+		$contextMenu.html($list);
+
+		// Create items
+		
+			$(params['items']).each(function () {
+				$item = $(
+					'<li>' +
+						'<a>' +
+							this.text +
+						'</a>' +
+					'</li>'
+				);
+
+				$item.on('click', this.handler);
+				$list.append($item);
+			});
+		
+		// / Create items
+	
+		// Events
+		
+			$document.click().on({
+				'click.context-menu': function () {
+					$contextMenu.remove();
+					$document.off('.context-menu');
+				},
+				'keydown.context-menu': function (e) {
+					if (e.keyCode == 27) {
+						$contextMenu.remove();
+						$document.off('.context-menu');	
+					}
+				}
+			});
+			
+		// / Events
+	}
+
+// / Context menu

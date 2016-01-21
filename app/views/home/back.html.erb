@@ -1,0 +1,391 @@
+
+
+		<article class="container-fluid">
+			<article class="row">
+
+				<!-- Side bar -->
+				
+					<section class="col-md-3 side-bar fixed hidden-sm hidden-xs" style="background-color: #08c">
+						<section class="logo" style="margin: 15px 0px;"></section>
+						<nav class="navigator">
+							<ul>
+								<li>
+									<a href="#">Giới thiệu</a>
+								</li>
+								<li>
+									<a href="#">Vị trí</a>
+								</li>
+								<li>
+									<a href="#">Tiện ích - Tính năng</a>
+								</li>
+								<li>
+									<a href="#">Mặt bằng tổng thể</a>
+								</li>
+								<li>
+									<a href="#">Sản phẩm</a>
+								</li>
+								<li>
+									<a href="#">Phương thức thanh toán</a>
+								</li>
+								<li>
+									<a href="#">Tiến độ</a>
+								</li>
+								<li>
+									<a href="#">Chủ đầu tư</a>
+								</li>
+								<li>
+									<a href="#">Liên hệ</a>
+								</li>
+							</ul>
+						</nav>
+					</section>
+				
+				<!-- / Side bar -->
+
+				<!-- Content -->
+				
+					<section class="col-md-9 col-md-offset-3 content-panel">
+
+						<!-- Description -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Giới thiệu
+									</h2>
+								</section>
+								<section class="box-body">
+									<p>
+										<%= @project.display_description %>
+									</p>
+								</section>
+							</article>
+						
+						<!-- / Description -->
+
+						<!-- Position -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Vị trí
+									</h2>
+								</section>
+								<section class="box-body">
+									<p>
+										<span style="background-color: #666; color: #fff; padding: 5px 10px;"><span class="fa fa-map-marker fa-lg margin-right-5"></span> <b>Địa chỉ</b></span> <%= @project.display_address %>
+									</p>
+									<p>
+										<article id="map" style="height: 50vh" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>"></article>
+									</p>
+									<p>
+										<%= @project.display_position_description %>
+									</p>
+								</section>
+							</article>
+						
+						<!-- / Position -->
+							
+						<!-- Utilities -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Tiện ích - Tính năng
+									</h2>
+								</section>
+								<section class="box-body">
+									<article class="utilities row">
+										<% @project.utilities.each do |utility| %>
+											<%
+												gallery_data = {
+													data: {
+														images: []
+													}
+												}
+												utility.images.each do |image_info|
+													gallery_data[:data][:images] << {
+														thumb: image_info.image.url('thumb'),
+														original: image_info.image.url
+													}
+												end
+											%>
+											<article class="col-md-4 col-ss-6 col-xs-12">
+												<article class="item" data-gallery="<%= gallery_data.to_json %>">
+													<section class="icon">
+														<span class="fa fa-leaf" style="color: #08c;"></span>
+													</section>
+													<section class="content">
+														<section class="title">
+															<%= utility.title %>
+														</section>
+														<section class="description">
+															<%= utility.description %>
+														</section>
+													</section>
+												</article>
+											</article>
+										<% end %>
+									</article>
+								</section>
+							</article>
+						
+						<!-- / Utilities -->
+							
+						<!-- Ground -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Mặt bằng tổng thể
+									</h2>
+								</section>
+								<section class="box-body">
+									<article id="ground_interact" class="ground-description interact-image">
+										<section class="image-panel">
+											<svg>
+												<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+												<g>
+													<g aria-object="g">
+													</g>
+												</g>
+											</svg>
+											<article class="info-button button-in-panel">
+												<a class="fa fa-info fa-fw fa-lg" title="Thông tin" aria-click="active_info_panel"></a>
+											</article>
+											<article class="back-button button-in-panel">
+												<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
+											</article>
+											<section aria-object="info-panel-interact" class="info-panel">
+												<article class="content">
+													
+												</article>
+											</section>
+										</section>
+										<section class="images-list">
+											<ul aria-object="image-list">
+											</ul>
+										</section>
+									</article>
+								</section>
+							</article>
+						
+						<!-- / Ground -->
+						
+						<!-- Products -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Sản phẩm
+									</h2>
+								</section>
+								<section  class="box-body" id="products_container">
+
+									<%
+										# Get all real-estate type in project
+										# If types > 1 => Using tab else not
+										types = []
+										groups_by_type = {}
+										# Get all types
+											@project.blocks.each do |block|
+												block.real_estate_groups.each do |group|
+													# If not exist create new and 
+													unless types.include? group.real_estate_type_id
+														types << group.real_estate_type_id
+														groups_by_type[group.real_estate_type_id] = []
+													end
+
+													# Add group to
+													groups_by_type[group.real_estate_type_id] << group
+												end
+											end
+										# / Get all types
+										types = RealEstateType.find(types)
+									%>
+									
+									<% if true #types.count > 1 %>
+										<article class="free-style-tab-container">
+											<section class="tab-list horizontal-list-container text-left">
+												<ul class="horizontal-list">
+
+													<!-- Show all types -->
+													
+														<% types.each do |type| %>
+
+															<li class="horizontal-item" aria-name="<%= type.name %>">
+																<a href="javascript:void(0)" aria-click="change_tab"><%= t "real_estate_type.text.#{type.name}" %></a>
+															</li>
+
+														<% end %>
+													
+													<!-- / Show all types -->
+
+												</ul>
+											</section>
+											<section class="tab-content-list re-group-list">
+
+												<!-- Show all real-estate of each type -->
+											
+													<% types.each do |type| %>
+
+														<article class="tab-content row" aria-name="<%= type.name %>">
+
+															<% groups_by_type[type.id].each do |group| %>
+
+																<%
+																	available_count = 0
+																	count = 0
+																	group.real_estates.each do |re|
+																		available_count += re.available_in_floors.count
+																		count += re.in_floors.count
+																	end
+																%>
+
+																<article class="col-md-4 col-ss-6 item-container" data-value="<%= group.id %>">
+																	<article class="item">
+																		<section class="image">
+																			<%= block_real_estate_group_avatar group %>
+																		</section>
+																		<section class="content">
+																			<h3 class="title"><%= group.name %></h3>
+																			<section class="properties">
+																				<% if group.bedroom_number.present? %>
+																					<section class="node">
+																						<span class="text">Phòng ngủ</span><span class="value"><%= group.bedroom_number %></span>
+																					</section>
+																				<% end %>
+																				<% if group.restroom_number.present? %>
+																					<section class="node">
+																						<span class="text">Phòng vệ sinh</span><span class="value"><%= group.restroom_number %></span>
+																					</section>
+																				<% end %>
+																				<% if group.area.present? %>
+																					<section class="node">
+																						<span class="text">Diện tích</span><span class="value"><%= display_decimal group.area %>m<sup>2</sup></span>
+																					</section>
+																				<% end %>
+																			</section>
+																		</section>
+																		<section class="footer">
+																			Còn <b><%= available_count %>/<%= count %></b>
+																		</section>
+																	</article>
+																</article>
+															<% end %>
+
+														</article>
+
+													<% end %>
+											
+												<!-- / Show all real-estate of each type -->
+
+											</section>
+										</article>
+									<% end %>
+								</section>
+							</article>
+
+							<article id="product_interact" class="product-description interact-image" style="display: none;">
+								<section class="arrow"></section>
+								<section class="image-panel">
+									<svg>
+										<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+										<g>
+											<g aria-object="g">
+											</g>
+										</g>
+									</svg>
+									<article class="info-button button-in-panel">
+										<a class="fa fa-info fa-fw fa-lg" title="Thông tin" aria-click="active_info_panel"></a>
+									</article>
+									<article class="back-button button-in-panel">
+										<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
+									</article>
+									<section aria-object="info-panel-interact" class="info-panel">
+										<article class="content">
+											
+										</article>
+									</section>
+								</section>
+								<section class="images-list">
+									<ul aria-object="image-list">
+									</ul>
+								</section>
+							</article>
+						
+						<!-- / Products -->
+
+						<!-- Payment method -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Phương thức thanh toán
+									</h2>
+								</section>
+								<section class="box-body payment_method">
+									<section class="description">
+										<%= @project.display_payment_method %>
+									</section>
+									<section class="attachments">
+										<h3 class="title">Tập tin đính kèm</h3>
+										<% @project.payment_attachments.each do |attachment| %>
+											<article class="item">
+												<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
+											</article>
+										<% end %>
+									</section>
+								</section>
+							</article>
+						
+						<!-- / Payment method -->
+
+						<!-- Progress -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Tiến độ
+									</h2>
+								</section>
+								<section class="box-body">
+								</section>
+							</article>
+						
+						<!-- / Progress -->
+
+						<!-- Investor -->
+							
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Chủ đầu tư
+									</h2>
+								</section>
+								<section class="box-body">
+								</section>
+							</article>
+
+						<!-- / Investor -->
+
+						<!-- Contact -->
+						
+							<article class="box">
+								<section class="box-header">
+									<h2 class="box-title">
+										Liên hệ
+									</h2>
+								</section>
+								<section class="box-body">
+								</section>
+							</article>
+						
+						<!-- / Contact -->
+										
+					</section>
+				
+				<!-- / Content -->
+
+			</article>
+		</article>

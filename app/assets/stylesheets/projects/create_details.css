@@ -1,10 +1,6 @@
-/*
-	Design panel
-*/
+/* Design panel */
 
-	/*
-		Select panel
-	*/
+	/* Select panel */
 
 		.select-description-container {
 			position: absolute;
@@ -56,9 +52,7 @@
 						border-bottom-color: #3c8dbc;
 					}
 
-	/*
-		/ Select panel
-	*/
+	/* / Select panel */
 
 	.create-details-container {
 		background-color: #f5f5f5;
@@ -76,9 +70,7 @@
 			display: block;
 		}
 
-		/*
-			Items
-		*/
+		/* Items */
 
 			.create-details-container .images-container {
 				position: absolute;
@@ -124,13 +116,9 @@
 							height: 70px;
 						}
 
-		/*
-			/ Items
-		*/
+		/* / Items */
 
-		/*
-			Toolbox
-		*/
+		/* Toolbox */
 
 			.create-details-container .toolbox-container {
 				position: absolute;
@@ -184,13 +172,9 @@
 							color: #3c8dbc;
 						}
 
-		/*
-			/ Toolbox
-		*/
+		/* / Toolbox */
 
-		/*
-			View
-		*/
+		/* View */
 
 			.create-details-container .view-container {
 				position: absolute;
@@ -205,17 +189,11 @@
 					height: 100%;
 				}
 
-		/*
-			/ View
-		*/
+		/* / View */
 
-/*
-	/ Design panel
-*/
+/* / Design panel */
 
-/*
-	View panel
-*/
+/* View panel */
 
 	/*.view-part {
 		display: flex;
@@ -237,9 +215,7 @@
 			width: 100%;
 		}*/
 
-	/*
-		Block
-	*/
+	/* Block */
 
 		.block-list .item {
 			width: 250px;
@@ -260,13 +236,9 @@
 				left: calc(50% - 5px);
 			}
 
-	/*
-		/ Block
-	*/
+	/* / Block */
 
-	/*
-		Real-estate	
-	*/
+	/* Real-estate	 */
 
 		.real-estate-container {
 			border-top: 3px solid #3c8dbc !important;
@@ -274,10 +246,6 @@
 			margin-top: -11px;
 		}
 
-	/*
-		/ Real-estate	
-	*/
+	/* / Real-estate	 */
 
-/*
-	/ View panel
-*/
+/* / View panel */

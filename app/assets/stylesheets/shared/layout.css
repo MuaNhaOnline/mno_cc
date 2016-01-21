@@ -3,9 +3,7 @@
 	src: url('/assets/segoeui.ttf');
 }
 
-/*
-	Custom layout
-*/
+/* Custom layout */
 
 	.bg-light-gray {
 		background-color: #fafafa;
@@ -181,13 +179,9 @@
 		padding-right: 0;
 	}
 
-/*
-	/ Custom layout
-*/
+/* / Custom layout */
 
-/*
-	Tab container
-*/
+/* Tab container */
 	
 	.tab-container {
 		
@@ -267,13 +261,9 @@
 				}
 
 
-/*
-	/ Tab container
-*/
+/* / Tab container */
 
-/*
-	Tab container (Free style)
-*/
+/* Tab container (Free style) */
 	
 	.free-style-tab-container {
 		
@@ -331,13 +321,9 @@
 					display: block;
 				}
 
-/*
-	/ Tab container (Free style)
-*/
+/* / Tab container (Free style) */
 
-/*
-	Gallery
-*/
+/* Gallery */
 
 	.gallery-popup {
 		position: fixed;
@@ -428,6 +414,47 @@
 				color: #fff;
 			}
 
-/*
-	/ Gallery
-*/
+/* / Gallery */
+
+/* Context menu */
+
+	.context-menu-container {
+		position: absolute;
+		z-index: 30;
+	}
+
+		.context-menu-container ul {
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkitflex-direction: column;
+			min-width: 150px;
+			border: 3px solid #fff;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			background-color: #fff;
+			box-shadow: 5px 5px 10px rgba(0,0,0,.2);
+		}
+
+		.context-menu-container li {
+			border-bottom: 2px solid #eee;
+		}
+
+			.context-menu-container li:last-child {
+				border-bottom: none;
+			}
+
+		.context-menu-container a {
+			display: block;
+			padding: 5px 10px;
+			cursor: pointer;
+			color: #666;
+		}
+
+			.context-menu-container a:hover {
+				color: #333;
+				background-color: #fafafa;
+			}
+
+/* / Context menu */
