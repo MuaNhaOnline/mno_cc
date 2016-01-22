@@ -1,0 +1,17 @@
+<%
+=begin
+	params: @group
+=end
+%>
+
+<ul>
+	<li>
+		<a aria-click="interact" data-type="project" data-value="<%= @group.block.project.id %>"><%= @group.block.project.project_name %></a>
+	</li>
+	<li>
+		<a aria-click="interact" data-type="block" data-value="<%= @group.block.id %>"><%= @group.block.name %></a>
+	</li>
+	<li>
+		<a><%= @group.name %></a>
+	</li>
+</ul>

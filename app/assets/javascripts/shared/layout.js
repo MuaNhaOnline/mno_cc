@@ -92,6 +92,42 @@ $(function () {
 		return false;
 	}
 
+	/*
+		params:
+			addBottom
+			addHeight
+			addTop
+	*/
+	function canSee($item, params) {
+		if ($item.length == 0) {
+			return false;
+		}
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
+		var 
+			topW = $window.scrollTop(),
+			heightW = window.innerHeight,
+			bottomW = topW + heightW,
+			topI = $item.offset().top + (params['addTop'] || 0),
+			heightI = $item.height() + (params['addHeight'] || 0),
+			bottomI = topI + heightI + (params['addBottom'] || 0);
+
+		if (heightW > heightI) {
+			if ((topW < topI && topI < bottomW) ||
+				(topW < bottomI && bottomI < bottomW)) {
+				return true;
+			}
+		}
+		else if ((topI < bottomW && bottomW < bottomI) ||
+			(topI < topW && topW < bottomI)) {
+			return true;
+		}
+
+		return false;
+	}
+
 // / Helper
 
 // Size

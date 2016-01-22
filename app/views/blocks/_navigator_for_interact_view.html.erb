@@ -1,0 +1,14 @@
+<%
+=begin
+	params: @block
+=end
+%>
+
+<ul>
+	<li>
+		<a aria-click="interact" data-type="project" data-value="<%= @block.project.id %>"><%= @block.project.project_name %></a>
+	</li>
+	<li>
+		<a><%= @block.name %></a>
+	</li>
+</ul>

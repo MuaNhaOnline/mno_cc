@@ -260,11 +260,18 @@ class ProjectsController < ApplicationController
 
 			# / Info
 
+			# Navigator
+			
+				navigator = render_to_string(partial: 'projects/navigator_for_interact_view')
+			
+			# / Navigator
+
 			render json: { 
 				status: 0, 
 				result: {
 					images: images,
-					info: info
+					info: info,
+					navigator: navigator
 				} 
 			}
 		end

@@ -1,0 +1,18 @@
+<%
+=begin
+	params: @floor
+=end
+%>
+
+
+<ul>
+	<li>
+		<a aria-click="interact" data-type="project" data-value="<%= @floor.block.project.id %>"><%= @floor.block.project.project_name %></a>
+	</li>
+	<li>
+		<a aria-click="interact" data-type="block" data-value="<%= @floor.block.id %>"><%= @floor.block.name %></a>
+	</li>
+	<li>
+		<a><%= @floor.name %></a>
+	</li>
+</ul>

@@ -390,12 +390,19 @@ class RealEstatesController < ApplicationController
 
 			# / Info
 
+			# Navigator
+			
+				navigator = render_to_string(partial: 'real_estates/groups/navigator_for_interact_view')
+			
+			# / Navigator
+
 			render json: { 
-				status: 0,
+				status: 0, 
 				result: {
 					images: images,
-					info: info
-				}
+					info: info,
+					navigator: navigator
+				} 
 			}
 		end
 
@@ -469,12 +476,19 @@ class RealEstatesController < ApplicationController
 
 			# / Info
 
+			# Navigator
+			
+				navigator = render_to_string(partial: 'real_estates/navigator_for_interact_view')
+			
+			# / Navigator
+
 			render json: { 
-				status: 0,
+				status: 0, 
 				result: {
 					images: images,
-					info: info
-				}
+					info: info,
+					navigator: navigator
+				} 
 			}
 		end
 

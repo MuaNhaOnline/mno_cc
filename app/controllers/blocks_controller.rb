@@ -192,15 +192,22 @@ class BlocksController < ApplicationController
 
 					# Info
 
-						info = render_to_string(partial: '/blocks/info_for_interact_view')
+						info = render_to_string(partial: 'blocks/info_for_interact_view')
 
 					# / Info
+
+					# Navigator
+					
+						navigator = render_to_string(partial: 'blocks/navigator_for_interact_view')
+					
+					# / Navigator
 
 					render json: { 
 						status: 0, 
 						result: {
 							images: images,
-							info: info
+							info: info,
+							navigator: navigator
 						} 
 					}
 				end
@@ -342,11 +349,18 @@ class BlocksController < ApplicationController
 
 				# / Info
 
+				# Navigator
+				
+					navigator = render_to_string(partial: 'blocks/floors/navigator_for_interact_view')
+				
+				# / Navigator
+
 				render json: { 
 					status: 0, 
 					result: {
 						images: images,
-						info: info
+						info: info,
+						navigator: navigator
 					} 
 				}
 			end

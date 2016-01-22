@@ -1,10 +1,132 @@
 var projectId;
 
 $(function () {
-	initMap('map');
+
 	_initTabContainer($('.free-style-tab-container'));
 
+	// Side bar
+	
+		(function () {
+			var 
+				lastScrollTop = $window.scrollTop(),
+				isScrolling = false,
+				$sideBar = $('#side_bar'),
+				$contentPanel = $('#content_panel'),
+				$focusingBox = [];
+
+			// Scroll
+			
+				$window.on('scroll', function () {
+					if (!isScrolling) {
+						scrollTop = $window.scrollTop();
+						// If (scroll down)
+						if (scrollTop > lastScrollTop) {
+							// If scroll down from cover
+							if (lastScrollTop < $window.height()) {
+								isScrolling = true;
+								$sideBar.addClass('bottom').removeClass('top');
+								$body.animate({
+									scrollTop: $window.height()
+								}, 200, function () {
+									isScrolling = false;
+									lastScrollTop = $window.height();
+								});
+							}
+						}
+						// Else (scroll up)
+						else {
+							// If scroll up from content to cover
+							if (scrollTop < $window.height()) {
+								isScrolling = true;
+								$sideBar.addClass('top').removeClass('bottom');
+								$body.animate({
+									scrollTop: 0
+								}, 200, function () {
+									isScrolling = false;
+									lastScrollTop = 0;
+									$focusingBox = [];
+									$sideBar.find('.navigator .active').removeClass('active');
+								});
+							}	
+						}
+					}
+				});
+
+				if ($window.scrollTop() < $window.height()) {
+					$sideBar.addClass('top').removeClass('bottom');
+				}
+				else {
+					$sideBar.addClass('bottom').removeClass('top');
+				}
+
+			// / Scroll
+
+			// Active content
+				
+				$sideBar.find('.navigator [aria-name]').on('click', function () {
+					$item = $(this);
+
+					$item.parent().addClass('active').siblings('.active').removeClass('active');
+
+					$focusingBox = $contentPanel.find('.box[aria-name="' + $item.attr('aria-name') + '"]');
+
+					isScrolling = true;
+					$sideBar.addClass('bottom').removeClass('top');
+					$body.animate({
+						scrollTop: $focusingBox.offset().top
+					}, 200, function () {
+						isScrolling = false;
+					});
+				});
+
+				$window.on('scroll', function () {
+					if (!isScrolling) {
+						// If focus nothing => read all
+						if ($focusingBox.length == 0) {
+							$contentPanel.find('.box[aria-name]').each(function () {
+								$box = $(this);
+								if (canSee($box)) {
+									$sideBar.find('.navigator [aria-name="' + $box.attr('aria-name') + '"]').parent().addClass('active');
+									$focusingBox = $box;
+									return false;
+								}
+							});
+						}
+						else {
+							scrollTop = $window.scrollTop();
+
+							$checkBox = scrollTop > lastScrollTop ? $focusingBox.next() : $focusingBox.prev();
+							if (canSee($checkBox)) {
+								$sideBar.find('.navigator .active').removeClass('active');
+								$sideBar.find('.navigator [aria-name="' + $checkBox.attr('aria-name') + '"]').parent().addClass('active');
+								$focusingBox = $checkBox;
+							}
+						}
+					}
+				});
+			
+			// / Active content
+
+			$window.on('scroll', function () {
+				lastScrollTop = $window.scrollTop();
+			});
+		})()
+	
+	// / Side bar
+
 	// Map
+
+		$map = $('#map');
+		initMap($map[0], {
+			markers: [
+				{
+					latLng: {
+						lat: $map.data('lat'),
+						lng: $map.data('long')
+					}
+				}
+			]
+		});
 
 		/*
 			params:
@@ -13,12 +135,15 @@ $(function () {
 					zoom: 17
 					center: {}
 						lat: first_market || 10.771528380460218
-						long: first_market || 106.69838659487618
-					markers: [{}]
-						lat: ...
-						long: ...
+						lng: first_market || 106.69838659487618
+					markers: [{
+						latLng: {
+							lat: ...
+							lng: ...
+						}
+					}]
 		*/
-		function initMap(id, params) {
+		function initMap(element, params) {
 			if (typeof params === 'undefined') {
 				params = {}
 			}
@@ -33,13 +158,13 @@ $(function () {
 				options.center = params.center
 			}
 			else if ('markers' in params && params.markers.length > 0) {
-				options.center = { lat: params.markers[0].latLng.lat, lng: params.markers[0].latLng.lng }
+				options.center = { lat: params.markers[0].latLng.lat, lng: params.markers[0].latLng.lng };
 			}
 			else {
 				options.center = { lat: 10.771528380460218, lng: 106.69838659487618 }; 
 			}
 
-			var map = new google.maps.Map(document.getElementById(id), options);
+			var map = new google.maps.Map(element, options);
 
 			$(params.markers).each(function () {
 				new google.maps.Marker({
@@ -49,7 +174,7 @@ $(function () {
 				});
 			})
 
-			$('#' + id).on({
+			$(element).on({
 				'focus, click': function () {
 					map.setOptions({'scrollwheel': true});
 				},
@@ -96,9 +221,9 @@ $(function () {
 					history = [],
 					$backButton = $container.find('[aria-click="back_to_prev"]'),
 					$infoButton = $container.find('[aria-click="active_info_panel"]'),
-					$infoPanel = $container.find('[aria-object="info-panel-interact"]');
-					$infoPanelContent = $infoPanel.find('.content');
-
+					$infoPanel = $container.find('[aria-object="info-panel-interact"]'),
+					$infoPanelContent = $infoPanel.find('.content'),
+					$navigatorPanel = $container.find('.navigator');
 
 				$pattern.attr('id', 'pattern' + (++interactImageCount));
 
@@ -111,6 +236,11 @@ $(function () {
 				var startInteractImage = function(type, id, params) {
 					if (typeof params == 'undefined') {
 						params = {}
+					}
+
+					if (params['reset']) {
+						history = [];
+						delete params['reset'];
 					}
 
 					// Get data
@@ -174,13 +304,14 @@ $(function () {
 
 					// / Create image list
 
-					// Create info
+					// Create info, navigator
 
 						$infoPanelContent.html(data.info);
+						$navigatorPanel.html(data.navigator);
 
 						// Events
 
-							$infoPanelContent.find('[aria-click="interact"]').on('click', function () {
+							$infoPanelContent.add($navigatorPanel).find('[aria-click="interact"]').on('click', function () {
 								$button = $(this);
 								params = {}
 								if ($button.data('data')) {
@@ -191,7 +322,7 @@ $(function () {
 
 						// / Events
 
-					// / Create info
+					// / Create info, navigator
 
 					if (!$infoPanel.hasClass('active')) {
 						$infoButton.click();
@@ -366,7 +497,7 @@ $(function () {
 	
 	// / Interact image
 
-	// Ground		
+	// Ground
 
 		startGroundInteract = initInteractImage($('#ground_interact'));
 		startGroundInteract('project', projectId);
@@ -404,7 +535,9 @@ $(function () {
 			
 			// Append product
 			
-				startProductInteract('real_estates/group', $item.data('value'));
+				startProductInteract('real_estates/group', $item.data('value'), {
+					reset: true
+				});
 				$beforeItem.after($productInteract.show());
 				// Calc arrow position
 				$arrow.css('left', $item.offset().left + ($item.width() / 2) + 2 - $productInteract.offset().left);
