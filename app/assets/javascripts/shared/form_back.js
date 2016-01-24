@@ -1583,7 +1583,7 @@ function initForm($form, params) {
 		$form.find('[aria-input-type="editor"]').each(function () {
 			var $input = $(this);
 
-			var extraPlugins = 'resize';
+			var extraPlugins = 'resize,autogrow';
 			extraPlugins += $input.data('editor-extra-plugins') || '';
 
 			CKEDITOR.replace(this.id, {
@@ -1600,6 +1600,12 @@ function initForm($form, params) {
 
 			ckeditor.on('blur', function () {
 				$input.change();
+			});
+		});
+
+		$form.on('submit', function () {
+			$form.find('[aria-input-type="editor"]').each(function () {
+				this.value = CKEDITOR.instances[this.id].getData();
 			});
 		});
 	}
@@ -2395,7 +2401,6 @@ function initForm($form, params) {
 					$form.submitStatus(false);
 					return; 
 				}
-
 
 				//Submit
 				if ('submit' in params) {

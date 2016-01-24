@@ -9,12 +9,6 @@
 	<script type="text/javascript" src="/assets/shared/jscolor.js"></script>
 <% end %>
 
-<% content_for :content_header do %>
-	<span style="padding-left: 40px;">
-		<%= t 'project.view.create.form_title' %>
-	</span>
-<% end %>
-
 <% 
 =begin
 	params: @p
@@ -63,6 +57,30 @@
 	end
 %>
 
+<section class="form-progress-container container-fluid">
+	<ul class="row">
+		<li class="col-xs-offset-1 col-xs-2 active">
+			<section class="icon"></section>
+			<section class="text">Đăng thông tin cơ bản</section>
+		</li>
+		<li class="col-xs-2">
+			<section class="icon"></section>
+			<section class="text">Đăng thông tin chi tiết</section>
+		</li>
+		<li class="col-xs-2">
+			<section class="icon"></section>
+			<section class="text">Thiết lập hình ảnh</section>
+		</li>
+		<li class="col-xs-2">
+			<section class="icon"></section>
+			<section class="text">Tùy biến giao diện</section>
+		</li>
+		<li class="col-xs-2">
+			<section class="icon"></section>
+			<section class="text">Hoàn tất đăng tin</section>
+		</li>
+	</ul>
+</section>
 
 <form id="create_p" class="form create-form-project" data-entertotab>
 

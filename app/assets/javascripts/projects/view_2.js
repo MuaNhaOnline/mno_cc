@@ -518,18 +518,32 @@ $(function () {
 			// Call product interact
 			
 			// Find position
-			
-				$beforeItem = (findPosition = function ($checkItem) {
+				$itemBefore = $item;
+				$positionBefore = (findPosition = function ($checkItem) {
+					// If this is empty => choose item before
+					if ($checkItem.length == 0) {
+						return $itemBefore;
+					}
+
+					// If this is product interact => next
+					if ($checkItem.is('#productInteract')) {
+						findPosition($checkItem.next());
+					}
+
+					// If this is a last child => choose
 					if ($checkItem.is(':last-child')) {
 						return $checkItem;
 					}
 
+					// If this is a new line => choose before
 					if ($item.offset().top != $checkItem.offset().top) {
-						return $checkItem;
+						return $itemBefore;
 					}
 
+					$itemBefore = $checkItem;
+
 					return findPosition($checkItem.next());
-				})($item);
+				})($item.next());
 
 			// / Find position
 			
@@ -538,7 +552,7 @@ $(function () {
 				startProductInteract('real_estates/group', $item.data('value'), {
 					reset: true
 				});
-				$beforeItem.after($productInteract.show());
+				$itemBefore.after($productInteract.show());
 				// Calc arrow position
 				$arrow.css('left', $item.offset().left + ($item.width() / 2) + 2 - $productInteract.offset().left);
 				// Scroll to panel
