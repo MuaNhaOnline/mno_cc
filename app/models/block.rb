@@ -8,6 +8,7 @@ class Block < ActiveRecord::Base
 		has_many :images, class_name: 'BlockImage', autosave: true
 		has_many :floors, class_name: 'BlockFloor', autosave: true
 		has_many :real_estate_groups, class_name: 'BlockRealEstateGroup', autosave: true
+		has_many :real_estates, class_name: 'RealEstate'
 
 	# / Associations
 

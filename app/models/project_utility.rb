@@ -6,4 +6,13 @@ class ProjectUtility < ActiveRecord::Base
 
 	# / Associations
 
+	# Attributes
+	
+		# Description
+		def display_description
+			@display_description ||= description.html_safe
+		end
+	
+	# / Attributes
+
 end

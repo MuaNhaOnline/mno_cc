@@ -177,20 +177,22 @@ class Project < ActiveRecord::Base
 				_utility.title = _value[:title]
 				_utility.description = ApplicationHelper.encode_plain_text(_value[:description])
 				_images = []
-				_value[:images].each do |_v|
-					_v = JSON.parse _v
+				if _value[:images].present?
+					_value[:images].each do |_v|
+						_v = JSON.parse _v
 
-					if _v['is_new']
-						TemporaryFile.get_file(_v['id']) do |_image|
-							_images << ProjectUtilityImage.new(image: _image, order: _v['order'], description: _v['description'])
+						if _v['is_new']
+							TemporaryFile.get_file(_v['id']) do |_image|
+								_images << ProjectUtilityImage.new(image: _image, order: _v['order'], description: _v['description'])
+							end
+						else
+							_image = ProjectUtilityImage.find _v['id']
+							_image.description = _v['description']
+							_image.order = _v['order']
+							_image.save if _image.changed?          
+
+							_images << _image
 						end
-					else
-						_image = ProjectUtilityImage.find _v['id']
-						_image.description = _v['description']
-						_image.order = _v['order']
-						_image.save if _image.changed?          
-
-						_images << _image
 					end
 				end
 				_utility.images = _images

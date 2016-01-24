@@ -178,7 +178,7 @@
 									<label class="control-label" for="position_description">
 										Mô tả vị trí
 									</label>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" class="form-control" aria-input-type="editor" name="blog[position_description]" id="position_description"></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" class="form-control" aria-input-type="editor" name="blog[position_description]" id="position_description"><%= @p.position_description %></textarea>
 								</article>
 
 							<!-- / Position description -->
@@ -569,7 +569,7 @@
 
 								<article class="form-group">
 									<label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= ApplicationHelper.decode_plain_text(@p.payment_method) if @p.payment_method.present? %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2,table" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= @p.payment_method %></textarea>
 								</article>
 
 					            <article class="form-group">

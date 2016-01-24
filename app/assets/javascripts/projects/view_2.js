@@ -398,7 +398,7 @@ $(function () {
 							'aria-object': 'description',
 							points: description_data.points
 						}).css({
-							fill: 'url(' + $pattern.attr('id') + ')',
+							fill: 'url(#' + $pattern.attr('id') + ')',
 							transition: '.3s',
 							'transform-origin': '50% 50%',
 							cursor: 'pointer'

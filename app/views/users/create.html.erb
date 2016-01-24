@@ -30,7 +30,9 @@
 %>
 
 <form class="row form" id="create_user" data-entertotab>
-	<% unless @user.new_record? %>
+	<% if @user.new_record? %>
+		<input type="hidden" id="zc_gad" name="zc_gad" value="" />
+	<% else %>
 		<input type="hidden" name="user[id]" value="<%= @user.id %>" />
 	<% end %>
 	<div class="col-md-6">

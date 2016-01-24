@@ -284,6 +284,7 @@
 				<section class="box-body">
 					<p class="or" style="text-align: center; color: #888; margin-top: -10px; font-weight: bold;">Hoặc gửi</p>
 					<form id="contact_form">
+						<input type="hidden" id="zc_gad" name="zc_gad" value="" />
 						<article class="form-group">
 							<input class="form-control" type="text" name="contact[name]" placeholder="Tên của bạn" />
 						</article>
@@ -537,7 +538,6 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- end modal -->
-</body>
 
 <script type="text/javascript" src="/assets/shared/jquery.js"></script>
 <script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
@@ -624,4 +624,9 @@
 	  ga('send', 'pageview');
 	</script>
 <!-- / Google analytics -->
+<script type="text/javascript" src='https://crm.zoho.com/crm/javascript/zcga.js'></script>
+<script type='text/javascript'>
+	var $zoho= $zoho || {salesiq:{values:{},ready:function(){$zoho.salesiq.floatbutton.visible('hide');}}}; var d=document; s=d.createElement('script'); s.type='text/javascript'; s.defer=true; s.src='https://salesiq.zoho.com/chinguyen1/float.ls?embedname=chinguyen1'; t=d.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s,t);
+</script>
+</body>
 </html>
