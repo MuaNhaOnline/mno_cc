@@ -11,6 +11,7 @@ class BlockImageDescription < ActiveRecord::Base
 		has_one :text_description, class_name: 'BlockImageTextDescription'
 		has_one :real_estate_description, class_name: 'BlockImageRealEstateDescription'
 		has_one :block_description, class_name: 'BlockImageBlockDescription'
+		has_one :block_floor_description, class_name: 'BlockImageBlockFloorDescription'
 
 		has_many :image_descriptions, class_name: 'BlockImageImageDescription'
 

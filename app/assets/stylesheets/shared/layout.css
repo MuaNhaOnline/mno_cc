@@ -260,7 +260,6 @@
 					display: block;
 				}
 
-
 /* / Tab container */
 
 /* Tab container (Free style) */
@@ -271,34 +270,48 @@
 	
 		.free-style-tab-container .tab-list {
 			margin-bottom: 10px;
+			position: relative;
 		}
+	
+			.free-style-tab-container .tab-list:before {
+				content: '';
+				display: block;
+				width: 100%;
+				height: 1px;
+				background-color: #ddd;
+				position: absolute;
+				left: 0;
+				bottom: 1px;
+			}
 	
 			.free-style-tab-container .tab-list ul {
 				list-style: none;
 				padding: 0;
 				margin: 0;
+				white-space: normal;
 			}
 	
 			.free-style-tab-container .tab-list li {
 				display: inline-block;
 			}
 	
-				.free-style-tab-container .tab-list li.active {
-
-				}
-	
 			.free-style-tab-container .tab-list a {
 				display: inline-block;
-				padding: 3px 10px 0px 10px;
-				line-height: 25px;
+				padding: 0 10px;
+				height: 34px;
+				line-height: 34px;
 				color: #555;
 				font-size: 18px;
 				text-decoration: none;
+				position: relative;
+				border-bottom: 3px solid transparent;
+				transition: .3s;
+				white-space: nowrap;
 			}
 		
 				.free-style-tab-container .tab-list li.active a {
 					color: #333;
-					border-bottom: 3px solid #3c8dbc;
+					border-bottom-color: #3c8dbc;
 				}
 	
 				.free-style-tab-container .tab-list a:hover {
@@ -458,3 +471,64 @@
 			}
 
 /* / Context menu */
+
+/* Manual horizontal list */
+
+	.manual-horizontal-list {
+		position: relative;
+	}
+
+		.manual-horizontal-list > .prev,
+		.manual-horizontal-list > .next {
+			position: absolute;
+			top: 0;
+			height: 100%;
+			width: 30px;
+			cursor: pointer;
+		}
+
+			.manual-horizontal-list > .prev:hover,
+			.manual-horizontal-list > .next:hover {
+				background-color: rgba(0, 0, 0, .1);
+			}
+
+		.manual-horizontal-list > .prev {
+			left: 0;
+		}
+
+		.manual-horizontal-list > .next {
+			right: 0;
+		}
+
+		.manual-horizontal-list > .prev span,
+		.manual-horizontal-list > .next span {
+			font-size: 20px;
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			text-align: center;
+			top: calc(50% - 10px);
+			left: 5px;
+			color: #999;
+		}
+
+			.manual-horizontal-list > .prev:hover span,
+			.manual-horizontal-list > .next:hover span {
+				color: #666;
+			}
+
+		.manual-horizontal-list .list-wrapper {
+			overflow: hidden;
+			padding: 0 30px;
+		}
+
+		.manual-horizontal-list .list {
+			white-space: nowrap;
+			display: inline-block;
+		}
+
+		.manual-horizontal-list .col {
+			display: inline-block;
+		}
+
+/* Manual horizontal list */

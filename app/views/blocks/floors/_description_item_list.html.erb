@@ -1,0 +1,21 @@
+<% 
+=begin
+	params: block_floors
+=end
+ 
+%>
+
+<% block_floors.each do |block_floor| %>
+  <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+		<a href="javascript:void(0)" class="item" data-value="<%= block_floor.id %>">
+			<section class="top">
+				<img src="<%= block_floor.surface.url('thumb') %>">
+				<section class="left">
+					<article class="node font-bold">
+						<%= block_floor.name %>
+					</article>
+				</section>
+			</section>
+		</a>
+	</article>
+<% end %>

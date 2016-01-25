@@ -5,10 +5,10 @@ class Block < ActiveRecord::Base
 		belongs_to :project
 		belongs_to :block_type
 
-		has_many :images, class_name: 'BlockImage', autosave: true
-		has_many :floors, class_name: 'BlockFloor', autosave: true
-		has_many :real_estate_groups, class_name: 'BlockRealEstateGroup', autosave: true
-		has_many :real_estates, class_name: 'RealEstate'
+		has_many :images, class_name: 'BlockImage', autosave: true, dependent: :destroy
+		has_many :floors, class_name: 'BlockFloor', autosave: true, dependent: :destroy
+		has_many :real_estate_groups, class_name: 'BlockRealEstateGroup', autosave: true, dependent: :destroy
+		has_many :real_estates, class_name: 'RealEstate', dependent: :destroy
 
 	# / Associations
 

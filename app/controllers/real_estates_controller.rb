@@ -257,6 +257,37 @@ class RealEstatesController < ApplicationController
 
 		# Get values
 		# params: id(*)
+		# return
+			# {
+			# 	images: [
+			# 		{
+			# 			id, 
+			# 			url, 
+			# 			thumb_url, 
+			# 			descriptions: [
+			# 				{
+			# 					id,
+			# 					tag_name,
+			# 					points (if polyline)
+			# 					description: {
+			# 						type,
+			# 						data (if text_image): {
+			# 							description,
+			# 							images: [
+			# 								{
+			# 									id,
+			# 									url,
+			# 									description,
+			# 									is_avatar
+			# 								}
+			# 							]
+			# 						}
+			# 					}
+			# 				}
+			# 			]
+			# 		}
+			# 	]
+			# }
 		def groups_get_image_for_interact_build
 			# Result for request
 			images = []

@@ -27,7 +27,7 @@ class BlocksController < ApplicationController
 
 	# / Create
 
-	# Block list
+	# Description list
 
 		# Partial view
 		# params: project_id(*)
@@ -40,7 +40,18 @@ class BlocksController < ApplicationController
 			}
 		end
 
-	# / Block list
+		# Partial view
+		# params: block_id(*)
+		def _floors_description_item_list
+			block_floors = BlockFloor.where block_id: params[:block_id]
+
+			render json: {
+				status: 0,
+				result: render_to_string(partial: 'blocks/floors/description_item_list', locals: { block_floors: block_floors })
+			}
+		end
+
+	# / Description list
 
 	# Delete
 
@@ -58,9 +69,116 @@ class BlocksController < ApplicationController
 
 		# Block
 
-				# Get values
-				# params: id(*)
-				def get_image_for_interact_build
+			# Get values
+			# params: id(*)
+			# return
+				# {
+				# 	images: [
+				# 		{
+				# 			id, 
+				# 			url, 
+				# 			thumb_url, 
+				# 			descriptions: [
+				# 				{
+				# 					id,
+				# 					tag_name,
+				# 					points (if polyline)
+				# 					description: {
+				# 						type,
+				# 						id (if real_estate, block_floor),
+				# 						data (if text_image): {
+				# 							description,
+				# 							images: [
+				# 								{
+				# 									id,
+				# 									url,
+				# 									description,
+				# 									is_avatar
+				# 								}
+				# 							]
+				# 						}
+				# 					}
+				# 				}
+				# 			]
+				# 		}
+				# 	]
+				# }
+			def get_image_for_interact_build
+				# Result for request
+				images = []
+
+				# Get project's image
+				block_images = BlockImage.where(block_id: params[:id])
+
+				# Get all info of each image
+				block_images.each do |block_image|
+					image = {}
+
+					# Get url for display
+					image[:id] = block_image.id
+					image[:url] = block_image.image.url
+					image[:thumb_url] = block_image.image.url('thumb')
+
+					if block_image.image_descriptions.present?
+						image[:descriptions] = []
+
+						block_image.image_descriptions.each do |image_description|
+							description = { id: image_description.id, tag_name: image_description.area_type }
+
+							# Area info
+							case image_description.area_type
+							when 'polyline'
+								description[:points] = image_description.area_info['points']
+							else
+								next
+							end
+
+							# Description info
+							description[:description] = { type: image_description.description_type }
+							case image_description.description_type
+							when 'real_estate'
+								description[:description][:id] = image_description.real_estate_description.real_estate_id
+							when 'block_floor'
+								description[:description][:id] = image_description.block_floor_description.block_floor_id
+							when 'text_image'
+								description[:description][:data] = {}
+								if image_description.text_description.present?
+									description[:description][:data][:description] = image_description.text_description.description
+								end
+
+								if image_description.image_descriptions.present?
+									image_data = []
+									image_description.image_descriptions.each do |data|
+										image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+									end
+									description[:description][:data][:images] = image_data.to_json
+								end
+							end
+
+							image[:descriptions] << description
+						end
+					end
+
+					images << image
+				end
+
+				render json: { status: 0, result: images }
+			end
+
+			# Handle
+			# params: data(*)
+			def save_interact_images
+				render json: BlockImage.save_description(JSON.parse(params[:data]))
+			end
+
+			# Get values
+			# params: id(*)
+			def get_data_for_interact_view
+
+				@block = Block.find params[:id]
+
+				# Images
+
 					# Result for request
 					images = []
 
@@ -72,15 +190,13 @@ class BlocksController < ApplicationController
 						image = {}
 
 						# Get url for display
-						image[:id] = block_image.id
 						image[:url] = block_image.image.url
-						image[:thumb_url] = block_image.image.url('thumb')
 
 						if block_image.image_descriptions.present?
 							image[:descriptions] = []
 
 							block_image.image_descriptions.each do |image_description|
-								description = { id: image_description.id, tag_name: image_description.area_type }
+								description = { tag_name: image_description.area_type }
 
 								# Area info
 								case image_description.area_type
@@ -95,6 +211,8 @@ class BlocksController < ApplicationController
 								case image_description.description_type
 								when 'real_estate'
 									description[:description][:id] = image_description.real_estate_description.real_estate_id
+								when 'block_floor'
+									description[:description][:id] = image_description.block_floor_description.block_floor_id
 								when 'text_image'
 									description[:description][:data] = {}
 									if image_description.text_description.present?
@@ -117,100 +235,29 @@ class BlocksController < ApplicationController
 						images << image
 					end
 
-					render json: { status: 0, result: images }
-				end
+				# / Images
 
-				# Handle
-				# params: data(*)
-				def save_interact_images
-					render json: BlockImage.save_description(JSON.parse(params[:data]))
-				end
+				# Info
 
-				# Get values
-				# params: id(*)
-				def get_data_for_interact_view
+					info = render_to_string(partial: 'blocks/info_for_interact_view')
 
-					@block = Block.find params[:id]
+				# / Info
 
-					# Images
+				# Navigator
+				
+					navigator = render_to_string(partial: 'blocks/navigator_for_interact_view')
+				
+				# / Navigator
 
-						# Result for request
-						images = []
-
-						# Get project's image
-						block_images = BlockImage.where(block_id: params[:id])
-
-						# Get all info of each image
-						block_images.each do |block_image|
-							image = {}
-
-							# Get url for display
-							image[:url] = block_image.image.url
-
-							if block_image.image_descriptions.present?
-								image[:descriptions] = []
-
-								block_image.image_descriptions.each do |image_description|
-									description = { tag_name: image_description.area_type }
-
-									# Area info
-									case image_description.area_type
-									when 'polyline'
-										description[:points] = image_description.area_info['points']
-									else
-										next
-									end
-
-									# Description info
-									description[:description] = { type: image_description.description_type }
-									case image_description.description_type
-									when 'real_estate'
-										description[:description][:id] = image_description.real_estate_description.real_estate_id
-									when 'text_image'
-										description[:description][:data] = {}
-										if image_description.text_description.present?
-											description[:description][:data][:description] = image_description.text_description.description
-										end
-
-										if image_description.image_descriptions.present?
-											image_data = []
-											image_description.image_descriptions.each do |data|
-												image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
-											end
-											description[:description][:data][:images] = image_data.to_json
-										end
-									end
-
-									image[:descriptions] << description
-								end
-							end
-
-							images << image
-						end
-
-					# / Images
-
-					# Info
-
-						info = render_to_string(partial: 'blocks/info_for_interact_view')
-
-					# / Info
-
-					# Navigator
-					
-						navigator = render_to_string(partial: 'blocks/navigator_for_interact_view')
-					
-					# / Navigator
-
-					render json: { 
-						status: 0, 
-						result: {
-							images: images,
-							info: info,
-							navigator: navigator
-						} 
-					}
-				end
+				render json: { 
+					status: 0, 
+					result: {
+						images: images,
+						info: info,
+						navigator: navigator
+					} 
+				}
+			end
 
 		# / Block
 
@@ -218,6 +265,38 @@ class BlocksController < ApplicationController
 
 			# Get values
 			# params: id(*)(block id)
+			# return
+				# {
+				# 	images: [
+				# 		{
+				# 			id, 
+				# 			url, 
+				# 			thumb_url, 
+				# 			descriptions: [
+				# 				{
+				# 					id,
+				# 					tag_name,
+				# 					points (if polyline)
+				# 					description: {
+				# 						type,
+				# 						id (if real_estate),
+				# 						data (if text_image): {
+				# 							description,
+				# 							images: [
+				# 								{
+				# 									id,
+				# 									url,
+				# 									description,
+				# 									is_avatar
+				# 								}
+				# 							]
+				# 						}
+				# 					}
+				# 				}
+				# 			]
+				# 		}
+				# 	]
+				# }
 			def floors_get_image_for_interact_build
 				# Result for request
 				images = []

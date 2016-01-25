@@ -36,7 +36,7 @@ class RealEstate < ActiveRecord::Base
 		belongs_to :block_floor
 		belongs_to :block_floor_surface_description
 
-		has_many :images, class_name: 'RealEstateImage'
+		has_many :images, class_name: 'RealEstateImage', dependent: :destroy
 		has_many :appraisal_companies_real_estates
 		has_many :appraisal_companies, through: :appraisal_companies_real_estates
 		has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,
@@ -46,10 +46,10 @@ class RealEstate < ActiveRecord::Base
 		has_many :in_floors, class_name: 'FloorRealEstate', dependent: :destroy
 		has_many :available_in_floors, -> { where('floor_real_estates.status <> \'sold\'') }, class_name: 'FloorRealEstate'
 
-		has_and_belongs_to_many :property_utilities
-		has_and_belongs_to_many :region_utilities
-		has_and_belongs_to_many :advantages
-		has_and_belongs_to_many :disadvantages
+		has_and_belongs_to_many :property_utilities, dependent: :destroy
+		has_and_belongs_to_many :region_utilities, dependent: :destroy
+		has_and_belongs_to_many :advantages, dependent: :destroy
+		has_and_belongs_to_many :disadvantages, dependent: :destroy
 
 	# / Associations
 

@@ -458,8 +458,10 @@
 			text-align: center;
 			font-size: 18px;
 			color: #999;
+			display: block;
 		}
 
+			.form-progress-container a.text:hover,
 			.form-progress-container li.active .text {
 				color: #3c8dbc;
 			}

@@ -50,6 +50,8 @@ class BlockImage < ActiveRecord::Base
 					case description_data['description']['type']
 					when 'real_estate'
 						_image_description.real_estate_description = BlockImageRealEstateDescription.new real_estate_id: description_data['description']['id']
+					when 'block_floor'
+						_image_description.block_floor_description = BlockImageBlockFloorDescription.new block_floor_id: description_data['description']['id']
 					when 'text_image'
 						_data =  description_data['description']['data']
 

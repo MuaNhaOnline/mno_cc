@@ -20,7 +20,7 @@
 	<ul class="row">
 		<li class="col-xs-offset-1 col-xs-2">
 			<section class="icon"></section>
-			<section class="text">Đăng thông tin cơ bản</section>
+			<a class="text" href="/du-an/chinh-sua/<%= @project.id %>">Đăng thông tin cơ bản</a>
 		</li>
 		<li class="col-xs-2 active">
 			<section class="icon"></section>
@@ -54,7 +54,7 @@
 					<section class="box-header">
 						<h2 class="box-title">Các block trong dự án <%= @project.project_name %></h2>
 						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm mới</button>
+							<button class="btn btn-box-tool" aria-click="create_block"><i class="fa fa-plus"></i> Thêm block</button>
 						</div>
 					</section>
 					<section class="box-body">
@@ -68,8 +68,7 @@
 						<section class="box-header">
 							<h2 class="box-title" id="selected_block_name"></h2>
 							<div class="box-tools pull-right">
-								<button class="btn btn-box-tool" aria-click="floor_surface_interact"><i class="fa fa-picture-o"></i> Hình ảnh sàn</button>
-								<button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm mới</button>
+								<button class="btn btn-box-tool" aria-click="create_real_estate"><i class="fa fa-plus"></i> Thêm loại</button>
 							</div>
 						</section>
 						<section class="box-body">
@@ -83,9 +82,17 @@
 
 			<!-- Finish -->
 
-				<section class="text-center">
-					<a class="btn btn-primary" aria-click="build_finish">Hoàn tất</a>
-				</section>
+				<article class="text-center">
+					<article class="box box-solid" style="display: inline-block; width: auto;">
+						<article class="box-body">
+							<section class="text-center">
+								<p>Hoàn thành và tiếp tục </p>
+								<p><a class="btn btn-primary" aria-click="build_finish">Thiết lập hình ảnh</a></p>
+							</section>
+						</article>
+					</article>
+					
+				</article>
 
 			<!-- / Finish -->
 			

@@ -1030,14 +1030,14 @@ $(function () {
 				$container.find('> .tab-content-list > .tab-content[aria-name="' + $item.attr('aria-name') + '"]').addClass('active').trigger('open');
 			});
 
-			$firstItem = $container.find('> .tab-list .horizontal-item.active:eq(0)');
+			$firstItem = $container.find('> .tab-list li.active:eq(0)');
 
 			if ($firstItem.length == 0) {
-				$firstItem = $container.find('> .tab-list .horizontal-item:visible:eq(0)');
+				$firstItem = $container.find('> .tab-list li:visible:eq(0)');
 			}			
 
 			if ($firstItem.length == 0) {
-				$firstItem = $container.find('> .tab-list .horizontal-item:eq(0)');
+				$firstItem = $container.find('> .tab-list li:eq(0)');
 			}
 
 			$firstItem.removeClass('active').find('[aria-click="change_tab"]').click();
@@ -1322,3 +1322,119 @@ $(function () {
 	}
 
 // / Context menu
+
+// Manual horizontal list
+
+	function _initManualHorizontalList($container) {
+		if ($container.data('horizontal_list')) {
+			$container.trigger('update_horizontal_list');
+			return;
+		}
+
+		var 
+			$listWrapper = $container.find('.list-wrapper'),
+			$list = $container.find('.list'),
+			$showingCol;
+
+		// Create prev, next buttons
+		$container.prepend('<section class="prev"><span class="fa fa-chevron-left"></span></section><section class="next"><span class="fa fa-chevron-right"></span></section>');
+
+		// Update event
+		$container.on('changedSize', function () {
+			// Status for pre, next buttons
+			if ($list.outerWidth() > $listWrapper.width()) {
+				$container.find('> .prev, > .next').show();
+
+				// If have much col, save showing col for find
+				$list.children().each(function () {
+					$col = $(this);
+					if ($col.offset().left + $col.outerWidth() > $listWrapper.offset().left) {
+						$showingCol = $col;
+						return false;
+					}
+				});
+			}
+			else {
+				$container.find('> .prev, > .next').hide();
+			}
+		}).trigger('changedSize');
+
+		// Window resize
+		$window.on('resize', function () {
+			$container.trigger('changedSize');
+		});
+
+		// Button events
+		$container.find('> .prev').on('click', function () {
+			// Find col can't see from showing col - right to left
+			$lastCol = [];
+			offsetForCantSee = $listWrapper.offset().left + parseInt($listWrapper.css('padding-left'));
+			$cantSeeCol = (function findCantSeeCol($checkCol) {
+				// If empty => choose last col
+				if ($checkCol.length == 0) {
+					return $lastCol;
+				}
+
+				// If can't see => choose
+				if ($checkCol.offset().left + $checkCol.outerWidth() <= offsetForCantSee) {
+					return $checkCol;
+				}
+
+				return findCantSeeCol($checkCol.prev());
+			})($showingCol.prev());
+
+			// If empty => return
+			if ($cantSeeCol.length == 0) {
+				return;
+			}
+
+			// Unless first child => get prev child for display
+			if (!$cantSeeCol.is(':first-child')) {
+				$cantSeeCol = $cantSeeCol.prev();
+			}
+
+			// Scroll to can't see col
+			$listWrapper.animate({
+				scrollLeft: $listWrapper.scrollLeft() + $cantSeeCol.offset().left - offsetForCantSee
+			}, 200);
+			$showingCol = $cantSeeCol;
+		});
+		$container.find('> .next').on('click', function () {
+			// Find col can't see from showing col - left to right
+			$lastCol = [];
+			offsetForCantSee = $listWrapper.offset().left + parseInt($listWrapper.css('padding-left')) + $listWrapper.width();
+			$cantSeeCol = (function findCantSeeCol($checkCol) {
+				// If empty => choose last col
+				if ($checkCol.length == 0) {
+					return $lastCol;
+				}
+
+				// If can't see => choose
+				if ($checkCol.offset().left >= offsetForCantSee) {
+					return $checkCol;
+				}
+
+				return findCantSeeCol($checkCol.next());
+			})($showingCol.next());
+
+			// If empty => return
+			if ($cantSeeCol.length == 0) {
+				return;
+			}
+
+			// Unless last child => get next child for display
+			if (!$cantSeeCol.is(':last-child')) {
+				$cantSeeCol = $cantSeeCol.next();
+			}
+
+			// Scroll to can't see col
+			$listWrapper.animate({
+				scrollLeft: $listWrapper.scrollLeft() + $cantSeeCol.offset().left + $cantSeeCol.outerWidth() - offsetForCantSee
+			}, 200);
+			$showingCol = $cantSeeCol;
+		});
+
+		$container.data('horizontal_list', true);
+	}
+
+// / Manual horizontal list

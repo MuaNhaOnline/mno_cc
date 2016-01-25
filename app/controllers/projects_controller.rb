@@ -118,12 +118,52 @@ class ProjectsController < ApplicationController
 			render layout: 'layout_back'
 		end
 
+		# View
+		# params: id(*)
+		def setup_interact_images
+			@project = Project.find params[:id]
+
+			render layout: 'layout_back'
+		end
+
 	# / Create
 
 	# Interact image
 
 		# Get values
 		# params: id(*)
+		# return
+			# {
+			# 	images: [
+			# 		{
+			# 			id, 
+			# 			url, 
+			# 			thumb_url, 
+			# 			descriptions: [
+			# 				{
+			# 					id,
+			# 					tag_name,
+			# 					points (if polyline)
+			# 					description: {
+			# 						type,
+			# 						id (if block),
+			# 						data (if text_image): {
+			# 							description,
+			# 							images: [
+			# 								{
+			# 									id,
+			# 									url,
+			# 									description,
+			# 									is_avatar
+			# 								}
+			# 							]
+			# 						}
+			# 					}
+			# 				}
+			# 			]
+			# 		}
+			# 	]
+			# }
 		def get_image_for_interact_build
 			# Result for request
 			images = []

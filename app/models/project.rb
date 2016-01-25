@@ -27,11 +27,11 @@ class Project < ActiveRecord::Base
 		belongs_to :price_unit, class_name: 'Unit'
 		belongs_to :investor
 
-		has_many :images, class_name: 'ProjectImage'
-		has_many :payment_attachments, class_name: 'ProjectPaymentAttachment'
+		has_many :images, class_name: 'ProjectImage', dependent: :destroy
+		has_many :payment_attachments, class_name: 'ProjectPaymentAttachment', dependent: :destroy
 		has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
-		has_many :blocks
-		has_many :utilities, class_name: 'ProjectUtility'
+		has_many :blocks, dependent: :destroy
+		has_many :utilities, class_name: 'ProjectUtility', dependent: :destroy
 
 	# / Associations
 

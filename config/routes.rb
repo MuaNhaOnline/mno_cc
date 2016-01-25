@@ -79,6 +79,10 @@ Rails.application.routes.draw do
 
     get 'du-an/dang-tin(/:id)' => 'projects#create'
     get 'du-an/chinh-sua(/:id)' => 'projects#create'
+    get 'du-an/dang-chi-tiet(/:id)' => 'projects#create_details'
+    get 'du-an/sua-chi-tiet(/:id)' => 'projects#create_details'
+    get 'du-an/thiet-lap-hinh-anh(/:id)' => 'projects#setup_interact_images'
+
     get 'du-an/cua-toi' => 'projects#my'
     get 'du-an/yeu-thich-cua-toi' => 'projects#my_favorite'
     get 'du-an/kiem-duyet' => 'projects#pending'
@@ -101,6 +105,7 @@ Rails.application.routes.draw do
     post 'blocks/delete'
     post 'blocks/save_interact_images'
 
+    get 'blocks/floors/_description_item_list/:block_id' => 'blocks#_floors_description_item_list'
     get 'blocks/floors/get_image_for_interact_build/:id' => 'blocks#floors_get_image_for_interact_build'
     get 'blocks/floors/get_data_for_interact_view/:id' => 'blocks#floors_get_data_for_interact_view'
     post 'blocks/floors/save_interact_images' => 'blocks#floors_save_interact_images'
