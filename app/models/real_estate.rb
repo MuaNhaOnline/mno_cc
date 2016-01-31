@@ -34,9 +34,8 @@ class RealEstate < ActiveRecord::Base
 		belongs_to :block
 		belongs_to :block_group, class_name: 'BlockRealEstateGroup', foreign_key: 'block_real_estate_group_id'
 		belongs_to :block_floor
-		belongs_to :block_floor_surface_description
 
-		has_many :images, class_name: 'RealEstateImage', dependent: :destroy
+		has_many :images, class_name: 'RealEstateImage', dependent: :destroy, autosave: true
 		has_many :appraisal_companies_real_estates
 		has_many :appraisal_companies, through: :appraisal_companies_real_estates
 		has_many :assigned_appraisal_companies, -> { where('appraisal_companies_real_estates.is_assigned' => true) }, through: :appraisal_companies_real_estates,
@@ -327,8 +326,7 @@ class RealEstate < ActiveRecord::Base
 							_image = RealEstateImage.find _value['id']
 							_image.description = _value['description']
 							_image.is_avatar = _value['is_avatar']
-							_image.order = _value['order']
-							_image.save if _image.changed?          
+							_image.order = _value['order']        
 
 							_has_avatar = true if _value['is_avatar']
 
@@ -407,6 +405,31 @@ class RealEstate < ActiveRecord::Base
 
 			def block_assign_with_params params
 
+				# Short label
+
+					if label != params[:label]
+						_short_label = params[:label]
+						_f_index = _short_label =~ /\{f.*\}/
+						if _f_index.present?
+							_short_label = _short_label.gsub /\{f.*\}/, ''
+
+							# First position => Check if right 1 (= current position because was deleted)
+							if _f_index == 0
+								_short_label[0] = '' if _short_label[0] =~ /[^a-zA-Z0-9]/
+							# Last position => Check left 1
+							elsif _f_index == _short_label.length
+								_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/
+							# If middle & If left 1, right 1 (= current position because was deleted) is [a-zA-Z0-9] => remove left
+							else
+								_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/ && _short_label[_f_index] =~ /[^a-zA-Z0-9]/
+							end
+
+							assign_attributes short_label: _short_label
+						end
+					end
+
+				# / Short label
+
 				# Floor infos
 
 					_floor_infos_text = []
@@ -428,7 +451,7 @@ class RealEstate < ActiveRecord::Base
 				# / Floor infos
 
 				assign_attributes params.permit [
-					:label, :block_id, :block_real_estate_group_id, :block_floor_surface_description_id, :block_floor_id
+					:label, :block_id, :block_real_estate_group_id, :block_floor_id
 				]
 
 			end
@@ -449,7 +472,13 @@ class RealEstate < ActiveRecord::Base
 
 				assign_attributes other_params
 
-				BlockFloor.add_description self.block_floor_surface_description_id, 'real_estate', self.id
+				if block_floor_id_changed?
+					_re_descriptions = BlockFloorSurfaceRealEstateDescription.where real_estate_id: id
+
+					_re_descriptions.each do |_re_description|
+						BlockFloorSurfaceDescription.where(id: _re_description.block_floor_surface_description_id).update_all(description_type: nil)
+					end
+				end
 
 				if save validate: false
 					{ status: 0 }
@@ -539,6 +568,7 @@ class RealEstate < ActiveRecord::Base
 								_floor_info.sell_price = _info['sell_price']
 							end
 
+							_floor_info.sell_price_text = _floor_info.sell_price
 						end
 
 						if _info['rent_price'].present?
@@ -565,6 +595,7 @@ class RealEstate < ActiveRecord::Base
 								_floor_info.rent_price = _info['rent_price']
 							end
 
+							_floor_info.rent_price_text = _floor_info.rent_price
 						end
 
 						re.in_floors << _floor_info

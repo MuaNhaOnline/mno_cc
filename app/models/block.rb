@@ -83,12 +83,35 @@ class Block < ActiveRecord::Base
 						_floor.floors_text = _value_params[:floors_text]
 						_floor.name = _value_params[:name]
 						_floor.description = _value_params[:description]
+						_floor.is_dynamic = _value_params[:is_dynamic]
 
-						_value_params[:surface] = JSON.parse _value_params[:surface]
-						if _value_params[:surface]['is_new']
-							TemporaryFile.get_file(_value_params[:surface]['id']) do |_image|
-								_floor.surface = _image
+						if _floor.is_dynamic
+							_value_params[:surface] = JSON.parse _value_params[:surface]
+							if _value_params[:surface]['is_new']
+								TemporaryFile.get_file(_value_params[:surface]['id']) do |_image|
+									_floor.surface = _image
+								end
 							end
+						else
+							_images = []
+							if _value_params[:images].present?
+								_value_params[:images].each do |_v|
+									_value = JSON.parse _v
+
+									if _value['is_new']
+										TemporaryFile.get_file(_value['id']) do |_image|
+											_images << BlockFloorImage.new(image: _image, order: _value['order'], description: _value['description'])
+										end
+									else
+										_image = BlockFloorImage.find _value['id']
+										_image.description = _value['description']
+										_image.order = _value['order']         
+
+										_images << _image
+									end
+								end
+							end
+							_floor.images = _images
 						end
 
 						_floors << _floor

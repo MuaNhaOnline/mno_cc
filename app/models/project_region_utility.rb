@@ -1,8 +1,8 @@
-class ProjectUtility < ActiveRecord::Base
+class ProjectRegionUtility < ActiveRecord::Base
 
 	# Associations
 
-		has_many :images, class_name: 'ProjectUtilityImage', autosave: true, dependent: :destroy
+		has_many :images, class_name: 'ProjectRegionUtilityImage', autosave: true, dependent: :destroy
 
 	# / Associations
 

@@ -8,9 +8,7 @@ $(function () {
 	customJquery();
 	_initGlobalEvent();
 
-	/*
-		Init
-	*/
+	// Init
 
 	function init() {
 		$('[data-toggle="offcanvas"]').on('click', function () {
@@ -18,13 +16,9 @@ $(function () {
 		});
 	}
 
-	/*
-		/ Init
-	*/
+	// / Init
 
-	/*
-		Custom property
-	*/
+	// Custom property
 
 	function customPrototype() {
 		String.prototype.format = function(replace) {
@@ -40,36 +34,26 @@ $(function () {
 		}
 	}
 
-	/*
-		/ Custom property
-	*/
+	// / Custom property
 
-	/*
-		Custom jquery
-	*/
+	// Custom jquery
 
 	function customJquery() {
 
 	}
 
-	/*
-		/ Custom jquery
-	*/
+	// / Custom jquery
 
 });
 
-/*
-	Global event
-*/
+// Global event
 
 	function _initGlobalEvent($container) {
 		if (typeof $container == 'undefined') {
 			$container = $body;
 		}
 
-		/*
-			Collapse box
-		*/
+		// Collapse box
 
 			$container.find(($container.is('.box') ? '' : '.box ') + '[aria-click="collapse-box"]').off('click').on('click', function () {
 				var 
@@ -86,18 +70,12 @@ $(function () {
 				}
 			});
 
-		/*
-			/ Collapse box
-		*/
+		// / Collapse box
 	}
 
-/*
-	/ Global event
-*/
+// / Global event
 
-/*
-	Helper
-*/
+// Helper
 
 	function toggleLoadStatus(on) {
 		if (on) {
@@ -124,13 +102,9 @@ $(function () {
 		});
 	}
 
-/*
-	/ Helper
-*/
+// / Helper
 
-/*
-	Status animation
-*/
+// Status animation
 
 	function _initStatusAnimation($item) {
 		$item.find('.status-animation').on({
@@ -149,13 +123,9 @@ $(function () {
 		})
 	}
 
-/*
-	/ Status animation
-*/
+// / Status animation
 
-/* 
-	Popup 
-*/
+// Popup 
 
 	function _getPopupContent() {
 		$('[aria-popupcontent]').each(function () {
@@ -179,7 +149,6 @@ $(function () {
 			esc: (true)
 				allow escape popup with click outside or 'esc' key
 	*/
-
 	function getPopup(params) {
 		if (typeof(params) === 'undefined')
 		{
@@ -484,13 +453,9 @@ $(function () {
 		});
 	}
 
-/* 
-	/ Popup 
-*/
+// / Popup
 
-/*
-	Format
-*/
+// Format
 
 	function moneyFormat(number, separate) {
 		if (typeof separate == 'undefined') {
@@ -512,13 +477,9 @@ $(function () {
 		return string.replace(/\D/g, '');
 	}
 
-/*
-	/ Format
-*/
+// / Format
 
-/*
-	String
-*/
+// String
 
 	var listString = {};
 
@@ -552,6 +513,4 @@ $(function () {
 		}
 	}
 
-/*
-	/ String
-*/
+// / String

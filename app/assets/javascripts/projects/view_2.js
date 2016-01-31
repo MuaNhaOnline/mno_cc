@@ -3,6 +3,13 @@ var projectId;
 $(function () {
 
 	_initTabContainer($('.free-style-tab-container'));
+	$('.utilities .manual-horizontal-list').each(function (index) {
+		_initManualHorizontalList($(this), {
+			col_full_width: true,
+			auto_next: 5000,
+			auto_next_delay: index * 2000
+		});
+	});
 
 	// Side bar
 	

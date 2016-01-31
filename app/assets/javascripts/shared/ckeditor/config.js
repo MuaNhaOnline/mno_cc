@@ -12,7 +12,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
 		[ 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ],
 		'/',
-		[ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', '-', 'Link', 'Unlink', 'Image', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent' ],
+		[ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', '-', 'Link', 'Unlink', 'Image', 'Table', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent' ],
 	]
 
 	// The toolbar groups arrangement, optimized for a single toolbar row.
@@ -39,5 +39,5 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.removeDialogTabs = 'link:advanced';
 
 	config.imageUploadUrl = '/image_contents/upload';
-  config.filebrowserImageUploadUrl = '/image_contents/upload?type=link';
+	config.filebrowserImageUploadUrl = '/image_contents/upload?type=link';
 };

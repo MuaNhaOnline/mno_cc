@@ -4,23 +4,58 @@ $(function () {
 
 	// View
 	
-		(function () {
+		// Setup image
+		
+			$('[aria-click="setup_interact"]').on('click', function () {
+				$button = $(this);
+				$itemContainer = $button.closest('.items-list');
 
-			// Setup image
-			
-				$('[aria-click="setup_interact"]').on('click', function () {
-					$button = $(this);
-					$itemContainer = $button.closest('.items-list');
-
-					startDesign($itemContainer.data('type'), $itemContainer.data('value'), {
-						startId: $button.closest('.item').data('value')
-					});
+				startDesign($itemContainer.data('type'), $itemContainer.data('value'), {
+					startId: $button.closest('.item').data('value')
 				});
-			
-			// / Setup image
+			});
+		
+		// / Setup image
 
-		})();
-	
+		// Set finish
+		
+			$('.error-icon').hide();
+			$('.error-text').hide().html('');
+			$('[aria-click="setup_finish"]').on('click', function () {
+				$.ajax({
+					url: '/projects/setup_interact_images_finish/' + project_id,
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						if (data.result.length > 0) {
+							$('.error-icon').hide();
+							$('.error-text').hide().html('');
+							$(data.result).each(function () {
+								$('[aria-object="' + this.type + this.id + '-error-icon"]').show();
+								$('[aria-object="' + this.type + this.id + '-error-text"]').show().append('<span>' + this.name + '</span>');
+
+								if (this.type == 'surface') {
+									$('[aria-object="block' + this.id + '-error-icon"]').show();
+								}
+							});
+							$body.animate({
+								scrollTop: $('.error-icon:eq(0)').offset().top - 20
+							}, 100);
+						}
+						else {
+							alert('OK');
+						}
+					}
+					else {
+						errorPopup();
+					}
+				}).fail(function () {
+					errorPopup();
+				});
+			});
+
+		// / Set finish
+
 	// / View
 
 	// Design
@@ -69,6 +104,7 @@ $(function () {
 							id: id
 						});
 						$body.addClass('no-scroll');
+						$('.toolbox-container [aria-click="mouse"]').click();
 						$g.html('');
 
 						var $imageList = $designPart.find('.image-list');
@@ -97,6 +133,25 @@ $(function () {
 						// / Create image list
 
 						// Item click event
+
+							if (type == 'blocks/floor') {
+								$imageList.children().on('click', function () {
+									$item = $(this);
+
+									$('#group_description_list').find('[aria-name="real_estate"]');
+									$('#real_estate_description_list [data-floor]').hide().attr('aria-status', 'hide');
+									$('#real_estate_description_list [data-floor="' + $item.data('id') + '"]').show().attr('aria-status', 'show');
+									$('#real_estate_description_list .tab-content').each(function () {
+										$tabContent = $(this);
+										if ($tabContent.children('[aria-status="show"]').length == 0) {
+											$('#real_estate_description_list .tab-list [aria-name="' + $tabContent.attr('aria-name') + '"]').hide();
+										}
+										else {
+											$('#real_estate_description_list .tab-list [aria-name="' + $tabContent.attr('aria-name') + '"]').show();
+										}
+									})
+								});
+							}
 
 							$imageList.children().on('click', function () {
 								$item = $(this);
@@ -1144,6 +1199,11 @@ $(function () {
 								_initTabContainer($list.find('.free-style-tab-container'));
 
 								$('#group_description_list').find('[aria-name="real_estate"]').show();
+
+								// For hide/show by floor
+								if (type == 'blocks/floor') {
+									$designPart.find('.image-list > .active').click();
+								}
 							}
 						}).fail(function () {
 							errorPopup();
@@ -1312,7 +1372,7 @@ $(function () {
 					initForm($form);
 
 					description = params['description'] || {};
-					$selectDescriptionPart.data('description', description).find('.active').removeClass('active');
+					$selectDescriptionPart.data('description', description).find('.item.active').removeClass('active');
 
 					switch (description['type']) {
 						case 'block':
@@ -1329,7 +1389,7 @@ $(function () {
 							$('#real_estate_description_list').find('.tab-list [aria-name="' + tabContentName + '"] [aria-click="change_tab"]').click();
 							break;
 						case 'text_image':
-							if (typeof description['preview_list'] == 'undefined') {
+							if (typeof description['formpreview_list'] == 'undefined') {
 								$form.find('.file-upload').attr('data-init-value', description['data']['images']).trigger('initValue');
 								$form.find('[name="description"]').val(description['data']['description']);
 							}

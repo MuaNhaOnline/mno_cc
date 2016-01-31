@@ -10,7 +10,11 @@ module ApplicationHelper
 	end
 
 	def display_decimal number
-		'%g' % ('%.2f' % number)
+		if number % 1 == 0
+			number.to_i
+		else
+			number
+		end
 	end
 
 	def self.format_i string

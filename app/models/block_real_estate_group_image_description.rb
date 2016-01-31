@@ -8,9 +8,9 @@ class BlockRealEstateGroupImageDescription < ActiveRecord::Base
 
 	# Associations
 
-		has_one :text_description, class_name: 'BlockRealEstateGroupImageTextDescription'
+		has_one :text_description, class_name: 'BlockRealEstateGroupImageTextDescription', dependent: :destroy
 
-		has_many :image_descriptions, class_name: 'BlockRealEstateGroupImageImageDescription'
+		has_many :image_descriptions, class_name: 'BlockRealEstateGroupImageImageDescription', dependent: :destroy
 
 	# / Associations
 

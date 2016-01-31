@@ -352,6 +352,7 @@
 			position: absolute;
 			top: 0;
 			right: 10px;
+			z-index: 1;
 		}
 
 			.gallery-popup .close-button .close {
@@ -362,70 +363,117 @@
 		.gallery-popup .gallery-container {
 			width: 100%;
 			height: 100%;
-			display: flex;
-			display: -ms-flex;
-			display: -webkit-flex;
-			flex-direction: column;
-			-webkit-flex-direction: column;
 		}
 
-			.gallery-popup .gallery-container .image-view-panel {
-				height: 100%;
-				display: flex;
-				display: -webkit-flex;
-				align-items: center;
-				-webkit-align-items: center;
-				justify-content: center;
-				-webkit-justify-content: center;
-				padding: 5px;
-			}
+			/* Description part */
 
-			.gallery-popup .gallery-container .image {
-				max-width: 100%;
-			}
-
-			.gallery-popup .gallery-container .image-list-panel {
-				border-top: 5px solid #ddd;
-				background-color: #fff;
-				min-height: 70px;
-				max-height: 70px;
-				padding: 5px;
-				box-sizing: content-box;
-				text-align: center;
-				overflow: hidden;
-			}
-
-				.gallery-popup .gallery-container .image-list-panel .item-list {
-					display: inline-block;
-					white-space: nowrap;
+				.gallery-popup .gallery-container .description-part-container {
+					background-color: #f5f5f5;
 				}
 
-				.gallery-popup .gallery-container .image-list-panel .item {
-					display: inline-block;
-					height: 70px;
-					opacity: .4;
-					transition: 0.3s;
-					margin: 0 1px;
+				.gallery-popup .gallery-container .description-part {
+					padding: 15px 5px;
 				}
 
-					.gallery-popup .gallery-container .image-list-panel:hover .item {
-						opacity: .7;
+				.gallery-popup .gallery-container.has-description .description-part {
+					height: 20vh;
+				}
+			
+				@media (min-width: 992px) {
+
+					.gallery-popup .gallery-container .description-part {
+						padding: 30px 10px;
 					}
 
-					.gallery-popup .gallery-container .image-list-panel .item:hover,
-					.gallery-popup .gallery-container .image-list-panel .item.selected {
-						opacity: 1;
+					.gallery-popup .gallery-container.has-description .description-part {
+						height: 100vh;
+					}
+				}
+			
+			/* / Description part */
+
+			/* Image part */
+			
+				.gallery-popup .gallery-container .image-part {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					display: -ms-flex;
+					display: -webkit-flex;
+					flex-direction: column;
+					-webkit-flex-direction: column;
+				}
+
+				.gallery-popup .gallery-container.has-description .image-part {
+					height: 80vh;
+				}
+			
+				@media (min-width: 992px) {
+
+					.gallery-popup .gallery-container.has-description .image-part {
+						height: 100vh;
+					}
+				}
+
+				.gallery-popup .gallery-container .image-view-panel {
+					height: 100%;
+					display: flex;
+					display: -webkit-flex;
+					align-items: center;
+					-webkit-align-items: center;
+					justify-content: center;
+					-webkit-justify-content: center;
+					padding: 5px;
+				}
+
+				.gallery-popup .gallery-container .image {
+					max-width: 100%;
+				}
+
+				.gallery-popup .gallery-container .image-list-panel {
+					border-top: 5px solid #ddd;
+					background-color: #fff;
+					min-height: 70px;
+					max-height: 70px;
+					padding: 5px;
+					box-sizing: content-box;
+					text-align: center;
+					overflow: hidden;
+				}
+
+					.gallery-popup .gallery-container .image-list-panel .item-list {
+						display: inline-block;
+						white-space: nowrap;
 					}
 
-					.gallery-popup .gallery-container .image-list-panel .item img {
-						height: 100%;
+					.gallery-popup .gallery-container .image-list-panel .item {
+						display: inline-block;
+						height: 70px;
+						opacity: .4;
+						transition: 0.3s;
+						margin: 0 1px;
 					}
 
-			.gallery-popup .gallery-container .image-description-panel {
-				padding: 10px;
-				padding-top: 0;
-				color: #fff;
-			}
+						.gallery-popup .gallery-container .image-list-panel:hover .item {
+							opacity: .7;
+						}
+
+						.gallery-popup .gallery-container .image-list-panel .item:hover,
+						.gallery-popup .gallery-container .image-list-panel .item.selected {
+							opacity: 1;
+						}
+
+						.gallery-popup .gallery-container .image-list-panel .item img {
+							height: 100%;
+						}
+
+				.gallery-popup .gallery-container .image-description-panel {
+					padding: 10px;
+					padding-top: 0;
+					color: #fff;
+				}
+			
+			/* / Image part */
 
 /* / Gallery */
 
@@ -481,6 +529,7 @@
 		.manual-horizontal-list > .prev,
 		.manual-horizontal-list > .next {
 			position: absolute;
+			z-index: 1;
 			top: 0;
 			height: 100%;
 			width: 30px;
@@ -528,7 +577,9 @@
 		}
 
 		.manual-horizontal-list .col {
+			white-space: normal;
 			display: inline-block;
+			vertical-align: middle;
 		}
 
 /* Manual horizontal list */

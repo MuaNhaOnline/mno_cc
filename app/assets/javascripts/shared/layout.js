@@ -1013,7 +1013,7 @@ $(function () {
 		$containers.each(function () {
 			var $container = $(this);
 
-			$container.find('> .tab-list [aria-click="change_tab"]').on('click', function () {
+			$container.find('> .tab-list [aria-click="change_tab"]').off('click').on('click', function () {
 				var $item = $(this).parent();
 
 				// If inactive => return
@@ -1022,12 +1022,12 @@ $(function () {
 				}
 
 				// Remove tab inactive
-				$container.find('> .tab-list li.active, > .tab-content-list > .tab-content.active').removeClass('active').trigger('close');
+				$container.find('> .tab-list li.active, > .tab-content-list > .tab-content.active').removeClass('active').trigger('close').find('[aria-listen~="hide"]').trigger('hide');
 
 				// Set select tab to active
 				$item.addClass('active');
 				
-				$container.find('> .tab-content-list > .tab-content[aria-name="' + $item.attr('aria-name') + '"]').addClass('active').trigger('open');
+				$container.find('> .tab-content-list > .tab-content[aria-name="' + $item.attr('aria-name') + '"]').addClass('active').trigger('open').find('[aria-listen~="show"]').trigger('show');
 			});
 
 			$firstItem = $container.find('> .tab-list li.active:eq(0)');
@@ -1056,6 +1056,7 @@ $(function () {
 					]
 				or
 					images_url
+				description
 	*/
 	function _openGallery(params) {
 
@@ -1069,7 +1070,7 @@ $(function () {
 				return;
 			}
 
-			if (!('images' in params['data']) && !('images_url' in params['data'])) {
+			if ((!('images' in params['data']) || params['data']['images'].length == 0) && !('images_url' in params['data'])) {
 				return;
 			}
 
@@ -1082,7 +1083,42 @@ $(function () {
 					'<section class="close-button">' +
 						'<button type="button" class="close" aria-click="close"><span aria-hidden="true">&times;</span></button>' +
 					'</section>' +
-					'<div class="gallery-container">' +
+					'<section class="gallery-container">' +
+					'</section>' +
+				'</div>'
+			);
+
+			if (params['data']['description']) {
+				$html.find('.gallery-container').addClass('has-description').html(
+					'<div class="container-fluid">' +
+						'<div class="row" style="height: 100vh">' +
+							'<section class="col-xs-12 col-md-9">' +
+								'<article class="image-part">' +
+									'<section class="image-view-panel">' +
+										'<span class="fa fa-spin fa-spinner" aria-name="spinner" style="display: none;"></span>' +
+										'<img aria-name="image" class="image" src="#" style="display: none;" />' +
+									'</section>' +
+									'<section class="image-description-panel">' +
+										'<div class="text-center" aria-name="description"></div>' +
+									'</section>' +
+									'<section class="image-list-panel">' +
+										'<ul class="item-list">' +
+										'</ul>' +
+									'</section>' +
+								'</article>' +
+							'</section>' +
+							'<section class="col-xs-12 col-md-3 description-part-container">' +
+								'<article class="description-part">' +
+									params['data']['description'] +
+								'</article>' +
+							'</section>' +
+						'</div>' +
+					'</div>'
+				);
+			}
+			else {
+				$html.find('.gallery-container').html(
+					'<section class="image-part">' +
 						'<section class="image-view-panel">' +
 							'<span class="fa fa-spin fa-spinner" aria-name="spinner" style="display: none;"></span>' +
 							'<img aria-name="image" class="image" src="#" style="display: none;" />' +
@@ -1094,9 +1130,9 @@ $(function () {
 							'<ul class="item-list">' +
 							'</ul>' +
 						'</section>' +
-					'</div>' +
-				'</div>'
-			);
+					'</section>'
+				);
+			}
 
 			$body.append($html);
 
@@ -1324,117 +1360,211 @@ $(function () {
 // / Context menu
 
 // Manual horizontal list
-
-	function _initManualHorizontalList($container) {
-		if ($container.data('horizontal_list')) {
-			$container.trigger('update_horizontal_list');
-			return;
+	
+	/*
+		params:
+			col_full_width
+			auto_next
+	*/
+	function _initManualHorizontalList($containers, params) {
+		if (typeof params == 'undefined') {
+			params = {};
 		}
 
-		var 
-			$listWrapper = $container.find('.list-wrapper'),
-			$list = $container.find('.list'),
-			$showingCol;
+		$containers.each(function () {
+			var $container = $(this);
+			if ($container.data('horizontal_list')) {
+				$container.trigger('update_horizontal_list');
+				return;
+			}
 
-		// Create prev, next buttons
-		$container.prepend('<section class="prev"><span class="fa fa-chevron-left"></span></section><section class="next"><span class="fa fa-chevron-right"></span></section>');
-
-		// Update event
-		$container.on('changedSize', function () {
-			// Status for pre, next buttons
-			if ($list.outerWidth() > $listWrapper.width()) {
-				$container.find('> .prev, > .next').show();
-
-				// If have much col, save showing col for find
-				$list.children().each(function () {
-					$col = $(this);
-					if ($col.offset().left + $col.outerWidth() > $listWrapper.offset().left) {
-						$showingCol = $col;
-						return false;
+			var 
+				$listWrapper = $container.find('.list-wrapper'),
+				$list = $container.find('.list'),
+				$showingCol = $list.children(':eq(0)'),
+				scrollInterval,
+				continueScroll = function () {
+					if ($showingCol.is(':last-child')) {
+						$showingCol = $list.children().first();
 					}
-				});
-			}
-			else {
-				$container.find('> .prev, > .next').hide();
-			}
-		}).trigger('changedSize');
+					else {
+						$showingCol = $showingCol.next();
+					}
 
-		// Window resize
-		$window.on('resize', function () {
-			$container.trigger('changedSize');
+					$listWrapper.animate({
+						scrollLeft: $listWrapper.scrollLeft() + $showingCol.offset().left + $showingCol.outerWidth() - ($listWrapper.offset().left + parseInt($listWrapper.css('padding-left')) + $listWrapper.width())
+					}, 200);
+				};
+
+			// Create prev, next buttons
+			$container.prepend('<section class="prev"><span class="fa fa-chevron-left"></span></section><section class="next"><span class="fa fa-chevron-right"></span></section>');
+
+			// Update event
+			$container.on('changedSize show', function () {
+				// Set col full width & scroll to showing col
+				if (params['col_full_width']) {
+					$container.find('.col').css('width', $container.find('.list-wrapper').width() + 'px');
+					$listWrapper.animate({
+						scrollLeft: $listWrapper.scrollLeft() + $showingCol.offset().left + $showingCol.outerWidth() - ($listWrapper.offset().left + parseInt($listWrapper.css('padding-left')) + $listWrapper.width())
+					}, 200);
+				}
+
+				$firstCol = $list.children().first();
+				$lastCol = $list.children().last()
+
+				// Status for prev, next buttons
+				if ($list.children().length > 0 && ($list.outerWidth() - parseInt($firstCol.css('margin-left')) - parseInt($lastCol.css('margin-right'))) > $listWrapper.width()) {
+					$container.find('> .prev, > .next').show();
+
+					// If have much col, save showing col for find
+					$list.children().each(function () {
+						$col = $(this);
+						if ($col.offset().left + $col.outerWidth() > $listWrapper.offset().left) {
+							$showingCol = $col;
+							return false;
+						}
+					});
+				}
+				else {
+					$container.find('> .prev, > .next').hide();
+				}
+			}).trigger('changedSize').attr('aria-listen', ($container.attr('aria-listen') ? $container.attr('aria-listen') + ' ' : '') + 'show');
+
+			// Window resize
+			$window.on('resize', function () {
+				$container.trigger('changedSize');
+			});
+
+			// Auto next
+			if (params['auto_next'] && $list.children().length > 1) {
+				if (params['auto_next_delay']) {
+					setTimeout(function () {
+						scrollInterval = setInterval(function () {
+							continueScroll();
+						}, params['auto_next']);
+					}, params['auto_next_delay'])
+				}
+				else {
+					scrollInterval = setInterval(function () {
+						continueScroll();
+					}, params['auto_next']);	
+				}
+				
+				$container.on({
+					mouseenter: function () {
+						clearInterval(scrollInterval);
+					},
+					mouseleave: function () {
+						scrollInterval = setInterval(function () {
+							continueScroll();
+						}, params['auto_next']);
+					}
+				})
+			}
+
+			// Button events
+			$container.find('> .prev').on('click', function (e) {
+				e.stopPropagation();
+
+				// Find col can't see from showing col - right to left
+				$lastCol = [];
+				offsetForCantSee = $listWrapper.offset().left + parseInt($listWrapper.css('padding-left'));
+				$cantSeeCol = (function findCantSeeCol($checkCol) {
+					// If empty => choose last col
+					if ($checkCol.length == 0) {
+						return $lastCol;
+					}
+
+					// If can't see => choose
+					if ($checkCol.offset().left + $checkCol.outerWidth() <= offsetForCantSee) {
+						return $checkCol;
+					}
+
+					$lastCol = $checkCol;
+					return findCantSeeCol($checkCol.prev());
+				})($showingCol.prev());
+
+				// If empty => return
+				if ($cantSeeCol.length == 0) {
+					return;
+				}
+
+				// Unless first child => get prev child for display
+				// if (!$cantSeeCol.is(':first-child')) {
+				// 	$cantSeeCol = $cantSeeCol.prev();
+				// }
+
+				// Scroll to can't see col
+				$listWrapper.animate({
+					scrollLeft: $listWrapper.scrollLeft() + $cantSeeCol.offset().left - offsetForCantSee
+				}, 200);
+				$showingCol = $cantSeeCol;
+
+				continueScroll = function () {
+					if ($showingCol.is(':first-child')) {
+						$showingCol = $list.children().last();
+					}
+					else {
+						$showingCol = $showingCol.prev();
+					}
+					$listWrapper.animate({
+						scrollLeft: $listWrapper.scrollLeft() + $showingCol.offset().left - ($listWrapper.offset().left + parseInt($listWrapper.css('padding-left')))
+					}, 200);
+				}
+			});
+			$container.find('> .next').on('click', function (e) {
+				e.stopPropagation();
+
+				// Find col can't see from showing col - left to right
+				$lastCol = [];
+				offsetForCantSee = $listWrapper.offset().left + parseInt($listWrapper.css('padding-left')) + $listWrapper.width();
+				$cantSeeCol = (function findCantSeeCol($checkCol) {
+					// If empty => choose last col
+					if ($checkCol.length == 0) {
+						return $lastCol;
+					}
+
+					// If can't see => choose
+					if ($checkCol.offset().left >= offsetForCantSee) {
+						return $checkCol;
+					}
+
+					$lastCol = $checkCol;
+					return findCantSeeCol($checkCol.next());
+				})($showingCol.next());
+
+				// If empty => return
+				if ($cantSeeCol.length == 0) {
+					return;
+				}
+
+				// Unless last child => get next child for display
+				// if (!$cantSeeCol.is(':last-child')) {
+				// 	$cantSeeCol = $cantSeeCol.next();
+				// }
+
+				// Scroll to can't see col
+				$listWrapper.animate({
+					scrollLeft: $listWrapper.scrollLeft() + $cantSeeCol.offset().left + $cantSeeCol.outerWidth() - offsetForCantSee
+				}, 200);
+				$showingCol = $cantSeeCol;
+
+				continueScroll = function () {
+					if ($showingCol.is(':last-child')) {
+						$showingCol = $list.children().first();
+					}
+					else {
+						$showingCol = $showingCol.next();
+					}
+					
+					$listWrapper.animate({
+						scrollLeft: $listWrapper.scrollLeft() + $showingCol.offset().left + $showingCol.outerWidth() - ($listWrapper.offset().left + parseInt($listWrapper.css('padding-left')) + $listWrapper.width())
+					}, 200);
+				}
+			});
+
+			$container.data('horizontal_list', true);
 		});
-
-		// Button events
-		$container.find('> .prev').on('click', function () {
-			// Find col can't see from showing col - right to left
-			$lastCol = [];
-			offsetForCantSee = $listWrapper.offset().left + parseInt($listWrapper.css('padding-left'));
-			$cantSeeCol = (function findCantSeeCol($checkCol) {
-				// If empty => choose last col
-				if ($checkCol.length == 0) {
-					return $lastCol;
-				}
-
-				// If can't see => choose
-				if ($checkCol.offset().left + $checkCol.outerWidth() <= offsetForCantSee) {
-					return $checkCol;
-				}
-
-				return findCantSeeCol($checkCol.prev());
-			})($showingCol.prev());
-
-			// If empty => return
-			if ($cantSeeCol.length == 0) {
-				return;
-			}
-
-			// Unless first child => get prev child for display
-			if (!$cantSeeCol.is(':first-child')) {
-				$cantSeeCol = $cantSeeCol.prev();
-			}
-
-			// Scroll to can't see col
-			$listWrapper.animate({
-				scrollLeft: $listWrapper.scrollLeft() + $cantSeeCol.offset().left - offsetForCantSee
-			}, 200);
-			$showingCol = $cantSeeCol;
-		});
-		$container.find('> .next').on('click', function () {
-			// Find col can't see from showing col - left to right
-			$lastCol = [];
-			offsetForCantSee = $listWrapper.offset().left + parseInt($listWrapper.css('padding-left')) + $listWrapper.width();
-			$cantSeeCol = (function findCantSeeCol($checkCol) {
-				// If empty => choose last col
-				if ($checkCol.length == 0) {
-					return $lastCol;
-				}
-
-				// If can't see => choose
-				if ($checkCol.offset().left >= offsetForCantSee) {
-					return $checkCol;
-				}
-
-				return findCantSeeCol($checkCol.next());
-			})($showingCol.next());
-
-			// If empty => return
-			if ($cantSeeCol.length == 0) {
-				return;
-			}
-
-			// Unless last child => get next child for display
-			if (!$cantSeeCol.is(':last-child')) {
-				$cantSeeCol = $cantSeeCol.next();
-			}
-
-			// Scroll to can't see col
-			$listWrapper.animate({
-				scrollLeft: $listWrapper.scrollLeft() + $cantSeeCol.offset().left + $cantSeeCol.outerWidth() - offsetForCantSee
-			}, 200);
-			$showingCol = $cantSeeCol;
-		});
-
-		$container.data('horizontal_list', true);
 	}
 
 // / Manual horizontal list

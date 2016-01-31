@@ -2,7 +2,7 @@ var $footer = $('footer');
 
 //region Initialization
 $(function () {
-		_getPopupContent();
+	_getPopupContent();
 
 	//init Header	
 	initHeader();

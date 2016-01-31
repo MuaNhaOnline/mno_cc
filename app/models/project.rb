@@ -27,11 +27,12 @@ class Project < ActiveRecord::Base
 		belongs_to :price_unit, class_name: 'Unit'
 		belongs_to :investor
 
-		has_many :images, class_name: 'ProjectImage', dependent: :destroy
+		has_many :images, class_name: 'ProjectImage', dependent: :destroy, autosave: true
 		has_many :payment_attachments, class_name: 'ProjectPaymentAttachment', dependent: :destroy
 		has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
 		has_many :blocks, dependent: :destroy
-		has_many :utilities, class_name: 'ProjectUtility', dependent: :destroy
+		has_many :utilities, class_name: 'ProjectUtility', dependent: :destroy, autosave: true
+		has_many :region_utilities, class_name: 'ProjectRegionUtility', dependent: :destroy, autosave: true
 
 	# / Associations
 
@@ -131,7 +132,6 @@ class Project < ActiveRecord::Base
 						_image.description = _value['description']
 						_image.is_avatar = _value['is_avatar']
 						_image.order = _value['order']
-						_image.save if _image.changed?          
 
 						_has_avatar = true if _value['is_avatar']
 
@@ -159,7 +159,6 @@ class Project < ActiveRecord::Base
 						_file = ProjectPaymentAttachment.find _value['id']
 						_file.description = _value['description']
 						_file.order = _value['order']
-						_file.save if _file.changed?          
 
 						_has_avatar = true if _value['is_avatar']
 
@@ -176,6 +175,9 @@ class Project < ActiveRecord::Base
 
 				_utility.title = _value[:title]
 				_utility.description = ApplicationHelper.encode_plain_text(_value[:description])
+				_utility.icon_key = _value[:icon_key]
+				_utility.icon_color = _value[:icon_color]
+
 				_images = []
 				if _value[:images].present?
 					_value[:images].each do |_v|
@@ -188,8 +190,7 @@ class Project < ActiveRecord::Base
 						else
 							_image = ProjectUtilityImage.find _v['id']
 							_image.description = _v['description']
-							_image.order = _v['order']
-							_image.save if _image.changed?          
+							_image.order = _v['order']        
 
 							_images << _image
 						end
@@ -200,6 +201,40 @@ class Project < ActiveRecord::Base
 				_utilities << _utility
 			end
 			assign_attributes utilities: _utilities
+
+			# Region utilities
+			_utilities = []
+			params[:region_utilities].each_value do |_value|
+				_utility = _value[:id].present? ? ProjectRegionUtility.find(_value[:id]) : ProjectRegionUtility.new
+
+				_utility.title = _value[:title]
+				_utility.description = ApplicationHelper.encode_plain_text(_value[:description])
+				_utility.icon_key = _value[:icon_key]
+				_utility.icon_color = _value[:icon_color]
+
+				_images = []
+				if _value[:images].present?
+					_value[:images].each do |_v|
+						_v = JSON.parse _v
+
+						if _v['is_new']
+							TemporaryFile.get_file(_v['id']) do |_image|
+								_images << ProjectRegionUtilityImage.new(image: _image, order: _v['order'], description: _v['description'])
+							end
+						else
+							_image = ProjectRegionUtilityImage.find _v['id']
+							_image.description = _v['description']
+							_image.order = _v['order']        
+
+							_images << _image
+						end
+					end
+				end
+				_utility.images = _images
+
+				_utilities << _utility
+			end
+			assign_attributes region_utilities: _utilities
 
 			assign_attributes params.permit [
 				:project_name, :slogan, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, 

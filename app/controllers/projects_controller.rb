@@ -126,6 +126,56 @@ class ProjectsController < ApplicationController
 			render layout: 'layout_back'
 		end
 
+		# Handle
+		# params: id(*)
+		# return
+			# errors: [
+			# 	{
+			# 		type: enum(project, block, surface),
+			# 		id,
+			#		alert
+			# 	}
+			# ]
+		def setup_interact_images_finish
+			project = Project.find params[:id]
+			errors = []
+
+			# Check block (project image must point to all blocks)
+			project.blocks.each do |block|
+				unless ProjectImageBlockDescription.exists? block_id: block.id
+					errors << {
+						type: 'project',
+						name: block.name,
+						id: ''
+					}
+				end
+
+				# Check block floor (block image must point to all block floors)
+				block.floors.each do |floor|
+					unless BlockImageBlockFloorDescription.exists? block_floor_id: floor.id
+						errors << {
+							type: 'block',
+							id: block.id,
+							name: floor.name
+						}
+					end
+				end
+
+				# Check real-estate (block floor image must point to all real-estates)
+				block.real_estates.each do |re|
+					unless BlockFloorSurfaceRealEstateDescription.exists? real_estate_id: re.id
+						errors << {
+							type: 'surface',
+							id: block.id,
+							name: re.label
+						}
+					end
+				end
+			end
+
+			render json: { status: 0, result: errors }
+		end
+
 	# / Create
 
 	# Interact image

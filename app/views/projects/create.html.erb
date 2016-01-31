@@ -298,93 +298,273 @@
 							<h2 class="box-title">Tiện ích - Tính năng</h2>
 						</section>
 						<section class="box-body">
-							<article class="tab-container input">
-								<section class="tab-list">
-									<section class="list horizontal-list-container text-left">
-										<ul class="horizontal-list">
-										</ul>
-									</section>
-									<section class="add-button">
-										<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
-									</section>
-								</section>
-								<section class="tab-content-list">
 
-									<% if @p.new_record? || @p.utilities.blank? %>
+							<!-- Project -->
+						
+								<article class="margin-bottom-15">
+									<label>
+										Tiện ích - Tính năng dự án
+									</label>
+									<article class="tab-container input">
+										<section class="tab-list">
+											<section class="list horizontal-list-container text-left">
+												<ul class="horizontal-list">
+												</ul>
+											</section>
+											<section class="add-button">
+												<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+											</section>
+										</section>
+										<section class="tab-content-list">
 
-										<article class="tab-content" aria-name="new">
+											<% if @p.new_record? || @p.utilities.blank? %>
 
-											<input type="hidden" value="" name="project[utilities][tab_name][id]" />
+												<article class="tab-content" aria-name="new">
 
-											<article class="form-group">
-												<label class="control-label">
-													Nhãn
-												</label>
-												<input type="text" class="form-control" name="project[utilities][tab_name][title]">
-											</article>
+													<input type="hidden" value="" name="project[utilities][tab_name][id]" />
 
-											<article class="form-group">
-												<label class="control-label">
-													Mô tả
-												</label>
-												<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"></textarea>
-											</article>
+													<div class="row">
 
-											<article class="form-group">
-												<label class="control-label">
-													Hình ảnh
-												</label>
-												<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
-											</article>
+														<article class="form-group col-xs-12 col-ss-6">
+															<label class="control-label">
+																Nhãn
+															</label>
+															<input type="text" class="form-control" name="project[utilities][tab_name][title]">
+														</article>
 
-										</article>
+														<article class="form-group col-xs-6 col-ss-3">
+															<label class="control-label">
+																Biểu tượng
+															</label>
+															<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" />
+														</article>
 
-									<% else %>
+														<article class="form-group col-xs-6 col-ss-3">
+															<label class="control-label">
+																Màu sắc
+															</label>
+															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="#000" />
+														</article>
 
-										<% @p.utilities.each do |utility| %>
+													</div>
 
-											<article class="tab-content" aria-name="new_<%= utility.id %>">
+													<article class="form-group">
+														<label class="control-label">
+															Mô tả
+														</label>
+														<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"></textarea>
+													</article>
 
-												<input type="hidden" value="<%= utility.id %>" name="project[utilities][tab_name][id]" />
+													<article class="form-group">
+														<label class="control-label">
+															Hình ảnh
+														</label>
+														<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
+													</article>
 
-												<article class="form-group">
-													<label class="control-label">
-														Nhãn
-													</label>
-													<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
 												</article>
 
-												<article class="form-group">
-													<label class="control-label">
-														Mô tả
-													</label>
-													<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
+											<% else %>
+
+												<% @p.utilities.each do |utility| %>
+
+													<article class="tab-content" aria-name="new_<%= utility.id %>">
+
+														<input type="hidden" value="<%= utility.id %>" name="project[utilities][tab_name][id]" />
+
+														<div class="row">
+
+															<article class="form-group col-xs-12 col-ss-6">
+																<label class="control-label">
+																	Nhãn
+																</label>
+																<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
+															</article>
+
+															<article class="form-group col-xs-6 col-ss-3">
+																<label class="control-label">
+																	Biểu tượng
+																</label>
+																<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+															</article>
+
+															<article class="form-group col-xs-6 col-ss-3">
+																<label class="control-label">
+																	Màu sắc
+																</label>
+																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
+															</article>
+
+														</div>
+
+														<article class="form-group">
+															<label class="control-label">
+																Mô tả
+															</label>
+															<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
+														</article>
+
+														<% 
+															utility_image_init_value = ''
+															_images = []
+															utility.images.each do |utility_image|
+																_images << { 'id'=> utility_image.id, 'url'=> utility_image.image.url, 'description'=> utility_image.description }
+															end
+															utility_image_init_value = _images.to_json
+														%>
+
+														<article class="form-group">
+															<label class="control-label">
+																Hình ảnh
+															</label>
+															<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
+														</article>
+
+													</article>
+
+												<% end %>
+
+											<% end %>
+
+										</section>
+									</article>
+								</article>		
+						
+							<!-- / Project -->
+
+							<!-- Region -->
+						
+								<article class="margin-bottom-15">
+									<label>
+										Tiện ích - Tính năng khu vực
+									</label>
+									<article class="tab-container input">
+										<section class="tab-list">
+											<section class="list horizontal-list-container text-left">
+												<ul class="horizontal-list">
+												</ul>
+											</section>
+											<section class="add-button">
+												<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+											</section>
+										</section>
+										<section class="tab-content-list">
+
+											<% if @p.new_record? || @p.region_utilities.blank? %>
+
+												<article class="tab-content" aria-name="new">
+
+													<input type="hidden" value="" name="project[region_utilities][tab_name][id]" />
+
+													<div class="row">
+
+														<article class="form-group col-xs-12 col-ss-6">
+															<label class="control-label">
+																Nhãn
+															</label>
+															<input type="text" class="form-control" name="project[region_utilities][tab_name][title]">
+														</article>
+
+														<article class="form-group col-xs-6 col-ss-3">
+															<label class="control-label">
+																Biểu tượng
+															</label>
+															<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" />
+														</article>
+
+														<article class="form-group col-xs-6 col-ss-3">
+															<label class="control-label">
+																Màu sắc
+															</label>
+															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="#000" />
+														</article>
+
+													</div>
+
+													<article class="form-group">
+														<label class="control-label">
+															Mô tả
+														</label>
+														<textarea data-constraint="required" class="form-control" name="project[region_utilities][tab_name][description]"></textarea>
+													</article>
+
+													<article class="form-group">
+														<label class="control-label">
+															Hình ảnh
+														</label>
+														<input type="file" multiple class="file-upload" class="form-control" name="project[region_utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
+													</article>
+
 												</article>
 
-												<% 
-													utility_image_init_value = ''
-													_images = []
-													utility.images.each do |utility_image|
-														_images << { 'id'=> utility_image.id, 'url'=> utility_image.image.url, 'description'=> utility_image.description }
-													end
-													utility_image_init_value = _images.to_json
-												%>
+											<% else %>
 
-												<article class="form-group">
-													<label class="control-label">
-														Hình ảnh
-													</label>
-													<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
-												</article>
+												<% @p.region_utilities.each do |utility| %>
 
-											</article>
+													<article class="tab-content" aria-name="new_<%= utility.id %>">
 
-										<% end %>
+														<input type="hidden" value="<%= utility.id %>" name="project[region_utilities][tab_name][id]" />
 
-									<% end %>
+														<div class="row">
 
-								</section>
-							</article>
+															<article class="form-group col-xs-12 col-ss-6">
+																<label class="control-label">
+																	Nhãn
+																</label>
+																<input type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
+															</article>
+
+															<article class="form-group col-xs-6 col-ss-3">
+																<label class="control-label">
+																	Biểu tượng
+																</label>
+																<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+															</article>
+
+															<article class="form-group col-xs-6 col-ss-3">
+																<label class="control-label">
+																	Màu sắc
+																</label>
+																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
+															</article>
+
+														</div>
+
+														<article class="form-group">
+															<label class="control-label">
+																Mô tả
+															</label>
+															<textarea data-constraint="required" class="form-control" name="project[region_utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
+														</article>
+
+														<% 
+															utility_image_init_value = ''
+															_images = []
+															utility.images.each do |utility_image|
+																_images << { 'id'=> utility_image.id, 'url'=> utility_image.image.url, 'description'=> utility_image.description }
+															end
+															utility_image_init_value = _images.to_json
+														%>
+
+														<article class="form-group">
+															<label class="control-label">
+																Hình ảnh
+															</label>
+															<input type="file" multiple class="file-upload" class="form-control" name="project[region_utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
+														</article>
+
+													</article>
+
+												<% end %>
+
+											<% end %>
+
+										</section>
+									</article>
+								</article>		
+							
+							<!-- / Region -->
+
 						</section>
 					</article>
 
@@ -587,7 +767,7 @@
 
 								<article class="form-group">
 									<label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2,table" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= @p.payment_method %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= @p.payment_method %></textarea>
 								</article>
 
 					            <article class="form-group">

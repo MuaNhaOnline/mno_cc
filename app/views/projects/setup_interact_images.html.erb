@@ -16,8 +16,8 @@
 	</script>
 	<script type="text/javascript">
 		$(function () {
-			_initManualHorizontalList($('.manual-horizontal-list'));
 			_initTabContainer($('.free-style-tab-container'));
+			_initManualHorizontalList($('.manual-horizontal-list'));
 		})
 	</script>
 <% end %>
@@ -134,7 +134,7 @@
 		</section>
 		<section class="toolbox-container">
 			<div class="top">
-				<a aria-type="tool" aria-click="mouse" class="node active"><span class="fa fa-mouse-pointer fa-lg"></span></a>
+				<a aria-type="tool" aria-click="mouse" class="node"><span class="fa fa-mouse-pointer fa-lg"></span></a>
 				<a aria-type="tool" aria-click="polyline" class="node"><span class="fa fa-pencil fa-lg"></span></a>
 				<a aria-type="tool" aria-click="cut" class="node"><span class="fa fa-cut fa-lg"></span></a>
 			</div>
@@ -157,13 +157,15 @@
 <!-- View -->
 
 	<section class="view-container">
-		<article class="box box-default">
+		<article class="box box-primary">
 			<section class="box-header">
 				<h2 class="box-title">
+					<span aria-object="project-error-icon" class="error-icon fa fa-exclamation fa-lg text-red" style="display: none; margin-left: 5px;"></span>
 					<%= @project.project_name %>
 				</h2>
 			</section>
 			<section class="box-body">
+				<p aria-object="project-error-text" class="error-text text-red"></p>
 				<article class="manual-horizontal-list">
 					<section class="list-wrapper">
 						<article class="list items-list" data-value="<%= @project.id %>" data-type="project">
@@ -189,7 +191,10 @@
 						<ul>
 							<% @project.blocks.each do |block| %>
 								<li aria-name="block<%= block.id %>">
-									<a aria-click="change_tab"><%= block.name %></a>
+									<a aria-click="change_tab">
+										<span aria-object="block<%= block.id %>-error-icon" class="error-icon fa fa-exclamation fa-lg text-red" style="display: none; margin-left: 5px;"></span>
+										<%= block.name %>
+									</a>
 								</li>
 							<% end %>
 						</ul>
@@ -198,6 +203,7 @@
 						<% @project.blocks.each do |block| %>
 							<article class="tab-content" aria-name="block<%= block.id %>">
 								<article class="item-container">
+									<p aria-object="block<%= block.id %>-error-text" class="error-text text-red"></p>
 									<section class="manual-horizontal-list">
 										<section class="list-wrapper">
 											<article class="list items-list" data-value="<%= block.id %>" data-type="block">
@@ -222,7 +228,10 @@
 													<a aria-click="change_tab">Nhóm sản phẩm</a>
 												</li>
 												<li aria-name="surface">
-													<a aria-click="change_tab">Mặt cắt sàn</a>
+													<a aria-click="change_tab">
+														<span aria-object="surface<%= block.id %>-error-icon" class="error-icon fa fa-exclamation fa-lg text-red" style="display: none; margin-left: 5px;"></span>
+														Mặt cắt sàn
+													</a>
 												</li>
 											</ul>
 										</section>
@@ -264,6 +273,7 @@
 												</article>
 											</article>
 											<article class="tab-content" aria-name="surface">
+												<p aria-object="surface<%= block.id %>-error-text" class="error-text text-red"></p>
 												<article class="manual-horizontal-list">
 													<section class="list-wrapper">
 														<article class="list items-list" data-value="<%= block.id %>" data-type="blocks/floor">
@@ -291,7 +301,20 @@
 				</article>
 			</section>
 		</article>
-		
+		<!-- Finish -->
+
+			<article class="text-center">
+				<article class="box box-solid" style="display: inline-block; width: auto;">
+					<article class="box-body">
+						<section class="text-center">
+							<p>Hoàn thành và tiếp tục </p>
+							<p><a class="btn btn-primary" aria-click="setup_finish">Tùy biến giao diện</a></p>
+						</section>
+					</article>
+				</article>
+			</article>
+
+		<!-- / Finish -->
 	</section>	
 
 <!-- / View -->

@@ -1,6 +1,6 @@
-/* Design panel */
+/* Design container */
 
-	/* Select panel */
+	/* Select container */
 
 		.select-description-container {
 			position: absolute;
@@ -52,7 +52,7 @@
 						border-bottom-color: #3c8dbc;
 					}
 
-	/* / Select panel */
+	/* / Select container */
 
 	.setup-container {
 		background-color: #f5f5f5;
@@ -191,9 +191,27 @@
 
 		/* / View */
 
-/* / Design panel */
+/* / Design container */
 
-/* View panel */
+/* View container */
+
+	/* Error text */
+	
+		.view-container .error-text {
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+	
+			.view-container .error-text:before {
+				content: 'Cần hình ảnh trỏ đến đối tượng: ';
+				font-weight: normal;
+			}
+	
+			.view-container .error-text span:not(:first-child):before {
+				content: ', ';
+			}
+	
+	/* / Error text */
 	
 	/* Image list */
 	
@@ -204,13 +222,14 @@
 			.view-container .items-list .item {
 				width: 250px;
 				position: relative;
+				padding: 0 10px;
 			}
 	
 				.view-container .items-list .item .controls {
 					position: absolute;
 					bottom: 0;
-					left: 0;
-					width: 100%;
+					left: 10px;
+					width: calc(100% - 20px);
 					height: 80px;
 					padding-top: 40px;
 					transition: .2s;
@@ -255,4 +274,4 @@
 	
 	/* / Image list */
 	
-/* / View panel */
+/* / View container */

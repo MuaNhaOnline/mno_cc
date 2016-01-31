@@ -225,6 +225,23 @@ class RealEstatesController < ApplicationController
 			render json: { status: 0, result: re.id }
 		end
 
+		# Handle
+		# params: project_id(*), label(*), id
+		def check_unique_label
+			block_ids = Block.where(project_id: params[:project_id]).map{ |block| block.id }
+			exist_re = RealEstate.where(block_id: block_ids, label: params[:label]).first
+
+			if exist_re.present?
+				if params[:id].present? && exist_re.id == params[:id].to_s
+					render json: { status: 0, result: true }
+				else
+					render json: { status: 0, result: false }
+				end
+			else
+				render json: { status: 0, result: true }
+			end
+		end
+
 	# / Block create
 
 	# Block list
@@ -349,7 +366,9 @@ class RealEstatesController < ApplicationController
 		# Handle
 		# params: data(*)
 		def save_interact_images
+
 			render json: BlockRealEstateGroupImage.save_description(JSON.parse(params[:data]))
+
 		end
 
 		# Get values
@@ -763,7 +782,7 @@ class RealEstatesController < ApplicationController
 				render json: { status: 0 }
 			end
 		end
-		
+
 	# / Appraise
 
 	# Delete

@@ -155,7 +155,7 @@
 
 			<div class="row">
 
-				<div class="col-md-6">
+				<div class="col-md-6 col-xs-12">
 
 					<label class="control-label">Nhóm sản phẩm</label>
 					
@@ -371,7 +371,7 @@
 
 				<% if ['apartment', 'complex_apartment', 'office', 'complex'].include? @project.project_type.name %>
 
-					<div class="col-md-6" <%= 'data-toggled-element="complex_apartment block_apartment un-adjacent_house block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
+					<div class="col-md-6 col-xs-12" <%= 'data-toggled-element="complex_apartment block_apartment un-adjacent_house block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
 
 						<label class="control-label">Phân bố tầng</label>
 						
@@ -395,6 +395,22 @@
 
 										<div class="row">
 
+											<div class="col-xs-12">
+												<article class="form-group">
+													<label class="control-label">
+														Loại
+													</label>
+													<article>
+														<label class="radio-inline">
+															<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" checked /> Động
+														</label>
+														<label class="radio-inline">
+															<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" /> Tĩnh
+														</label>
+													</article>
+												</article>
+											</div>
+
 											<div class="col-ss-6">
 
 												<article class="form-group">
@@ -402,7 +418,7 @@
 														Các tầng
 														<sup class="required-label"></sup>
 													</label>
-													<input data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" />
+													<input aria-object="floors" data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" />
 												</article>
 
 												<article class="form-group">
@@ -428,12 +444,19 @@
 
 										<!-- Image -->
 
-											<article class="form-group">
+											<article class="form-group" data-toggled-element="dynamic">
 												<label class="control-label">
 													Hình ảnh sàn
 													<sup class="required-label"></sup>
 												</label>
 												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
+											</article>
+
+											<article class="form-group" data-toggled-element="static">
+												<label class="control-label">
+													Hình ảnh
+												</label>
+												<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="" data-has_order data-has_description />
 											</article>
 
 										<!-- / Image -->
@@ -450,6 +473,22 @@
 
 											<div class="row">
 
+												<div class="col-xs-12">
+													<article class="form-group">
+														<label class="control-label">
+															Loại
+														</label>
+														<article>
+															<label class="radio-inline">
+																<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" <%= 'checked' if floor.is_dynamic %> /> Động
+															</label>
+															<label class="radio-inline">
+																<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" <%= 'checked' unless floor.is_dynamic %> /> Tĩnh
+															</label>
+														</article>
+													</article>
+												</div>
+
 												<div class="col-ss-6">
 
 													<!-- Floor text -->
@@ -459,7 +498,7 @@
 																Các tầng
 																<sup class="required-label"></sup>
 															</label>
-															<input data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" value="<%= floor.floors_text %>" />
+															<input aria-object="floors" data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" value="<%= floor.floors_text %>" />
 														</article>
 
 													<!-- / Floor text -->
@@ -497,12 +536,27 @@
 
 											<!-- Image -->
 
-												<article class="form-group">
+												<article class="form-group" data-toggled-element="dynamic">
 													<label class="control-label">
 														Hình ảnh sàn
 														<sup class="required-label"></sup>
 													</label>
-													<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json %>" />
+													<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json if floor.surface.present? %>" />
+												</article>
+
+												<article class="form-group" data-toggled-element="static">
+													<%
+														image_init_value = ''
+														images = []
+														floor.images.each do |floor_image|
+															images << { 'id'=> floor_image.id, 'url'=> floor_image.image.url, 'description'=> floor_image.description, 'order' => floor_image.order }
+														end
+														image_init_value = images.to_json
+													%>
+													<label class="control-label">
+														Hình ảnh
+													</label>
+													<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_order data-has_description />
 												</article>
 
 											<!-- / Image -->

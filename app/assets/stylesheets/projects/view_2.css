@@ -1,5 +1,6 @@
 body {
 	background-color: #f5f5f5;
+	overflow-x: hidden;
 }
 
 /* Animation */
@@ -418,9 +419,10 @@ body {
 		}
 
 			.content-panel .utilities .item {
-				border: 1px solid #e5e5e5;
+				border: 1px solid #ddd;
+				border-top: 0;
 				padding: 20px;
-				padding-top: 60px;
+				padding-top: 30px;
 				position: relative;
 				background-color: #fff;
 				max-width: 300px;
@@ -428,25 +430,32 @@ body {
 				cursor: pointer;
 			}
 
+				.content-panel .utilities .item .line {
+					width: 100%;
+					height: 3px;
+					position: absolute;
+				 	top: 0;
+				 	left: 0;
+				}
+
 				.content-panel .utilities .item .icon {
 					position: absolute;
 					top: -50px;
 					left: calc(50% - 50px);
-					border-radius: 50%;
-					border: 6px solid #e5e5e5;
 					width: 100px;
-					height: 100px;
+					height: 50px;
 					background-color: #fff;
+					border: 3px solid #3c8dbc;
+					border-bottom: 0;
+					box-sizing: content-box;
 				}
 
 					.content-panel .utilities .item .icon span {
 						font-size: 40px;
-						border: 3px solid #08c;
-						border-radius: 50%;
-						width: 88px;
-						height: 88px;
+						width: 100px;
+						height: 100px;
 						text-align: center;
-						line-height: 85px;
+						line-height: 75px;
 					}
 
 				.content-panel .utilities .item .content {
@@ -464,10 +473,38 @@ body {
 						text-overflow: ellipsis;
 					}
 
-					.content-panel .utilities .item .description {
-						height: 140px;
-						text-align: justify;
+					.content-panel .utilities .item .descriptions-container {
+						margin-left: -20px;
+						margin-right: -20px;
 					}
+
+					.content-panel .utilities .item .descriptions {
+
+					}
+
+						.content-panel .utilities .item .col {
+							margin: 0 25px;
+						}
+
+						.content-panel .utilities .item .description {
+							width: 100%;
+							height: 140px;
+						}
+
+							.content-panel .utilities .item .description.text {
+								text-align: justify;
+							}
+
+							.content-panel .utilities .item .description.image {
+								width: 100%;
+								text-align: center;
+							}
+
+								.content-panel .utilities .item .description.image img {
+									max-width: 100%;
+									max-height: 140px;
+									margin: 0 auto;
+								}
 
 	/* / Utilities */
 
@@ -642,10 +679,10 @@ body {
 					border: 1px solid #aaa;
 					border-radius: 8px;
 					transform: scale(.75);
-					transition: .5s;
+					transition: border-color .5s;
 				}
 
-					.interact-image .images-list li a:hover span{
+					.interact-image .images-list li a:hover span {
 						transform: none;
 						border-color: #0089cc;
 					}
