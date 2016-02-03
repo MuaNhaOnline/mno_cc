@@ -48,6 +48,7 @@ Rails.application.routes.draw do
 
     get 'real_estates/groups/get_image_for_interact_build/:id' => 'real_estates#groups_get_image_for_interact_build'
     get 'real_estates/groups/get_data_for_interact_view/:id' => 'real_estates#groups_get_data_for_interact_view'
+    get 'real_estates/groups/get_options_for_interact_view/:id' => 'real_estates#groups_get_options_for_interact_view'
 
     get 'bat-dong-san/danh-sach' => 'real_estates#list'
     get 'bat-dong-san/danh-sach-:search' => 'real_estates#list'
@@ -108,7 +109,10 @@ Rails.application.routes.draw do
     get 'blocks/floors/_description_item_list/:block_id' => 'blocks#_floors_description_item_list'
     get 'blocks/floors/get_image_for_interact_build/:id' => 'blocks#floors_get_image_for_interact_build'
     get 'blocks/floors/get_data_for_interact_view/:id' => 'blocks#floors_get_data_for_interact_view'
+    get 'blocks/floors/get_options_for_interact_view/:id' => 'blocks#floors_get_options_for_interact_view'
     post 'blocks/floors/save_interact_images' => 'blocks#floors_save_interact_images'
+
+    get 'blocks/:action(/:id)', controller: 'blocks'
 
   # / Block
 

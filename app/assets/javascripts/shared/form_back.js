@@ -1698,19 +1698,47 @@ function initForm($form, params) {
 
 		function initColor() {
 			$form.find('[aria-input-type="color"]').attr('data-recreate', '').data('recreate', function (data) {
-				createColorInput(data.element[0]);
+				createColorInput(data.element);
 			}).each(function () {
-				createColorInput(this);
+				$input = $(this);
+				createColorInput($input);
 			});
 
-			function createColorInput(input) {
-				input.value = input.value || $(input).data('default_color') || '#FFFFFF';
+			function createColorInput($input) {
+				
+				color = $input.val() || $input.data('default_color') || '#FFFFFF';
 
-				color = new jscolor(input);
-				if (input.value.length > 0 && input.value[0] != '#') {
-					input.value = '#' + input.value;
+				$input.css('background-color', color);
+				if (isLightColor(color)) {
+					$input.css('color', '#333');
 				}
-				color.hash = true;
+				else {
+					$input.css('color', '#fff');
+				}
+
+				if ($input.hasClass('colorpicker-element')) {
+					$input.removeData('colorpicker').off('.colorpicker').removeClass('colorpicker-element');
+				}
+
+				$input.colorpicker({
+					color: color
+				}).on({
+					changeColor: function () {
+						$input.css('background-color', $input.val());
+						if (isLightColor($input.val())) {
+							$input.css('color', '#333');
+						}
+						else {
+							$input.css('color', '#fff');
+						}
+					}
+				});	
+
+				// color = new jscolor(input);
+				// if (input.value.length > 0 && input.value[0] != '#') {
+				// 	input.value = '#' + input.value;
+				// }
+				// color.hash = true;
 			}
 		}
 
@@ -2073,7 +2101,7 @@ function initForm($form, params) {
 					$tabContainer.find('.tab-list [aria-click="add_tab"]').on('click', function () {
 						// Get contents
 						var
-							$tabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active'),
+							$tabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').attr('data-status', '').removeClass('active'),
 							$tabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
 
 						// Replace name off radio input for don't lose radio input in other tabs
@@ -2278,7 +2306,7 @@ function initForm($form, params) {
 					}
 				}
 				else if ($input.is('.file-upload')) {
-					if ($input.siblings('.preview-list').children().length == 0) {
+					if ($input.siblings('.preview-list').children('.preview').length == 0) {
 						toggleValidInput($input, false, 'required');
 						return 'required';
 					}
@@ -2344,7 +2372,7 @@ function initForm($form, params) {
 			}
 		}
 
-		function toggleValidInput($inputs, isValid, constraint, name, errorMessage) {
+		function toggleValidInput($inputs, isValid, constraint, name, errorMessage, replaceInvalid) {
 			if (!($inputs instanceof $)) {
 				if ($inputs instanceof Array) {
 					$($inputs).each(function () {

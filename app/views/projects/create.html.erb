@@ -1,12 +1,14 @@
 <% content_for :stylesheets do %>
 	<link rel="stylesheet" type="text/css" href="/assets/projects/create.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap-colorpicker.min.css">
 <% end %>
 
 <% content_for :scripts do %>
 	<script type="text/javascript" src="/assets/projects/create.js"></script>
 	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
-	<script type="text/javascript" src="/assets/shared/jscolor.js"></script>
+	<!-- <script type="text/javascript" src="/assets/shared/jscolor.js"></script>  -->
+	<script type="text/javascript" src="/assets/shared/bootstrap-colorpicker.js"></script>
 <% end %>
 
 <% 
@@ -328,22 +330,25 @@
 														<article class="form-group col-xs-12 col-ss-6">
 															<label class="control-label">
 																Nhãn
+																<sup class="required-label"></sup>
 															</label>
-															<input type="text" class="form-control" name="project[utilities][tab_name][title]">
+															<input data-constraint="required" type="text" class="form-control" name="project[utilities][tab_name][title]">
 														</article>
 
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Biểu tượng
+																<sup class="required-label"></sup>
 															</label>
-															<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" />
+															<input data-constraint="required" aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" />
 														</article>
 
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Màu sắc
+																<sup class="required-label"></sup>
 															</label>
-															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="#000" />
+															<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="#000" />
 														</article>
 
 													</div>
@@ -359,7 +364,7 @@
 														<label class="control-label">
 															Hình ảnh
 														</label>
-														<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
+														<input data-constraint="required" type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
 													</article>
 
 												</article>
@@ -377,22 +382,25 @@
 															<article class="form-group col-xs-12 col-ss-6">
 																<label class="control-label">
 																	Nhãn
+																	<sup class="required-label"></sup>
 																</label>
-																<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
+																<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Biểu tượng
+																	<sup class="required-label"></sup>
 																</label>
-																<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+																<input data-constraint="required" aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Màu sắc
+																	<sup class="required-label"></sup>
 																</label>
-																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
+																<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
 															</article>
 
 														</div>
@@ -461,22 +469,25 @@
 														<article class="form-group col-xs-12 col-ss-6">
 															<label class="control-label">
 																Nhãn
+																<sup class="required-label"></sup>
 															</label>
-															<input type="text" class="form-control" name="project[region_utilities][tab_name][title]">
+															<input data-constraint="required" type="text" class="form-control" name="project[region_utilities][tab_name][title]">
 														</article>
 
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Biểu tượng
+																<sup class="required-label"></sup>
 															</label>
-															<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" />
+															<input data-constraint="required" aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" />
 														</article>
 
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Màu sắc
+																<sup class="required-label"></sup>
 															</label>
-															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="#000" />
+															<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="#000" />
 														</article>
 
 													</div>
@@ -510,22 +521,25 @@
 															<article class="form-group col-xs-12 col-ss-6">
 																<label class="control-label">
 																	Nhãn
+																	<sup class="required-label"></sup>
 																</label>
-																<input type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
+																<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Biểu tượng
+																	<sup class="required-label"></sup>
 																</label>
-																<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+																<input data-constraint="required" aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Màu sắc
+																	<sup class="required-label"></sup>
 																</label>
-																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
+																<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
 															</article>
 
 														</div>

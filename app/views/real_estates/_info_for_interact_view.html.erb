@@ -4,41 +4,56 @@
 =end
 %>
 
-<h3 class="title">
-	<%= @re.block_group.name %>
-	<span class="sub">
-		<%= @re.label %>
-	</span>
-</h3>
-
-<section class="info">
-	Vị trí
-	<ul>
-		<% @re.in_floors.each do |floor_re| %>
-			<li>
-				Tầng <%= floor_re.floor %> <small><b>(<%= floor_re.status == 'sold' ? 'Đã bán' : number_with_delimiter(display_decimal(floor_re.sell_price.present? ? floor_re.sell_price : floor_re.rent_price)) %>)</b></small>
-			</li>
-		<% end %>
-	</ul>
+<section class="heading">
+	<h3 class="title">
+		<%= @re.short_label %>
+		<span class="sub">
+			<%= @re.block_group.name %>
+		</span>
+		<span class="sub">
+			<%= @re.block_floor.name %>
+		</span>
+	</h3>
 </section>
 
-<% case params[:from] %>
-<% when 'group' %>
-	Các sản phẩm cùng nhóm
-	<ul>
-		<% @re.block_group.real_estates.where("id <> #{@re.id}").each do |re| %>
-			<li>
-				<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'group' }.to_json %>"><%= re.label %></a>
-			</li>
-		<% end %>
-	</ul>
-<% when 'surface' %>
-	Các sản phẩm cùng mặt cắt
-	<ul>
-		<% @re.block_floor.real_estates.where("id <> #{@re.id}").each do |re| %>
-			<li>
-				<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>" data-data="<%= { from: 'surface' }.to_json %>"><%= re.label %></a>
-			</li>
-		<% end %>
-	</ul>
-<% end %>
+<section class="body">
+	<article class="info">
+		Vị trí
+		<ul>
+			<% @re.in_floors.each do |floor_re| %>
+				<li>
+					Tầng <%= floor_re.floor %> <small><b>(<%= floor_re.status == 'sold' ? 'Đã bán' : number_with_delimiter(display_decimal(floor_re.sell_price.present? ? floor_re.sell_price : floor_re.rent_price)) %>)</b></small>
+				</li>
+			<% end %>
+		</ul>
+	</article>
+
+	<article class="info">
+		Các sản phẩm cùng nhóm
+		<ul>
+			<% @re.block_group.real_estates.each do |re| %>
+				<%
+					next if re.id == @re.id
+				%>
+				<li>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+				</li>
+			<% end %>
+		</ul>
+	</article>
+
+	<article class="info">
+		Các sản phẩm cùng mặt cắt
+		<ul>
+			<% @re.block_floor.real_estates.each do |re| %>
+				<%
+					next if re.id == @re.id
+				%>
+				<li>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+				</li>
+			<% end %>
+		</ul>
+	</article>
+
+</section>

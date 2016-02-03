@@ -368,7 +368,6 @@ class RealEstatesController < ApplicationController
 		def save_interact_images
 
 			render json: BlockRealEstateGroupImage.save_description(JSON.parse(params[:data]))
-
 		end
 
 		# Get values
@@ -442,7 +441,16 @@ class RealEstatesController < ApplicationController
 
 			# Navigator
 			
-				navigator = render_to_string(partial: 'real_estates/groups/navigator_for_interact_view')
+				navigator = {
+					block: {
+						id: @group.block.id,
+						name: @group.block.name
+					},
+					group: {
+						id: @group.id,
+						name: @group.name
+					}
+				}
 			
 			# / Navigator
 
@@ -454,6 +462,24 @@ class RealEstatesController < ApplicationController
 					navigator: navigator
 				} 
 			}
+		end
+
+		# Get values
+		# params: id(*)(block_id)
+		def groups_get_options_for_interact_view
+			groups = BlockRealEstateGroup.where block_id: params[:id]
+
+			options = []
+			groups.each do |group|
+				floor_ids = '|' + group.real_estates.group_by{ |re| re.block_floor_id }.keys.join('|') + '|'
+				options << {
+					id: group.id,
+					name: group.name,
+					floor_ids: floor_ids
+				}
+			end
+
+			render json: { status: 0, result: options }
 		end
 
 		# Get values
@@ -528,7 +554,24 @@ class RealEstatesController < ApplicationController
 
 			# Navigator
 			
-				navigator = render_to_string(partial: 'real_estates/navigator_for_interact_view')
+				navigator = {
+					block: {
+						id: @re.block.id,
+						name: @re.block.name
+					},
+					group: {
+						id: @re.block_group.id,
+						name: @re.block_group.name
+					},
+					floor: {
+						id: @re.block_floor.id,
+						name: @re.block_floor.name
+					},
+					real_estate: {
+						id: @re.id,
+						name: @re.short_label
+					}
+				}
 			
 			# / Navigator
 
@@ -541,6 +584,25 @@ class RealEstatesController < ApplicationController
 				} 
 			}
 		end
+
+		# Get values
+		# params: id(*)(block_id)
+		def get_options_for_interact_view
+			res = RealEstate.where block_id: params[:id]
+
+			options = []
+			res.each do |re|
+				options << {
+					id: re.id,
+					name: re.short_label,
+					group_id: re.block_real_estate_group_id,
+					floor_id: re.block_floor_id
+				}
+			end
+
+			render json: { status: 0, result: options }
+		end
+
 
 	# / Interact image
 

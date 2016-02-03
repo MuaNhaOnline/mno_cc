@@ -245,7 +245,12 @@ class BlocksController < ApplicationController
 
 				# Navigator
 				
-					navigator = render_to_string(partial: 'blocks/navigator_for_interact_view')
+					navigator = {
+						block: {
+							id: @block.id,
+							name: @block.name
+						}
+					}
 				
 				# / Navigator
 
@@ -257,6 +262,22 @@ class BlocksController < ApplicationController
 						navigator: navigator
 					} 
 				}
+			end
+
+			# Get values
+			# params: id(*)(project_id)
+			def get_options_for_interact_view
+				blocks = Block.where project_id: params[:id]
+
+				options = []
+				blocks.each do |block|
+					options << {
+						id: block.id,
+						name: block.name
+					}
+				end
+
+				render json: { status: 0, result: options }
 			end
 
 		# / Block
@@ -430,7 +451,16 @@ class BlocksController < ApplicationController
 
 				# Navigator
 				
-					navigator = render_to_string(partial: 'blocks/floors/navigator_for_interact_view')
+					navigator = {
+						block: {
+							id: @floor.block.id,
+							name: @floor.block.name
+						},
+						floor: {
+							id: @floor.id,
+							name: @floor.name
+						}
+					}
 				
 				# / Navigator
 
@@ -442,6 +472,24 @@ class BlocksController < ApplicationController
 						navigator: navigator
 					} 
 				}
+			end
+
+			# Get values
+			# params: id(*)(block_id)
+			def floors_get_options_for_interact_view
+				floors = BlockFloor.where block_id: params[:id]
+
+				options = []
+				floors.each do |floor|
+					group_ids = '|' + floor.real_estates.group_by{ |re| re.block_real_estate_group_id }.keys.join('|') + '|'
+					options << {
+						id: floor.id,
+						name: floor.name,
+						group_ids: group_ids
+					}
+				end
+
+				render json: { status: 0, result: options }
 			end
 
 		# / Floor

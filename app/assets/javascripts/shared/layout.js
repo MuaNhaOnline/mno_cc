@@ -46,50 +46,91 @@ $(function () {
 	}
 
 	function isLightColor(str) {
-		rgb = getRGBFromString(string);
-		return (
-			0.213 * rgb[0] +
-			0.715 * rgb[1] +
-			0.072 * rgb[2] >
-			255 / 2
-		)
+		rgba = getRGBAFromString(str);
+		if (rgba[3] && rgba[3] < 0.5) {
+			return true;
+		}
+		else {
+			return (
+				0.213 * rgba[0] +
+				0.715 * rgba[1] +
+				0.072 * rgba[2] >
+				255 / 2
+			);	
+		}
 	}
 
-	function getRGBFromString(str) {
+	function getRGBAFromString(str) {
 		var m;
-		if (m = str.match(/^\W*([0-9A-F]{3}([0-9A-F]{3})?)\W*$/i)) {
-			if (m[1].length === 6) {
+		// #...
+		if (m = str.match(/#([0-9a-fA-F]{3,6})/)) {
+			m = m[1];
+			if (m.length === 6) {
 				return [
-					parseInt(m[1].substr(0,2),16),
-					parseInt(m[1].substr(2,2),16),
-					parseInt(m[1].substr(4,2),16)
+					parseInt(m.substr(0,2), 16),
+					parseInt(m.substr(2,2), 16),
+					parseInt(m.substr(4,2), 16),
+					1
 				];
 			} else {
 				return [
-					parseInt(m[1].charAt(0) + m[1].charAt(0),16),
-					parseInt(m[1].charAt(1) + m[1].charAt(1),16),
-					parseInt(m[1].charAt(2) + m[1].charAt(2),16)
+					parseInt(m.charAt(0) + m.charAt(0), 16),
+					parseInt(m.charAt(1) + m.charAt(1), 16),
+					parseInt(m.charAt(2) + m.charAt(2), 16),
+					1
 				]
 			}
-
-		} else if (m = str.match(/^\W*rgba?\(([^)]*)\)\W*$/i)) {
-			var params = m[1].split(',');
-			var re = /^\s*(\d*)(\.\d+)?\s*$/;
-			var mR, mG, mB;
-			if (
-				params.length >= 3 &&
-				(mR = params[0].match(re)) &&
-				(mG = params[1].match(re)) &&
-				(mB = params[2].match(re))
-			) {
-				return [
-					parseFloat((mR[1] || '0') + (mR[2] || '')),
-					parseFloat((mG[1] || '0') + (mG[2] || '')),
-					parseFloat((mB[1] || '0') + (mB[2] || ''))
-				];
-			}
 		}
-		return false;
+		// rgb, rgba (...)
+		else if (m = str.match(/rgba?\(([^)]*)\)/i)) {
+			m = m[1].split(',');
+			return [
+				m[0],
+				m[1],
+				m[2],
+				m[3] || 1
+			]
+		}
+		return [
+			255,
+			255, 
+			255,
+			1
+		];
+		// var m;
+		// if (m = str.match(/^\W*([0-9A-F]{3}([0-9A-F]{3})?)\W*$/i)) {
+		// 	if (m[1].length === 6) {
+		// 		return [
+		// 			parseInt(m[1].substr(0,2),16),
+		// 			parseInt(m[1].substr(2,2),16),
+		// 			parseInt(m[1].substr(4,2),16)
+		// 		];
+		// 	} else {
+		// 		return [
+		// 			parseInt(m[1].charAt(0) + m[1].charAt(0),16),
+		// 			parseInt(m[1].charAt(1) + m[1].charAt(1),16),
+		// 			parseInt(m[1].charAt(2) + m[1].charAt(2),16)
+		// 		]
+		// 	}
+
+		// } else if (m = str.match(/^\W*rgba?\(([^)]*)\)\W*$/i)) {
+		// 	var params = m[1].split(',');
+		// 	var re = /^\s*(\d*)(\.\d+)?\s*$/;
+		// 	var mR, mG, mB;
+		// 	if (
+		// 		params.length >= 3 &&
+		// 		(mR = params[0].match(re)) &&
+		// 		(mG = params[1].match(re)) &&
+		// 		(mB = params[2].match(re))
+		// 	) {
+		// 		return [
+		// 			parseFloat((mR[1] || '0') + (mR[2] || '')),
+		// 			parseFloat((mG[1] || '0') + (mG[2] || '')),
+		// 			parseFloat((mB[1] || '0') + (mB[2] || ''))
+		// 		];
+		// 	}
+		// }
+		// return false;
 	}
 
 	/*
@@ -1484,9 +1525,9 @@ $(function () {
 					return findCantSeeCol($checkCol.prev());
 				})($showingCol.prev());
 
-				// If empty => return
+				// If empty => last
 				if ($cantSeeCol.length == 0) {
-					return;
+					$cantSeeCol = $list.children().last();
 				}
 
 				// Unless first child => get prev child for display
@@ -1533,9 +1574,9 @@ $(function () {
 					return findCantSeeCol($checkCol.next());
 				})($showingCol.next());
 
-				// If empty => return
+				// If empty => first
 				if ($cantSeeCol.length == 0) {
-					return;
+					$cantSeeCol = $list.children().first();
 				}
 
 				// Unless last child => get next child for display

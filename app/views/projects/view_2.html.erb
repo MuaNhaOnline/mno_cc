@@ -357,6 +357,25 @@
 								</section>
 								<section class="box-body">
 									<article id="ground_interact" class="ground-description interact-image">
+										<section class="navigator">
+											<ul>
+												<li aria-name="project" class="active">
+													<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
+												</li>
+												<li aria-name="block">
+													<a aria-click="interact" data-type="block">Chọn block</a>
+												</li>
+												<li aria-name="group">
+													<a aria-click="interact" data-type="real_estates/group">Chọn nhóm</a>
+												</li>
+												<li aria-name="floor">
+													<a aria-click="interact" data-type="blocks/floors">Chọn tầng</a>
+												</li>
+												<li aria-name="real_estate">
+													<a aria-click="interact" data-type="real_estates">Chọn sản phẩm</a>
+												</li>
+											</ul>
+										</section>
 										<section class="image-panel">
 											<svg>
 												<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
@@ -365,9 +384,6 @@
 													</g>
 												</g>
 											</svg>
-											<article class="info-button button-in-panel">
-												<a class="fa fa-info fa-fw fa-lg" title="Thông tin" aria-click="active_info_panel"></a>
-											</article>
 											<article class="back-button button-in-panel">
 												<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
 											</article>
@@ -376,8 +392,6 @@
 													
 												</article>
 											</section>
-										</section>
-										<section class="navigator">
 										</section>
 										<section class="images-list">
 											<ul aria-object="image-list">
@@ -504,6 +518,25 @@
 								<article id="product_interact" class="col-xs-12" style="display: none">
 									<article class="product-description interact-image">
 										<section class="arrow"></section>
+										<section class="navigator">
+											<ul>
+												<li aria-name="project" class="active">
+													<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
+												</li>
+												<li aria-name="block">
+													<a aria-click="interact" data-type="block">Chọn block</a>
+												</li>
+												<li aria-name="group">
+													<a aria-click="interact" data-type="real_estates/group">Chọn nhóm</a>
+												</li>
+												<li aria-name="floor">
+													<a aria-click="interact" data-type="blocks/floors">Chọn tầng</a>
+												</li>
+												<li aria-name="real_estate">
+													<a aria-click="interact" data-type="real_estates">Chọn sản phẩm</a>
+												</li>
+											</ul>
+										</section>
 										<section class="image-panel">
 											<svg>
 												<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
@@ -512,9 +545,6 @@
 													</g>
 												</g>
 											</svg>
-											<article class="info-button button-in-panel">
-												<a class="fa fa-info fa-fw fa-lg" title="Thông tin" aria-click="active_info_panel"></a>
-											</article>
 											<article class="back-button button-in-panel">
 												<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
 											</article>
@@ -523,8 +553,6 @@
 													
 												</article>
 											</section>
-										</section>
-										<section class="navigator">
 										</section>
 										<section class="images-list">
 											<ul aria-object="image-list">

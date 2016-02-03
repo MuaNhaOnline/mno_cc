@@ -70,7 +70,7 @@ $(function () {
 	// Color icon
 	
 		function initColorIcon () {
-			$form.find('[aria-object="icon_color"]').on('change', function () {
+			$form.find('[aria-object="icon_color"]').on('changeColor', function () {
 				$input = $(this);
 				$icon = $input.closest('.tab-content').find('[aria-object="icon_key"]');
 				$icon.data('set_color')($input.val());

@@ -4,43 +4,65 @@
 =end
 %>
 
-<h3 class="title">
-	<%= @project.project_name %>
-	<span class="sub">
-		<%= @project.slogan %>
-	</span>
-</h3>
-
-<section class="info">
-	Dự án <strong><%= t("project_type.text.#{@project.project_type.name}").downcase %></strong>
+<section class="heading">
+	<h3 class="title">
+		<%= @project.project_name %>
+		<span class="sub">
+			Dự án <%= t("project_type.text.#{@project.project_type.name}").downcase %>
+		</span>
+	</h3>
 </section>
 
-<section class="info">
-	Diện tích <b><%= number_with_delimiter((display_decimal @project.campus_area), delimiter: '.') %>m<sup>2</sup></b> với mật độ <b><%= display_decimal @project.using_ratio %>%</b>
-</section>
-
-<section class="info">
-	Dự án gồm
-	<ul>
+<section class="body">
+	<section class="info">
 		<% @project.blocks.each do |block| %>
-			<li>
-				Block <a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a> gồm
-				<ul>
-					<% block.real_estate_groups.each do |group| %>
-						<%
-							available_count = 0
-							count = 0
-							group.real_estates.each do |re|
-								available_count += re.available_in_floors.count
-								count += re.in_floors.count
-							end
-						%>
-						<li>
-							<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
-						</li>
-					<% end %>
-				</ul>
-			</li>
+			<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a>
+			<ul>
+				<li>
+					Cấu trúc
+					<ul>
+						<% block.floors.each do |floor| %>
+							<li>
+								Tầng <%= floor.floors_text %>:
+								<% if floor.is_dynamic %>
+									<%
+										available_count = 0
+										count = 0
+										floor.real_estates.each do |re|
+											available_count += re.available_in_floors.count
+											count += re.in_floors.count
+										end
+									%>
+									<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+								<% else %>
+									<%= floor.name %>
+								<% end %>
+							</li>
+						<% end %>
+					</ul>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					Gồm
+					<ul>
+						<% block.real_estate_groups.each do |group| %>
+							<%
+								available_count = 0
+								count = 0
+								group.real_estates.each do |re|
+									available_count += re.available_in_floors.count
+									count += re.in_floors.count
+								end
+							%>
+							<li>
+								<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+							</li>
+						<% end %>
+					</ul>
+				</li>
+			</ul>
 		<% end %>
-	</ul>
+	</section>
+	
 </section>
