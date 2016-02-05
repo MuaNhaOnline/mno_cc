@@ -1,0 +1,36 @@
+<% 
+=begin
+	params: same_contact
+=end
+
+%>
+
+<article class="box box-primary" data-value="<%= same_contact.id %>">
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			Bạn có phải là <%= same_contact.name %> với thông tin ...?
+		</h2>
+	</section>
+	<section class="box-body same-contact-container">
+		<div>
+			Email:
+			<div class="value">
+				<% same_contact.email.split(',').each do |email| %>
+					<div><%= email %></div>
+				<% end %>
+			</div>
+		</div>
+		<div>
+			Điện thoại:
+			<div class="value">
+				<% same_contact.phone_number.split(',').each do |phone_number| %>
+					<div><%= phone_number %></div>
+				<% end %>
+			</div>
+		</div>
+		<div class="text-center">
+			<button class="btn btn-primary" aria-click="yes">Phải, là tôi</button>
+			<button class="btn btn-default" aria-click="no">Không phải tôi</button>
+		</div>
+	</section>
+</article>

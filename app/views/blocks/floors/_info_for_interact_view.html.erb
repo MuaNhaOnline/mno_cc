@@ -19,7 +19,7 @@
 		<ul>
 			<% @floor.real_estates.each do |re| %>
 				<li>
-					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a> <small><b>(<%= re.available_in_floors.count %>/<%= re.in_floors.count %>)</b></small>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.short_label %></a> <small><b>(<%= re.available_in_floors.count %>/<%= re.in_floors.count %>)</b></small>
 				</li>
 			<% end %>
 		</ul>

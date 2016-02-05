@@ -17,12 +17,41 @@
 </section>
 
 <section class="body">
+	<article class="info list">
+		Thông tin
+		<% if @re.bedroom_number.present? %>
+			<article class="list-item">
+				<span class="text">Phòng ngủ</span>
+				<span class="value"><%= @re.bedroom_number %></span>
+			</article>
+		<% end %>
+		<% if @re.restroom_number.present? %>
+			<article class="list-item">
+				<span class="text">Phòng ngủ</span>
+				<span class="value"><%= @re.restroom_number %></span>
+			</article>
+		<% end %>
+		<% if @re.campus_area.present? %>
+			<article class="list-item">
+				<span class="text">Diện tích</span>
+				<span class="value"><%= @re.campus_area %>m<sup>2</sup></span>
+			</article>
+		<% end %>
+		<% if @re.direction_id.present? %>
+			<article class="list-item">
+				<span class="text">Hướng</span>
+				<span class="value"><%= t "direction.text.#{@re.direction.name}" %></span>
+			</article>
+		<% end %>
+	</article>
+	
 	<article class="info">
 		Vị trí
 		<ul>
 			<% @re.in_floors.each do |floor_re| %>
 				<li>
-					Tầng <%= floor_re.floor %> <small><b>(<%= floor_re.status == 'sold' ? 'Đã bán' : number_with_delimiter(display_decimal(floor_re.sell_price.present? ? floor_re.sell_price : floor_re.rent_price)) %>)</b></small>
+					<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">Tầng <%= floor_re.floor %></a> <small><b>(<%= floor_re.status == 'sold' ? 'Đã bán' : number_with_delimiter(display_decimal(floor_re.sell_price.present? ? floor_re.sell_price : floor_re.rent_price)) %>)</b></small>
+					
 				</li>
 			<% end %>
 		</ul>
@@ -36,7 +65,7 @@
 					next if re.id == @re.id
 				%>
 				<li>
-					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.short_label %></a>
 				</li>
 			<% end %>
 		</ul>
@@ -50,7 +79,7 @@
 					next if re.id == @re.id
 				%>
 				<li>
-					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.short_label %></a>
 				</li>
 			<% end %>
 		</ul>

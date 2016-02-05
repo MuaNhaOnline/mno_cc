@@ -50,6 +50,9 @@ Rails.application.routes.draw do
     get 'real_estates/groups/get_data_for_interact_view/:id' => 'real_estates#groups_get_data_for_interact_view'
     get 'real_estates/groups/get_options_for_interact_view/:id' => 'real_estates#groups_get_options_for_interact_view'
 
+    get 'real_estates/floors/get_data_for_interact_view/:id' => 'real_estates#floors_get_data_for_interact_view'
+    get 'real_estates/floors/get_options_for_interact_view/:id' => 'real_estates#floors_get_options_for_interact_view'
+
     get 'bat-dong-san/danh-sach' => 'real_estates#list'
     get 'bat-dong-san/danh-sach-:search' => 'real_estates#list'
     get 'bat-dong-san/dang-tin(/:id)' => 'real_estates#create'

@@ -17,19 +17,19 @@
 	<article class="info list">
 		Thông tin
 		<% if @group.bedroom_number.present? %>
-			<article class="item">
+			<article class="list-item">
 				<span class="text">Phòng ngủ</span>
 				<span class="value"><%= @group.bedroom_number %></span>
 			</article>
 		<% end %>
 		<% if @group.restroom_number.present? %>
-			<article class="item">
+			<article class="list-item">
 				<span class="text">Phòng ngủ</span>
 				<span class="value"><%= @group.restroom_number %></span>
 			</article>
 		<% end %>
 		<% if @group.area.present? %>
-			<article class="item">
+			<article class="list-item">
 				<span class="text">Diện tích</span>
 				<span class="value"><%= @group.area %>m<sup>2</sup></span>
 			</article>
@@ -41,7 +41,7 @@
 		<ul>
 			<% @group.real_estates.each do |re| %>
 				<li>
-					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.label %></a> <small><b>(<%= re.available_in_floors.count %>/<%= re.in_floors.count %>)</b></small>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.short_label %></a> <small><b>(<%= re.available_in_floors.count %>/<%= re.in_floors.count %>)</b></small>
 				</li>
 			<% end %>
 		</ul>

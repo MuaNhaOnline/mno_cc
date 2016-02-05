@@ -1,7 +1,6 @@
 class ProjectRegionUtilityImage < ActiveRecord::Base
 
 	has_attached_file :image, 
-		styles: { thumb: '360x270#' },
 		default_url: "/assets/project_region_utilities/:style/default.png", 
 		:path => ":rails_root/app/assets/file_uploads/project_region_utility_images/:style/:id_:filename", 
 		:url => "/assets/project_region_utility_images/:style/:id_:filename"

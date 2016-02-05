@@ -34,21 +34,24 @@ $(function () {
 	// Contact box
 	(function () {
 		var $contactBox = $('.contact-box-container .contact-box');
+
 		$contactBox.find('.box-header').on({
 			'click': function () {
 				if ($contactBox.find('.box-body').slideToggle(200).is(':visible')){
 					$contactBox.find(':input:eq(0)').focus();
-					$document.on({
-						'click.close_contact_form': function () {
-							$contactBox.find('.box-body').slideUp(200);
-							$document.off('.close_contact_form');
-						},
-						'keydown.close_contact_form': function (e) {
-							if (e.keyCode == 27) {
+					setTimeout(function () {
+						$document.on({
+							'click.close_contact_form': function () {
 								$contactBox.find('.box-body').slideUp(200);
-								$document.off('.close_contact_form');	
+								$document.off('.close_contact_form');
+							},
+							'keydown.close_contact_form': function (e) {
+								if (e.keyCode == 27) {
+									$contactBox.find('.box-body').slideUp(200);
+									$document.off('.close_contact_form');	
+								}
 							}
-						}
+						});
 					});
 				}
 			}
@@ -62,30 +65,49 @@ $(function () {
 
 		$contactBox.find('#contact_form').on('submit', function (e) {
 			e.preventDefault();
-			var form = this;
+			form = this;
+			isValid = true;
 
-			if (!form['contact[name]'].value) {
+			name = form['contact[name]'].value;
+			phone_number = form['contact[phone_number]'].value.replace(/\ /g, '');
+			email = form['contact[email]'].value.replace(/ /g, '');
+
+			// Check name
+			if (!name) {
 				alert('Vui lòng nhập tên');
 				return;
 			}
 
-			if (!form['contact[phone_number]'].value) {
+			// Check phone number
+			if (!phone_number) {
 				alert('Vui lòng nhập số điện thoại');
 				return;
 			}
 
-			if (/\D/.test(form['contact[phone_number]'].value) || form['contact[phone_number]'].value.length > 11 || form['contact[phone_number]'].value.length < 10) {
-				alert('Số điện thoại không hợp lệ');
+			$(phone_number.split(',')).each(function () {
+				if (/\D/.test(this) || this.length < 10 || this.length > 11) {
+					alert('Số điện thoại không hợp lệ');
+					isValid = false;
+					return false;
+				}
+			});
+			if (!isValid) {
 				return;
 			}
 
-			if (!form['contact[email]'].value) {
+			if (!email) {
 				alert('Vui lòng nhập email');
 				return;
 			}
 
-			if (!/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test(form['contact[email]'].value)) {
-				alert('Email không hợp lệ');
+			$(email.split(',')).each(function () {
+				if (!/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test(this)) {
+					alert('Email không hợp lệ');
+					isValid = false;
+					return;
+				}
+			});
+			if (!isValid) {
 				return;
 			}
 
@@ -99,36 +121,39 @@ $(function () {
 					$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
 				}
 				else if (data.status == 5) {
+					$contactBox.find('.box-body').slideUp(200);
+					$document.off('.close_contact_form');
+
 					$popup = popupFull({
 						html: data.result,
 						esc: false
 					});
-					$popup.find('[aria-click="select"]').on('click', function () {
+
+					$popup.find('[aria-click="yes"]').on('click', function () {
+						$contactBox.find('.box-header').click();
 						$popup.off();
 						$.ajax({
 							url: '/contact_user_infos/create',
 							method: 'POST',
-							data: $(form).serialize() + '&force&append=' + $(this).closest('tr').data('value'),
+							data: $(form).serialize() + '&replace=' + $popup.find('.box').data('value'),
 							dataType: 'JSON'
-						}).done(function () {
-							$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
+						}).done(function (data) {
+							if (data.status == 0) {
+								$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
+							}
+							else {
+								alert('Rất tiếc, đã có lỗi xảy ra');
+							}
 						}).fail(function () {
 							alert('Rất tiếc, đã có lỗi xảy ra');
 						});
 					});
-					$popup.find('[aria-click="new"]').on('click', function () {
+
+					$popup.find('[aria-click="no"]').on('click', function () {
 						$popup.off();
-						$.ajax({
-							url: '/contact_user_infos/create',
-							method: 'POST',
-							data: $(form).serialize() + '&force',
-							dataType: 'JSON'
-						}).done(function () {
-							$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
-						}).fail(function () {
-							alert('Rất tiếc, đã có lỗi xảy ra');
-						});
-					})
+						$contactBox.find('[aria-object="unique"]').show();
+						$contactBox.find('.box-header').click();
+					});
 				}
 			}).fail(function () {
 				alert('Rất tiếc, đã có lỗi xảy ra');
@@ -184,9 +209,7 @@ function _initItemList($container) {
 
 		$body.append($html);
 
-		/*
-			Init values
-		*/
+		// Init values
 
 		// Get images
 		var $itemList = $html.find('.item-list');
@@ -217,13 +240,9 @@ function _initItemList($container) {
 			turn_off_popup_gallery();
 		});
 
-		/*
-			/ Init values
-		*/
+		// / Init values
 
-		/*
-			Events
-		*/
+		// Events
 
 		function initChangeImage() {
 			$itemList.find('.item').on('click', function () {
@@ -312,23 +331,15 @@ function _initItemList($container) {
 			downloadingImage.src = src;
 		}
 
-		/*
-			/ Events
-		*/
+		// / Events
 
-		/*
-			Scroll list item
-		*/
+		// Scroll list item
 
 			_initHorizontalListScroll($html.find('.image-list-panel'));
 
-		/*
-			/ Scroll list item
-		*/
+		// / Scroll list item
 
-		/*
-			Turn off
-		*/
+		// Turn off
 
 		$(document).on('keydown.popup_gallery', function (e) {
 			if (e.keyCode == 27) {
@@ -355,14 +366,10 @@ function _initItemList($container) {
 			$html.remove();
 		};
 
-		/*
-			/ Turn off
-		*/
+		// / Turn off
 	});
 
-	/*
-		User favorite
-	*/
+	// User favorite
 
 	(typeof($container) == 'undefined' ? $('.item-sm [aria-click="user_favorite"], .item-lg [aria-click="user_favorite"]') : $container.find('[aria-click="user_favorite"]')).on('click', function () {
 		if (!$body.is('[data-signed]')) {
@@ -399,29 +406,19 @@ function _initItemList($container) {
 		$button.tooltip();
 	});
 
-	/*
-		/ User favorite
-	*/
+	// / User favorite
 
-	/*
-		Toggle object
-	*/
+	// Toggle object
 
 		initToggleElement(typeof($container) == 'undefined' ? $('.item-xs[data-toggle-object]') : $container.find('[data-toggle-object]'), false);
 
-	/*
-		/ Toggle object
-	*/
+	// / Toggle object
 
-	/*
-		Time
-	*/
+	// Time
 
 		initReadTime($container);
 
-	/*
-		/ Time
-	*/
+	// / Time
 }
 // end
 
@@ -627,73 +624,63 @@ function initToggleElement($listObject, isFunction) {
 	});
 }
 // end
-
-/*
-	Map (Chiêu)
-*/
-
-/*
-	params:
-		id(*)
+// Map (Chiêu)
+	/*
 		params:
-			zoom: 17
-			center: {}
-				lat: first_market || 10.771528380460218
-				long: first_market || 106.69838659487618
-			markers: [{}]
-				lat: ...
-				long: ...
-*/
-function initMap(id, params) {
-	if (typeof params === 'undefined') {
-		params = {}
-	}
-
-	var options = {
-		scrollwheel: false
-	};
-
-	options.zoom = params.zoom || 17
-
-	if ('center' in params ) {
-		options.center = params.center
-	}
-	else if ('markers' in params && params.markers.length > 0) {
-		options.center = { lat: params.markers[0].latLng.lat, lng: params.markers[0].latLng.lng }
-	}
-	else {
-		options.center = { lat: 10.771528380460218, lng: 106.69838659487618 }; 
-	}
-
-	var map = new google.maps.Map(document.getElementById(id), options);
-
-	$(params.markers).each(function () {
-		new google.maps.Marker({
-			position: this.latLng,
-			map: map,
-			title: this.title || '...'
-		});
-	})
-
-	$('#' + id).on({
-		'focus, click': function () {
-			map.setOptions({'scrollwheel': true});
-		},
-		focusout: function () {
-			map.setOptions({'scrollwheel': false});
+			id(*)
+			params:
+				zoom: 17
+				center: {}
+					lat: first_market || 10.771528380460218
+					long: first_market || 106.69838659487618
+				markers: [{}]
+					lat: ...
+					long: ...
+	*/
+	function initMap(id, params) {
+		if (typeof params === 'undefined') {
+			params = {}
 		}
-	}).attr('tabindex', '0').css('outline', '0');
 
-	return map;
-}
+		var options = {
+			scrollwheel: false
+		};
 
-/*
-	/ Map
-*/
+		options.zoom = params.zoom || 17
 
-/*
-	Set purpose
-*/
+		if ('center' in params ) {
+			options.center = params.center
+		}
+		else if ('markers' in params && params.markers.length > 0) {
+			options.center = { lat: params.markers[0].latLng.lat, lng: params.markers[0].latLng.lng }
+		}
+		else {
+			options.center = { lat: 10.771528380460218, lng: 106.69838659487618 }; 
+		}
+
+		var map = new google.maps.Map(document.getElementById(id), options);
+
+		$(params.markers).each(function () {
+			new google.maps.Marker({
+				position: this.latLng,
+				map: map,
+				title: this.title || '...'
+			});
+		})
+
+		$('#' + id).on({
+			'focus, click': function () {
+				map.setOptions({'scrollwheel': true});
+			},
+			focusout: function () {
+				map.setOptions({'scrollwheel': false});
+			}
+		}).attr('tabindex', '0').css('outline', '0');
+
+		return map;
+	}
+// / Map
+// Set purpose
 
 	function setPurpose() {
 		switch ($.cookie('purpose')) {
@@ -705,31 +692,23 @@ function initMap(id, params) {
 				break;
 		}
 	}
-
-/*
-	/ Set purpose
-*/
-
-/*--------------------------------------------------------*/
-/*Support function*/
-/*--------------------------------------------------------*/
+// / Set purpose
 
 // lock scrollable body
-function lockScrollBody(status) {
-	if (status) {
-		$body.css({
-			'overflow': 'hidden'
-		});
-	} else {
-		$body.css({
-			'overflow': 'auto'
-		});
+	function lockScrollBody(status) {
+		if (status) {
+			$body.css({
+				'overflow': 'hidden'
+			});
+		} else {
+			$body.css({
+				'overflow': 'auto'
+			});
+		}
 	}
-}
+// / lock scrollable body
 
-/* 
-	Popup 
-*/
+// Popup 
 
 	function _getPopupContent() {
 		$('[aria-popupcontent]').each(function () {
@@ -750,8 +729,7 @@ function lockScrollBody(status) {
 				gray
 			width: (none)
 				small, medium, large, maximum
-			esc: (true)
-				allow escape popup with click outside or 'esc' key
+			esc: allow escape popup with click outside or 'esc' key
 	*/
 
 	function getPopup(params) {
@@ -852,8 +830,7 @@ function lockScrollBody(status) {
 			transparent, gray
 		width: (none)
 			small, medium, large, maximum
-		onEscape:
-			handle on popup escape
+		onEscape: handle on popup escape
 	*/
 	function popupFull(params) {
 		if (typeof params === 'undefined' || !('url' in params || 'html' in params)) {
@@ -954,9 +931,7 @@ function lockScrollBody(status) {
 			if wanna show two popup, ids must different
 		z-index: (31)
 			z-index of popup
-		onEscape:
-			handle on popup escape
-
+		onEscape: handle on popup escape
 	*/
 	function popupPrompt(params) {
 		if (typeof params === 'undefined') {
@@ -1057,7 +1032,4 @@ function lockScrollBody(status) {
 			content: _t.form.error_content
 		});
 	}
-
-/* 
-	/ Popup 
-*/
+// / Popup 

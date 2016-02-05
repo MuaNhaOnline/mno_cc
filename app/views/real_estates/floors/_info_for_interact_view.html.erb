@@ -1,0 +1,88 @@
+<%
+=begin
+	params: @floor
+=end
+%>
+
+<section class="heading">
+	<h3 class="title">
+		<%= @position.real_estate.short_label %>
+		<span class="sub">
+			<%= @position.real_estate.block_group.name %>
+		</span>
+		<span class="sub">
+			<%= @position.real_estate.block_floor.name %>
+		</span>
+	</h3>
+</section>
+
+<section class="body">
+	<article class="info list">
+		Thông tin
+		<% if @position.real_estate.bedroom_number.present? %>
+			<article class="list-item">
+				<span class="text">Phòng ngủ</span>
+				<span class="value"><%= @position.real_estate.bedroom_number %></span>
+			</article>
+		<% end %>
+		<% if @position.real_estate.restroom_number.present? %>
+			<article class="list-item">
+				<span class="text">Phòng ngủ</span>
+				<span class="value"><%= @position.real_estate.restroom_number %></span>
+			</article>
+		<% end %>
+		<% if @position.real_estate.campus_area.present? %>
+			<article class="list-item">
+				<span class="text">Diện tích</span>
+				<span class="value"><%= @position.real_estate.campus_area %>m<sup>2</sup></span>
+			</article>
+		<% end %>
+		<% if @position.real_estate.direction_id.present? %>
+			<article class="list-item">
+				<span class="text">Hướng</span>
+				<span class="value"><%= t "direction.text.#{@position.real_estate.direction.name}" %></span>
+			</article>
+		<% end %>
+		<% if @position.sell_price.present? %>
+			<article class="list-item">
+				<span class="text">Giá bán</span>
+				<span class="value"><%= @position.sell_price %></span>
+			</article>
+		<% end %>
+		<% if @position.rent_price.present? %>
+			<article class="list-item">
+				<span class="text">Giá thuê</span>
+				<span class="value"><%= @position.rent_price %></span>
+			</article>
+		<% end %>
+	</article>
+
+	<article class="info">
+		Các sản phẩm cùng nhóm
+		<ul>
+			<% @position.real_estate.block_group.real_estates.each do |re| %>
+				<%
+					next if re.id == @position.real_estate.id
+				%>
+				<li>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.short_label %></a>
+				</li>
+			<% end %>
+		</ul>
+	</article>
+
+	<article class="info">
+		Các sản phẩm cùng mặt cắt
+		<ul>
+			<% @position.real_estate.block_floor.real_estates.each do |re| %>
+				<%
+					next if re.id == @position.real_estate.id
+				%>
+				<li>
+					<a aria-click="interact" data-type="real_estate" data-value="<%= re.id %>"><%= re.short_label %></a>
+				</li>
+			<% end %>
+		</ul>
+	</article>
+
+</section>

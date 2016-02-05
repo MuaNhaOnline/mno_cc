@@ -1,4 +1,4 @@
-var $body, $window, $document, _temp = {};
+var $html, $body, $window, $document, _temp = {};
 
 $(function () {
 	$('#loading_page').remove();

@@ -32,7 +32,7 @@ $(function () {
 							if (lastScrollTop < $window.height()) {
 								isScrolling = true;
 								$sideBar.addClass('bottom').removeClass('top');
-								$body.animate({
+								$('html,body').animate({
 									scrollTop: $window.height()
 								}, 200, function () {
 									isScrolling = false;
@@ -46,7 +46,7 @@ $(function () {
 							if (scrollTop < $window.height()) {
 								isScrolling = true;
 								$sideBar.addClass('top').removeClass('bottom');
-								$body.animate({
+								$('html,body').animate({
 									scrollTop: 0
 								}, 200, function () {
 									isScrolling = false;
@@ -79,7 +79,7 @@ $(function () {
 
 					isScrolling = true;
 					$sideBar.addClass('bottom').removeClass('top');
-					$body.animate({
+					$('html,body').animate({
 						scrollTop: $focusingBox.offset().top
 					}, 200, function () {
 						isScrolling = false;
@@ -197,11 +197,73 @@ $(function () {
 
 	// Utilities
 
-		(function () {
-			$('.utilities .item').on('click', function () {
-				_openGallery($(this).data('gallery'));
-			})
-		})();
+		$('.utilities').each(function () {
+			$container = $(this);
+
+			var 
+				$listPanel = $container.find('.list-panel'),
+				$list = $container.find('.list'),
+				$imageList = $container.find('.image-list');
+				$img = $container.find('.image-panel img');
+
+			// Click event
+			
+				$list.find('.item').on('click', function () {
+					$item = $(this);
+
+					if ($item.hasClass('active')) {
+						return;
+					}
+
+					$item.siblings('.active').removeClass('active');
+					$item.addClass('active');
+
+					// Create images list
+					
+						$imageList.html('');
+						$($item.data('images')).each(function () {
+							$itemList = $('<li><a><span></span></a></li>');
+							$itemList.data('value', this);
+							$imageList.append($itemList);
+						});
+
+						if ($imageList.children().length == 1) {
+							$imageList.hide();
+						}
+						else {
+							$imageList.show();
+						}
+
+						$imageList.children().on('click', function () {
+							$itemList = $(this);
+							if ($itemList.hasClass('active')) {
+								return;
+							}
+							$itemList.siblings('.active').removeClass('active');
+							$itemList.addClass('active');
+							$img.attr('src', $itemList.data('value').url);
+						}).first().click();
+					
+					// / Create images list
+					
+				}).first().click();
+			
+			// / Click event
+
+			// Scroll event
+			
+				$listPanel.on('mousewheel', function (e) {
+					lastScrollTop = $listPanel.scrollTop();
+
+					$listPanel.scrollTop($listPanel.scrollTop() - e.originalEvent.wheelDeltaY);
+
+					if ($listPanel.scrollTop() != lastScrollTop) {
+						e.preventDefault();
+					}
+				});
+			
+			// / Scroll event
+		});
 
 	// / Utilities
 
@@ -410,7 +472,6 @@ $(function () {
 						$firstItem.addClass('active');
 						showImage($firstItem.data('value'));
 
-
 					// / Create image list
 
 					// Create info
@@ -444,6 +505,7 @@ $(function () {
 						$group = $navigatorPanel.find('[aria-name="group"]');
 						$floor = $navigatorPanel.find('[aria-name="floor"]');
 						$re = $navigatorPanel.find('[aria-name="real_estate"]');
+						$position = $navigatorPanel.find('[aria-name="position"]');
 					
 						// Project
 						
@@ -690,12 +752,50 @@ $(function () {
 								if (type == 'real_estate') {
 									$re.addClass('active');
 								}
+
+								getNavigatorData('real_estates/floor', data.navigator.real_estate.id, function (navData) {
+									$html = $(
+										'<section class="options-container">' + 
+											'<article class="options">' + 
+												'<article class="col">' +
+													navData.map(function (value) {
+														return (
+															'<a class="' + (data.navigator.position && data.navigator.position.id == value.id ? 'active' : '') + '" aria-click="interact" data-type="real_estates/floor" data-value="' + value.id + '">' +
+																value.name +
+															'</a>'
+														);
+													}).join('') +
+												'</article>' +
+											'</article>' +
+										'</section>'
+									);
+									setInteractEvent($html);
+									$position.removeClass('unactive');
+									$position.find('.options-container').remove();
+									$position.append($html);
+								});
 							}
 							else {
 								$re.find('> a').text('Chọn sản phẩm').data('value', '');
+								$position.addClass('unactive');
 							}
 						
 						// / Real estate
+
+						// Position
+						
+							if (data.navigator.position) {
+								$position.find('> a').text(data.navigator.position.name).data('value', data.navigator.position.id);
+
+								if (type == 'real_estates/floor') {
+									$position.addClass('active');
+								}
+							}
+							else {
+								$position.find('> a').text('Chọn vị trí').data('value', '');
+							}
+						
+						// / Position
 					
 					// / Create navigator
 
@@ -859,20 +959,13 @@ $(function () {
 					}, 200, function () {
 						$infoPanel.animate({
 							width: '300px'
-						}, 100, function () {
-							$infoPanel.css({
-								'overflow-y': 'auto'
-							})	
-						})
+						}, 100)
 					});
 
 					// Off event
 					$imagePanel.add($imageList).on({
 						'click.active_info_panel': function () {
 							$infoPanel.removeClass('active');
-							$infoPanel.css({
-								'overflow-y': 'hidden'
-							});
 							$infoPanel.animate({
 								height: $infoPanel.find('.heading').outerHeight() + 'px'
 							}, 200, function () {

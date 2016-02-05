@@ -147,7 +147,7 @@
 									<%= t 'project.attribute.project_name' %>
 									<sup class="required-label"></sup>
 								</label>
-								<input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" />
+								<input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" autofocus />
 							</article>
 						</section>
 					</article>
@@ -166,7 +166,7 @@
 
 								<article class="form-group">
 									<label class="control-label" for="address_number"><%= t 'project.attribute.address_number' %></label>
-									<input value="<%= @p.address_number %>" class="form-control" name="project[address_number]" type="text" id="address_number" autofocus />
+									<input value="<%= @p.address_number %>" class="form-control" name="project[address_number]" type="text" id="address_number" />
 								</article>
 
 								<input value="<%= @p.street.name unless @p.street.nil? %>" name="project[street]" type="hidden" id="street" data-nonvalid />
@@ -221,7 +221,7 @@
 								<div class="row">
 									<article class="form-group col-ss-6">
 										<label class="control-label" for="project_type"><%= t 'project.attribute.project_type' %></label>
-										<select class="form-control input-toggle" id="project_type" name="project[project_type_id]" <%= 'disabledaaa="true"' unless @p.new_record? %>>
+										<select class="form-control input-toggle" id="project_type" name="project[project_type_id]" <%= 'readonly="true"' unless @p.new_record? %>>
 											<% project_types.each do |t| %>
 												<% next if t.options.has_key? 'parent' %>
 												<option value="<%= t.id %>" <%= 'selected' if (@p.new_record? ? t.options.has_key?('default') : (@p.project_type_id == t.id || t.name == selected_project_type_parent)) %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'project_type.text.' + t.name %></option>
@@ -325,7 +325,7 @@
 
 													<input type="hidden" value="" name="project[utilities][tab_name][id]" />
 
-													<div class="row">
+													<article class="row">
 
 														<article class="form-group col-xs-12 col-ss-6">
 															<label class="control-label">
@@ -334,35 +334,33 @@
 															</label>
 															<input data-constraint="required" type="text" class="form-control" name="project[utilities][tab_name][title]">
 														</article>
-
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Biểu tượng
-																<sup class="required-label"></sup>
 															</label>
-															<input data-constraint="required" aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" />
+															<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" />
 														</article>
 
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Màu sắc
-																<sup class="required-label"></sup>
 															</label>
-															<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="#000" />
+															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" />
 														</article>
 
-													</div>
+													</article>
 
 													<article class="form-group">
 														<label class="control-label">
 															Mô tả
 														</label>
-														<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"></textarea>
+														<textarea class="form-control" name="project[utilities][tab_name][description]"></textarea>
 													</article>
 
 													<article class="form-group">
 														<label class="control-label">
 															Hình ảnh
+															<sup class="required-label"></sup>
 														</label>
 														<input data-constraint="required" type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
 													</article>
@@ -376,40 +374,37 @@
 													<article class="tab-content" aria-name="new_<%= utility.id %>">
 
 														<input type="hidden" value="<%= utility.id %>" name="project[utilities][tab_name][id]" />
-
-														<div class="row">
+														
+														<article class="row">
 
 															<article class="form-group col-xs-12 col-ss-6">
 																<label class="control-label">
 																	Nhãn
-																	<sup class="required-label"></sup>
 																</label>
-																<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
+																<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Biểu tượng
-																	<sup class="required-label"></sup>
 																</label>
-																<input data-constraint="required" aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+																<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Màu sắc
-																	<sup class="required-label"></sup>
 																</label>
-																<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
+																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
 															</article>
 
-														</div>
+														</article>
 
 														<article class="form-group">
 															<label class="control-label">
 																Mô tả
 															</label>
-															<textarea data-constraint="required" class="form-control" name="project[utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
+															<textarea class="form-control" name="project[utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
 														</article>
 
 														<% 
@@ -424,8 +419,9 @@
 														<article class="form-group">
 															<label class="control-label">
 																Hình ảnh
+																<sup class="required-label"></sup>
 															</label>
-															<input type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
+															<input data-constraint="required" type="file" multiple class="file-upload" class="form-control" name="project[utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
 														</article>
 
 													</article>
@@ -464,46 +460,44 @@
 
 													<input type="hidden" value="" name="project[region_utilities][tab_name][id]" />
 
-													<div class="row">
+													<article class="row">
 
-														<article class="form-group col-xs-12 col-ss-6">
+														<article class="form-group">
 															<label class="control-label">
 																Nhãn
 																<sup class="required-label"></sup>
 															</label>
 															<input data-constraint="required" type="text" class="form-control" name="project[region_utilities][tab_name][title]">
 														</article>
-
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Biểu tượng
-																<sup class="required-label"></sup>
 															</label>
-															<input data-constraint="required" aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" />
+															<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" />
 														</article>
 
 														<article class="form-group col-xs-6 col-ss-3">
 															<label class="control-label">
 																Màu sắc
-																<sup class="required-label"></sup>
 															</label>
-															<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="#000" />
+															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" />
 														</article>
 
-													</div>
+													</article>
 
 													<article class="form-group">
 														<label class="control-label">
 															Mô tả
 														</label>
-														<textarea data-constraint="required" class="form-control" name="project[region_utilities][tab_name][description]"></textarea>
+														<textarea class="form-control" name="project[region_utilities][tab_name][description]"></textarea>
 													</article>
 
 													<article class="form-group">
 														<label class="control-label">
 															Hình ảnh
+															<sup class="required-label"></sup>
 														</label>
-														<input type="file" multiple class="file-upload" class="form-control" name="project[region_utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
+														<input data-constraint="required" type="file" multiple class="file-upload" class="form-control" name="project[region_utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image">
 													</article>
 
 												</article>
@@ -515,40 +509,40 @@
 													<article class="tab-content" aria-name="new_<%= utility.id %>">
 
 														<input type="hidden" value="<%= utility.id %>" name="project[region_utilities][tab_name][id]" />
-
-														<div class="row">
+														
+														<article class="row">
 
 															<article class="form-group col-xs-12 col-ss-6">
-																<label class="control-label">
-																	Nhãn
-																	<sup class="required-label"></sup>
-																</label>
-																<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
+																<article class="form-group">
+																	<label class="control-label">
+																		Nhãn
+																		<sup class="required-label"></sup>
+																	</label>
+																	<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
+																</article>
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Biểu tượng
-																	<sup class="required-label"></sup>
 																</label>
-																<input data-constraint="required" aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+																<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
 															</article>
 
 															<article class="form-group col-xs-6 col-ss-3">
 																<label class="control-label">
 																	Màu sắc
-																	<sup class="required-label"></sup>
 																</label>
-																<input data-constraint="required" aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
+																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
 															</article>
 
-														</div>
+														</article>
 
 														<article class="form-group">
 															<label class="control-label">
 																Mô tả
 															</label>
-															<textarea data-constraint="required" class="form-control" name="project[region_utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
+															<textarea class="form-control" name="project[region_utilities][tab_name][description]"><%= ApplicationHelper.decode_plain_text utility.description %></textarea>
 														</article>
 
 														<% 
@@ -563,8 +557,9 @@
 														<article class="form-group">
 															<label class="control-label">
 																Hình ảnh
+																<sup class="required-label"></sup>
 															</label>
-															<input type="file" multiple class="file-upload" class="form-control" name="project[region_utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
+															<input data-constraint="required" type="file" multiple class="file-upload" class="form-control" name="project[region_utilities][tab_name][images][]" data-amount="3" data-has_order data-has_description data-types="image" data-init-value="<%= utility_image_init_value %>">
 														</article>
 
 													</article>

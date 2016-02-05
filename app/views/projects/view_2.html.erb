@@ -237,110 +237,42 @@
 								</section>
 								<section class="box-body">
 									<article class="utilities row">
-										<% @project.utilities.each do |utility| %>
-											<%
-												gallery_data = {
-													data: {
-														images: []
-													}
-												}
-												utility.images.each do |image_info|
-													gallery_data[:data][:images] << {
-														thumb: image_info.image.url('thumb'),
-														original: image_info.image.url
-													}
-												end
-											%>
-											<article class="col-md-4 col-ss-6 col-xs-12">
-												<article class="item" data-gallery="<%= gallery_data.to_json %>">
-													<section class="line" style="background-color: <%= utility.icon_color %>"></section>
-													<section class="icon" style="border-color: <%= utility.icon_color %>">
-														<span class="fa <%= utility.icon_key %>" style="color: <%= utility.icon_color %>"></span>
-													</section>
-													<section class="content">
-														<section class="title">
-															<%= utility.title %>
-														</section>
-														<section class="manual-horizontal-list descriptions-container">
-															<article class="list-wrapper">
-																<article class="list">
-																	<article class="col">
-																		<article class="description text">
-																			<%= utility.display_description %>
-																		</article>
-																	</article>
-																	<% utility.images.each do |image_info| %>
-																		<article class="col">
-																			<article class="description image">
-																				<img src="<%= image_info.image.url('thumb') %>" />
-																			</article>
-																		</article>
-																	<% end %>
-																</article>
-															</article>
-														</section>
-													</section>
-												</article>
+										<section class="list-panel col-xs-12 col-ss-3">
+											<article class="list">
+												<% @project.utilities.each do |utility| %>
+													<%
+														images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
+													%>
+													<article class="item" data-images="<%= images %>">
+														<article class="content">
+															<section class="icon">
+																<span class="fa <%= utility.icon_key %>" style="color: <%= utility.icon_color %>"></span>
+															</section>
+															<h3 class="title">
+																<%= utility.title %>
+															</h3>
+															<section class="description">
+																Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+																tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+																quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+																consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+																cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+																proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+															</section>
+														</article>
+													</article>
+												<% end %>
 											</article>
-										<% end %>
-									</article>
-									<article class="utilities row">
-										<% @project.region_utilities.each do |utility| %>
-											<%
-												gallery_data = {
-													data: {
-														images: []
-													}
-												}
-												utility.images.each do |image_info|
-													gallery_data[:data][:images] << {
-														thumb: image_info.image.url('thumb'),
-														original: image_info.image.url
-													}
-												end
-
-												gallery_data[:data][:description] = 
-													'<section style="font-size: 20px; font-weight: bold">' +
-														utility.title +
-													'</section>' +
-													'<section>' +
-														'<p>' +
-															utility.description +
-														'</p>' +
-													'</section>'
-											%>
-											<article class="col-md-4 col-ss-6 col-xs-12">
-												<article class="item" data-gallery="<%= gallery_data.to_json %>">
-													<section class="line" style="background-color: <%= utility.icon_color %>"></section>
-													<section class="icon" style="border-color: <%= utility.icon_color %>">
-														<span class="fa <%= utility.icon_key %>" style="color: <%= utility.icon_color %>"></span>
-													</section>
-													<section class="content">
-														<section class="title">
-															<%= utility.title %>
-														</section>
-														<section class="manual-horizontal-list descriptions-container">
-															<article class="list-wrapper">
-																<article class="list">
-																	<article class="col">
-																		<article class="description text">
-																			<%= utility.display_description %>
-																		</article>
-																	</article>
-																	<% utility.images.each do |image_info| %>
-																		<article class="col">
-																			<article class="description image">
-																				<img src="<%= image_info.image.url('thumb') %>" />
-																			</article>
-																		</article>
-																	<% end %>
-																</article>
-															</article>
-														</section>
-													</section>
-												</article>
-											</article>
-										<% end %>
+										</section>
+										<section class="image-panel col-xs-12 col-ss-9">
+											<section class="image">
+												<img src="#">
+											</section>
+											<section class="images-list">
+												<ul class="image-list">
+												</ul>
+											</section>
+										</section>
 									</article>
 								</section>
 							</article>
@@ -369,10 +301,13 @@
 													<a aria-click="interact" data-type="real_estates/group">Chọn nhóm</a>
 												</li>
 												<li aria-name="floor">
-													<a aria-click="interact" data-type="blocks/floors">Chọn tầng</a>
+													<a aria-click="interact" data-type="blocks/floor">Chọn tầng</a>
 												</li>
 												<li aria-name="real_estate">
-													<a aria-click="interact" data-type="real_estates">Chọn sản phẩm</a>
+													<a aria-click="interact" data-type="real_estate">Chọn sản phẩm</a>
+												</li>
+												<li aria-name="position">
+													<a aria-click="interact" data-type="real_estates/floor">Chọn vị trí</a>
 												</li>
 											</ul>
 										</section>
@@ -534,6 +469,9 @@
 												</li>
 												<li aria-name="real_estate">
 													<a aria-click="interact" data-type="real_estates">Chọn sản phẩm</a>
+												</li>
+												<li aria-name="position">
+													<a aria-click="interact" data-type="real_estates/floor">Chọn vị trí</a>
 												</li>
 											</ul>
 										</section>

@@ -5,26 +5,21 @@ class ContactUserInfosController < ApplicationController
 		# Handle
 		# params: contact form
 		def save
-			unless params.has_key? :force
+			params[:contact][:phone_number] = params[:contact][:phone_number].gsub(' ', '');
+			params[:contact][:email] = params[:contact][:email].gsub(' ', '');
+			unless params.has_key? :replace
 				# Check if exist contact with same email or phone number
-				same_contacts = ContactUserInfo.where("phone_number ~ '(\\y|,){1}#{params[:contact][:phone_number]}(\\y|,){1}' OR email LIKE '(\\y|,){1}#{params[:contact][:email]}(\\y|,){1}'")
+				same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{params[:contact][:phone_number].gsub(',', '|')})(\\y|,){1}' OR email ~ '(\\y|,){1}(#{params[:contact][:email].gsub(',', '|')})(\\y|,){1}'").first
 
-				if same_contacts.count != 0
+				if same_contact.present?
 					return render json: { 
 						status: 5,
-						result: render_to_string(partial: 'contact_user_infos/same_contacts', locals: { same_contacts: same_contacts })
+						result: render_to_string(partial: 'contact_user_infos/same_contact', locals: { same_contact: same_contact })
 					}
 				end
 			end
 
-			contact = nil
-			if params[:append].present?
-				contact = ContactUserInfo.find(params[:append])
-				params[:contact][:phone_number] = "#{contact.phone_number},#{params[:contact][:phone_number]}" unless contact.phone_number =~ /(\b|,){1}#{Regexp.escape(params[:contact][:phone_number])}(\b|,){1}/
-				params[:contact][:email] = "#{contact.email},#{params[:contact][:email]}" unless contact.email =~ /(\b|,){1}#{Regexp.escape(params[:contact][:email])}(\b|,){1}/
-			else
-				contact = ContactUserInfo.new
-			end
+			contact = params[:replace].present? ? ContactUserInfo.find(params[:replace]) : ContactUserInfo.new
 
 			params[:contact][:session_info_id] = session[:session_info_id]
 

@@ -99,7 +99,6 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: slug(*)
 		def view
-			byebug
 			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
 
 			@re = RealEstate.find id
@@ -493,56 +492,111 @@ class RealEstatesController < ApplicationController
 				# Result for request
 				images = []
 
-				# Get all info of surface
-				image = {}
+				# Surface
+				
+					# Get all info of surface
+					image = {}
 
-				# Get url for display
-				image[:url] = @re.block_floor.surface.url
+					# Get url for display
+					image[:url] = @re.block_floor.surface.url
 
-				if @re.block_floor.surface_descriptions.present?
-					image[:descriptions] = []
+					if @re.block_floor.surface_descriptions.present?
+						image[:descriptions] = []
 
-					@re.block_floor.surface_descriptions.each do |surface_description|
-						description = { tag_name: surface_description.area_type }
+						@re.block_floor.surface_descriptions.each do |surface_description|
+							description = { tag_name: surface_description.area_type }
 
-						# Detect position
-						if @re.block_floor_surface_description_id == surface_description.id
-							description[:status] = 'highlight'
-						end
-
-						# Area info
-						case surface_description.area_type
-						when 'polyline'
-							description[:points] = surface_description.area_info['points']
-						else
-							next
-						end
-
-						# Description info
-						description[:description] = { type: surface_description.description_type }
-						case surface_description.description_type
-						when 'real_estate'
-							description[:description][:id] = surface_description.real_estate_description.real_estate_id
-						when 'text_image'
-							description[:description][:data] = {}
-							if surface_description.text_description.present?
-								description[:description][:data][:description] = surface_description.text_description.description
+							# Area info
+							case surface_description.area_type
+							when 'polyline'
+								description[:points] = surface_description.area_info['points']
+							else
+								next
 							end
 
-							if surface_description.image_descriptions.present?
-								image_data = []
-								surface_description.image_descriptions.each do |data|
-									image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+							# Description info
+							description[:description] = { type: surface_description.description_type }
+							case surface_description.description_type
+							when 'real_estate'
+								description[:description][:id] = surface_description.real_estate_description.real_estate_id
+
+								# Detect position
+								if @position.real_estate.id == surface_description.real_estate_description.real_estate_id
+									description[:status] = 'highlight'
 								end
-								description[:description][:data][:images] = image_data.to_json
+							when 'text_image'
+								description[:description][:data] = {}
+								if surface_description.text_description.present?
+									description[:description][:data][:description] = surface_description.text_description.description
+								end
+
+								if surface_description.image_descriptions.present?
+									image_data = []
+									surface_description.image_descriptions.each do |data|
+										image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+									end
+									description[:description][:data][:images] = image_data.to_json
+								end
+							end
+
+							image[:descriptions] << description
+						end
+					end
+
+					images << image
+				
+				# / Surface
+
+				# Group image
+				
+					@re.block_group.images.each do |real_estate_group_image|
+						image = {}
+
+						# Get url for display
+						image[:id] = real_estate_group_image.id
+						image[:url] = real_estate_group_image.image.url
+						image[:thumb_url] = real_estate_group_image.image.url('thumb')
+
+						if real_estate_group_image.image_descriptions.present?
+							image[:descriptions] = []
+
+							real_estate_group_image.image_descriptions.each do |image_description|
+								description = { id: image_description.id, tag_name: image_description.area_type }
+
+								# Area info
+								case image_description.area_type
+								when 'polyline'
+									description[:points] = image_description.area_info['points']
+								else
+									next
+								end
+
+								# Description info
+								description[:description] = { type: image_description.description_type }
+								case image_description.description_type
+								when 'text_image'
+									description[:description][:data] = {}
+									if image_description.text_description.present?
+										description[:description][:data][:description] = image_description.text_description.description
+									end
+
+									if image_description.image_descriptions.present?
+										image_data = []
+										image_description.image_descriptions.each do |data|
+											image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+										end
+										description[:description][:data][:images] = image_data.to_json
+									end
+								end
+
+								image[:descriptions] << description
 							end
 						end
 
-						image[:descriptions] << description
+						images << image
 					end
-				end
-
-				images << image
+				
+				# / Group image
 
 			# / Images
 
@@ -565,7 +619,7 @@ class RealEstatesController < ApplicationController
 					},
 					floor: {
 						id: @re.block_floor.id,
-						name: @re.block_floor.name
+						name: "#{@re.block_floor.floors_text}: #{@re.block_floor.name}"
 					},
 					real_estate: {
 						id: @re.id,
@@ -603,6 +657,182 @@ class RealEstatesController < ApplicationController
 			render json: { status: 0, result: options }
 		end
 
+		# Get values
+		# params: id(*)(floor_real_estate_id)
+		def floors_get_data_for_interact_view
+
+			@position = FloorRealEstate.find params[:id]
+
+			# Images
+
+				images = []
+
+				# Surface
+				
+					# Get all info of surface
+					image = {}
+
+					# Get url for display
+					image[:url] = @position.real_estate.block_floor.surface.url
+
+					if @position.real_estate.block_floor.surface_descriptions.present?
+						image[:descriptions] = []
+
+						@position.real_estate.block_floor.surface_descriptions.each do |surface_description|
+							description = { tag_name: surface_description.area_type }
+
+							# Area info
+							case surface_description.area_type
+							when 'polyline'
+								description[:points] = surface_description.area_info['points']
+							else
+								next
+							end
+
+							# Description info
+							description[:description] = { type: surface_description.description_type }
+							case surface_description.description_type
+							when 'real_estate'
+								description[:description][:id] = surface_description.real_estate_description.real_estate_id
+
+								# Detect position
+								if @position.real_estate.id == surface_description.real_estate_description.real_estate_id
+									description[:status] = 'highlight'
+								end
+							when 'text_image'
+								description[:description][:data] = {}
+								if surface_description.text_description.present?
+									description[:description][:data][:description] = surface_description.text_description.description
+								end
+
+								if surface_description.image_descriptions.present?
+									image_data = []
+									surface_description.image_descriptions.each do |data|
+										image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+									end
+									description[:description][:data][:images] = image_data.to_json
+								end
+							end
+
+							image[:descriptions] << description
+						end
+					end
+
+					images << image
+				
+				# / Surface
+
+				# Group image
+				
+					@position.real_estate.block_group.images.each do |real_estate_group_image|
+						image = {}
+
+						# Get url for display
+						image[:id] = real_estate_group_image.id
+						image[:url] = real_estate_group_image.image.url
+						image[:thumb_url] = real_estate_group_image.image.url('thumb')
+
+						if real_estate_group_image.image_descriptions.present?
+							image[:descriptions] = []
+
+							real_estate_group_image.image_descriptions.each do |image_description|
+								description = { id: image_description.id, tag_name: image_description.area_type }
+
+								# Area info
+								case image_description.area_type
+								when 'polyline'
+									description[:points] = image_description.area_info['points']
+								else
+									next
+								end
+
+								# Description info
+								description[:description] = { type: image_description.description_type }
+								case image_description.description_type
+								when 'text_image'
+									description[:description][:data] = {}
+									if image_description.text_description.present?
+										description[:description][:data][:description] = image_description.text_description.description
+									end
+
+									if image_description.image_descriptions.present?
+										image_data = []
+										image_description.image_descriptions.each do |data|
+											image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+										end
+										description[:description][:data][:images] = image_data.to_json
+									end
+								end
+
+								image[:descriptions] << description
+							end
+						end
+
+						images << image
+					end
+				
+				# / Group image
+
+			# / Images
+
+			# Info
+
+				info = render_to_string(partial: 'real_estates/floors/info_for_interact_view')
+
+			# / Info
+
+			# Navigator
+			
+				navigator = {
+					block: {
+						id: @position.real_estate.block.id,
+						name: @position.real_estate.block.name
+					},
+					group: {
+						id: @position.real_estate.block_group.id,
+						name: @position.real_estate.block_group.name
+					},
+					floor: {
+						id: @position.real_estate.block_floor.id,
+						name: "#{@position.real_estate.block_floor.floors_text}: #{@position.real_estate.block_floor.name}"
+					},
+					real_estate: {
+						id: @position.real_estate.id,
+						name: @position.real_estate.short_label
+					},
+					position: {
+						id: @position.id,
+						name: "Tầng #{@position.floor}: #{@position.label}"
+					}
+				}
+			
+			# / Navigator
+
+			render json: { 
+				status: 0, 
+				result: {
+					images: images,
+					info: info,
+					navigator: navigator
+				} 
+			}
+		end
+
+		# Get values
+		# params: id(*)
+		def floors_get_options_for_interact_view
+			re_floors = FloorRealEstate.where real_estate_id: params[:id]
+
+			options = []
+			re_floors.each do |re_floor|
+				options << {
+					id: re_floor.id,
+					name: "Tầng #{re_floor.floor}: #{re_floor.label}"
+				}
+			end
+
+			render json: { status: 0, result: options }
+		end
 
 	# / Interact image
 

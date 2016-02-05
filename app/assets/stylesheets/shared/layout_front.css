@@ -751,40 +751,16 @@ footer {
 
 /*start paging*/
 .paging {
-	margin-top: 5px;
-	justify-content: center;
-	-webkit-justify-content: center;
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -o-flex;
-	display: flex;
-	color: #333;
-	font-size: 93.33%;
+	text-align: center;
 }
 	.paging div {
-		height: 30px;
-		width: 30px;
-		display: -webkit-flex;
-		display: -moz-flex;
-		display: -o-flex;
-		display: flex;
 		cursor: pointer;
+		padding: 5px;
+		display: inline-block;
 	}
 		.paging div:hover {
 			color: #1B7C1B;
 		}
-	.paging .left {
-		font-size: 30px;
-	}
-	.paging .number {
-		width: 40px;
-		justify-content: center;
-		height: 30px;			
-		line-height: 30px;
-	}
-	.paging .right {
-		font-size: 30px;
-	}
 /*end paging*/
 
 /*--------------------------------------------------------*/
@@ -1628,6 +1604,17 @@ footer {
 						color: #1B7C1B;
 					}
 
+	.same-contact-container {
+		background-color: #f5f5f5;
+	}
+
+		.same-contact-container .value {
+			background-color: #fff;
+			padding: 5px 10px;
+			border: 2px solid #eee;
+			border-bottom-color: #ddd;
+			margin-bottom: 10px;
+		}
 /*
 	/ Contact box
 */
