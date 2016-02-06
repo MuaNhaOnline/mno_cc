@@ -293,3 +293,43 @@
 		}
 	/*end*/
 /*end information*/
+
+/* Register button */
+
+	.register-button {
+		position: relative;
+		outline: 0;
+	}
+
+		.register-button .register-list {
+			position: absolute;
+			display: block;
+			top: 100%;
+			left: -30px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			text-align: left;
+			display: none;
+		}
+
+			.register-button:hover .register-list {
+				display: block;
+			}
+
+			.register-button .register-list > * {
+				display: block;
+				border-bottom: 1px solid #eee;
+				padding: 5px 10px;
+				white-space: nowrap;
+				color: #333;
+			}
+
+				.register-button .register-list > *:last-child {
+					border-bottom: 0;
+				}
+
+				.register-button .register-list > *:hover {
+					color: #ff6511;
+				}
+
+/* / Register button */

@@ -32,7 +32,7 @@ class ContactUserInfosController < ApplicationController
 				session_info.save
 
 				# Add request
-				ContactRequest.create user_id: contact.id, user_type: 'contact_user', message: params[:contact][:message], status: 1
+				ContactRequest.create user_id: contact.id, user_type: 'contact_user', message: params[:contact][:message], request_type: params[:contact][:request][:type], object_type: params[:contact][:request][:object], object_id: params[:contact][:request][:value], status: 1
 			end
 
 			render json: result

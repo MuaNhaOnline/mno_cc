@@ -10,9 +10,7 @@ $(function() {
 
 	_initItemList($item);
 
-	/*
-		Favorite button
-	*/
+	// Favorite button
 
 		function initFavoriteButton() {
 			$('[aria-click="favorite"]').on('click', function () {
@@ -48,9 +46,104 @@ $(function() {
 			});
 		}
 
-	/*
-		/ Favorite button
-	*/
+	// / Favorite button
+
+	// Register buttons
+	
+		$('[aria-click="register_info"]').on('click', function () {
+			if ($body.is('[data-signed]')) {
+				$.ajax({
+					url: '/contact_requests/new',
+					method: 'POST',
+					data: {
+						type: 'info',
+						object: 'real_estate',
+						value: $(this).closest('.item-info').data('value')
+					},
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						alert('Đăng ký thành công');
+					}
+					else {
+						alert('Rất tiếc, đã có lỗi xảy ra');
+					}
+				}).fail(function () {
+					alert('Rất tiếc, đã có lỗi xảy ra');
+				});
+			}
+			else {
+				$contactBox = _getContactBox();
+				$contactBox.find('.box-header').click();
+				$contactBox.data('setType')('info');
+				$contactBox.data('setObject')('real_estate');
+				$contactBox.data('setValue')($(this).closest('.item-info').data('value'));
+			}
+		});
+	
+		$('[aria-click="register_view"]').on('click', function () {
+			if ($body.is('[data-signed]')) {
+				$.ajax({
+					url: '/contact_requests/new',
+					method: 'POST',
+					data: {
+						type: 'view',
+						object: 'real_estate',
+						value: $(this).closest('.item-info').data('value')
+					},
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						alert('Đăng ký thành công');
+					}
+					else {
+						alert('Rất tiếc, đã có lỗi xảy ra');
+					}
+				}).fail(function () {
+					alert('Rất tiếc, đã có lỗi xảy ra');
+				});
+			}
+			else {
+				$contactBox = _getContactBox();
+				$contactBox.find('.box-header').click();
+				$contactBox.data('setType')('view');
+				$contactBox.data('setObject')('real_estate');
+				$contactBox.data('setValue')($(this).closest('.item-info').data('value'));
+			}
+		});
+	
+		$('[aria-click="register_buy"]').on('click', function () {
+			if ($body.is('[data-signed]')) {
+				$.ajax({
+					url: '/contact_requests/new',
+					method: 'POST',
+					data: {
+						type: 'buy',
+						object: 'real_estate',
+						value: $(this).closest('.item-info').data('value')
+					},
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						alert('Đăng ký thành công');
+					}
+					else {
+						alert('Rất tiếc, đã có lỗi xảy ra');
+					}
+				}).fail(function () {
+					alert('Rất tiếc, đã có lỗi xảy ra');
+				});
+			}
+			else {
+				$contactBox = _getContactBox();
+				$contactBox.find('.box-header').click();
+				$contactBox.data('setType')('buy');
+				$contactBox.data('setObject')('real_estate');
+				$contactBox.data('setValue')($(this).closest('.item-info').data('value'));
+			}
+		});
+	
+	// / Register buttons
 });
 // end
 

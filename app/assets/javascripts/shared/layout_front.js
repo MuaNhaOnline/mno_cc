@@ -30,15 +30,29 @@ $(function () {
 	// init MiniMenu
 	// initMiniMenu();
 	initMiniMenu($('#mini_menu'), $('#content_mini_menu'));
+});
 
-	// Contact box
+//endregion
+
+// Contact box
+
 	(function () {
 		var $contactBox = $('.contact-box-container .contact-box');
+
+		$contactBox.data('setType', function (newType) {
+			$contactBox.find('[name="contact[request][type]"]').val(newType);
+		});
+		$contactBox.data('setObject', function (newObject) {
+			$contactBox.find('[name="contact[request][object]"]').val(newObject);
+		});
+		$contactBox.data('setValue', function (newValue) {
+			$contactBox.find('[name="contact[request][value]"]').val(newValue);
+		});
 
 		$contactBox.find('.box-header').on({
 			'click': function () {
 				if ($contactBox.find('.box-body').slideToggle(200).is(':visible')){
-					$contactBox.find(':input:eq(0)').focus();
+					$contactBox.find(':input:visible:eq(0)').focus();
 					setTimeout(function () {
 						$document.on({
 							'click.close_contact_form': function () {
@@ -118,7 +132,7 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function (data) {
 				if (data.status == 0) {
-					$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
+					$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, yêu cầu của bạn sẽ được giải quyết trong thời gian sớm nhất.</p>');
 				}
 				else if (data.status == 5) {
 					$contactBox.find('.box-body').slideUp(200);
@@ -139,7 +153,7 @@ $(function () {
 							dataType: 'JSON'
 						}).done(function (data) {
 							if (data.status == 0) {
-								$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất.</p>');
+								$contactBox.find('.box-body').html('<p>Gửi thành công. Cám ơn bạn, yêu cầu của bạn sẽ được giải quyết trong thời gian sớm nhất.</p>');
 							}
 							else {
 								alert('Rất tiếc, đã có lỗi xảy ra');
@@ -160,9 +174,12 @@ $(function () {
 			});
 		});
 	})();
-});
 
-//endregion
+	function _getContactBox() {
+		return $('.contact-box-container .contact-box');
+	}
+
+// / Contact box
 
 // start popup
 function _initItemList($container) {

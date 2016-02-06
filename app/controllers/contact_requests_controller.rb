@@ -70,4 +70,15 @@ class ContactRequestsController < ApplicationController
 
 	# / Index
 
+	# Insert
+		
+		# Handle
+		# params: type, object, value
+		def new
+			ContactRequest.create user_id: current_user.id, user_type: 'user', request_type: params[:type], object_type: params[:object], object_id: params[:value], status: 1
+			render json: { status: 0 }
+		end
+	
+	# / Insert
+
 end
