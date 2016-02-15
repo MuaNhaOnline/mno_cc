@@ -203,7 +203,7 @@ function initForm($form, params) {
 						var $element = $(this);
 
 						// Turn on element
-						toggleElement($element, true)
+						toggleElement($element, true);
 
 						// Process this element
 						if ($element.is('.input-toggle')) {
@@ -230,7 +230,7 @@ function initForm($form, params) {
 						var $element = $(this);
 
 						// Turn off element
-						toggleElement($element, false)
+						toggleElement($element, false);
 
 						// Process this element
 						// if ($element.is('.input-toggle')) {
