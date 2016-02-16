@@ -54,10 +54,10 @@
 	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type_basic space_basic' data-off=un-space_basic value=4>#{t 'real_estate_type.text.space_group'}</option>"
 	re_type_group_html = 
 	"<option hidden #{'selected' if current_re_type_group == nil} data-off='real_estate_type' value>Chọn loại bất động sản</option>
-	<option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type land' data-off=un-land value=1>#{t 'real_estate_type.text.land_group'}</option>
-	<option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type house' data-off=un-house value=2>#{t 'real_estate_type.text.house_group'}</option>
-	<option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type apartment' data-off=un-apartment value=3>#{t 'real_estate_type.text.apartment_group'}</option>
-	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type space' data-off=un-space value=4>#{t 'real_estate_type.text.space_group'}</option>"
+	<option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type land detail_land' data-off='un-land un-detail_land' value=1>#{t 'real_estate_type.text.land_group'}</option>
+	<option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type house detail_house' data-off='un-house un-detail_house' value=2>#{t 'real_estate_type.text.house_group'}</option>
+	<option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type apartment detail_apartment' data-off='un-apartment un-detail_apartment' value=3>#{t 'real_estate_type.text.apartment_group'}</option>
+	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type space detail_space' data-off='un-space un-detail_space' value=4>#{t 'real_estate_type.text.space_group'}</option>"
 
 	land_html = house_html = apartment_html = space_html = '<option hidden value>Chọn chi tiết</option>'
 	RealEstateType.get_options.each do |t|
@@ -493,16 +493,16 @@
 										<%= t 'real_estate.attribute.real_estate_type_detail' %>
 										<sup class="required-label"></sup>
 									</label>
-									<select data-constraint="required" data-toggled-element="land un-house un-apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_land">
+									<select data-constraint="required" data-toggled-element="detail_land un-detail_house un-detail_apartment un-detail_space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_land">
 										<%= land_html.html_safe %>
 									</select>
-									<select data-constraint="required" data-toggled-element="un-land house un-apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_house">
+									<select data-constraint="required" data-toggled-element="un-detail_land detail_house un-detail_apartment un-detail_space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_house">
 										<%= house_html.html_safe %>
 									</select>
-									<select data-constraint="required" data-toggled-element="un-land un-house apartment un-space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_apartment">
+									<select data-constraint="required" data-toggled-element="un-detail_land un-detail_house detail_apartment un-detail_space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_apartment">
 										<%= apartment_html.html_safe %>
 									</select>
-									<select data-constraint="required" data-toggled-element="un-land un-house un-apartment space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_space">
+									<select data-constraint="required" data-toggled-element="un-detail_land un-detail_house un-detail_apartment detail_space" name="real_estate[real_estate_type_id]" class="form-control input-toggle" id="real_estate_type_space">
 										<%= space_html.html_safe %>
 									</select>
 								</article>

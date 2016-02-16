@@ -335,28 +335,26 @@
 		<article class="content information" style="padding: 0;">
 			<div class="user-info row">
 				<div class="col-xs-4 col-sm-2 avatar">
-					<%= user_avatar @re.user, style: 'big' %>
-					<span><%= @re.user.full_name %></span>
+					<% if @re.user_id == 0 %>
+						<img class="img-circle" src="/assets/users/default.png" alt="<%= @re.user_full_name %>">
+					<% else %>
+						<%= user_avatar @re.user, style: 'big' %>
+					<% end %>
+					<span><%= @re.display_user_name %></span>
 				</div>
 				<div class="col-xs-8 col-sm-10">
 					<ul class="info">
-						<% if @re.user.phone_number.present? %>
+						<% if @re.display_user_phone_number.present? %>
 							<li>
 								<i class="icon-phone"></i>
-								<span><%= @re.user.phone_number %></span>
+								<span><%= @re.display_user_phone_number %></span>
 							</li>
 						<% end %>
-						<% if @re.user.email.present? %>
-						<li>
-							<i class="icon-mail"></i>
-							<span><%= @re.user.email %></span>
-						</li>
-						<% end %>
-						<% if @re.user.address.present? %>
-						<li>
-							<i class="icon-address"></i>
-							<span><%= @re.user.address %></span>
-						</li>
+						<% if @re.display_user_email.present? %>
+							<li>
+								<i class="icon-mail"></i>
+								<span><%= @re.display_user_email %></span>
+							</li>
 						<% end %>
 						<li>
 							<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
