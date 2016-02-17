@@ -6,15 +6,31 @@
 
 <ol>
 	<li>
-		Kích hoạt tin tại <a href="<%= Rails.application.config.base_url %>bat-dong-san/active/<%= @re.id %>?<%= query %>">đây</a>.
+		<%
+			url = "#{Rails.application.config.base_url}bat-dong-san/active/#{@re.id}?#{query}"
+		%>
+		Kích hoạt tin tại <a href="<%= url %>">đây</a>.
+		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
 	</li>
 	<li>
-		Xem tin tại <a href="<%= Rails.application.config.base_url %>bat-dong-san/<%= @re.full_slug %>?<%= query %>">đây</a>.
+		<%
+			url = "#{Rails.application.config.base_url}bat-dong-san/#{@re.full_slug}?#{query}"
+		%>
+		Xem tin tại <a href="<%= url %>">đây</a>.
+		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
 	</li>
 	<li>
-		Sửa tin tại <a href="<%= Rails.application.config.base_url %>bat-dong-san/chinh-sua/<%= @re.id %>?<%= query %>">đây</a>.
+		<%
+			url = "#{Rails.application.config.base_url}bat-dong-san/chinh-sua/#{@re.id}?#{query}"
+		%>
+		Sửa tin tại <a href="<%= url %>">đây</a>.
+		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
 	</li>
 	<li>
-		Xóa tin tại <a href="<%= Rails.application.config.base_url %>bat-dong-san/delete/<%= @re.id %>?<%= query %>">đây</a>.
+		<%
+			url = "#{Rails.application.config.base_url}bat-dong-san/delete/#{@re.id}?#{query}"
+		%>
+		Xóa tin tại <a href="<%= url %>">đây</a>.
+		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
 	</li>
 </ol>

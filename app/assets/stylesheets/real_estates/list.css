@@ -21,29 +21,3 @@
 		background-color: #f6f6f6;
 	}
 /*end navigator*/
-
-/*start list*/
-.list-block {
-	margin-bottom: 40px;
-}
-	/*start function*/
-	.list-block .function {
-		text-align: right;
-		font-size: 86.67%;
-		padding: 5px;
-	}
-		.list-block .function label {
-			display: inline-block;
-		}
-		.list-block .function select {
-			display: inline-block;
-			width: 85px;
-			margin-left: 10px;
-		}
-		.list-block .function .form-group {
-			display: inline-block;
-			margin-right: 10px;
-			margin-bottom: 0;
-		}
-	/*end*/
-/*end*/

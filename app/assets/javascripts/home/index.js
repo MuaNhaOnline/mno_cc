@@ -1,10 +1,5 @@
 // Initilization
 $(function() {
-	//init dot dot dot
-	$('[data-dot]').dotdotdot({
-		watch: "window"
-	});
-
 	//init slick
 	$('.project-is-interested').find('.content').slick({
 		fade: true,

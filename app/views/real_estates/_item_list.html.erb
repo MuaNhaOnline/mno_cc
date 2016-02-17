@@ -113,12 +113,12 @@
 	<% res.each do |re| %>
 		<div class="item-lg" data-value="<%= re.id %>">
 			<div class="row">
-				<div class="col-sm-8 picture">
+				<div class="col-sm-8 col-xs-12 picture">
 					<a href="/bat-dong-san/<%= re.full_slug %>">
 						<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
 					</a>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-4 col-xs-12">
 					<div style="padding-top: 15px; padding-right: 15px;">
 						<a href="/bat-dong-san/<%= re.full_slug %>" style="outline: none">
 							<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= re.title %>">

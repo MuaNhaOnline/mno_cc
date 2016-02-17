@@ -54,7 +54,7 @@ class HomeController < ApplicationController
 				render json: {
 					status: 0,
 					result: {
-						list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: (params[:is_full] == 'true' ? 1 : 3) }),
+						list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: (params[:is_full] == 'true' ? 1 : 4) }),
 						pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: count, per: params[:per], page: params[:page] })
 					}
 				}

@@ -48,6 +48,7 @@
 				</div>
 				<div class="col-md-4 col-sm-6">
 					<ul class="basic-info">
+						<li>Mã: <b><%= ApplicationHelper.id_format @re.id, 'RE'%></b></li>
 						<% if @re.fields.include? :real_estate_type %>
 							<li>Loại: <b><%= @re.display_real_estate_type %></b></li>
 						<% end %>

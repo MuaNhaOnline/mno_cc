@@ -7,9 +7,11 @@
 <% end %>
 
 <% 
-	@title = params[:search][:search_name] || 'Bất động sản'
+	@title = @search_params[:search_name] || 'Bất động sản'
 
-	per = 8 
+	data_params = {
+		search: @search_params
+	}
 %>
 
 <!--start Search Box -->
@@ -21,7 +23,7 @@
 	<ol class="breadcrumb">
 		<li><a href="/">Trang chủ</a></li>
 		<li><a href="/bat-dong-san">Danh sách BĐS</a></li>
-		<li class="active"><%= params[:search][:search_name] || 'Tiêu đề' %></li>
+		<li class="active"><%= @search_params[:search_name] || 'Tiêu đề' %></li>
 	</ol>
 </section>
 <!-- end navigator -->
@@ -53,23 +55,51 @@
 	</div> -->
 
 	<section class="block-title">
-		<%= params[:search][:search_name] || 'Tiêu đề' %>
+		<%= @search_params[:search_name] || 'Tiêu đề' %>
 	</section>
-	<section class="block-content block-content-empty">
-		<% if @res.count == 0 %>
+	<% if @full_res.count == 0 && @short_res.count == 0 %>
+		<section class="block-content block-content-empty" style="margin-bottom: 40px">
 			<section class="result-real container">
 				<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-exclamation fa-lg"></i> Xin lỗi</h4><p>Rất tiếc. Không tìm thấy kết quả phù hợp</p></div>
 			</section>
-		<% end %>
-		<div aria-pagination data-url="/real_estates/_list_list" data-data='<%= { search: params[:search] }.to_json %>' data-list="#real_estate_list > .row" data-pagination="#real_estate_list > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="real_estate_list">
-			<div class="row">
-				<%= render partial: 'real_estates/item_list', locals: { res: @res.take(per) } %>
+		</section>
+	<% end %>
+	<% unless @full_res.count == 0 %>
+		<section class="block-content block-content-empty" style="margin-bottom: 40px">
+			<%
+				per = 8
+				data_params[:per] = per
+				data_params[:type] = 1
+				data_params[:search][:is_full] = 'true'
+			%>
+			<div aria-pagination data-url="/real_estates/_list_list" data-data='<%= data_params.to_json %>' data-list="#real_estate_list > .row" data-pagination="#real_estate_list > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="real_estate_list">
+				<div class="row">
+					<%= render partial: 'real_estates/item_list', locals: { res: @full_res.take(per) } %>
+				</div>
+				<div class="paging">
+					<%= render partial: 'shared/pagination_2', locals: { per: per, total: @full_res.count, page: 1 } %>						
+				</div>
 			</div>
-			<div class="paging">
-				<%= render partial: 'shared/pagination_2', locals: { per: per, total: @res.count, page: 1 } %>						
+		</section>
+	<% end %>
+	<% unless @short_res.count == 0 %>
+		<section class="block-content block-content-empty short-re-container" style="margin-bottom: 40px">
+			<%
+				per = 6
+				data_params[:per] = per
+				data_params[:type] = 4
+				data_params[:search][:is_full] = 'false'
+			%>
+			<div aria-pagination data-url="/real_estates/_list_list" data-data='<%= data_params.to_json %>' data-list="#short > .list" data-pagination="#short > .paging" data-init_list="_initShortRealEstateList($list)" id="short">
+				<div class="list">
+					<%= render partial: 'real_estates/item_list', locals: { res: @short_res.take(per), type: 4 } %>
+				</div>
+				<div class="paging">
+					<%= render partial: 'shared/pagination_2', locals: { per: per, total: @short_res.count, page: 1 } %>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	<% end %>
 	
 </section>
 <!-- end -->

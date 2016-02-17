@@ -51,9 +51,9 @@ class UsersController < ApplicationController
 			# Send active mail
 			case user.active_status
 			when 1
-				UserMailer.active_account(user).deliver_now
+				UserMailer.active_account(user).deliver_later
 			when 2
-				UserMailer.active_old_email(user).deliver_now
+				UserMailer.active_old_email(user).deliver_later
 			end
 
 			render json: { status: 0, result: user.id, email_changed: result[:email_changed] }

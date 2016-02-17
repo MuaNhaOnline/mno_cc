@@ -18,24 +18,17 @@ class RealEstatesController < ApplicationController
 
 		private def get_search_param_from_keyword search
 			case search
-			when 'nha-pho'
-				{ search_name: 'Nhà phố', real_estate_type: 'town_house' }
-			when 'biet-thu'
-				{ search_name: 'Villa - Biệt thự', real_estate_type: 'villa' }
-			when 'can-ho'
-				{ search_name: 'Căn hộ chung cư', real_estate_type: 'apartment' }
+
 			when 'dat-tho-cu'
-				{ search_name: 'Đất ở - Đất thổ cư', real_estate_type: 'residential_land' }
-			when 'dat-lam-nghiep'
-				{ search_name: 'Đất lâm nghiệp', real_estate_type: 'vacant_land' }
+				{ search_name: 'Đất thổ cư', real_estate_type: 'residential_land' }
 			when 'dat-nong-nghiep'
-				{ search_name: 'Đất nông nghiệp', real_estate_type: 'forest_land' }
+				{ search_name: 'Đất nông nghiệp', real_estate_type: 'vacant_land' }
+			when 'dat-lam-nghiep'
+				{ search_name: 'Đất lâm nghiệp', real_estate_type: 'forest_land' }
 			when 'dat-san-xuat'
 				{ search_name: 'Đất cho sản xuất', real_estate_type: 'productive_land' }
 			when 'dat-du-an'
 				{ search_name: 'Đất dự án', real_estate_type: 'project_land' }
-			when 'nha-tam'
-				{ search_name: 'Nhà tạm', constructional_level: 'temporary' }
 			when 'van-phong'
 				{ search_name: 'Văn phòng', real_estate_type: 'office' }
 			when 'phong-tro'
@@ -45,10 +38,23 @@ class RealEstatesController < ApplicationController
 			when 'nha-hang-khach-san'
 				{ search_name: 'Nhà hàng - Khách sạn', real_estate_type: 'restaurant_hotel' }
 			when 'nha-kho-xuong'
-				{ search_name: 'Nhà kho - Xưởng', real_estate_type: 'storage_workshop' }
-
+				{ search_name: 'Kho - Xưởng', real_estate_type: 'storage_workshop' }
+			when 'can-ho-cao-cap'
+				{ search_name: 'Căn hộ cao cấp', real_estate_type: 'high_apartment' }
+			when 'can-ho-trung-binh'
+				{ search_name: 'Căn hộ trung bình', real_estate_type: 'medium_apartment' }
+			when 'can-ho-thap'
+				{ search_name: 'Căn hộ thu nhập thấp', real_estate_type: 'low_apartment' }
 			when 'nha-o-xa-hoi'
 				{ search_name: 'Nhà ở xã hội', real_estate_type: 'social_home' }
+			when 'biet-thu'
+				{ search_name: 'Biệt thự', real_estate_type: 'villa' }
+			when 'nha-pho'
+				{ search_name: 'Nhà phố', real_estate_type: 'town_house' }
+
+			when 'nha-tam'
+				{ search_name: 'Nhà tạm', constructional_level: 'temporary' }
+
 			when 'can-ho-co-ho-boi'
 				{ search_name: 'Căn hộ có hồ bơi', real_estate_type: 'apartment', utilities: { pool: '' } }
 			when 'nha-pho-duoi-1-ty' 
@@ -64,18 +70,26 @@ class RealEstatesController < ApplicationController
 		def list
 			return redirect_to '/bat-dong-san' if params[:search].blank?
 
-			params[:search] = get_search_param_from_keyword(params[:search]) if params[:search].is_a? String
+			@search_params = get_search_param_from_keyword(params[:search]) if params[:search].is_a? String
 
-			@res = RealEstate.search_with_params params[:search].clone
+			@search_params[:is_full] = 'true'
+			@full_res = RealEstate.search_with_params @search_params.clone
+
+			@search_params[:is_full] = 'false'
+			@short_res = RealEstate.search_with_params @search_params.clone
 		end
 
 		# Partial view
 		# params: search params, page
 		def _list_list
-			per = 8
+			params[:per] ||= 8
+			params[:per] = params[:per].to_i
 
 			params[:page] ||= 1
 			params[:page] = params[:page].to_i
+
+			params[:type] ||= 1
+			params[:type] = params[:type].to_i
 
 			res = RealEstate.search_with_params params[:search]
 
@@ -86,8 +100,8 @@ class RealEstatesController < ApplicationController
 			render json: {
 				status: 0,
 				result: {
-					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: count, per: per, page: params[:page] })
+					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: params[:type] }),
+					pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: count, per: params[:per], page: params[:page] })
 				}
 			}
 		end

@@ -280,7 +280,7 @@
 		</a>
 	</article>
 	<article class="block-content block-content-empty short-re-container">
-		<div aria-pagination data-url="/real_estates/search" data-data='{"is_full":false,"per":6,"type":4}' data-list="#short > .list" data-pagination="#short > .paging" data-init_list="initShortList($list)" id="short">
+		<div aria-pagination data-url="/real_estates/search" data-data='{"is_full":false,"per":6,"type":4}' data-list="#short > .list" data-pagination="#short > .paging" data-init_list="_initShortRealEstateList($list)" id="short">
 			<%
 				res = RealEstate.search_with_params(is_full: 'false')
 			%>

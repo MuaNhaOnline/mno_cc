@@ -1,2 +1,6 @@
 <h3>Chào <b><%= @user.full_name %></b>, email của bạn vừa được sử dụng ở hệ thống MuaNhaOnline.vn</h3>
-<p>Để xác nhận hãy nhấn vào <a href="<%= Rails.application.config.base_url %>users/active_account/<%= @user.id %>?<%= { code: @user.params['active_code'] }.to_query %>">đây</a>.</p>
+<%
+	url = "#{Rails.application.config.base_url}users/active_account/#{@user.id}?#{ code: @user.params['active_code'] }.to_query"
+%>
+<p>Để xác nhận hãy nhấn vào <a href="<%= url %>">đây</a>.</p>
+<p><small>(<a href="<%= url %>"><%= url %></a>)</small></p>

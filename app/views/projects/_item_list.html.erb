@@ -11,12 +11,12 @@
 	<% projects.each do |p| %>
 		<div class="item-lg" data-value="<%= p.id %>">
 			<div class="row">
-				<div class="col-md-8 picture">
+				<div class="col-md-8 col-xs-12 picture">
 					<a href="/du-an/<%= p.full_slug %>">
 						<%= project_avatar p, style_class: 'img-responsive', style: 'slide' %>
 					</a>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-12">
 					<div style="padding-top: 15px; padding-right: 15px;">
 						<a href="/du-an/<%= p.full_slug %>" style="outline: none">
 							<div class="name" data-toggle="tooltip" data-placement="auto" title="<%= p.project_name %>">

@@ -2,6 +2,11 @@ var $footer = $('footer');
 
 //region Initialization
 $(function () {
+	//init dot dot dot
+	$('[data-dot]').dotdotdot({
+		watch: "window"
+	});
+	
 	_getPopupContent();
 
 	//init Header	
@@ -23,6 +28,8 @@ $(function () {
 
 	// init item list
 	_initItemList();
+
+	_initShortRealEstateList($('.short-re-container .list'));
 	
 	//Set purpose
 	setPurpose();
@@ -182,352 +189,374 @@ $(function () {
 // / Contact box
 
 // start popup
-function _initItemList($container) {
-	// Popup alert
-	(typeof($container) == 'undefined' ? $('[data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function(e) {
-		e.preventDefault();
-		$('#coming_soon_popup').modal('show');
-		
-		// if ($body.is('[data-signed]')) {
-		// 	$('#coming_soon_popup').modal('show');
-		// }
-		// else {
-		// 	$('[data-toggle="modal"][data-target="#signin"]').click();
-		// }
-	});
-
-	// Tooltip
-	(typeof($container) == 'undefined' ? $('.item-sm [data-toggle="tooltip"], .item-lg [data-toggle="tooltip"]') : $container.find('[data-toggle="tooltip"]')).tooltip();
-	
-	// Gallery
-	(typeof($container) == 'undefined' ? $('.item-sm [aria-gallery], .item-lg [aria-gallery]') : $container.find('[aria-gallery]')).on('click', function() {
-		var $button = $(this);
-
-		var $html = $(
-			'<div class="gallery-popup">' +
-				'<div class="gallery-container">' +
-					'<section class="close-button">' +
-						'<button type="button" class="close" aria-click="close"><span aria-hidden="true">&times;</span></button>' +
-					'</section>' +
-					'<section class="image-view-panel">' +
-						'<span class="fa fa-spin fa-spinner" aria-name="spinner"></span>' +
-						'<img aria-name="image" class="image" src="#" />' +
-					'</section>' +
-					'<section class="image-description-panel">' +
-						'<div class="text-center small" aria-name="description"></div>' +
-					'</section>' +
-					'<section class="image-list-panel">' +
-						'<ul class="item-list">' +
-						'</ul>' +
-					'</section>' +
-				'</div>' +
-			'</div>'
-		);
-
-		$body.append($html);
-
-		// Init values
-
-		// Get images
-		var $itemList = $html.find('.item-list');
-
-		$html.find('[aria-name="spinner"]').show();
-		$html.find('[aria-name="image"]').hide();
-		$.ajax({
-			url: '/' + $button.attr('aria-gallery') + 's/get_gallery/' + $button.data('value'),
-			dataType: 'JSON'
-		}).always(function () {
-			$html.find('[aria-name="spinner"]').hide();
-			$html.find('[aria-name="image"]').show();
-		}).done(function(data) {
-			if (data.status == 0) {
-				$(data.result).each(function() {
-					$itemList.append('<li class="item" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
-					if (this.id == $button.data('id')) {
-						showImage($itemList.children(':last-child'));
-					}
-				});					
-
-				initChangeImage();
-			}
-			else {
-				turn_off_popup_gallery();
-			}
-		}).fail(function() {
-			turn_off_popup_gallery();
+	function _initItemList($container) {
+		// Popup alert
+		(typeof($container) == 'undefined' ? $('[data-popup="coming-soon"]') : $container.find('[data-popup="coming-soon"]')).on('click', function(e) {
+			e.preventDefault();
+			$('#coming_soon_popup').modal('show');
+			
+			// if ($body.is('[data-signed]')) {
+			// 	$('#coming_soon_popup').modal('show');
+			// }
+			// else {
+			// 	$('[data-toggle="modal"][data-target="#signin"]').click();
+			// }
 		});
 
-		// / Init values
+		// Tooltip
+		(typeof($container) == 'undefined' ? $('.item-sm [data-toggle="tooltip"], .item-lg [data-toggle="tooltip"]') : $container.find('[data-toggle="tooltip"]')).tooltip();
+		
+		// Gallery
+		(typeof($container) == 'undefined' ? $('.item-sm [aria-gallery], .item-lg [aria-gallery]') : $container.find('[aria-gallery]')).on('click', function() {
+			var $button = $(this);
 
-		// Events
+			var $html = $(
+				'<div class="gallery-popup">' +
+					'<div class="gallery-container">' +
+						'<section class="close-button">' +
+							'<button type="button" class="close" aria-click="close"><span aria-hidden="true">&times;</span></button>' +
+						'</section>' +
+						'<section class="image-view-panel">' +
+							'<span class="fa fa-spin fa-spinner" aria-name="spinner"></span>' +
+							'<img aria-name="image" class="image" src="#" />' +
+						'</section>' +
+						'<section class="image-description-panel">' +
+							'<div class="text-center small" aria-name="description"></div>' +
+						'</section>' +
+						'<section class="image-list-panel">' +
+							'<ul class="item-list">' +
+							'</ul>' +
+						'</section>' +
+					'</div>' +
+				'</div>'
+			);
 
-		function initChangeImage() {
-			$itemList.find('.item').on('click', function () {
-				showImage($(this));
-			});
+			$body.append($html);
 
-			$(document).on('keydown.popup_gallery', function (e) {
-				switch (e.keyCode) {
-					case 37:
-					case 40:
-						e.preventDefault();
-						prevImage();
-						break;
-					case 38:
-					case 39:
-						e.preventDefault();
-						nextImage();
-						break;
-				}
-			});
+			// Init values
 
-			if (isMobile()) {
-				$html.find('.image-view-panel').on({
-					swipeleft: function () {
-						prevImage();
-					},
-					swiperight: function () {
-						nextImage();
-					}
-				});
-			}
+			// Get images
+			var $itemList = $html.find('.item-list');
 
-			$html.find('.image-view-panel').on('click', function () {
-				nextImage();
-			});
-
-			function prevImage() {
-				var $selected = $itemList.find('.selected');
-
-				if ($selected.is(':first-child')) {
-					showImage($itemList.find('.item:last-child'));
-				}
-				else {
-					showImage($selected.prev());
-				}
-			}
-
-			function nextImage() {
-				var $selected = $itemList.find('.selected');
-
-				if ($selected.is(':last-child')) {
-					showImage($itemList.find('.item:first-child'));
-				}
-				else {
-					showImage($selected.next());
-				}
-			}
-		}
-
-		function showImage($item) {
-			if ($item.hasClass('selected')) {
-				return;
-			}
-
-			var src = $item.find('img').data('src');
-
-			$item.siblings('.selected').removeClass('selected');
-			$item.addClass('selected');
-
-			// Set description
-			$html.find('[aria-name="description"]').text($item.data('description'));
-
-			// Set max height
-			$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
-
-			
+			$html.find('[aria-name="spinner"]').show();
 			$html.find('[aria-name="image"]').hide();
-			$html.find('[aria-name="spinner"]').show();	
-			var downloadingImage = new Image();
-			downloadingImage.onload = function(){
-				$html.find('[aria-name="image"]').attr('src', src);
-
+			$.ajax({
+				url: '/' + $button.attr('aria-gallery') + 's/get_gallery/' + $button.data('value'),
+				dataType: 'JSON'
+			}).always(function () {
 				$html.find('[aria-name="spinner"]').hide();
 				$html.find('[aria-name="image"]').show();
-			};
-			downloadingImage.src = src;
-		}
+			}).done(function(data) {
+				if (data.status == 0) {
+					$(data.result).each(function() {
+						$itemList.append('<li class="item" data-description="' + this.description + '"><img src="' + this.small + '" data-src="' + this.original + '" /></li>');	
+						if (this.id == $button.data('id')) {
+							showImage($itemList.children(':last-child'));
+						}
+					});					
 
-		// / Events
-
-		// Scroll list item
-
-			_initHorizontalListScroll($html.find('.image-list-panel'));
-
-		// / Scroll list item
-
-		// Turn off
-
-		$(document).on('keydown.popup_gallery', function (e) {
-			if (e.keyCode == 27) {
-				e.preventDefault();
-				turn_off_popup_gallery();
-			}
-		});
-
-		$html.on('click', function () {
-			turn_off_popup_gallery();
-		});
-
-		$html.find('[aria-click="close"]').on('click', function () {
-			turn_off_popup_gallery();
-		});
-
-		$html.children().on('click', function (e) {
-			e.stopPropagation();
-		});
-
-		function turn_off_popup_gallery() {
-			$(document).off('keydown.popup_gallery');
-
-			$html.remove();
-		};
-
-		// / Turn off
-	});
-
-	// User favorite
-
-	(typeof($container) == 'undefined' ? $('.item-sm [aria-click="user_favorite"], .item-lg [aria-click="user_favorite"]') : $container.find('[aria-click="user_favorite"]')).on('click', function () {
-		if (!$body.is('[data-signed]')) {
-			$('[data-toggle="modal"][data-target="#signin"]').click();
-			return;
-		}
-		
-		var 
-			$button = $(this),
-			is_add = !$button.is('.active');
-
-		$.ajax({
-			url: '/' + $button.data('type') + 's/user_favorite/' + ($button.closest('.item-sm, .item-lg, .item-info').data('value')) + '/' + (is_add ? '1' : '0'),
-			method: 'POST',
-			dataType: 'JSON'
-		}).done(function (data) {
-			if (data.status == 0) {
-				if (is_add) {
-					$button.addClass('active').attr('title', 'Xóa khỏi danh sách yêu thích').tooltip('fixTitle');
+					initChangeImage();
 				}
 				else {
-					$button.removeClass('active').attr('title', 'Lưu vào danh sách yêu thích').tooltip('fixTitle');
+					turn_off_popup_gallery();
+				}
+			}).fail(function() {
+				turn_off_popup_gallery();
+			});
+
+			// / Init values
+
+			// Events
+
+			function initChangeImage() {
+				$itemList.find('.item').on('click', function () {
+					showImage($(this));
+				});
+
+				$(document).on('keydown.popup_gallery', function (e) {
+					switch (e.keyCode) {
+						case 37:
+						case 40:
+							e.preventDefault();
+							prevImage();
+							break;
+						case 38:
+						case 39:
+							e.preventDefault();
+							nextImage();
+							break;
+					}
+				});
+
+				if (isMobile()) {
+					$html.find('.image-view-panel').on({
+						swipeleft: function () {
+							prevImage();
+						},
+						swiperight: function () {
+							nextImage();
+						}
+					});
+				}
+
+				$html.find('.image-view-panel').on('click', function () {
+					nextImage();
+				});
+
+				function prevImage() {
+					var $selected = $itemList.find('.selected');
+
+					if ($selected.is(':first-child')) {
+						showImage($itemList.find('.item:last-child'));
+					}
+					else {
+						showImage($selected.prev());
+					}
+				}
+
+				function nextImage() {
+					var $selected = $itemList.find('.selected');
+
+					if ($selected.is(':last-child')) {
+						showImage($itemList.find('.item:first-child'));
+					}
+					else {
+						showImage($selected.next());
+					}
 				}
 			}
-		})
-	}).each(function () {
-		var $button = $(this);
-		if ($button.hasClass('active')) {
-			$button.attr('title', 'Xóa khỏi danh sách yêu thích');
-		}
-		else {
-			$button.attr('title', 'Lưu vào danh sách yêu thích');
-		}
-		$button.tooltip();
-	});
 
-	// / User favorite
+			function showImage($item) {
+				if ($item.hasClass('selected')) {
+					return;
+				}
 
-	// Toggle object
+				var src = $item.find('img').data('src');
 
-		initToggleElement(typeof($container) == 'undefined' ? $('.item-xs[data-toggle-object]') : $container.find('[data-toggle-object]'), false);
+				$item.siblings('.selected').removeClass('selected');
+				$item.addClass('selected');
 
-	// / Toggle object
+				// Set description
+				$html.find('[aria-name="description"]').text($item.data('description'));
 
-	// Time
+				// Set max height
+				$html.find('[aria-name="image"]').css('max-height', $html.find('.image-view-panel')[0].getBoundingClientRect().height - 10 + 'px');
 
-		initReadTime($container);
+				
+				$html.find('[aria-name="image"]').hide();
+				$html.find('[aria-name="spinner"]').show();	
+				var downloadingImage = new Image();
+				downloadingImage.onload = function(){
+					$html.find('[aria-name="image"]').attr('src', src);
 
-	// / Time
-}
+					$html.find('[aria-name="spinner"]').hide();
+					$html.find('[aria-name="image"]').show();
+				};
+				downloadingImage.src = src;
+			}
+
+			// / Events
+
+			// Scroll list item
+
+				_initHorizontalListScroll($html.find('.image-list-panel'));
+
+			// / Scroll list item
+
+			// Turn off
+
+			$(document).on('keydown.popup_gallery', function (e) {
+				if (e.keyCode == 27) {
+					e.preventDefault();
+					turn_off_popup_gallery();
+				}
+			});
+
+			$html.on('click', function () {
+				turn_off_popup_gallery();
+			});
+
+			$html.find('[aria-click="close"]').on('click', function () {
+				turn_off_popup_gallery();
+			});
+
+			$html.children().on('click', function (e) {
+				e.stopPropagation();
+			});
+
+			function turn_off_popup_gallery() {
+				$(document).off('keydown.popup_gallery');
+
+				$html.remove();
+			};
+
+			// / Turn off
+		});
+
+		// User favorite
+
+		(typeof($container) == 'undefined' ? $('.item-sm [aria-click="user_favorite"], .item-lg [aria-click="user_favorite"]') : $container.find('[aria-click="user_favorite"]')).on('click', function () {
+			if (!$body.is('[data-signed]')) {
+				$('[data-toggle="modal"][data-target="#signin"]').click();
+				return;
+			}
+			
+			var 
+				$button = $(this),
+				is_add = !$button.is('.active');
+
+			$.ajax({
+				url: '/' + $button.data('type') + 's/user_favorite/' + ($button.closest('.item-sm, .item-lg, .item-info').data('value')) + '/' + (is_add ? '1' : '0'),
+				method: 'POST',
+				dataType: 'JSON'
+			}).done(function (data) {
+				if (data.status == 0) {
+					if (is_add) {
+						$button.addClass('active').attr('title', 'Xóa khỏi danh sách yêu thích').tooltip('fixTitle');
+					}
+					else {
+						$button.removeClass('active').attr('title', 'Lưu vào danh sách yêu thích').tooltip('fixTitle');
+					}
+				}
+			})
+		}).each(function () {
+			var $button = $(this);
+			if ($button.hasClass('active')) {
+				$button.attr('title', 'Xóa khỏi danh sách yêu thích');
+			}
+			else {
+				$button.attr('title', 'Lưu vào danh sách yêu thích');
+			}
+			$button.tooltip();
+		});
+
+		// / User favorite
+
+		// Toggle object
+
+			initToggleElement(typeof($container) == 'undefined' ? $('.item-xs[data-toggle-object]') : $container.find('[data-toggle-object]'), false);
+
+		// / Toggle object
+
+		// Time
+
+			initReadTime($container);
+
+		// / Time
+	}
 // end
 
 // start header
-function initHeader() {
-	var $header = $('.header-fixed');
-	var $coverWall = $('.cover-wall');
-	
-	var scroll = $window.scrollTop();
-	$window.on('scroll', function(e) {		
-		var currentScroll = $window.scrollTop();
-		
-		if (currentScroll != 0) {
-			$header.addClass('fixed');
-			$('header').css('height','0');
-		} else {
-			$('header').css('height', '60px');
-			$header.removeClass('fixed');
-		}		
 
-		if (scroll < currentScroll) {
-			//Window is scroll down
-			$header.slideUp('fast');
-		}
-		else {
-			// Window is scroll up
-			$header.fadeIn();
-			if (currentScroll == 0) {			
-				$header.css({
-					'height': '60px'
-				});
-				$coverWall.css({
-					'top': '98px'
-				});
+	function initHeader() {
+		var $header = $('.header-fixed');
+		var $coverWall = $('.cover-wall');
+		
+		var lastScroll = $window.scrollTop(), isSlideDown = false, isSlideUp = false;
+		$window.on('scroll', function(e) {		
+			var currentScroll = $window.scrollTop();
+			
+			// If current is top
+			if (currentScroll == 0) {
+				// Turn off fixed
+				$header.removeClass('fixed');
+				$('header').css('height', '60px');
 			} else {
-				$header.css({
-					'height': '46px',
-					'top': '0'
-				});
-				$coverWall.css({
-					'top': '46px'
-				});
+				// Turn on fixed
+				$header.addClass('fixed');
+				$('header').css('height','0');
+			}		
+
+			// If scroll down => hide
+			if (lastScroll < currentScroll) {
+				// Window is scroll down
+				if (!isSlideUp) {
+					isSlideUp = true;
+					isSlideDown = false;
+					$header.stop().slideUp('fast', function () {
+						isSlideUp = false;
+					});	
+				}
 			}
-		}
-		scroll = currentScroll;
-	});
-}
+			// If scroll up => show
+			else {
+				if (!isSlideDown) {
+					isSlideDown = true;
+					isSlideUp = false;
+					$header.stop().slideDown('fast', function () {
+						isSlideDown = false;
+					});
+				}
+
+				// If scroll to top => resize
+				if (currentScroll == 0) {			
+					$header.css({
+						'height': '60px'
+					});
+					$coverWall.css({
+						'top': '98px'
+					});
+				} 
+				// Else => resize
+				else {
+					$header.css({
+						'height': '46px',
+						'top': '0'
+					});
+					$coverWall.css({
+						'top': '46px'
+					});
+				}
+			}
+			lastScroll = currentScroll;
+		});
+	}
+
 // end
 
 // start mini menu
-function initMiniMenu(objBtnPress, objContent) {
-		var $btnMenu = $(objBtnPress);
-		var $contentMenu = $(objContent);
+	function initMiniMenu(objBtnPress, objContent) {
+			var $btnMenu = $(objBtnPress);
+			var $contentMenu = $(objContent);
 
-		$contentMenu.on('Off', function(e) {
-				e = e || window.event;
+			$contentMenu.on('Off', function(e) {
+					e = e || window.event;
 
-				$contentMenu.hide();
-				$body.css('overflow-y', 'auto');
+					$contentMenu.hide();
+					$body.css('overflow-y', 'auto');
 
-				$document.off('keydown.btn-close');
-		});
+					$document.off('keydown.btn-close');
+			});
 
-		$contentMenu.on('On', function(e) {
-				$contentMenu.show();
-				$body.css('overflow-y','hidden');
+			$contentMenu.on('On', function(e) {
+					$contentMenu.show();
+					$body.css('overflow-y','hidden');
 
-				$contentMenu.find('.popup-out').one('click', function() {
-						$contentMenu.trigger('Off');
-				});
+					$contentMenu.find('.popup-out').one('click', function() {
+							$contentMenu.trigger('Off');
+					});
 
-				$document.on('keydown.btn-close', function(e) {
-						e = e || window.event;
+					$document.on('keydown.btn-close', function(e) {
+							e = e || window.event;
 
-						if (e.keyCode == 27) {
-								$contentMenu.trigger('Off');
-						} else {
-								console.log('Key is press down! But not Esc key.');
-						}
-				});
-		});
+							if (e.keyCode == 27) {
+									$contentMenu.trigger('Off');
+							} else {
+									console.log('Key is press down! But not Esc key.');
+							}
+					});
+			});
 
-		$btnMenu.on('click', function(e) {
-				e = e || window.event;
+			$btnMenu.on('click', function(e) {
+					e = e || window.event;
 
-				if ($contentMenu.is(':visible')) {
-					$contentMenu.trigger('Off');        	
-				} else {
-					$contentMenu.trigger('On');        	
-				}
-		});
-}
+					if ($contentMenu.is(':visible')) {
+						$contentMenu.trigger('Off');        	
+					} else {
+						$contentMenu.trigger('On');        	
+					}
+			});
+	}
 
 // start initMiniMenu
 // function initMiniMenu() {
@@ -551,95 +580,95 @@ function initMiniMenu(objBtnPress, objContent) {
 // end
 
 //start search-box
-function initMore() {
-	$('[data-function="show-search-plus"]').on('click', function () {
-		var searchPlus = $('#more_search');
-		searchPlus.fadeToggle(500, function () {
-			searchPlus.find(':input').prop('disabled', !searchPlus.is(':visible'));
+	function initMore() {
+		$('[data-function="show-search-plus"]').on('click', function () {
+			var searchPlus = $('#more_search');
+			searchPlus.fadeToggle(500, function () {
+				searchPlus.find(':input').prop('disabled', !searchPlus.is(':visible'));
+			});
+
+			$('.btn-search-plus').fadeToggle();
+		}).click();
+
+		$('[aria-input-type="dropdownselect"]').each(function () {
+			var $input = $(this);
+
+			$input.find('~ ul a').on('click', function () {
+				$input.find('~ button span').html($(this).html());
+				$input.val($(this).data('value'));
+			}).filter('[data-selected]:eq(0)').click();
 		});
 
-		$('.btn-search-plus').fadeToggle();
-	}).click();
-
-	$('[aria-input-type="dropdownselect"]').each(function () {
-		var $input = $(this);
-
-		$input.find('~ ul a').on('click', function () {
-			$input.find('~ button span').html($(this).html());
-			$input.val($(this).data('value'));
-		}).filter('[data-selected]:eq(0)').click();
-	});
-
-	$('[name="purpose"]').on('change', function () {
-		if (this.value == 'r') {
-			$('[data-for="sell"]').hide();
-			$('[data-for="rent"]').show().first().find('[data-selected]').click();
-		}
-		else {
-			$('[data-for="rent"]').hide();
-			$('[data-for="sell"]').show().first().find('[data-selected]').click();
-		}
-	}).filter(':checked').change();
-}
+		$('[name="purpose"]').on('change', function () {
+			if (this.value == 'r') {
+				$('[data-for="sell"]').hide();
+				$('[data-for="rent"]').show().find('[data-selected]').click();
+			}
+			else {
+				$('[data-for="rent"]').hide();
+				$('[data-for="sell"]').show().find('[data-selected]').click();
+			}
+		}).filter(':checked').change();
+	}
 //end
 
 // start ToggleElement
-function initToggleElement($listObject, isFunction) {
-	$listObject.off('click.on_off').on('click.on_off', function (e) {
-		//Lấy đối tượng 
-		// $btn: nút nhấn
-		// $object: đối tượng popup sẽ được hiển thị
-		var $btn = $(this);
-		var $object = $('[data-object="' + $btn.attr('data-toggle-object') + '"]');
-		
-		var $style = $btn.attr('data-toggle-style');
+	function initToggleElement($listObject, isFunction) {
+		$listObject.off('click.on_off').on('click.on_off', function (e) {
+			//Lấy đối tượng 
+			// $btn: nút nhấn
+			// $object: đối tượng popup sẽ được hiển thị
+			var $btn = $(this);
+			var $object = $('[data-object="' + $btn.attr('data-toggle-object') + '"]');
+			
+			var $style = $btn.attr('data-toggle-style');
 
-		switch($style) {
-			case "fade": {
-				//Xử lý sự kiện click của nút nhấn
-				if ($object.is(':visible')) {
-					$object.slideUp('fast');
-					return;
-				}
-				$object.fadeIn('fast');
-				if (isFunction !== true) {
-					$object.on('click', function (e) {
-						if ($object.is(':visible')) {
-							e.stopPropagation();												
-						}
-					});
-				}
-				//Xử lý sự kiện nhấn chuột ra ngoài đối tượng
-				setTimeout(function () {
-					$(document).one('click', function (e) {
+			switch($style) {
+				case "fade": {
+					//Xử lý sự kiện click của nút nhấn
+					if ($object.is(':visible')) {
 						$object.slideUp('fast');
-					})
-				});			
-			}; break;
-			default: {
-				//Xử lý sự kiện click của nút nhấn
-				if ($object.is(':visible')) {
-					$object.hide();
-					return;
-				}
-				$object.show();
-				if (isFunction !== true) {
-					$object.on('click', function (e) {
-						e.stopPropagation();												
+						return;
+					}
+					$object.fadeIn('fast');
+					if (isFunction !== true) {
+						$object.on('click', function (e) {
+							if ($object.is(':visible')) {
+								e.stopPropagation();												
+							}
+						});
+					}
+					//Xử lý sự kiện nhấn chuột ra ngoài đối tượng
+					setTimeout(function () {
+						$(document).one('click', function (e) {
+							$object.slideUp('fast');
+						})
+					});			
+				}; break;
+				default: {
+					//Xử lý sự kiện click của nút nhấn
+					if ($object.is(':visible')) {
+						$object.hide();
+						return;
+					}
+					$object.show();
+					if (isFunction !== true) {
+						$object.on('click', function (e) {
+							e.stopPropagation();												
+						});
+					}
+					//Xử lý sự kiện nhấn chuột ra ngoài đối tượng
+					setTimeout(function () {
+						$(document).one('click', function (e) {
+							$object.hide();
+						})
 					});
 				}
-				//Xử lý sự kiện nhấn chuột ra ngoài đối tượng
-				setTimeout(function () {
-					$(document).one('click', function (e) {
-						$object.hide();
-					})
-				});
 			}
-		}
 
-		$('.dropdown-toggle').dropdown();
-	});
-}
+			$('.dropdown-toggle').dropdown();
+		});
+	}
 // end
 // Map (Chiêu)
 	/*
@@ -1049,4 +1078,61 @@ function initToggleElement($listObject, isFunction) {
 			content: _t.form.error_content
 		});
 	}
+
 // / Popup 
+
+// Short real-estates
+
+	function _initShortRealEstateList($lists) {
+		$lists.each(function () {
+
+			$list = $(this);
+
+			// Init dotdotdot
+			$list.find('[data-dot]').dotdotdot({
+				watch: 'window'
+			});
+
+			// Init content click
+			$list.find('.content').on('click', function (e) {
+				e.stopPropagation();
+
+				$item = $(this).closest('.item');
+				$item.clone();
+				var $clone = $item.clone();
+				$clone.find('.hidden-content').show();
+				$clone.find('.content').hide();
+
+				$clone.css({
+					width: $item.outerWidth(),
+					position: 'absolute',
+					top: $item.offset().top,
+					left: $item.offset().left,
+					'z-index': 1
+				});
+
+				$('.short-re-container').append($clone);
+
+				setTimeout(function () {
+					$document.on({
+						'click.short-re': function () {
+							$clone.remove();
+							$document.off('.short-re');
+						},
+						'keydown.short-re': function (e) {
+							if (e.keyCode == 27) {
+								$clone.remove();
+								$document.off('.short-re');
+							}
+						}
+					});
+				});
+			});
+
+			// Time
+			initReadTime($list);
+
+		});
+	}
+
+// / Short real-estates

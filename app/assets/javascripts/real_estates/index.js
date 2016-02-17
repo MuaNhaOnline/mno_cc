@@ -13,7 +13,6 @@ $(function() {
 
 	initPriceRangeSearch();
 	initPositionSearch();
-	initShortList($('.short-re-container .list'));
 
 	/*
 		Search by price range
@@ -126,53 +125,3 @@ $(function() {
 	*/
 });
 // end
-
-// Short real-estates
-
-	function initShortList($list) {
-
-		// Init dotdotdot
-		$list.find('[data-dot]').dotdotdot({
-			watch: 'window'
-		});
-
-		// Init content click
-		$list.find('.content').on('click', function (e) {
-			e.stopPropagation();
-
-			$item = $(this).closest('.item');
-			$item.clone();
-			var $clone = $item.clone();
-			$clone.find('.hidden-content').show();
-			$clone.find('.content').hide();
-
-			$clone.css({
-				width: $item.outerWidth(),
-				position: 'absolute',
-				top: $item.offset().top,
-				left: $item.offset().left
-			});
-
-			$('.short-re-container').append($clone);
-
-			setTimeout(function () {
-				$document.on({
-					'click.short-re': function () {
-						$clone.remove();
-						$document.off('.short-re');
-					},
-					'keydown.short-re': function (e) {
-						if (e.keyCode == 27) {
-							$clone.remove();
-							$document.off('.short-re');
-						}
-					}
-				});
-			});
-		});
-
-		// Time
-		initReadTime($list);
-	}
-
-// / Short real-estates
