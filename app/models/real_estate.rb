@@ -897,7 +897,7 @@ class RealEstate < ActiveRecord::Base
 			def self.set_owner_info _params
 				_re = find _params[:id]
 
-				if _params[:type] == 'agency'
+				if _params[:type] == 'agency' || _params[:type] == 'other'
 
 					_re.owner_type = 'agency'
 					_re.owner_info ||= RealEstateOwner.new

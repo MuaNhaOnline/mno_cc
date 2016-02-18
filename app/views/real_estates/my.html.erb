@@ -68,16 +68,16 @@
 <article class="box box-primary" aria-popupcontent="re_owner">
 	<section class="box-header with-border">
 		<h3 class="box-title">
-			Thông tin sở hữu
+			Thông tin quản lý
 		</h3>
 	</section>
 	<section class="box-body">
-		<p class="text-right"><small>Thông tin này sẽ không được hiển thị</small></p>
+		<p class="text-right"><small>Thông tin này được bảo mật</small></p>
 		<form class="form">
 			<input type="hidden" name="owner_info[id]" />
 			<article class="form-group">
 				<label class="control-label">
-					Bạn là ...
+					Tình trạng sở hữu
 				</label>
 				<section>
 					<label class="radio-inline">
@@ -85,6 +85,9 @@
 					</label>
 					<label class="radio-inline">
 						<input class="input-toggle" data-on="owner" type="radio" name="owner_info[type]" value="agency" /> Môi giới
+					</label>
+					<label class="radio-inline">
+						<input class="input-toggle" data-on="owner" type="radio" name="owner_info[type]" value="other" /> Khác
 					</label>
 				</section>
 			</article>
