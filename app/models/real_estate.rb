@@ -17,6 +17,8 @@ class RealEstate < ActiveRecord::Base
 
 	# Associations
 
+		has_one :owner_info, class_name: 'RealEstateOwner', autosave: true
+
 		belongs_to :user
 		belongs_to :real_estate_type
 		belongs_to :street
@@ -890,95 +892,126 @@ class RealEstate < ActiveRecord::Base
 
 	# Updates
 
+		# Update onwer info
+		
+			def self.set_owner_info _params
+				_re = find _params[:id]
+
+				if _params[:type] == 'agency'
+
+					_re.owner_type = 'agency'
+					_re.owner_info ||= RealEstateOwner.new
+
+					_re.owner_info.name = _params[:name]
+					_re.owner_info.phone = _params[:phone]
+					_re.owner_info.email = _params[:email]
+
+				elsif _params[:type] == 'owner'
+
+					_re.owner_type = 'owner'
+
+				else
+
+					_re.owner_type = nil
+
+				end
+
+				_re.save
+
+				{ status: 0 }
+			end
+		
+		# / Update onwer info
+
 		# Update show status
 
-		def self.update_show_status id, is_show
-			real_estate = find id
+			def self.update_show_status id, is_show
+				real_estate = find id
 
-			# Author
-			return { status: 6 } if User.current.cannot? :change_show_status, real_estate
+				# Author
+				return { status: 6 } if User.current.cannot? :change_show_status, real_estate
 
-			real_estate.is_show = is_show
+				real_estate.is_show = is_show
 
-			if real_estate.save validate: false
-				{ status: 0 }
-			else
-				{ status: 2 }
+				if real_estate.save validate: false
+					{ status: 0 }
+				else
+					{ status: 2 }
+				end
 			end
-		end
 
 		# / Update show status
 
 		# Update force hide status
 
-		def self.update_force_hide_status id, is_force_hide
-			real_estate = find id
+			def self.update_force_hide_status id, is_force_hide
+				real_estate = find id
 
-			# Author
-			return { status: 6 } if User.current.cannot? :change_force_hide_status, real_estate
+				# Author
+				return { status: 6 } if User.current.cannot? :change_force_hide_status, real_estate
 
-			real_estate.is_force_hide = is_force_hide
+				real_estate.is_force_hide = is_force_hide
 
-			if real_estate.save validate: false
-				{ status: 0 }
-			else
-				{ status: 2 }
+				if real_estate.save validate: false
+					{ status: 0 }
+				else
+					{ status: 2 }
+				end
 			end
-		end
 
 		# / Update force hide status
 
 		# Update favorite status
 
-		def self.update_favorite_status id, is_favorite
-			real_estate = find id
+			def self.update_favorite_status id, is_favorite
+				real_estate = find id
 
-			# Author
-			return { status: 6 } if User.current.cannot? :change_favorite_status, real_estate
+				# Author
+				return { status: 6 } if User.current.cannot? :change_favorite_status, real_estate
 
-			real_estate.is_favorite = is_favorite
+				real_estate.is_favorite = is_favorite
 
-			if real_estate.save validate: false
-				{ status: 0 }
-			else
-				{ status: 2 }
+				if real_estate.save validate: false
+					{ status: 0 }
+				else
+					{ status: 2 }
+				end
 			end
-		end
 
 		# / Update favorite status
 
 		# Update pending status
 
-		def self.update_pending_status id, is_pending
-			# Author
-			return { status: 6 } if User.current.cannot? :approve, RealEstate
+			def self.update_pending_status id, is_pending
+				# Author
+				return { status: 6 } if User.current.cannot? :approve, RealEstate
 
-			real_estate = find id
+				real_estate = find id
 
-			real_estate.is_pending = is_pending
+				real_estate.is_pending = is_pending
 
-			if real_estate.save validate: false
-				{ status: 0 }
-			else
-				{ status: 2 }
+				if real_estate.save validate: false
+					{ status: 0 }
+				else
+					{ status: 2 }
+				end
 			end
-		end
 
 		# / Update pending status
 
 		# Active
 
-		def self.active id, secure_code
-			re = find id
+			def self.active id, secure_code
+				re = find id
 
-			return { status: 1 } if re.is_active
+				return { status: 1 } if re.is_active
 
-			return { status: 0, result: 1 } if re.params['secure_code'] != secure_code
+				return { status: 0, result: 1 } if re.params['secure_code'] != secure_code
 
-			re.is_active = true
-			re.save
-			{ status: 0, result: 0 }
-		end
+				re.is_active = true
+				re.save
+				{ status: 0, result: 0 }
+			end
 
 		# / Active
 

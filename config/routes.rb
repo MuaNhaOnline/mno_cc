@@ -67,6 +67,8 @@ Rails.application.routes.draw do
     get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index'
     get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'
 
+    post 'real_estates/:action(/:id)', controller: 'real_estates'
+
   # / Real estate
 
   # Project

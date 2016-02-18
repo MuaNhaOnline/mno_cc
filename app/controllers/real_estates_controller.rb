@@ -894,6 +894,12 @@ class RealEstatesController < ApplicationController
 			render json: Hash[status: 0]
 		end
 
+		def set_owner_info
+			RealEstate.set_owner_info params[:owner_info]
+
+			render json: { status: 0 }
+		end
+
 	# / My list
 
 	# My favorite list

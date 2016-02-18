@@ -11,7 +11,7 @@ class ContactUserInfo < ActiveRecord::Base
 		# Assign params
 
 			def assign_attributes_with_params _params
-				assign_attributes _params.permit [ :name, :phone_number, :email, :session_info_id ]
+				assign_attributes _params.permit [ :name, :phone_number, :email, :session_info_id, :demand ]
 			end
 
 		# / Assign params

@@ -150,8 +150,7 @@ $(function () {
 				allow escape popup with click outside or 'esc' key
 	*/
 	function getPopup(params) {
-		if (typeof(params) === 'undefined')
-		{
+		if (typeof(params) === 'undefined') {
 			params = {};
 		}
 

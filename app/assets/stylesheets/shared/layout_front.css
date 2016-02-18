@@ -1582,6 +1582,10 @@ footer {
 					font-size: 18px;
 				}
 
+					.contact-box-container .contact-box .box-body select.form-control {
+						height: 42px;
+					}
+
 					.contact-box-container .contact-box .box-body .form-control:focus {
 						border-bottom-color: #369836;
 					}
