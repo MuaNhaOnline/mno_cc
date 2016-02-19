@@ -17,6 +17,22 @@ module ApplicationHelper
 		end
 	end
 
+	def self.display_decimal number
+		if number % 1 == 0
+			number.to_i
+		else
+			number
+		end
+	end
+
+	def self.zoho_get_content_by_val array, val
+		array.each do |element|
+			return element['__content__'] if element['val'] == val
+		end
+
+		nil
+	end
+
 	def self.format_i string
 		begin
 			string.remove(/\D/)

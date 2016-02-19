@@ -145,6 +145,7 @@ $(function () {
 						form['owner_info[name]'].value = owner_info['name'] || '';
 						form['owner_info[phone]'].value = owner_info['phone'] || '';
 						form['owner_info[email]'].value = owner_info['email'] || '';
+						form['owner_info[address]'].value = owner_info['address'] || '';
 
 						initForm($form, {
 							submit: function () {
@@ -164,7 +165,8 @@ $(function () {
 											type: form['owner_info[type]'].value,
 											name: form['owner_info[name]'].value,
 											phone: form['owner_info[phone]'].value,
-											email: form['owner_info[email]'].value
+											email: form['owner_info[email]'].value,
+											address: form['owner_info[address]'].value
 										});
 									}
 									else {

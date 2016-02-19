@@ -376,17 +376,19 @@ class RealEstate < ActiveRecord::Base
 					slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.name))
 				}
 
-				_is_new_record = false
 				if user_id == 0
 					other_params = other_params.merge params.permit(:user_full_name, :user_phone_number)
 					other_params[:params] = { 'remote_ip' => params[:remote_ip] }
 
 					if new_record?
-						_is_new_record = true
 						other_params[:user_email] = params[:user_email]
 						other_params[:is_active] = false
 						other_params[:params]['secure_code'] = SecureRandom.base64
 					end
+				end
+
+				unless new_record?
+					other_params[:zoho_is_changed] = true
 				end
 
 				assign_attributes other_params
@@ -394,7 +396,7 @@ class RealEstate < ActiveRecord::Base
 				assign_meta_search
 
 				if save validate: !is_draft
-					User.increase_real_estate_count User.current.id if User.signed? && _is_new_record
+					User.increase_real_estate_count User.current.id if User.signed? && new_record?
 					{ status: 0 }
 				else 
 					{ status: 3, result: errors.full_messages }
@@ -905,6 +907,7 @@ class RealEstate < ActiveRecord::Base
 					_re.owner_info.name = _params[:name]
 					_re.owner_info.phone = _params[:phone]
 					_re.owner_info.email = _params[:email]
+					_re.owner_info.address = _params[:address]
 
 				elsif _params[:type] == 'owner'
 
@@ -1154,9 +1157,98 @@ class RealEstate < ActiveRecord::Base
 			@display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
 		end
 
+		# Street
+		def display_street
+			@display_street_type ||= street.present? ? street.name : ''
+		end
+
+		# Ward
+		def display_ward
+			@display_ward_type ||= ward.present? ? ward.name : ''
+		end
+
+		# District
+		def display_district
+			@display_district_type ||= district.present? ? district.name : ''
+		end
+
+		# Province
+		def display_province
+			@display_province_type ||= province.present? ? province.name : ''
+		end
+
+		# Street type
+		def display_street_type
+			@display_street_type ||= case street_type
+			when 1
+				'Đường nội bộ'
+			else
+				'Đường chính'
+			end
+		end
+
+		# Area
+		def display_area
+			@display_area ||= fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
+		end
+		def display_campus_area
+			@display_campus_area ||= fields.include?(:campus_area) ? ApplicationHelper.display_decimal(campus_area) : ''
+		end
+		def display_constructional_area
+			@display_constructional_area ||= fields.include?(:constructional_area) ? ApplicationHelper.display_decimal(constructional_area) : ''
+		end
+		def display_using_area
+			@display_using_area ||= fields.include?(:using_area) ? ApplicationHelper.display_decimal(using_area) : ''
+		end
+
+		# Width
+		def display_width_x
+			@display_width_x ||= width_x.present? ? ApplicationHelper.display_decimal(width_x) : ''
+		end
+		def display_width_y
+			@display_width_y ||= width_y.present? ? ApplicationHelper.display_decimal(width_y) : ''
+		end
+
+		# Shape
+		def display_shape
+			@display_shape ||= case shape
+			when 1
+				'Bình thường'
+			when 2
+				'Nở hậu'
+			when 3
+				'Tóp hậu'
+			end
+		end
+
+		# Shape width
+		def display_shape_width
+			@display_shape_width ||= shape == 2 || shape == 3 ? ApplicationHelper.display_decimal(shape_width) : ''
+		end
+
+		# Is alley
+		def display_is_alley
+			@display_is_alley ||= is_alley ? 'Hẻm' : 'Mặt tiền'
+		end
+
+		# Alley width
+		def display_alley_width
+			@display_alley_width ||= is_alley ? alley_width : ''
+		end
+
+		# Direction
+		def display_direction
+			@display_direction ||= direction.present? ? I18n.t("direction.text.#{direction.name}") : ''
+		end
+
+		# Contructional level
+		def display_constructional_level
+			@display_constructional_level ||= constructional_level.present? ? I18n.t("constructional_level.text.#{constructional_level.name}") : ''
+		end
+
 		# Real estate type
 		def display_real_estate_type
-			@display_real_estate_type ||= I18n.t 'real_estate_type.text.' + real_estate_type.name unless real_estate_type.nil?
+			@display_real_estate_type ||= real_estate_type.present? ? I18n.t("real_estate_type.text.#{real_estate_type.name}") : ''
 		end
 
 		# Restroom
@@ -1169,14 +1261,14 @@ class RealEstate < ActiveRecord::Base
 			@display_bedroom ||= bedroom_number == 4 ? 'Hơn 4' : bedroom_number
 		end
 
-		# Area
-		def display_area
-			@display_area ||= fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
-		end
-
 		# Purpose
 		def display_purpose
-			@display_purpose ||= (I18n.t 'purpose.text.' + purpose.name if purpose.present?)
+			@display_purpose ||= purpose.present? ? I18n.t("purpose.text.#{purpose.name}") : ''
+		end
+
+		# Currency
+		def display_currency
+			@display_currency ||= currency.present? ? currency.name : ''
 		end
 
 		# Sell price
@@ -1184,9 +1276,19 @@ class RealEstate < ActiveRecord::Base
 			@display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + sell_unit.name)).html_safe
 		end
 
+		# Sell unit
+		def display_sell_unit
+			@display_sell_unit ||= sell_unit.present? ? I18n.t("unit.text.#{sell_unit.name}") : ''
+		end
+
 		# Rent price
 		def display_rent_price
 			@display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + rent_unit.name)).html_safe
+		end
+
+		# Rent unit
+		def display_rent_unit
+			@display_rent_unit ||= rent_unit.present? ? I18n.t("unit.text.#{rent_unit.name}") : ''
 		end
 
 		# Price
@@ -1199,30 +1301,75 @@ class RealEstate < ActiveRecord::Base
 		end
 
 		# Legal record type
-		def display_legal_record_type
-			@display_legal_record_type ||= (fields.include?(:custom_legal_record_type) ? custom_legal_record_type : (I18n.t 'legal_record_type.text.' + legal_record_type.name) if fields.include? :legal_record_type)
+		def display_legal_record_type _allow_from_custom = true
+			if _allow_from_custom
+				@display_legal_record_type_afc ||= 
+					fields.include?(:legal_record_type) ?
+						(
+							legal_record_type_id != 0 ? 
+								(
+									legal_record_type.present? ?
+										I18n.t("legal_record_type.text.#{legal_record_type.name}") :
+										''
+								) :
+								custom_legal_record_type
+						) :
+						''
+			else
+				@display_legal_record_type ||= 
+					fields.include?(:legal_record_type) && legal_record_type.present? ? 
+						I18n.t("legal_record_type.text.#{legal_record_type.name}") : 
+						''
+			end
 		end
 
 		# Planning status type
-		def display_planning_status_type
-			@display_planning_status_type ||= (fields.include?(:custom_planning_status_type) ? custom_planning_status_type : (I18n.t 'planning_status_type.text.' + planning_status_type.name) if fields.include? :planning_status_type)
+		def display_planning_status_type _allow_from_custom = true
+			if _allow_from_custom
+				@display_planning_status_type_afc ||= 
+					fields.include?(:planning_status_type) ?
+						(
+							planning_status_type_id != 0 ? 
+								(
+									planning_status_type.present? ?
+										I18n.t("planning_status_type.text.#{planning_status_type.name}") :
+										''
+								) :
+								custom_planning_status_type
+						) :
+						''
+			else
+				@display_planning_status_type ||= 
+					fields.include?(:planning_status_type) && planning_status_type.present? ? 
+						I18n.t("planning_status_type.text.#{planning_status_type.name}") : 
+						''
+			end
 		end
 
 		# Constructional quality
-		def get_constructional_quality
-			case constructional_quality
-				when 1
-					'Đang xuống cấp'
-				when 2
-					'Còn sử dụng tốt'
-				when 3
-					'Mới'
-				else
-					'Rất mới'
+		def display_constructional_quality
+			@display_constructional_quality ||= case constructional_quality
+			when 1
+				'Đang xuống cấp'
+			when 2
+				'Còn sử dụng tốt'
+			when 3
+				'Mới'
+			else
+				'Rất mới'
 			end
 		end
-		def display_constructional_quality
-			@display_constructional_quality ||= get_constructional_quality
+
+		# Owner type
+		def display_owner_type
+			@display_owner_type ||= case
+			when 'owner'
+				'Chính chủ'
+			when 'agency'
+				'Được ký gửi'
+			when 'other'
+				'Khác'
+			end
 		end
 
 		# Current user favorite
@@ -1248,5 +1395,385 @@ class RealEstate < ActiveRecord::Base
 		end
 
 	# / Get keyword
+
+	# Zoho
+
+		def self.zoho_fields
+			@zoho_fields ||= ['display_id', 'id', 'title', 'real_estate_type', 'address_number', 'street', 'ward', 'district', 'province', 'street_type', 'is_alley', 'alley_width', 'direction', 'constructional_level', 'legal_record_type', 'campus_area', 'constructional_area', 'using_area', 'width_x', 'width_y', 'shape', 'bedroom_number', 'restroom_number', 'build_year', 'constructional_quality', 'planning_status_type', 'property_utilities', 'region_utilities', 'advantages', 'custom_advantages', 'disadvantage', 'custom_disadvantages', 'description', 'user', 'owner_type', 'owner_info_name', 'owner_info_email', 'owner_info_phone', 'owner_info_address', 'purpose', 'currency', 'sell_price', 'sell_unit', 'rent_price', 'rent_unit', 'is_negotiable']
+		end
+	
+		def zoho_get_attribute _attribute
+			case _attribute
+			when 'zoho_id'
+				{
+					val: 'Id',
+					text: zoho_id
+				}
+			when 'display_id'
+				{
+					val: 'Product Code',
+					text: display_id
+				}
+			when 'id'
+				{
+					val: 'MNO Id',
+					text: id
+				}
+			when 'title'
+				{
+					val: 'Product Name',
+					text: title
+				}
+			when 'real_estate_type'
+				{
+					val: 'Product Category',
+					text: display_real_estate_type
+				}
+			when 'address_number'
+				{
+					val: 'Số nhà',
+					text: address_number
+				}
+			when 'street'
+				{
+					val: 'Đường',
+					text: display_street
+				}
+			when 'ward'
+				{
+					val: 'Phường',
+					text: display_ward
+				}
+			when 'district'
+				{
+					val: 'Quận/Huyện',
+					text: display_district
+				}
+			when 'province'
+				{
+					val: 'Tỉnh/TP',
+					text: display_province
+				}
+			when 'street_type'
+				{
+					val: 'Loại đường',
+					text: display_street_type
+				}
+			when 'is_alley'
+				{
+					val: 'Vị trí',
+					text: display_is_alley
+				}
+			when 'alley_width'
+				{
+					val: 'Độ rộng của hẻm',
+					text: display_alley_width
+				}
+			when 'direction'
+				{
+					val: 'Hướng',
+					text: display_direction
+				}
+			when 'constructional_level'
+				{
+					val: 'Loại nhà',
+					text: display_constructional_level
+				}
+			when 'legal_record_type'
+				{
+					val: 'Hồ sơ pháp lý',
+					text: display_legal_record_type(false).present? ? display_legal_record_type(false) : 'Khác'
+				}
+			when 'campus_area'
+				{
+					val: 'DT khuôn viên',
+					text: display_campus_area
+				}
+			when 'constructional_area'
+				{
+					val: 'DT xây dựng',
+					text: display_constructional_area
+				}
+			when 'using_area'
+				{
+					val: 'DT sàn',
+					text: display_using_area
+				}
+			when 'width_x'
+				{
+					val: 'Rộng',
+					text: display_width_x
+				}
+			when 'width_y'
+				{
+					val: 'Dài',
+					text: display_width_y
+				}
+			when 'shape'
+				{
+					val: 'Hình dáng',
+					text: display_shape
+				}
+			when 'bedroom_number'
+				{
+					val: 'Phòng ngủ',
+					text: bedroom_number
+				}
+			when 'restroom_number'
+				{
+					val: 'Phòng tắm',
+					text: restroom_number
+				}
+			when 'build_year'
+				{
+					val: 'Năm xây dựng',
+					text: build_year
+				}
+			when 'constructional_quality'
+				{
+					val: 'Chất lượng xây dựng',
+					text: display_constructional_quality
+				}
+			when 'planning_status_type'
+				{
+					val: 'Tình trạng quy hoạch',
+					text: display_planning_status_type(false).present? ? display_planning_status_type(false) : 'Khác'
+				}
+			when 'property_utilities'
+				{
+					val: 'Tiện ích BĐS',
+					text: property_utilities.map{ |utility| I18n.t("property_utility.text.#{utility.name}") }.join(';')
+				}
+			when 'region_utilities'
+				{
+					val: 'Tiện ích khu vực',
+					text: region_utilities.map{ |utility| I18n.t("region_utility.text.#{utility.name}") }.join(';')
+				}
+			when 'advantages'
+				{
+					val: 'Ưu điểm',
+					text: advantages.map{ |advantage| I18n.t("advantage.text.#{advantage.name}") }.join(';')
+				}
+			when 'custom_advantages'
+				{
+					val: 'Ưu điểm khác',
+					text: custom_advantages
+				}
+			when 'disadvantage'
+				{
+					val: 'Khuyết điểm',
+					text: disadvantages.map{ |disadvantage| I18n.t("disadvantage.text.#{disadvantage.name}") }.join(';')
+				}
+			when 'custom_disadvantages'
+				{
+					val: 'Khuyết điểm khác',
+					text: custom_disadvantages
+				}
+			when 'description'
+				{
+					val: 'Description',
+					text: ''
+				}
+			when 'user'
+				{
+					val: 'Người đăng tin_ID',
+					text: user.zoho_id
+				}
+			when 'owner_type'
+				{
+					val: 'Mối quan hệ với BĐS',
+					text: display_owner_type
+				}
+			when 'owner_info_name'
+				{
+					val: 'Chủ sở hữu',
+					text: owner_type == 'owner' && owner_info.present? ? owner_info.name : ''
+				}
+			when 'owner_info_email'
+				{
+					val: 'Email CSH',
+					text: owner_type == 'owner' && owner_info.present? ? owner_info.email : ''
+				}
+			when 'owner_info_phone'
+				{
+					val: 'Phone',
+					text: owner_type == 'owner' && owner_info.present? ? owner_info.phone : ''
+				}
+			when 'owner_info_address'
+				{
+					val: 'Địa chỉ',
+					text: owner_type == 'owner' && owner_info.present? ? owner_info.address : ''
+				}
+			when 'purpose'
+				{
+					val: 'Loại giao dịch',
+					text: display_purpose
+				}
+			when 'currency'
+				{
+					val: 'Loại tiền tệ',
+					text: display_currency
+				}
+			when 'sell_price'
+				{
+					val: 'Giá bán',
+					text: sell_price
+				}
+			when 'sell_unit'
+				{
+					val: 'Đơn vị bán',
+					text: display_sell_unit
+				}
+			when 'rent_price'
+				{
+					val: 'Giá cho thuê',
+					text: rent_price
+				}
+			when 'rent_unit'
+				{
+					val: 'Đơn vị cho thuê',
+					text: display_rent_unit
+				}
+			when 'is_negotiable'
+				{
+					val: 'Có thể thương lượng',
+					text: is_negotiable
+				}
+			else
+				nil
+			end						
+		end
+
+		def self.zoho_create_xml_nodes xml, re, attributes
+			attributes.each do |attribute|
+
+				# Get data from attribute (mno)
+				data = re.zoho_get_attribute attribute
+
+				# If not present => not add
+				if data.present?
+
+					# Add node
+					xml.FL(val: data[:val]) {
+						xml.text data[:text]
+					}
+					
+				end
+
+			end
+		end
+
+		def self.zoho_sync
+			# Create new real-estate
+				
+				# Get all real estate without zoho id
+				res = where zoho_id: nil
+
+				# If exist
+				if res.count > 0
+
+					# Create xml records
+					res_records = Nokogiri::XML::Builder.new do |xml|
+						xml.Products {
+							res.each_with_index do |re, index|
+
+								xml.row(no: index + 1) {
+									zoho_create_xml_nodes xml, re, zoho_fields
+								}
+
+							end
+						}
+					end
+
+					result = HTTParty.post(
+						'https://crm.zoho.com/crm/private/xml/Products/insertRecords', 
+						body: {
+							authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
+							scope: 'crmapi',
+							xmlData: res_records.to_xml,
+							version: 4
+						}
+					)
+
+					if result['response']['result'].present?
+					end
+
+					if result['response']['result'].present?
+						if result['response']['result']['row'].class == Array
+							result['response']['result']['row'].each_with_index do |record, index|
+								if record.has_key? 'success'
+									res[index].zoho_id = ApplicationHelper.zoho_get_content_by_val record['success']['details']['FL'], 'Id'
+									res[index].zoho_is_changed = false
+									res[index].save
+								end
+							end
+						else
+							record = result['response']['result']['row'].first
+							if record[0] == 'success'
+								res[0].zoho_id = ApplicationHelper.zoho_get_content_by_val record[1]['details']['FL'], 'Id'
+								res[0].zoho_is_changed = false
+								res[0].save
+							end
+						end
+					end
+				end
+			
+			# / Create new real-estate
+
+			# Update real-estate
+			
+				# Get all real-estates has zoho changed
+				res = where zoho_is_changed: true
+
+				# If exist
+				if res.count > 0
+
+					# Create xml records
+					res_records = Nokogiri::XML::Builder.new do |xml|
+						xml.Products {
+							res.each_with_index do |re, index|
+
+								xml.row(no: index + 1) {
+									zoho_create_xml_nodes xml, re, zoho_fields + ['zoho_id']
+								}
+
+							end
+						}
+					end
+
+					result = HTTParty.post(
+						'https://crm.zoho.com/crm/private/xml/Products/updateRecords', 
+						body: {
+							authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
+							scope: 'crmapi',
+							xmlData: res_records.to_xml,
+							version: 4
+						}
+					)
+
+					puts result
+					if result['response']['result'].present?
+						if result['response']['result']['row'].class == Array
+							result['response']['result']['row'].each_with_index do |record, index|
+								if record.has_key? 'success'
+									res[index].zoho_is_changed = false
+									res[index].save
+								end
+							end
+						else
+							record = result['response']['result']['row'].first
+							if record[0] == 'success'
+								res[0].zoho_is_changed = false
+								res[0].save
+							end
+						end
+					end
+
+				end
+				
+			# / Update real-estate
+		end
+
+	# / Zoho
 
 end

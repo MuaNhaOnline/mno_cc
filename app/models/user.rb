@@ -22,9 +22,6 @@ class User < ActiveRecord::Base
 		:url => "/assets/user_images/:style/:id_:filename"
 	validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
-	serialize :params, JSON
-	serialize :zoho_changed_fields, Array
-
 	# Associations
 
 		has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
@@ -36,7 +33,7 @@ class User < ActiveRecord::Base
 
 	# Validations
 
-	  validate :custom_validate
+		validate :custom_validate
 
 		def custom_validate
 			if provider.blank?
@@ -54,19 +51,21 @@ class User < ActiveRecord::Base
 
 	# Attribute
 
+		serialize :params, JSON
+
 		# Ability
 
-		  def ability
-			  @ability ||= User.ability
+			def ability
+				@ability ||= User.ability
 			end
 
-		  def self.ability
-			  @ability # always have
+			def self.ability
+				@ability # always have
 			end
 
 			# Run with before_action (in application controller)
-		  def self.ability= ability
-			  @ability = ability
+			def self.ability= ability
+				@ability = ability
 			end
 
 			delegate :can?, :cannot?, to: :ability
@@ -88,28 +87,28 @@ class User < ActiveRecord::Base
 			end
 
 			def self.from_omniauth auth
-			  where(provider: auth.provider, provider_user_id: auth.uid).first_or_initialize.tap do |user|
-			    user.provider = auth.provider
-			    user.provider_user_id = auth.uid
-			    user.full_name = auth.info.name
-			    user.email = auth.info.email
-			    user.provider_token = auth.credentials.token
-			    user.provider_expires_at = Time.at(auth.credentials.expires_at)
-			    user.save
-			  end
+				where(provider: auth.provider, provider_user_id: auth.uid).first_or_initialize.tap do |user|
+					user.provider = auth.provider
+					user.provider_user_id = auth.uid
+					user.full_name = auth.info.name
+					user.email = auth.info.email
+					user.provider_token = auth.credentials.token
+					user.provider_expires_at = Time.at(auth.credentials.expires_at)
+					user.save
+				end
 			end
 
 		# / Current user
 
 		# Options
 
-		  def self.options
-			  @options # always have
+			def self.options
+				@options # always have
 			end
 
 			# Run with before_action (in application controller)
-		  def self.options= options
-			  @options = options
+			def self.options= options
+				@options = options
 			end
 
 		# / Options
@@ -135,19 +134,19 @@ class User < ActiveRecord::Base
 				_params[:birthday] = Date.strptime(_params[:birthday], '%Y')
 			end
 
-	    # Avatar
+			# Avatar
 
-	    if _params[:avatar_id].present?
-	    	_value = JSON.parse _params[:avatar_id]
+			if _params[:avatar_id].present?
+				_value = JSON.parse _params[:avatar_id]
 
-	      if _value['is_new']
+				if _value['is_new']
 					TemporaryFile.get_file(_value['id']) do |_avatar|
-	          assign_attributes avatar: _avatar
-	        end
-	      end
-	    else
-	      assign_attributes avatar: nil
-	    end
+						assign_attributes avatar: _avatar
+					end
+				end
+			else
+				assign_attributes avatar: nil
+			end
 
 			assign_attributes _params.permit [
 				:account, :password, :email, :full_name, :birthday, :business_name,
@@ -194,9 +193,7 @@ class User < ActiveRecord::Base
 				end
 
 				# Save changed fields for zoho sync
-				zoho_changed_fields.concat changed
-				zoho_changed_fields.delete_if { |field| !User.zoho_fields.include? field }
-				zoho_changed_fields.uniq!
+				zoho_is_changed = true
 			end
 
 			assign_attributes _user_params
@@ -217,14 +214,14 @@ class User < ActiveRecord::Base
 		# Get user by keyword and type
 		def self.search_by_type keyword, type, is
 			if keyword.blank?
-	      where("is_#{type} = #{is}")
-	    else
-	      if is
-	        search(keyword).where("is_#{type} = true")
-	      else
-	        where("is_#{type} = false").search(keyword)
-	      end
-	    end
+				where("is_#{type} = #{is}")
+			else
+				if is
+					search(keyword).where("is_#{type} = true")
+				else
+					where("is_#{type} = false").search(keyword)
+				end
+			end
 		end
 
 		# View all search
@@ -232,27 +229,27 @@ class User < ActiveRecord::Base
 		# 	keyword
 		# 	interact, real_estate_count, project_count
 		def self.view_all_search_with_params params
-	    where = ''
-	    joins = []
-	    order = {}
+			where = ''
+			joins = []
+			order = {}
 
-	    if params.has_key? :interact
-	      order[:last_interact_at] = params[:interact]
-	    end
+			if params.has_key? :interact
+				order[:last_interact_at] = params[:interact]
+			end
 
-	    if params.has_key? :real_estate_count
-	      order[:real_estate_count] = params[:real_estate_count]
-	    end
+			if params.has_key? :real_estate_count
+				order[:real_estate_count] = params[:real_estate_count]
+			end
 
-	    if params.has_key? :project_count
-	      order[:project_count] = params[:project_count]
-	    end
+			if params.has_key? :project_count
+				order[:project_count] = params[:project_count]
+			end
 
-	    if params[:keyword].present?
-	      search(params[:keyword]).joins(joins).where(where).order(order)
-	    else
-	      joins(joins).where(where).order(order)
-	    end
+			if params[:keyword].present?
+				search(params[:keyword]).joins(joins).where(where).order(order)
+			else
+				joins(joins).where(where).order(order)
+			end
 		end
 
 	# / Get
@@ -264,15 +261,15 @@ class User < ActiveRecord::Base
 			# Author
 			return { status: 6 } if User.current.cannot? :manager, User
 
-	    user = find id
+			user = find id
 
-	    hash = {}
-	    hash["is_#{type}"] = is
-	    user.assign_attributes(hash)
+			hash = {}
+			hash["is_#{type}"] = is
+			user.assign_attributes(hash)
 
-	    user.save validate: false
+			user.save validate: false
 
-	    { status: 0 }
+			{ status: 0 }
 		end
 
 		# Active
@@ -313,8 +310,7 @@ class User < ActiveRecord::Base
 						user.params.delete 'new_email'
 
 						user.params = user.params.to_json
-						user.zoho_changed_fields << 'email'
-						user.zoho_changed_fields.uniq!
+						user.zoho_is_changed = true
 
 						user.save validate: false
 
@@ -418,10 +414,10 @@ class User < ActiveRecord::Base
 
 		# Signin
 
-	  # return:
-	  #   error status 
-	  #     1: id is not exist
-	  #     2: password is not correct
+		# return:
+		#   error status 
+		#     1: id is not exist
+		#     2: password is not correct
 		def self.check_signin account, password
 			# Author
 			return { status: 6 } if User.current.cannot? :signin, nil
@@ -464,34 +460,180 @@ class User < ActiveRecord::Base
 	# Zoho
 
 		def self.zoho_fields
-
 			@zoho_fields ||= ['email', 'full_name', 'birthday', 'business_name', 'phone_number', 'address']
-
 		end
-	
-		def self.zoho_parse_field attribute
-
-			case attribute
-			when 'zoho_lead_id'
-				'Id'
+		
+		def zoho_get_attribute _attribute
+			case _attribute
+			when 'zoho_id'
+				{
+					val: 'Id',
+					text: zoho_id.to_s
+				}
 			when 'email'
-				'Email'
+				{
+					val: 'Email',
+					text: email
+				}
 			when 'full_name'
-				'Last Name'
+				{
+					val: 'Last Name',
+					text: full_name
+				}
 			when 'birthday'
-				'Ngày sinh'
+				{
+					val: 'Ngày sinh',
+					text: birthday.strftime('%m/%d/%Y')
+				}
 			when 'business_name'
-				'Company'
+				{
+					val: 'Company',
+					text: business_name
+				}
 			when 'phone_number'
-				'Phone'
+				{
+					val: 'Phone',
+					text: phone_number
+				}
 			when 'address'
-				'Địa chỉ'
+				{
+					val: 'Địa chỉ',
+					text: address
+				}
 			else
 				nil
-			end						
-
+			end
 		end
+
+		def self.zoho_create_xml_nodes xml, user, attributes
+			attributes.each do |attribute|
+
+				# Get data from attribute (mno)
+				data = user.zoho_get_attribute attribute
+
+				# If not present => not add
+				if data.present?
+
+					# Add node
+					xml.FL(val: data[:val]) {
+						xml.text data[:text]
+					}
+
+				end
+
+			end
+		end
+
+		def self.zoho_sync
+			# Create new leads
+				
+				# Get all users without zoho id
+				users = where zoho_id: nil
+
+				# If exist
+				if users.count > 0
+
+					# Create xml records
+					leads_records = Nokogiri::XML::Builder.new do |xml|
+						xml.Leads {
+							users.each_with_index do |user, index|
+
+								xml.row(no: index + 1) {
+									zoho_create_xml_nodes xml, user, zoho_fields
+								}
+
+							end
+						}
+					end
+
+					result = HTTParty.post(
+						'https://crm.zoho.com/crm/private/xml/Leads/insertRecords', 
+						body: {
+							authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
+							scope: 'crmapi',
+							xmlData: leads_records.to_xml,
+							version: 4
+						}
+					)
+
+					if result['response']['result'].present?
+					end
+
+					if result['response']['result'].present?
+						if result['response']['result']['row'].class == Array
+							result['response']['result']['row'].each_with_index do |record, index|
+								if record.has_key? 'success'
+									users[index].zoho_id = ApplicationHelper.zoho_get_content_by_val record['success']['details']['FL'], 'Id'
+									users[index].zoho_is_changed = false
+									users[index].save
+								end
+							end
+						else
+							record = result['response']['result']['row'].first
+							if record[0] == 'success'
+								users[0].zoho_id = ApplicationHelper.zoho_get_content_by_val record[1]['details']['FL'], 'Id'
+								users[0].zoho_is_changed = false
+								users[0].save
+							end
+						end
+					end
+				end
 			
+			# / Create new leads
+
+			# Update leads
+			
+				# Get all user has zoho changed
+				users = where(zoho_is_changed: true)
+
+				# If exist
+				if users.count > 0
+
+					# Create xml records
+					leads_records = Nokogiri::XML::Builder.new do |xml|
+						xml.Leads {
+							users.each_with_index do |user, index|
+
+								xml.row(no: index + 1) {
+									zoho_create_xml_nodes xml, user, zoho_fields + ['zoho_id']
+								}
+
+							end
+						}
+					end
+
+					result = HTTParty.post(
+						'https://crm.zoho.com/crm/private/xml/Leads/updateRecords', 
+						body: {
+							authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
+							scope: 'crmapi',
+							xmlData: leads_records.to_xml,
+							version: 4
+						}
+					)
+
+					if result['response']['result'].present?
+						if result['response']['result']['row'].class == Array
+							result['response']['result']['row'].each_with_index do |record, index|
+								if record.has_key? 'success'
+									users[index].zoho_is_changed = false
+									users[index].save
+								end
+							end
+						else
+							record = result['response']['result']['row'].first
+							if record[0] == 'success'
+								users[0].zoho_is_changed = false
+								users[0].save
+							end
+						end
+					end
+
+				end
+				
+			# / Update leads
+		end
+
 	# / Zoho
 
 end

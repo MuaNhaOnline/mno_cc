@@ -1169,4 +1169,16 @@ class RealEstatesController < ApplicationController
 
 	# / Favorite
 
+	# Zoho
+	
+		def zoho_sync
+
+			RealEstate.zoho_sync
+
+			render text: 'OK'
+
+		end
+	
+	# / Zoho
+
 end

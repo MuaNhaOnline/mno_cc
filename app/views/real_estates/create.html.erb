@@ -959,7 +959,7 @@
 									<label><input <%= 'checked' if @re.advantages.exists?(id: a.id) %> type="checkbox" name="real_estate[advantage_ids][]" value="<%= a.id %>"><%= t 'advantage.text.' + a.name %></label>
 								</div>
 							<% end %>
-							<input value="<%= @re.custom_advantages %>" name="real_estate[custom_advantages]" class="form-control" placeholder="Tiện ích khác" />
+							<input value="<%= @re.custom_advantages %>" name="real_estate[custom_advantages]" class="form-control" placeholder="Ưu điểm khác" />
 						</article>
 						
 						<!-- / Advantage -->
@@ -976,7 +976,7 @@
 									<label><input <%= 'checked' if @re.disadvantages.exists?(id: d.id) %> type="checkbox" name="real_estate[disadvantage_ids][]" value="<%= d.id %>"><%= t 'disadvantage.text.' + d.name %></label>
 								</div>
 							<% end %>
-							<input value="<%= @re.custom_disadvantages %>" name="real_estate[custom_disadvantages]" class="form-control" placeholder="Tiện ích khác">
+							<input value="<%= @re.custom_disadvantages %>" name="real_estate[custom_disadvantages]" class="form-control" placeholder="Khuyết điểm khác">
 						</article>
 						
 						<!-- / Disadvantage -->

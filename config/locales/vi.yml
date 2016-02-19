@@ -184,7 +184,7 @@ vi:
     text:
       sell: 'Bán'
       rent: 'Cho thuê'
-      sell_rent: 'Bán/Cho thuê'
+      sell_rent: 'Bán hoặc cho thuê'
       transfer: 'Sang nhượng'
   direction:
     text:
@@ -256,7 +256,7 @@ vi:
     text:
       area: 'Tổng diện tích'
       display_area: ''
-      square_meter: 'Mét vuông'
+      square_meter: 'm2'
       display_square_meter: '/m<sup>2</sup>'
       month: 'Tháng'
       display_month: '/tháng'
