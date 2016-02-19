@@ -1664,6 +1664,8 @@ class RealEstate < ActiveRecord::Base
 		end
 
 		def self.zoho_sync
+			User.zoho_sync
+
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
