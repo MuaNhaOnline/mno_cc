@@ -188,6 +188,11 @@
 						animation: turn-on-popup-content 0.5s;
 					}
 
+					.popup-full-container > .popup-full > .popup-content > .box {
+						margin: 0;
+					}
+
+
 /*  / Popup */
 
 /* Item control */

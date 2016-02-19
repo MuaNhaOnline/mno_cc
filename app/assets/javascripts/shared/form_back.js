@@ -157,6 +157,10 @@ function initForm($form, params) {
 			$form.find('.input-toggle').on('change retoggle', function () {
 				toggle($(this));
 			}).each(function () {
+				$input = $(this);
+				if ($input.is('input[type="radio"]:not(:checked)')) {
+					return;
+				}
 				toggle($(this));  
 			});
 			
@@ -190,6 +194,10 @@ function initForm($form, params) {
 					$context = $form;
 				}
 
+				console.log($input);
+
+				console.log('on');
+				console.log(onElements);
 				// Turn on elements
 				if (onElements && !$input.is(':disabled')) {
 					// Create elements list
@@ -217,6 +225,8 @@ function initForm($form, params) {
 					});
 				}
 
+				console.log('off');
+				console.log(offElements);
 				// Turn off elements
 				if (offElements) {
 					// Create elements list
