@@ -92,7 +92,8 @@ ActiveRecord::Base.connection.execute('ALTER SEQUENCE purposes_id_seq RESTART WI
 Purpose.create [
 	{ name: 'sell', code: 'sell', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' },
 	{ name: 'rent', code: 'rent', options: '{"html":{"attributes":"data-on=rent data-off=un-rent"}}' },
-	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""}}' }
+	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""}}' },
+	{ name: 'transfer', code: 'transfer', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' }
 ]
 
 RealEstateType.delete_all

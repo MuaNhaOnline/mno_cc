@@ -1,9 +1,0 @@
-<%
-	@user = User.find 10
-%>
-<h3>Chào mừng <b><%= @user.full_name %></b> đến với hệ thống MuaNhaOnline.vn</h3>
-<%
-	url = "#{Rails.application.config.base_url}users/active_account/#{@user.id}?#{{ code: @user.params['active_code'] }.to_query}"
-%>
-<p>Hãy nhấn vào <a href="<%= url %>">đây</a> để hoàn tất kích hoạt</p>
-<p><small>(<a href="<%= url %>"><%= url %></a>)</small></p>

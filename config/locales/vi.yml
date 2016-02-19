@@ -185,6 +185,7 @@ vi:
       sell: 'Bán'
       rent: 'Cho thuê'
       sell_rent: 'Bán/Cho thuê'
+      transfer: 'Sang nhượng'
   direction:
     text:
       non: 'Không xác định'
