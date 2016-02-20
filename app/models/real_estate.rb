@@ -1668,6 +1668,7 @@ class RealEstate < ActiveRecord::Base
 		def self.zoho_sync
 			User.zoho_sync
 
+			return
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
@@ -1723,7 +1724,7 @@ class RealEstate < ActiveRecord::Base
 				end
 			
 			# / Create new real-estate
-			return
+
 			# Update real-estate
 			
 				# Get all real-estates has zoho changed
