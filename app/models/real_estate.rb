@@ -1716,7 +1716,6 @@ class RealEstate < ActiveRecord::Base
 			
 			# / Create new real-estate
 
-			return
 			# Update real-estate
 			
 				# Get all real-estates has zoho changed
