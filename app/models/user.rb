@@ -468,7 +468,7 @@ class User < ActiveRecord::Base
 			when 'zoho_id'
 				{
 					val: 'Id',
-					text: zoho_id.to_s
+					text: zoho_id
 				}
 			when 'email'
 				{
