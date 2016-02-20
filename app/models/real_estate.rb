@@ -1668,7 +1668,6 @@ class RealEstate < ActiveRecord::Base
 		def self.zoho_sync
 			User.zoho_sync
 
-			return
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
@@ -1699,9 +1698,6 @@ class RealEstate < ActiveRecord::Base
 							version: 4
 						}
 					)
-
-					if result['response']['result'].present?
-					end
 
 					if result['response']['result'].present?
 						if result['response']['result']['row'].class == Array
