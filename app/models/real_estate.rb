@@ -1544,17 +1544,17 @@ class RealEstate < ActiveRecord::Base
 			when 'property_utilities'
 				{
 					val: 'Tiện ích BĐS',
-					text: property_utilities.map{ |utility| I18n.t("property_utility.text.#{utility.name}") }.join(';')
+					text: property_utilities.present? ? property_utilities.map{ |utility| I18n.t("property_utility.text.#{utility.name}") }.join(';') : ''
 				}
 			when 'region_utilities'
 				{
 					val: 'Tiện ích khu vực',
-					text: region_utilities.map{ |utility| I18n.t("region_utility.text.#{utility.name}") }.join(';')
+					text: region_utilities.present? ? region_utilities.map{ |utility| I18n.t("region_utility.text.#{utility.name}") }.join(';') : ''
 				}
 			when 'advantages'
 				{
 					val: 'Ưu điểm',
-					text: advantages.map{ |advantage| I18n.t("advantage.text.#{advantage.name}") }.join(';')
+					text: advantages.present? ? advantages.map{ |advantage| I18n.t("advantage.text.#{advantage.name}") }.join(';') : ''
 				}
 			when 'custom_advantages'
 				{
@@ -1564,7 +1564,7 @@ class RealEstate < ActiveRecord::Base
 			when 'disadvantage'
 				{
 					val: 'Khuyết điểm',
-					text: disadvantages.map{ |disadvantage| I18n.t("disadvantage.text.#{disadvantage.name}") }.join(';')
+					text: disadvantages.present? ? disadvantages.map{ |disadvantage| I18n.t("disadvantage.text.#{disadvantage.name}") }.join(';') : ''
 				}
 			when 'custom_disadvantages'
 				{
@@ -1671,8 +1671,7 @@ class RealEstate < ActiveRecord::Base
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
-				# res = where zoho_id: nil
-				res = take 10
+				res = where zoho_id: nil
 
 				# If exist
 				if res.count > 0
@@ -1721,8 +1720,6 @@ class RealEstate < ActiveRecord::Base
 				end
 			
 			# / Create new real-estate
-
-			return
 
 			# Update real-estate
 			
