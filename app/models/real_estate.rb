@@ -1046,24 +1046,26 @@ class RealEstate < ActiveRecord::Base
 					fields << :custom_planning_status_type if re.planning_status_type_id == 0
 				end
 
-				case re.real_estate_type.options_hash['group']
-					when 'land'
-						fields << :campus_area << :shape << :width_x << :width_y
-					when 'space', 'house'
-						fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
-							:constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
-						if re.real_estate_type.options_hash['group'] == 'house'
-							fields << :floor_number
-							if re.real_estate_type.name == 'villa'
-								fields.delete :constructional_level
+				if re.real_estate_type.present?
+					case re.real_estate_type.options_hash['group']
+						when 'land'
+							fields << :campus_area << :shape << :width_x << :width_y
+						when 'space', 'house'
+							fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
+								:constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
+							if re.real_estate_type.options_hash['group'] == 'house'
+								fields << :floor_number
+								if re.real_estate_type.name == 'villa'
+									fields.delete :constructional_level
+								end
 							end
-						end
-						if re.real_estate_type.name == 'office'
-							fields << :building_name
-						end
-					when 'apartment'
-						fields << :building_name << :using_area << :floor_number << :bedroom_number << :restroom_number <<
-							:build_year << :constructional_quality << :direction << :property_utility
+							if re.real_estate_type.name == 'office'
+								fields << :building_name
+							end
+						when 'apartment'
+							fields << :building_name << :using_area << :floor_number << :bedroom_number << :restroom_number <<
+								:build_year << :constructional_quality << :direction << :property_utility
+					end
 				end
 			else
 				fields << :real_estate_type << :campus_area
