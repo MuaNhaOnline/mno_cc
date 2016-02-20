@@ -128,7 +128,11 @@
 					<section id="side_bar" class="col-md-3 side-bar hidden-sm hidden-xs">
 						<section class="cover-image"><article class="background-bottom" style="background-image: url('/assets/temporary/pttt.jpg');"></article><article class="background-top"></article></section>
 						<section class="content">
-							<section class="logo" style="margin: 15px 0px;"></section>
+							<% if @project.logo.present? %>
+								<section class="logo" style="margin: 15px 0px;">
+									<img src="<%= @project.logo.url %>" />
+								</section>
+							<% end %>
 							<nav class="navigator">
 								<ul>
 									<li>

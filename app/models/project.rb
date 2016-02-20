@@ -112,8 +112,20 @@ class Project < ActiveRecord::Base
 				params[:street_id] = street.id
 			end
 
+			# Logo
+			if params[:logo].present?
+				_value = JSON.parse params[:logo]
+
+				if _value['is_new']
+					TemporaryFile.get_file(_value['id']) do |_logo|
+						assign_attributes logo: _logo
+					end
+				end
+			else
+				assign_attributes logo: nil
+			end
+
 			# Images
-			
 			_images = []
 			_has_avatar = false
 			if params[:image_ids].present?
@@ -616,6 +628,13 @@ class Project < ActiveRecord::Base
 	# / Helper
 
 	# Attributes
+
+		# Logo
+		has_attached_file :logo,
+			default_url: "/assets/projects/:style/default.png", 
+			:path => ":rails_root/app/assets/file_uploads/project_logos/:style/:id_:filename", 
+			:url => "/assets/project_logos/:style/:id_:filename"
+		validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/
 
 		# ID
 		def display_id

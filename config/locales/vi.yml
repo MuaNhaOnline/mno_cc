@@ -331,7 +331,6 @@ vi:
     attribute:
       id: 'Mã'
       name: 'Tên'
-      project_name_box: 'Tên dự án'
       project_name: 'Tên dự án'
       position_box: 'Vị trí'
       address: 'Địa chỉ'
@@ -357,9 +356,6 @@ vi:
       currency: 'Loại tiền tệ'
       unit_price: 'Đơn giá'
       payment_method: 'Phương thức thanh toán'
-      content_box: 'Nội dung'
-      title: 'Tiêu đề'
-      description: 'Mô tả'
       image: 'Hình ảnh'
       status: 'Trạng thái'
     view:

@@ -1144,12 +1144,12 @@ class RealEstate < ActiveRecord::Base
 
 		# User email
 		def display_user_email
-			@display_email ||= user_id == 0 ? user_email : user.email
+			@display_user_email ||= user_id == 0 ? user_email : user.email
 		end
 
 		# User phone number
 		def display_user_phone_number
-			@display_phone_number ||= user_id == 0 ? user_phone_number : user.phone_number
+			@display_user_phone_number ||= user_id == 0 ? user_phone_number : user.phone_number
 		end
 
 		# Full address
@@ -1159,22 +1159,22 @@ class RealEstate < ActiveRecord::Base
 
 		# Street
 		def display_street
-			@display_street_type ||= street.present? ? street.name : ''
+			@display_street ||= street.present? ? street.name : ''
 		end
 
 		# Ward
 		def display_ward
-			@display_ward_type ||= ward.present? ? ward.name : ''
+			@display_ward ||= ward.present? ? ward.name : ''
 		end
 
 		# District
 		def display_district
-			@display_district_type ||= district.present? ? district.name : ''
+			@display_district ||= district.present? ? district.name : ''
 		end
 
 		# Province
 		def display_province
-			@display_province_type ||= province.present? ? province.name : ''
+			@display_province ||= province.present? ? province.name : ''
 		end
 
 		# Street type
@@ -1352,7 +1352,7 @@ class RealEstate < ActiveRecord::Base
 			when 1
 				'Đang xuống cấp'
 			when 2
-				'Còn sử dụng tốt'
+				'Còn tốt'
 			when 3
 				'Mới'
 			else
@@ -1364,7 +1364,7 @@ class RealEstate < ActiveRecord::Base
 		def display_owner_type
 			@display_owner_type ||= case
 			when 'owner'
-				'Chính chủ'
+				'Chủ sở hữu'
 			when 'agency'
 				'Được ký gửi'
 			when 'other'

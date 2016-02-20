@@ -38,6 +38,12 @@
 		end
 	end
 
+	# Logo
+	logo_init_value = ''
+	if !@p.new_record? && @p.logo.present?
+		logo_init_value = { 'url': @p.logo.url }.to_json
+	end
+
 	# Image
 	image_init_value = ''
 	unless @p.new_record?
@@ -88,8 +94,8 @@
 
 	<section class="form-navigator">
 		<article id="form_navigator" class="items-container">
-			<a aria-name="project_name" href="javascript:void(0)" class="item">
-				<div class="icon"><i class="fa fa-info fa-lg "></i></div><div class="text"><%= t 'project.attribute.project_name_box' %></div>
+			<a aria-name="description" href="javascript:void(0)" class="item">
+				<div class="icon"><i class="fa fa-info fa-lg "></i></div><div class="text">Giới thiệu</div>
 			</a>
 			<a aria-name="position" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-map-marker fa-lg "></i></div><div class="text"><%= t 'project.attribute.position_box' %></div>
@@ -108,9 +114,6 @@
 			</a>
 			<a aria-name="payment_info" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-money fa-lg "></i></div><div class="text"><%= t 'project.attribute.payment_info_box' %></div>
-			</a>
-			<a aria-name="content" href="javascript:void(0)" class="item">
-				<div class="icon"><i class="fa fa-bookmark-o fa-lg "></i></div><div class="text"><%= t 'project.attribute.content_box' %></div>
 			</a>
 			<a aria-name="image" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-picture-o fa-lg "></i></div><div class="text"><%= t 'project.attribute.image' %></div>
@@ -137,18 +140,58 @@
 
 				<!-- Project name -->
 
-					<article aria-name="project_name" class="box box-default">
+					<article aria-name="description" class="box box-default">
 						<section class="box-header with-border">
-							<h2 class="box-title"><%= t 'project.attribute.project_name_box' %></h2>
+							<h2 class="box-title">Giới thiệu</h2>
 						</section>
 						<section class="box-body">
-							<article class="form-group">
-								<label class="control-label" id="project_name">
-									<%= t 'project.attribute.project_name' %>
+
+							<!-- Project name -->
+							
+								<article class="form-group">
+									<label class="control-label" for="project_name">
+										<%= t 'project.attribute.project_name' %>
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" autofocus />
+								</article>
+							
+							<!-- / Project name -->
+
+							<!-- Logo -->
+
+								<article class="form-group">
+									<label class="control-label">
+										Logo
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required" data-init-value="<%= logo_init_value %>" name="project[logo]" class="file-upload" type="file" data-types="image" />
+								</article>
+
+							<!-- / Logo -->
+
+							<!-- Slogan -->
+
+								<article class="form-group">
+									<label class="control-label" for="slogan">
+										Khẩu hiệu (slogan)
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required" value="<%= @p.slogan %>" name="project[slogan]" class="form-control" id="slogan">
+								</article>
+
+							<!-- / Slogan -->
+
+							<!-- Description -->
+
+								<article class="form-group">
+									<label class="control-label" for="description">Giới thiệu</label>
 									<sup class="required-label"></sup>
-								</label>
-								<input data-constraint="required" value="<%= @p.project_name %>" class="form-control" id="project_name" name="project[project_name]" autofocus />
-							</article>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @p.description %></textarea>
+								</article>
+
+							<!-- / Description -->
+
 						</section>
 					</article>
 
@@ -790,41 +833,6 @@
 					</article>
 
 				<!-- / Payment info -->
-
-				<!-- Content -->
-
-					<article aria-name="content" class="box box-default">
-						<section class="box-header with-border">
-							<h2 class="box-title">
-								Giới thiệu
-							</h2>
-						</section>
-						<section class="box-body">
-
-							<!-- Title -->
-
-								<article class="form-group">
-									<label class="control-label" for="slogan">Khẩu hiệu (slogan)</label>
-									<sup class="required-label"></sup>
-									<input data-constraint="required" value="<%= @p.slogan %>" name="project[slogan]" class="form-control" id="slogan">
-								</article>
-
-							<!-- / Title -->
-
-							<!-- Description -->
-
-								<article class="form-group">
-									<label class="control-label" for="description">Giới thiệu</label>
-									<sup class="required-label"></sup>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @p.description %></textarea>
-								</article>
-
-							<!-- / Description -->
-
-						</section>
-					</article>
-
-				<!-- / Content -->
 
 				<!-- Images -->
 
