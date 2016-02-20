@@ -1401,7 +1401,7 @@ class RealEstate < ActiveRecord::Base
 	# Zoho
 
 		def self.zoho_fields
-			@zoho_fields ||= ['display_id', 'id', 'title', 'real_estate_type', 'address_number', 'street', 'ward', 'district', 'province', 'street_type', 'is_alley', 'alley_width', 'direction', 'constructional_level', 'legal_record_type', 'campus_area', 'constructional_area', 'using_area', 'width_x', 'width_y', 'shape', 'bedroom_number', 'restroom_number', 'build_year', 'constructional_quality', 'planning_status_type', 'property_utilities', 'region_utilities', 'advantages', 'custom_advantages', 'disadvantage', 'custom_disadvantages', 'description', 'user', 'owner_type', 'owner_info_name', 'owner_info_email', 'owner_info_phone', 'owner_info_address', 'purpose', 'currency', 'sell_price', 'sell_unit', 'rent_price', 'rent_unit', 'is_negotiable']
+			@zoho_fields ||= ['display_id', 'id', 'title', 'real_estate_type', 'address_number', 'street', 'ward', 'district', 'province', 'street_type', 'is_alley', 'alley_width', 'direction', 'constructional_level', 'legal_record_type', 'campus_area', 'constructional_area', 'using_area', 'width_x', 'width_y', 'shape', 'bedroom_number', 'restroom_number', 'build_year', 'constructional_quality', 'planning_status_type', 'property_utilities', 'region_utilities', 'advantages', 'custom_advantages', 'disadvantage', 'custom_disadvantages', 'user', 'owner_type', 'owner_info_name', 'owner_info_email', 'owner_info_phone', 'owner_info_address', 'purpose', 'currency', 'sell_price', 'sell_unit', 'rent_price', 'rent_unit', 'is_negotiable']
 		end
 	
 		def zoho_get_attribute _attribute
@@ -1481,11 +1481,11 @@ class RealEstate < ActiveRecord::Base
 					val: 'Loại nhà',
 					text: display_constructional_level
 				}
-			# when 'legal_record_type'
-			# 	{
-			# 		val: 'Hồ sơ pháp lý',
-			# 		text: display_legal_record_type(false).present? ? display_legal_record_type(false) : 'Khác'
-			# 	}
+			when 'legal_record_type'
+				{
+					val: 'Hồ sơ pháp lý',
+					text: display_legal_record_type(false).present? ? display_legal_record_type(false) : 'Khác'
+				}
 			when 'campus_area'
 				{
 					val: 'DT khuôn viên',
@@ -1536,11 +1536,11 @@ class RealEstate < ActiveRecord::Base
 					val: 'Chất lượng xây dựng',
 					text: display_constructional_quality
 				}
-			# when 'planning_status_type'
-			# 	{
-			# 		val: 'Tình trạng quy hoạch',
-			# 		text: display_planning_status_type(false).present? ? display_planning_status_type(false) : 'Khác'
-			# 	}
+			when 'planning_status_type'
+				{
+					val: 'Tình trạng quy hoạch',
+					text: display_planning_status_type(false).present? ? display_planning_status_type(false) : 'Khác'
+				}
 			when 'property_utilities'
 				{
 					val: 'Tiện ích BĐS',
@@ -1571,15 +1571,10 @@ class RealEstate < ActiveRecord::Base
 					val: 'Khuyết điểm khác',
 					text: custom_disadvantages
 				}
-			when 'description'
-				{
-					val: 'Description',
-					text: ''
-				}
 			when 'user'
 				{
 					val: 'Người đăng tin_ID',
-					text: user.zoho_id
+					text: user.present? ? user.zoho_id : ''
 				}
 			when 'owner_type'
 				{
