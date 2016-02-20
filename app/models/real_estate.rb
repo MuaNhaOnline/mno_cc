@@ -764,7 +764,7 @@ class RealEstate < ActiveRecord::Base
 				end
 			end
 
-			where += " AND is_full = #{params[:is_full] || 'true'}"
+			# where += " AND is_full = #{params[:is_full] || 'true'}"
 
 			joins = joins.uniq
 
