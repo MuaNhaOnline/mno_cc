@@ -1235,7 +1235,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Alley width
 		def display_alley_width
-			@display_alley_width ||= is_alley ? alley_width : ''
+			@display_alley_width ||= is_alley && alley_width.present? ? ApplicationHelper.display_decimal(alley_width) : ''
 		end
 
 		# Direction
@@ -1481,11 +1481,11 @@ class RealEstate < ActiveRecord::Base
 					val: 'Loại nhà',
 					text: display_constructional_level
 				}
-			when 'legal_record_type'
-				{
-					val: 'Hồ sơ pháp lý',
-					text: display_legal_record_type(false).present? ? display_legal_record_type(false) : 'Khác'
-				}
+			# when 'legal_record_type'
+			# 	{
+			# 		val: 'Hồ sơ pháp lý',
+			# 		text: display_legal_record_type(false).present? ? display_legal_record_type(false) : 'Khác'
+			# 	}
 			when 'campus_area'
 				{
 					val: 'DT khuôn viên',
@@ -1536,11 +1536,11 @@ class RealEstate < ActiveRecord::Base
 					val: 'Chất lượng xây dựng',
 					text: display_constructional_quality
 				}
-			when 'planning_status_type'
-				{
-					val: 'Tình trạng quy hoạch',
-					text: display_planning_status_type(false).present? ? display_planning_status_type(false) : 'Khác'
-				}
+			# when 'planning_status_type'
+			# 	{
+			# 		val: 'Tình trạng quy hoạch',
+			# 		text: display_planning_status_type(false).present? ? display_planning_status_type(false) : 'Khác'
+			# 	}
 			when 'property_utilities'
 				{
 					val: 'Tiện ích BĐS',
@@ -1721,6 +1721,7 @@ class RealEstate < ActiveRecord::Base
 			
 			# / Create new real-estate
 
+			return
 			# Update real-estate
 			
 				# Get all real-estates has zoho changed
