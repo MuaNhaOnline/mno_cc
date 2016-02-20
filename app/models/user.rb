@@ -483,7 +483,7 @@ class User < ActiveRecord::Base
 			when 'birthday'
 				{
 					val: 'Ngày sinh',
-					text: birthday.strftime('%m/%d/%Y')
+					text: birthday.present? ? birthday.strftime('%m/%d/%Y') : ''
 				}
 			when 'business_name'
 				{

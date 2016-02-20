@@ -1666,13 +1666,12 @@ class RealEstate < ActiveRecord::Base
 		end
 
 		def self.zoho_sync
-			# User.zoho_sync
+			User.zoho_sync
 
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
-				# res = where zoho_id: nil
-				res = [first]
+				res = where zoho_id: nil
 
 				# If exist
 				if res.count > 0
