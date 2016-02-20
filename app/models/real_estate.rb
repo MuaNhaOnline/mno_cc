@@ -1666,50 +1666,53 @@ class RealEstate < ActiveRecord::Base
 			# Update real-estate
 			
 				# Get all real-estates has zoho changed
-				res = where zoho_is_changed: true
+				total_res = where zoho_is_changed: true
 
 				# If exist
-				if res.count > 0
+				if total_res.count > 0
 
-					# Create xml records
-					res_records = Nokogiri::XML::Builder.new do |xml|
-						xml.Products {
-							res.each_with_index do |re, index|
+					total_res.each_slice(100).to_a.each do |res|
 
-								xml.row(no: index + 1) {
-									zoho_create_xml_nodes xml, re, zoho_fields + ['zoho_id']
-								}
+						# Create xml records
+						res_records = Nokogiri::XML::Builder.new do |xml|
+							xml.Products {
+								res.each_with_index do |re, index|
 
-							end
-						}
-					end
+									xml.row(no: index + 1) {
+										zoho_create_xml_nodes xml, re, zoho_fields + ['zoho_id']
+									}
 
-					result = HTTParty.post(
-						'https://crm.zoho.com/crm/private/xml/Products/updateRecords', 
-						body: {
-							authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
-							scope: 'crmapi',
-							xmlData: res_records.to_xml,
-							version: 4
-						}
-					)
+								end
+							}
+						end
 
-					puts result
-					if result['response']['result'].present?
-						if result['response']['result']['row'].class == Array
-							result['response']['result']['row'].each_with_index do |record, index|
-								if record.has_key? 'success'
-									res[index].zoho_is_changed = false
-									res[index].save
+						result = HTTParty.post(
+							'https://crm.zoho.com/crm/private/xml/Products/updateRecords', 
+							body: {
+								authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
+								scope: 'crmapi',
+								xmlData: res_records.to_xml,
+								version: 4
+							}
+						)
+
+						if result['response']['result'].present?
+							if result['response']['result']['row'].class == Array
+								result['response']['result']['row'].each_with_index do |record, index|
+									if record.has_key? 'success'
+										res[index].zoho_is_changed = false
+										res[index].save
+									end
+								end
+							else
+								record = result['response']['result']['row'].first
+								if record[0] == 'success'
+									res[0].zoho_is_changed = false
+									res[0].save
 								end
 							end
-						else
-							record = result['response']['result']['row'].first
-							if record[0] == 'success'
-								res[0].zoho_is_changed = false
-								res[0].save
-							end
 						end
+
 					end
 
 				end
@@ -1719,52 +1722,57 @@ class RealEstate < ActiveRecord::Base
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
-				res = where zoho_id: nil
+				total_res = where zoho_id: nil
 
 				# If exist
-				if res.count > 0
+				if total_res.count > 0
 
-					# Create xml records
-					res_records = Nokogiri::XML::Builder.new do |xml|
-						xml.Products {
-							res.each_with_index do |re, index|
+					total_res.each_slice(100).to_a.each do |res|
 
-								xml.row(no: index + 1) {
-									zoho_create_xml_nodes xml, re, zoho_fields
-								}
+						# Create xml records
+						res_records = Nokogiri::XML::Builder.new do |xml|
+							xml.Products {
+								res.each_with_index do |re, index|
 
-							end
-						}
-					end
+									xml.row(no: index + 1) {
+										zoho_create_xml_nodes xml, re, zoho_fields
+									}
 
-					result = HTTParty.post(
-						'https://crm.zoho.com/crm/private/xml/Products/insertRecords', 
-						body: {
-							authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
-							scope: 'crmapi',
-							xmlData: res_records.to_xml,
-							version: 4
-						}
-					)
+								end
+							}
+						end
 
-					if result['response']['result'].present?
-						if result['response']['result']['row'].class == Array
-							result['response']['result']['row'].each_with_index do |record, index|
-								if record.has_key? 'success'
-									res[index].zoho_id = ApplicationHelper.zoho_get_content_by_val record['success']['details']['FL'], 'Id'
-									res[index].zoho_is_changed = false
-									res[index].save
+						result = HTTParty.post(
+							'https://crm.zoho.com/crm/private/xml/Products/insertRecords', 
+							body: {
+								authtoken: '427ecfa73f98d6aa29f7e932d3c2913f',
+								scope: 'crmapi',
+								xmlData: res_records.to_xml,
+								version: 4
+							}
+						)
+
+						if result['response']['result'].present?
+							if result['response']['result']['row'].class == Array
+								result['response']['result']['row'].each_with_index do |record, index|
+									if record.has_key? 'success'
+										res[index].zoho_id = ApplicationHelper.zoho_get_content_by_val record['success']['details']['FL'], 'Id'
+										res[index].zoho_is_changed = false
+										res[index].save
+									end
+								end
+							else
+								record = result['response']['result']['row'].first
+								if record[0] == 'success'
+									res[0].zoho_id = ApplicationHelper.zoho_get_content_by_val record[1]['details']['FL'], 'Id'
+									res[0].zoho_is_changed = false
+									res[0].save
 								end
 							end
-						else
-							record = result['response']['result']['row'].first
-							if record[0] == 'success'
-								res[0].zoho_id = ApplicationHelper.zoho_get_content_by_val record[1]['details']['FL'], 'Id'
-								res[0].zoho_is_changed = false
-								res[0].save
-							end
 						end
+
 					end
+
 				end
 			
 			# / Create new real-estate
