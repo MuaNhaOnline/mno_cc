@@ -1671,7 +1671,8 @@ class RealEstate < ActiveRecord::Base
 			# Create new real-estate
 				
 				# Get all real estate without zoho id
-				res = where zoho_id: nil
+				# res = where zoho_id: nil
+				res = [first]
 
 				# If exist
 				if res.count > 0
@@ -1723,7 +1724,7 @@ class RealEstate < ActiveRecord::Base
 				end
 			
 			# / Create new real-estate
-
+			return
 			# Update real-estate
 			
 				# Get all real-estates has zoho changed
