@@ -17,7 +17,7 @@ ConstructionalLevel.create [
 	{ name: 'level_1' },
 	{ name: 'level_2' },
 	{ name: 'level_3' },
-	{ name: 'level_4' },
+	{ name: 'level_4', code: '|level_4|' },
 	{ name: 'temporary', code: '|temporary|' },
 	{ name: 'empty' }
 ]

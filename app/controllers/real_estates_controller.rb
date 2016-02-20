@@ -54,6 +54,8 @@ class RealEstatesController < ApplicationController
 
 			when 'nha-tam'
 				{ search_name: 'Nhà tạm', constructional_level: 'temporary' }
+			when 'nha-cap-4'
+				{ search_name: 'Nhà cấp 4', constructional_level: 'level_4' }
 
 			when 'can-ho-co-ho-boi'
 				{ search_name: 'Căn hộ có hồ bơi', real_estate_type: 'apartment', utilities: { pool: '' } }
