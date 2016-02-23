@@ -24,6 +24,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.ico-clock:before {
+    content: "\e900";
+}
 .ico-info:before {
     content: "\e90a";
 }
@@ -55,6 +58,6 @@
     content: "\e901";
 }
 .ico-hash:before {
-    content: "\e900";
+    content: "\e90b";
 }
 

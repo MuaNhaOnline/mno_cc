@@ -109,8 +109,8 @@
 												Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @re.display_sell_price %></span> 
 												<!-- <select>
 													<% Currency.get_options.each do |c| %>
-							              <option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-							            <% end %>
+														<option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
+													<% end %>
 												</select>/<%= t 'unit.text.' + @re.sell_unit.name %> -->
 											</p>
 											<% if @re.is_negotiable %>
@@ -132,8 +132,8 @@
 												Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.display_rent_price %></span> 
 												<!-- <select>
 													<% Currency.get_options.each do |c| %>
-							              <option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-							            <% end %>
+														<option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
+													<% end %>
 												</select>/<%= t 'unit.text.' + @re.rent_unit.name %> -->
 											</p>
 											<% if @re.is_negotiable %>
@@ -326,11 +326,11 @@
 				<article class="title">
 					<span>Vị trí trên bản đồ</span>
 				</article>
-	      <article class="content map">
-	      	<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @re.lat %>" data-long="<%= @re.long %>">
-	      		
-	      	</div>
-	      </article>
+				<article class="content map">
+					<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @re.lat %>" data-long="<%= @re.long %>">
+						
+					</div>
+				</article>
 			</section>
 	<!-- start contact -->
 	<section class="line-block contact container">
