@@ -395,7 +395,7 @@
 							</article>
 						</section>
 						<section class="info-box-body">
-							<% if @re.fields.include?(:disadvantage) && @re.disadvantages.present? %>
+							<% if @re.fields.include?(:advantage) && @re.advantages.present? %>
 								<article class="content-box">
 									<section class="content-box-header">
 										<aricle class="content-box-title">
@@ -413,7 +413,7 @@
 									</section>
 								</article>
 							<% end %>
-							<% if @re.fields.include?(:advantage) && @re.advantages.present? %>
+							<% if @re.fields.include?(:disadvantage) && @re.disadvantages.present? %>
 								<article class="content-box">
 									<section class="content-box-header">
 										<aricle class="content-box-title">
