@@ -129,6 +129,16 @@ class RealEstatesController < ApplicationController
 			end
 		end
 
+		# View
+		# params: slug(*)
+		def view_2
+			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
+
+			@re = RealEstate.find id
+
+			render layout: 'front_layout'
+		end
+
 	# / View
 
 	# Create

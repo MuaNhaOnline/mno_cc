@@ -1028,7 +1028,7 @@ class RealEstate < ActiveRecord::Base
 			fields = [
 				:purpose, :currency, :is_negotiable,
 				:address_number, :province, :district, :ward, :street, :lat, :long,
-				:title, :description]#, :image]
+				:title, :description]
 
 			if re.purpose.present?
 				fields << :sell_price << :sell_unit if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
@@ -1139,6 +1139,11 @@ class RealEstate < ActiveRecord::Base
 			@display_id ||= ApplicationHelper.id_format id, 'RE'
 		end
 
+		# Description
+		def display_description
+			@display_description ||= description.present? ? description.html_safe : ''
+		end
+
 		# User name
 		def display_user_name
 			@display_user_name ||= user_id == 0 ? user_full_name : user.full_name
@@ -1191,7 +1196,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Area
 		def display_area
-			@display_area ||= fields.include?(:campus_area) ? campus_area : (fields.include?(:constructional_area) ? constructional_area : using_area) 
+			@display_area ||= fields.include?(:campus_area) ? ApplicationHelper.display_decimal(campus_area) : (fields.include?(:constructional_area) ? ApplicationHelper.display_decimal(constructional_area) : ApplicationHelper.display_decimal(using_area)) 
 		end
 		def display_campus_area
 			@display_campus_area ||= fields.include?(:campus_area) ? ApplicationHelper.display_decimal(campus_area) : ''
@@ -1212,20 +1217,29 @@ class RealEstate < ActiveRecord::Base
 		end
 
 		# Shape
-		def display_shape
-			@display_shape ||= case shape
-			when 1
-				'Bình thường'
-			when 2
-				'Nở hậu'
-			when 3
-				'Tóp hậu'
+		def display_shape display_normal = true
+			if display_normal
+				@display_shape_display_normal ||= case shape
+				when 0
+					'Bình thường'
+				when 1
+					'Nở hậu'
+				when 2
+					'Tóp hậu'
+				end
+			else
+				@display_shape_no_display_normal ||= case shape
+				when 1
+					'Nở hậu'
+				when 2
+					'Tóp hậu'
+				end
 			end
 		end
 
 		# Shape width
 		def display_shape_width
-			@display_shape_width ||= shape == 2 || shape == 3 ? ApplicationHelper.display_decimal(shape_width) : ''
+			@display_shape_width ||= (shape == 1 || shape == 2) && shape_width.present? ? ApplicationHelper.display_decimal(shape_width) : ''
 		end
 
 		# Is alley
@@ -1544,17 +1558,17 @@ class RealEstate < ActiveRecord::Base
 			when 'property_utilities'
 				{
 					val: 'Tiện ích BĐS',
-					text: property_utilities.present? ? property_utilities.map{ |utility| I18n.t("property_utility.text.#{utility.name}") }.join(';') : ''
+					text: property_utilities.present? ? property_utilities.map{ |utility| utility.display_name }.join(';') : ''
 				}
 			when 'region_utilities'
 				{
 					val: 'Tiện ích khu vực',
-					text: region_utilities.present? ? region_utilities.map{ |utility| I18n.t("region_utility.text.#{utility.name}") }.join(';') : ''
+					text: region_utilities.present? ? region_utilities.map{ |utility| utility.display_name }.join(';') : ''
 				}
 			when 'advantages'
 				{
 					val: 'Ưu điểm',
-					text: advantages.present? ? advantages.map{ |advantage| I18n.t("advantage.text.#{advantage.name}") }.join(';') : ''
+					text: advantages.present? ? advantages.map{ |advantage| advantage.display_name }.join(';') : ''
 				}
 			when 'custom_advantages'
 				{
@@ -1564,7 +1578,7 @@ class RealEstate < ActiveRecord::Base
 			when 'disadvantage'
 				{
 					val: 'Khuyết điểm',
-					text: disadvantages.present? ? disadvantages.map{ |disadvantage| I18n.t("disadvantage.text.#{disadvantage.name}") }.join(';') : ''
+					text: disadvantages.present? ? disadvantages.map{ |disadvantage| disadvantage.display_name }.join(';') : ''
 				}
 			when 'custom_disadvantages'
 				{

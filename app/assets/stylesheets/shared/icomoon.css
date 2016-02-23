@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'icomoon';
+    src:    url('/assets/icomoon/icomoon.eot?bs1n9n');
+    src:    url('/assets/icomoon/icomoon.eot?bs1n9n#iefix') format('embedded-opentype'),
+        url('/assets/icomoon/icomoon.ttf?bs1n9n') format('truetype'),
+        url('/assets/icomoon/icomoon.woff?bs1n9n') format('woff'),
+        url('/assets/icomoon/icomoon.svg?bs1n9n#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="ico-"], [class*=" ico-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ico-info:before {
+    content: "\e90a";
+}
+.ico-newspaper:before {
+    content: "\e908";
+}
+.ico-compass:before {
+    content: "\e909";
+}
+.ico-bedroom:before {
+    content: "\e903";
+}
+.ico-home:before {
+    content: "\e904";
+}
+.ico-chevron-left:before {
+    content: "\e906";
+}
+.ico-chevron-right:before {
+    content: "\e907";
+}
+.ico-location:before {
+    content: "\e902";
+}
+.ico-restroom:before {
+    content: "\e905";
+}
+.ico-area:before {
+    content: "\e901";
+}
+.ico-hash:before {
+    content: "\e900";
+}
+

@@ -1,7 +1,8 @@
 class RealEstateImage < ActiveRecord::Base
 
   has_attached_file :image, 
-  	styles: { thumb: '360x270#', slide: '800x450#' },
+  	# Slide: 1.52
+  	styles: { thumb: '360x270#', slide: '760x500#' },
   	default_url: "/assets/real_estates/:style/default.png", 
   	:path => ":rails_root/app/assets/file_uploads/real_estate_images/:style/:id_:filename", 
   	:url => "/assets/real_estate_images/:style/:id_:filename"

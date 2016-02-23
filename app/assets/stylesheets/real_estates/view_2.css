@@ -1,0 +1,337 @@
+/* Images */
+
+	.images-container {
+		background-color: #fff;
+		position: relative;
+	}
+		
+		@media (min-width: 992px) {
+			.images-container {
+				height: 412px;
+			}
+		}
+		
+		@media (min-width: 1200px) {
+			.images-container {
+				height: 500px;
+			}
+		}
+
+		.images-container .image {
+			
+		}
+
+			.images-container .image img {
+				width: 100%;
+			}
+
+		.images-container .images-list {
+			position: absolute;
+			bottom: 5px;
+			left: 0;
+			width: 100%;
+			cursor: default;
+		}
+
+			.images-container .images-list .list {
+				text-align: center;
+			}
+
+			.images-container .images-list .item {
+				display: inline-block;
+			}
+
+			.images-container .images-list span {
+				padding: 4px;
+				display: block;
+			}
+
+				.images-container .images-list span:before {
+					content: '';
+					display: block;
+					width: 12px;
+					height: 12px;
+					border-radius: 50%;
+					background-color: #fff;
+					transition: .3s;
+				}
+
+				.images-container .images-list .item.active span:before,
+				.images-container .images-list .item span:hover:before {
+					background-color: #369836;
+				}
+
+/* / Images */
+
+/* Infos */
+
+	.infos-container {
+		background-color: #4a525d;
+		padding: 20px;
+		color: #fff;
+		overflow-y: auto;
+	}
+		
+		@media (min-width: 992px) {
+			.infos-container {
+				min-height: 412px;
+			}
+		}
+		
+		@media (min-width: 1200px) {
+			.infos-container {
+				min-height: 500px;
+			}
+		}
+
+		.infos-container > .content > * {
+			margin-bottom: 20px;
+		}
+
+			.infos-container > .content > *:last-child {
+				margin-bottom: 0;
+			}
+
+		.infos-container .title {
+		}
+
+			.infos-container .title > * {
+				display: inline-block;
+				margin: 0;
+				font-size: 21px;
+				padding-right: 20px;
+				padding-bottom: 5px;
+				border-bottom: 2px solid #5CB85C;
+			}
+
+		.infos-container .price {
+			font-size: 17px;
+			color: #FFD155;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+			.infos-container .price.sell-price {
+				color: #FFD155;
+			}
+
+			.infos-container .price.rent-price {
+				color: #64CEEC;
+			}
+
+		.infos-container .infos > .row > *:nth-child(2n+2) {
+			clear: left;
+		}
+
+			@media (min-width: 768px) {
+				.infos-container .infos > .row > *:nth-child(2n+2) {
+					clear: none;
+				}
+
+				.infos-container .infos > .row > *:nth-child(4n+2) {
+					clear: left;
+				}
+			}
+			
+			@media (min-width: 992px) {
+				.infos-container .infos > .row > *:nth-child(2n+2) {
+					clear: left;
+				}
+
+				.infos-container .infos > .row > *:nth-child(4n+2) {
+					clear: none;
+				}
+			}
+
+		.infos-container .infos {
+			position: relative;
+		}
+
+		/* More */
+		
+			.infos-container .infos .more {
+				background-color: #303740;
+				margin-left: -20px;
+				margin-right: -20px;
+				padding: 10px 20px;
+				float: left;
+				margin-bottom: 15px;
+				position: relative;
+				width: 100%;
+				box-sizing: content-box;
+			}
+
+				.infos-container .infos .more .text {
+					font-weight: bold;
+					margin-bottom: 10px;
+				}
+
+					.infos-container .infos .more .text:last-child {
+						margin-bottom: 0;
+					}
+
+					.infos-container .infos .more .name {
+						color: #5CB85C;
+						font-size: 13px;
+					}
+
+						.infos-container .infos .more .name:after {
+							content: ':';
+							margin-left: -4px;
+						}
+
+					.infos-container .infos .more .value {
+						font-size: 15px;
+					}
+
+					.infos-container .infos .more .unit {
+						font-size: 13px;
+						font-weight: normal;
+					}
+
+			.infos-container .infos .buffer-more {
+				display: none;
+			}
+		
+		/* / More */
+
+		/* Item */
+
+			.infos-container .info-item {
+				margin-bottom: 15px;
+			}
+
+				.infos-container .info-item:after {
+					content: '';
+					display: table;
+					clear: both;
+				}
+
+				.infos-container .info-item.has-more {
+					cursor: pointer;
+					position: relative;
+				}
+
+					@keyframes arrow_slide_up {
+						from {
+							transform: translateY(10px);
+						}
+						to {
+							transform: none;
+						}
+					}
+
+					.infos-container .info-item.has-more.active:before {
+						content: '';
+						display: block;
+						width: 0;
+						height: 0;
+						border: 10px solid transparent;
+						border-bottom-color: #303740;
+						position: absolute;
+						bottom: -15px;
+						left: 45px;
+						animation: arrow_slide_up .2s .3s, in .3s;
+					}
+
+				.infos-container .info-item .more {
+					display: none;
+				}
+
+				.infos-container .info-item .icon {
+					font-size: 25px;
+					float: left;
+					width: 25px;
+					margin-right: 10px;
+					margin-top: 2px;
+					color: #5CB85C;
+				}
+
+				.infos-container .info-item .text {
+					float: left;
+					width: calc(100% - 35px);
+					font-weight: bold;
+				}
+
+				.infos-container .info-item .name {
+					font-size: 13px;
+					margin-bottom: 2px;
+					color: #5CB85C;
+				}
+
+					.infos-container .info-item .name .ico-info {
+						color: #fff;
+					}
+
+				.infos-container .info-item .value {
+					font-size: 15px;
+				}
+
+				.infos-container .info-item .unit {
+					font-size: 13px;
+					font-weight: normal;
+				}
+		
+		/* / Item */
+
+/* / Infos */
+
+/* Description */
+
+	.description-container {
+		background-color: #fff;
+	}
+
+		.description-container > *:first-child {
+			margin-top: 0;
+		}
+
+		/* Address */
+		
+			.description-container .address {
+				margin-bottom: 10px;
+			}
+		
+				.description-container .address .name {
+					background-color: #4a525d;
+					padding: 5px 10px 5px 5px;
+					color: #fff;
+					display: inline-block;
+					font-weight: bold;
+					margin-right: -4px;
+				}
+		
+				.description-container .address .ico-location {
+					font-size: 18px;
+					vertical-align: -2px;
+				}
+		
+				.description-container .address .value {
+					font-weight: bold;
+					background-color: #896400;
+					display: inline-block;
+					padding: 5px 10px;
+					color: #fff;
+				}
+		
+		/* / Address */
+
+		/* Item list */
+		
+			.description-container .items-list {
+				
+			}
+		
+				.description-container .items-list .item {
+					display: inline-block;
+					background-color: #EFF1F5;
+					color: #666;
+					padding: 3px 8px;
+					margin: 2px 0px;
+					font-weight: bold;
+					font-size: 15px;
+				}
+			
+		/* / Item list */
+
+/* / Description */

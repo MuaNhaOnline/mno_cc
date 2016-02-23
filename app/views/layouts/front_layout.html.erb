@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= @title.blank? ? '' : @title + ' - ' %> Mua nhà online</title>
+
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="description" content="MuaNhaOnline - Giá trị thực trong tầm tay">
+	<meta name="keyword" content="<%= @keyword %>">
+
+	<link rel="shortcut icon" href="/assets/shared/mini_icon.ico">
+
+	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/icomoon.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/layout.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/front_layout.css">
+	<%= yield :stylesheets %>
+</head>
+<body>
+
+	<article class="content-wrapper">
+
+		<!-- Header -->
+		
+			<header>
+				<div class="container">
+
+					<h1 class="page-name">MuanhaOnline - Giá trị thực trong tầm tay</h1>
+
+					<!-- Logo -->
+					
+						<section class="logo">
+							<img src="/assets/logo/logo.png">
+						</section>
+					
+					<!-- / Logo -->
+
+					<!-- Navigator -->
+					
+						<section class="navigator">
+							
+							<!-- Top -->
+							
+								<section class="top">
+									
+									<!-- User infos -->
+									
+										<section class="user-info">
+											<section class="text">
+												<span class="fa fa-sign-in"></span> Đăng nhập
+											</section>
+										</section>
+									
+									<!-- / User infos -->
+
+								</section>
+							
+							<!-- / Top -->
+
+							<!-- Bottom -->
+							
+								<section class="bottom">
+
+									<nav>
+										<ul>
+											<li>
+												<a href="#">Bất động sản</a>
+												<ul class="col-2">
+													<li>
+														<a href="#">Nhà phố</a>
+													</li>
+													<li>
+														<a href="#">Biệt thự</a>
+													</li>
+													<li>
+														<a href="#">Căn hộ chung cư</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a href="#">Dự án</a>
+											</li>
+											<li>
+												<a href="#">Nhà định giá</a>
+											</li>
+											<li>
+												<a href="#">Doanh nghiệp</a>
+											</li>
+											<li>
+												<a href="#">Tin tức</a>
+											</li>
+										</ul>
+									</nav>
+
+								</section>
+							
+							<!-- / Bottom -->
+
+						</section>
+					
+					<!-- / Navigator -->
+
+				</div>
+			</header>
+		
+		<!-- / Header -->
+
+		<!-- Navigator -->
+		
+			<nav class="main-navigator">
+				<article class="container">
+					<article class="list">
+						<article class="item">
+							<a href="#">Trang chủ</a>
+						</article>
+						<article class="item">
+							<a href="#">Bất động sản</a>
+						</article>
+						<article class="item">
+							<a href="#">#RE01002</a>
+						</article>
+					</article>
+				</article>
+			</nav>
+		
+		<!-- / Navigator -->
+
+		<!-- Main -->
+		
+			<main>
+				<article class="container">
+					<%= yield %>
+				</article>
+			</main>
+		
+		<!-- / Main -->
+
+		<!-- Footer -->
+		
+			<footer>
+				
+			</footer>
+		
+		<!-- / Footer -->
+		
+	</article>
+
+	<script type="text/javascript" src="/assets/shared/jquery.js"></script>
+	<script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
+	<script type="text/javascript" src="/assets/shared/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/assets/shared/jquery.mobile.custom.min.js"></script>
+	<script type="text/javascript" src="/assets/shared/layout.js"></script>
+	<script type="text/javascript" src="/assets/shared/front_layout.js"></script>
+	<%= yield :javascript %>
+</body>
+</html>

@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     get 'bat-dong-san/quan-ly' => 'real_estates#manager'
 
     get 'bat-dong-san/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'real_estates', action: 'view'
+    get 'bat-dong-san/view_2/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'real_estates', action: 'view_2'
 
     get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index'
     get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'

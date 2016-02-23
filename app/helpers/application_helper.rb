@@ -1,4 +1,19 @@
 module ApplicationHelper
+	def render_svg file_name, params = {}
+		begin
+			file = File.read(Rails.root.join('app', 'assets', 'svg_templates', file_name + '.svg'))
+		rescue 
+			return
+		end
+		
+		content = Nokogiri::HTML::DocumentFragment.parse file
+		svg = content.at_css 'svg'
+		if params[:class].present?
+			svg['class'] = params[:class]
+		end
+		content.to_html.html_safe
+	end
+
 	def file_download_image file
 		ext = file[:url].split('?').first().split('.').last()
 		if ['jpg','jpeg','png','gif','bmp'].include? ext
