@@ -162,7 +162,6 @@
 			}
 
 				.infos-container .infos .more .text {
-					font-weight: bold;
 					margin-bottom: 10px;
 				}
 
@@ -186,7 +185,6 @@
 
 					.infos-container .infos .more .unit {
 						font-size: 13px;
-						font-weight: normal;
 					}
 
 			.infos-container .infos .buffer-more {
@@ -250,10 +248,10 @@
 				.infos-container .info-item .text {
 					float: left;
 					width: calc(100% - 35px);
-					font-weight: bold;
 				}
 
 				.infos-container .info-item .name {
+					font-weight: bold;
 					font-size: 13px;
 					margin-bottom: 2px;
 					color: #5CB85C;
@@ -297,7 +295,6 @@
 					padding: 5px 10px 5px 5px;
 					color: #fff;
 					display: inline-block;
-					font-weight: bold;
 					margin-right: -4px;
 				}
 		
@@ -307,7 +304,6 @@
 				}
 		
 				.description-container .address .value {
-					font-weight: bold;
 					background-color: #896400;
 					display: inline-block;
 					padding: 5px 10px;
@@ -325,10 +321,9 @@
 				.description-container .items-list .item {
 					display: inline-block;
 					background-color: #EFF1F5;
-					color: #666;
+					color: #333;
 					padding: 3px 8px;
 					margin: 2px 0px;
-					font-weight: bold;
 					font-size: 15px;
 				}
 			
