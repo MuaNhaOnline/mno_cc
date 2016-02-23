@@ -1269,12 +1269,12 @@ class RealEstate < ActiveRecord::Base
 
 		# Restroom
 		def display_restroom
-			@display_restroom ||= restroom_number == 4 ? 'Hơn 4' : restroom_number
+			@display_restroom ||= restroom_number == 4 ? '>4' : restroom_number
 		end
 
 		# Bedroom
 		def display_bedroom
-			@display_bedroom ||= bedroom_number == 4 ? 'Hơn 4' : bedroom_number
+			@display_bedroom ||= bedroom_number == 4 ? '>4' : bedroom_number
 		end
 
 		# Purpose
