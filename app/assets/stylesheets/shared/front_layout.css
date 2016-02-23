@@ -284,6 +284,10 @@ body {
 			margin-bottom: 50px;
 		}
 	
+			.info-box:last-child {
+				margin-bottom: 0;
+			}
+	
 			.info-box .info-box-header {
 				background-color: #027494;
 			}
@@ -308,6 +312,10 @@ body {
 			margin-top: 10px;
 			margin-bottom: 30px;
 		}
+	
+			.content-box:last-child {
+				margin-bottom: 0;
+			}
 	
 			.content-box .content-box-header {
 				margin-bottom: 10px;
