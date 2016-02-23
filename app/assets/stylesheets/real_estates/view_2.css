@@ -108,6 +108,7 @@
 			font-size: 17px;
 			color: #FFD155;
 			margin-bottom: 10px;
+			font-weight: bold;
 		}
 
 			.infos-container .price.sell-price {
@@ -303,7 +304,7 @@
 				}
 		
 				.description-container .address .value {
-					background-color: #896400;
+					background-color: #B28200;
 					display: inline-block;
 					padding: 5px 10px;
 					color: #fff;
@@ -333,9 +334,25 @@
 /* Contact */
 
 	.contact-container {
-		background-color: #38C3EA;
-		padding: 20px;
+		background-color: #369836;
+		position: relative;
 	}
+
+		.contact-container .info-box {
+			margin: 0;
+		}
+		
+		.contact-container .info-box-header {
+			background-color: #065C06;
+		}
+
+		.contact-container .info-box-title {
+			background-color: transparent;
+		}
+		
+		.contact-container .info-box-body {
+			padding: 25px;
+		}
 
 		/* User info */
 		
@@ -350,8 +367,7 @@
 		
 				.contact-container .user-info .avatar {
 					float: left;
-					background-color: #EFF1F5;
-					padding: 3px;
+					border: 3px solid #EFF1F5;
 					width: 100px;
 				}
 		
@@ -359,6 +375,42 @@
 						width: 100%;
 					}
 		
+				.contact-container .user-info .info {
+					margin-left: 120px;
+					color: #fff;
+				}
+		
+					.contact-container .user-info .info .name {
+						font-size: 21px;
+						display: inline-block;
+						padding-right: 15px;
+						color: #fff;
+					}
+		
+					.contact-container .user-info .info .text {
+						margin-bottom: 3px;
+					}
+		
+						.contact-container .user-info .info .text .icon {
+							color: #1B7C1B;
+						}
+		
 		/* / User info */
+
+		/* Contact */
+
+			.contact-container .contact-box {
+				background-color: #64CEEC;
+			}
+		
+				.contact-container .contact-box .info-box-title {
+					background-color: #03B2E3;
+				}
+		
+				.contact-container .contact-box .info-box-header {
+					background-color: #369836;
+				}
+		
+		/* / Contact */
 
 /* / Contact */

@@ -1,4 +1,9 @@
+$(function () {
+	_initScrollBackgroundImage($('.main-navigator'));
+});
+
 // Map
+
 	/*
 		params:
 			id(*)
@@ -53,4 +58,46 @@
 
 		return map;
 	}
+
 // / Map
+
+// Scroll background image
+
+	function _initScrollBackgroundImage($elements) {
+		$elements.each(function () {
+			var 
+				$element = $(this),
+				// Range: from bottom upto 100% divice height or 0 if range < 100% divice height
+				range = null;
+
+			function resetData() {
+				range = [0, $element.offset().top + $element.outerHeight()];
+
+				if ($element.offset().top + $element.outerHeight() > $window.height()) {
+					range[0] = range[1] - $window.height();
+				}
+			}
+
+			$window.on('resize', function () {
+				range = null;
+			});
+
+			$window.on('scroll', function () {
+				if (range == null) {
+					resetData();
+				}
+
+				// Get scroll top
+				var scrollTop = $window.scrollTop();
+
+				// If scroll top in range => update
+				if (range[0] <= scrollTop && scrollTop <= range[1]) {
+					// range[1] - range[0]: 100%
+					// scrollTop - range[1]: current%
+					$element.css('background-position-y', (100 - ((scrollTop - range[0]) * 100 / (range[1] - range[0]))) + '%')
+				}
+			})
+		});
+	}
+
+// / Scroll background image

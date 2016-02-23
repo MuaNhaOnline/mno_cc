@@ -455,7 +455,103 @@
 
 	<!-- Contact -->
 		
-		
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="float: right">
+			<section class="contact-container">
+				<article class="info-box">
+					<section class="info-box-header">
+						<article class="info-box-title">
+							Người đăng
+						</article>
+					</section>
+					<section class="info-box-body user-info">
+						<% if @re.user.present? %>
+							<section class="avatar">
+								<%= user_avatar @re.user, style: :big %>
+							</section>
+							<section class="info">
+								<article class="text name">
+									<%= @re.user.full_name %>
+								</article>
+								<% if @re.user.email.present? %>
+									<article class="text">
+										<span class="icon ico-envelop"></span>
+										<%= @re.user.email %>
+									</article>
+								<% end %>
+								<% if @re.user.phone_number.present? %>
+									<article class="text">
+										<span class="icon ico-phone"></span>
+										<%= @re.user.phone_number %>
+									</article>
+								<% end %>
+								<% if @re.user.address.present? %>
+									<article class="text">
+										<span class="icon ico-location"></span>
+										<%= @re.user.address %>
+									</article>
+								<% end %>
+							</section>
+						<% else %>
+							<section class="avatar">
+								<img src="/assets/users/big/default.png" alt="<%= @re.user_full_name %>">
+							</section>
+							<section class="info">
+								<article class="text name">
+									<%= @re.user_full_name %>
+								</article>
+								<% if @re.user_email.present? %>
+									<article class="text">
+										<span class="icon ico-envelop"></span>
+										<%= @re.user_email %>
+									</article>
+								<% end %>
+								<% if @re.user_phone_number.present? %>
+									<article class="text">
+										<span class="icon ico-phone"></span>
+										<%= @re.user_phone_number %>
+									</article>
+								<% end %>
+							</section>
+						<% end %>
+					</section>
+				</article>
+				<article class="info-box">
+					<section class="info-box-header">
+						<article class="info-box-title">
+							Liên hệ
+						</article>
+					</section>
+					<section class="info-box-body contact-request">
+						<form>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									<article class="form-group">
+										<input class="form-control" placeholder="Tên" />
+									</article>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									<article class="form-group">
+										<input class="form-control" placeholder="Email hoặc điện thoại" />
+									</article>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<article class="form-group">
+										<textarea class="form-control" placeholder="Lời nhắn"></textarea>
+									</article>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<article class="text-center">
+										<button class="btn btn-green">
+											Gửi
+										</button>
+									</article>
+								</div>
+							</div>
+						</form>
+					</section>
+				</article>
+			</section>
+		</div>
 
 	<!-- / Contact -->
 

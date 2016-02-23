@@ -24,6 +24,15 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.ico-sign-in:before {
+    content: "\e90e";
+}
+.ico-phone:before {
+    content: "\e90c";
+}
+.ico-envelop:before {
+    content: "\e90d";
+}
 .ico-clock:before {
     content: "\e900";
 }
@@ -41,6 +50,12 @@
 }
 .ico-home:before {
     content: "\e904";
+}
+.ico-upload:before {
+    content: "\e90f";
+}
+.ico-facebook:before {
+    content: "\e910";
 }
 .ico-chevron-left:before {
     content: "\e906";
