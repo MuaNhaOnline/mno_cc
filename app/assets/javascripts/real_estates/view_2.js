@@ -145,67 +145,6 @@ $(function () {
 
 	// Contact container
 	
-		// (function () {
-
-		// 	// Fixed
-
-		// 		var 
-		// 			translateTop = 0,
-		// 			$contactContainer = $('.contact-container'),
-		// 			$descriptionContainer = $('.description-container'),
-		// 			lastScrollTop = $(window).scrollTop();
-
-		// 		$(window).on('scroll', function () {
-
-		// 			var 
-		// 				scrollTop = $(window).scrollTop(),
-		// 				offsetTop = $contactContainer.offset().top;
-
-		// 			// If scroll down
-		// 			if (scrollTop > lastScrollTop) {
-		// 				// If don't see top
-		// 				// => Fixed on top
-		// 				// => If reach bottom => set to max
-
-		// 				// If don't see
-		// 				if (offsetTop < scrollTop) {
-		// 					// Check if reach bottom => set to max
-
-		// 					// Get max top
-		// 					// (bottom of description) - (height of contact)
-		// 					// (top of description + height of description) - (height of contact)
-		// 					var maxTop = 
-		// 						$descriptionContainer.offset().top + 
-		// 						$descriptionContainer.height() - 
-		// 						$contactContainer.height();
-
-		// 					// Check if use new translate is reach bottom?
-		// 					// Reach is (scroll top) > (max top)
-		// 					if (scrollTop >= maxTop) {
-		// 						// Calc new translateTop
-		// 						// 
-		// 						translateTop = translateTop + maxTop - offsetTop;
-		// 					}
-		// 					else {
-		// 						// Calc new translateTop
-		// 						// (scroll top) - (top of contact) + (old translate Y)
-		// 						translateTop = scrollTop - offsetTop + translateTop;
-		// 					}
-		// 					$contactContainer.css('top', translateTop + 'px');
-		// 				}
-		// 			}
-		// 			// If scroll up
-		// 			else {
-
-		// 			}
-
-
-		// 		});
-			
-		// 	// / Fixed
-
-		// })();
-	
 		(function () {
 
 			// Fixed
@@ -219,7 +158,8 @@ $(function () {
 					// Min = top of description
 					// Max = bottom of description - height of contact
 					offsetTopRange = null,
-					flag;
+					flag,
+					forceStatic;
 
 				function resetData() {
 					// Top range = [(min),(max)]
@@ -232,6 +172,9 @@ $(function () {
 
 					// Base width = width of parent
 					$contactContainer.css('width', $contactContainer.parent().width() + 'px');
+
+					// Force static if < 992
+					forceStatic = $window.width() < 992;
 				}
 
 				// Base width = width of parent
@@ -240,11 +183,21 @@ $(function () {
 				$(window).on('resize', function () {
 					offsetTopRange = null;
 					$contactContainer.css('width', 'auto');
+					$contactContainer.css('position', 'static');
+					flag = 1
 				});
 
 				$(window).on('scroll', function () {
 					if (offsetTopRange == null) {
 						resetData();
+					}
+
+					if (forceStatic == true) {
+						if (flag != 1) {
+							$contactContainer.css('position', 'static');
+							flag = 1
+						}
+						return;
 					}
 
 					// Get current scrollTop
