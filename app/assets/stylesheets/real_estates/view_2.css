@@ -339,8 +339,32 @@
 /* Contact */
 
 	.contact-container {
-		background-color: #FFD155;
+		background-color: #38C3EA;
 		padding: 20px;
 	}
+
+		/* User info */
+		
+			.contact-container .user-info {
+			}
+		
+				.contact-container .user-info:after {
+					content: '';
+					display: table;
+					clear: both;
+				}
+		
+				.contact-container .user-info .avatar {
+					float: left;
+					background-color: #EFF1F5;
+					padding: 3px;
+					width: 100px;
+				}
+		
+					.contact-container .user-info .avatar img {
+						width: 100%;
+					}
+		
+		/* / User info */
 
 /* / Contact */
