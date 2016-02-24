@@ -289,7 +289,7 @@
 			}
 		
 				.description-container .address .name {
-					background-color: #4a525d;
+					background-color: #A27600;
 					padding: 5px 10px 5px 5px;
 					color: #fff;
 					display: inline-block;
@@ -302,7 +302,7 @@
 				}
 		
 				.description-container .address .value {
-					background-color: #B28200;
+					background-color: #CE9600;
 					display: inline-block;
 					padding: 5px 10px;
 					color: #fff;
@@ -333,7 +333,7 @@
 
 	.contact-container {
 		position: relative;
-		background-color: #fff;
+		background-color: #4a525d;
 	}
 
 		.contact-container .info-box {
@@ -350,6 +350,7 @@
 		/* User info */
 		
 			.contact-container .user-info {
+				margin-bottom: 20px;
 			}
 		
 				.contact-container .user-info:after {
@@ -369,7 +370,7 @@
 		
 				.contact-container .user-info .info {
 					margin-left: 120px;
-					color: #333;
+					color: #fff;
 				}
 		
 					.contact-container .user-info .info .name {
@@ -383,7 +384,7 @@
 					}
 		
 						.contact-container .user-info .info .text .icon {
-							color: #9FABC4;
+							color: #00D976;
 						}
 		
 		/* / User info */

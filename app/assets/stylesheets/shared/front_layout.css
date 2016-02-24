@@ -79,6 +79,7 @@ body {
 				header .top .item {
 					margin-right: -4px;
 					white-space: nowrap;
+					display: none;
 				}
 		
 					header .top .item .icon {
@@ -90,14 +91,14 @@ body {
 						line-height: 40px;
 						font-size: 20px;
 						vertical-align: bottom;
-						color: #fff;
+						color: #666;
 					}
 		
 					header .top .item .text {
 						display: inline-block;
 						padding: 0px 10px;
 						line-height: 40px;
-						color: #fff;
+						color: #666;
 					}
 		
 						/*header .top .item.facebook .icon {
@@ -418,14 +419,12 @@ body {
 				border: none;
 				border-radius: 0;
 				box-shadow: none;
-				background-color: #EFF1F5;
-				border-bottom: 1px solid #CED5E2;
+				border-bottom: 2px solid #CED5E2;
 				transition: .3s;
 			}
 
 				.form-control:focus {
-					background-color: transparent;
-					border-bottom: 1px solid #9FABC4;
+					border-bottom: 2px solid #008549;
 					animation: focus_form_control .3s;
 					box-shadow: none;
 				}

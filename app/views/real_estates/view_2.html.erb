@@ -460,10 +460,10 @@
 				<article class="info-box">
 					<section class="info-box-header">
 						<article class="info-box-title">
-							Người đăng &amp; Liên hệ
+							Liên hệ
 						</article>
 					</section>
-					<section class="info-box-body ">
+					<section class="info-box-body">
 						<article class="user-info">
 							<% if @re.user.present? %>
 								<section class="avatar">
@@ -480,7 +480,7 @@
 										</article>
 									<% end %>
 									<% if @re.user.phone_number.present? %>
-										<article class="text">
+										<article class="text" style="color: #FFC834">
 											<span class="icon ico-phone"></span>
 											<%= @re.user.phone_number %>
 										</article>
@@ -515,40 +515,33 @@
 								</section>
 							<% end %>
 						</article>
-						<article class="content-box contact-request">
-							<section class="content-box-header">
-								<article class="content-box-title">
-									Liên hệ
-								</article>
-							</section>
-							<section class="content-box-body">
-								<form>
-									<div class="row">
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<article class="form-group">
-												<input class="form-control" placeholder="Tên" />
-											</article>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<article class="form-group">
-												<input class="form-control" placeholder="Email hoặc điện thoại" />
-											</article>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-											<article class="form-group">
-												<textarea class="form-control" placeholder="Lời nhắn"></textarea>
-											</article>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-											<article class="text-center">
-												<button class="btn">
-													Gửi
-												</button>
-											</article>
-										</div>
+						<article class="contact-request">
+							<form>
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px">
+										<article class="text-center">
+											<button class="btn" style="padding-left: 25px; padding-right: 25px">
+												Gửi
+											</button>
+										</article>
 									</div>
-								</form>
-							</section>
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										<article class="form-group">
+											<input class="form-control" placeholder="Tên" />
+										</article>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										<article class="form-group">
+											<input class="form-control" placeholder="Email hoặc điện thoại" />
+										</article>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<article class="form-group">
+											<textarea class="form-control" placeholder="Lời nhắn"></textarea>
+										</article>
+									</div>
+								</div>
+							</form>
 						</article>
 					</section>
 				</article>
