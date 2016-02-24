@@ -51,7 +51,7 @@ body {
 				width: 200px;
 			}
 	
-	/* Logo */
+	/* / Logo */
 
 	/* Navigator */
 	
@@ -100,7 +100,7 @@ body {
 						color: #fff;
 					}
 		
-						header .top .item.facebook .icon {
+						/*header .top .item.facebook .icon {
 							background-color: #132E68;
 							color: #fff;
 						}
@@ -119,13 +119,13 @@ body {
 						}
 		
 						header .top .item.sign-in .icon {
-							background-color: #369836;
+							background-color: #1B7C1B;
 							color: #fff;
 						}
 			
 						header .top .item.sign-in .text {
-							background-color: #1B7C1B;
-						}
+							background-color: #369836;
+						}*/
 
 			/* User info */
 			
@@ -334,7 +334,7 @@ body {
 			}
 	
 			.info-box .info-box-header {
-				background-color: #027494;
+				background-color: #008549;
 			}
 
 			.info-box .info-box-title {
@@ -369,14 +369,15 @@ body {
 
 			.content-box .content-box-title {
 				font-size: 17px;
-				color: #1B7C1B;
+				color: #008549;
 				display: inline-block;
 				padding-right: 15px;
 				padding-bottom: 2px;
-				border-bottom: 2px solid #1B7C1B;
+				border-bottom: 2px solid #008549;
 			}
 	
 			.content-box .content-box-body {
+				padding: 5px 0;
 			}
 	
 	/* / Content box */
@@ -416,11 +417,17 @@ body {
 			.form-control {
 				border: none;
 				border-radius: 0;
+				box-shadow: none;
+				background-color: #EFF1F5;
+				border-bottom: 1px solid #CED5E2;
+				transition: .3s;
 			}
-		
+
 				.form-control:focus {
-					box-shadow: none;
+					background-color: transparent;
+					border-bottom: 1px solid #9FABC4;
 					animation: focus_form_control .3s;
+					box-shadow: none;
 				}
 
 			textarea.form-control {
@@ -432,17 +439,25 @@ body {
 				.btn {
 					border: none;
 					border-radius: 0;
-					background: #fff;
+					background: #00A459;
 					font-size: 16px;
+					color: #fff;
 				}
 
 					.btn:hover,
 					.btn:focus,
-					.btn:active,
+					.btn:active {
+						color: #fff;
+						outline: none;
+						background-color: #008549;
+						box-shadow: none;
+					}
 					.btn:focus:active {
 						outline: none;
-						background-color: #EFF1F5;
-						box-shadow: none;
+					}
+
+					.btn:active {
+						background-color: #00D976;
 					}
 
 					.btn.btn-dark {
@@ -479,4 +494,4 @@ body {
 	
 	/* / Bootstrap */
 
-/* / Override */
+/* / Override 

@@ -101,22 +101,22 @@
 				font-size: 21px;
 				padding-right: 20px;
 				padding-bottom: 5px;
-				border-bottom: 2px solid #5CB85C;
+				border-bottom: 2px solid #00D976;
 			}
 
 		.infos-container .price {
 			font-size: 17px;
-			color: #FFD155;
+			color: #FFD460;
 			margin-bottom: 10px;
 			font-weight: bold;
 		}
 
 			.infos-container .price.sell-price {
-				color: #FFD155;
+
 			}
 
 			.infos-container .price.rent-price {
-				color: #64CEEC;
+				color: #2DCEFC;
 			}
 
 		.infos-container .infos > .row > *:nth-child(2n+2) {
@@ -170,7 +170,7 @@
 					}
 
 					.infos-container .infos .more .name {
-						color: #5CB85C;
+						color: #00D976;
 						font-size: 13px;
 					}
 
@@ -242,7 +242,7 @@
 					width: 25px;
 					margin-right: 10px;
 					margin-top: 2px;
-					color: #5CB85C;
+					color: #00D976;
 				}
 
 				.infos-container .info-item .text {
@@ -251,10 +251,8 @@
 				}
 
 				.infos-container .info-item .name {
-					font-weight: bold;
 					font-size: 13px;
-					margin-bottom: 2px;
-					color: #5CB85C;
+					color: #00D976;
 				}
 
 					.infos-container .info-item .name .ico-info {
@@ -334,8 +332,8 @@
 /* Contact */
 
 	.contact-container {
-		background-color: #369836;
 		position: relative;
+		background-color: #fff;
 	}
 
 		.contact-container .info-box {
@@ -343,11 +341,6 @@
 		}
 		
 		.contact-container .info-box-header {
-			background-color: #065C06;
-		}
-
-		.contact-container .info-box-title {
-			background-color: transparent;
 		}
 		
 		.contact-container .info-box-body {
@@ -367,7 +360,6 @@
 		
 				.contact-container .user-info .avatar {
 					float: left;
-					border: 3px solid #EFF1F5;
 					width: 100px;
 				}
 		
@@ -377,14 +369,13 @@
 		
 				.contact-container .user-info .info {
 					margin-left: 120px;
-					color: #fff;
+					color: #333;
 				}
 		
 					.contact-container .user-info .info .name {
 						font-size: 21px;
 						display: inline-block;
 						padding-right: 15px;
-						color: #fff;
 					}
 		
 					.contact-container .user-info .info .text {
@@ -392,7 +383,7 @@
 					}
 		
 						.contact-container .user-info .info .text .icon {
-							color: #065C06;
+							color: #9FABC4;
 						}
 		
 		/* / User info */
