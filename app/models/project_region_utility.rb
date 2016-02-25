@@ -8,9 +8,8 @@ class ProjectRegionUtility < ActiveRecord::Base
 
 	# Attributes
 	
-		# Description
 		def display_description
-			@display_description ||= description.html_safe
+			@display_description ||= description.present? ? description.html_safe : ''
 		end
 	
 	# / Attributes

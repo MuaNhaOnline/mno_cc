@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><%= @title.blank? ? '' : @title + ' - ' %> Mua nhà online</title>
+	<title><%= @_title.blank? ? '' : @_title + ' - ' %> Mua nhà online</title>
 
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="description" content="MuaNhaOnline - Giá trị thực trong tầm tay">
-	<meta name="keyword" content="<%= @keyword %>">
+	<meta name="keyword" content="<%= @_keyword %>">
 
 	<link rel="shortcut icon" href="/assets/shared/mini_icon.ico">
 
 	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/icomoon.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/layout.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/front_layout.css">
@@ -111,31 +112,27 @@
 		<!-- / Header -->
 
 		<!-- Navigator -->
-		
-			<nav class="main-navigator">
-				<article class="container">
-					<article class="list">
-						<article class="item">
-							<a href="#">Trang chủ</a>
-						</article>
-						<article class="item">
-							<a href="#">Bất động sản</a>
-						</article>
-						<article class="item">
-							<a href="#">#RE01002</a>
+			
+			<% if @_main_navigator.present? %>
+				<nav class="main-navigator">
+					<article class="container">
+						<article class="list">
+							<% @_main_navigator.each do |item| %>
+								<article class="item">
+									<a href="<%= item[:url] %>"><%= item[:text] %></a>
+								</article>
+							<% end %>
 						</article>
 					</article>
-				</article>
-			</nav>
+				</nav>
+			<% end %>
 		
 		<!-- / Navigator -->
 
 		<!-- Main -->
 		
 			<main>
-				<article class="container">
-					<%= yield %>
-				</article>
+				<%= yield %>
 			</main>
 		
 		<!-- / Main -->
@@ -156,6 +153,6 @@
 	<script type="text/javascript" src="/assets/shared/jquery.mobile.custom.min.js"></script>
 	<script type="text/javascript" src="/assets/shared/layout.js"></script>
 	<script type="text/javascript" src="/assets/shared/front_layout.js"></script>
-	<%= yield :javascript %>
+	<%= yield :javascripts %>
 </body>
 </html>

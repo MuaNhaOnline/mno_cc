@@ -11,6 +11,10 @@ class TemporaryFile < ActiveRecord::Base
     @path ||= "app/assets/file_uploads/temporary_files/#{id}_#{name}"
   end
 
+  def path_without_id
+    @path_without_id ||= "app/assets/file_uploads/temporary_files/#{name}"
+  end
+
   def self.split_old_new arr
   	result = { new: [], old: [] }
 
@@ -30,12 +34,18 @@ class TemporaryFile < ActiveRecord::Base
     _f = TemporaryFile.find(id)
     
     if File.exists? _f.path
-      _file = File.new _f.path
+      File.rename _f.path, _f.path_without_id
+
+      _file = File.new _f.path_without_id
 
       yield _file
 
       _file.close
+
+      File.delete _f.path_without_id
     end
+
+    _f.delete
   end
 
   def self.get_files ids

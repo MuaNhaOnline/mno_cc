@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
 		def view_2
 			@project = Project.find params[:id]
 
-			render layout: nil
+			render layout: 'front_layout'
 		end
 
 	# / View
@@ -71,21 +71,10 @@ class ProjectsController < ApplicationController
 			Project.where(id: params[:id]).update_all(is_full: is_full, is_draft: is_full)
 
 			if is_full
-				redirect_to "/du-an/create_details/#{params[:id]}"
+				redirect_to "/du-an/dang-chi-tiet/#{params[:id]}"
 			else
 				redirect_to '/du-an/cua-toi'
 			end
-		end
-
-		# Handle => View
-		# params: id(*), is_full(*)
-		def set_finished_status
-			# Project.where(id: params[:id]).update_all(is_draft: false)
-
-			project = Project.find params[:id]
-			
-
-			redirect_to "/du-an/cua-toi"
 		end
 
 		# Handle
@@ -114,6 +103,12 @@ class ProjectsController < ApplicationController
 		# params: id
 		def create_details
 			@project = Project.find params[:id]
+
+			# Update step
+			if (@project.create_step < 2)
+				@project.create_step = 2
+				@project.save
+			end
 			
 			render layout: 'layout_back'
 		end
@@ -122,6 +117,12 @@ class ProjectsController < ApplicationController
 		# params: id(*)
 		def setup_interact_images
 			@project = Project.find params[:id]
+
+			# Update step
+			if (@project.create_step < 3)
+				@project.create_step = 3
+				@project.save
+			end
 
 			render layout: 'layout_back'
 		end

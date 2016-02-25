@@ -14,9 +14,32 @@
 </section>
 
 <section class="body">
+	<article class="info list">
+		<% if @project.display_campus_area.present? %>
+			<article class="list-item">
+				<span class="text">Diện tích</span>
+				<span class="value"><%= @project.display_campus_area %>m<sup>2</sup></span>
+			</article>
+		<% end %>
+		<% if @project.display_using_ratio.present? %>
+			<article class="list-item">
+				<span class="text">Mật độ xây dựng</span>
+				<span class="value"><%= @project.display_using_ratio %>%</span>
+			</article>
+		<% end %>
+	</article>
+	
 	<section class="info">
 		<% @project.blocks.each do |block| %>
-			<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a>
+			<%
+				available_count = 0
+				count = 0
+				block.real_estates.each do |re|
+					available_count += re.available_in_floors.count
+					count += re.in_floors.count
+				end
+			%>
+			<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a> <small>(còn <%= available_count %>/<%= count %>)</small>
 			<ul>
 				<li>
 					Cấu trúc
@@ -33,7 +56,7 @@
 											count += re.in_floors.count
 										end
 									%>
-									<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+									<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small>(<%= available_count %>/<%= count %>)</small>
 								<% else %>
 									<%= floor.name %>
 								<% end %>
@@ -56,7 +79,7 @@
 								end
 							%>
 							<li>
-								<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+								<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small>(<%= available_count %>/<%= count %>)</small>
 							</li>
 						<% end %>
 					</ul>

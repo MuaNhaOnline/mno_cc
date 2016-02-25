@@ -436,6 +436,10 @@
 				background-color: #3c8dbc;
 			}
 
+			.form-progress-container li.success .icon:before {
+				background-color: #00A459;
+			}
+
 		.form-progress-container .icon:after {
 			content: '';
 			display: block;
@@ -453,6 +457,10 @@
 				border-color: #3c8dbc;
 			}
 
+			.form-progress-container li.success .icon:after {
+				border-color: #00A459;
+			}
+
 		.form-progress-container .text {
 			margin-top: 25px;
 			text-align: center;
@@ -460,10 +468,14 @@
 			color: #999;
 			display: block;
 		}
-
-			.form-progress-container a.text:hover,
+		
 			.form-progress-container li.active .text {
 				color: #3c8dbc;
+			}
+
+		
+			.form-progress-container li.success .text {
+				color: #00A459;
 			}
 
 /* Progress */

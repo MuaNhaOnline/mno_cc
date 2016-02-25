@@ -1,4 +1,4 @@
-var $html, $body, $window, $document, _temp = {};
+var $html, $body, $window, $document, _temp = {}, _isSystemScroll = false;
 
 $(function () {
 	$('#loading_page').remove();
@@ -167,6 +167,77 @@ $(function () {
 		}
 
 		return false;
+	}
+
+	/*
+		params:
+			range:
+				[min, max] or func return [min, max]
+			handle:
+				[func, ...]
+				func:
+					params:
+						isDown: boolean
+			if:
+				func return boolean
+	*/
+	// function _initFixedScroll(params) {
+	// 	var 
+	// 		lastScrollTop = $window.scrollTop(),
+	// 		flag = -1;
+
+	// 	function doIt() {
+	// 		if (params.if && !params.if()) {
+	// 			return;
+	// 		}
+
+	// 		var 
+	// 			scrollTop = $window.scrollTop(),
+	// 			range = typeof params.range == 'function' ? params.range() : params.range;
+
+	// 		for (var i = 0; i < range.length; i++) {
+	// 			if (scrollTop < range[i]) {
+	// 				if (flag != i) {
+	// 					params.handle[i]({
+	// 						currentRange: flag,
+	// 						isDown: scrollTop > lastScrollTop
+	// 					});
+	// 					flag = i;
+	// 				}
+	// 			}
+	// 		}
+
+	// 		lastScrollTop = scrollTop;
+	// 	}
+
+	// 	$window.on('scroll', function () {
+	// 		doIt();
+	// 	});
+
+	// 	doIt();
+	// }
+
+	/*
+		params:
+			to: integer
+			complete: func
+	*/
+	function _scrollTo(to, params) {
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
+		_isSystemScroll = true;
+		$('html, body').animate({
+			scrollTop: to
+		}, 200, function () {
+			if (typeof params.complete == 'function') {
+				params.complete();
+			}
+			setTimeout(function () {
+				_isSystemScroll = false;
+			}, 200);
+		})
 	}
 
 // / Helper

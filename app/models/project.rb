@@ -1,3 +1,13 @@
+=begin
+	
+	Attributes
+		create_step:
+			1: basic
+			2: details
+			3: interact
+			4: ok
+=end
+
 class Project < ActiveRecord::Base
 
 	# PgSearch
@@ -123,6 +133,30 @@ class Project < ActiveRecord::Base
 				end
 			else
 				assign_attributes logo: nil
+			end
+			if params[:full_logo].present?
+				_value = JSON.parse params[:full_logo]
+
+				if _value['is_new']
+					TemporaryFile.get_file(_value['id']) do |_logo|
+						assign_attributes full_logo: _logo
+					end
+				end
+			else
+				assign_attributes full_logo: nil
+			end
+
+			# Cover image
+			if params[:cover_image].present?
+				_value = JSON.parse params[:cover_image]
+
+				if _value['is_new']
+					TemporaryFile.get_file(_value['id']) do |_image|
+						assign_attributes cover_image: _image
+					end
+				end
+			else
+				assign_attributes full_logo: nil
 			end
 
 			# Images
@@ -278,6 +312,10 @@ class Project < ActiveRecord::Base
 			}
 
 			assign_attributes other_params
+
+			if create_step < 1
+				assign_attributes create_step: 1
+			end
 
 			assign_meta_search
 
@@ -632,9 +670,21 @@ class Project < ActiveRecord::Base
 		# Logo
 		has_attached_file :logo,
 			default_url: "/assets/projects/:style/default.png", 
+  			styles: { medium: '400x200' },
 			:path => ":rails_root/app/assets/file_uploads/project_logos/:style/:id_:filename", 
 			:url => "/assets/project_logos/:style/:id_:filename"
 		validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/
+		has_attached_file :full_logo,
+  			styles: { medium: '400x200' },
+			default_url: "/assets/projects/:style/default.png", 
+			:path => ":rails_root/app/assets/file_uploads/project_full_logos/:style/:id_:filename", 
+			:url => "/assets/project_full_logos/:style/:id_:filename"
+		validates_attachment_content_type :full_logo, content_type: /\Aimage\/.*\Z/
+		has_attached_file :cover_image,
+			default_url: "/assets/projects/:style/default.png", 
+			:path => ":rails_root/app/assets/file_uploads/project_cover_images/:style/:id_:filename", 
+			:url => "/assets/project_cover_images/:style/:id_:filename"
+		validates_attachment_content_type :cover_image, content_type: /\Aimage\/.*\Z/
 
 		# ID
 		def display_id
@@ -644,6 +694,11 @@ class Project < ActiveRecord::Base
 		# Slug
 		def full_slug
 			@full_slug ||= "#{slug}-#{id}"
+		end
+
+		# Project type
+		def display_project_type
+			@display_project_type ||= project_type.present? ? I18n.t("project_type.text.#{project_type.name}") : ''
 		end
 
 		# Full address
@@ -659,6 +714,16 @@ class Project < ActiveRecord::Base
 		# Position description
 		def display_position_description
 			@display_position_description ||= (position_description.present? ? position_description.html_safe : nil)
+		end
+
+		# Area
+		def display_campus_area
+			@display_campus_area ||= campus_area.present? ? ApplicationHelper.display_decimal(campus_area) : ''
+		end
+
+		# Using ratio
+		def display_using_ratio
+			@display_using_ratio ||= using_ratio.present? ? ApplicationHelper.display_decimal(using_ratio) : ''
 		end
 
 		# Payment method

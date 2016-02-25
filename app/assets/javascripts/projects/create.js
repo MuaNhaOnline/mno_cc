@@ -23,20 +23,23 @@ $(function () {
 				if (data.status == 0) {
 					popupPrompt({
 						title: _t.form.success_title,
-						content: 'Bạn đã đăng dự án thành công, nếu đăng chi tiết, bạn có thể xây dựng dự án rõ ràng hơn. Bạn có muốn tiếp tục đăng chi tiết hay không?',
+						content: 'Chúc mừng, Bạn đã đăng dự án thành công. Bạn có muốn tiếp tục đăng chi tiết không?',
+						// content: 'Bạn đã đăng dự án thành công, nếu đăng chi tiết, bạn có thể xây dựng dự án rõ ràng hơn. Bạn có muốn tiếp tục đăng chi tiết hay không?',
 						type: 'success',
 						esc: false,
 						buttons: [
 							{
-								text: 'Chi tiết',
+								text: 'Có',
 								type: 'primary',
 								handle: function () {
-									window.location = '/projects/set_is_full_status/' + data.result + '/1';
+									window.location = '/du-an/dang-chi-tiet/' + data.result;
+									// window.location = '/projects/set_is_full_status/' + data.result + '/1';
 								}
 							}, {
-								text: 'Không',
+								text: 'Để sau',
 								handle: function () {
-									window.location = '/projects/set_is_full_status/' + data.result + '/0';
+									window.location = '/du-an/cua-toi';
+									// window.location = '/projects/set_is_full_status/' + data.result + '/0';
 								}
 							}
 						]

@@ -565,6 +565,10 @@ function initForm($form, params) {
 
 										$item.remove();
 										$wrapper.removeClass('full');
+
+										if ($previewList.children('.preview').length == 0) {
+											$wrapper.removeClass('has')
+										}
 									});
 
 									if (isMulti) {
@@ -755,6 +759,10 @@ function initForm($form, params) {
 
 									$item.remove();
 									$wrapper.removeClass('full');
+
+									if ($previewList.children('.preview').length == 0) {
+										$wrapper.removeClass('has')
+									}
 								});
 
 								if (isMulti) {
@@ -1273,6 +1281,10 @@ function initForm($form, params) {
 
 							$item.remove();
 							$wrapper.removeClass('full');
+
+							if ($previewList.children('.preview').length == 0) {
+								$wrapper.removeClass('has')
+							}
 						});
 					}
 				});

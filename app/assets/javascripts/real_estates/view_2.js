@@ -29,7 +29,7 @@ $(function () {
 	
 		(function () {
 			// Get infos row
-			var $infos_row = $('.infos-container .infos > .row');
+			var $infosRow = $('.infos-container .infos > .row');
 
 			// Find all more element
 			$('.infos-container .info-item .more').each(function () {
@@ -48,8 +48,8 @@ $(function () {
 						$item.removeClass('active');
 
 						// Remove current more
-						$removes = $infos_row.children('.more, .buffer-more');
-						$more = $infos_row.children('.more');
+						$removes = $infosRow.children('.more, .buffer-more');
+						$more = $infosRow.children('.more');
 						$more.animate({
 							top: '-10px'
 						}, 200, function () {
@@ -61,12 +61,12 @@ $(function () {
 					// Else => on
 					else {
 						// Remove current more
-						$remove_class = $infos_row.find('.has-more.active');
-						$removes = $infos_row.children('.more, .buffer-more');
-						$remove_more = $infos_row.children('.more');
-						$remove_more.slideUp(300, function () {
+						$removeClass = $infosRow.find('.has-more.active');
+						$removes = $infosRow.children('.more, .buffer-more');
+						$removeMore = $infosRow.children('.more');
+						$removeMore.slideUp(300, function () {
 							$removes.remove();
-							$remove_class.removeClass('active')
+							$removeClass.removeClass('active')
 						});
 						
 						// Set status
@@ -82,14 +82,14 @@ $(function () {
 
 							// If this is last child => append last
 							if ($parent.is(':last-child')) {
-								$infos_row.append($more);
+								$infosRow.append($more);
 							}
 							// Else => find while checked element in other line (offset top !=)
 							else {
 								$pos = (function findPosition($checkedElement) {
 									// If is last child => append last, return true
 									if ($checkedElement.is(':last-child')) {
-										$infos_row.append($more);
+										$infosRow.append($more);
 										return true;
 									}
 
@@ -132,7 +132,7 @@ $(function () {
 				lat = $map.data('lat'),
 				long = $map.data('long');
 
-			_init_map('map', {
+			_initMap('map', {
 				markers: [
 					{ 
 						latLng: { lat: lat, lng: long } 

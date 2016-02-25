@@ -15,7 +15,6 @@
 
 <section class="body">
 	<article class="info list">
-		Thông tin
 		<% if @group.bedroom_number.present? %>
 			<article class="list-item">
 				<span class="text">Phòng ngủ</span>
@@ -70,4 +69,28 @@
 			<% end %>
 		</ul>
 	</article>
+
+	<% if @group.block.real_estate_groups.count > 1 %>
+		<article class="info">
+			Các nhóm khác
+			<ul>
+				<% @group.block.real_estate_groups.each do |group| %>
+					<%
+						next if group.id == @group.id
+
+						available_count = 0
+						count = 0
+						group.real_estates.each do |re|
+							available_count += re.available_in_floors.count
+							count += re.in_floors.count
+						end
+					%>
+					<li>
+						<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+					</li>
+				<% end %>
+			</ul>
+		</article>
+	<% end %>
+
 </section>

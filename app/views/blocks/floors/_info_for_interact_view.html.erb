@@ -44,24 +44,26 @@
 		</ul>
 	</article>
 
-	<article class="info">
-		Các tầng khác
-		<ul>
-			<% @floor.block.floors.each do |floor| %>
-				<%
-					next if floor.id == @floor.id
+	<% if @floor.block.floors.count > 1 %>
+		<article class="info">
+			Các tầng khác
+			<ul>
+				<% @floor.block.floors.each do |floor| %>
+					<%
+						next if floor.id == @floor.id
 
-					available_count = 0
-					count = 0
-					floor.real_estates.each do |re|
-						available_count += re.available_in_floors.count
-						count += re.in_floors.count
-					end
-				%>
-				<li>
-					Tầng <%= floor.floors_text %>: <a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
-				</li>
-			<% end %>
-		</ul>
-	</article>
+						available_count = 0
+						count = 0
+						floor.real_estates.each do |re|
+							available_count += re.available_in_floors.count
+							count += re.in_floors.count
+						end
+					%>
+					<li>
+						Tầng <%= floor.floors_text %>: <a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+					</li>
+				<% end %>
+			</ul>
+		</article>
+	<% end %>
 </section>

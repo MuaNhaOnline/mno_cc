@@ -16,7 +16,7 @@ $(function () {
 					lat: ...
 					long: ...
 	*/
-	function _init_map(id, params) {
+	function _initMap(id, params) {
 		if (typeof params === 'undefined') {
 			params = {}
 		}

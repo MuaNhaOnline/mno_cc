@@ -1,7 +1,6 @@
 var projectId;
 
 $(function () {
-
 	_initTabContainer($('.free-style-tab-container'));
 	$('.utilities .manual-horizontal-list').each(function (index) {
 		_initManualHorizontalList($(this), {
@@ -11,60 +10,150 @@ $(function () {
 		});
 	});
 
+	// Cover page
+		
+		(function () {
+			$('#side_bar').css({
+				left: '-50px',
+				opacity: '0'
+			});
+
+			$('#cover_content').css({
+				bottom: '-100px',
+				opacity: '0'
+			});
+
+			setTimeout(function () {
+				$('#cover_image').css({
+					filter: 'brightness(.5)',
+					'-webkit-filter': 'brightness(.5)'
+				});	
+
+				setTimeout(function () {
+
+					$('#cover_content').css({
+						bottom: '0',
+						opacity: '1'
+					});
+
+					setTimeout(function () {
+						$('#side_bar').css({
+							left: '0',
+							opacity: '1'
+						});
+					}, 500);
+
+				}, 500);
+
+			}, 2000);
+		})();
+	
+	// / Cover page
+
 	// Side bar
 	
 		(function () {
 			var 
 				lastScrollTop = $window.scrollTop(),
+				// Flag for dont check while scrolling
 				isScrolling = false,
 				$sideBar = $('#side_bar'),
 				$contentPanel = $('#content_panel'),
-				$focusingBox = [];
+				$focusingBox = [],
+				// 1 => top
+				// 2 => bottom
+				// 3 => reach bottom
+				positionFlag;
 
 			// Scroll
-			
-				$window.on('scroll', function () {
-					if (!isScrolling) {
-						scrollTop = $window.scrollTop();
-						// If (scroll down)
-						if (scrollTop > lastScrollTop) {
-							// If scroll down from cover
-							if (lastScrollTop < $window.height()) {
-								isScrolling = true;
+
+				(function () {
+
+					var 
+						// 1: above, 2: middle, 3: below
+						flag = -1;
+
+					function fixedSideBar() {
+						var scrollTop = $window.scrollTop();
+
+						// Above content
+						if (scrollTop < $contentPanel.offset().top) {
+							// Scroll up => top
+							if (scrollTop < lastScrollTop) {
+								if (flag == 1) {
+									return;
+								}
+								flag = 1;
+
+								$sideBar.addClass('top').removeClass('bottom');
+								$sideBar.css({
+									position: 'fixed',
+									top: '100px'
+								});
+
+								_scrollTo(0, {
+									complete: function () {
+										lastScrollTop = 0;
+									}
+								});
+							}
+							else {
+								if (flag == 2) {
+									return;
+								}
+								flag = 2;
+
 								$sideBar.addClass('bottom').removeClass('top');
-								$('html,body').animate({
-									scrollTop: $window.height()
-								}, 200, function () {
-									isScrolling = false;
-									lastScrollTop = $window.height();
+								$sideBar.css({
+									position: 'fixed',
+									top: '0'
+								});
+
+								_scrollTo($window.height(), {
+									complete: function () {
+										lastScrollTop = $window.height();
+									}
 								});
 							}
 						}
-						// Else (scroll up)
+						// Content
+						else if (scrollTop < $contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) {
+							if (flag == 2) {
+								return;
+							}
+							flag = 2;
+
+							$sideBar.addClass('bottom').removeClass('top');
+							$sideBar.css({
+								position: 'fixed',
+								top: '0'
+							});
+						}
+						// Below content
 						else {
-							// If scroll up from content to cover
-							if (scrollTop < $window.height()) {
-								isScrolling = true;
-								$sideBar.addClass('top').removeClass('bottom');
-								$('html,body').animate({
-									scrollTop: 0
-								}, 200, function () {
-									isScrolling = false;
-									lastScrollTop = 0;
-									$focusingBox = [];
-									$sideBar.find('.navigator .active').removeClass('active');
-								});
-							}	
+							if (flag == 3) {
+								return;
+							}
+							flag = 3;
+
+							$sideBar.css({
+								position: 'absolute',
+								top: ($contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) + 'px'
+							});
 						}
 					}
-				});
 
-				if ($window.scrollTop() < $window.height()) {
-					$sideBar.addClass('top').removeClass('bottom');
-				}
-				else {
-					$sideBar.addClass('bottom').removeClass('top');
-				}
+					$window.on('scroll', function () {
+						if (_isSystemScroll) {
+							return;
+						}
+
+						fixedSideBar();
+					});
+
+					fixedSideBar();
+
+				})();				
 
 			// / Scroll
 
@@ -77,17 +166,11 @@ $(function () {
 
 					$focusingBox = $contentPanel.find('.box[aria-name="' + $item.attr('aria-name') + '"]');
 
-					isScrolling = true;
-					$sideBar.addClass('bottom').removeClass('top');
-					$('html,body').animate({
-						scrollTop: $focusingBox.offset().top
-					}, 200, function () {
-						isScrolling = false;
-					});
+					_scrollTo($focusingBox.offset().top);
 				});
 
 				$window.on('scroll', function () {
-					if (!isScrolling) {
+					if (_isSystemScroll) {
 						// If focus nothing => read all
 						if ($focusingBox.length == 0) {
 							$contentPanel.find('.box[aria-name]').each(function () {
@@ -103,7 +186,14 @@ $(function () {
 							scrollTop = $window.scrollTop();
 
 							$checkBox = scrollTop > lastScrollTop ? $focusingBox.next() : $focusingBox.prev();
-							if (canSee($checkBox)) {
+							// Check if current is last or first => check if can't see => unactive
+							if ($checkBox.length == 0) {
+								if (!canSee($focusingBox)) {
+									$sideBar.find('.navigator .active').removeClass('active');
+									$focusingBox = $();
+								}
+							}
+							else if (canSee($checkBox)) {
 								$sideBar.find('.navigator .active').removeClass('active');
 								$sideBar.find('.navigator [aria-name="' + $checkBox.attr('aria-name') + '"]').parent().addClass('active');
 								$focusingBox = $checkBox;
@@ -124,7 +214,7 @@ $(function () {
 	// Map
 
 		$map = $('#map');
-		initMap($map[0], {
+		_initMap('map', {
 			markers: [
 				{
 					latLng: {
@@ -134,64 +224,6 @@ $(function () {
 				}
 			]
 		});
-
-		/*
-			params:
-				id(*)
-				params:
-					zoom: 17
-					center: {}
-						lat: first_market || 10.771528380460218
-						lng: first_market || 106.69838659487618
-					markers: [{
-						latLng: {
-							lat: ...
-							lng: ...
-						}
-					}]
-		*/
-		function initMap(element, params) {
-			if (typeof params === 'undefined') {
-				params = {}
-			}
-
-			var options = {
-				scrollwheel: false
-			};
-
-			options.zoom = params.zoom || 14;
-
-			if ('center' in params ) {
-				options.center = params.center
-			}
-			else if ('markers' in params && params.markers.length > 0) {
-				options.center = { lat: params.markers[0].latLng.lat, lng: params.markers[0].latLng.lng };
-			}
-			else {
-				options.center = { lat: 10.771528380460218, lng: 106.69838659487618 }; 
-			}
-
-			var map = new google.maps.Map(element, options);
-
-			$(params.markers).each(function () {
-				new google.maps.Marker({
-					position: this.latLng,
-					map: map,
-					title: this.title || '...'
-				});
-			})
-
-			$(element).on({
-				'focus, click': function () {
-					map.setOptions({'scrollwheel': true});
-				},
-				focusout: function () {
-					map.setOptions({'scrollwheel': false});
-				}
-			}).attr('tabindex', '0').css('outline', '0');
-
-			return map;
-		}
 
 	// / Map
 
@@ -204,7 +236,8 @@ $(function () {
 				$listPanel = $container.find('.list-panel'),
 				$list = $container.find('.list'),
 				$imageList = $container.find('.image-list');
-				$img = $container.find('.image-panel img');
+				$img = $container.find('.image-panel img')
+				$description = $container.find('.image-panel .description');
 
 			// Click event
 			
@@ -245,6 +278,24 @@ $(function () {
 						}).first().click();
 					
 					// / Create images list
+
+					// Update description
+
+						if ($item.find('.description').text()) {
+							$description.show().text($item.find('.description').text());
+						}
+						else {
+							$description.hide();
+						}
+					
+					// / Update description
+
+					// Update color
+					
+						$listPanel.css('border-right-color', $item.data('color'));
+						$description.css('background-color', $item.data('color'));
+					
+					// / Update color
 					
 				}).first().click();
 			
@@ -342,30 +393,6 @@ $(function () {
 						delete params['reset'];
 					}
 
-					// Set view by
-						
-						// View was set view by
-						// => if view project/block => unset view by
-						if (viewByType && (type == 'project' || type == 'block')) {
-							viewByType = '';
-						}
-						else {
-							// => if view by group && view group => view by group (change group)
-							if (type == 'real_estates/group' && (!viewByType || viewByType == 'group')) {
-								viewByType = 'group';
-								viewById = id;
-								viewByName = params['text'] || '';
-							}
-							// => if view by floor & view floor => view by floor (change floor)
-							if (type == 'blocks/floor' && (!viewByType || viewByType == 'floor')) {
-								viewByType = 'floor';
-								viewById = id;
-								viewByName = params['text'] || '';
-							}
-						}
-
-					// / Set view by
-
 					// Get data
 					if ((type + '/' + id) in interactData) {
 						history.push(interactData[type + '/' + id]);
@@ -381,7 +408,8 @@ $(function () {
 								interactData[type + '/' + id] = {
 									type: type,
 									id: id,
-									data: data.result
+									data: data.result,
+									text: params['text'] || ''
 								};
 
 								history.push(interactData[type + '/' + id]);
@@ -430,6 +458,31 @@ $(function () {
 					id = history[history.length - 1].id;
 					type = history[history.length - 1].type;
 					data = history[history.length - 1].data;
+
+					// Set view by
+						
+						// View was set view by
+						// => if view project/block => unset view by
+						if (viewByType && (type == 'project' || type == 'block')) {
+							viewByType = '';
+						}
+						else {
+							// => if view by group && view group => view by group (change group)
+							if (type == 'real_estates/group' && (!viewByType || viewByType == 'group')) {
+								viewByType = 'group';
+								viewById = id;
+								viewByName = history[history.length - 1].text || '';
+							}
+							// => if view by floor & view floor => view by floor (change floor)
+							if (type == 'blocks/floor' && (!viewByType || viewByType == 'floor')) {
+								viewByType = 'floor';
+								viewById = id;
+								viewByName = history[history.length - 1].text || '';
+							}
+						}
+
+					// / Set view by
+
 					if (history.length > 1) {
 						$backButton.show();
 					}
@@ -931,21 +984,6 @@ $(function () {
 
 			// Buttons
 
-				// $infoButton.on({
-				// 	click: function (e) {
-				// 		$infoPanel.addClass('active');
-
-				// 		setTimeout(function () {
-							$imagePanel.on({
-								'click.active_info_panel': function () {
-									$infoPanel.removeClass('active');
-									$imagePanel.off('.active_info_panel');
-								}
-							})
-				// 		});
-				// 	}
-				// });
-
 				$infoPanel.on('click', function (e) {
 					e.stopPropagation();
 					if ($infoPanel.hasClass('active')) {
@@ -959,7 +997,7 @@ $(function () {
 					}, 200, function () {
 						$infoPanel.animate({
 							width: '300px'
-						}, 100)
+						}, 200)
 					});
 
 					// Off event
@@ -972,7 +1010,7 @@ $(function () {
 								$infoPanel.animate({
 									// 41: heading padding + 1 (for decimal)
 									width: ($infoPanel.find('.title').outerWidth() + 41) + 'px'
-								}, 100)
+								}, 200)
 							});
 							$imagePanel.add($imageList).off('.active_info_panel');
 						}
@@ -1003,6 +1041,9 @@ $(function () {
 		var 
 			$productInteract = $('#product_interact'),
 			$arrow = $productInteract.find('.arrow:eq(0)');
+
+		$productInteract.after('<hidden></hidden><hidden></hidden>');
+
 		startProductInteract = initInteractImage($productInteract);
 
 		$('#products_container').find('.item-container').on('click', function () {
@@ -1012,46 +1053,34 @@ $(function () {
 			// Call product interact
 			
 			// Find position
-				$itemBefore = $item;
-				$positionBefore = (findPosition = function ($checkItem) {
-					// If this is empty => choose item before
-					if ($checkItem.length == 0) {
-						return $itemBefore;
+
+				// Find while catch element in other line => before of that
+				// or last child => that
+				$positionBefore = (function findPosition($checkedItem) {
+					if ($checkedItem.is(':last-child')) {
+						return $checkedItem;
 					}
 
-					// If this is product interact => next
-					if ($checkItem.is('#productInteract')) {
-						findPosition($checkItem.next());
+					if ($checkedItem.offset().top != $item.offset().top) {
+						return $checkedItem.prev();
 					}
 
-					// If this is a last child => choose
-					if ($checkItem.is(':last-child')) {
-						return $checkItem;
-					}
-
-					// If this is a new line => choose before
-					if ($item.offset().top != $checkItem.offset().top) {
-						return $itemBefore;
-					}
-
-					$itemBefore = $checkItem;
-
-					return findPosition($checkItem.next());
-				})($item.next());
+					return findPosition($checkedItem.next());
+				})($item);
 
 			// / Find position
 			
 			// Append product
-			
+
 				startProductInteract('real_estates/group', $item.data('value'), {
 					reset: true,
 					text: $item.find('.title').text()
 				});
-				$itemBefore.after($productInteract.show());
+				$positionBefore.after($productInteract.show().add($productInteract.nextAll(':lt(2)')));
 				// Calc arrow position
 				$arrow.css('left', $item.offset().left + ($item.width() / 2) + 2 - $productInteract.offset().left);
 				// Scroll to panel
-				$body.animate({
+				$('html,body').animate({
 					scrollTop: $productInteract.offset().top - $window.height() * 0.1
 				}, 100);
 				

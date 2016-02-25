@@ -1196,16 +1196,16 @@ class RealEstate < ActiveRecord::Base
 
 		# Area
 		def display_area
-			@display_area ||= fields.include?(:campus_area) ? ApplicationHelper.display_decimal(campus_area) : (fields.include?(:constructional_area) ? ApplicationHelper.display_decimal(constructional_area) : ApplicationHelper.display_decimal(using_area)) 
+			@display_area ||= fields.include?(:campus_area) && campus_area.present? ? ApplicationHelper.display_decimal(campus_area) : (fields.include?(:constructional_area) ? ApplicationHelper.display_decimal(constructional_area) : ApplicationHelper.display_decimal(using_area)) 
 		end
 		def display_campus_area
-			@display_campus_area ||= fields.include?(:campus_area) ? ApplicationHelper.display_decimal(campus_area) : ''
+			@display_campus_area ||= fields.include?(:campus_area) && campus_area.present? ? ApplicationHelper.display_decimal(campus_area) : ''
 		end
 		def display_constructional_area
-			@display_constructional_area ||= fields.include?(:constructional_area) ? ApplicationHelper.display_decimal(constructional_area) : ''
+			@display_constructional_area ||= fields.include?(:constructional_area) && constructional_area.present? ? ApplicationHelper.display_decimal(constructional_area) : ''
 		end
 		def display_using_area
-			@display_using_area ||= fields.include?(:using_area) ? ApplicationHelper.display_decimal(using_area) : ''
+			@display_using_area ||= fields.include?(:using_area) && using_area.present? ? ApplicationHelper.display_decimal(using_area) : ''
 		end
 
 		# Width

@@ -58,15 +58,17 @@
 			</li>
 		</ul>
 	</article>
-	<article class="info">
-		Các block khác
-		<ul>
-			<% @block.project.blocks.each do |block| %>
-				<%
-					next if block.id == @block.id
-				%>
-				<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a>
-			<% end %>
-		</ul>
-	</article>
+	<% if @block.project.blocks.count > 1 %>
+		<article class="info">
+			Các block khác
+			<ul>
+				<% @block.project.blocks.each do |block| %>
+					<%
+						next if block.id == @block.id
+					%>
+					<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a>
+				<% end %>
+			</ul>
+		</article>
+	<% end %>
 </section>
