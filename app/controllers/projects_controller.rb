@@ -168,10 +168,20 @@ class ProjectsController < ApplicationController
 						errors << {
 							type: 'surface',
 							id: block.id,
-							name: re.label
+							name: re.short_label
 						}
 					end
 				end
+			end
+
+			if errors.length == 0
+				project.blocks.each do |block|
+					block.real_estates.each do |re|
+						re.build_in_floors
+					end
+				end
+				project.create_step = 4
+				project.save
 			end
 
 			render json: { status: 0, result: errors }

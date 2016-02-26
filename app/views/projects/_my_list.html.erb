@@ -1,53 +1,59 @@
 <% projects.each do |p| %>
-  <% 
-    # Get status
-    status = '';
-    if p.is_draft
-      status = 'draft '
-    else
-      if p.is_pending
-        status = 'pending '
-      end
+	<% 
+		# Get status
+		status = '';
+		if p.is_draft || p.create_step != 4
+			status = 'draft '
+		else
+			if p.is_pending
+				status = 'pending '
+			end
 
-      if p.is_show
-        status += 'show'
-      end
-    end
-  %>
+			if p.is_show
+				status += 'show'
+			end
+		end
+	%>
 
-  <article class="col-md-3 col-sm-4 col-ss-6 col-xs-12">
-    <article class="item" data-value="<%= p.id %>" data-status="<%= status %>">
-      <section class="top">
-        <a href="/du-an/<%= p.full_slug %>">
-          <%= project_avatar p %>
-        </a>
-        <section class="left">
-          <article class="node">
-            <span><b><%= ApplicationHelper.id_format p.id, 'PR' %></b></span>
-          </article>
-        </section>
-        <section class="right circle-node" aria-name="status">
-        </section>
-      </section>
-      <section class="bottom">
-        <p class="title">
-          <%= p.project_name %>
-        </p>
-        <p class="address">
-          <span class="fa fa-fw fa-map-marker"></span> <%= p.display_address %>
-        </p>
-      </section>
-      <section class="control">
-        <span class="node">
-          <a aria-click="change-show-status" href="javascript:void(0)" class="fa fa-lg"></a>
-        </span>
-        <span class="node">
-          <a aria-click="edit" href="/du-an/chinh-sua/<%= p.id %>" class="fa fa-pencil fa-lg"></a>
-        </span>
-        <span class="node">
-          <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
-        </span>
-      </section>
-    </article>
-  </article>
+	<article class="col-md-3 col-sm-4 col-ss-6 col-xs-12">
+		<article class="item" data-value="<%= p.id %>" data-status="<%= status %>">
+			<section class="top">
+				<a href="/du-an/<%= p.full_slug %>">
+					<%= project_avatar p %>
+				</a>
+				<section class="left">
+					<article class="node">
+						<span><b><%= ApplicationHelper.id_format p.id, 'PR' %></b></span>
+					</article>
+				</section>
+				<section class="right circle-node" aria-name="status">
+				</section>
+			</section>
+			<section class="bottom">
+				<p class="title">
+					<%= p.project_name %>
+				</p>
+				<p class="address">
+					<span class="fa fa-fw fa-map-marker"></span> <%= p.display_address %>
+				</p>
+			</section>
+			<section class="control">
+				<% if p.create_step == 4 %>
+					<span class="node">
+						<a aria-click="change-show-status" href="javascript:void(0)" class="fa fa-lg"></a>
+					</span>
+					<span class="node">
+						<a aria-click="edit" href="/du-an/chinh-sua/<%= p.id %>" class="fa fa-pencil fa-lg"></a>
+					</span>
+				<% else %>
+					<span class="node">
+						<a aria-click="continue" class="fa fa-pencil fa-lg" data-step="<%= p.create_step %>"></a>
+					</span>
+				<% end %>
+				<span class="node">
+					<a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+				</span>
+			</section>
+		</article>
+	</article>
 <% end %>

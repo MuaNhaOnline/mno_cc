@@ -495,12 +495,11 @@ class RealEstate < ActiveRecord::Base
 
 		# Build in floor
 
-			def self.build_in_floors _id
+			def build_in_floors
 
-				re = find _id
-				re.in_floors = []
+				in_floors = []
 
-				def self._parseFloors string
+				def _parseFloors string
 					# Format
 					string = string.gsub(/[^0-9\-,]/, '')
 
@@ -541,11 +540,11 @@ class RealEstate < ActiveRecord::Base
 					list.uniq.sort
 				end
 
-				re.floor_infos_text.each do |_info|
+				floor_infos_text.each do |_info|
 					_parseFloors(_info['floors']).each do |_floor_number|
 						_floor_info = FloorRealEstate.new status: 'available'
 
-						_floor_info.label = re.label.gsub('{f}', _floor_number.to_s)
+						_floor_info.label = label.gsub('{f}', _floor_number.to_s)
 						_floor_info.floor = _floor_number
 
 						if _info['sell_price'].present?
@@ -602,11 +601,11 @@ class RealEstate < ActiveRecord::Base
 							_floor_info.rent_price_text = _floor_info.rent_price
 						end
 
-						re.in_floors << _floor_info
+						in_floors << _floor_info
 					end
 				end
 
-				re.save
+				save
 
 			end
 

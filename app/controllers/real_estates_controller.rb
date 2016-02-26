@@ -547,7 +547,7 @@ class RealEstatesController < ApplicationController
 								description[:description][:id] = surface_description.real_estate_description.real_estate_id
 
 								# Detect position
-								if @position.real_estate.id == surface_description.real_estate_description.real_estate_id
+								if @re.id == surface_description.real_estate_description.real_estate_id
 									description[:status] = 'highlight'
 								end
 							when 'text_image'

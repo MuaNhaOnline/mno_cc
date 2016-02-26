@@ -1420,7 +1420,7 @@ $(function () {
 				x, y
 			}
 			items(*): [{
-				text, handler
+				text, handle
 			}]
 	*/
 	function _contextMenu(params) {
@@ -1435,7 +1435,7 @@ $(function () {
 		$contextMenu.html($list);
 
 		// Create items
-		
+			
 			$(params['items']).each(function () {
 				$item = $(
 					'<li>' +
@@ -1445,25 +1445,27 @@ $(function () {
 					'</li>'
 				);
 
-				$item.on('click', this.handler);
+				$item.on('click', this.handle)
 				$list.append($item);
 			});
 		
 		// / Create items
-	
+
 		// Events
-		
-			$document.click().on({
-				'click.context-menu': function () {
-					$contextMenu.remove();
-					$document.off('.context-menu');
-				},
-				'keydown.context-menu': function (e) {
-					if (e.keyCode == 27) {
+			
+			setTimeout(function () {
+				$document.on({
+					'click.context-menu': function () {
 						$contextMenu.remove();
-						$document.off('.context-menu');	
+						$document.off('.context-menu');
+					},
+					'keydown.context-menu': function (e) {
+						if (e.keyCode == 27) {
+							$contextMenu.remove();
+							$document.off('.context-menu');	
+						}
 					}
-				}
+				});
 			});
 			
 		// / Events

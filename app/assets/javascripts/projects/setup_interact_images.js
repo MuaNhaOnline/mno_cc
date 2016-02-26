@@ -46,7 +46,7 @@ $(function () {
 							}, 100);
 						}
 						else {
-							alert('OK');
+							window.location = '/du-an/cua-toi'
 						}
 					}
 					else {
@@ -1435,7 +1435,7 @@ $(function () {
 						items: [
 							{
 								text: 'Mô tả',
-								handler: function () {
+								handle: function () {
 									openSelectDescription({
 										save: function (data) {
 											$object.data('description', data);
@@ -1452,7 +1452,7 @@ $(function () {
 							},
 							{
 								text: 'Xóa',
-								handler: function () {
+								handle: function () {
 									$object.data('remove_method')();
 								}
 							}
