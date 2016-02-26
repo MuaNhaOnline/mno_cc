@@ -142,6 +142,9 @@
 			<a aria-name="image" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-picture-o fa-lg "></i></div><div class="text"><%= t 'project.attribute.image' %></div>
 			</a>
+			<a aria-name="image" href="javascript:void(0)" class="item">
+				<div class="icon"><i class="fa fa-display fa-lg "></i></div><div class="text">Giao diện</div>
+			</a>
 			<a aria-name="button" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-check fa-lg "></i></div><div class="text">
 			</a>
@@ -337,7 +340,7 @@
 								<!-- Campus area -->
 
 									<article class="form-group col-ss-6">
-										<label class="control-label" for="campus_area"><%= t 'project.attribute.campus_area' %></label>
+										<label class="control-label" for="campus_area">Diện tích</label>
 										<sup class="required-label"></sup>
 										<div class="input-group">
 											<input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @project.campus_area %>" />
@@ -880,13 +883,33 @@
 								<p>Hãy chọn <b>hình đại diện</b> bằng cách click vào hình</p>
 								<input class="file-upload" data-constraint="required" type="file" multiple name="project[image_ids][]" aria-name="image_upload" data-amount="10" data-types="image" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar data-has_order />
 							</article>
+						</section>
+					</article>
 
+				<!-- / Images -->
+
+				<!-- Images -->
+
+					<article aria-name="display" class="box box-default">
+						<section class="box-header with-border">
+							<h2 class="box-title">
+								Giao diện
+							</h2>
+						</section>
+						<section class="box-body">
 							<article class="form-group">
 								<label class="control-label">
 									Ảnh bìa
 									<sup class="required-label"></sup>
 								</label>
 								<input data-constraint="required" data-init-value="<%= cover_image_init_value %>" name="project[cover_image]" class="file-upload" type="file" data-types="image" />
+							</article>
+							<article class="form-group">
+								<label class="control-label">
+									Màu chủ đạo
+									<sup class="required-label"></sup>
+								</label>
+								<input data-constraint="required" aria-input-type="color" name="project[main_color]" class="form-control" value="<%= @project.main_color %>" />
 							</article>
 						</section>
 					</article>

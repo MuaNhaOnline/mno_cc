@@ -1,6 +1,10 @@
-var projectId;
+var projectId, mainColor;
 
 $(function () {
+	$window.on('unload', function () {
+		$window.scrollTop(0);
+	})
+
 	_initTabContainer($('.free-style-tab-container'));
 	$('.utilities .manual-horizontal-list').each(function (index) {
 		_initManualHorizontalList($(this), {
@@ -9,6 +13,67 @@ $(function () {
 			auto_next_delay: index * 2000
 		});
 	});
+
+	// Main color
+		
+		(function () {
+			var 
+				lighten80 = tinycolor(mainColor).lighten(80).toString(),
+				desaturate20 = tinycolor(mainColor).desaturate(20).darken(5).toString(),
+				desaturate40 = tinycolor(mainColor).desaturate(40).darken(5).toString(),
+				desaturate60 = tinycolor(mainColor).desaturate(60).darken(5).toString();
+
+			$('header').append(
+				'<style>' +
+					'.side-bar .navigator li:hover:after {' +
+						'background-color: ' + desaturate40 + ';' +
+					'}' +
+					'.content-panel .box .box-title {' +
+						'background-color: ' + desaturate60 + ';' +
+						'border-left-color: ' + desaturate40 + ';' +
+						'border-right-color: ' + desaturate40 + ';' +
+						'color: ' + lighten80 + ';' +
+					'}' +
+					'.content-panel .address .name {' +
+						'background-color: ' + desaturate40 + ';' +
+						'color: ' + lighten80 + ';' +
+					'}' +
+					'.content-panel .address .value {' +
+						'background-color: ' + desaturate60 + ';' +
+						'color: ' + lighten80 + ';' +
+					'}' +
+					'.content-panel .interact-image .navigator li.active > a {' +
+						'border-bottom-color: ' + desaturate60 + ';' +
+					'}' +
+					'.content-panel .interact-image .info-panel .heading {' +
+						'background-color: ' + desaturate40 + ';' +
+						'border-bottom-color: ' + desaturate20 + ';' +
+						'color: ' + lighten80 + ';' +
+					'}' +
+					'.interact-image .images-list span {' +
+						'background-color: ' + desaturate40 + ';' +
+						'border-color: ' + desaturate60 + ';' +
+					'}' +
+					'.content-panel .free-style-tab-container .tab-list li.active a {' +
+						'border-bottom-color: ' + desaturate60 + ';' +
+					'}' +
+					'.content-panel .btn {' +
+						'background-color: ' + desaturate40 + ';' +
+					'}' +
+					'.content-panel .btn:hover, .content-panel .btn:focus {' +
+						'background-color: ' + desaturate60 + ';' +
+					'}' +
+					'.content-panel .btn:active {' +
+						'background-color: ' + desaturate20 + ';' +
+					'}' +
+					'.form-control:focus {' +
+						'border-bottom-color: ' + desaturate60 + ';' +
+					'}' +
+				'</style>'
+			);
+		})();
+	
+	// / Main color
 
 	// Cover page
 		
@@ -59,65 +124,21 @@ $(function () {
 				isScrolling = false,
 				$sideBar = $('#side_bar'),
 				$contentPanel = $('#content_panel'),
-				$focusingBox = [],
-				// 1 => top
-				// 2 => bottom
-				// 3 => reach bottom
-				positionFlag;
+				$focusingBox = [];
 
 			// Scroll
 
-				(function () {
+				var 
+					// 1: above, 2: middle, 3: below
+					flag = -1;
 
-					var 
-						// 1: above, 2: middle, 3: below
-						flag = -1;
+				function fixedSideBar() {
+					var scrollTop = $window.scrollTop();
 
-					function fixedSideBar() {
-						var scrollTop = $window.scrollTop();
-
-						// Above content
-						if (scrollTop < $contentPanel.offset().top) {
-							// Scroll up => top
-							if (scrollTop < lastScrollTop) {
-								if (flag == 1) {
-									return;
-								}
-								flag = 1;
-
-								$sideBar.addClass('top').removeClass('bottom');
-								$sideBar.css({
-									position: 'fixed',
-									top: '100px'
-								});
-
-								_scrollTo(0, {
-									complete: function () {
-										lastScrollTop = 0;
-									}
-								});
-							}
-							else {
-								if (flag == 2) {
-									return;
-								}
-								flag = 2;
-
-								$sideBar.addClass('bottom').removeClass('top');
-								$sideBar.css({
-									position: 'fixed',
-									top: '0'
-								});
-
-								_scrollTo($window.height(), {
-									complete: function () {
-										lastScrollTop = $window.height();
-									}
-								});
-							}
-						}
-						// Content
-						else if (scrollTop < $contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) {
+					// Above content
+					if (scrollTop < $contentPanel.offset().top) {
+						// Scroll down => bottom
+						if (scrollTop > lastScrollTop) {
 							if (flag == 2) {
 								return;
 							}
@@ -128,32 +149,69 @@ $(function () {
 								position: 'fixed',
 								top: '0'
 							});
+
+							_scrollTo($window.height(), {
+								complete: function () {
+									lastScrollTop = $window.height();
+								}
+							});
 						}
-						// Below content
 						else {
-							if (flag == 3) {
+							if (flag == 1) {
 								return;
 							}
-							flag = 3;
+							flag = 1;
 
+							$sideBar.addClass('top').removeClass('bottom');
 							$sideBar.css({
-								position: 'absolute',
-								top: ($contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) + 'px'
+								position: 'fixed',
+								top: '100px'
+							});
+
+							_scrollTo(0, {
+								complete: function () {
+									lastScrollTop = 0;
+								}
 							});
 						}
 					}
-
-					$window.on('scroll', function () {
-						if (_isSystemScroll) {
+					// Content
+					else if (scrollTop <= $contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) {
+						if (flag == 2) {
 							return;
 						}
+						flag = 2;
 
-						fixedSideBar();
-					});
+						$sideBar.addClass('bottom').removeClass('top');
+						$sideBar.css({
+							position: 'fixed',
+							top: '0'
+						});
+					}
+					// Below content
+					else {
+						if (flag == 3) {
+							return;
+						}
+						flag = 3;
+
+						$sideBar.css({
+							position: 'absolute',
+							top: ($contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) + 'px'
+						});
+					}
+				}
+
+				$window.on('scroll', function () {
+					if (_isSystemScroll) {
+						return;
+					}
 
 					fixedSideBar();
+				});
 
-				})();				
+
+				fixedSideBar();
 
 			// / Scroll
 
@@ -166,7 +224,11 @@ $(function () {
 
 					$focusingBox = $contentPanel.find('.box[aria-name="' + $item.attr('aria-name') + '"]');
 
-					_scrollTo($focusingBox.offset().top);
+					_scrollTo($focusingBox.offset().top, {
+						complete: function () {
+							fixedSideBar();
+						}
+					});
 				});
 
 				$window.on('scroll', function () {

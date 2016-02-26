@@ -369,29 +369,105 @@
 
 				</div>
 
-				<% if ['apartment', 'complex_apartment', 'office', 'complex'].include? @project.project_type.name %>
+				<div class="col-md-6 col-xs-12" <%= 'data-toggled-element="complex_apartment block_apartment un-adjacent_house block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
 
-					<div class="col-md-6 col-xs-12" <%= 'data-toggled-element="complex_apartment block_apartment un-adjacent_house block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
-
-						<label class="control-label">Phân bố tầng</label>
-						
-						<article class="tab-container input">
-							<section class="tab-list">
-								<section class="list horizontal-list-container text-left">
-									<ul class="horizontal-list">
-									</ul>
-								</section>
-								<section class="add-button">
-									<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
-								</section>
+					<label class="control-label">Phân bố tầng / vị trí</label>
+					
+					<article class="tab-container input">
+						<section class="tab-list">
+							<section class="list horizontal-list-container text-left">
+								<ul class="horizontal-list">
+								</ul>
 							</section>
-							<section class="tab-content-list">
+							<section class="add-button">
+								<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+							</section>
+						</section>
+						<section class="tab-content-list">
 
-								<% if @block.new_record? %>
+							<% if @block.new_record? %>
 
-									<article class="tab-content" aria-name="new">
+								<article class="tab-content" aria-name="new">
 
-										<input type="hidden" value="" name="block[floor][tab_name][id]" />
+									<input type="hidden" value="" name="block[floor][tab_name][id]" />
+
+									<div class="row">
+
+										<div class="col-xs-12">
+											<article class="form-group">
+												<label class="control-label">
+													Loại
+												</label>
+												<article>
+													<label class="radio-inline">
+														<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" checked /> Động
+													</label>
+													<label class="radio-inline">
+														<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" /> Tĩnh
+													</label>
+												</article>
+											</article>
+										</div>
+
+										<div class="col-ss-6">
+
+											<article class="form-group">
+												<label class="control-label">
+													Các tầng / vị trí
+													<sup class="required-label"></sup>
+												</label>
+												<input aria-object="floors" data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" />
+											</article>
+
+											<article class="form-group">
+												<label class="control-label">
+													Tên
+													<sup class="required-label"></sup>
+												</label>
+												<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" />
+											</article>     
+											
+										</div>
+										<div class="col-ss-6">
+											<article class="form-group">
+												<label class="control-label">
+													Mô tả
+													<sup class="required-label"></sup>
+												</label>
+												<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"></textarea>
+											</article>
+										</div>     		
+										
+									</div>
+
+									<!-- Image -->
+
+										<article class="form-group" data-toggled-element="dynamic">
+											<label class="control-label">
+												Hình ảnh mặt cắt
+												<sup class="required-label"></sup>
+											</label>
+											<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
+										</article>
+
+										<article class="form-group" data-toggled-element="static">
+											<label class="control-label">
+												Hình ảnh
+											</label>
+											<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="" data-has_order data-has_description />
+										</article>
+
+									<!-- / Image -->
+
+								</article>
+
+							<% else %>
+
+								<% @block.floors.each do |floor| %>
+
+									<article class="tab-content" aria-name="init_<%= floor.id %>">
+
+										<input type="hidden" value="<%= floor.id %>" name="block[floor][tab_name][id]" />
 
 										<div class="row">
 
@@ -402,10 +478,10 @@
 													</label>
 													<article>
 														<label class="radio-inline">
-															<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" checked /> Động
+															<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" <%= 'checked' if floor.is_dynamic %> /> Động
 														</label>
 														<label class="radio-inline">
-															<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" /> Tĩnh
+															<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" <%= 'checked' unless floor.is_dynamic %> /> Tĩnh
 														</label>
 													</article>
 												</article>
@@ -413,31 +489,45 @@
 
 											<div class="col-ss-6">
 
-												<article class="form-group">
-													<label class="control-label">
-														Các tầng
-														<sup class="required-label"></sup>
-													</label>
-													<input aria-object="floors" data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" />
-												</article>
+												<!-- Floor text -->
 
-												<article class="form-group">
-													<label class="control-label">
-														Tên
-														<sup class="required-label"></sup>
-													</label>
-													<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" />
-												</article>     
+													<article class="form-group">
+														<label class="control-label">
+															Các tầng / vị trí
+															<sup class="required-label"></sup>
+														</label>
+														<input aria-object="floors" data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" value="<%= floor.floors_text %>" />
+													</article>
+
+												<!-- / Floor text -->
+
+												<!-- Name -->
+
+													<article class="form-group">
+														<label class="control-label">
+															Tên
+															<sup class="required-label"></sup>
+														</label>
+														<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" value="<%= floor.name %>" />
+													</article>     
+
+												<!-- / Name -->					          		
 												
 											</div>
 											<div class="col-ss-6">
-												<article class="form-group">
-													<label class="control-label">
-														Mô tả
-														<sup class="required-label"></sup>
-													</label>
-													<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"></textarea>
-												</article>
+
+												<!-- Description -->
+
+													<article class="form-group">
+														<label class="control-label">
+															Mô tả
+															<sup class="required-label"></sup>
+														</label>
+														<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"><%= floor.description %></textarea>
+													</article>
+
+												<!-- / Description -->
+
 											</div>     		
 											
 										</div>
@@ -446,133 +536,39 @@
 
 											<article class="form-group" data-toggled-element="dynamic">
 												<label class="control-label">
-													Hình ảnh sàn
+													Hình ảnh mặt cắt
 													<sup class="required-label"></sup>
 												</label>
-												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
+												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json if floor.surface.present? %>" />
 											</article>
 
 											<article class="form-group" data-toggled-element="static">
+												<%
+													image_init_value = ''
+													images = []
+													floor.images.each do |floor_image|
+														images << { 'id'=> floor_image.id, 'url'=> floor_image.image.url, 'description'=> floor_image.description, 'order' => floor_image.order }
+													end
+													image_init_value = images.to_json
+												%>
 												<label class="control-label">
 													Hình ảnh
 												</label>
-												<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="" data-has_order data-has_description />
+												<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_order data-has_description />
 											</article>
 
 										<!-- / Image -->
 
 									</article>
 
-								<% else %>
-
-									<% @block.floors.each do |floor| %>
-
-										<article class="tab-content" aria-name="init_<%= floor.id %>">
-
-											<input type="hidden" value="<%= floor.id %>" name="block[floor][tab_name][id]" />
-
-											<div class="row">
-
-												<div class="col-xs-12">
-													<article class="form-group">
-														<label class="control-label">
-															Loại
-														</label>
-														<article>
-															<label class="radio-inline">
-																<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" <%= 'checked' if floor.is_dynamic %> /> Động
-															</label>
-															<label class="radio-inline">
-																<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" <%= 'checked' unless floor.is_dynamic %> /> Tĩnh
-															</label>
-														</article>
-													</article>
-												</div>
-
-												<div class="col-ss-6">
-
-													<!-- Floor text -->
-
-														<article class="form-group">
-															<label class="control-label">
-																Các tầng
-																<sup class="required-label"></sup>
-															</label>
-															<input aria-object="floors" data-constraint="required" class="form-control" name="block[floor][tab_name][floors_text]" value="<%= floor.floors_text %>" />
-														</article>
-
-													<!-- / Floor text -->
-
-													<!-- Name -->
-
-														<article class="form-group">
-															<label class="control-label">
-																Tên
-																<sup class="required-label"></sup>
-															</label>
-															<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" value="<%= floor.name %>" />
-														</article>     
-
-													<!-- / Name -->					          		
-													
-												</div>
-												<div class="col-ss-6">
-
-													<!-- Description -->
-
-														<article class="form-group">
-															<label class="control-label">
-																Mô tả
-																<sup class="required-label"></sup>
-															</label>
-															<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"><%= floor.description %></textarea>
-														</article>
-
-													<!-- / Description -->
-
-												</div>     		
-												
-											</div>
-
-											<!-- Image -->
-
-												<article class="form-group" data-toggled-element="dynamic">
-													<label class="control-label">
-														Hình ảnh sàn
-														<sup class="required-label"></sup>
-													</label>
-													<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json if floor.surface.present? %>" />
-												</article>
-
-												<article class="form-group" data-toggled-element="static">
-													<%
-														image_init_value = ''
-														images = []
-														floor.images.each do |floor_image|
-															images << { 'id'=> floor_image.id, 'url'=> floor_image.image.url, 'description'=> floor_image.description, 'order' => floor_image.order }
-														end
-														image_init_value = images.to_json
-													%>
-													<label class="control-label">
-														Hình ảnh
-													</label>
-													<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_order data-has_description />
-												</article>
-
-											<!-- / Image -->
-
-										</article>
-
-									<% end %>
-
 								<% end %>
 
-							</section>
-						</article>
+							<% end %>
 
-					</div>
+						</section>
+					</article>
 
-				<% end %>
+				</div>
 
 			</div>
 

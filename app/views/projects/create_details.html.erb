@@ -1,10 +1,3 @@
-<% 
-=begin
-	params: @project
-=end
-
-%>
-
 <% content_for :stylesheets do %>
 	<link rel="stylesheet" type="text/css" href="/assets/projects/create_details.css">
 <% end %>
@@ -15,6 +8,15 @@
 		project_id = <%= @project.id %>;
 	</script>
 <% end %>
+
+<% 
+=begin
+	params: @project
+=end
+	
+	@title = "Đăng chi tiết - #{@project.project_name}"
+
+%>
 
 <section class="form-progress-container container-fluid">
 	<ul class="row">
@@ -29,7 +31,7 @@
 		<% if @project.create_step > 2 %>
 			<li class="col-xs-3 success">
 				<section class="icon"></section>
-				<a class="text" href="/du-an/thiet-lap-hinh-anh/<%= @p.id %>">Thiết lập hình ảnh</a>
+				<a class="text" href="/du-an/thiet-lap-hinh-anh/<%= @project.id %>">Thiết lập hình ảnh</a>
 			</li>
 		<% else %>
 		<li class="col-xs-3">

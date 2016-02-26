@@ -46,19 +46,19 @@ class ProjectsController < ApplicationController
 		def create
 			if params.has_key? :id
 				begin
-					@p = Project.find params[:id]
+					@project = Project.find params[:id]
 				rescue
-					@p = Project.new
+					@project = Project.new create_step: 0
 				end
 			else
-				@p = Project.new
+				@project = Project.new create_step: 0
 			end
 			
 			# Author
-			if @p.new_record?
+			if @project.new_record?
 				authorize! :create, Project
 			else
-				authorize! :edit, @p
+				authorize! :edit, @project
 			end
 
 			render layout: 'layout_back'

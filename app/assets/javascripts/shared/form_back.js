@@ -194,10 +194,6 @@ function initForm($form, params) {
 					$context = $form;
 				}
 
-				console.log($input);
-
-				console.log('on');
-				console.log(onElements);
 				// Turn on elements
 				if (onElements && !$input.is(':disabled')) {
 					// Create elements list
@@ -224,9 +220,7 @@ function initForm($form, params) {
 						});
 					});
 				}
-
-				console.log('off');
-				console.log(offElements);
+				
 				// Turn off elements
 				if (offElements) {
 					// Create elements list
@@ -2537,7 +2531,7 @@ function initForm($form, params) {
 	// Helper
 
 		function initHelper() {
-			if ($window.isWidthType(['xs'])) {
+			if (true || $window.isWidthType(['xs'])) {
 				$form.find('.helper-label').popover({
 					placement: 'left',
 					template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',

@@ -5,9 +5,11 @@
 <% content_for :javascripts do %>
 	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/shared/tinycolor.js"></script>
 	<script type="text/javascript" src="/assets/projects/view_2.js"></script>
 	<script type="text/javascript">
 		projectId = <%= @project.id %>;
+		mainColor = '<%= @project.main_color %>';
 	</script>
 <% end %>
 
@@ -123,11 +125,11 @@
 							</h2>
 						</section>
 						<section class="box-body">
-							<p>
-								<span style="display: inline-block; background-color: #666; color: #fff; padding: 5px 10px;">
-									<span class="fa fa-map-marker fa-lg margin-right-5"></span> <b>Địa chỉ</b>
+							<p class="address" style="font-size: 15px;">
+								<span class="name">
+									<span class="fa fa-map-marker fa-lg margin-right-5"></span>Địa chỉ
 								</span>
-								<span style="display: inline-block;">
+								<span class="value">
 									<%= @project.display_address %>
 								</span>
 							</p>

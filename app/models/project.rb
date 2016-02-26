@@ -289,7 +289,7 @@ class Project < ActiveRecord::Base
 				:project_type_id, :campus_area, :width_x, :width_y, :is_draft,
 				:using_ratio, :estimate_starting_date, :estimate_finishing_date,
 				:starting_date, :finished_base_date, :transfer_date, :docs_issue_date,
-				:investor_id, :unit_description,:user_id, :date_display_type
+				:investor_id, :unit_description,:user_id, :date_display_type, :main_color
 			]
 		end
 

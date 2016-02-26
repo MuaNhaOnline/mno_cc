@@ -2,6 +2,9 @@ var project_id;
 
 $(function () {
 
+	_initTabContainer($('.free-style-tab-container'));
+	_initManualHorizontalList($('.manual-horizontal-list'));
+	
 	// View
 	
 		// Setup image
@@ -526,6 +529,8 @@ $(function () {
 
 				// General
 
+					// $g.css('transform-origin', 'center center');
+
 				// / General
 
 				// Move, zoom
@@ -534,6 +539,7 @@ $(function () {
 					$svg.on({
 						mousewheel: function (e) {
 							isUp = e.originalEvent.wheelDelta < 0;
+							var oldScale = scale;
 
 							if (isUp) {
 								if (scale < 0.5) {
@@ -549,7 +555,7 @@ $(function () {
 							}
 
 							tranX = -(e.clientX - $svg.offset().left) * (scale - 1);
-							tranY = -(e.clientY - $svg.offset().top) * (scale - 1);
+							tranY = -(e.clientY - $svg.offset().top - $window.scrollTop()) * (scale - 1);
 
 							updateViewBox();
 						},
