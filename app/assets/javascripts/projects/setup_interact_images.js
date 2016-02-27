@@ -73,6 +73,7 @@ $(function () {
 			tranX = 0,
 			tranY = 0,
 			scale = 1,
+			gOriginalSize = { w: 0, height: 0 },
 
 			$currentToolButton = $designPart.find('.toolbox-container .active'),
 			$drawPolylineButton = $designPart.find('[aria-click="polyline"]'),
@@ -554,9 +555,12 @@ $(function () {
 								scale += 0.1;
 							}
 
-							tranX = -(e.clientX - $svg.offset().left) * (scale - 1);
-							tranY = -(e.clientY - $svg.offset().top - $window.scrollTop()) * (scale - 1);
+							pointX = e.clientX - $svg.offset().left;
+							pointY = e.clientY - $svg.offset().top - $window.scrollTop();
 
+							tranX -= (-tranX + pointX) / oldScale * (scale - oldScale);
+							tranY -= (-tranY + pointY) / oldScale * (scale - oldScale);
+							
 							updateViewBox();
 						},
 						focus: function() {
@@ -1081,6 +1085,7 @@ $(function () {
 					image = document.createElementNS("http://www.w3.org/2000/svg", "image");
 					image.setAttribute('width', this.width);
 					image.setAttribute('height', this.height);
+					gOriginalSize = { w: this.width, h: this.height };
 					image.setAttributeNS('http://www.w3.org/1999/xlink','href', this.src);
 					$g.prepend(image);
 					tranX = $svg.width() / 2 - this.width / 2;

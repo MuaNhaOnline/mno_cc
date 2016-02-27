@@ -497,7 +497,7 @@ class RealEstate < ActiveRecord::Base
 
 			def build_in_floors
 
-				in_floors = []
+				_in_floors = []
 
 				def _parseFloors string
 					# Format
@@ -542,7 +542,9 @@ class RealEstate < ActiveRecord::Base
 
 				floor_infos_text.each do |_info|
 					_parseFloors(_info['floors']).each do |_floor_number|
-						_floor_info = FloorRealEstate.new status: 'available'
+						_floor_info = FloorRealEstate.first_or_initialize real_estate_id: id, floor: _floor_number
+
+						_floor_info.status = 'available' if _floor_info.new_record?
 
 						_floor_info.label = label.gsub('{f}', _floor_number.to_s)
 						_floor_info.floor = _floor_number
@@ -570,8 +572,8 @@ class RealEstate < ActiveRecord::Base
 							else
 								_floor_info.sell_price = _info['sell_price']
 							end
-
-							_floor_info.sell_price_text = _floor_info.sell_price
+					
+							_floor_info.sell_price_text = ApplicationHelper.read_money _floor_info.sell_price
 						end
 
 						if _info['rent_price'].present?
@@ -598,14 +600,10 @@ class RealEstate < ActiveRecord::Base
 								_floor_info.rent_price = _info['rent_price']
 							end
 
-							_floor_info.rent_price_text = _floor_info.rent_price
+							_floor_info.rent_price_text = ApplicationHelper.read_money _floor_info.rent_price
 						end
-
-						in_floors << _floor_info
 					end
 				end
-
-				save
 
 			end
 

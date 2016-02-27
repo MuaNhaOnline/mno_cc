@@ -254,7 +254,7 @@ module ApplicationHelper
 			end
 
 			# Get array number (string)
-			@number = number.to_s
+			@number = number.to_i.to_s
 
 			if @number.length % 3 != 0
 				@number = @number.rjust((@number.length / 3 + 1) * 3, '0')

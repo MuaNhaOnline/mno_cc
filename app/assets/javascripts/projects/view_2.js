@@ -974,9 +974,9 @@ $(function () {
 
 				function addDescription(descriptions) {
 					$(descriptions).each(function () {
-						description_data = this;
-
-						var $polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
+						var 
+							description_data = this,
+							$polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
 
 						$g.append($polyline);
 

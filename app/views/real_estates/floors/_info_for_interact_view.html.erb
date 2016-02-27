@@ -1,12 +1,12 @@
 <%
 =begin
-	params: @floor
+	params: @position
 =end
 %>
 
 <section class="heading">
 	<h3 class="title">
-		<%= @position.real_estate.short_label %>
+		<%= @position.label %>
 		<span class="sub">
 			<%= @position.real_estate.block_group.name %>
 		</span>
@@ -42,16 +42,16 @@
 				<span class="value"><%= t "direction.text.#{@position.real_estate.direction.name}" %></span>
 			</article>
 		<% end %>
-		<% if @position.sell_price.present? %>
+		<% if @position.display_sell_price.present? %>
 			<article class="list-item">
 				<span class="text">Giá bán</span>
-				<span class="value"><%= @position.sell_price %></span>
+				<span class="value"><%= @position.display_sell_price %></span>
 			</article>
 		<% end %>
-		<% if @position.rent_price.present? %>
+		<% if @position.display_rent_price.present? %>
 			<article class="list-item">
 				<span class="text">Giá thuê</span>
-				<span class="value"><%= @position.rent_price %></span>
+				<span class="value"><%= @position.display_rent_price %></span>
 			</article>
 		<% end %>
 	</article>
