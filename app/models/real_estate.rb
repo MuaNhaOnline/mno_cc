@@ -1385,6 +1385,28 @@ class RealEstate < ActiveRecord::Base
 			end
 		end
 
+		# Appraisal purpose
+		def display_appraisal_purpose
+			@display_appraisal_purpose ||= case
+			when 1
+				'Mua bán'
+			when 2
+				'Vay vốn ngân hàng'
+			when 3
+				'Xác định giá trị'
+			end				
+		end
+
+		# Appraisal type
+		def display_appraisal_type
+			@display_appraisal_type ||= case
+			when 1
+				'Tư vấn miễn phí'
+			when 2
+				'Thẩm định'
+			end				
+		end
+
 		# Current user favorite
 		def get_is_current_user_favorite
 			return false unless User.signed?
@@ -1412,7 +1434,7 @@ class RealEstate < ActiveRecord::Base
 	# Zoho
 
 		def self.zoho_fields
-			@zoho_fields ||= ['display_id', 'id', 'title', 'real_estate_type', 'address_number', 'street', 'ward', 'district', 'province', 'street_type', 'is_alley', 'alley_width', 'direction', 'constructional_level', 'legal_record_type', 'campus_area', 'constructional_area', 'using_area', 'width_x', 'width_y', 'shape', 'bedroom_number', 'restroom_number', 'build_year', 'constructional_quality', 'planning_status_type', 'property_utilities', 'region_utilities', 'advantages', 'custom_advantages', 'disadvantage', 'custom_disadvantages', 'user', 'owner_type', 'owner_info_name', 'owner_info_email', 'owner_info_phone', 'owner_info_address', 'purpose', 'currency', 'sell_price', 'sell_unit', 'rent_price', 'rent_unit', 'is_negotiable']
+			@zoho_fields ||= ['display_id', 'id', 'title', 'real_estate_type', 'address_number', 'street', 'ward', 'district', 'province', 'street_type', 'is_alley', 'alley_width', 'direction', 'constructional_level', 'legal_record_type', 'campus_area', 'constructional_area', 'using_area', 'width_x', 'width_y', 'shape', 'bedroom_number', 'restroom_number', 'build_year', 'constructional_quality', 'planning_status_type', 'property_utilities', 'region_utilities', 'advantages', 'custom_advantages', 'disadvantage', 'custom_disadvantages', 'user', 'owner_type', 'owner_info_name', 'owner_info_email', 'owner_info_phone', 'owner_info_address', 'purpose', 'currency', 'sell_price', 'sell_unit', 'rent_price', 'rent_unit', 'is_negotiable', 'appraisal_purpose', 'appraisal_type']
 		end
 	
 		def zoho_get_attribute _attribute
@@ -1646,6 +1668,16 @@ class RealEstate < ActiveRecord::Base
 				{
 					val: 'Có thể thương lượng',
 					text: is_negotiable
+				}
+			when 'appraisal_purpose'
+				{
+					val: 'Mục đích thẩm định',
+					text: display_appraisal_purpose
+				}
+			when 'appraisal_type'
+				{
+					val: 'Loại thẩm định',
+					text: display_appraisal_type
 				}
 			else
 				nil

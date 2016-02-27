@@ -100,7 +100,7 @@
 		<article id="form_navigator" class="items-container">
 			<% if @is_appraisal %>
 				<a aria-name="appraisal" href="javascript:void(0)" class="item until-full">
-					<div class="icon"><i class="fa fa-cab fa-lg "></i></div><div class="text"><%= t 'real_estate.attribute.appraisal_box' %></div>
+					<div class="icon"><i class="fa fa-balance-scale fa-lg "></i></div><div class="text"><%= t 'real_estate.attribute.appraisal_box' %></div>
 				</a>
 			<% end %>
 			<a aria-name="type_transfer" href="javascript:void(0)" class="item">
@@ -183,9 +183,9 @@
 								<article class="form-group col-md-6">
 									<label class="control-label" for="appraisal_purpose"><%= t 'real_estate.attribute.appraisal_purpose' %></label>
 									<select name="real_estate[appraisal_purpose]" class="form-control input-toggle" id="appraisal_purpose">
-										<option value="1" <%= 'selected' if @re.new_record? || @re.appraisal_purpose === 1 %>><%= t 'real_estate.attribute.trade' %></option>
-										<option value="2" <%= 'selected' if @re.appraisal_purpose === 2 %>><%= t 'real_estate.attribute.borrow' %></option>
-										<option value="3" <%= 'selected' if @re.appraisal_purpose === 3 %>><%= t 'real_estate.attribute.valuation' %></option>
+										<option value="1" <%= 'selected' if @re.new_record? || @re.appraisal_purpose == 1 %>><%= t 'real_estate.attribute.trade' %></option>
+										<option value="2" <%= 'selected' if @re.appraisal_purpose == 2 %>><%= t 'real_estate.attribute.borrow' %></option>
+										<option value="3" <%= 'selected' if @re.appraisal_purpose == 3 %>><%= t 'real_estate.attribute.valuation' %></option>
 									</select>
 								</article>
 
@@ -196,8 +196,8 @@
 								<article class="form-group col-md-6">
 									<label class="control-label" for="appraisal_type"><%= t 'real_estate.attribute.appraisal_type' %></label>
 									<select name="real_estate[appraisal_type]" class="form-control input-toggle" id="appraisal_type">
-										<option value="1" <%= 'selected' if @re.new_record? || @re.appraisal_type === 1 %>><%= t 'real_estate.attribute.advisory' %></option>
-										<option value="2" <%= 'selected' if @re.appraisal_type === 2 %>><%= t 'real_estate.attribute.appraisal' %></option>
+										<option value="1" <%= 'selected' if @re.new_record? || @re.appraisal_type == 1 %>>Tư vấn miễn phí</option>
+										<option value="2" <%= 'selected' if @re.appraisal_type == 2 %>><%= t 'real_estate.attribute.appraisal' %></option>
 									</select>
 								</article>
 
@@ -811,7 +811,7 @@
 					<section class="box-body hide-until-full">
 						<p>Hình ảnh bất động sản của bạn. Bạn có thể cung cấp 5 hình</p>
 						<p>Hãy chọn <b>hình đại diện</b> bằng cách click vào hình</p>
-						<article class="form-group margin-0">
+						<article class="form-group">
 							<input class="file-upload" type="file" multiple name="real_estate[images][]" aria-name="image_upload" data-amount="5" data-types="image" data-init-value="<%= image_init_value %>" data-has_description data-has_avatar data-has_order />
 						</article>
 					</section>

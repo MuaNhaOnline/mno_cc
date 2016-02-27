@@ -159,7 +159,7 @@ class RealEstatesController < ApplicationController
 			# Author
 			if @re.new_record?
 				authorize! :create, RealEstate
-				@is_appraisal = params.has_key? :appraisal
+				@is_appraisal = params[:appraisal].present? && params[:appraisal] == true
 			else
 				authorize! :edit, @re
 				@is_appraisal = @re.appraisal_type != 0

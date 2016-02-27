@@ -530,8 +530,6 @@ $(function () {
 
 				// General
 
-					// $g.css('transform-origin', 'center center');
-
 				// / General
 
 				// Move, zoom

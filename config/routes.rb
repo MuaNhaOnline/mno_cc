@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     get 'bat-dong-san/danh-sach' => 'real_estates#list'
     get 'bat-dong-san/danh-sach-:search' => 'real_estates#list'
     get 'bat-dong-san/dang-tin(/:id)' => 'real_estates#create'
+    get 'bat-dong-san/dang-tin-tham-dinh(/:id)' => 'real_estates#create', appraisal: true
     get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
     get 'bat-dong-san/cua-toi' => 'real_estates#my'
     get 'bat-dong-san/yeu-thich-cua-toi' => 'real_estates#my_favorite'

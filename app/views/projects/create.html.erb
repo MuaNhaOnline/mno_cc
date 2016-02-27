@@ -142,8 +142,8 @@
 			<a aria-name="image" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-picture-o fa-lg "></i></div><div class="text"><%= t 'project.attribute.image' %></div>
 			</a>
-			<a aria-name="image" href="javascript:void(0)" class="item">
-				<div class="icon"><i class="fa fa-display fa-lg "></i></div><div class="text">Giao diện</div>
+			<a aria-name="display" href="javascript:void(0)" class="item">
+				<div class="icon"><i class="fa fa-desktop fa-lg "></i></div><div class="text">Giao diện</div>
 			</a>
 			<a aria-name="button" href="javascript:void(0)" class="item">
 				<div class="icon"><i class="fa fa-check fa-lg "></i></div><div class="text">
@@ -294,44 +294,57 @@
 
 							<!-- Project type (user cannot edit) -->
 
-								<div class="row">
-									<article class="form-group col-ss-6">
-										<label class="control-label" for="project_type"><%= t 'project.attribute.project_type' %></label>
-										<select class="form-control input-toggle" id="project_type" name="project[project_type_id]" <%= 'readonly="true"' unless @project.new_record? %>>
-											<% project_types.each do |t| %>
-												<% next if t.options.has_key? 'parent' %>
-												<option value="<%= t.id %>" <%= 'selected' if (@project.new_record? ? t.options.has_key?('default') : (@project.project_type_id == t.id || t.name == selected_project_type_parent)) %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'project_type.text.' + t.name %></option>
-											<% end %>
-										</select>
+								<% if @project.new_record? || @project.project_type.blank? %>
+
+									<div class="row">
+										<article class="form-group col-ss-6">
+											<label class="control-label" for="project_type"><%= t 'project.attribute.project_type' %></label>
+											<select class="form-control input-toggle" id="project_type" name="project[project_type_id]" %>>
+												<% project_types.each do |t| %>
+													<% next if t.options.has_key? 'parent' %>
+													<option value="<%= t.id %>" <%= 'selected' if (@project.new_record? ? t.options.has_key?('default') : (@project.project_type_id == t.id || t.name == selected_project_type_parent)) %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'project_type.text.' + t.name %></option>
+												<% end %>
+											</select>
+										</article>
+										<article class="form-group col-ss-6">
+											<label class="control-label" for="project_type">&nbsp;</label>
+											<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="apartment un-complex_apartment un-adjacent_house un-office un-land un-complex">
+												<option value hidden>Chọn chi tiết</option>
+												<% project_types.each do |t| %>
+													<% if t.options['parent'] == 'apartment' %>
+														<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
+													<% end %>
+												<% end %>
+											</select>
+											<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="land un-complex_apartment un-adjacent_house un-office un-apartment un-complex">
+												<option value hidden>Chọn chi tiết</option>
+												<% project_types.each do |t| %>
+													<% if t.options['parent'] == 'land' %>
+														<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
+													<% end %>
+												<% end %>
+											</select>
+											<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="adjacent_house un-complex_apartment un-office un-apartment un-complex un-land">
+												<option value hidden>Chọn chi tiết</option>
+												<% project_types.each do |t| %>
+													<% if t.options['parent'] == 'adjacent_house' %>
+														<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
+													<% end %>
+												<% end %>
+											</select>
+										</article>
+									</div>
+
+								<% else %>
+
+									<article class="form-group">
+										<label class="control-label">
+											Loại dự án
+										</label>
+										<input class="form-control" readonly="true" value="<%= @project.display_project_type %>" />
 									</article>
-									<article class="form-group col-ss-6">
-										<label class="control-label" for="project_type">&nbsp;</label>
-										<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="apartment un-complex_apartment un-adjacent_house un-office un-land un-complex" <%= 'readonly="true"' unless @project.new_record? %>>
-											<option value hidden>Chọn chi tiết</option>
-											<% project_types.each do |t| %>
-												<% if t.options['parent'] == 'apartment' %>
-													<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
-												<% end %>
-											<% end %>
-										</select>
-										<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="land un-complex_apartment un-adjacent_house un-office un-apartment un-complex" <%= 'readonly="true"' unless @project.new_record? %>>
-											<option value hidden>Chọn chi tiết</option>
-											<% project_types.each do |t| %>
-												<% if t.options['parent'] == 'land' %>
-													<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
-												<% end %>
-											<% end %>
-										</select>
-										<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="adjacent_house un-complex_apartment un-office un-apartment un-complex un-land" <%= 'readonly="true"' unless @project.new_record? %>>
-											<option value hidden>Chọn chi tiết</option>
-											<% project_types.each do |t| %>
-												<% if t.options['parent'] == 'adjacent_house' %>
-													<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
-												<% end %>
-											<% end %>
-										</select>
-									</article>
-								</div>
+
+								<% end %>
 
 							<!-- / Project type -->
 
@@ -888,7 +901,7 @@
 
 				<!-- / Images -->
 
-				<!-- Images -->
+				<!-- Display -->
 
 					<article aria-name="display" class="box box-default">
 						<section class="box-header with-border">
@@ -914,7 +927,7 @@
 						</section>
 					</article>
 
-				<!-- / Images -->
+				<!-- / Display -->
 
 				<!-- Button -->
 
