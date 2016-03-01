@@ -391,8 +391,10 @@ $(function () {
 							toggleLoadStatus(false);
 						}).done(function (data) {
 							if (data.status == 0) {
-								startRealEstateCreateForm($(data.result), function () {
-									realEstateFind();
+								startRealEstateCreateForm($(data.result), function (result) {
+									result = $(result);
+									initRealEstateItem(result);
+									$realEstateList.find('.tab-content[aria-name="group_' + group_id + '"]').append(result);
 								});
 							}
 							else {
@@ -426,61 +428,7 @@ $(function () {
 								$realEstateList.html(data.result);
 
 								_initTabContainer($realEstateList.find('.free-style-tab-container'));
-
-								// Delete
-
-									$realEstateList.find('[aria-click="delete"]').on('click', function () {
-										$item = $(this).closest('.item');
-
-										toggleLoadStatus(true);
-										$.ajax({
-											url: '/real_estates/delete/' + $item.data('value'),
-											method: 'POST',
-											dataType: 'JSON'
-										}).always(function () {
-											toggleLoadStatus(false);
-										}).done(function (data) {
-											if (data.status == 0) {
-												realEstateFind({
-													data: 'last_data'
-												});
-											}
-											else {
-												errorPopup();
-											}
-										}).fail(function () {
-											errorPopup();
-										})
-									});
-
-								// Delete
-
-								// Edit
-
-									$realEstateList.find('[aria-click="edit"]').on('click', function () {
-										$item = $(this).closest('.item');
-
-										toggleLoadStatus(true);
-										$.ajax({
-											url: '/real_estates/_block_edit/' + $item.data('value'),
-											dataType: 'JSON'
-										}).always(function () {
-											toggleLoadStatus(false);
-										}).done(function (data) {
-											if (data.status == 0) {
-												startRealEstateCreateForm($(data.result), function () {
-													realEstateFind();
-												});
-											}
-											else {
-												errorPopup();
-											}
-										}).fail(function () {
-											errorPopup();
-										})
-									});
-
-								// / Edit
+								initRealEstateItem($realEstateList);
 							}
 							else {
 								errorPopup();
@@ -489,6 +437,63 @@ $(function () {
 							errorPopup();
 						})
 					}
+				}
+
+				function initRealEstateItem($container) {
+					// Delete
+
+						$container.find('[aria-click="delete"]').on('click', function () {
+							$item = $(this).closest('.item');
+
+							toggleLoadStatus(true);
+							$.ajax({
+								url: '/real_estates/delete/' + $item.data('value'),
+								method: 'POST',
+								dataType: 'JSON'
+							}).always(function () {
+								toggleLoadStatus(false);
+							}).done(function (data) {
+								if (data.status == 0) {
+									$item.parent().remove();
+								}
+								else {
+									errorPopup();
+								}
+							}).fail(function () {
+								errorPopup();
+							})
+						});
+
+					// Delete
+
+					// Edit
+
+						$container.find('[aria-click="edit"]').on('click', function () {
+							$item = $(this).closest('.item');
+
+							toggleLoadStatus(true);
+							$.ajax({
+								url: '/real_estates/_block_edit/' + $item.data('value'),
+								dataType: 'JSON'
+							}).always(function () {
+								toggleLoadStatus(false);
+							}).done(function (data) {
+								if (data.status == 0) {
+									startRealEstateCreateForm($(data.result), function (result) {
+										result = $(result);
+										initRealEstateItem(result);
+										$item.parent().replaceWith(result);
+									});
+								}
+								else {
+									errorPopup();
+								}
+							}).fail(function () {
+								errorPopup();
+							})
+						});
+
+					// / Edit
 				}
 
 			// / Init real-estate list
@@ -620,7 +625,7 @@ $(function () {
 					// Label
 					
 						$form.find('#label').data('validate', function ($input) {
-							if ($input.val()) {
+							if ($input.val() && $input.val() != $input.data('old_value')) {
 								$form.data('add_checking_list')({
 									key: 'check_label',
 									message: 'Đang kiểm tra mã'
@@ -808,7 +813,7 @@ $(function () {
 								toggleLoadStatus(false);
 							}).done(function (data) {
 								if (data.status == 0) {
-									done();
+									done(data.result);
 								}
 								else {
 									popupPrompt({

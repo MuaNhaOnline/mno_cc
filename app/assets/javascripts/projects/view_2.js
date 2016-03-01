@@ -37,7 +37,7 @@ $(function () {
 						'background-color: ' + desaturate40 + ';' +
 					'}' +
 					'.content-panel .address .value {' +
-						'background-color: ' + desaturate60 + ';' +
+						'backg2round-color: ' + desaturate60 + ';' +
 					'}' +
 					'.content-panel .interact-image .navigator li.active > a {' +
 						'border-bottom-color: ' + desaturate60 + ';' +
@@ -109,7 +109,7 @@ $(function () {
 
 				}, 500);
 
-			}, 2000);
+			}, 1000);
 		})();
 	
 	// / Cover page

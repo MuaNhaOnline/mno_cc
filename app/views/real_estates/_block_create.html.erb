@@ -79,7 +79,7 @@
 									<sup class="required-label"></sup>
 								</label>
 								<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Tầng / vị trí tương ứng<br />Ví dụ: <b>CH-{f}01</b></p>"></a>
-								<input class="form-control" name="real_estate[block][label]" id="label" value="<%= @re.label %>" aria-object="label" />
+								<input data-constraint="required" class="form-control" name="real_estate[block][label]" id="label" value="<%= @re.label %>" aria-object="label" data-old_value="<%= @re.label %>" />
 							</article>
 
 						<!-- / Label -->
@@ -270,6 +270,7 @@
 						<article class="form-group">
 							<label class="control-label" for="block_floor">
 								Tầng / vị trí phân bố
+								<sup class="required-label"></sup>
 							</label>
 							<select data-constraint="required" name="real_estate[block][block_floor_id]" class="form-control" id="block_floor">
 								<option value hidden>Chọn tầng / vị trí phân bố</option>
@@ -301,7 +302,7 @@
 
 										<article class="form-group">
 											<label class="control-label">
-													Các tầng / vị trí
+												Các tầng / vị trí
 												<sup class="required-label"></sup>
 											</label>
 											<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" class="form-control" />

@@ -427,9 +427,9 @@ class RealEstate < ActiveRecord::Base
 							else
 								_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/ && _short_label[_f_index] =~ /[^a-zA-Z0-9]/
 							end
-
-							assign_attributes short_label: _short_label
 						end
+
+						assign_attributes short_label: _short_label
 					end
 
 				# / Short label

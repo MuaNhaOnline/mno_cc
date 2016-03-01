@@ -1,39 +1,70 @@
-<article class="free-style-tab-container">
-  <section class="tab-list horizontal-list-container text-left">
-    <ul class="horizontal-list">
-      <% groups.each do |group| %>
-        <li class="horizontal-item" aria-name="group_<%= group.id %>">
-          <a href="javascript:void(0)" aria-click="change_tab"><%= group.name %></a>
-        </li>
-      <% end %>
-    </ul>
-  </section>
-  <section class="tab-content-list">
-    <% groups.each do |group| %>
-      <article class="tab-content row item-list" aria-name="group_<%= group.id %>" data-value="<%= group.id %>">
-        <% group.real_estates.each do |re| %>
-          <article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
-            <article class="item" data-value="<%= re.id %>">
-              <section class="top">
-                <%= real_estate_avatar re %>
-                <section class="left">
-                  <article class="node">
-                    <span><b><%= re.short_label %></b></span>
-                  </article>
-                </section>
-              </section>
-              <section class="control">
-                <span class="node">
-                  <a aria-click="edit" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
-                </span>
-                <span class="node">
-                  <a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
-                </span>
-              </section>
-            </article>
-          </article>
-        <% end %>
-      </article>
-    <% end %>
-  </section>
-</article>
+<%
+=begin
+	groups || res
+=end
+%>
+
+<% if defined? groups %>
+	<article class="free-style-tab-container">
+		<section class="tab-list horizontal-list-container text-left">
+			<ul class="horizontal-list">
+				<% groups.each do |group| %>
+					<li class="horizontal-item" aria-name="group_<%= group.id %>">
+						<a href="javascript:void(0)" aria-click="change_tab"><%= group.name %></a>
+					</li>
+				<% end %>
+			</ul>
+		</section>
+		<section class="tab-content-list">
+			<% groups.each do |group| %>
+				<article class="tab-content row item-list" aria-name="group_<%= group.id %>" data-value="<%= group.id %>">
+					<% group.real_estates.each do |re| %>
+						<article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+							<article class="item" data-value="<%= re.id %>">
+								<section class="top">
+									<%= real_estate_avatar re %>
+									<section class="left">
+										<article class="node">
+											<span><b><%= re.short_label %></b></span>
+										</article>
+									</section>
+								</section>
+								<section class="control">
+									<span class="node">
+										<a aria-click="edit" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
+									</span>
+									<span class="node">
+										<a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+									</span>
+								</section>
+							</article>
+						</article>
+					<% end %>
+				</article>
+			<% end %>
+		</section>
+	</article>
+<% else %>
+	<% res.each do |re| %>
+		<article class="col-lg-3 col-md-4 col-sm-4 col-ss-6 col-xs-12">
+			<article class="item" data-value="<%= re.id %>">
+				<section class="top">
+					<%= real_estate_avatar re %>
+					<section class="left">
+						<article class="node">
+							<span><b><%= re.short_label %></b></span>
+						</article>
+					</section>
+				</section>
+				<section class="control">
+					<span class="node">
+						<a aria-click="edit" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
+					</span>
+					<span class="node">
+						<a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+					</span>
+				</section>
+			</article>
+		</article>
+	<% end %>
+<% end %>

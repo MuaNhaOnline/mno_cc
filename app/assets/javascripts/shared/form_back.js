@@ -2591,18 +2591,6 @@ function initForm($form, params) {
 			$form.on('submit', function (e) {
 				e.preventDefault();
 
-				if (Object.keys(checkingList).length > 0) {
-					messages = Object.keys(checkingList).map(function (key) {
-						return checkingList[key];
-					});
-
-					popupPrompt({
-						title: 'Đang kiểm tra, vui lòng chờ',
-						content: messages.join('<br />') + '<br /> Vui lòng thử lại sau.'
-					});
-					return;
-				}
-
 				if ($form.data('submitting')) {
 					return;
 				}
@@ -2615,29 +2603,49 @@ function initForm($form, params) {
 				$form.find(':input:enabled:not([data-nonvalid]):not(button)').each(function () {
 					checkInvalidInput($(this));  
 				});
-
-				var $dangerBox = $form.find('.box-danger:visible');
-				if ($dangerBox.length) {
-					$body.animate({
-						scrollTop: $dangerBox.offset().top - 20 
-					}); 
 				
-					$form.submitStatus(false);
-					return; 
+				function waitCheckingList() {
+					setTimeout(function () {
+						if (Object.keys(checkingList).length > 0) {
+							waitCheckingList()
+						}
+						else {
+							submit();
+						}
+					}, 100);
 				}
 
-				//Submit
-				if ('submit' in params) {
-					if (params.submit() == false) {
-						var $dangerBox = $form.find('.box-danger:visible');
-						if ($dangerBox.length) {
-							$body.animate({
-								scrollTop: $dangerBox.offset().top - 20 
-							}); 
-						
-							$form.submitStatus(false);
+				function submit() {
+					var $dangerBox = $form.find('.box-danger:visible');
+					if ($dangerBox.length) {
+						$body.animate({
+							scrollTop: $dangerBox.offset().top - 20 
+						}); 
+					
+						$form.submitStatus(false);
+						return; 
+					}
+
+					//Submit
+					if ('submit' in params) {
+						if (params.submit() == false) {
+							var $dangerBox = $form.find('.box-danger:visible');
+							if ($dangerBox.length) {
+								$body.animate({
+									scrollTop: $dangerBox.offset().top - 20 
+								}); 
+							
+								$form.submitStatus(false);
+							}
 						}
 					}
+				}
+
+				if (Object.keys(checkingList).length > 0) {
+					waitCheckingList()
+				}
+				else {
+					submit();
 				}
 			});
 		}

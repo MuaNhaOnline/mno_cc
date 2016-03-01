@@ -247,7 +247,10 @@ class RealEstatesController < ApplicationController
 
 			return render json: result if result[:status] != 0
 
-			render json: { status: 0, result: re.id }
+			render json: { 
+				status: 0, 
+				result: render_to_string(partial: 'real_estates/block_item_list', locals: { res: [re] })
+			}
 		end
 
 		# Handle
