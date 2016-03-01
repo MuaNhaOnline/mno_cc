@@ -117,7 +117,7 @@
 									<%
 										parent = BlockType.where(name: @block.block_type.options['parent']).first
 									%>
-									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= parent.options['html']['attributes'].html_safe if  parent.present? && parent.options.has_key('html') %> />
+									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= parent.options['html']['attributes'].html_safe if parent.present? && parent.options.has_key?('html') %> />
 								</article>
 							<% end %>
 						<% elsif ['apartment', 'adjacent_house'].include? @project.project_type.name %>
