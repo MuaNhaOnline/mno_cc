@@ -187,7 +187,7 @@ $(function () {
 
       popupPrompt({
         title: _t.form.confirm_title,
-        content: _t.projects.view.manager.delete_confirm,
+        content: _t.project.view.manager.delete_confirm,
         type: 'warning',
         primaryButton: true,
         buttons: [
