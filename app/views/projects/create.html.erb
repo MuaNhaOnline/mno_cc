@@ -165,7 +165,7 @@
 
 				<!-- / Id (if edit) -->
 
-				<!-- Project name -->
+				<!-- Project basic info -->
 
 					<article aria-name="description" class="box box-default">
 						<section class="box-header with-border">
@@ -189,7 +189,7 @@
 
 								<article class="form-group">
 									<label class="control-label">
-										Logo rút gọn
+										Logo dự án rút gọn
 										<sup class="required-label"></sup>
 									</label>
 									<input data-constraint="required" data-init-value="<%= logo_init_value %>" name="project[logo]" class="file-upload" type="file" data-types="image" />
@@ -197,7 +197,7 @@
 
 								<article class="form-group">
 									<label class="control-label">
-										Logo đầy đủ
+										Logo dự án đầy đủ
 									</label>
 									<input data-init-value="<%= full_logo_init_value %>" name="project[full_logo]" class="file-upload" type="file" data-types="image" />
 								</article>
@@ -228,8 +228,8 @@
 						</section>
 					</article>
 
-				<!-- / Project name -->
-					
+				<!-- / Project basic info -->
+				
 				<!-- Position -->
 
 					<article aria-name="position" class="box box-default">
@@ -352,23 +352,36 @@
 
 								<!-- Campus area -->
 
-									<article class="form-group col-ss-6">
-										<label class="control-label" for="campus_area">Diện tích</label>
+									<article class="form-group col-xs-12 col-ss-4">
+										<label class="control-label" for="campus_area">Tổng diện tích</label>
 										<sup class="required-label"></sup>
 										<div class="input-group">
-											<input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @project.campus_area %>" />
+											<input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[campus_area]" id="campus_area" value="<%= @project.display_campus_area %>" />
 											<div class="input-group-addon">m<sup>2</sup></div>
 										</div>
 									</article>
 
 								<!-- / Campus area -->
 
+								<!-- Constructional area -->
+
+									<article class="form-group col-xs-12 col-ss-4">
+										<label class="control-label" for="constructional_area">Diện tích xây dựng</label>
+										<sup class="required-label"></sup>
+										<div class="input-group">
+											<input data-constraint="required real range" data-maxvalue="1000000" class="form-control separate-number" name="project[constructional_area]" id="constructional_area" value="<%= @project.display_constructional_area %>" />
+											<div class="input-group-addon">m<sup>2</sup></div>
+										</div>
+									</article>
+
+								<!-- / Constructional area -->
+
 								<!-- Using ratio -->
 
-									<article class="form-group col-ss-6">
+									<article class="form-group col-xs-12 col-ss-4">
 										<label class="control-label" for="using_ratio"><%= t 'project.attribute.using_ratio' %></label>
 										<div class="input-group">
-											<input data-constraint="real range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @project.using_ratio if @project.using_ratio != 0 %>" />
+											<input data-constraint="real range" data-minvalue="0" data-maxvalue="100" class="form-control" name="project[using_ratio]" id="using_ratio" value="<%= @project.display_using_ratio if @project.using_ratio != 0 %>" />
 											<div class="input-group-addon">%</div>
 										</div>
 									</article>
@@ -521,7 +534,7 @@
 
 										</section>
 									</article>
-								</article>		
+								</article>      
 						
 							<!-- / Project -->
 
@@ -659,7 +672,7 @@
 
 										</section>
 									</article>
-								</article>		
+								</article>      
 							
 							<!-- / Region -->
 
@@ -868,10 +881,10 @@
 									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= @project.payment_method %></textarea>
 								</article>
 
-					            <article class="form-group">
-					            	<label class="control-label" for="payment_attachment">Đính kèm</label>
-				              		<input class="file-upload" type="file" multiple name="project[payment_attachment_ids][]" aria-name="image_upload" data-amount="5" data-init-value="<%= attachment_init_value %>" data-has_description data-has_order id="payment_attachment" />
-					            </article>
+								<article class="form-group">
+									<label class="control-label" for="payment_attachment">Đính kèm</label>
+									<input class="file-upload" type="file" multiple name="project[payment_attachment_ids][]" aria-name="image_upload" data-amount="5" data-init-value="<%= attachment_init_value %>" data-has_description data-has_order id="payment_attachment" />
+								</article>
 
 							<!-- / Payment method -->
 

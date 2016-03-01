@@ -188,11 +188,16 @@ function initForm($form, params) {
 					onElements = $option.attr('data-on');
 					offElements = $option.attr('data-off');
 				}
+				else {
+					onElements = $input.attr('data-on');
+					offElements = $input.attr('data-off');
+				}
 
-				$context = $input.closest('.tab-content', $form[0]);
+				var $context = $input.closest('.tab-content', $form[0]);
 				if ($context.length == 0) {
 					$context = $form;
 				}
+
 
 				// Turn on elements
 				if (onElements && !$input.is(':disabled')) {
@@ -227,7 +232,7 @@ function initForm($form, params) {
 					var offElementsList = '';
 					$(offElements.split(' ')).each(function () {
 						offElementsList += ',[data-toggled-element~="' + this + '"]';
-					}); 
+					});
 
 					// Turn off all elements & process their child
 					$context.find(offElementsList.substr(1)).each(function () {

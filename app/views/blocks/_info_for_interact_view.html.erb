@@ -11,6 +11,15 @@
 </section>
 
 <section class="body">
+	<article class="info list">
+		<% if @block.floor_number.present? %>
+			<article class="list-item">
+				<span class="text">Số tầng / vị trí</span>
+				<span class="value"><%= @block.floor_number %></span>
+			</article>
+		<% end %>
+	</article>
+
 	<article class="info">
 		<ul style="padding-left: 0">
 			<li>

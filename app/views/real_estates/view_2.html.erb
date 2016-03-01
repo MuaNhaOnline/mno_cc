@@ -58,12 +58,12 @@
 						</section>
 						<section>
 							<% if @re.fields.include? :sell_price %>
-								<section class="price sell-price">
+								<section class="price sell-price sell-price-text">
 									<%= @re.display_sell_price %>
 								</section>
 							<% end %>
 							<% if @re.fields.include? :rent_price %>
-								<section class="price rent-price">
+								<section class="price rent-price rent-price-text">
 									<%= @re.display_rent_price %>
 								</section>
 							<% end %>

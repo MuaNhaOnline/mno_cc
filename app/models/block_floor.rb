@@ -9,6 +9,8 @@ class BlockFloor < ActiveRecord::Base
 			:url => "/assets/block_floor_surfaces/:style/:id_:filename"
 		validates_attachment_content_type :surface, content_type: /\Aimage\/.*\Z/
 
+		serialize :floors, Array
+
 	# / Attributes
 
 	# Associations

@@ -40,6 +40,13 @@ module ApplicationHelper
 		end
 	end
 
+	def self.display_number number
+		ActiveSupport::NumberHelper.number_to_delimited number, {
+			delimiter: '.',
+			separator: ','
+		}
+	end
+
 	def self.zoho_get_content_by_val array, val
 		array.each do |element|
 			return element['__content__'] if element['val'] == val
@@ -359,6 +366,6 @@ module ApplicationHelper
 				.gsub(/-{2,}/, '-')
 		end
 
-	# /Slug
+	# / Slug
 
 end

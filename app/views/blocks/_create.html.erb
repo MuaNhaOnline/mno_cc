@@ -63,72 +63,99 @@
 					<!-- Block type -->
 
 						<% if @project.project_type.name == 'complex' %>
-							<div class="row">
+							<%
+								# Can't edit
+							%>
+							<% if @block.new_record? %>
+								<div class="row">
+									<article class="form-group col-ss-6">
+										<label class="control-label" for="block_type">
+											Loại block
+											<sup class="required-label"></sup>
+										</label>
+										<select data-constraint="required" class="form-control input-toggle" id="block_type" name="block[block_type_id]">
+											<option data-off="un-block_land un-block_apartment un-block_complex_apartment un-block_adjacent_house un-block_office" value hidden>Chọn loại</option>
+											<% block_types.each do |t| %>
+												<% next if t.options.has_key? 'parent' %>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id || t.name == selected_block_type_parent %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'block_type.text.' + t.name %></option>
+											<% end %>
+										</select>
+									</article>
+									<article class="form-group col-ss-6">
+										<label class="control-label">&nbsp;</label>
+										<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_apartment un-block_complex_apartment un-block_adjacent_house un-block_office un-block_land">
+											<option value hidden>Chọn chi tiết</option>
+											<% block_types.each do |t| %>
+												<% if t.options['parent'] == 'apartment' %>
+													<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+												<% end %>
+											<% end %>
+										</select>
+										<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_land un-block_complex_apartment un-block_adjacent_house un-block_office un-block_apartment">
+											<option value hidden>Chọn chi tiết</option>
+											<% block_types.each do |t| %>
+												<% if t.options['parent'] == 'land' %>
+													<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+												<% end %>
+											<% end %>
+										</select>
+										<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_adjacent_house un-block_complex_apartment un-block_office un-block_apartment un-block_land">
+											<option value hidden>Chọn chi tiết</option>
+											<% block_types.each do |t| %>
+												<% if t.options['parent'] == 'adjacent_house' %>
+													<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+												<% end %>
+											<% end %>
+										</select>
+									</article>
+								</div>
+							<% else %>
 								<article class="form-group col-ss-6">
+									<label class="control-label" for="block_type">
+										Loại block
+									</label>
+									<%
+										parent = BlockType.where(name: @block.block_type.options['parent']).first
+									%>
+									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= parent.options['html']['attributes'].html_safe if  parent.present? && parent.options.has_key('html') %> />
+								</article>
+							<% end %>
+						<% elsif ['apartment', 'adjacent_house'].include? @project.project_type.name %>
+							<% if @block.new_record? %>
+								<article class="form-group">
 									<label class="control-label" for="block_type">
 										Loại block
 										<sup class="required-label"></sup>
 									</label>
-									<select data-constraint="required" class="form-control input-toggle" id="block_type" name="block[block_type_id]">
-										<option data-off="un-block_land un-block_apartment un-complex_apartment un-adjacent_house un-block_office un-complex" value hidden>Chọn loại</option>
-										<% block_types.each do |t| %>
-											<% next if t.options.has_key? 'parent' %>
-											<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id || t.name == selected_block_type_parent %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'block_type.text.' + t.name %></option>
-										<% end %>
-									</select>
-								</article>
-								<article class="form-group col-ss-6">
-									<label class="control-label">&nbsp;</label>
-									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_apartment un-complex_apartment un-adjacent_house un-block_office un-block_land">
-										<option value hidden>Chọn chi tiết</option>
-										<% block_types.each do |t| %>
-											<% if t.options['parent'] == 'apartment' %>
-												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" id="block_type">
+										<option value hidden>Chọn loại</option>
+										<% case @project.project_type.name %>
+										<% when 'apartment' %>
+											<% block_types.each do |t| %>
+												<% if t.options['parent'] == 'apartment' %>
+													<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+												<% end %>
 											<% end %>
-										<% end %>
-									</select>
-									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_land un-complex_apartment un-adjacent_house un-block_office un-block_apartment">
-										<option value hidden>Chọn chi tiết</option>
-										<% block_types.each do |t| %>
-											<% if t.options['parent'] == 'land' %>
-												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-											<% end %>
-										<% end %>
-									</select>
-									<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="adjacent_house un-complex_apartment un-block_office un-block_apartment un-block_land">
-										<option value hidden>Chọn chi tiết</option>
-										<% block_types.each do |t| %>
-											<% if t.options['parent'] == 'adjacent_house' %>
-												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+										<% when 'adjacent_house' %>
+											<% block_types.each do |t| %>
+												<% if t.options['parent'] == 'adjacent_house' %>
+													<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
+												<% end %>
 											<% end %>
 										<% end %>
 									</select>
 								</article>
-							</div>
-						<% elsif ['apartment', 'adjacent_house'].include? @project.project_type.name %>
-							<article class="form-group">
-								<label class="control-label" for="block_type">
-									Loại block
-									<sup class="required-label"></sup>
-								</label>
-								<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" id="block_type">
-									<option value hidden>Chọn loại</option>
-									<% case @project.project_type.name %>
-									<% when 'apartment' %>
-										<% block_types.each do |t| %>
-											<% if t.options['parent'] == 'apartment' %>
-												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-											<% end %>
-										<% end %>
-									<% when 'adjacent_house' %>
-										<% block_types.each do |t| %>
-											<% if t.options['parent'] == 'adjacent_house' %>
-												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-											<% end %>
-										<% end %>
-									<% end %>
-								</select>
-							</article>
+							<% else %>
+								<article class="form-group">
+									<label class="control-label" for="block_type">
+										Loại block
+									</label>
+									<%
+										parent = BlockType.where(name: @block.block_type.options['parent']).first
+									%>
+									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= parent.options['html']['attributes'].html_safe if  parent.present? && parent.options.has_key('html') %> />
+								</article>
+							<% end %>
 						<% end %>
 
 					<!-- / Block type -->
@@ -186,7 +213,7 @@
 									</article>
 
 									<% if ['complex', 'complex_apartment'].include? @project.project_type.name %>
-										<article class="form-group" <%= 'data-toggled-element="complex_apartment un-block_apartment un-adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
+										<article class="form-group" <%= 'data-toggled-element="block_complex_apartment un-block_apartment un-block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
 											<label class="control-label">
 												Loại bất động sản
 												<sup class="required-label"></sup>
@@ -203,7 +230,7 @@
 									<div class="row">
 
 										<% if ['complex', 'complex_apartment', 'apartment', 'adjacent_house'].include? @project.project_type.name  %>
-											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
 												<label class="control-label">
 													Phòng ngủ
 												</label>
@@ -212,7 +239,7 @@
 													<div class="input-group-addon">phòng</div>
 												</div>
 											</article>
-											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
 												<label class="control-label">
 													Phòng vệ sinh
 												</label>
@@ -277,7 +304,7 @@
 										</article>
 
 										<% if ['complex', 'complex_apartment'].include? @project.project_type.name %>
-											<article class="form-group" <%= 'data-toggled-element="complex_apartment un-block_apartment un-adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
+											<article class="form-group" <%= 'data-toggled-element="block_complex_apartment un-block_apartment un-block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
 												<label class="control-label" for="real_estate_type">
 													Loại bất động sản
 													<sup class="required-label"></sup>
@@ -294,7 +321,7 @@
 										<div class="row">
 
 											<% if ['complex', 'complex_apartment', 'apartment', 'adjacent_house'].include? @project.project_type.name  %>
-												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
 													<label class="control-label">
 														Phòng ngủ
 													</label>
@@ -303,7 +330,7 @@
 														<div class="input-group-addon">phòng</div>
 													</div>
 												</article>
-												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
+												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
 													<label class="control-label">
 														Phòng vệ sinh
 													</label>
@@ -369,7 +396,7 @@
 
 				</div>
 
-				<div class="col-md-6 col-xs-12" <%= 'data-toggled-element="complex_apartment block_apartment un-adjacent_house block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %>>
+				<div class="col-md-6 col-xs-12">
 
 					<label class="control-label">Phân bố tầng / vị trí</label>
 					
@@ -444,7 +471,7 @@
 
 										<article class="form-group" data-toggled-element="dynamic">
 											<label class="control-label">
-												Hình ảnh mặt cắt
+												Hình ảnh sàn
 												<sup class="required-label"></sup>
 											</label>
 											<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
@@ -536,7 +563,7 @@
 
 											<article class="form-group" data-toggled-element="dynamic">
 												<label class="control-label">
-													Hình ảnh mặt cắt
+													Hình ảnh sàn
 													<sup class="required-label"></sup>
 												</label>
 												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json if floor.surface.present? %>" />

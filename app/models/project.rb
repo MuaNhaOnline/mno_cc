@@ -86,8 +86,7 @@ class Project < ActiveRecord::Base
 
 			# Area
 			params[:campus_area] = ApplicationHelper.format_f params[:campus_area] if params.has_key? :campus_area
-			params[:width_x] = ApplicationHelper.format_f params[:width_x] if params.has_key? :width_x
-			params[:width_y] = ApplicationHelper.format_f params[:width_y] if params.has_key? :width_y
+			params[:constructional_area] = ApplicationHelper.format_f params[:constructional_area] if params.has_key? :constructional_area
 
 			# Constructional quality
 			if params.has_key? :using_ratio
@@ -286,7 +285,7 @@ class Project < ActiveRecord::Base
 				:project_name, :slogan, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, 
 				:price_unit_id, :position_description,
 				:lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
-				:project_type_id, :campus_area, :width_x, :width_y, :is_draft,
+				:project_type_id, :campus_area, :constructional_area, :is_draft,
 				:using_ratio, :estimate_starting_date, :estimate_finishing_date,
 				:starting_date, :finished_base_date, :transfer_date, :docs_issue_date,
 				:investor_id, :unit_description,:user_id, :date_display_type, :main_color
@@ -718,7 +717,10 @@ class Project < ActiveRecord::Base
 
 		# Area
 		def display_campus_area
-			@display_campus_area ||= campus_area.present? ? ApplicationHelper.display_decimal(campus_area) : ''
+			@display_campus_area ||= campus_area.present? ? ApplicationHelper.display_number(ApplicationHelper.display_decimal(campus_area)) : ''
+		end
+		def display_constructional_area
+			@display_constructional_area ||= constructional_area.present? ? ApplicationHelper.display_number(ApplicationHelper.display_decimal(constructional_area)) : ''
 		end
 
 		# Using ratio

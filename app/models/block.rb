@@ -1,7 +1,7 @@
 class Block < ActiveRecord::Base
 
 	# Associations
-	
+
 		belongs_to :project
 		belongs_to :block_type
 
@@ -40,6 +40,17 @@ class Block < ActiveRecord::Base
 
 				# Block type
 				params[:block_type_id] = params[:detail_block_type_id].present? ? params[:detail_block_type_id] : params[:block_type_id]
+				if params[:block_type_id].blank?
+					_project = Project.find(params[:project_id])
+					params[:block_type_id] = case _project.project_type.name
+					when 'complex_apartment'
+						5
+					when 'office'
+						2
+					when 'land'
+						4
+					end
+				end
 
 				# Images
 				_images = []
@@ -74,6 +85,47 @@ class Block < ActiveRecord::Base
 
 				# Floor
 
+					def _parseFloors string
+						# Format
+						string = string.gsub(/[^0-9\-,]/, '')
+
+						list = []
+						string.split(',').each do |s|
+							# remove redundancy
+							value = s.gsub(/\-.*\-/, '-').split('-')
+
+							# case: just a number
+							if value.length == 1
+								list << value[0].to_i
+							# case: in range
+							else 
+								# case: full param
+								if value[0].present? && value[1].present?
+									value[0] = value[0].to_i
+									value[1] = value[1].to_i
+
+									# exchange for correct format (increase)
+									if value[0] > value[1]
+										temp = value[0]
+										value[0] = value[1]
+										value[1] = temp
+									end
+
+									(value[0]..value[1]).each do |v|
+										list << v
+									end
+								# case: one in => same a number
+								elsif value[0].present?
+									list << value[0].to_i
+								elsif value[1].present?
+									list << value[1].to_i
+								end
+							end
+						end
+						
+						list.uniq.sort
+					end
+
 					_floor_params = params[:floor]
 					_floors = []
 
@@ -81,6 +133,7 @@ class Block < ActiveRecord::Base
 						_floor = _value_params[:id].present? ? BlockFloor.find(_value_params[:id]) : BlockFloor.new
 
 						_floor.floors_text = _value_params[:floors_text]
+						_floor.floors = _parseFloors _value_params[:floors_text]
 						_floor.name = _value_params[:name]
 						_floor.description = _value_params[:description]
 						_floor.is_dynamic = _value_params[:is_dynamic]
@@ -133,8 +186,30 @@ class Block < ActiveRecord::Base
 						_group.bedroom_number = ApplicationHelper.format_i _value_params[:bedroom_number] if _value_params[:bedroom_number].present?
 						_group.restroom_number = ApplicationHelper.format_i _value_params[:restroom_number] if _value_params[:restroom_number].present?
 						_group.area = ApplicationHelper.format_f _value_params[:area] if _value_params[:area].present?
-						_group.real_estate_type_id = _value_params[:real_estate_type_id] if _value_params[:real_estate_type_id].present?
 						_group.description = _value_params[:description] if _value_params[:description].present?
+
+						# Real estate type
+						_group.real_estate_type_id = _value_params[:real_estate_type_id] if _value_params[:real_estate_type_id].present?
+						if _group.real_estate_type_id.blank?
+							_group.real_estate_type_id = case BlockType.find(params[:block_type_id]).name
+							when 'land'
+								17
+							when 'office'
+								4
+							when 'adjacent_villa'
+								12
+							when 'adjacent_town_house'
+								13
+							when 'low_apartment'
+								11
+							when 'medium_apartment'
+								10
+							when 'high_apartment'
+								9
+							when 'social_home'
+								14
+							end
+						end
 
 						# Images
 						_images = []
@@ -199,7 +274,7 @@ class Block < ActiveRecord::Base
 			end
 
 		# / Save with params
-		
+
 	# / Insert
 
 	# Delete
@@ -213,5 +288,14 @@ class Block < ActiveRecord::Base
 		end
 
 	# / Delete
+
+	# Attributes
+
+		# Block type
+		def display_block_type
+			@display_block_type ||= block_type.present? ? I18n.t("block_type.text.#{block_type.name}") : ''
+		end
+
+	# / Attributes
 
 end

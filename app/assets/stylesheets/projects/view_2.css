@@ -425,7 +425,6 @@
 
 		.interact-image {
 			clear: both;
-			overflow: hidden;
 		}
 
 			.interact-image .image-panel {
@@ -474,17 +473,13 @@
 						background-color: #fff;
 					}
 
-						.interact-image .info-panel.active .content {
-							box-shadow: 0px 0px 10px rgba(0, 0, 0, .1);
-						}
-
 						.interact-image .info-panel a {
 							color: #333;
-							font-weight: bold;
+						    padding: 1px 5px;
 						}
 
 							.interact-image .info-panel a:hover {
-								color: #0085AB;
+								color: #000;
 							}
 
 					/* General */
@@ -655,11 +650,14 @@
 						padding: 5px;
 						border-bottom: 1px solid #ddd;
 						color: #333;
-						text-decoration: none;
 					}
 
 						.interact-image .navigator .options a:last-child {
 							border-bottom: 0;
+						}
+
+						.interact-image .navigator .options a:hover {
+							color: #000;
 						}
 
 						.interact-image .navigator .options a.active {

@@ -179,6 +179,14 @@ class ProjectsController < ApplicationController
 					block.real_estates.each do |re|
 						re.build_in_floors
 					end
+
+					floors = []
+					block.floors.each do |floor|
+						floors.concat floor.floors
+					end
+					block.floor_number = floors.max
+
+					block.save
 				end
 				project.create_step = 4
 				project.save

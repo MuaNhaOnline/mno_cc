@@ -458,7 +458,7 @@ class BlocksController < ApplicationController
 						},
 						floor: {
 							id: @floor.id,
-							name: "#{@floor.floors_text}: #{@floor.name}"
+							name: "Tầng #{@floor.floors_text}: #{@floor.name}"
 						}
 					}
 				

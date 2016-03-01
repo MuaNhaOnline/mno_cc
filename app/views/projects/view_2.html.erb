@@ -25,7 +25,7 @@
 <section class="cover-content">
 	<article id="cover_image" class="cover-image" style="background-image: url('<%= @project.images[0].image.url if @project.images.present? %>');"></article>
 	<article id="cover_content" class="content">
-		<article class="logo">
+		<article style="opacity: 0;" class="logo">
 			<img src="<%= @project.full_logo.present? ? @project.full_logo.url(:medium) : @project.logo.url(:medium) %>">
 		</article>
 	</article>
@@ -68,10 +68,10 @@
 							<a aria-name="utilities" href="#">Tiện ích - Tính năng</a>
 						</li>
 						<li>
-							<a aria-name="ground" href="#">Mặt bằng tổng thể</a>
+							<a aria-name="products" href="#">Sản phẩm</a>
 						</li>
 						<li>
-							<a aria-name="products" href="#">Sản phẩm</a>
+							<a aria-name="ground" href="#">Mặt bằng tổng thể</a>
 						</li>
 						<li>
 							<a aria-name="payment_method" href="#">Phương thức thanh toán</a>
@@ -226,65 +226,6 @@
 					</article>
 				
 				<!-- / Utilities -->
-					
-				<!-- Ground -->
-				
-					<article class="box" aria-name="ground">
-						<section class="box-header">
-							<h2 class="box-title">
-								Mặt bằng tổng thể
-							</h2>
-						</section>
-						<section class="box-body">
-							<article id="ground_interact" class="ground-description interact-image">
-								<section class="navigator">
-									<ul>
-										<li aria-name="project" class="active">
-											<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
-										</li>
-										<li aria-name="block">
-											<a aria-click="interact" data-type="block">Chọn block</a>
-										</li>
-										<li aria-name="group">
-											<a aria-click="interact" data-type="real_estates/group">Chọn nhóm</a>
-										</li>
-										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floor">Chọn tầng</a>
-										</li>
-										<li aria-name="real_estate">
-											<a aria-click="interact" data-type="real_estate">Chọn sản phẩm</a>
-										</li>
-										<li aria-name="position">
-											<a aria-click="interact" data-type="real_estates/floor">Chọn vị trí</a>
-										</li>
-									</ul>
-								</section>
-								<section class="image-panel">
-									<svg>
-										<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
-										<g>
-											<g aria-object="g">
-											</g>
-										</g>
-									</svg>
-									<article class="back-button button-in-panel">
-										<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
-									</article>
-									<section aria-object="info-panel-interact" class="info-panel">
-										<article class="content">
-											
-										</article>
-									</section>
-								</section>
-								<section class="images-list">
-									<ul aria-object="image-list">
-									</ul>
-								</section>
-							</article>
-						</section>
-					</article>
-				
-				<!-- / Ground -->
 				
 				<!-- Products -->
 				
@@ -458,19 +399,19 @@
 											<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
 										</li>
 										<li aria-name="block">
-											<a aria-click="interact" data-type="block">Chọn block</a>
+											<a aria-click="interact" data-type="block">Xem block</a>
 										</li>
 										<li aria-name="group">
-											<a aria-click="interact" data-type="real_estates/group">Chọn nhóm</a>
+											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
 										</li>
 										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floors">Chọn tầng</a>
+											<a aria-click="interact" data-type="blocks/floors">Xem tầng</a>
 										</li>
 										<li aria-name="real_estate">
-											<a aria-click="interact" data-type="real_estates">Chọn sản phẩm</a>
+											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>
 										</li>
 										<li aria-name="position">
-											<a aria-click="interact" data-type="real_estates/floor">Chọn vị trí</a>
+											<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
 										</li>
 									</ul>
 								</section>
@@ -500,6 +441,65 @@
 					</article>
 				
 				<!-- / Products -->
+					
+				<!-- Ground -->
+				
+					<article class="box" aria-name="ground">
+						<section class="box-header">
+							<h2 class="box-title">
+								Mặt bằng tổng thể
+							</h2>
+						</section>
+						<section class="box-body">
+							<article id="ground_interact" class="ground-description interact-image">
+								<section class="navigator">
+									<ul>
+										<li aria-name="project" class="active">
+											<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
+										</li>
+										<li aria-name="block">
+											<a aria-click="interact" data-type="block">Xem block</a>
+										</li>
+										<li aria-name="group">
+											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
+										</li>
+										<li aria-name="floor">
+											<a aria-click="interact" data-type="blocks/floor">Xem tầng</a>
+										</li>
+										<li aria-name="real_estate">
+											<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>
+										</li>
+										<li aria-name="position">
+											<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
+										</li>
+									</ul>
+								</section>
+								<section class="image-panel">
+									<svg>
+										<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+										<g>
+											<g aria-object="g">
+											</g>
+										</g>
+									</svg>
+									<article class="back-button button-in-panel">
+										<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
+									</article>
+									<section aria-object="info-panel-interact" class="info-panel">
+										<article class="content">
+											
+										</article>
+									</section>
+								</section>
+								<section class="images-list">
+									<ul aria-object="image-list">
+									</ul>
+								</section>
+							</article>
+						</section>
+					</article>
+				
+				<!-- / Ground -->
 
 				<!-- Payment method -->
 				

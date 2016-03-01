@@ -17,8 +17,14 @@
 	<article class="info list">
 		<% if @project.display_campus_area.present? %>
 			<article class="list-item">
-				<span class="text">Diện tích</span>
+				<span class="text">Tổng diện tích</span>
 				<span class="value"><%= @project.display_campus_area %>m<sup>2</sup></span>
+			</article>
+		<% end %>
+		<% if @project.display_constructional_area.present? %>
+			<article class="list-item">
+				<span class="text">Diện tích xây dựng</span>
+				<span class="value"><%= @project.display_constructional_area %>m<sup>2</sup></span>
 			</article>
 		<% end %>
 		<% if @project.display_using_ratio.present? %>

@@ -6,9 +6,9 @@
 
 <section class="heading">
 	<h3 class="title">
-		<%= @re.short_label %>
+		<%= @re.block_group.name %>
 		<span class="sub">
-			<%= @re.block_group.name %>
+			<%= @re.short_label %>
 		</span>
 		<span class="sub">
 			<%= @re.block_floor.name %>
@@ -26,7 +26,7 @@
 		<% end %>
 		<% if @re.restroom_number.present? %>
 			<article class="list-item">
-				<span class="text">Phòng ngủ</span>
+				<span class="text">Phòng tắm</span>
 				<span class="value"><%= @re.restroom_number %></span>
 			</article>
 		<% end %>
@@ -49,8 +49,23 @@
 		<ul>
 			<% @re.in_floors.each do |floor_re| %>
 				<li>
-					<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">Tầng <%= floor_re.floor %></a> <small><b>(<%= floor_re.status == 'sold' ? 'Đã bán' : number_with_delimiter(display_decimal(floor_re.sell_price.present? ? floor_re.sell_price : floor_re.rent_price)) %>)</b></small>
-					
+					<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">
+						Tầng <%= floor_re.floor %></a>
+					<small><b>
+						<% if floor_re.display_sell_price.present? %>
+							<span class="sell-price-text">
+								<%= floor_re.display_sell_price %>
+							</span>
+						<% end %>
+
+						<%= '-' if floor_re.display_sell_price.present? && floor_re.display_rent_price.present? %>
+						
+						<% if floor_re.display_rent_price.present? %>
+							<span class="rent-price-text">
+								<%= floor_re.display_rent_price %>
+							</span>
+						<% end %>
+					</b></small>
 				</li>
 			<% end %>
 		</ul>
@@ -71,7 +86,7 @@
 	</article>
 
 	<article class="info">
-		Các sản phẩm cùng mặt cắt
+		Các sản phẩm cùng sàn
 		<ul>
 			<% @re.block_floor.real_estates.each do |re| %>
 				<%

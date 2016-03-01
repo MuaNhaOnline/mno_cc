@@ -18,7 +18,7 @@ $(function () {
 		
 		(function () {
 			var 
-				lighten80 = tinycolor(mainColor).lighten(80).toString(),
+				brighten80 = tinycolor(mainColor).brighten(80).toString(),
 				desaturate20 = tinycolor(mainColor).desaturate(20).darken(5).toString(),
 				desaturate40 = tinycolor(mainColor).desaturate(40).darken(5).toString(),
 				desaturate60 = tinycolor(mainColor).desaturate(60).darken(5).toString();
@@ -32,15 +32,12 @@ $(function () {
 						'background-color: ' + desaturate60 + ';' +
 						'border-left-color: ' + desaturate40 + ';' +
 						'border-right-color: ' + desaturate40 + ';' +
-						'color: ' + lighten80 + ';' +
 					'}' +
 					'.content-panel .address .name {' +
 						'background-color: ' + desaturate40 + ';' +
-						'color: ' + lighten80 + ';' +
 					'}' +
 					'.content-panel .address .value {' +
 						'background-color: ' + desaturate60 + ';' +
-						'color: ' + lighten80 + ';' +
 					'}' +
 					'.content-panel .interact-image .navigator li.active > a {' +
 						'border-bottom-color: ' + desaturate60 + ';' +
@@ -48,7 +45,9 @@ $(function () {
 					'.content-panel .interact-image .info-panel .heading {' +
 						'background-color: ' + desaturate40 + ';' +
 						'border-bottom-color: ' + desaturate20 + ';' +
-						'color: ' + lighten80 + ';' +
+					'}' +
+					'.interact-image .info-panel a {' +
+						'background-color: ' + brighten80 + ';' +
 					'}' +
 					'.interact-image .images-list span {' +
 						'background-color: ' + desaturate40 + ';' +
@@ -1140,7 +1139,7 @@ $(function () {
 				});
 				$positionBefore.after($productInteract.show().add($productInteract.nextAll(':lt(2)')));
 				// Calc arrow position
-				$arrow.css('left', $item.offset().left + ($item.width() / 2) + 2 - $productInteract.offset().left);
+				$arrow.css('left', $item.offset().left + ($item.width() / 2) - $arrow.width() / 2 - $productInteract.offset().left);
 				// Scroll to panel
 				$('html,body').animate({
 					scrollTop: $productInteract.offset().top - $window.height() * 0.1
