@@ -129,6 +129,8 @@ $(function () {
 										result = $(result);
 										initBlock(result);
 										$item.replaceWith(result);
+
+										result.find('[aria-click="select_block"]').click();
 									});
 								}
 								else {

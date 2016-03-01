@@ -186,15 +186,19 @@ class Block < ActiveRecord::Base
 
 					_group_params.each_value do |_value_params|
 						_group = _value_params[:id].present? ? BlockRealEstateGroup.find(_value_params[:id]) : BlockRealEstateGroup.new
-						
+
+						_value_params[:bedroom_number] = ApplicationHelper.format_i _value_params[:bedroom_number] if _value_params[:bedroom_number].present?
+						_value_params[:restroom_number] = ApplicationHelper.format_i _value_params[:restroom_number] if _value_params[:restroom_number].present?
+						_value_params[:area] = ApplicationHelper.format_f _value_params[:area] if _value_params[:area].present?
+
 						_group.name = _value_params[:name]
-						_group.bedroom_number = ApplicationHelper.format_i _value_params[:bedroom_number] if _value_params[:bedroom_number].present?
-						_group.restroom_number = ApplicationHelper.format_i _value_params[:restroom_number] if _value_params[:restroom_number].present?
-						_group.area = ApplicationHelper.format_f _value_params[:area] if _value_params[:area].present?
-						_group.description = _value_params[:description] if _value_params[:description].present?
+						_group.bedroom_number = _value_params[:bedroom_number]
+						_group.restroom_number = _value_params[:restroom_number]
+						_group.area = _value_params[:area]
+						_group.description = _value_params[:description]
 
 						# Real estate type
-						_group.real_estate_type_id = _value_params[:real_estate_type_id] if _value_params[:real_estate_type_id].present?
+						_group.real_estate_type_id = _value_params[:real_estate_type_id]
 						if _group.real_estate_type_id.blank?
 							_group.real_estate_type_id = case BlockType.find(params[:block_type_id]).name
 							when 'land'
@@ -246,6 +250,25 @@ class Block < ActiveRecord::Base
 							_images[0].assign_attributes is_avatar: true
 						end
 						_group.images = _images
+
+						# Update real-estate area, bedroom, area
+						unless _group.new_record?
+							_update_attributes = {}
+
+							if _group.bedroom_number_changed? && _group.bedroom_number.present?
+								_update_attributes[:bedroom_number] = _group.bedroom_number
+							end
+
+							if _group.restroom_number_changed? && _group.restroom_number.present?
+								_update_attributes[:restroom_number] = _group.restroom_number
+							end
+
+							if _group.area_changed? && _group.area.present?
+								_update_attributes[:campus_area] = _group.area_was
+							end
+
+							_group.real_estates.update_all _update_attributes if _update_attributes.keys.count > 0
+						end
 
 						_groups << _group
 					end
