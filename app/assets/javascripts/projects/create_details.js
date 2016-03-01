@@ -85,7 +85,7 @@ $(function () {
 								startBlockCreateForm($(data.result), function (result) {
 									result = $(result);
 									initBlock(result);
-									$blockList.prepend(result);
+									$blockList.append(result);
 									result.find('[aria-click="select_block"]').click();
 								});
 							}
@@ -129,11 +129,8 @@ $(function () {
 										result = $(result);
 										initBlock(result);
 										$item.replaceWith(result);
-
-										if ($item.data('value') == selectedBlockId) {
-											realEstateFind();
-										}
-									})
+										$item.find('[aria-click="select_block"]').click();
+									});
 								}
 								else {
 									popupPrompt({

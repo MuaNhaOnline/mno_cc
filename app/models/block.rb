@@ -39,17 +39,22 @@ class Block < ActiveRecord::Base
 			def assign_attributes_with_params params
 
 				# Block type
-				params[:block_type_id] = params[:detail_block_type_id].present? ? params[:detail_block_type_id] : params[:block_type_id]
-				if params[:block_type_id].blank?
-					_project = Project.find(params[:project_id])
-					params[:block_type_id] = case _project.project_type.name
-					when 'complex_apartment'
-						5
-					when 'office'
-						2
-					when 'land'
-						4
+				if new_record?
+					params[:block_type_id] = params[:detail_block_type_id].present? ? params[:detail_block_type_id] : params[:block_type_id]
+					
+					if params[:block_type_id].blank?
+						_project = Project.find(params[:project_id])
+						params[:block_type_id] = case _project.project_type.name
+						when 'complex_apartment'
+							5
+						when 'office'
+							2
+						when 'land'
+							4
+						end
 					end
+				else
+					params[:block_type_id] = block_type_id
 				end
 
 				# Images
