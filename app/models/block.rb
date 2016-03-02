@@ -45,6 +45,18 @@ class Block < ActiveRecord::Base
 					if params[:block_type_id].blank?
 						_project = Project.find(params[:project_id])
 						params[:block_type_id] = case _project.project_type.name
+						when 'low_apartment'
+							7
+						when 'medium_apartment'
+							8
+						when 'high_apartment'
+							9
+						when 'social_home'
+							10
+						when 'adjacent_town_house'
+							3
+						when 'adjacent_villa'
+							14
 						when 'complex_apartment'
 							5
 						when 'office'

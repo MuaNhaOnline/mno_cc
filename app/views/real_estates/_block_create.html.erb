@@ -275,6 +275,7 @@
 							<select data-constraint="required" name="real_estate[block][block_floor_id]" class="form-control" id="block_floor">
 								<option value hidden>Chọn tầng / vị trí phân bố</option>
 								<% @block.floors.each do |floor| %>
+									<% next unless floor.is_dynamic %>
 									<option <%= 'selected' if floor.id == @re.block_floor_id %> value="<%= floor.id %>" data-value="<%= floor.floors_text %>"><%= floor.name %> (<%= floor.floors_text %>)</option>
 								<% end %>
 							</select>
