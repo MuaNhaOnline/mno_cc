@@ -157,7 +157,7 @@ class ProjectsController < ApplicationController
 						errors << {
 							type: 'block',
 							id: block.id,
-							name: floor.name
+							name: floor.display_name
 						}
 					end
 				end

@@ -10,4 +10,12 @@ class BlockRealEstateGroup < ActiveRecord::Base
 
 	# / Associations
 
+	# Attributes
+	
+		def display_area
+			@display_area ||= area.present? ? ApplicationHelper.display_decimal(area) : ''
+		end
+	
+	# / Attributes
+
 end

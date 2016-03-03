@@ -8,10 +8,10 @@
 	<h3 class="title">
 		<%= @position.real_estate.block_group.name %>
 		<span class="sub">
-			<%= @position.label %>
+			Mã <%= @position.label %>
 		</span>
 		<span class="sub">
-			<%= @position.real_estate.block_floor.name %>
+			<%= @position.real_estate.block_floor.display_name %>
 		</span>
 	</h3>
 </section>
@@ -20,7 +20,7 @@
 	<article class="info list">
 		<% if @position.floor.present? %>
 			<article class="list-item">
-				<span class="text">Tầng / Vị trí</span>
+				<span class="text">Sàn</span>
 				<span class="value"><%= @position.floor %></span>
 			</article>
 		<% end %>

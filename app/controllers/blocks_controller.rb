@@ -458,7 +458,7 @@ class BlocksController < ApplicationController
 						},
 						floor: {
 							id: @floor.id,
-							name: "Tầng #{@floor.floors_text}: #{@floor.name}"
+							name: @floor.display_name
 						}
 					}
 				
@@ -484,7 +484,7 @@ class BlocksController < ApplicationController
 					group_ids = '|' + floor.real_estates.group_by{ |re| re.block_real_estate_group_id }.keys.join('|') + '|'
 					options << {
 						id: floor.id,
-						name: "Tầng #{floor.floors_text}: #{floor.name}",
+						name: floor.display_name,
 						group_ids: group_ids
 					}
 				end

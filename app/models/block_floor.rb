@@ -11,6 +11,11 @@ class BlockFloor < ActiveRecord::Base
 
 		serialize :floors, Array
 
+		# Name
+		def display_name
+			@display_name ||= "Sàn #{floors_text}#{": #{name}" if name.present?}"
+		end
+
 	# / Attributes
 
 	# Associations

@@ -974,7 +974,7 @@ function initForm($form, params) {
 						$previewList.appendTo($wrapper);
 						$wrapper.append('<div class="alert-text" style="display: none;">asdfasdfds</div>')
 
-					// Create html
+					// / Create html
 
 					// Drop event
 
@@ -997,18 +997,28 @@ function initForm($form, params) {
 							if (e.dataTransfer.files.length > 0) {
 								readFiles($(this).find('.file-upload:eq(0)'), e.dataTransfer.files);
 							}
-							else if (e.dataTransfer.getData('URL')) {
-								var fileName = e.dataTransfer.getData('URL').split('/').pop().split('?').shift();
-								var $input = $(this).find('.file-upload:eq(0)');
+							// else {
+							// 	url = e.dataTransfer.getData('URL') || e.dataTransfer.getData('Text');
+							// 	if (url) {
+							// 		var fileName = url.split('/').pop().split('?').shift();
+							// 		var $input = $(this).find('.file-upload:eq(0)');
 
-								var xhr = $.ajaxSettings.xhr(); 
-								xhr.open('GET', e.dataTransfer.getData('URL'));
-								xhr.responseType = "blob";
-								xhr.onload = function() {
-									readFiles($input, [new File([xhr.response], fileName, {type: xhr.response.type})]);
-								}
-								xhr.send();
-							}
+							// 		var img = new Image();
+							// 		img.setAttribute('crossOrigin', 'anonymous');
+							// 		img.src = url;
+							// 		img.onload = function (e) {
+							// 			var canvas = document.createElement("canvas");
+							// 			canvas.width = img.width;
+							// 			canvas.height = img.height;
+							// 			var ctx = canvas.getContext("2d");
+							// 			ctx.drawImage(img, 0, 0);
+							// 			canvas.toBlob(function (blob) {											
+							// 				console.log(blob);
+							// 			});
+							// 			// readFiles($input, [new File([xhr.response], fileName, {type: xhr.response.type})]);
+							// 		};
+							// 	}
+							// }
 						}, false);
 
 					// / Drop event

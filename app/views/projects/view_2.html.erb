@@ -25,7 +25,7 @@
 <section class="cover-content">
 	<article id="cover_image" class="cover-image" style="background-image: url('<%= @project.images[0].image.url if @project.images.present? %>');"></article>
 	<article id="cover_content" class="content">
-		<article style="opacity: 0;" class="logo">
+		<article class="logo">
 			<img src="<%= @project.full_logo.present? ? @project.full_logo.url(:medium) : @project.logo.url(:medium) %>">
 		</article>
 	</article>
@@ -405,7 +405,7 @@
 											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
 										</li>
 										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floors">Xem tầng</a>
+											<a aria-click="interact" data-type="blocks/floors">Xem sàn</a>
 										</li>
 										<li aria-name="real_estate">
 											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>
@@ -464,7 +464,7 @@
 											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
 										</li>
 										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floor">Xem tầng</a>
+											<a aria-click="interact" data-type="blocks/floor">Xem sàn</a>
 										</li>
 										<li aria-name="real_estate">
 											<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>

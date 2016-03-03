@@ -6,9 +6,9 @@
 
 <section class="heading">
 	<h3 class="title">
-		<%= @floor.name %>
+		Tầng <%= @floor.floors_text %>
 		<span class="sub">
-			Tầng <%= @floor.floors_text %>
+			<%= @floor.block.name %>
 		</span>
 	</h3>
 </section>
@@ -60,7 +60,7 @@
 						end
 					%>
 					<li>
-						Tầng <%= floor.floors_text %>: <a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+						<a aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.display_name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
 					</li>
 				<% end %>
 			</ul>

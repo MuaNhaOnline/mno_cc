@@ -831,7 +831,7 @@ class RealEstatesController < ApplicationController
 					},
 					position: {
 						id: @position.id,
-						name: "Tầng #{@position.floor}: #{@position.label}"
+						name: "Sàn #{@position.floor}: #{@position.label}"
 					}
 				}
 			

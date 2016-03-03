@@ -554,7 +554,7 @@ $(function () {
 							}
 
 							pointX = e.clientX - $svg.offset().left;
-							pointY = e.clientY - $svg.offset().top - $window.scrollTop();
+							pointY = e.clientY - $svg.offset().top + $window.scrollTop();
 
 							tranX -= (-tranX + pointX) / oldScale * (scale - oldScale);
 							tranY -= (-tranY + pointY) / oldScale * (scale - oldScale);

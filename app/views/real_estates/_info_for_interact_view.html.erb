@@ -50,7 +50,7 @@
 			<% @re.in_floors.each do |floor_re| %>
 				<li>
 					<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">
-						Tầng <%= floor_re.floor %></a>
+						Sàn <%= floor_re.floor %></a>
 					<small><b>
 						<% if floor_re.display_sell_price.present? %>
 							<span class="sell-price-text">

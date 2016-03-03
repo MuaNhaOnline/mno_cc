@@ -27,7 +27,6 @@
 				<ul>
 					<% @block.floors.each do |floor| %>
 						<li>
-							Tầng <%= floor.floors_text %>:
 							<% if floor.is_dynamic %>
 								<%
 									available_count = 0
@@ -37,9 +36,9 @@
 										count += re.in_floors.count
 									end
 								%>
-								<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+								<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.display_name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
 							<% else %>
-								<%= floor.name %>
+								<%= floor.display_name %>
 							<% end %>
 						</li>
 					<% end %>

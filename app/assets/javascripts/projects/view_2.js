@@ -37,7 +37,7 @@ $(function () {
 						'background-color: ' + desaturate40 + ';' +
 					'}' +
 					'.content-panel .address .value {' +
-						'backg2round-color: ' + desaturate60 + ';' +
+						'background-color: ' + desaturate60 + ';' +
 					'}' +
 					'.content-panel .interact-image .navigator li.active > a {' +
 						'border-bottom-color: ' + desaturate60 + ';' +
@@ -109,7 +109,7 @@ $(function () {
 
 				}, 500);
 
-			}, 1000);
+			}, 2000);
 		})();
 	
 	// / Cover page
@@ -231,7 +231,7 @@ $(function () {
 				});
 
 				$window.on('scroll', function () {
-					if (_isSystemScroll) {
+					if (!_isSystemScroll) {
 						// If focus nothing => read all
 						if ($focusingBox.length == 0) {
 							$contentPanel.find('.box[aria-name]').each(function () {

@@ -602,6 +602,8 @@ class RealEstate < ActiveRecord::Base
 
 							_floor_info.rent_price_text = ApplicationHelper.read_money _floor_info.rent_price
 						end
+
+						_floor_info.save
 					end
 				end
 
