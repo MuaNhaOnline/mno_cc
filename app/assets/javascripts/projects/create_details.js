@@ -6,7 +6,7 @@ $(function () {
 
 		function parseFloors(stringList) {
 			// Format
-			stringList = stringList.replace(/[^0-9-,]/g, '');
+			stringList = stringList.toString().replace(/[^0-9-,]/g, '');
 
 			list = []
 			$(stringList.split(',')).each(function () {
@@ -239,6 +239,7 @@ $(function () {
 
 					// Floor validation
 
+						// If first check => recursive
 						var firstChecking = false;
 						$form.find('[aria-object="floors"]').attr('data-recreate', '').data('recreate', function (params) {
 							var $input = $(params.element);
@@ -247,7 +248,13 @@ $(function () {
 									return;
 								}
 								var isFirstCheck;
-								firstChecking = isFirstCheck = !firstChecking;
+								if (firstChecking == false) {
+									isFirstCheck = true;
+									firstChecking = true;
+								}
+								else {
+									isFirstCheck = false;
+								}
 
 								currentFloors = parseFloors($input.val());
 

@@ -53,12 +53,12 @@ class Block < ActiveRecord::Base
 							9
 						when 'social_home'
 							10
+						when 'complex_apartment'
+							5
 						when 'adjacent_town_house'
 							3
 						when 'adjacent_villa'
 							14
-						when 'complex_apartment'
-							5
 						when 'office'
 							2
 						when 'land'
@@ -213,14 +213,6 @@ class Block < ActiveRecord::Base
 						_group.real_estate_type_id = _value_params[:real_estate_type_id]
 						if _group.real_estate_type_id.blank?
 							_group.real_estate_type_id = case BlockType.find(params[:block_type_id]).name
-							when 'land'
-								17
-							when 'office'
-								4
-							when 'adjacent_villa'
-								12
-							when 'adjacent_town_house'
-								13
 							when 'low_apartment'
 								11
 							when 'medium_apartment'
@@ -229,6 +221,14 @@ class Block < ActiveRecord::Base
 								9
 							when 'social_home'
 								14
+							when 'adjacent_villa'
+								12
+							when 'adjacent_town_house'
+								13
+							when 'office'
+								4
+							when 'land'
+								17
 							end
 						end
 

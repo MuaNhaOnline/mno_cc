@@ -91,14 +91,6 @@
 												<% end %>
 											<% end %>
 										</select>
-										<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_land un-block_complex_apartment un-block_adjacent_house un-block_office un-block_apartment">
-											<option value hidden>Chọn chi tiết</option>
-											<% block_types.each do |t| %>
-												<% if t.options['parent'] == 'land' %>
-													<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id %>><%= t 'block_type.text.' + t.name %></option>
-												<% end %>
-											<% end %>
-										</select>
 										<select data-constraint="required" class="form-control" name="block[detail_block_type_id]" data-toggled-element="block_adjacent_house un-block_complex_apartment un-block_office un-block_apartment un-block_land">
 											<option value hidden>Chọn chi tiết</option>
 											<% block_types.each do |t| %>
@@ -449,9 +441,8 @@
 											<article class="form-group">
 												<label class="control-label">
 													Tên
-													<sup class="required-label"></sup>
 												</label>
-												<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" />
+												<input class="form-control" name="block[floor][tab_name][name]" />
 											</article>     
 											
 										</div>
@@ -459,9 +450,8 @@
 											<article class="form-group">
 												<label class="control-label">
 													Mô tả
-													<sup class="required-label"></sup>
 												</label>
-												<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"></textarea>
+												<textarea class="form-control" style="height: 108px" name="block[floor][tab_name][description]"></textarea>
 											</article>
 										</div>     		
 										
@@ -533,9 +523,8 @@
 													<article class="form-group">
 														<label class="control-label">
 															Tên
-															<sup class="required-label"></sup>
 														</label>
-														<input data-constraint="required" class="form-control" name="block[floor][tab_name][name]" value="<%= floor.name %>" />
+														<input class="form-control" name="block[floor][tab_name][name]" value="<%= floor.name %>" />
 													</article>     
 
 												<!-- / Name -->					          		
@@ -548,9 +537,8 @@
 													<article class="form-group">
 														<label class="control-label">
 															Mô tả
-															<sup class="required-label"></sup>
 														</label>
-														<textarea data-constraint="required" class="form-control" style="height: 108px" name="block[floor][tab_name][description]"><%= floor.description %></textarea>
+														<textarea class="form-control" style="height: 108px" name="block[floor][tab_name][description]"><%= floor.description %></textarea>
 													</article>
 
 												<!-- / Description -->
@@ -569,7 +557,7 @@
 												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json if floor.surface.present? %>" />
 											</article>
 
-											<article class="form-group" data-toggled-element="static">
+											<article class="form-group fu1" data-toggled-element="static">
 												<%
 													image_init_value = ''
 													images = []
@@ -581,7 +569,7 @@
 												<label class="control-label">
 													Hình ảnh
 												</label>
-												<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_order data-has_description />
+												<input class="file-upload fu2" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_order data-has_description />
 											</article>
 
 										<!-- / Image -->

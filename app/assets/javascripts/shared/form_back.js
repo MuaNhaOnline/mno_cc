@@ -164,8 +164,11 @@ function initForm($form, params) {
 				toggle($(this));  
 			});
 			
-			$form.data('toggle_inputs', function () {
-				$form.find('.input-toggle:enabled').each(function () {
+			$form.data('toggle_inputs', function ($container) {
+				if (typeof $container == 'undefined') {
+					$container = $form;
+				}
+				$container.find('.input-toggle:enabled').each(function () {
 					toggle($(this));
 				});
 			});
@@ -197,7 +200,6 @@ function initForm($form, params) {
 				if ($context.length == 0) {
 					$context = $form;
 				}
-
 
 				// Turn on elements
 				if (onElements && !$input.is(':disabled')) {
@@ -909,7 +911,7 @@ function initForm($form, params) {
 					var 
 						$fileUpload = $(this),
 						hasDescription = $fileUpload.is('[data-has_description]'),
-						 hasAvatar = $fileUpload.is('[data-has_avatar]'),
+						hasAvatar = $fileUpload.is('[data-has_avatar]'),
 						hasOrder = $fileUpload.is('[data-has_order]'),
 						dimension = $fileUpload.data('dimension') || false,
 						controls = null, onItemRemove = null, onItemAdd = null, onInitItemAdd = null;
@@ -926,13 +928,13 @@ function initForm($form, params) {
 							data.element = $fileUpload;
 						}
 
-						$original_object = data.element.data('original_object');
-						$original_object.attr('name', $original_object.data('original_name'));
+						$originalObject = data.element.data('original_object');
+						$originalObject.attr('name', $originalObject.data('original_name'));
 						if (data.new) {
-							$original_object.data('init-value', '');
+							$originalObject.data('init-value', '');
 						}
-						data.element.closest('.file-uploader').replaceWith($original_object);
-						initFileInput($original_object);
+						data.element.closest('.file-uploader').replaceWith($originalObject);
+						initFileInput($originalObject);
 					});
 					// Dimension 
 					if (dimension) {
@@ -2122,8 +2124,8 @@ function initForm($form, params) {
 					$tabContainer.find('.tab-list [aria-click="add_tab"]').on('click', function () {
 						// Get contents
 						var
-							$tabButton = $tabContainer.find('.tab-list li[aria-name]:eq(0)').clone(true).attr('aria-name', 'new').attr('data-status', '').removeClass('active'),
-							$tabContent = $tabContainer.find('.tab-content:eq(0)').clone(true).attr('aria-name', 'new').removeClass('active');
+							$tabButton = $tabContainer.find('.tab-list li[aria-name]:last').clone(true).attr('aria-name', 'new').attr('data-status', '').removeClass('active'),
+							$tabContent = $tabContainer.find('.tab-content:last').clone(true).attr('aria-name', 'new').removeClass('active');
 
 						// Replace name off radio input for don't lose radio input in other tabs
 						$tabContent.find(':input[type="radio"]').attr('name', '');
@@ -2146,6 +2148,8 @@ function initForm($form, params) {
 								$form.find('[name="' + this + '"]').change();
 							});	
 						}
+
+						$form.data('toggle_inputs')($tabContent);
 					});
 
 				// / Add
@@ -2607,7 +2611,7 @@ function initForm($form, params) {
 				function waitCheckingList() {
 					setTimeout(function () {
 						if (Object.keys(checkingList).length > 0) {
-							waitCheckingList()
+							waitCheckingList();
 						}
 						else {
 							submit();
