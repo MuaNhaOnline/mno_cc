@@ -2,45 +2,51 @@
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/blogs/create.js"></script>
+	<script type="text/javascript" src="/assets/blogs/create.js"></script>
 <% end %>
 
 <% 
 =begin
-  params: @blog
+	params: @blog
 =end
 
-  @title = t 'blog.view.create.page_title'
+	@title = t 'blog.view.create.page_title'
 %>
 
 <form id="blog_form" class="form">
-  <article class="box">
-    <section class="box-header with-border">
-      <h2 class="box-title">
-        <%= t 'blog.view.create.form_title' %>
-      </h2>
-    </section>
-    <section class="box-body">
-      <% unless @blog.new_record? %>
-        <input type="hidden" name="blog[id]" value="<%= @blog.id %>" />
-      <% end %>
-      <article class="form-group">
-        <label class="control-label">
-          Tiêu đề
-          <sup for="title" class="required-label"></sup>
-        </label>
-        <input data-constraint="required" class="form-control" name="blog[title]" id="title" value="<%= @blog.title %>" />
-      </article>
-      <article class="form-group">
-        <label class="control-label" for="content">
-          Nội dung
-          <sup class="required-label"></sup>
-        </label>
-        <textarea data-editor-extra-plugins=",font,uploadimage,filebrowser,image2" data-constraint="required" class="form-control" aria-input-type="editor" name="blog[content]" id="content"><%= @blog.content %></textarea>
-      </article>
-    </section>
-    <section class="box-footer text-center">
-      <button type="submit" class="btn btn-primary btn-flat"><%= t 'form.finish' %></button>
-    </section>
-  </article>
+	<article class="box">
+		<section class="box-header with-border">
+			<h2 class="box-title">
+				<%= t 'blog.view.create.form_title' %>
+			</h2>
+		</section>
+		<section class="box-body">
+			<% unless @blog.new_record? %>
+				<input type="hidden" name="blog[id]" value="<%= @blog.id %>" />
+			<% end %>
+			<article class="form-group">
+				<label class="control-label">
+					Tiêu đề
+					<sup for="title" class="required-label"></sup>
+				</label>
+				<input data-constraint="required" class="form-control" name="blog[title]" id="title" value="<%= @blog.title %>" />
+			</article>
+			<article class="form-group">
+				<label class="control-label" for="content">
+					Nội dung
+					<sup class="required-label"></sup>
+				</label>
+				<textarea data-editor-extra-plugins=",font,uploadimage,filebrowser,image2" data-constraint="required" class="form-control" aria-input-type="editor" name="blog[content]" id="content"><%= @blog.content %></textarea>
+			</article>
+			<article class="form-group">
+				<label class="control-label">
+					Mã khóa
+				</label>
+				<input data-constraint="required" class="form-control" name="blog[key]" id="key" value="<%= @blog.key %>" />
+			</article>
+		</section>
+		<section class="box-footer text-center">
+			<button type="submit" class="btn btn-primary btn-flat"><%= t 'form.finish' %></button>
+		</section>
+	</article>
 </form>

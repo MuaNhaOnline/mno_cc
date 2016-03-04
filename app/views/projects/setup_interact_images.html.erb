@@ -162,7 +162,9 @@
 				</h2>
 			</section>
 			<section class="box-body">
-				<p aria-object="project-error-text" class="error-text text-red"></p>
+				<p aria-object="project-error-text" class="error-text text-red">
+				 	Các block chưa được trỏ:
+				</p>
 				<article class="manual-horizontal-list">
 					<section class="list-wrapper">
 						<article class="list items-list" data-value="<%= @project.id %>" data-type="project">
@@ -200,7 +202,9 @@
 						<% @project.blocks.each do |block| %>
 							<article class="tab-content" aria-name="block<%= block.id %>">
 								<article class="item-container">
-									<p aria-object="block<%= block.id %>-error-text" class="error-text text-red"></p>
+									<p aria-object="block<%= block.id %>-error-text" class="error-text text-red">
+								 		Các sàn chưa được trỏ:
+									</p>
 									<section class="manual-horizontal-list">
 										<section class="list-wrapper">
 											<article class="list items-list" data-value="<%= block.id %>" data-type="block">
@@ -270,7 +274,9 @@
 												</article>
 											</article>
 											<article class="tab-content" aria-name="surface">
-												<p aria-object="surface<%= block.id %>-error-text" class="error-text text-red"></p>
+												<p aria-object="surface<%= block.id %>-error-text" class="error-text text-red">
+												 	Các sản phẩm chưa được trỏ:
+												</p>
 												<article class="manual-horizontal-list">
 													<section class="list-wrapper">
 														<article class="list items-list" data-value="<%= block.id %>" data-type="blocks/floor">

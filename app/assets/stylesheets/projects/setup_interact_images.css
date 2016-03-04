@@ -202,11 +202,6 @@
 			font-weight: bold;
 		}
 	
-			.view-container .error-text:before {
-				content: 'Cần hình ảnh trỏ đến đối tượng: ';
-				font-weight: normal;
-			}
-	
 			.view-container .error-text span:not(:first-child):before {
 				content: ', ';
 			}

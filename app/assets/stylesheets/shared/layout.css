@@ -48,6 +48,11 @@
 		margin: 0;
 	}
 
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+
 	.bg-light-gray {
 		background-color: #fafafa;
 	}

@@ -294,7 +294,7 @@ class Project < ActiveRecord::Base
 
 		# Save with params
 
-		def save_with_params params, is_draft = false
+		def save_with_params _params, _is_draft = false
 			# Author
 			if new_record?
 				return { status: 6 } if User.current.cannot? :create, Project
@@ -302,29 +302,35 @@ class Project < ActiveRecord::Base
 				return { status: 6 } if User.current.cannot? :edit, self
 			end
 
-			assign_attributes_with_params params
+			assign_attributes_with_params _params
 
 			other_params = {
-				is_draft: is_draft,
+				is_draft: _is_draft,
 				is_pending: true,
 				slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.project_name))
 			}
 
 			assign_attributes other_params
 
-			if create_step < 1
-				assign_attributes create_step: 1
+			if _is_draft
+				if create_step < 1
+					assign_attributes create_step: 1
+				end
+			else
+				if create_step < 2
+					assign_attributes create_step: 2
+				end
 			end
 
 			assign_meta_search
 
 			_is_new_record = new_record?
 
-			if save validate: !is_draft
+			if save validate: !_is_draft
 				User.increase_project_count User.current.id if _is_new_record
 				{ status: 0 }
 			else 
-				{ status: project_params[:date_display_type] }
+				{ status: 3 }
 			end
 		end
 

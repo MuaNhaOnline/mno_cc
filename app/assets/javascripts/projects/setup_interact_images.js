@@ -2,6 +2,8 @@ var project_id;
 
 $(function () {
 
+	var buildChecking = false;
+
 	_initTabContainer($('.free-style-tab-container'));
 	_initManualHorizontalList($('.manual-horizontal-list'));
 	
@@ -23,7 +25,7 @@ $(function () {
 		// Set finish
 		
 			$('.error-icon').hide();
-			$('.error-text').hide().html('');
+			$('.error-text').hide().find('span').remove();
 			$('[aria-click="setup_finish"]').on('click', function () {
 				$.ajax({
 					url: '/projects/setup_interact_images_finish/' + project_id,
@@ -31,8 +33,9 @@ $(function () {
 				}).done(function (data) {
 					if (data.status == 0) {
 						if (data.result.length > 0) {
+							buildChecking = true;
 							$('.error-icon').hide();
-							$('.error-text').hide().html('');
+							$('.error-text').hide().find('span').remove();
 							$(data.result).each(function () {
 								$('[aria-object="' + this.type + this.id + '-error-icon"]').show();
 								$('[aria-object="' + this.type + this.id + '-error-text"]').show().append('<span>' + this.name + '</span>');
@@ -242,6 +245,41 @@ $(function () {
 					toggleLoadStatus(false);
 				}).done(function (data) {
 					if (data.status == 0) {
+						if (buildChecking) {
+							$.ajax({
+								url: '/projects/setup_interact_images_finish/' + project_id,
+								data: {
+									just_check: 't'
+								},
+								dataType: 'JSON'
+							}).done(function (data) {
+								if (data.status == 0) {
+									$('.error-icon').hide();
+									$('.error-text').hide().html('');
+
+									if (data.result.length > 0) {
+										$('.error-icon').hide();
+										$('.error-text').hide().html('');
+										$(data.result).each(function () {
+											$('[aria-object="' + this.type + this.id + '-error-icon"]').show();
+											$('[aria-object="' + this.type + this.id + '-error-text"]').show().append('<span>' + this.name + '</span>');
+
+											if (this.type == 'surface') {
+												$('[aria-object="block' + this.id + '-error-icon"]').show();
+											}
+										});
+										$body.animate({
+											scrollTop: $('.error-icon:eq(0)').offset().top - 20
+										}, 100);
+									}
+								}
+								else {
+									errorPopup();
+								}
+							}).fail(function () {
+								errorPopup();
+							});
+						}
 					}
 					else {
 						errorPopup();

@@ -294,7 +294,7 @@
 
 							<!-- Project type (user cannot edit) -->
 
-								<% if @project.new_record? || @project.project_type.blank? %>
+								<% if true || @project.new_record? || @project.project_type.blank? %>
 
 									<div class="row">
 										<article class="form-group col-ss-6">
@@ -316,14 +316,6 @@
 												<option value hidden>Chọn chi tiết</option>
 												<% project_types.each do |t| %>
 													<% if t.options['parent'] == 'apartment' %>
-														<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
-													<% end %>
-												<% end %>
-											</select>
-											<select class="form-control" name="project[detail_project_type_id]" data-toggled-element="land un-complex_apartment un-adjacent_house un-office un-apartment un-complex">
-												<option value hidden>Chọn chi tiết</option>
-												<% project_types.each do |t| %>
-													<% if t.options['parent'] == 'land' %>
 														<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id %>><%= t 'project_type.text.' + t.name %></option>
 													<% end %>
 												<% end %>

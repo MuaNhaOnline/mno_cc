@@ -56,6 +56,7 @@ class ProjectsController < ApplicationController
 			
 			# Author
 			if @project.new_record?
+
 				authorize! :create, Project
 			else
 				authorize! :edit, @project
@@ -103,12 +104,6 @@ class ProjectsController < ApplicationController
 		# params: id
 		def create_details
 			@project = Project.find params[:id]
-
-			# Update step
-			if (@project.create_step < 2)
-				@project.create_step = 2
-				@project.save
-			end
 			
 			render layout: 'layout_back'
 		end
@@ -128,7 +123,7 @@ class ProjectsController < ApplicationController
 		end
 
 		# Handle
-		# params: id(*)
+		# params: id(*), just_check(enum: t/f)
 		# return
 			# errors: [
 			# 	{
@@ -174,7 +169,7 @@ class ProjectsController < ApplicationController
 				end
 			end
 
-			if errors.length == 0
+			if errors.length == 0 && params[:just_check] != 't'
 				project.blocks.each do |block|
 					block.real_estates.each do |re|
 						re.build_in_floors

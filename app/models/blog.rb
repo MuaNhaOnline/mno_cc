@@ -25,7 +25,7 @@ class Blog < ActiveRecord::Base
 		# Assign with params
 
 			def assign_attributes_with_params params
-				assign_attributes params.permit [:title, :content]
+				assign_attributes params.permit [:title, :content, :key]
 			end
 
 		# / Assign with params
