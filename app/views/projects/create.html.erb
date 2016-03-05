@@ -423,29 +423,12 @@
 
 													<input type="hidden" value="" name="project[utilities][tab_name][id]" />
 
-													<article class="row">
-
-														<article class="form-group col-xs-12 col-ss-6">
-															<label class="control-label">
-																Nhãn
-																<sup class="required-label"></sup>
-															</label>
-															<input data-constraint="required" type="text" class="form-control" name="project[utilities][tab_name][title]">
-														</article>
-														<article class="form-group col-xs-6 col-ss-3">
-															<label class="control-label">
-																Biểu tượng
-															</label>
-															<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" />
-														</article>
-
-														<article class="form-group col-xs-6 col-ss-3">
-															<label class="control-label">
-																Màu sắc
-															</label>
-															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" />
-														</article>
-
+													<article class="form-group">
+														<label class="control-label">
+															Nhãn
+															<sup class="required-label"></sup>
+														</label>
+														<input data-constraint="required" type="text" class="form-control" name="project[utilities][tab_name][title]">
 													</article>
 
 													<article class="form-group">
@@ -473,29 +456,11 @@
 
 														<input type="hidden" value="<%= utility.id %>" name="project[utilities][tab_name][id]" />
 														
-														<article class="row">
-
-															<article class="form-group col-xs-12 col-ss-6">
-																<label class="control-label">
-																	Nhãn
-																</label>
-																<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
-															</article>
-
-															<article class="form-group col-xs-6 col-ss-3">
-																<label class="control-label">
-																	Biểu tượng
-																</label>
-																<input aria-input-type="icon" name="project[utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
-															</article>
-
-															<article class="form-group col-xs-6 col-ss-3">
-																<label class="control-label">
-																	Màu sắc
-																</label>
-																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
-															</article>
-
+														<article class="form-group">
+															<label class="control-label">
+																Nhãn
+															</label>
+															<input type="text" value="<%= utility.title %>" class="form-control" name="project[utilities][tab_name][title]">
 														</article>
 
 														<article class="form-group">
@@ -558,29 +523,12 @@
 
 													<input type="hidden" value="" name="project[region_utilities][tab_name][id]" />
 
-													<article class="row">
-
-														<article class="form-group col-xs-12 col-ss-6">
-															<label class="control-label">
-																Nhãn
-																<sup class="required-label"></sup>
-															</label>
-															<input data-constraint="required" type="text" class="form-control" name="project[region_utilities][tab_name][title]">
-														</article>
-														<article class="form-group col-xs-6 col-ss-3">
-															<label class="control-label">
-																Biểu tượng
-															</label>
-															<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" />
-														</article>
-
-														<article class="form-group col-xs-6 col-ss-3">
-															<label class="control-label">
-																Màu sắc
-															</label>
-															<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" />
-														</article>
-
+													<article class="form-group">
+														<label class="control-label">
+															Nhãn
+															<sup class="required-label"></sup>
+														</label>
+														<input data-constraint="required" type="text" class="form-control" name="project[region_utilities][tab_name][title]">
 													</article>
 
 													<article class="form-group">
@@ -608,32 +556,14 @@
 
 														<input type="hidden" value="<%= utility.id %>" name="project[region_utilities][tab_name][id]" />
 														
-														<article class="row">
-
-															<article class="form-group col-xs-12 col-ss-6">
-																<article class="form-group">
-																	<label class="control-label">
-																		Nhãn
-																		<sup class="required-label"></sup>
-																	</label>
-																	<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
-																</article>
-															</article>
-
-															<article class="form-group col-xs-6 col-ss-3">
+														<article class="form-group">
+															<article class="form-group">
 																<label class="control-label">
-																	Biểu tượng
+																	Nhãn
+																	<sup class="required-label"></sup>
 																</label>
-																<input aria-input-type="icon" name="project[region_utilities][tab_name][icon_key]" aria-object="icon_key" value="<%= utility.icon_key %>" />
+																<input data-constraint="required" type="text" value="<%= utility.title %>" class="form-control" name="project[region_utilities][tab_name][title]">
 															</article>
-
-															<article class="form-group col-xs-6 col-ss-3">
-																<label class="control-label">
-																	Màu sắc
-																</label>
-																<input aria-input-type="color" data-default_color="#000000" aria-object="icon_color" name="project[region_utilities][tab_name][icon_color]" class="form-control" value="<%= utility.icon_color %>" />
-															</article>
-
 														</article>
 
 														<article class="form-group">
@@ -942,12 +872,18 @@
 
 					<article aria-name="button" class="box box-solid">
 						<section class="box-body row">
-							<div class="margin-top-bottom-5 col-sm-6">
-								<button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'project.view.create.finish' %></b></button>
-							</div>
-							<div class="margin-top-bottom-5 col-sm-6">
-								<button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'project.view.create.save_draft' %></b></button>
-							</div>
+							<% if @project.new_record? %>
+								<div class="margin-top-bottom-5 col-xs-12 col-sm-6">
+									<button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'project.view.create.finish' %></b></button>
+								</div>
+								<div class="margin-top-bottom-5 col-xs-12 col-sm-6">
+									<button type="button" class="btn btn-default btn-block btn-flat" aria-click="save-draft"><b><%= t 'project.view.create.save_draft' %></b></button>
+								</div>
+							<% else %>
+								<div class="margin-top-bottom-5 col-xs-12">
+									<button type="submit" class="btn btn-primary btn-block btn-flat"><b><%= t 'project.view.create.finish' %></b></button>
+								</div>
+							<% end %>
 						</section>
 					</article>
 
@@ -960,3 +896,136 @@
 	</section>
 
 </form>
+
+<section id="project_document" class="form-document-container">
+	<section class="close-button">
+		<span class="fa fa-question"></span>
+	</section>
+	<section class="form-document-content">
+		<p class="title">
+			Hướng dẫn đăng dự án
+		</p>
+		<p>
+			Đăng dự án gồm 3 bước:
+		</p>
+		<ul>
+			<li>
+				<p>
+					<u>Đăng thông tin cơ bản</u>: Cung cấp các thông tin cơ bản về dự án.
+				</p>
+			</li>
+			<li>
+				<p>
+					<u>Đăng thông tin chi tiết</u>: Cung cấp các thông tin về block, sản phẩm cũng như cấu tạo của dự án
+				</p>
+			</li>
+			<li>
+				<p>
+					<u>Thiết lập hình ảnh</u>: Sử dụng cách hình ảnh đã có, ghép nối các đối tượng với nhau
+				</p>
+			</li>
+		</ul>
+		<p class="title">
+			Mục đích
+		</p>
+		<p>
+			Hãy nhập các thông tin theo từng đề mục. Các thông tin không có dấu <b>*</b> là không bắt buộc
+		</p>
+		<p class="title">
+			Các thông tin
+		</p>
+		<p>
+			<b>Tên dự án</b>: Được sử dụng để làm tiêu đề.
+		</p>
+		<p>
+			<b>Logo</b>: Gồm logo rút gọn và logo đầy đủ. Các bạn có thể chỉ cung cấp logo rút gọn.
+		</p>
+		<p>
+			<b>Slogan</b>: Khẩu hiệu của dự án.
+		</p>
+		<p>
+			<b>Giới thiệu</b>: Giới thiệu sơ bộ về dự án.
+		</p>
+		<p>
+			<b>Địa chỉ</b>: Cung cấp thông tin vị trí đường, phường, quận, thành phố của dự án thông qua Google Máp.
+		</p>
+		<p>
+			<b>Mô tả vị trí</b>: Sử dụng văn bản, hình ảnh để mô tả thêm về vị trí thuận lợi của dự án.
+		</p>
+		<p>
+			<b>Loại dự án</b>: Gồm
+			<ul>
+				<li>
+					<p>
+						<u>Căn hộ</u>: Là dự án chỉ gồm các block căn hộ cao cấp, trung bình, thu nhập thấp hoặc nhà ở xã hội.
+					</p>
+					<p>
+						Trong trường hợp dự án gồm nhiều block căn hộ nhưng các tính chất block khác nhau (ví dụ block A là căn hộ cao cấp, block B là căn hộ trung bình) thì các bạn chỉ cần chọn loại dự án là "Căn hộ", không cần chọn chi tiết (khi cung cấp thông tin block sẽ chọn).
+					</p>
+				</li>
+				<li>
+					<p>
+						<u>Căn hộ phức hợp</u>: Là dự án gồm các block có nhiều loại sản phẩm như căn hộ, văn phòng (loại sản phẩm sẽ được cung cấp riêng theo từng sản phẩm).
+					</p>
+				</li>
+				<li>
+					<p>
+						<u>Nhà liền kề</u>: Là dự án chi gồm các block nhà phố hoặc biệt thự liền kề.
+					</p>
+					<p>
+						Trong trường hợp dự án gồm nhiều block nhà liền kề nhưng bao gồm cả nhà phố và biệt thự thì các bạn chỉ cần chọn "Nhà liền kề", không cần chọn chi tiết.
+					</p>
+				</li>
+				<li>
+					<p>
+						<u>Cao ốc văn phòng</u>: Là dự án chỉ gồm các block cao ốc văn phòng.
+					</p>
+				</li>
+				<li>
+					<p>
+						<u>Đất nền</u>: Là dự án chỉ gồm các block đất nền.
+					</p>
+				</li>
+				<li>
+					<p>
+						<u>Phức hợp</u>: Là dự án gồm nhiều block với tính chất khác nhau, tính chất này sẽ được xác định ở từng block.
+					</p>
+				</li>
+			</ul>
+		</p>
+		<p>
+			<b>Diện tích</b>: Diện tích tổng quát, diện tích xây dựng và mật độ xây dựng của dự án.
+		</p>
+		<p>
+			<b>Tiện ích</b>: Thông tin về các tiện ích của dự án.
+		</p>
+		<p>
+			<b>Tiến độ thực hiện</b>: Thông tin về tiến độ thực hiện dự án.
+		</p>
+		<p>
+			<b>Đơn vị tham gia</b>: Thông tin nhà đầu tư dự án và các đơn vị khác.
+		</p>
+		<p>
+			<b>Thông tin thanh toán</b>:
+			<ul>
+				<li>
+					<p>
+						<u>Loại tiền tệ</u>: Loại tiền tệ sẽ được sử dụng trong toàn bộ dự án.
+					</p>
+					<p>
+						<u>Đơn gía</u>: Đơn gía tham khảo của dự án.
+					</p>
+					<p>
+						<u>Phương thức thanh toán, đính kèm</u>: Các thông tin về cách thức thanh toán của dự án. Các bạn có thể nhập liệu hoặc đính kèm tập tin để cung cấp thông tin cho người dùng.
+					</p>
+				</li>
+			</ul>
+		</p>
+		<p>
+			<b>Hình ảnh</b>: Hình ảnh của dự án. Cần có hình ảnh hiển thị các block để tiện cho bước "Thiết lập hình ảnh"
+		</p>
+		<p>
+			<b>Ảnh bìa, màu chủ đạo</b>: Hình bìa, màu sắc chính hiển thị trên giao diện dự án
+		</p>
+	</section>
+</section>

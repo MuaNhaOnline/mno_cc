@@ -10,9 +10,9 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.toolbar = [
 		{ name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
-		[ 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', '-',  'Anchor', 'Link', 'Unlink', 'Image', 'Table' ],
+		[ 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', '-',  'Anchor', 'Link', 'Unlink', 'Image', 'Table', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent' ],
 		'/',
-		[ 'Font', 'FontSize' , '-', 'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'NumberedList', 'BulletedList', 'Outdent', 'Indent' ],
+		[ 'Font', 'FontSize' , '-', 'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ],
 	]
 
 	// The toolbar groups arrangement, optimized for a single toolbar row.

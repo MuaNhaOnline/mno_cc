@@ -37,7 +37,7 @@
 	<article class="box box-primary no-margin">
 		<section class="box-header with-border">
 			<h2 class="box-title">
-				Thông tin bất động sản - <b><%= @selected_group.name %></b>
+				Thông tin sản phẩm - <b><%= @selected_group.name %></b>
 			</h2>
 		</section>
 		<section class="box-body bg-light-gray">
@@ -78,7 +78,7 @@
 									Mã
 									<sup class="required-label"></sup>
 								</label>
-								<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Tầng / vị trí tương ứng<br />Ví dụ: <b>CH-{f}01</b></p>"></a>
+								<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Sàn tương ứng<br />Ví dụ: <b>CH-{f}01</b></p>"></a>
 								<input data-constraint="required" class="form-control" name="real_estate[block][label]" id="label" value="<%= @re.label %>" aria-object="label" data-old_value="<%= @re.label %>" />
 							</article>
 
@@ -159,7 +159,7 @@
 									</article>
 									<article class="form-group col-ss-4">
 										<label class="control-label" for="restroom_number">
-											Phòng vệ sinh
+											Phòng tắm
 											<% unless @selected_group.restroom_number.present? %>
 												<sup class="required-label"></sup>
 											<% end %>
@@ -269,11 +269,11 @@
 
 						<article class="form-group">
 							<label class="control-label" for="block_floor">
-								Tầng / vị trí phân bố
+								Sàn phân bố
 								<sup class="required-label"></sup>
 							</label>
 							<select data-constraint="required" name="real_estate[block][block_floor_id]" class="form-control" id="block_floor">
-								<option value hidden>Chọn tầng / vị trí phân bố</option>
+								<option value hidden>Chọn sàn phân bố</option>
 								<% @block.floors.each do |floor| %>
 									<% next unless floor.is_dynamic %>
 									<option <%= 'selected' if floor.id == @re.block_floor_id %> value="<%= floor.id %>" data-value="<%= floor.floors_text %>"><%= floor.name %> (<%= floor.floors_text %>)</option>
@@ -465,3 +465,110 @@
 		</section>
 	</article>
 </form>
+
+<section class="form-document-container">
+	<section class="close-button">
+		<span class="fa fa-question"></span>
+	</section>
+	<section class="form-document-content">
+		<p class="title">
+			Hướng dẫn đăng sản phẩm
+		</p>
+		<p>
+			Đây là sản phẩm đại diện cho một nhóm sản phẩm đã quy định ở block. Do đó sản phẩm sẽ kế thừa một số thông của của nhóm sản phẩm như loại sản phẩm, diện tích, phòng ngủ, phòng tắm
+		</p>
+		<p>
+			Mỗi sản phẩm gồm các thông tin cần lưu ý:
+		</p>
+		<ul>
+			<li>
+				<p>
+					<b>Mã</b>: Mã sản phẩm.
+				</p>
+				<p>
+					Mỗi sản phẩm cần có mã khác nhau.
+				</p>
+				<p>
+					Khi mã bao gồm tầng / vị trí các bạn có thể sử dụng mã nhúng là "{f}" để giúp cho hệ thống thay thế giá trị tầng tương ứng vào.
+				</p>
+				<p>
+					Ví dụ: Một sản phẩm có mã là CH-A-12-1 với 12 là tầng / vị trí, các bạn cần nhập mã sản phẩm là CH-A-{f}-1
+				</p>
+			</li>
+			<li>
+				<p>
+					<b>Diện tích, phòng ngủ, phòng tắm, hướng</b>: Các thông tin của sản phẩm. Trong trường hợp nhóm đã bao gồm thông tin của diện tích, phòng ngủ, phòng tắm thì sản phẩm sẽ kế thừa thông tin từ nhóm đó.
+				</p>
+				<p>
+					Đối với mỗi loại sản phẩm sẽ có thể có hoặc không các thuộc tính trên.
+				</p>
+			</li>
+			<li>
+				<p>
+					<b>Sàn phân bố</b>: Sàn mà sản phẩm có phân bố
+				</p>
+			</li>
+			<li>
+				<p>
+					<b>Thông tin giá của các tầng / vị trí</b>
+				</p>
+				<p>
+					Mỗi tầng / vị trí được phân bố có thể có giá khác nhau tùy thuộc vào nhiều yếu tố. Do đó các bạn có thể tạo ra nhiều phân khúc để có thể quy định giá theo bạn muốn.
+				</p>
+				<p>
+					Thông tin gồm:
+				</p>
+				<ul>
+					<li>
+						<p>
+							<b>Tầng / vị trí</b>: Các bạn có thể liệt kê 1,2,3,4 hoặc 1-4.
+						</p>
+					</li>
+					<li>
+						<p>
+							<b>Giá cơ bản</b>: Giá bán cơ bản của sản phẩm được sử dụng để tính toán trong trường hợp sử dụng hệ số giá.
+						</p>
+					</li>
+					<li>
+						<p>
+							<b>Hệ số giá</b>: Công thức tính toán giá sản phẩm theo từng tầng.
+						</p>
+						<p>
+							Công thức có thể có 2 tham số:
+						</p>
+						<ul>
+							<li>
+								<b>{p}</b>: Giá cơ bản
+							</li>
+							<li>
+								<b>{f}</b>: Tầng / vị trí
+							</li>
+						</ul>
+						<p>
+							<b>Trương hợp 1</b>
+						</p>
+						<p>
+							Khi bạn muốn quy định sản phẩm của bạn có giá thay đổi theo mỗi tầng / vị trí với công thức
+							<br />
+							<b>&lt;Giá cơ bản&gt; + &lt;Tầng / vị trí&gt; x 50 triệu</b>
+						</p>
+						<p>
+							Lúc này, bạn có thể nhập hệ số giá là
+							<br />
+							<b>{p} + {f} * 50000000</b>
+						</p>
+						<p>
+							<b>Trương hợp 2</b>
+						</p>
+						<p>
+							Khi sản phẩm của bạn được phân bố từ tầng 3-15 tuy nhiên sự phân bố được chia làm 3 nhóm (3-5, 6-10, 11-15) với hệ số giá khác nhau và không thể tính toán bằng công thức được.
+						</p>
+						<p>
+							Lúc này bạn có thể nhấn nút "+" bên góc phải của bảng nhập giá để tạo thêm bảng nhập giá (trong trường hợp này sẽ tạo thêm 2 bảng (đã có 1 bảng mặc định)) và nhập các nhóm tầng mà bạn muốn (bảng 1: 3-5, bảng 2: 6-10, bảng 3: 11-15)
+						</p>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</section>
+</section>

@@ -156,13 +156,10 @@
 											<%
 												images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
 											%>
-											<article class="item" data-images="<%= images %>" data-color="<%= utility.icon_color %>">
-												<article class="arrow" style="border-right-color: <%= utility.icon_color %>"></article>
+											<article class="item" data-images="<%= images %>" data-color="#4A525D">
+												<article class="arrow" style="border-right-color: #4A525D"></article>
 												<article class="content">
 													<section class="icon">
-														<% if utility.icon_key.present? %>
-															<span class="fa <%= utility.icon_key %>" style="color: <%= utility.icon_color %>"></span>
-														<% end %>
 													</section>
 													<h3 class="title">
 														<%= utility.title %>
@@ -182,13 +179,10 @@
 											<%
 												images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
 											%>
-											<article class="item" data-images="<%= images %>" data-color="<%= utility.icon_color %>">
-												<article class="arrow" style="border-right-color: <%= utility.icon_color %>"></article>
+											<article class="item" data-images="<%= images %>" data-color="#4A525D">
+												<article class="arrow" style="border-right-color: #4A525D"></article>
 												<article class="content">
 													<section class="icon">
-														<% if utility.icon_key.present? %>
-															<span class="fa <%= utility.icon_key %>" style="color: <%= utility.icon_color %>"></span>
-														<% end %>
 													</section>
 													<h3 class="title">
 														<%= utility.title %>

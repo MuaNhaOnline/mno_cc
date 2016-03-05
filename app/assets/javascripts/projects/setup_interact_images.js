@@ -8,6 +8,20 @@ $(function () {
 	_initManualHorizontalList($('.manual-horizontal-list'));
 	
 	// View
+
+		var 
+			$doc = $('#setup_image_document'),
+			$setupDoc = $('#design_document');
+		_initFixedScroll(
+			$doc,
+			$('#view_container')
+		);
+		$doc.find('.close-button').on('click', function () {
+			$doc.toggleClass('open');
+		});
+		$setupDoc.find('.close-button').on('click', function () {
+			$setupDoc.toggleClass('open');
+		});
 	
 		// Setup image
 		

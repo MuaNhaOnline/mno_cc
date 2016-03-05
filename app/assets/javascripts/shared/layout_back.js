@@ -146,6 +146,8 @@ $(function () {
 				gray
 			width: (none)
 				small, medium, large, maximum
+			dock: 
+				right
 			esc: (true)
 				allow escape popup with click outside or 'esc' key
 	*/
@@ -159,7 +161,8 @@ $(function () {
 			zIndex = 'z-index' in params ? params['z-index'] : '30',
 			esc = !('esc' in params) || params.esc,
 			overlay = 'overlay' in params ? params['overlay'] : 'transparent',
-			width = 'width' in params ? params['width'] : '';
+			width = 'width' in params ? params['width'] : '',
+			dock = 'dock' in params ? params['dock'] : '';
 
 		var $popup = $('#' + id);
 
@@ -184,11 +187,13 @@ $(function () {
 			$popup.removeAttr('aria-esc');
 		}
 
+		$popup.attr('data-dock', dock);
+
 		if (overlay == 'gray') {
-				$popup.addClass('gray');
+			$popup.addClass('gray');
 		}
 		else {
-				$popup.removeClass('gray');
+			$popup.removeClass('gray');
 		}
 
 		$popup.on = function () {
@@ -246,6 +251,8 @@ $(function () {
 			transparent, gray
 		width: (none)
 			small, medium, large, maximum
+		dock: 
+			right
 		onEscape:
 			handle on popup escape
 	*/
@@ -261,6 +268,7 @@ $(function () {
 		popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
 		popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
 		popupParams['width'] = 'width' in params ? params['width'] : '';
+		popupParams['dock'] = 'dock' in params ? params['dock'] : '';
 
 		var $popup = getPopup(popupParams);
 

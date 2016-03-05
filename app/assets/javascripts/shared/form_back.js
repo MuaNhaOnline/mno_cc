@@ -1442,7 +1442,7 @@ function initForm($form, params) {
 						}, 200)
 					},
 					keydown: function (e) {
-						switch (e.which) {
+						switch (e.which || e.keyCode) {
 							// Up
 							case 38:
 								e.preventDefault();
@@ -1604,7 +1604,7 @@ function initForm($form, params) {
 			$form.find('[aria-input-type="editor"]').each(function () {
 				var $input = $(this);
 
-				var extraPlugins = 'resize,autogrow';
+				var extraPlugins = 'autogrow,justify';
 				extraPlugins += $input.data('editor-extra-plugins') || '';
 
 				CKEDITOR.replace(this.id, {
@@ -2099,7 +2099,7 @@ function initForm($form, params) {
 			// Interger
 			$form.find('[data-constraint~="integer"]').on({
 				'keypress': function (e) {
-					var keyCode = e.which;
+					var keyCode = e.which || e.keyCode;
 
 					if (
 							//Number
@@ -2126,14 +2126,14 @@ function initForm($form, params) {
 			// Real
 			$form.find('[data-constraint~="real"]').on({
 				'keypress': function (e) {
-					var keyCode = e.which;
+					var keyCode = e.which || e.keyCode;
 					if (
 							//Number
 							(48 <= keyCode &&
 							keyCode <= 57) ||
 
 							//Float point
-							(keyCode == 46 && this.value.indexOf('.') === -1) ||
+							(keyCode == 46 && this.value.indexOf('.') == -1) ||
 							
 							//Enter key
 							keyCode == 13

@@ -24,7 +24,7 @@
 %>
 
 <form class="form">
-	<div class="box box-primary no-margin">
+	<div class="box box-solid no-margin">
 		<section class="box-header with-border">
 			<h2 class="box-title">
 				Thông tin block
@@ -233,7 +233,7 @@
 											</article>
 											<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
 												<label class="control-label">
-													Phòng vệ sinh
+													Phòng tắm
 												</label>
 												<div class="input-group">
 													<input data-constraint="integer" class="form-control" name="block[group][tab_name][restroom_number]" />
@@ -324,7 +324,7 @@
 												</article>
 												<article class="form-group col-ss-4" <%= 'data-toggled-element="apartment un-office block_apartment block_adjacent_house un-block_office un-block_land"'.html_safe if @project.project_type.name == 'complex' %> <%= 'data-toggled-element="apartment un-office"'.html_safe if @project.project_type.name == 'complex_apartment' %>>
 													<label class="control-label">
-														Phòng vệ sinh
+														Phòng tắm
 													</label>
 													<div class="input-group">
 														<input data-constraint="integer" class="form-control" name="block[group][tab_name][restroom_number]" value="<%= group.restroom_number %>" />
@@ -390,7 +390,7 @@
 
 				<div class="col-md-6 col-xs-12">
 
-					<label class="control-label">Phân bố tầng / vị trí</label>
+					<label class="control-label">Phân bố sàn</label>
 					
 					<article class="tab-container input">
 						<section class="tab-list">
@@ -415,14 +415,14 @@
 										<div class="col-xs-12">
 											<article class="form-group">
 												<label class="control-label">
-													Loại
+													Loại sàn
 												</label>
 												<article>
 													<label class="radio-inline">
-														<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" checked /> Động
+														<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="dynamic" data-off="static" type="radio" value="t" checked /> Có chứa sản phẩm
 													</label>
 													<label class="radio-inline">
-														<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" /> Tĩnh
+														<input class="input-toggle" name="block[floor][tab_name][is_dynamic]" data-on="static" data-off="dynamic" type="radio" value="f" /> Không chứa sản phẩm
 													</label>
 												</article>
 											</article>
@@ -461,7 +461,7 @@
 
 										<article class="form-group" data-toggled-element="dynamic">
 											<label class="control-label">
-												Hình ảnh sàn
+												Hình ảnh mặt cắt sàn
 												<sup class="required-label"></sup>
 											</label>
 											<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="" />
@@ -469,7 +469,7 @@
 
 										<article class="form-group" data-toggled-element="static">
 											<label class="control-label">
-												Hình ảnh
+												Hình ảnh sàn
 											</label>
 											<input class="file-upload" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="" data-has_order data-has_description />
 										</article>
@@ -491,7 +491,7 @@
 											<div class="col-xs-12">
 												<article class="form-group">
 													<label class="control-label">
-														Loại
+														Loại sàn
 													</label>
 													<article>
 														<label class="radio-inline">
@@ -551,7 +551,7 @@
 
 											<article class="form-group" data-toggled-element="dynamic">
 												<label class="control-label">
-													Hình ảnh sàn
+													Hình ảnh mặt cắt sàn
 													<sup class="required-label"></sup>
 												</label>
 												<input class="file-upload" data-constraint="required" type="file" name="block[floor][tab_name][surface]" data-init-value="<%= { 'url'=> floor.surface.url }.to_json if floor.surface.present? %>" />
@@ -567,7 +567,7 @@
 													image_init_value = images.to_json
 												%>
 												<label class="control-label">
-													Hình ảnh
+													Hình ảnh sàn
 												</label>
 												<input class="file-upload fu2" multiple type="file" name="block[floor][tab_name][images][]" data-init-value="<%= image_init_value %>" data-has_order data-has_description />
 											</article>
@@ -605,3 +605,91 @@
 		<!-- / Button -->
 	</div>
 </form>
+
+<section class="form-document-container">
+	<section class="close-button">
+		<span class="fa fa-question"></span>
+	</section>
+	<section class="form-document-content">
+		<p class="title">
+			Hướng dẫn đăng block.
+		</p>
+		<p>
+			Mỗi dự án có thể có 1 hoặc nhiều block. Loại block sẽ tùy thuộc vào loại dự án.
+		</p>
+		<p>
+			Để hoàn thành việc đăng block, các bạn cần cung cấp các thông tin sau:
+		</p>
+		<p class="title">
+			Block.
+		</p>
+		<p>				
+			Gồm các thông tin cơ bản của block như tên, hình ảnh.
+		</p>
+		<p>
+			Hình ảnh của block sẽ được sử dụng ở bước "Thiết lập hình ảnh". Do đó các bạn cần có hình ảnh thể hiển các nhóm và sàn có trong block.
+		</p>
+		<p class="title">
+			Nhóm sản phẩm thuộc block.
+		</p>
+		<p>
+			Nhóm sản phẩm là khái niệm để gom nhóm các sản phẩm.
+		</p>
+		<p>
+			<u>Ví dụ</u>: Căn hộ có 3 nhóm sản phẩm gồm căn hộ 1 phòng ngủ, căn hộ 2 phòng ngủ, căn hộ 3 phòng ngủ.
+			Và ở mỗi nhóm sản phẩm có nhiều sản phẩm đại diện <small>(các sản phẩm đại diện sẽ sở hữu thuộc tính của nhóm sản phẩm mà nó thuộc)</small> như căn hộ 2 phòng ngủ có các đại diện là CH-B-1, CH-B-2, CH-B-3,...
+		</p>
+		<p>
+			Thuộc tính "Phòng ngủ", "Phòng tắm", "Diện tích" của nhóm sản phẩm có thể được bỏ qua. Nếu bỏ qua, những thuộc tính đó sẽ được thiết lập ở mỗi đại diện của nó.
+		</p>
+		<p class="title">
+			Phân bố sàn trong block
+		</p>
+		<p>
+			Sàn là khái niệm để gom nhóm các tầng / vị trí có chung chức năng, sản phẩm (giá có thể khác nhau tại từng tầng / vị trí) và mặt cắt.
+		</p>
+		<p>
+			Thông tin một sàn gồm:
+		</p>
+		<ul>
+			<li>
+				<p>
+					<b>Loại sàn</b>: Xác định sàn có này có được dùng để giao dịch hay không.
+				</p>
+				<p>
+					Nếu sàn có các sản phẩm cần được bán, các bạn hãy chọn "Có chứa sản phẩm". Nếu sàn là một nơi chứa các tiện ích hoặc đã bán hoặc có kế hoạch khác hoặc bất cứ gì không là sản phẩm của dự án bạn hãy chọn "Không chứa sản phẩm".
+				</p>
+			</li>
+			<li>
+				<p>
+					<b>Các tầng / vị trí</b>: Các tầng hay vị trí trí (tùy vào cách gọi) sẽ mô tả các tầng / vị trí sở hữu tính chất sàn hiện tại.
+				</p>
+				<p>
+					Ví dụ: Block KCH-A có 30 tầng, từ tầng 3-15 có các sản phẩm là căn hộ cao cấp được sắp xếp, bố trí như nhau trên mỗi tầng / vị trí tuy nhiên giá được thay đổi theo tầng / vị trí hoặc view hoặc bất kì lý do nào đó. Các bạn có thể nhập "3-15".
+					<br />
+					Và trong ví dụ trên, nếu tầng 17, 18, 20, 21 cũng như vậy, các bạn có thể nhập "3-15,17-18,20,21"
+				</p>
+				<p>
+					Thông qua ví dụ trên, các bạn có thể thấy được các nhập giá trị tầng / vị trí có thể được liệt kê ra từng số (1,2,3,4) hoặc một khoảng (1-4)
+				</p>
+				<p>
+					<u>Lưu ý</u>: Tầng / vị trí ở mỗi sàn phân bố không được trùng.
+				</p>
+			</li>
+			<li>
+				<p>
+					<b>Mặt cắt sàn</b>: Trong trường hợp sàn "Có chứa sản phẩm", các bạn cần cung cấp hình ảnh mặt cắt sàn.
+				</p>
+				<p>
+					Hình ảnh mặt cắt sàn là hình ảnh mặt cắt của sàn, mô tả vị trí, bố cục sắp xếp các sản phẩm, đối tượng trên sàn.
+				</p>
+				<p>
+					Hình ảnh này sẽ được sử dụng ở bước "Thiết lập hình ảnh".
+				</p>
+			</li>
+		</ul>
+		<p>
+			Sau khi đăng hoàn tất các thông tin, các bạn có thể tiếp tục với bước "Thiết lập hình ảnh" bằng cách nhấn vào nút "Thiết lập hình ảnh" ở cuối trang.
+		</p>
+	</section>
+</section>

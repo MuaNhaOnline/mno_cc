@@ -169,53 +169,57 @@ $(function () {
 		return false;
 	}
 
-	/*
-		params:
-			range:
-				[min, max] or func return [min, max]
-			handle:
-				[func, ...]
-				func:
-					params:
-						isDown: boolean
-			if:
-				func return boolean
-	*/
-	// function _initFixedScroll(params) {
-	// 	var 
-	// 		lastScrollTop = $window.scrollTop(),
-	// 		flag = -1;
+	function _initFixedScroll($object, $follow) {
+		var 
+			// 1: Top, 2: Middle, 3: Bottom
+			flag = -1;
 
-	// 	function doIt() {
-	// 		if (params.if && !params.if()) {
-	// 			return;
-	// 		}
+		$follow.css('min-height', '100vh');
 
-	// 		var 
-	// 			scrollTop = $window.scrollTop(),
-	// 			range = typeof params.range == 'function' ? params.range() : params.range;
+		function doIt() {
+			var 
+				min = $follow.offset().top,
+				max = $follow.offset().top + $follow.height() - $object.height(),
+				scrollTop = $(window).scrollTop();
 
-	// 		for (var i = 0; i < range.length; i++) {
-	// 			if (scrollTop < range[i]) {
-	// 				if (flag != i) {
-	// 					params.handle[i]({
-	// 						currentRange: flag,
-	// 						isDown: scrollTop > lastScrollTop
-	// 					});
-	// 					flag = i;
-	// 				}
-	// 			}
-	// 		}
+			if (scrollTop < min) {
+				if (flag == 1) {
+					return;
+				}
+				flag = 1;
+				$object.css({
+					position: 'absolute',
+					top: min + 'px'
+				});
+			}
+			else if (scrollTop < max) {
+				if (flag == 2) {
+					return;
+				}
+				flag = 2;
+				$object.css({
+					position: 'fixed',
+					top: '0px'
+				});
+			}
+			else {
+				if (flag == 3) {
+					return;
+				}
+				flag = 3;
+				$object.css({
+					position: 'absolute',
+					top: max + 'px'
+				});
+			}
+		}
 
-	// 		lastScrollTop = scrollTop;
-	// 	}
+		doIt();
 
-	// 	$window.on('scroll', function () {
-	// 		doIt();
-	// 	});
-
-	// 	doIt();
-	// }
+		$(window).on('scroll', function () {
+			doIt();
+		});
+	}
 
 	/*
 		params:

@@ -64,6 +64,16 @@ $(function () {
 		initCreateBlock();
 		initBlock($blockList.find('.item'));
 
+		var $doc = $('#project_details_document');
+		_initFixedScroll(
+			$doc,
+			$('#view_part .blocks-container')
+		);
+		$doc.find('.close-button').on('click', function () {
+			$doc.toggleClass('open');
+		});
+
+
 		// Project
 
 		// / Project
@@ -228,10 +238,17 @@ $(function () {
 
 			// Block create form
 
-				function startBlockCreateForm($form, done) {
+				function startBlockCreateForm($html, done) {
+
+					var $form = $html.siblings('form'),
+						$doc = $html.siblings('.form-document-container');
+
+					$doc.find('.close-button').on('click', function () {
+						$doc.toggleClass('open');
+					});
+
 					var $popup = popupFull({
-						html: $form,
-						width: 'maximum',
+						html: $html,
 						esc: false
 					});
 
@@ -507,9 +524,16 @@ $(function () {
 
 			// Real-estate create form
 
-				function startRealEstateCreateForm($form, done) {
+				function startRealEstateCreateForm($html, done) {
+					var $form = $html.siblings('form'),
+						$doc = $html.siblings('.form-document-container');
+
+					$doc.find('.close-button').on('click', function () {
+						$doc.toggleClass('open');
+					});
+
 					var $popup = popupFull({
-						html: $form,
+						html: $html,
 						width: 'maximum',
 						esc: false
 					});

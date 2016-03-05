@@ -168,6 +168,14 @@
 					max-height: 90vh;
 				}
 
+					.popup-full-container[data-dock="right"] > .popup-full > .popup-content {
+						max-width: none;
+						max-height: none;
+						width: 95vw;
+						margin-right: -5vw;
+						height: 100vh;
+					}
+
 					.popup-full-container[aria-width="small"] > .popup-full > .popup-content {
 						width: 300px;
 					}

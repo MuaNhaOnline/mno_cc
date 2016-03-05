@@ -72,6 +72,15 @@ $(function () {
 	initUnitInput();
 	initReadPrice();
 
+	var $doc = $('#project_document');
+	_initFixedScroll(
+		$doc,
+		$form
+	);
+	$doc.find('.close-button').on('click', function () {
+		$doc.toggleClass('open');
+	});
+
 	// Color icon
 	
 		function initColorIcon () {

@@ -122,7 +122,7 @@
 			// Hide scroll because we won't need it at all.
 			// Thanks to that we'll need only one resizeEditor() call per change.
 			if ( maxHeightIsUnlimited )
-				scrollable.setStyle( 'overflow-y', 'hidden' );
+				scrollable.setStyle( 'overflow-y', 'auto' );
 
 			var currentHeight = editor.window.getViewPaneSize().height,
 				newHeight = contentHeight();
@@ -142,7 +142,7 @@
 
 			if ( !maxHeightIsUnlimited ) {
 				if ( newHeight < configMaxHeight && scrollable.$.scrollHeight > scrollable.$.clientHeight )
-					scrollable.setStyle( 'overflow-y', 'hidden' );
+					scrollable.setStyle( 'overflow-y', 'auto' );
 				else
 					scrollable.removeStyle( 'overflow-y' );
 			}

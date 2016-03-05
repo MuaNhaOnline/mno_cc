@@ -220,8 +220,6 @@ class Project < ActiveRecord::Base
 
 				_utility.title = _value[:title]
 				_utility.description = ApplicationHelper.encode_plain_text(_value[:description])
-				_utility.icon_key = _value[:icon_key]
-				_utility.icon_color = _value[:icon_color]
 
 				_images = []
 				if _value[:images].present?
@@ -254,8 +252,6 @@ class Project < ActiveRecord::Base
 
 				_utility.title = _value[:title]
 				_utility.description = ApplicationHelper.encode_plain_text(_value[:description])
-				_utility.icon_key = _value[:icon_key]
-				_utility.icon_color = _value[:icon_color]
 
 				_images = []
 				if _value[:images].present?
