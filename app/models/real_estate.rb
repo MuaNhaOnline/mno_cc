@@ -603,11 +603,12 @@ class RealEstate < ActiveRecord::Base
 							_floor_info.rent_price_text = ApplicationHelper.read_money _floor_info.rent_price
 						end
 
+						_floor_info.save
 						_in_floors << _floor_info
 					end
 				end
 
-				in_floors = _in_floors
+				in_floor = _in_floors
 				save
 			end
 
