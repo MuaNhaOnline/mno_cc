@@ -542,7 +542,7 @@ class RealEstate < ActiveRecord::Base
 
 				floor_infos_text.each do |_info|
 					_parseFloors(_info['floors']).each do |_floor_number|
-						_floor_info = FloorRealEstate.first_or_initialize real_estate_id: id, floor: _floor_number
+						_floor_info = FloorRealEstate.where(real_estate_id: id, floor: _floor_number).first_or_initialize
 
 						_floor_info.status = 'available' if _floor_info.new_record?
 
