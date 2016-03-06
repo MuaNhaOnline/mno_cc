@@ -53,6 +53,12 @@ $(function () {
 						'background-color: ' + desaturate40 + ';' +
 						'border-color: ' + desaturate60 + ';' +
 					'}' +
+					'.product-description .arrow {' +
+						'border-bottom-color: ' + desaturate20 + ';' +
+					'}' +
+					'.product-description {' +
+						'border-top-color: ' + desaturate20 + ';' +
+					'}' +
 					'.content-panel .free-style-tab-container .tab-list li.active a {' +
 						'border-bottom-color: ' + desaturate60 + ';' +
 					'}' +

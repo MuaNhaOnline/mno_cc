@@ -44,7 +44,7 @@ class RealEstate < ActiveRecord::Base
 			source: :appraisal_company,
 			class_name: 'AppraisalCompany'
 		has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
-		has_many :in_floors, class_name: 'FloorRealEstate', dependent: :destroy
+		has_many :in_floors, class_name: 'FloorRealEstate', dependent: :destroy, autosave: true
 		has_many :available_in_floors, -> { where('floor_real_estates.status <> \'sold\'') }, class_name: 'FloorRealEstate'
 
 		has_and_belongs_to_many :property_utilities, dependent: :destroy
@@ -603,10 +603,12 @@ class RealEstate < ActiveRecord::Base
 							_floor_info.rent_price_text = ApplicationHelper.read_money _floor_info.rent_price
 						end
 
-						_floor_info.save
+						_in_floors << _floor_info
 					end
 				end
 
+				re.in_floors = _in_floors
+				re.save
 			end
 
 		# / Build in floor

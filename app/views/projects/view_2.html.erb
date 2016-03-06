@@ -134,7 +134,11 @@
 								</span>
 							</p>
 							<article id="map" style="height: 50vh; margin: 0 -20px" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>"></article>
-							<%= @project.display_position_description %>
+							<% if @project.display_position_description.present? %>
+								<article style="margin-top: 15px">
+									<%= @project.display_position_description %>
+								</article>
+							<% end %>
 						</section>
 					</article>
 				
