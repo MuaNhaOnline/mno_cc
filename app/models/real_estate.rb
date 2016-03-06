@@ -607,8 +607,8 @@ class RealEstate < ActiveRecord::Base
 					end
 				end
 
-				re.in_floors = _in_floors
-				re.save
+				in_floors = _in_floors
+				save
 			end
 
 		# / Build in floor
