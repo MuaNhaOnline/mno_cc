@@ -1,0 +1,46 @@
+/* Groups */
+
+	.groups-container {
+		background-color: #fff;
+		height: 300px;
+		overflow-y: auto;
+		margin: 5px;
+	}
+
+		.groups-container .list {
+			padding: 5px 0px;
+		}
+
+			.groups-container .list .item {
+				display: block;
+				color: #fff;
+				padding: 6px 12px;
+				text-decoration: none;
+			}
+
+				.groups-container .list .item.active,
+				.groups-container .list .item:hover {
+					background-color: #646B76;
+				}
+
+/* / Groups */
+
+/* Users */
+
+	.users-container {
+		background-color: #fff;
+		height: 300px;
+		margin: 5px;
+	}
+
+/* / Users */
+
+/* Permission */
+
+	.permissions-container {
+		background-color: #fff;
+		height: 300px;
+		margin: 5px;
+	}
+
+/* / Permission */
