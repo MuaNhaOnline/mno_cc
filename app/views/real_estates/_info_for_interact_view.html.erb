@@ -45,12 +45,12 @@
 	</article>
 	
 	<article class="info">
-		Vị trí
+		Tầng / vị trí
 		<ul>
 			<% @re.in_floors.each do |floor_re| %>
 				<li>
 					<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">
-						Sàn <%= floor_re.floor %></a>
+						Thứ <%= floor_re.floor %></a>
 					<small><b>
 						<% if floor_re.display_sell_price.present? %>
 							<span class="sell-price-text">
