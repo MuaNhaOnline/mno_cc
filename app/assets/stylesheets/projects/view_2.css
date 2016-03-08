@@ -165,7 +165,13 @@
 			}
 
 				.side-bar.bottom .navigator li.active a {
-					background-color: rgba(255, 255, 255, .1);
+					background-color: rgba(255, 255, 255, .2);
+				}
+
+				.side-bar.bottom .navigator li.register a {
+					font-size: 21px;
+					background-color: rgba(255, 186, 0, .5);
+					border-bottom: rgba(206, 150, 0, .5);
 				}
 
 /* / Side bar */
@@ -823,5 +829,63 @@
 				}
 
 	/* / Payment method */
+
+	/* Register */
+	
+		.register-description .navigator {
+			display: -webkit-flex;
+			display: flex;
+			flex-direction: row;
+			-webkit-flex-direction: row;
+			align-items: center;
+			-webkit-align-items: center;
+			justify-content: center;
+			-webkit-justify-content: center;
+		}
+	
+			.register-description .navigator > * {
+				margin-left: 15px !important;
+				margin-right: 15px !important;
+			}
+		
+			.register-description .navigator ul {
+				border: 2px dashed #CED5E2;
+			}
+		
+				.register-description .navigator ul li {
+					float: none;
+					border-right: 0;
+				}
+		
+				.register-description .navigator ul li.unactive {
+					opacity: .3;
+				}
+		
+				.register-description .navigator ul a {
+					display: inline-block;
+				}
+		
+				.register-description .navigator ul .options-container {
+					top: -20px;
+					left: 100%;
+				}
+		
+			.register-description .navigator .callout {
+				font-size: 25px;
+				font-weight: bold;
+				color: #9FABC4;
+			}
+		
+			.register-description .navigator .search-by-label {
+				width: 150px;
+				border: 2px dashed #CED5E2;
+			}
+		
+				.register-description .navigator .search-by-label .form-control {
+					text-align: center;
+					border-bottom: 0;
+				}
+	
+	/* / Register */
 
 /* / Content panel */

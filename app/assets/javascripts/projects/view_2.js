@@ -776,7 +776,7 @@ $(function () {
 								// / Set position group & floor
 							}
 							else {
-								$block.find('> a').text('Chọn block').data('value', '');
+								$block.find('> a').text('Hãy chọn block').data('value', '');
 								$group.addClass('unactive');
 								$floor.addClass('unactive');
 							}
@@ -794,7 +794,7 @@ $(function () {
 								}
 							}
 							else {
-								$group.find('> a').text('Chọn nhóm').data('value', '');
+								$group.find('> a').text('Hãy chọn nhóm').data('value', '');
 							}
 						
 							// Floor
@@ -806,7 +806,7 @@ $(function () {
 								}
 							}
 							else {
-								$floor.find('> a').text('Chọn tầng').data('value', '');
+								$floor.find('> a').text('Hãy chọn tầng').data('value', '');
 							}
 
 							// Real estate
@@ -896,7 +896,7 @@ $(function () {
 								});
 							}
 							else {
-								$re.find('> a').text('Chọn sản phẩm').data('value', '');
+								$re.find('> a').text('Hãy chọn sản phẩm').data('value', '');
 								$position.addClass('unactive');
 							}
 						
@@ -912,7 +912,7 @@ $(function () {
 								}
 							}
 							else {
-								$position.find('> a').text('Chọn vị trí').data('value', '');
+								$position.find('> a').text('Hãy chọn vị trí').data('value', '');
 							}
 						
 						// / Position
@@ -1098,8 +1098,7 @@ $(function () {
 
 	// Ground
 
-		startGroundInteract = initInteractImage($('#ground_interact'));
-		startGroundInteract('project', projectId);
+		initInteractImage($('#ground_interact'))('project', projectId);
 
 	// / Ground
 
@@ -1111,7 +1110,7 @@ $(function () {
 
 		$productInteract.after('<hidden></hidden><hidden></hidden>');
 
-		startProductInteract = initInteractImage($productInteract);
+		var startProductInteract = initInteractImage($productInteract);
 
 		$('#products_container').find('.item-container').on('click', function () {
 
@@ -1156,4 +1155,10 @@ $(function () {
 		});
 
 	// Product
+
+	// Register
+
+		initInteractImage($('#register_interact'))('project', projectId);
+
+	// / Register
 })

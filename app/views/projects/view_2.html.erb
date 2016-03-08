@@ -62,19 +62,19 @@
 							<a aria-name="description" href="#">Giới thiệu</a>
 						</li>
 						<li>
+							<a aria-name="ground" href="#">Thông tin dự án</a>
+						</li>
+						<li>
 							<a aria-name="position" href="#">Vị trí</a>
 						</li>
 						<li>
 							<a aria-name="utilities" href="#">Tiện ích - Tính năng</a>
 						</li>
 						<li>
-							<a aria-name="products" href="#">Sản phẩm</a>
-						</li>
-						<li>
-							<a aria-name="ground" href="#">Mặt bằng tổng thể</a>
-						</li>
-						<li>
 							<a aria-name="payment_method" href="#">Phương thức thanh toán</a>
+						</li>
+						<li>
+							<a aria-name="products" href="#">Sản phẩm <small style="color: inherit;">&amp;</small> mặt bằng tổng thể</a>
 						</li>
 						<!-- <li>
 							<a aria-name="progress" href="#">Tiến độ</a>
@@ -84,6 +84,9 @@
 						</li> -->
 						<li>
 							<a aria-name="contact" href="#">Liên hệ</a>
+						</li>
+						<li class="register">
+							<a aria-name="register" href="#">Đăng ký sản phẩm</a>
 						</li>
 					</ul>
 				</nav>
@@ -115,6 +118,43 @@
 					</article>
 
 				<!-- / Description -->
+					
+				<!-- Ground -->
+				
+					<article class="box" aria-name="ground">
+						<section class="box-header">
+							<h2 class="box-title">
+								Thông tin dự án
+							</h2>
+						</section>
+						<section class="box-body">
+							<article id="ground_interact" class="ground-description interact-image">
+								<section class="image-panel">
+									<svg>
+										<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+										<g>
+											<g aria-object="g">
+											</g>
+										</g>
+									</svg>
+									<article class="back-button button-in-panel">
+										<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
+									</article>
+									<section aria-object="info-panel-interact" class="info-panel">
+										<article class="content">
+											
+										</article>
+									</section>
+								</section>
+								<section class="images-list">
+									<ul aria-object="image-list">
+									</ul>
+								</section>
+							</article>
+						</section>
+					</article>
+				
+				<!-- / Ground -->
 
 				<!-- Position -->
 				
@@ -220,13 +260,40 @@
 					</article>
 				
 				<!-- / Utilities -->
+
+				<!-- Payment method -->
+				
+					<article class="box white-box" aria-name="payment_method">
+						<section class="box-header">
+							<h2 class="box-title">
+								Phương thức thanh toán
+							</h2>
+						</section>
+						<section class="box-body payment_method">
+							<section class="description">
+								<%= @project.display_payment_method %>
+							</section>
+							<% if @project.payment_attachments.present? %>
+								<section class="attachments">
+									<h3 class="title">Tập tin đính kèm</h3>
+									<% @project.payment_attachments.each do |attachment| %>
+										<article class="item">
+											<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
+										</article>
+									<% end %>
+								</section>
+							<% end %>
+						</section>
+					</article>
+				
+				<!-- / Payment method -->
 				
 				<!-- Products -->
 				
 					<article class="box" aria-name="products">
 						<section class="box-header">
 							<h2 class="box-title">
-								Sản phẩm
+								Sản phẩm <small style="color: inherit;">&amp;</small> mặt bằng tổng thể
 							</h2>
 						</section>
 						<section  class="box-body" id="products_container">
@@ -435,90 +502,6 @@
 					</article>
 				
 				<!-- / Products -->
-					
-				<!-- Ground -->
-				
-					<article class="box" aria-name="ground">
-						<section class="box-header">
-							<h2 class="box-title">
-								Mặt bằng tổng thể
-							</h2>
-						</section>
-						<section class="box-body">
-							<article id="ground_interact" class="ground-description interact-image">
-								<section class="navigator">
-									<ul>
-										<li aria-name="project" class="active">
-											<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
-										</li>
-										<li aria-name="block">
-											<a aria-click="interact" data-type="block">Xem block</a>
-										</li>
-										<li aria-name="group">
-											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
-										</li>
-										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floor">Xem sàn</a>
-										</li>
-										<li aria-name="real_estate">
-											<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>
-										</li>
-										<li aria-name="position">
-											<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
-										</li>
-									</ul>
-								</section>
-								<section class="image-panel">
-									<svg>
-										<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
-										<g>
-											<g aria-object="g">
-											</g>
-										</g>
-									</svg>
-									<article class="back-button button-in-panel">
-										<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
-									</article>
-									<section aria-object="info-panel-interact" class="info-panel">
-										<article class="content">
-											
-										</article>
-									</section>
-								</section>
-								<section class="images-list">
-									<ul aria-object="image-list">
-									</ul>
-								</section>
-							</article>
-						</section>
-					</article>
-				
-				<!-- / Ground -->
-
-				<!-- Payment method -->
-				
-					<article class="box white-box" aria-name="payment_method">
-						<section class="box-header">
-							<h2 class="box-title">
-								Phương thức thanh toán
-							</h2>
-						</section>
-						<section class="box-body payment_method">
-							<section class="description">
-								<%= @project.display_payment_method %>
-							</section>
-							<section class="attachments">
-								<h3 class="title">Tập tin đính kèm</h3>
-								<% @project.payment_attachments.each do |attachment| %>
-									<article class="item">
-										<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
-									</article>
-								<% end %>
-							</section>
-						</section>
-					</article>
-				
-				<!-- / Payment method -->
 
 				<!-- Progress -->
 				
@@ -547,6 +530,68 @@
 					</article> -->
 
 				<!-- / Investor -->
+
+				<!-- Register -->
+					
+					<article class="box white-box" aria-name="register">
+						<section class="box-header">
+							<h2 class="box-title">
+								Đăng ký sản phẩm
+							</h2>
+						</section>
+						<section class="box-body">
+							<article id="register_interact" class="register-description interact-image">
+								<section class="navigator">
+									<ul>
+										<li aria-name="project" class="hidden">
+											<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
+										</li>
+										<li aria-name="block">
+											<a aria-click="interact" data-type="block">Xem block</a>
+										</li>
+										<li aria-name="group">
+											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
+										</li>
+										<li aria-name="floor">
+											<a aria-click="interact" data-type="blocks/floors">Xem sàn</a>
+										</li>
+										<li aria-name="real_estate">
+											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>
+										</li>
+										<li aria-name="position">
+											<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
+										</li>
+									</ul>
+									<section class="callout">
+										HOẶC
+									</section>
+									<section class="search-by-label">
+										<input class="form-control" placeholder="Hãy nhập mã" />
+									</section>
+								</section>
+								<section class="image-panel hidden">
+									<svg>
+										<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+										<g>
+											<g aria-object="g">
+											</g>
+										</g>
+									</svg>
+									<section aria-object="info-panel-interact" class="info-panel">
+										<article class="content">
+											
+										</article>
+									</section>
+								</section>
+								<section class="images-list hidden">
+									<ul aria-object="image-list">
+									</ul>
+								</section>
+							</article>
+						</section>
+					</article>
+
+				<!-- / Register -->
 
 				<!-- Contact -->
 				

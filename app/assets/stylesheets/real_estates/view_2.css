@@ -74,13 +74,13 @@
 		
 		@media (min-width: 992px) {
 			.infos-container {
-				min-height: 412px;
+				min-height: 362px;
 			}
 		}
 		
 		@media (min-width: 1200px) {
 			.infos-container {
-				min-height: 500px;
+				min-height: 450px;
 			}
 		}
 
@@ -271,6 +271,42 @@
 		/* / Item */
 
 /* / Infos */
+
+/* Buttons */
+
+	.buttons-container {
+		
+	}
+
+		.buttons-container .button {
+			float: left;
+			width: 50%;
+		}
+
+			.buttons-container .button a {
+				display: block;
+				height: 50px;
+				line-height: 50px;
+				font-size: 19px;
+				background-color: #303740;
+				color: #fff;
+				text-align: center;
+				text-decoration: none;
+			}
+
+				.buttons-container .button a:hover {
+					background-color: #646B76;
+				}
+
+				.buttons-container .button.register a {
+					background-color: #CE9600;
+				}
+
+					.buttons-container .button.register a:hover {
+						background-color: #FFBA00;
+					}
+
+/* / Buttons */
 
 /* Description */
 
