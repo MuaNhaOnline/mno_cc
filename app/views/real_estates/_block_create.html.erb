@@ -3,7 +3,7 @@
 
 	# params: @block, @re, @selected_group
 
-	general_type = @block.block_type.present? ? (@block.block_type.options['parent'] || @block.block_type.name) : (@block.project.project_type.options['parent'] || @block.project.project_type.name)
+	general_type = @block.block_type.options['parent'] || @block.block_type.name if @block.block_type.present?
 
 	# Unit options
 	sell_unit_options = rent_unit_options = ''
@@ -265,184 +265,218 @@
 
 					<!-- / Unit -->
 
-					<!-- Floor -->
+					<!-- Floor, price -->
 
-						<article class="form-group">
-							<label class="control-label" for="block_floor">
-								Sàn phân bố
-								<sup class="required-label"></sup>
-							</label>
-							<select data-constraint="required" name="real_estate[block][block_floor_id]" class="form-control" id="block_floor">
-								<option value hidden>Chọn sàn phân bố</option>
-								<% @block.floors.each do |floor| %>
-									<% next unless floor.is_dynamic %>
-									<option <%= 'selected' if floor.id == @re.block_floor_id %> value="<%= floor.id %>" data-value="<%= floor.floors_text %>"><%= floor.name %> (<%= floor.floors_text %>)</option>
-								<% end %>
-							</select>
-						</article>
+						<% if ['adjacent_house', 'land'].include? general_type %>
 
-					<!-- / Floor -->
+							<input type="hidden" name="real_estate[block][block_floor_id]" value="<%= @block.floors.first.id if @block.floors.present? %>" />
 
-					<article class="tab-container input" data-relative_inputs="real_estate[purpose_id]">
-						<section class="tab-list">
-							<section class="list horizontal-list-container text-left">
-								<ul class="horizontal-list">
-								</ul>
-							</section>
-							<section class="add-button">
-								<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
-							</section>
-						</section>
-						<section class="tab-content-list">
+							<!-- Sell price -->
 
-							<% if @re.new_record? %>
-
-								<article class="tab-content" aria-name="new">
-
-									<!-- Floors -->
-
-										<article class="form-group">
-											<label class="control-label">
-												Các tầng / vị trí
-												<sup class="required-label"></sup>
-											</label>
-											<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" class="form-control" />
-										</article>
-
-									<!-- / Floors -->
-								
-									<!-- Sell price -->
-
-										<div class="row" data-toggled-element="sell un-rent">
-
-											<article class="form-group col-ss-4">
-												<label class="control-label">
-													Giá bán cơ bản
-													<sup class="required-label"></sup>
-												</label>
-												<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][floors][tab_name][sell_price]" class="form-control separate-number read-money">
-												<section class="money-text font-size-12"></section>
-											</article>
-
-											<article class="form-group col-ss-8">
-												<label class="control-label">
-													Hệ số giá
-												</label>
-												<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
-												<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
-												<input aria-object="coefficient" name="real_estate[block][floors][tab_name][sell_floor_coefficient]" value="" class="form-control" />
-											</article>
-
-										</div>
-
-									<!-- / Sell price -->
-								
-									<!-- Rent price -->
-
-										<div class="row" data-toggled-element="rent un-sell">
-
-											<article class="form-group col-ss-4">
-												<label class="control-label">
-													Giá cho thuê cơ bản
-													<sup class="required-label"></sup>
-												</label>
-												<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][floors][tab_name][rent_price]" class="form-control separate-number read-money">
-												<section class="money-text font-size-12"></section>
-											</article>
-
-											<article class="form-group col-ss-8">
-												<label class="control-label">
-													Hệ số giá
-												</label>
-												<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
-												<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
-												<input aria-object="coefficient" name="real_estate[block][floors][tab_name][rent_floor_coefficient]" class="form-control" />
-											</article>
-
-										</div>
-
-									<!-- / Rent price -->
-
+								<article class="form-group" data-toggled-element="sell un-rent">
+									<label class="control-label">
+										Giá bán
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[sell_price]" class="form-control separate-number read-money" value="<%= ApplicationHelper.display_decimal @re.sell_price if @re.sell_price.present? %>">
+									<section class="money-text font-size-12"></section>
 								</article>
 
-							<% else %>
+							<!-- / Sell price -->
+						
+							<!-- Rent price -->
 
-								<% @re.floor_infos_text.each_with_index do |info, index| %>
+								<article class="form-group" data-toggled-element="rent un-sell">
+									<label class="control-label">
+										Giá cho thuê
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[rent_price]" class="form-control separate-number read-money" value="<%= ApplicationHelper.display_decimal @re.rent_price if @re.rent_price.present? %>">
+									<section class="money-text font-size-12"></section>
+								</article>
 
-									<article class="tab-content" aria-name="init_<%= index %>">
+							<!-- / Rent price -->
 
-										<!-- Floors -->
+						<% else %>
 
-											<article class="form-group">
-												<label class="control-label">
-													Các tầng / vị trí
-													<sup class="required-label"></sup>
-												</label>
-												<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" value="<%= info['floors'] %>" class="form-control" />
+							<article class="form-group">
+								<label class="control-label" for="block_floor">
+									Sàn phân bố
+									<sup class="required-label"></sup>
+								</label>
+								<select data-constraint="required" name="real_estate[block][block_floor_id]" class="form-control" id="block_floor">
+									<option value hidden>Chọn sàn phân bố</option>
+									<% @block.floors.each do |floor| %>
+										<% next unless floor.is_dynamic %>
+										<option <%= 'selected' if floor.id == @re.block_floor_id %> value="<%= floor.id %>" data-value="<%= floor.floors_text %>"><%= floor.display_name %></option>
+									<% end %>
+								</select>
+							</article>
+
+							<article class="tab-container input" data-relative_inputs="real_estate[purpose_id]">
+								<section class="tab-list">
+									<section class="list horizontal-list-container text-left">
+										<ul class="horizontal-list">
+										</ul>
+									</section>
+									<section class="add-button">
+										<a href="javascript:void(0)" aria-click="add_tab" class="fa fa-plus"></a>
+									</section>
+								</section>
+								<section class="tab-content-list">
+
+									<% if @re.new_record? %>
+
+										<article class="tab-content" aria-name="new">
+
+											<!-- Floors -->
+
+												<article class="form-group">
+													<label class="control-label">
+														Các tầng / vị trí
+														<sup class="required-label"></sup>
+													</label>
+													<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" class="form-control" />
+												</article>
+
+											<!-- / Floors -->
+										
+											<!-- Sell price -->
+
+												<div class="row" data-toggled-element="sell un-rent">
+
+													<article class="form-group col-ss-4">
+														<label class="control-label">
+															Giá bán cơ bản
+															<sup class="required-label"></sup>
+														</label>
+														<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][floors][tab_name][sell_price]" class="form-control separate-number read-money">
+														<section class="money-text font-size-12"></section>
+													</article>
+
+													<article class="form-group col-ss-8">
+														<label class="control-label">
+															Hệ số giá
+														</label>
+														<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
+														<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
+														<input aria-object="coefficient" name="real_estate[block][floors][tab_name][sell_floor_coefficient]" value="" class="form-control" />
+													</article>
+
+												</div>
+
+											<!-- / Sell price -->
+										
+											<!-- Rent price -->
+
+												<div class="row" data-toggled-element="rent un-sell">
+
+													<article class="form-group col-ss-4">
+														<label class="control-label">
+															Giá cho thuê cơ bản
+															<sup class="required-label"></sup>
+														</label>
+														<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" name="real_estate[block][floors][tab_name][rent_price]" class="form-control separate-number read-money">
+														<section class="money-text font-size-12"></section>
+													</article>
+
+													<article class="form-group col-ss-8">
+														<label class="control-label">
+															Hệ số giá
+														</label>
+														<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
+														<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
+														<input aria-object="coefficient" name="real_estate[block][floors][tab_name][rent_floor_coefficient]" class="form-control" />
+													</article>
+
+												</div>
+
+											<!-- / Rent price -->
+
+										</article>
+
+									<% else %>
+
+										<% @re.floor_infos_text.each_with_index do |info, index| %>
+
+											<article class="tab-content" aria-name="init_<%= index %>">
+
+												<!-- Floors -->
+
+													<article class="form-group">
+														<label class="control-label">
+															Các tầng / vị trí
+															<sup class="required-label"></sup>
+														</label>
+														<input aria-object="floors" data-constraint="required" name="real_estate[block][floors][tab_name][floors]" value="<%= info['floors'] %>" class="form-control" />
+													</article>
+
+												<!-- / Floors -->
+											
+												<!-- Sell price -->
+
+													<div class="row" data-toggled-element="sell un-rent">
+
+														<article class="form-group col-ss-4">
+															<label class="control-label">
+																Giá bán cơ bản
+																<sup class="required-label"></sup>
+															</label>
+															<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['sell_price'] %>" name="real_estate[block][floors][tab_name][sell_price]" class="form-control separate-number read-money">
+															<section class="money-text font-size-12"></section>
+														</article>
+
+														<article class="form-group col-md-8">
+															<label class="control-label">
+																Hệ số giá
+															</label>
+															<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
+															<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
+															<input aria-object="coefficient" name="real_estate[block][floors][tab_name][sell_floor_coefficient]" value="<%= info['sell_floor_coefficient'] %>" class="form-control" />
+														</article>
+
+													</div>
+
+												<!-- / Sell price -->
+											
+												<!-- Rent price -->
+
+													<div class="row" data-toggled-element="rent un-sell">
+
+														<article class="form-group col-ss-4">
+															<label class="control-label">
+																Giá cho thuê cơ bản
+																<sup class="required-label"></sup>
+															</label>
+															<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['rent_price'] %>" name="real_estate[block][floors][tab_name][rent_price]" class="form-control separate-number read-money">
+															<section class="money-text font-size-12"></section>
+														</article>
+
+														<article class="form-group col-ss-8">
+															<label class="control-label">
+																Hệ số giá
+															</label>
+															<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
+															<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
+															<input aria-object="coefficient" name="real_estate[block][floors][tab_name][rent_floor_coefficient]" value="<%= info['rent_floor_coefficient'] %>" class="form-control" />
+														</article>
+
+													</div>
+
+												<!-- / Rent price -->
+
 											</article>
 
-										<!-- / Floors -->
-									
-										<!-- Sell price -->
+										<% end %>
 
-											<div class="row" data-toggled-element="sell un-rent">
+									<% end %>
 
-												<article class="form-group col-ss-4">
-													<label class="control-label">
-														Giá bán cơ bản
-														<sup class="required-label"></sup>
-													</label>
-													<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['sell_price'] %>" name="real_estate[block][floors][tab_name][sell_price]" class="form-control separate-number read-money">
-													<section class="money-text font-size-12"></section>
-												</article>
+								</section>
+							</article>
 
-												<article class="form-group col-md-8">
-													<label class="control-label">
-														Hệ số giá
-													</label>
-													<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
-													<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
-													<input aria-object="coefficient" name="real_estate[block][floors][tab_name][sell_floor_coefficient]" value="<%= info['sell_floor_coefficient'] %>" class="form-control" />
-												</article>
+						<% end %>
 
-											</div>
-
-										<!-- / Sell price -->
-									
-										<!-- Rent price -->
-
-											<div class="row" data-toggled-element="rent un-sell">
-
-												<article class="form-group col-ss-4">
-													<label class="control-label">
-														Giá cho thuê cơ bản
-														<sup class="required-label"></sup>
-													</label>
-													<input aria-object="price" data-constraint="required integer range" data-maxvalue="1000000000000" value="<%= info['rent_price'] %>" name="real_estate[block][floors][tab_name][rent_price]" class="form-control separate-number read-money">
-													<section class="money-text font-size-12"></section>
-												</article>
-
-												<article class="form-group col-ss-8">
-													<label class="control-label">
-														Hệ số giá
-													</label>
-													<a tabindex="-1" class="pull-right helper-label fa fa-question text-muted" data-content="<p><b>{f}</b>: Giá trị tầng</p><p><b>{p}</b>: Giá trị giá cơ bản</p><p><b>Xem trước</b>: Xem bảng giá tính theo hệ số</p>"></a>
-													<a tabindex="-1" class="small pull-right text-muted" style="margin-top: 5px" aria-click="price_preview">Xem trước</a>
-													<input aria-object="coefficient" name="real_estate[block][floors][tab_name][rent_floor_coefficient]" value="<%= info['rent_floor_coefficient'] %>" class="form-control" />
-												</article>
-
-											</div>
-
-										<!-- / Rent price -->
-
-									</article>
-
-								<% end %>
-
-							<% end %>
-
-						</section>
-					</article>
+					<!-- / Floor, price -->
 
 				</div>
 			</div>

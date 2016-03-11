@@ -436,21 +436,25 @@ class RealEstate < ActiveRecord::Base
 
 				# Floor infos
 
-					_floor_infos_text = []
+					if params[:floors].present?
 
-					params[:floors].each_value do |_value_params|
-						_hash = {}
+						_floor_infos_text = []
 
-						_hash['floors'] = _value_params[:floors] if _value_params[:floors].present?
-						_hash['sell_price'] = ApplicationHelper.format_i(_value_params[:sell_price]) if _value_params[:sell_price].present?
-						_hash['sell_floor_coefficient'] = _value_params[:sell_floor_coefficient] if _value_params[:sell_floor_coefficient].present?
-						_hash['rent_price'] = ApplicationHelper.format_i(_value_params[:rent_price]) if _value_params[:rent_price].present?
-						_hash['rent_floor_coefficient'] = _value_params[:rent_floor_coefficient] if _value_params[:rent_floor_coefficient].present?
+						params[:floors].each_value do |_value_params|
+							_hash = {}
 
-						_floor_infos_text << _hash
+							_hash['floors'] = _value_params[:floors] if _value_params[:floors].present?
+							_hash['sell_price'] = ApplicationHelper.format_i(_value_params[:sell_price]) if _value_params[:sell_price].present?
+							_hash['sell_floor_coefficient'] = _value_params[:sell_floor_coefficient] if _value_params[:sell_floor_coefficient].present?
+							_hash['rent_price'] = ApplicationHelper.format_i(_value_params[:rent_price]) if _value_params[:rent_price].present?
+							_hash['rent_floor_coefficient'] = _value_params[:rent_floor_coefficient] if _value_params[:rent_floor_coefficient].present?
+
+							_floor_infos_text << _hash
+						end
+
+						assign_attributes floor_infos_text: _floor_infos_text
+						
 					end
-
-					assign_attributes floor_infos_text: _floor_infos_text
 
 				# / Floor infos
 

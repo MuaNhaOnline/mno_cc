@@ -472,7 +472,7 @@ class RealEstatesController < ApplicationController
 				navigator = {
 					block: {
 						id: @group.block.id,
-						name: @group.block.name
+						name: @group.block.display_name
 					},
 					group: {
 						id: @group.id,
@@ -640,7 +640,7 @@ class RealEstatesController < ApplicationController
 				navigator = {
 					block: {
 						id: @re.block.id,
-						name: @re.block.name
+						name: @re.block.display_name
 					},
 					group: {
 						id: @re.block_group.id,
@@ -648,7 +648,7 @@ class RealEstatesController < ApplicationController
 					},
 					floor: {
 						id: @re.block_floor.id,
-						name: "#{@re.block_floor.floors_text}: #{@re.block_floor.name}"
+						name: @re.block_floor.display_name
 					},
 					real_estate: {
 						id: @re.id,
@@ -815,7 +815,7 @@ class RealEstatesController < ApplicationController
 				navigator = {
 					block: {
 						id: @position.real_estate.block.id,
-						name: @position.real_estate.block.name
+						name: @position.real_estate.block.display_name
 					},
 					group: {
 						id: @position.real_estate.block_group.id,
@@ -823,7 +823,7 @@ class RealEstatesController < ApplicationController
 					},
 					floor: {
 						id: @position.real_estate.block_floor.id,
-						name: "#{@position.real_estate.block_floor.floors_text}: #{@position.real_estate.block_floor.name}"
+						name: @position.real_estate.block_floor.display_name
 					},
 					real_estate: {
 						id: @position.real_estate.id,

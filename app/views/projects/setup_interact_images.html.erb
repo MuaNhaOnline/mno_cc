@@ -341,6 +341,7 @@
 													<section class="list-wrapper">
 														<article class="list items-list" data-value="<%= block.id %>" data-type="blocks/floor">
 															<% block.floors.each do |floor| %>
+																<% next unless floor.is_dynamic %>
 																<article class="col item" data-value="<%= floor.id %>">
 																	<img src="<%= floor.surface.url('thumb') %>">
 																	<section class="controls">

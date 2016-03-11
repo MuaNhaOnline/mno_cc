@@ -980,22 +980,23 @@ $(function () {
 				function addDescription(descriptions) {
 					$(descriptions).each(function () {
 						var 
-							description_data = this,
+							descriptionData = this,
 							$polyline = $(document.createElementNS("http://www.w3.org/2000/svg", "polyline"));
 
 						$g.append($polyline);
 
 						$polyline.attr({
 							'aria-object': 'description',
-							points: description_data.points
+							points: descriptionData.points
 						}).css({
 							fill: 'url(#' + $pattern.attr('id') + ')',
 							transition: '.3s',
 							'transform-origin': '50% 50%',
 							cursor: 'pointer'
 						});
+						console.log(descriptionData);
 
-						if (description_data.status == 'highlight') {
+						if (descriptionData.status == 'highlight') {
 							$polyline.css({
 								fill: 'rgba(0, 166, 91, .3)',
 								stroke: '#ddd'
@@ -1017,10 +1018,13 @@ $(function () {
 									});
 								},
 								click: function () {
-									switch (description_data.description.type) {
+									switch (descriptionData.description.type) {
 										case 'block':
 										case 'real_estate':
-											startInteractImage(description_data.description.type, description_data.description.id);
+											startInteractImage(descriptionData.description.type, descriptionData.description.id);
+											break;
+										case 'block_floor':
+											startInteractImage('blocks/floor', descriptionData.description.id);
 											break;
 										default:
 											break;

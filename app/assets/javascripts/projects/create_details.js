@@ -1,4 +1,4 @@
-var project_id;
+ var project_id;
 
 $(function () {
 
@@ -662,7 +662,7 @@ $(function () {
 									message: 'Đang kiểm tra mã'
 								});
 								$.ajax({
-									url: '/real_estates/check_unique_label/' + $form.find('[name="real_estate[id]"]').val(),
+									url: '/real_estates/check_unique_label/' + ($form.find('[name="real_estate[id]"]').val() || ''),
 									data: {
 										project_id: project_id,
 										label: $input.val()
@@ -719,7 +719,16 @@ $(function () {
 								badFloors = [];
 
 								// Get available floors
-								availableFloors = parseFloors($('#block_floor :selected').data('value'));
+								var
+									$blockFloor = $('#block_floor'),
+									availableFloors;
+
+								if ($blockFloor.is('select')) {
+									availableFloors = parseFloors($blockFloor.find(':selected').data('value'));
+								}
+								else {
+									availableFloors = parseFloors($blockFloor.data('value'));
+								}
 
 								// Get this floors
 								currentFloors = parseFloors($input.val());
@@ -802,32 +811,38 @@ $(function () {
 						submit: function () {
 							// Check all floor number corresponding with block floor
 
-								// Get all floors
-								$floors = $form.find('[aria-object="floors"]');
-								allFloors = [];
-								$floors.each(function () {
-									allFloors = allFloors.concat(parseFloors(this.value));
-								});
+								var $blockFloor = $('#block_floor');
 
-								// Get available floors
-								availableFloors = parseFloors($('#block_floor :selected').data('value'));
+								if ($blockFloor.length != 0) {
 
-								// Check if not correspoding
-								badFloors = [];
-								length = availableFloors.length;
-								for (i = 0; i < length; i++) {
-									if (allFloors.indexOf(availableFloors[i]) == -1) {
-										badFloors.push(availableFloors[i]);
-									}
-								}
-								if (badFloors.length > 0) {
-									$form.toggleValidInput({
-										inputs: $floors,
-										is_valid: false,
-										constraint: 'bad_floor',
-										error_message: 'Thiếu thông tin tầng ' + badFloors.join(', ')
+									// Get all floors
+									$floors = $form.find('[aria-object="floors"]');
+									allFloors = [];
+									$floors.each(function () {
+										allFloors = allFloors.concat(parseFloors(this.value));
 									});
-									return false;
+
+									// Get available floors
+									availableFloors = parseFloors($blockFloor.find(':selected').data('value'));
+
+									// Check if not correspoding
+									badFloors = [];
+									length = availableFloors.length;
+									for (i = 0; i < length; i++) {
+										if (allFloors.indexOf(availableFloors[i]) == -1) {
+											badFloors.push(availableFloors[i]);
+										}
+									}
+									if (badFloors.length > 0) {
+										$form.toggleValidInput({
+											inputs: $floors,
+											is_valid: false,
+											constraint: 'bad_floor',
+											error_message: 'Thiếu thông tin tầng ' + badFloors.join(', ')
+										});
+										return false;
+									}
+
 								}
 
 							// / Check all floor number corresponding with block floor

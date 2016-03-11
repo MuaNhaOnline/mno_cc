@@ -248,7 +248,7 @@ class BlocksController < ApplicationController
 					navigator = {
 						block: {
 							id: @block.id,
-							name: @block.name
+							name: @block.display_name
 						}
 					}
 				
@@ -273,7 +273,7 @@ class BlocksController < ApplicationController
 				blocks.each do |block|
 					options << {
 						id: block.id,
-						name: block.name
+						name: block.display_name
 					}
 				end
 
@@ -454,7 +454,7 @@ class BlocksController < ApplicationController
 					navigator = {
 						block: {
 							id: @floor.block.id,
-							name: @floor.block.name
+							name: @floor.block.display_name
 						},
 						floor: {
 							id: @floor.id,

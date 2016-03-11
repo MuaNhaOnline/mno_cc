@@ -141,7 +141,7 @@ class ProjectsController < ApplicationController
 				unless ProjectImageBlockDescription.exists? block_id: block.id
 					errors << {
 						type: 'project',
-						name: block.name,
+						name: block.display_name,
 						id: ''
 					}
 				end

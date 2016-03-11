@@ -333,7 +333,7 @@ BlockType.create [
 			order: 5,
 			options: {
 				html: {
-					attributes: 'data-off="un-block_land"'
+					attributes: 'data-on="block_land" data-off="un-block_land"'
 				}
 			}
 		},

@@ -69,6 +69,9 @@ class Block < ActiveRecord::Base
 					params[:block_type_id] = block_type_id
 				end
 
+				_block_type = BlockType.find(params[:block_type_id])
+				_block_type_name = _block_type.options['parent'] || _block_type.name
+
 				# Images
 				_images = []
 				_has_avatar = false
@@ -100,9 +103,9 @@ class Block < ActiveRecord::Base
 				end
 				assign_attributes images: _images
 
-				# Floor
-
-					def _parseFloors string
+				# Floor / surface
+ 
+					def _parse_string_to_array string
 						# Format
 						string = string.gsub(/[^0-9\-,]/, '')
 
@@ -143,53 +146,71 @@ class Block < ActiveRecord::Base
 						list.uniq.sort
 					end
 
-					_floor_params = params[:floor]
-					_floors = []
+					if ['complex_apartment', 'apartment', 'office'].include? _block_type_name
 
-					_floor_params.each_value do |_value_params|
-						_floor = _value_params[:id].present? ? BlockFloor.find(_value_params[:id]) : BlockFloor.new
+						_floor_params = params[:floor]
+						_floors = []
 
-						_floor.floors_text = _value_params[:floors_text]
-						_floor.floors = _parseFloors _value_params[:floors_text]
-						_floor.name = _value_params[:name]
-						_floor.description = _value_params[:description]
-						_floor.is_dynamic = _value_params[:is_dynamic]
+						_floor_params.each_value do |_value_params|
+							_floor = _value_params[:id].present? ? BlockFloor.find(_value_params[:id]) : BlockFloor.new
 
-						if _floor.is_dynamic
-							_value_params[:surface] = JSON.parse _value_params[:surface]
-							if _value_params[:surface]['is_new']
-								TemporaryFile.get_file(_value_params[:surface]['id']) do |_image|
-									_floor.surface = _image
-								end
-							end
-						else
-							_images = []
-							if _value_params[:images].present?
-								_value_params[:images].each do |_v|
-									_value = JSON.parse _v
+							_floor.floors_text = _value_params[:floors_text]
+							_floor.floors = _parse_string_to_array _value_params[:floors_text]
+							_floor.name = _value_params[:name]
+							_floor.description = _value_params[:description]
+							_floor.is_dynamic = _value_params[:is_dynamic]
 
-									if _value['is_new']
-										TemporaryFile.get_file(_value['id']) do |_image|
-											_images << BlockFloorImage.new(image: _image, order: _value['order'], description: _value['description'])
-										end
-									else
-										_image = BlockFloorImage.find _value['id']
-										_image.description = _value['description']
-										_image.order = _value['order']         
-
-										_images << _image
+							if _floor.is_dynamic
+								_value_params[:surface] = JSON.parse _value_params[:surface]
+								if _value_params[:surface]['is_new']
+									TemporaryFile.get_file(_value_params[:surface]['id']) do |_image|
+										_floor.surface = _image
 									end
 								end
+							else
+								_images = []
+								if _value_params[:images].present?
+									_value_params[:images].each do |_v|
+										_value = JSON.parse _v
+
+										if _value['is_new']
+											TemporaryFile.get_file(_value['id']) do |_image|
+												_images << BlockFloorImage.new(image: _image, order: _value['order'], description: _value['description'])
+											end
+										else
+											_image = BlockFloorImage.find _value['id']
+											_image.description = _value['description']
+											_image.order = _value['order']         
+
+											_images << _image
+										end
+									end
+								end
+								_floor.images = _images
 							end
-							_floor.images = _images
+
+							_floors << _floor
 						end
 
-						_floors << _floor
+						assign_attributes floors: _floors
+
+					else
+
+						_floor = new_record? ? BlockFloor.new : BlockFloor.where(block_id: id).first_or_initialize
+						_floor.name = 'Mặt cắt'
+						_floor.is_dynamic = true
+
+						_surface_params = JSON.parse params[:surface]
+						if _surface_params['is_new']
+							TemporaryFile.get_file(_surface_params['id']) do |_image|
+								_floor.surface = _image
+							end
+						end
+
+						assign_attributes floors: [_floor]
 					end
 
-					assign_attributes floors: _floors
-
-				# / Floor
+				# / Floor / surface
 
 				# Real-estate group
 
@@ -212,7 +233,7 @@ class Block < ActiveRecord::Base
 						# Real estate type
 						_group.real_estate_type_id = _value_params[:real_estate_type_id]
 						if _group.real_estate_type_id.blank?
-							_group.real_estate_type_id = case BlockType.find(params[:block_type_id]).name
+							_group.real_estate_type_id = case _block_type_name
 							when 'low_apartment'
 								11
 							when 'medium_apartment'
@@ -330,6 +351,24 @@ class Block < ActiveRecord::Base
 	# / Delete
 
 	# Attributes
+
+		# Call name
+		def display_call_name
+			@display_call_name ||= 
+				block_type.present? ?
+				case block_type.options['parent'] || block_type.name
+				when 'adjacent_house', 'land'
+					'Lô'
+				else
+					'Block'
+				end :
+				''
+		end
+
+		# Name
+		def display_name
+			@display_name ||= "#{display_call_name} #{name}"
+		end
 
 		# Block type
 		def display_block_type
