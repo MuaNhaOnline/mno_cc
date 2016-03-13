@@ -12,6 +12,25 @@
 =begin
 	@re
 =end
+
+	@_title = @re.name
+
+	@_main_navigator = {
+		list: [
+			{
+				url: '/',
+				text: 'Trang chủ'
+			},
+			{
+				url: '/bat-dong-san',
+				text: 'Bất động sản'
+			},
+			{
+				url: "/bat-dong-san/#{@re.full_slug}",
+				text: @re.title
+			}
+		]
+	}
 %>
 
 <div class="container">

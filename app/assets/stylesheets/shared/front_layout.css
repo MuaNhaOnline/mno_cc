@@ -254,14 +254,13 @@ body {
 	.main-navigator {
 		padding-top: 30px;
 		padding-bottom: 30px;
-		background-image: url('/assets/shared/main_navigator/house.jpg');
 		background-position-x: 50%;
 		background-position-y: 100%;
 		background-size: cover;
 	}
 
 		.main-navigator .list {
-			
+			text-shadow: 2px 2px 10px #000, -2px -2px 10px #000, -2px 2px 10px #000, 2px -2px 10px #000;
 		}
 
 		.main-navigator .item {
