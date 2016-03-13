@@ -6,7 +6,7 @@
 
 <section class="heading">
 	<h3 class="title">
-		<%= @position.real_estate.block_group.name %>
+		<%= @position.real_estate.block_group.display_name %>
 		<span class="sub">
 			Mã <%= @position.label %>
 		</span>
@@ -17,6 +17,11 @@
 </section>
 
 <section class="body">
+
+	<article class="register-button">
+		<a>Đăng ký sản phẩm</a>
+	</article>
+
 	<article class="info list">
 		<% if @position.floor.present? %>
 			<article class="list-item">

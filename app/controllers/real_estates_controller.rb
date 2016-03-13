@@ -476,10 +476,16 @@ class RealEstatesController < ApplicationController
 					},
 					group: {
 						id: @group.id,
-						name: @group.name
+						name: @group.display_name
 					}
 				}
-			
+
+				if @group.block.block_type.present?
+					unless @group.block.has_floor
+						navigator[:display_position] = false
+					end
+				end
+
 			# / Navigator
 
 			render json: { 
@@ -502,7 +508,7 @@ class RealEstatesController < ApplicationController
 				floor_ids = '|' + group.real_estates.group_by{ |re| re.block_floor_id }.keys.join('|') + '|'
 				options << {
 					id: group.id,
-					name: group.name,
+					name: group.display_name,
 					floor_ids: floor_ids
 				}
 			end
@@ -644,7 +650,7 @@ class RealEstatesController < ApplicationController
 					},
 					group: {
 						id: @re.block_group.id,
-						name: @re.block_group.name
+						name: @re.block_group.display_name
 					},
 					floor: {
 						id: @re.block_floor.id,
@@ -655,6 +661,12 @@ class RealEstatesController < ApplicationController
 						name: @re.short_label
 					}
 				}
+
+				if @re.block.block_type.present?
+					unless @re.block.has_floor
+						navigator[:display_position] = false
+					end
+				end
 			
 			# / Navigator
 
@@ -819,7 +831,7 @@ class RealEstatesController < ApplicationController
 					},
 					group: {
 						id: @position.real_estate.block_group.id,
-						name: @position.real_estate.block_group.name
+						name: @position.real_estate.block_group.display_name
 					},
 					floor: {
 						id: @position.real_estate.block_floor.id,
@@ -831,7 +843,7 @@ class RealEstatesController < ApplicationController
 					},
 					position: {
 						id: @position.id,
-						name: "Sàn #{@position.floor}: #{@position.label}"
+						name: @position.display_name
 					}
 				}
 			
@@ -856,7 +868,7 @@ class RealEstatesController < ApplicationController
 			re_floors.each do |re_floor|
 				options << {
 					id: re_floor.id,
-					name: "Tầng #{re_floor.floor}: #{re_floor.label}"
+					name: re_floor.display_name
 				}
 			end
 

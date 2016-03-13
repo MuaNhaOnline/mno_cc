@@ -6,17 +6,24 @@
 
 <section class="heading">
 	<h3 class="title">
-		<%= @re.block_group.name %>
+		<%= @re.block_group.display_name %>
 		<span class="sub">
 			<%= @re.short_label %>
 		</span>
-		<span class="sub">
-			<%= @re.block_floor.name %>
-		</span>
+		<% if @re.block.has_floor %>
+			<span class="sub">
+				<%= @re.block_floor.display_name %>
+			</span>
+		<% end %>
 	</h3>
 </section>
 
 <section class="body">
+
+	<article class="register-button">
+		<a>Đăng ký sản phẩm</a>
+	</article>
+
 	<article class="info list">
 		<% if @re.bedroom_number.present? %>
 			<article class="list-item">
@@ -42,34 +49,48 @@
 				<span class="value"><%= t "direction.text.#{@re.direction.name}" %></span>
 			</article>
 		<% end %>
+		<% if @re.sell_price_text.present? %>
+			<article class="list-item">
+				<span class="text">Giá bán</span>
+				<span class="value sell-price-text"><%= @re.sell_price_text %></span>
+			</article>
+		<% end %>
+		<% if @re.rent_price_text.present? %>
+			<article class="list-item">
+				<span class="text">Giá thuê</span>
+				<span class="value rent-price-text"><%= @re.rent_price_text %></span>
+			</article>
+		<% end %>
 	</article>
 	
-	<article class="info">
-		Tầng / vị trí
-		<ul>
-			<% @re.in_floors.each do |floor_re| %>
-				<li>
-					<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">
-						Thứ <%= floor_re.floor %></a>
-					<small><b>
-						<% if floor_re.display_sell_price.present? %>
-							<span class="sell-price-text">
-								<%= floor_re.display_sell_price %>
-							</span>
-						<% end %>
+	<% if @re.block.has_floor %>
+		<article class="info">
+			Tầng
+			<ul>
+				<% @re.in_floors.each do |floor_re| %>
+					<li>
+						<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">
+							Thứ <%= floor_re.floor %></a>
+						<small><b>
+							<% if floor_re.display_sell_price.present? %>
+								<span class="sell-price-text">
+									<%= floor_re.display_sell_price %>
+								</span>
+							<% end %>
 
-						<%= '-' if floor_re.display_sell_price.present? && floor_re.display_rent_price.present? %>
-						
-						<% if floor_re.display_rent_price.present? %>
-							<span class="rent-price-text">
-								<%= floor_re.display_rent_price %>
-							</span>
-						<% end %>
-					</b></small>
-				</li>
-			<% end %>
-		</ul>
-	</article>
+							<%= '-' if floor_re.display_sell_price.present? && floor_re.display_rent_price.present? %>
+							
+							<% if floor_re.display_rent_price.present? %>
+								<span class="rent-price-text">
+									<%= floor_re.display_rent_price %>
+								</span>
+							<% end %>
+						</b></small>
+					</li>
+				<% end %>
+			</ul>
+		</article>
+	<% end %>
 
 	<article class="info">
 		Các sản phẩm cùng nhóm
@@ -86,7 +107,11 @@
 	</article>
 
 	<article class="info">
-		Các sản phẩm cùng sàn
+		<% if @re.block.has_floor %>
+			Các sản phẩm cùng tầng
+		<% else %>
+			Các sản phẩm khác
+		<% end %>
 		<ul>
 			<% @re.block_floor.real_estates.each do |re| %>
 				<%

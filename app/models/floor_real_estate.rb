@@ -7,6 +7,25 @@ class FloorRealEstate < ActiveRecord::Base
 	# / Associations
 
 	# Attributes
+
+		# Call name
+		def display_call_name
+			@display_call_name ||= 
+			real_estate.real_estate_type.present? ? 
+			case real_estate.real_estate_type.name
+			when 'land'
+				'Nền'
+			else
+				'Căn'
+			end
+			:
+			''
+		end
+
+		# Name
+		def display_name
+			@display_name ||= "#{display_call_name} #{label}"
+		end
 	
 		# Price
 		def display_sell_price

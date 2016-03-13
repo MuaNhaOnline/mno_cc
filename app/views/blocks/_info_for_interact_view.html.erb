@@ -6,7 +6,7 @@
 
 <section class="heading">
 	<h3 class="title">
-		<%= @block.name %>
+		<%= @block.display_name %>
 	</h3>
 </section>
 
@@ -14,7 +14,7 @@
 	<article class="info list">
 		<% if @block.floor_number.present? %>
 			<article class="list-item">
-				<span class="text">Số tầng / vị trí</span>
+				<span class="text">Số tầng</span>
 				<span class="value"><%= @block.floor_number %></span>
 			</article>
 		<% end %>
@@ -59,7 +59,7 @@
 							end
 						%>
 						<li>
-							<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+							<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.display_name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
 						</li>
 					<% end %>
 				</ul>
@@ -68,13 +68,13 @@
 	</article>
 	<% if @block.project.blocks.count > 1 %>
 		<article class="info">
-			Các block khác
+			Các <%= @block.display_call_name %> khác
 			<ul>
 				<% @block.project.blocks.each do |block| %>
 					<%
 						next if block.id == @block.id
 					%>
-					<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a>
+					<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.display_name %></a>
 				<% end %>
 			</ul>
 		</article>

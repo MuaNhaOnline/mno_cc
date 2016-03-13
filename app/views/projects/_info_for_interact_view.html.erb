@@ -45,7 +45,7 @@
 					count += re.in_floors.count
 				end
 			%>
-			<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.name %></a> <small>(còn <%= available_count %>/<%= count %>)</small>
+			<a class="link" aria-click="interact" data-type="block" data-value="<%= block.id %>"><%= block.display_name %></a> <small>(còn <%= available_count %>/<%= count %>)</small>
 			<ul>
 				<li>
 					Cấu trúc
@@ -84,7 +84,7 @@
 								end
 							%>
 							<li>
-								<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small>(<%= available_count %>/<%= count %>)</small>
+								<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.display_name %></a> <small>(<%= available_count %>/<%= count %>)</small>
 							</li>
 						<% end %>
 					</ul>

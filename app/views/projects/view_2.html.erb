@@ -74,7 +74,7 @@
 							<a aria-name="payment_method" href="#">Phương thức thanh toán</a>
 						</li>
 						<li>
-							<a aria-name="products" href="#">Sản phẩm <small style="color: inherit;">&amp;</small> mặt bằng tổng thể</a>
+							<a aria-name="products" href="#">Sản phẩm <small style="color: inherit;">&amp;</small> Mặt bằng tổng thể</a>
 						</li>
 						<!-- <li>
 							<a aria-name="progress" href="#">Tiến độ</a>
@@ -364,7 +364,7 @@
 																	<%= block_real_estate_group_avatar group %>
 																</section>
 																<section class="content">
-																	<h3 class="title"><%= group.name %></h3>
+																	<h3 class="title"><%= group.display_name %></h3>
 																	<section class="properties">
 																		<% if group.bedroom_number.present? %>
 																			<section class="node">
@@ -422,7 +422,7 @@
 														<%= block_real_estate_group_avatar group %>
 													</section>
 													<section class="content">
-														<h3 class="title"><%= group.name %></h3>
+														<h3 class="title"><%= group.display_name %></h3>
 														<section class="properties">
 															<% if group.bedroom_number.present? %>
 																<section class="node">
@@ -462,11 +462,11 @@
 										<li aria-name="block">
 											<a aria-click="interact" data-type="block">Xem block</a>
 										</li>
+										<li aria-name="floor">
+											<a aria-click="interact" data-type="blocks/floor">Xem sàn</a>
+										</li>
 										<li aria-name="group">
 											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
-										</li>
-										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floors">Xem sàn</a>
 										</li>
 										<li aria-name="real_estate">
 											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>
@@ -549,11 +549,11 @@
 										<li aria-name="block">
 											<a aria-click="interact" data-type="block">Xem block</a>
 										</li>
+										<li aria-name="floor">
+											<a aria-click="interact" data-type="blocks/floor">Xem sàn</a>
+										</li>
 										<li aria-name="group">
 											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
-										</li>
-										<li aria-name="floor">
-											<a aria-click="interact" data-type="blocks/floors">Xem sàn</a>
 										</li>
 										<li aria-name="real_estate">
 											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>

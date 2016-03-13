@@ -6,16 +6,16 @@
 
 <section class="heading">
 	<h3 class="title">
-		Tầng <%= @floor.floors_text %>
+		<%= @floor.display_name %>
 		<span class="sub">
-			<%= @floor.block.name %>
+			<%= @floor.block.display_name %>
 		</span>
 	</h3>
 </section>
 
 <section class="body">
 	<article class="info">
-		Tầng gồm
+		Gồm
 		<ul>
 			<% @floor.real_estates.each do |re| %>
 				<li>
@@ -26,7 +26,7 @@
 	</article>
 
 	<article class="info">
-		Các nhóm có trong tầng
+		Gồm các nhóm
 		<ul>
 			<% BlockRealEstateGroup.find(@floor.real_estates.group_by{ |re| re.block_real_estate_group_id }.keys).each do |group| %>
 				<%

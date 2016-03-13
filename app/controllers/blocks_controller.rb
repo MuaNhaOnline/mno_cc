@@ -251,6 +251,16 @@ class BlocksController < ApplicationController
 							name: @block.display_name
 						}
 					}
+
+					if @block.block_type.present?
+						if (!@block.has_floor && @block.floors.present?)
+							navigator[:floor] = {
+								id: @block.floors.first.id,
+								name: @block.floors.first.display_name
+							}
+							navigator[:display_position] = false
+						end
+					end
 				
 				# / Navigator
 
@@ -461,6 +471,12 @@ class BlocksController < ApplicationController
 							name: @floor.display_name
 						}
 					}
+
+					if @floor.block.block_type.present?
+						unless @floor.block.has_floor
+							navigator[:display_position] = false
+						end
+					end
 				
 				# / Navigator
 

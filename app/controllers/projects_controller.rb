@@ -171,6 +171,8 @@ class ProjectsController < ApplicationController
 
 			if errors.length == 0 && params[:just_check] != 't'
 				project.blocks.each do |block|
+					next unless block.has_floor
+
 					block.real_estates.each do |re|
 						re.build_in_floors
 					end
@@ -358,6 +360,15 @@ class ProjectsController < ApplicationController
 
 			# / Images
 
+			# Navigator
+			
+				navigator = {
+					display_floor: false,
+					display_position: false
+				}
+			
+			# / Navigator
+
 			# Info
 
 				info = render_to_string(partial: 'projects/info_for_interact_view')
@@ -369,7 +380,7 @@ class ProjectsController < ApplicationController
 				result: {
 					images: images,
 					info: info,
-					navigator: {}
+					navigator: navigator
 				} 
 			}
 		end

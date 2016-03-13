@@ -197,7 +197,7 @@ class Block < ActiveRecord::Base
 					else
 
 						_floor = new_record? ? BlockFloor.new : BlockFloor.where(block_id: id).first_or_initialize
-						_floor.name = 'Mặt cắt'
+						_floor.name = 'Mặt cắt lô'
 						_floor.is_dynamic = true
 
 						_surface_params = JSON.parse params[:surface]
@@ -351,6 +351,14 @@ class Block < ActiveRecord::Base
 	# / Delete
 
 	# Attributes
+
+		# Has floor
+		def has_floor
+			@has_floor ||= block_type.present? ?
+			!['adjacent_house', 'land'].include?(block_type.options['parent'] || block_type.name)
+			:
+			false
+		end
 
 		# Call name
 		def display_call_name

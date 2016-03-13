@@ -626,6 +626,24 @@ $(function () {
 						$floor = $navigatorPanel.find('[aria-name="floor"]');
 						$re = $navigatorPanel.find('[aria-name="real_estate"]');
 						$position = $navigatorPanel.find('[aria-name="position"]');
+
+						// Some case display floor, position
+							
+							if (data.navigator.display_floor == false) {
+								$floor.hide();
+							}
+							else {
+								$floor.show();
+							}
+							
+							if (data.navigator.display_position == false) {
+								$position.hide();
+							}
+							else {
+								$position.show();
+							}
+						
+						// / Some case display floor, position
 					
 						// Project
 						
@@ -765,12 +783,17 @@ $(function () {
 								
 									// If have floor but haven't group => push floor before group
 									if (viewByType) {
-										if (viewByType == 'floor') {
-											$navigatorPanel.find('[aria-name="floor"]').after($navigatorPanel.find('[aria-name="group"]'));
+										switch (viewByType) {
+											case 'floor':
+												$floor.after($group);
+												break;
+											case 'group':
+												$group.after($floor);
+												break;
 										}
-										else {
-											$navigatorPanel.find('[aria-name="group"]').after($navigatorPanel.find('[aria-name="floor"]'));
-										}
+									}
+									else {
+										$floor.after($group);
 									}
 								
 								// / Set position group & floor
@@ -994,7 +1017,6 @@ $(function () {
 							'transform-origin': '50% 50%',
 							cursor: 'pointer'
 						});
-						console.log(descriptionData);
 
 						if (descriptionData.status == 'highlight') {
 							$polyline.css({

@@ -566,6 +566,30 @@
 
 								.interact-image .info-panel li .text {
 								}
+								
+						.interact-image .info-panel .register-button {
+							text-align: center;
+							margin: -15px;
+							margin-bottom: 15px;
+						}
+								
+							.interact-image .info-panel .register-button a {
+								display: block;
+								padding: 6px 12px;
+								background-color: #CE9600;
+								color: #fff;
+								text-decoration: none;
+								font-size: 18px;
+							}
+								
+								.interact-image .info-panel .register-button a:hover,
+								.interact-image .info-panel .register-button a:focus {
+									background-color: #A27600;
+								}
+									
+								.interact-image .info-panel .register-button a:active {
+									background-color: #FFBA00;
+								}
 
 					/* / General */
 
@@ -606,10 +630,6 @@
 					margin: 1px 0;
 					position: relative;
 				}
-
-					.interact-image .navigator li:last-child {
-						border-right: 0;
-					}
 
 					.interact-image .navigator li.unactive {
 						pointer-events: none;

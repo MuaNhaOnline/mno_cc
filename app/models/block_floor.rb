@@ -18,7 +18,7 @@ class BlockFloor < ActiveRecord::Base
 				block.present? ?
 				case block.block_type.options['parent'] || block.block_type.name
 				when 'adjacent_house', 'land'
-					'Nền'
+					''
 				else
 					'Tầng'
 				end :
@@ -27,7 +27,7 @@ class BlockFloor < ActiveRecord::Base
 
 		# Name
 		def display_name
-			@display_name ||= "#{display_call_name} #{floors_text}#{": #{name}" if name.present?}"
+			@display_name ||= "#{display_call_name} #{floors_text} #{"#{name}" if name.present?}"
 		end
 
 	# / Attributes

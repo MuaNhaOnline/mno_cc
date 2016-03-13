@@ -6,7 +6,7 @@
 
 <section class="heading">
 	<h3 class="title">
-		<%= @group.name %>
+		<%= @group.display_name %>
 		<span class="sub">
 			<%= t "real_estate_type.text.#{@group.real_estate_type.name}" %>
 		</span>
@@ -46,28 +46,30 @@
 		</ul>
 	</article>
 
-	<article class="info">
-		Các sàn có nhóm
-		<ul>
-			<% BlockFloor.find(@group.real_estates.group_by{ |re| re.block_floor_id }.keys).each do |floor| %>
-				<li>
-					<% if floor.is_dynamic %>
-						<%
-							available_count = 0
-							count = 0
-							floor.real_estates.each do |re|
-								available_count += re.available_in_floors.count
-								count += re.in_floors.count
-							end
-						%>
-						<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.display_name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
-					<% else %>
-						<%= floor.display_name %>
-					<% end %>
-				</li>
-			<% end %>
-		</ul>
-	</article>
+	<% if @group.block.has_floor %>
+		<article class="info">
+			Các tầng có nhóm
+			<ul>
+				<% BlockFloor.find(@group.real_estates.group_by{ |re| re.block_floor_id }.keys).each do |floor| %>
+					<li>
+						<% if floor.is_dynamic %>
+							<%
+								available_count = 0
+								count = 0
+								floor.real_estates.each do |re|
+									available_count += re.available_in_floors.count
+									count += re.in_floors.count
+								end
+							%>
+							<a class="link" aria-click="interact" data-type="blocks/floor" data-value="<%= floor.id %>"><%= floor.display_name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+						<% else %>
+							<%= floor.display_name %>
+						<% end %>
+					</li>
+				<% end %>
+			</ul>
+		</article>
+	<% end %>
 
 	<% if @group.block.real_estate_groups.count > 1 %>
 		<article class="info">
@@ -85,7 +87,7 @@
 						end
 					%>
 					<li>
-						<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
+						<a class="link" aria-click="interact" data-type="real_estates/group" data-value="<%= group.id %>"><%= group.display_name %></a> <small><b>(<%= available_count %>/<%= count %>)</b></small>
 					</li>
 				<% end %>
 			</ul>

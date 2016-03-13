@@ -11,6 +11,10 @@ class BlockRealEstateGroup < ActiveRecord::Base
 	# / Associations
 
 	# Attributes
+
+		def display_name
+			@display_name ||= "Nhóm #{name}"
+		end
 	
 		def display_area
 			@display_area ||= area.present? ? ApplicationHelper.display_decimal(area) : ''
