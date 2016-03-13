@@ -269,7 +269,7 @@ body {
 		}
 
 		.main-navigator .item:not(:last-child):after {
-			content: ' | ';
+			content: ' || ';
 			color: #aaa;
 			font-weight: bold;
 			margin-left: 5px;
@@ -279,6 +279,7 @@ body {
 		.main-navigator a {
 			color: #fff;
 			text-decoration: none;
+			vertical-align: middle;
 		}
 
 /* / Navigator */
