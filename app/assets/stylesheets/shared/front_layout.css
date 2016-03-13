@@ -24,7 +24,6 @@ body {
 
 	header {
 		background-color: #fff;
-		height: 100px;
 	}
 
 		header:after {
@@ -51,6 +50,7 @@ body {
 			header .top-header .text {
 				font-size: 13px;
 				vertical-align: middle;
+				display: none;
 			}
 	
 			header .top-header > * {
@@ -93,7 +93,6 @@ body {
 	/* Bottom */
 	
 		header .bottom-header-container {
-			height: 60px;
 		}
 	
 		header .bottom-header {
@@ -104,8 +103,8 @@ body {
 		
 			header .bottom-header .logo {
 				width: 390px;
-				position: absolute;
-				bottom: 17px;
+				max-width: 100%;
+				margin: 20px auto;
 			}
 		
 				header .bottom-header .logo img {
@@ -127,7 +126,7 @@ body {
 		/* Navigator */
 		
 			header .bottom-header {
-				text-align: right;
+				text-align: center;
 			}
 
 				header .bottom-header nav {
@@ -144,8 +143,8 @@ body {
 				/* First level */
 
 					header .bottom-header nav > ul {
-						white-space: nowrap;
 						max-width: 100%;
+						text-align: center;
 					}
 
 					header .bottom-header nav > ul > li {
@@ -246,6 +245,34 @@ body {
 		/* Navigator */
 	
 	/* / Bottom */
+	
+	@media (min-width: 768px) {
+		header .top-header .text {
+			display: initial;
+		}
+	}
+	
+	@media (min-width: 992px) {
+		
+		/* Bottom */
+	
+			header .bottom-header-container {
+				height: 60px;
+			}
+		
+			header .bottom-header {
+				text-align: right;
+			}
+	
+				header .bottom-header .logo {
+					position: absolute;
+					bottom: 17px;
+					margin: initial;
+				}
+		
+		/* / Bottom */
+
+	}
 
 /* Header */
 
