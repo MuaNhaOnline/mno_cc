@@ -1,15 +1,15 @@
 @font-face {
     font-family: 'icomoon';
-    src:    url('/assets/icomoon/icomoon.eot?bs1n9n');
-    src:    url('/assets/icomoon/icomoon.eot?bs1n9n#iefix') format('embedded-opentype'),
-        url('/assets/icomoon/icomoon.ttf?bs1n9n') format('truetype'),
-        url('/assets/icomoon/icomoon.woff?bs1n9n') format('woff'),
-        url('/assets/icomoon/icomoon.svg?bs1n9n#icomoon') format('svg');
+    src:    url('fonts/icomoon.eot?8qwfaj');
+    src:    url('fonts/icomoon.eot?8qwfaj#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf?8qwfaj') format('truetype'),
+        url('fonts/icomoon.woff?8qwfaj') format('woff'),
+        url('fonts/icomoon.svg?8qwfaj#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
-[class^="ico-"], [class*=" ico-"] {
+[class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'icomoon' !important;
     speak: none;
@@ -24,67 +24,67 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.ico-text_align_right:before {
+.icon-text_align_right:before {
     content: "\e901";
 }
-.ico-text_align_center:before {
+.icon-text_align_center:before {
     content: "\e900";
 }
-.ico-text_align_left:before {
+.icon-text_align_left:before {
     content: "\e903";
 }
-.ico-text_align_justify:before {
+.icon-text_align_justify:before {
     content: "\e902";
 }
-.ico-chevron-left:before {
+.icon-chevron-left:before {
     content: "\e906";
 }
-.ico-chevron-right:before {
+.icon-chevron-right:before {
     content: "\e907";
 }
-.ico-restroom:before {
+.icon-restroom:before {
     content: "\e911";
 }
-.ico-area:before {
+.icon-area:before {
     content: "\e913";
 }
-.ico-hash:before {
+.icon-hash:before {
     content: "\e914";
 }
-.ico-sign-in:before {
+.icon-sign-in:before {
     content: "\e90e";
 }
-.ico-facebook:before {
+.icon-facebook:before {
     content: "\e910";
 }
-.ico-phone:before {
+.icon-phone:before {
     content: "\e90c";
 }
-.ico-envelop:before {
+.icon-envelop:before {
     content: "\e90d";
 }
-.ico-clock:before {
+.icon-clock:before {
     content: "\e904";
 }
-.ico-info:before {
+.icon-info:before {
     content: "\e90a";
 }
-.ico-newspaper:before {
+.icon-newspaper:before {
     content: "\e908";
 }
-.ico-compass:before {
+.icon-compass:before {
     content: "\e909";
 }
-.ico-bedroom:before {
+.icon-bedroom:before {
     content: "\e90b";
 }
-.ico-home:before {
+.icon-home:before {
     content: "\e912";
 }
-.ico-upload:before {
+.icon-upload:before {
     content: "\e90f";
 }
-.ico-location:before {
+.icon-location:before {
     content: "\e905";
 }
 

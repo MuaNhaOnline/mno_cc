@@ -38,118 +38,104 @@ body {
 		left: -9999px;
 	}
 
-	/* Logo */
+	/* Top */
 	
-		header .logo {
-			height: 98px;
-			width: 230px;
-			padding: 35px 15px;
-			float: left;
+		header .top-header-container {
+			background-color: #4A525D;
+			height: 40px;
 		}
 	
-			header .logo img {
-				width: 200px;
+		header .top-header {
+		}
+	
+			header .top-header .text {
+				font-size: 13px;
+				vertical-align: middle;
 			}
 	
-	/* / Logo */
-
-	/* Navigator */
-	
-		header .navigator {
-			float: left;
-			width: calc(100% - 230px);
-			padding-left: 40px;
-		}
-
-		/* Top */
-		
-			header .top {
+			header .top-header > * {
+				float: right;
 				height: 40px;
-				border-bottom: 1px solid #eee;
+				line-height: 40px;
+				text-decoration: none;
+				font-size: 28px;
+				color: #fff;
+				text-align: center;
+				padding: 0 10px;
+			}
+	
+			header .top-header .sign-in {
+				transition: .3s;
+			}
+	
+				header .top-header .sign-in:hover {
+					background-color: #006582;
+				}
+	
+			header .top-header .facebook-login {
+				transition: .3s;
+			}
+	
+				header .top-header .facebook-login:hover {
+					background-color: #3a5795;
+				}
+	
+			header .top-header .new-post {
+				transition: .3s;
+			}
+	
+				header .top-header .new-post:hover {
+					background-color: #A27600;
+				}
+	
+	/* / Top */
+
+	/* Bottom */
+	
+		header .bottom-header-container {
+			height: 60px;
+		}
+	
+		header .bottom-header {
+			position: relative;
+		}
+
+		/* Logo */
+		
+			header .bottom-header .logo {
+				width: 390px;
+				position: absolute;
+				bottom: 17px;
+			}
+		
+				header .bottom-header .logo img {
+					width: 100%;
+				}
+
+				header .bottom-header .logo .slogan {
+					text-align: right;
+					font-size: 16px;
+					letter-spacing: 4px;
+					font-weight: bold;
+					color: #999;
+					line-height: 0;
+					padding-right: 10px;
+				}
+		
+		/* / Logo */
+
+		/* Navigator */
+		
+			header .bottom-header {
 				text-align: right;
-				white-space: nowrap;
 			}
-		
-				header .top > * {
-					height: 40px;
-					font-size: 15px;
+
+				header .bottom-header nav {
 					display: inline-block;
-				}
-		
-				header .top .item {
-					margin-right: -4px;
-					white-space: nowrap;
-					display: none;
-				}
-		
-					header .top .item .icon {
-						display: inline-block;
-						margin-right: -4px;
-						width: 40px;
-						height: 40px;
-						text-align: center;
-						line-height: 40px;
-						font-size: 20px;
-						vertical-align: bottom;
-						color: #666;
-					}
-		
-					header .top .item .text {
-						display: inline-block;
-						padding: 0px 10px;
-						line-height: 40px;
-						color: #666;
-					}
-		
-						/*header .top .item.facebook .icon {
-							background-color: #132E68;
-							color: #fff;
-						}
-			
-						header .top .item.facebook .text {
-							background-color: #3A5795;
-						}
-		
-						header .top .item.upload .icon {
-							background-color: #B28200;
-							color: #fff;
-						}
-			
-						header .top .item.upload .text {
-							background-color: #DCA001;
-						}
-		
-						header .top .item.sign-in .icon {
-							background-color: #1B7C1B;
-							color: #fff;
-						}
-			
-						header .top .item.sign-in .text {
-							background-color: #369836;
-						}*/
-
-			/* User info */
-			
-				header .top .user-info {
-
-				}
-			
-			/* User info */
-		
-		/* Top */
-
-		/* Bottom */
-		
-			header .bottom {
-				height: 60px;
-			}
-
-				header .bottom nav {
-					float: right;
-					max-width: 100%;
+					text-align: left;
 				}
 
-				header .bottom ul {
+				header .bottom-header ul {
 					list-style: none;
 					padding: 0;
 					margin: 0;
@@ -157,17 +143,17 @@ body {
 
 				/* First level */
 
-					header .bottom nav > ul {
+					header .bottom-header nav > ul {
 						white-space: nowrap;
 						max-width: 100%;
 					}
 
-					header .bottom nav > ul > li {
+					header .bottom-header nav > ul > li {
 						display: inline-block;
 						position: relative;
 					}
 				
-					header .bottom nav > ul > li > a {
+					header .bottom-header nav > ul > li > a {
 						font-size: 16px;
 						padding: 0 15px;
 						line-height: 60px;
@@ -178,23 +164,18 @@ body {
 						transition: .3s;
 					}
 
-						header .bottom nav > ul > li:hover > a {
-							background-color: #369836;
-							color: #fff;
-						}
-
-						header .bottom nav > ul > li > a:after {
+						header .bottom-header nav > ul > li > a:after {
 							content: '';
 							display: block;
 							position: absolute;
 							left: 0;
 							bottom: 0;
 							width: 100%;
-							height: 2px;
+							height: 3px;
 							background-color: transparent;
 						}
 
-							header .bottom nav > ul > li:hover > a:after {
+							header .bottom-header nav > ul > li:hover > a:after {
 								background-color: #065C06;
 								transition: .3s;
 							}
@@ -203,81 +184,68 @@ body {
 
 				/* Level 2 */
 				
-					header .bottom nav > ul ul {
+					header .bottom-header nav > ul ul {
 						position: absolute;
 						z-index: 40;
 						top: 100%;
 						left: 0;
 						display: none;
-						background-color: #369836;
+						background-color: #008549;
 						box-sizing: content-box;
 						color: #fff;
+						border-top: 3px solid #00A459;
+						margin-top: -3px;
 					}
 				
-						header .bottom nav > ul ul.col-2 {
+						header .bottom-header nav > ul ul.col-2 {
 							width: 340px;
 						}
 				
-						header .bottom nav > ul ul:after {
+						header .bottom-header nav > ul ul:after {
 							content: '';
 							display: block;
 							clear: both;
 						}
 				
-						header .bottom nav > ul > li:hover ul {
+						header .bottom-header nav > ul > li:hover ul {
 							display: block;
-							animation: in .3s;
 						}
 				
-						header .bottom nav > ul ul li {
+						header .bottom-header nav > ul ul li {
 							display: block;
 							position: relative;
 							transition: .3s;
 							float: left;
 							box-sizing: content-box;
 						}
-				
-							header .bottom nav > ul ul.col-2 li:nth-last-child(2):nth-child(odd),
-							header .bottom nav > ul ul li:last-child {
-								border-bottom: 0;
-							}
-				
-							header .bottom nav > ul ul li:after {
-								content: '';
-								display: block;
-								position: absolute;
-								bottom: 5px;
-								left: 15px;
-								width: 50px;
-								height: 1px;
-								background-color: #5CB85C;
-								transition: .3s;
-								pointer-events: none;
-							}
 
-								header .bottom nav > ul ul li:hover:after {
-									width: 70px;
-								}
-
-						header .bottom nav > ul ul li a {
+						header .bottom-header nav > ul ul li a {
 							display: block;
-							padding: 10px 15px;
+							padding: 8px 12px;
 							text-decoration: none;
 							min-width: 170px;
-							color: #BAE8BA;
+							color: #8FEDC2;
 							transition: .3s;
 							font-size: 14px;
 						}
 
-							header .bottom nav > ul ul li a:hover {
+							header .bottom-header nav > ul ul li a:hover {
 								color: #fff;
+								background-color: #006437;
 							}
 				
+						header .bottom-header nav > ul ul li.line {
+							clear: both;
+							background-color: #00A459;
+							height: 3px;
+							width: 100%;
+						}
+				
 				/* Level 2 */
-		
-		/* Bottom */
+
+		/* Navigator */
 	
-	/* Navigator */
+	/* / Bottom */
 
 /* Header */
 

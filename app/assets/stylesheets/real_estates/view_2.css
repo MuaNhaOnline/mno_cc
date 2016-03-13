@@ -294,7 +294,12 @@
 				text-decoration: none;
 			}
 
-				.buttons-container .button a:hover {
+				.buttons-container .button a:hover,
+				.buttons-container .button a:focus {
+					background-color: #1C2532;
+				}
+
+				.buttons-container .button a:active {
 					background-color: #646B76;
 				}
 
@@ -302,7 +307,12 @@
 					background-color: #CE9600;
 				}
 
-					.buttons-container .button.register a:hover {
+					.buttons-container .button.register a:hover,
+					.buttons-container .button.register a:focus {
+						background-color: #A27600;
+					}
+
+					.buttons-container .button.register a:active {
 						background-color: #FFBA00;
 					}
 
