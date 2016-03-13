@@ -114,16 +114,18 @@
 
 			<% if @_main_navigator.present? %>
 				<nav class="main-navigator" style="background-image: url(<%= @_main_navigator[:background] || '/assets/shared/main_navigator/main_2.png' %>)">
-					<article class="container">
-						<% if @_main_navigator[:list].present? %>
-							<article class="list">
-								<% @_main_navigator[:list].each do |item| %>
-									<article class="item">
-										<a href="<%= item[:url] %>"><%= item[:text] %></a>
-									</article>
-								<% end %>
-							</article>
-						<% end %>
+					<article class="list-container">
+						<article class="container">
+							<% if @_main_navigator[:list].present? %>
+								<article class="list">
+									<% @_main_navigator[:list].each do |item| %>
+										<article class="item">
+											<a href="<%= item[:url] %>"><%= item[:text] %></a>
+										</article>
+									<% end %>
+								</article>
+							<% end %>
+						</article>
 					</article>
 				</nav>
 			<% end %>
