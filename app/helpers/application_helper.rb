@@ -25,6 +25,8 @@ module ApplicationHelper
 	end
 
 	def display_decimal number
+		return if number.blank?
+
 		if number % 1 == 0
 			number.to_i
 		else
@@ -33,6 +35,8 @@ module ApplicationHelper
 	end
 
 	def self.display_decimal number
+		return if number.blank?
+		
 		if number % 1 == 0
 			number.to_i
 		else
@@ -41,6 +45,8 @@ module ApplicationHelper
 	end
 
 	def self.display_number number
+		return if number.blank?
+		
 		ActiveSupport::NumberHelper.number_to_delimited number, {
 			delimiter: '.',
 			separator: ','

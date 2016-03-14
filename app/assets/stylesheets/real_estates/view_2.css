@@ -382,14 +382,14 @@
 		background-color: #4a525d;
 	}
 
-		.contact-container .info-box {
+		.contact-container .box {
 			margin: 0;
 		}
 		
-		.contact-container .info-box-header {
+		.contact-container .box-header {
 		}
 		
-		.contact-container .info-box-body {
+		.contact-container .box-body {
 			padding: 25px;
 		}
 
@@ -441,11 +441,11 @@
 				background-color: #64CEEC;
 			}
 		
-				.contact-container .contact-box .info-box-title {
+				.contact-container .contact-box .box-title {
 					background-color: #03B2E3;
 				}
 		
-				.contact-container .contact-box .info-box-header {
+				.contact-container .contact-box .box-header {
 					background-color: #369836;
 				}
 		

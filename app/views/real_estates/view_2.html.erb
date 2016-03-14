@@ -357,23 +357,23 @@
 
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 				<section class="description-container">
-					<article class="info-box">
-						<section class="info-box-header">
-							<article class="info-box-title">
+					<article class="box">
+						<section class="box-header">
+							<article class="box-title">
 								Mô tả
 							</article>
 						</section>
-						<section class="info-box-body">
+						<section class="box-body">
 							<%= @re.display_description %>
 						</section>
 					</article>
-					<article class="info-box">
-						<section class="info-box-header">
-							<article class="info-box-title">
+					<article class="box">
+						<section class="box-header">
+							<article class="box-title">
 								Bản đồ vị trí
 							</article>
 						</section>
-						<section class="info-box-body">
+						<section class="box-body">
 							<section class="address">
 								<span class="name">
 									<span class="ico-location"></span> Địa chỉ
@@ -388,13 +388,13 @@
 						</section>
 					</article>
 					<% if (@re.fields.include?(:property_utility) && @re.property_utilities.present?) || (@re.fields.include?(:region_utility) && @re.region_utilities.present?)  %>
-						<article class="info-box">
-							<section class="info-box-header">
-								<article class="info-box-title">
+						<article class="box">
+							<section class="box-header">
+								<article class="box-title">
 									Tiện ích
 								</article>
 							</section>
-							<section class="info-box-body">
+							<section class="box-body">
 								<% if @re.fields.include?(:property_utility) && @re.property_utilities.present? %>
 									<article class="content-box">
 										<section class="content-box-header">
@@ -435,13 +435,13 @@
 						</article>
 					<% end %>
 					<% if (@re.fields.include?(:advantage) && @re.advantages.present?) || (@re.fields.include?(:disadvantage) && @re.disadvantages.present?) %>
-						<article class="info-box">
-							<section class="info-box-header">
-								<article class="info-box-title">
+						<article class="box">
+							<section class="box-header">
+								<article class="box-title">
 									Đánh giá
 								</article>
 							</section>
-							<section class="info-box-body">
+							<section class="box-body">
 								<% if @re.fields.include?(:advantage) && @re.advantages.present? %>
 									<article class="content-box">
 										<section class="content-box-header">
@@ -490,13 +490,13 @@
 			
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="float: right">
 				<section class="contact-container">
-					<article class="info-box">
-						<section class="info-box-header">
-							<article class="info-box-title">
+					<article class="box">
+						<section class="box-header">
+							<article class="box-title">
 								Liên hệ
 							</article>
 						</section>
-						<section class="info-box-body">
+						<section class="box-body">
 							<article class="user-info">
 								<% if @re.user.present? %>
 									<section class="avatar">
@@ -584,4 +584,22 @@
 		<!-- / Contact -->
 
 	</div>
+
+	<!-- Relative real-estate -->
+	
+		<article class="box">
+			<section class="box-header">
+				<h2 class="box-title">
+					Bất động sản liên quan
+				</h2>
+			</section>
+			<section class="box-body">
+				<%
+					res = RealEstate.limit(6)
+				%>
+				<%= render partial: '/real_estates/item_list_2', locals: { res: res } %>
+			</section>
+		</article>
+	
+	<!-- / Relative real-estate -->
 </div>

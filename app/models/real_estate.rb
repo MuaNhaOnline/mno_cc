@@ -1165,7 +1165,10 @@ class RealEstate < ActiveRecord::Base
 			@display_user_phone_number ||= user_id == 0 ? user_phone_number : user.phone_number
 		end
 
-		# Full address
+		# Address
+		def display_short_address
+			@display_address ||= "#{street.name unless street.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
+		end
 		def display_address
 			@display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
 		end

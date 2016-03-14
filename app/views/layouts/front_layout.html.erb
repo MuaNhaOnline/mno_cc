@@ -27,15 +27,15 @@
 
 				<section class="top-header-container">
 					<article class="top-header container">
-						<a class="sign-in" title="Đăng nhập">
+						<a href="/dang-nhap" class="sign-in" title="Đăng nhập">
 							<span class="text">hoặc</span>
 							<span class="ico-sign-in"></span>
 						</a>
-						<a class="facebook-login" title="Đăng nhập bằng Facebook">
+						<a aria-click="facebook_login" class="facebook-login" title="Đăng nhập bằng Facebook">
 							<span class="text">Đăng nhập bằng</span>
 							<span class="ico-facebook"></span>
 						</a>
-						<a class="new-post" title="Đăng tin miễn phí">
+						<a href="/bat-dong-san/dang-tin" class="new-post" title="Đăng tin miễn phí">
 							<span class="text">Đăng tin miễn phí</span>
 							<span class="ico-upload"></span>
 						</a>
@@ -47,12 +47,14 @@
 						<h1 class="page-name">MuanhaOnline - Giá trị thực trong tầm tay</h1>
 
 						<!-- Logo -->
-						
+							
 							<section class="logo">
-								<img src="/assets/shared/logo/logo.png">
-								<section class="slogan">
-									Giá trị thực trong tầm tay
-								</section>
+								<a href="/">
+									<img src="/assets/shared/logo/logo.png">
+									<section class="slogan">
+										Giá trị thực trong tầm tay
+									</section>
+								</a>
 							</section>
 						
 						<!-- / Logo -->
@@ -157,5 +159,84 @@
 	<script type="text/javascript" src="/assets/shared/layout.js"></script>
 	<script type="text/javascript" src="/assets/shared/front_layout.js"></script>
 	<%= yield :javascripts %>
+
+	<!-- Facebook -->
+	
+
+			<script type="text/javascript">
+
+				$(function () {
+					$('[aria-click="facebook_login"]').on('click', function () {
+						request();
+					});
+
+					function request() {
+						FB.login(function (response) {
+						if (response.status == 'connected') {
+							FB.api('/me/permissions', function(response) {
+							var valid = true;
+							$(response.data).each(function () {
+								if (this.status != 'granted') {
+								valid = false;
+								alert('Vui lòng chấp nhận các đề xuất từ MuanhaOnline');
+								return false;
+								}
+							});
+							if (valid) {
+								$.ajax({
+									url: '/auth/facebook/callback'
+								}).done(function () {
+									window.location = '/';
+								}).fail(function () {
+									alert('Đăng nhập thất bại, vui lòng thử lại');
+								});
+							}
+							}); 
+						}
+						}, {
+						scope: 'public_profile,email',
+						auth_type: 'rerequest'
+						});
+					}
+				});
+
+				window.fbAsyncInit = function() {
+					FB.init({
+						appId      : '1456463541347476',
+						xfbml      : true,
+						cookie     : true,
+						version    : 'v2.4'
+					});
+				};
+
+				(function(d, s, id){
+					 var js, fjs = d.getElementsByTagName(s)[0];
+					 if (d.getElementById(id)) {return;}
+					 js = d.createElement(s); js.id = id;
+					 js.src = "//connect.facebook.net/en_US/sdk.js";
+					 fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+
+			</script>
+
+	
+	<!-- / Facebook -->
+
+	<!-- Google analytics -->
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-70839803-1', 'auto');
+			ga('send', 'pageview');
+		</script>
+	<!-- / Google analytics -->
+	<!-- Zoho -->
+		<script type="text/javascript" src='https://crm.zoho.com/crm/javascript/zcga.js'></script>
+		<script type="text/javascript">
+			var $zoho= $zoho || {salesiq:{values:{},ready:function(){}}};var d=document;s=d.createElement("script");s.type="text/javascript";
+			s.defer=true;s.src="https://salesiq.zoho.com/chinguyen1/float.ls?embedname=chinguyen1";
+			t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);
+			// $zoho.salesiq.ready=function(embedinfo){$zoho.salesiq.floatbutton.visible("hide");}
+		</script>
+	<!-- / Zoho -->
 </body>
 </html>

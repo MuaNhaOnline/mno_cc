@@ -1,0 +1,69 @@
+<% 
+=begin
+	params: 
+		res
+		type (1)
+			1: medium list
+		has_container (true)
+			whether include container
+=end
+	
+	type ||= 1
+	type = type.to_i
+
+	unless defined? has_container
+		has_container = true
+	end
+%>
+
+<% if has_container %>
+	<% case type %>
+	<% when 1 %>
+		<article class="medium-items-list">
+			<article class="list">
+	<% end %>
+<% end %>
+
+<% case type %>
+<% when 1 %>
+	<% res.each do |re| %>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<article class="item">
+				<section class="image">
+					<%= real_estate_avatar re %>
+				</section>
+				<section class="title">
+					<h3>
+						<%= re.title %>
+					</h3>
+				</section>
+				<section class="address">
+					<span class="ico-location"></span> <%= re.display_short_address %>
+				</section>
+				<section class="info">
+					<% if re.fields.include?(:bedroom_number) && re.display_bedroom.present? %>
+						<article>
+							<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
+						</article>
+					<% end %>
+					<% if re.fields.include?(:restroom_number) && re.display_restroom.present? %>
+						<article>
+							<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
+						</article>
+					<% end %>
+					<% if re.display_area.present? %>
+						<article>
+							<span class="icon ico-area"></span> <span class="text"><%= re.display_area %><small>m<sup>2</sup></small></span>
+						</article>
+					<% end %>
+				</section>
+			</article>
+		</div>
+	<% end %>
+<% end %>
+
+
+<% if has_container %>
+		</article>
+	</article>
+<% end %>
