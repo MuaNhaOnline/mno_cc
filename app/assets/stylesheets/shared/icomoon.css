@@ -1,10 +1,9 @@
 @font-face {
     font-family: 'icomoon';
-    src:    url('/assets/icomoon/icomoon.eot?bs1n9n');
-    src:    url('/assets/icomoon/icomoon.eot?bs1n9n#iefix') format('embedded-opentype'),
-        url('/assets/icomoon/icomoon.ttf?bs1n9n') format('truetype'),
-        url('/assets/icomoon/icomoon.woff?bs1n9n') format('woff'),
-        url('/assets/icomoon/icomoon.svg?bs1n9n#icomoon') format('svg');
+    src:
+        url('/assets/icomoon/icomoon.ttf?uqqzl5') format('truetype'),
+        url('/assets/icomoon/icomoon.woff?uqqzl5') format('woff'),
+        url('/assets/icomoon/icomoon.svg?uqqzl5#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -24,38 +23,17 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.ico-text_align_right:before {
-    content: "\e901";
+.ico-youtube:before {
+    content: "\e915";
 }
-.ico-text_align_center:before {
-    content: "\e900";
-}
-.ico-text_align_left:before {
-    content: "\e903";
-}
-.ico-text_align_justify:before {
-    content: "\e902";
-}
-.ico-chevron-left:before {
-    content: "\e906";
-}
-.ico-chevron-right:before {
-    content: "\e907";
-}
-.ico-restroom:before {
-    content: "\e911";
-}
-.ico-area:before {
-    content: "\e913";
-}
-.ico-hash:before {
-    content: "\e914";
-}
-.ico-sign-in:before {
-    content: "\e90e";
+.ico-google-plus:before {
+    content: "\e916";
 }
 .ico-facebook:before {
     content: "\e910";
+}
+.ico-sign-in:before {
+    content: "\e90e";
 }
 .ico-phone:before {
     content: "\e90c";
@@ -83,6 +61,33 @@
 }
 .ico-upload:before {
     content: "\e90f";
+}
+.ico-text_align_right:before {
+    content: "\e901";
+}
+.ico-text_align_center:before {
+    content: "\e900";
+}
+.ico-text_align_left:before {
+    content: "\e903";
+}
+.ico-text_align_justify:before {
+    content: "\e902";
+}
+.ico-chevron-left:before {
+    content: "\e906";
+}
+.ico-chevron-right:before {
+    content: "\e907";
+}
+.ico-restroom:before {
+    content: "\e911";
+}
+.ico-area:before {
+    content: "\e913";
+}
+.ico-hash:before {
+    content: "\e914";
 }
 .ico-location:before {
     content: "\e905";

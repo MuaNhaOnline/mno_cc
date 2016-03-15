@@ -145,7 +145,115 @@
 		<!-- Footer -->
 		
 			<footer>
-				
+				<div class="container no-horizontal-padding">
+					<div style="padding: 0 20px;">
+						<div class="row no-horizontal-padding">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+								<div class="row no-horizontal-padding">
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<article class="box box-1">
+											<section class="title">
+												Chính sách
+											</section>
+											<section class="content">
+												<ul>
+													<li>
+														Giới thiệu
+													</li>
+													<li>
+														Điều khoản sử dụng
+													</li>
+													<li>
+														Hướng dẫn sử dụng
+													</li>
+												</ul>
+											</section>
+										</article>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<article class="box box-2">
+											<section class="title">
+												Từ khóa được tìm kiếm nhiều
+											</section>
+											<section class="content">
+												<ul>
+													<li>
+														Nhà phố quận 1
+													</li>
+													<li>
+														Novaland
+													</li>
+													<li>
+														Căn hộ giá rẻ
+													</li>
+													<li>
+														Nhà ở trung tâm thành phố
+													</li>
+													<li>
+														Xem thêm
+													</li>
+												</ul>
+											</section>
+										</article>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+								<div class="row no-horizontal-padding">
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<article class="box box-3">
+											<section class="title">
+												Sơ đồ website
+											</section>
+											<section class="content">
+												<ul>
+													<li>
+														Trang chủ
+													</li>
+													<li>
+														Bất động sản
+													</li>
+													<li>
+														Dự án
+													</li>
+													<li>
+														Tin tức
+													</li>
+													<li>
+														Doanh nghiệp
+													</li>
+													<li>
+														Liên hệ
+													</li>
+												</ul>
+											</section>
+										</article>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<article class="box box-4">
+											<section class="title">
+												Liên kết
+											</section>
+											<section class="content">
+												<ul>
+													<li>
+														<span class="icon ico-facebook"></span> Facebook
+													</li>
+													<li>
+														<span class="icon ico-google-plus"></span> Google+
+													</li>
+													<li>
+														<span class="icon ico-youtube"></span> Youtube
+													</li>
+												</ul>
+											</section>
+										</article>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</footer>
 		
 		<!-- / Footer -->
@@ -161,65 +269,61 @@
 	<%= yield :javascripts %>
 
 	<!-- Facebook -->
-	
+		<script type="text/javascript">
 
-			<script type="text/javascript">
-
-				$(function () {
-					$('[aria-click="facebook_login"]').on('click', function () {
-						request();
-					});
-
-					function request() {
-						FB.login(function (response) {
-						if (response.status == 'connected') {
-							FB.api('/me/permissions', function(response) {
-							var valid = true;
-							$(response.data).each(function () {
-								if (this.status != 'granted') {
-								valid = false;
-								alert('Vui lòng chấp nhận các đề xuất từ MuanhaOnline');
-								return false;
-								}
-							});
-							if (valid) {
-								$.ajax({
-									url: '/auth/facebook/callback'
-								}).done(function () {
-									window.location = '/';
-								}).fail(function () {
-									alert('Đăng nhập thất bại, vui lòng thử lại');
-								});
-							}
-							}); 
-						}
-						}, {
-						scope: 'public_profile,email',
-						auth_type: 'rerequest'
-						});
-					}
+			$(function () {
+				$('[aria-click="facebook_login"]').on('click', function () {
+					request();
 				});
 
-				window.fbAsyncInit = function() {
-					FB.init({
-						appId      : '1456463541347476',
-						xfbml      : true,
-						cookie     : true,
-						version    : 'v2.4'
+				function request() {
+					FB.login(function (response) {
+					if (response.status == 'connected') {
+						FB.api('/me/permissions', function(response) {
+						var valid = true;
+						$(response.data).each(function () {
+							if (this.status != 'granted') {
+							valid = false;
+							alert('Vui lòng chấp nhận các đề xuất từ MuanhaOnline');
+							return false;
+							}
+						});
+						if (valid) {
+							$.ajax({
+								url: '/auth/facebook/callback'
+							}).done(function () {
+								window.location = '/';
+							}).fail(function () {
+								alert('Đăng nhập thất bại, vui lòng thử lại');
+							});
+						}
+						}); 
+					}
+					}, {
+					scope: 'public_profile,email',
+					auth_type: 'rerequest'
 					});
-				};
+				}
+			});
 
-				(function(d, s, id){
-					 var js, fjs = d.getElementsByTagName(s)[0];
-					 if (d.getElementById(id)) {return;}
-					 js = d.createElement(s); js.id = id;
-					 js.src = "//connect.facebook.net/en_US/sdk.js";
-					 fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId      : '1456463541347476',
+					xfbml      : true,
+					cookie     : true,
+					version    : 'v2.4'
+				});
+			};
 
-			</script>
+			(function(d, s, id){
+				 var js, fjs = d.getElementsByTagName(s)[0];
+				 if (d.getElementById(id)) {return;}
+				 js = d.createElement(s); js.id = id;
+				 js.src = "//connect.facebook.net/en_US/sdk.js";
+				 fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
 
-	
+		</script>
 	<!-- / Facebook -->
 
 	<!-- Google analytics -->

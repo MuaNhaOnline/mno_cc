@@ -328,20 +328,20 @@ body {
 
 	/* Box */
 	
-		.box {
+		main .box {
 			margin-top: 50px;
 			margin-bottom: 50px;
 		}
 	
-			.box:last-child {
+			main .box:last-child {
 				margin-bottom: 0;
 			}
 	
-			.box .box-header {
+			main .box .box-header {
 				background-color: #008549;
 			}
 
-			.box .box-title {
+			main .box .box-title {
 				display: inline-block;
 				padding: 10px 15px;
 				background-color: #4a525d;
@@ -350,7 +350,7 @@ body {
 				color: #fff;
 			}
 	
-			.box .box-body {
+			main .box .box-body {
 				padding: 20px 15px;
 			}
 	
@@ -474,11 +474,78 @@ body {
 /* Footer */
 
 	footer {
-		background-color: #4a525d;
-		padding-top: 50px;
-		padding-bottom: 100px;
-		height: 500px;
+		color: #fff;
+		background: url('/assets/shared/footer/background.png') center center;
+		background-size: cover;
 	}
+
+		footer .title {
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+		footer ul {
+			padding-left: 0;
+			list-style: none;
+		}
+
+		footer li {
+			margin: 5px 0;
+		}
+
+		footer a {
+			color: #fff;
+		}
+
+		footer .icon {
+			font-size: 40px;
+			display: inline-block;
+			width: 50px;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+			footer .ico-facebook {
+				color: #3b5998;
+			}
+
+			footer .ico-google-plus {
+				color: #d34836;
+			}
+
+			footer .ico-youtube {
+				color: #e52d27;
+			}
+
+		footer .box {
+			padding: 50px 20px 20px 20px;
+			min-height: 200px;
+		}
+
+			@media (min-width: 768px) {
+				footer .box {
+					padding: 80px 20px 20px 20px;
+					height: 350px;
+				}
+			}
+
+			footer .box.box-1 {
+				background-color: rgba(0, 101, 130, .8);
+			}
+
+			footer .box.box-2 {
+				background-color: rgba(0, 100, 55, .8);
+			}
+
+			footer .box.box-3 {
+				background-color: rgba(162, 118, 0, .8);
+			}
+
+			footer .box.box-4 {
+				background-color: rgba(255, 255, 255, .8);
+				color: #333;
+			}
 
 /* / Footer */
 
