@@ -442,8 +442,9 @@ body {
 					.medium-items-list .item .title {
 					}
 
-						.medium-items-list .item .title > * {
+						.medium-items-list .item .title a {
 							font-size: 18px;
+							color: #333;
 						}
 
 					.medium-items-list .item .address {
