@@ -317,6 +317,28 @@ body {
 			vertical-align: middle;
 		}
 
+		@media (min-width: 768px) {
+			.main-navigator {
+				padding-top: 35px;
+				padding-bottom: 35px;
+			}
+
+				.main-navigator .list {
+					padding: 6px 0;
+				}
+		}
+		
+		@media (min-width: 992px) {
+			.main-navigator {
+				padding-top: 40px;
+				padding-bottom: 40px;
+			}
+
+				.main-navigator .list {
+					padding: 7px 0;
+				}
+		}
+
 /* / Navigator */
 
 /* Main */
