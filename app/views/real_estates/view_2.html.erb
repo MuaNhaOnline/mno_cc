@@ -595,7 +595,7 @@
 			</section>
 			<section class="box-body">
 				<%
-					res = RealEstate.limit(6)
+					res = RealEstate.search_with_params.limit(6)
 				%>
 				<%= render partial: '/real_estates/item_list_2', locals: { res: res } %>
 			</section>
