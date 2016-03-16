@@ -338,16 +338,12 @@
 					</article>
 				</section>
 				<section class="buttons-container">
-					<section class="button register">
-						<a href="#">
-							Đăng ký
-						</a>
-					</section>
-					<section class="button">
-						<a href="#">
-							Quan tâm
-						</a>
-					</section>
+					<a id="re_register" class="register btn btn-orange">
+						Đăng ký
+					</a>
+					<a href="#" class="btn">
+						Quan tâm
+					</a>
 				</section>
 			</div>
 
@@ -553,7 +549,7 @@
 									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px">
 											<article class="text-center">
-												<button class="btn" style="padding-left: 25px; padding-right: 25px">
+												<button class="btn btn-orange" style="padding-left: 25px; padding-right: 25px">
 													Gửi
 												</button>
 											</article>
@@ -587,7 +583,7 @@
 
 	<!-- Relative real-estate -->
 	
-		<article class="box">
+		<article class="box box-transparent">
 			<section class="box-header">
 				<h2 class="box-title">
 					Bất động sản liên quan
@@ -603,3 +599,33 @@
 	
 	<!-- / Relative real-estate -->
 </div>
+
+<article class="box" aria-popupcontent="re_register">
+	<section class="box-header">
+		<span class="box-title">
+			Đăng ký sản phẩm
+		</span>
+	</section>
+	<form class="box-body form">
+		<input type="hidden" name="request[type]" value="register" />
+		<input type="hidden" name="request[object]" value="real_estate" />
+		<input type="hidden" name="request[value]" value="<%= @re.id %>" />
+		<article class="callout">
+			Hãy để lại lời nhắn của bạn, chúng tôi sẽ phục vụ bạn trong thời gian sớm nhất.
+		</article>
+		<article class="form-group">
+			<label class="control-label">
+				Lời nhắn
+			</label>
+			<textarea class="form-control" name="request[message]" placeholder="Bạn đang có yêu cầu gì?"></textarea>
+		</article>
+		<article class="form-group text-right">
+			<button class="btn btn-green">
+				Đăng ký
+			</button>
+			<button type="button" aria-click="close-popup" class="btn">
+				Hủy
+			</button>
+		</article>
+	</form>
+</article>

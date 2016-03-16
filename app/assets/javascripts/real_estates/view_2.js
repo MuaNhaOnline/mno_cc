@@ -238,4 +238,47 @@ $(function () {
 	
 	// / Contact container
 
+	// Buttons
+	
+		// Register
+		
+			$('#re_register').on('click', function () {
+				var $html = $(_popupContent['re_register']);
+
+				popupFull({
+					html: $html,
+					width: 'medium'
+				});
+
+				$html.find(':input:eq(0)').focus();
+
+				var $form = $html.find('form:eq(0)');
+				initForm($form, {
+					submit: function () {
+						$.ajax({
+							url: '/contact_requests/new',
+							method: 'POST',
+							data: $form.serialize(),
+							dataType: 'JSON'
+						}).done(function (data) {
+							if (data.status == 0) {
+								popupPrompt({
+									title: 'Đăng ký thành công',
+									content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+								});
+							}
+							else {
+								errorPopup();
+							}
+						}).fail(function () {
+							errorPopup();
+						});
+					}
+				})
+			});
+		
+		// / Register
+	
+	// / Buttons
+
 });

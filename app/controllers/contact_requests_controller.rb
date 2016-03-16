@@ -75,7 +75,7 @@ class ContactRequestsController < ApplicationController
 		# Handle
 		# params: type, object, value
 		def new
-			ContactRequest.create user_id: current_user.id, user_type: 'user', request_type: params[:type], object_type: params[:object], object_id: params[:value], status: 1
+			ContactRequest.create user_id: current_user.id, user_type: 'user', request_type: params[:request][:type], object_type: params[:request][:object], object_id: params[:request][:value], message: params[:request][:message], status: 1
 			render json: { status: 0 }
 		end
 	

@@ -278,43 +278,18 @@
 		
 	}
 
-		.buttons-container .button {
+		.buttons-container .btn {
 			float: left;
+			display: block;
 			width: 50%;
+			padding: 0;
+			height: 50px;
+			line-height: 50px;
+			font-size: 19px;
+			color: #fff;
+			text-align: center;
+			text-decoration: none;
 		}
-
-			.buttons-container .button a {
-				display: block;
-				height: 50px;
-				line-height: 50px;
-				font-size: 19px;
-				background-color: #303740;
-				color: #fff;
-				text-align: center;
-				text-decoration: none;
-			}
-
-				.buttons-container .button a:hover,
-				.buttons-container .button a:focus {
-					background-color: #1C2532;
-				}
-
-				.buttons-container .button a:active {
-					background-color: #646B76;
-				}
-
-				.buttons-container .button.register a {
-					background-color: #CE9600;
-				}
-
-					.buttons-container .button.register a:hover,
-					.buttons-container .button.register a:focus {
-						background-color: #A27600;
-					}
-
-					.buttons-container .button.register a:active {
-						background-color: #FFBA00;
-					}
 
 /* / Buttons */
 
@@ -379,11 +354,11 @@
 
 	.contact-container {
 		position: relative;
-		background-color: #4a525d;
 	}
 
 		.contact-container .box {
 			margin: 0;
+			background-color: #4a525d;
 		}
 		
 		.contact-container .box-header {
