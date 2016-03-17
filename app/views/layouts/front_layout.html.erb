@@ -69,7 +69,7 @@
 				</section>
 
 				<section class="bottom-header-container">
-					<article class="bottom-header container">
+					<article class="bottom-header container no-horizontal-padding">
 						<h1 class="page-name">MuanhaOnline - Giá trị thực trong tầm tay</h1>
 
 						<!-- Logo -->
@@ -143,7 +143,7 @@
 			<% if @_main_navigator.present? %>
 				<nav class="main-navigator" style="background-image: url(<%= @_main_navigator[:background] || '/assets/shared/main_navigator/main_2.png' %>)">
 					<article class="list-container">
-						<article class="container">
+						<article class="container no-horizontal-padding">
 							<% if @_main_navigator[:list].present? %>
 								<article class="list">
 									<% @_main_navigator[:list].each do |item| %>
