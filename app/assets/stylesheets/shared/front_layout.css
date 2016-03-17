@@ -102,6 +102,7 @@ body {
 						padding: 0 10px;
 						font-size: 15px;
 						color: #fff;
+						display: initial;
 					}
 
 					header .top-header .user img {
