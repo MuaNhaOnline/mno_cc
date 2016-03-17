@@ -359,6 +359,7 @@
 		.contact-container .box {
 			margin: 0;
 			background-color: #4a525d;
+			color: #fff;
 		}
 		
 		.contact-container .box-header {
@@ -391,7 +392,6 @@
 		
 				.contact-container .user-info .info {
 					margin-left: 120px;
-					color: #fff;
 				}
 		
 					.contact-container .user-info .info .name {

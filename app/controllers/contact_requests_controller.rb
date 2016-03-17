@@ -73,10 +73,18 @@ class ContactRequestsController < ApplicationController
 	# Insert
 		
 		# Handle
-		# params: type, object, value
+		# params: request form
 		def new
-			ContactRequest.create user_id: current_user.id, user_type: 'user', request_type: params[:request][:type], object_type: params[:request][:object], object_id: params[:request][:value], message: params[:request][:message], status: 1
-			render json: { status: 0 }
+			request = nil
+			if params[:request][:id].present?
+				request = ContactRequest.find params[:request][:id]
+			else
+				request = ContactRequest.new user_id: current_user.id, user_type: 'user', status: 1
+			end
+			request.assign_attributes(params[:request].permit([:request_type, :object_type, :object_id, :message]))
+			request.save
+
+			render json: { status: 0, result: request.id }
 		end
 	
 	# / Insert

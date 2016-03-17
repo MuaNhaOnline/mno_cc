@@ -243,40 +243,100 @@ $(function () {
 	// Buttons
 	
 		// Register
+
+			var
+				registerFormData = null,
+				$registerForm = $('#register_form');
 		
 			$('#re_register').on('click', function () {
-				var $html = $(_popupContent['re_register']);
+				if ($('body').is('[data-signed]')) {
+					var $html = $(_popupContent['re_register']);
 
-				popupFull({
-					html: $html,
-					width: 'medium'
-				});
+					var $popup = popupFull({
+						html: $html,
+						width: 'medium'
+					});
 
-				var $form = $html.find('form:eq(0)');
-				initForm($form, {
-					submit: function () {
-						$.ajax({
-							url: '/contact_requests/new',
-							method: 'POST',
-							data: $form.serialize(),
-							dataType: 'JSON'
-						}).done(function (data) {
-							if (data.status == 0) {
-								popupPrompt({
-									title: 'Đăng ký thành công',
-									content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-								});
-							}
-							else {
-								errorPopup();
-							}
-						}).fail(function () {
-							errorPopup();
-						});
+					var $form = $html.find('form:eq(0)');
+
+					if (registerFormData) {
+						$form.find('[name="request[id]"]').val(registerFormData['id']);
+						$form.find('[name="request[message]"]').val(registerFormData['message']);
 					}
-				})
 
-				$html.find(':input:visible:eq(0)').focus();
+					initForm($form, {
+						submit: function () {
+							$.ajax({
+								url: '/contact_requests/new',
+								method: 'POST',
+								data: $form.serialize(),
+								dataType: 'JSON'
+							}).done(function (data) {
+								if (data.status == 0) {
+									// Save data & async data other form
+									
+										registerFormData = {
+											id: data.result,
+											message: $form.find('[name="request[message]"]').val()
+										};
+										$registerForm.find('[name="request[id]"]').val(registerFormData['id']);
+										$registerForm.find('[name="request[message]"]').val(registerFormData['message']);
+
+									// / Save data & async data other form
+
+									$popup.off();
+									popupPrompt({
+										title: 'Đăng ký thành công',
+										content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+									});
+								}
+								else {
+									errorPopup();
+								}
+							}).fail(function () {
+								errorPopup();
+							});
+						}
+					})
+
+					$html.find(':input:visible:eq(0)').focus();
+				}
+				else {
+					_openSignInPopup();
+				}
+			});
+
+			initForm($registerForm, {
+				submit: function () {
+					$.ajax({
+						url: '/contact_requests/new',
+						method: 'POST',
+						data: $registerForm.serialize(),
+						dataType: 'JSON'
+					}).done(function (data) {
+						if (data.status == 0) {
+							// Save data & fill id to form
+							
+								registerFormData = {
+									id: data.result,
+									message: $registerForm.find('[name="request[message]"]').val()
+								};
+								$registerForm.find('[name="request[id]"]').val(registerFormData['id']);
+
+							// / Save data & fill id to form
+
+							popupPrompt({
+								title: 'Đăng ký thành công',
+								content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+							});
+						}
+						else {
+							errorPopup();
+						}
+					}).fail(function () {
+						errorPopup();
+					});
+				}
 			});
 		
 		// / Register

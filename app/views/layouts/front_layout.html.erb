@@ -18,7 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
 	<%= yield :stylesheets %>
 </head>
-<body>
+<body <%= 'data-signed' if signed? %>>
 
 	<article class="content-wrapper">
 

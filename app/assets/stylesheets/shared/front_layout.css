@@ -389,6 +389,10 @@ body {
 			
 			/* / Callout */
 	
+			main .box .box-footer {
+				padding: 10px 15px;
+			}
+	
 	/* / Box */
 
 	/* Content box */
