@@ -127,15 +127,7 @@ class RealEstatesController < ApplicationController
 				@re.update(view_count: @re.view_count + 1)
 				session[:real_estate_viewed] << id
 			end
-		end
-
-		# View
-		# params: slug(*)
-		def view_2
-			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
-
-			@re = RealEstate.find id
-
+			
 			render layout: 'front_layout'
 		end
 

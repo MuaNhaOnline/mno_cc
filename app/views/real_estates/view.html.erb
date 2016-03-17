@@ -1,416 +1,634 @@
-<% 
-=begin
-	params: @re(*)
-=end
-%>
-
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" href="/assets/real_estates/view.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/real_estates/view.css">
 <% end %>
 
-<% content_for :scripts do %>
-	<script type="text/javascript" src="/assets/real_estates/view.js"></script>
+<% content_for :javascripts do %>
 	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/real_estates/view.js"></script>
+	<script type="text/javascript">
+		realEstateId = <%= @re.id %>;
+	</script>
 <% end %>
 
 <%
-	@title = @re.name
+=begin
+	@re
+=end
+
+	@_title = @re.name
+
+	@_main_navigator = {
+		background: '/assets/shared/main_navigator/main_2.jpeg',
+		list: [
+			{
+				url: '/',
+				text: '<span class="ico-home"></span>'.html_safe
+			},
+			{
+				url: '/bat-dong-san',
+				text: 'Bất động sản'
+			},
+			{
+				url: "/bat-dong-san/#{@re.full_slug}",
+				text: @re.title
+			}
+		]
+	}
 %>
 
-<!--start Search Box -->
-<%= render partial: 'shared/front_end_search_box' %>
-<!-- end Search Box-->
+<div class="container">
+	<div class="row no-horizontal-padding">
 
-<!-- start navigator -->
-<section class="navigator container">
-	<ol class="breadcrumb">
-		<li><a href="/">Trang chủ</a></li>
-		<li><a href="/bat-dong-san">Bất động sản đang rao bán</a></li>
-		<li class="active"><%= ApplicationHelper.id_format @re.id, 'RE'%></li>
-	</ol>
-</section>
-<!-- end navigator -->
-
-<section id="real_estate_info" class="item-info" data-value="<%= @re.id %>">
-
-	<!-- start details of Property -->
-	<section class="container details-property block-info">
-		<article class="title">
-			<div class="text"><%= @re.title %></div>
-		</article>
-		<article class="content">
-			<section class="standard-info row">
-				<div class="col-md-4 col-sm-6">
-					<div class="picture-info">
-						<%= real_estate_avatar @re, attribute: "data-src=#{@re.images.count > 0 ? @re.images[0].image.url : '/assets/real_estates/original/default.png'}", open_gallery: true %>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-6">
-					<ul class="basic-info">
-						<li>Mã: <b><%= ApplicationHelper.id_format @re.id, 'RE'%></b></li>
-						<% if @re.fields.include? :real_estate_type %>
-							<li>Loại: <b><%= @re.display_real_estate_type %></b></li>
-						<% end %>
-						<% if @re.fields.include? :building_name %>
-							<li>Tòa nhà: <b><%= @re.building_name %></b></li>
-						<% end %>
-						<li>Diện tích: <b><%= @re.display_area %>m<sup>2</sup></b></li>
-						<li>Địa chỉ: <b><%= @re.display_address %></b></li>
-						<li><i>Thời gian đăng: <span aria-time="<%= @re.created_at %>"></span></i></li>
-						<% if @re.images.count > 1 %>
-							<li class="slide-picture">
-								<ul>
-									<% @re.images.drop(1).each do |re_image| %>
-										<li><img aria-gallery="real_estate" data-value="<%= @re.id %>" data-id="<%= re_image.id %>" src="<%= re_image.image.url('thumb') %>"></li>
-									<% end %>
-								</ul>
-							</li>
-						<% end %>
-						<li class="share">
-							<p>
-								<span>Chia sẻ: </span>
-								<a href="#"><i class="icon icon-facebook"></i></a>
-								<a href="#"><i class="icon icon-youtube"></i></a>
-								<a href="#"><i class="icon icon-googleplus"></i></a>
-							</p>
-						</li>
-						<!-- <li class="function">
-							<button class="btn-icon-top btn-favor">
-								<i class="icon-favor"></i>
-								<span>Quan tâm</span>
-							</button>
-							<button class="btn-icon-top">
-								<i class="icon-buy"></i>
-								<span>Đăng ký mua</span>
-							</button>
-						</li> -->
-					</ul>
-				</div>
-				<div class="col-md-4 col-sm-6" style="text-align: center;">
-					<div class="price" id="price_box">
-						<div>
-							<!-- Nav tabs -->
-							<ul class="nav nav-tabs price-tab" role="tablist">
-								<% if @re.fields.include? :sell_price %>
-									<li role="SalePrice" class="active"><a href="#price-sale" aria-controls="price-sale" role="tab" data-toggle="tab">Giá bán</a></li>
+		<!-- Images -->
+			
+			<% if @re.images.present? %>
+				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+					<section class="images-container">
+						<section class="image">
+							<img src="<%= @re.images[0].image.url(:slide) %>" />
+						</section>
+						<section class="images-list">
+							<article class="list">
+								<% @re.images.each_with_index do |re_image, index| %>
+									<%
+										data = {
+											original: re_image.image.url,
+											slide: re_image.image.url(:slide)
+										}
+									%>
+									<a class="item <%= 'active' if index == 0 %>" data-data="<%= data.to_json %>">
+										<span></span>
+									</a>
 								<% end %>
-								<% if @re.fields.include? :rent_price %>
-									<li role="RentPrice" class="<%= 'active' unless @re.fields.include? :sell_price %>"><a href="#price-rent" aria-controls="price-rent" role="tab" data-toggle="tab">Giá cho thuê</a></li>
-								<% end %>
-							</ul>
+							</article>
+						</section>
+					</section>
+				</div>
+			<% end %>
 
-							<!-- Tab panes -->
-							<div class="tab-content">
-								<% if @re.fields.include? :sell_price %>
-									<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
-										<% if @re.sell_price %>
-											<p style="margin: 5px 0;">
-												Giá rao: <span style="color: #ff6511; font-size: 18px;"><%= @re.display_sell_price %></span> 
-												<!-- <select>
-													<% Currency.get_options.each do |c| %>
-														<option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-													<% end %>
-												</select>/<%= t 'unit.text.' + @re.sell_unit.name %> -->
-											</p>
-											<% if @re.is_negotiable %>
-												<div>
-													<i class="icon-16 icon-checker"></i>
-													<span>Còn thương lượng</span>
-												</div>
+		<!-- / Images -->
+
+		<!-- Info -->
+			
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="float: right">
+				<section class="infos-container">
+					<article class="content">
+						<section class="title">
+							<h2>
+								<%= @re.title %>
+							</h2>						
+						</section>
+						<section>
+							<% if @re.fields.include? :sell_price %>
+								<section class="price sell-price sell-price-text">
+									<%= @re.display_sell_price %>
+								</section>
+							<% end %>
+							<% if @re.fields.include? :rent_price %>
+								<section class="price rent-price rent-price-text">
+									<%= @re.display_rent_price %>
+								</section>
+							<% end %>
+						</section>
+						<section class="infos">
+							<div class="row no-horizontal-padding">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<section class="info-item">
+										<section class="icon">
+											<span class="ico-location"></span>
+										</section>
+										<section class="text">
+											<section class="name">
+												Địa chỉ <span class="ico-info"></span>
+											</section>
+											<section class="value">
+												<%= @re.display_address %>
+											</section>
+										</section>
+										<section class="more">
+											<% if @re.fields.include? :building_name %>
+												<article class="text">
+													<span class="name">
+														Tòa nhà
+													</span>
+													<span class="value">
+														<%= "Tầng #{@re.floor_number}" if @re.fields.include? :floor_number %> <%= @re.building_name %>
+													</span>
+												</article>
 											<% end %>
-										<% else %>
-											<p style="margin: 5px 0;"><span style="color: #ff6511; font-size: 18px;">Giá thỏa thuận</span></p>
-										<% end %>
-										<!-- <p style="margin: 5px 0;">Định giá: <span style="color: #ff6511;">2,2 tỷ</span> <select><option>VNĐ</option><option>USD</option><option>SJC</option></select></p> -->
+											<% if @re.fields.include?(:is_alley) && @re.fields.include?(:street_type) %>
+												<article class="text">
+													<span class="name">
+														Vị trí
+													</span>
+													<span class="value">
+														<%= @re.display_is_alley %> - <%= @re.display_street_type %>
+													</span>
+												</article>
+											<% end %>
+										</section>
+									</section>
+								</div>
+								<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+									<article class="info-item">
+										<section class="icon">
+											<span class="ico-hash"></span>
+										</section>
+										<section class="text">
+											<section class="name">
+												Mã
+											</section>
+											<section class="value">
+												<%= @re.display_id %>
+											</section>
+										</section>
+									</article>
+								</div>
+								<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+									<article class="info-item">
+										<section class="icon">
+											<span class="ico-clock"></span>
+										</section>
+										<section class="text">
+											<section class="name">
+												Thời gian đăng
+											</section>
+											<section class="value" aria-time="<%= @re.created_at %>">
+											</section>
+										</section>
+									</article>
+								</div>
+								<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+									<article class="info-item">
+										<section class="icon">
+											<span class="ico-home"></span>
+										</section>
+										<section class="text">
+											<section class="name">
+												Loại
+											</section>
+											<section class="value">
+												<%= @re.display_real_estate_type %>
+											</section>
+										</section>
+									</article>
+								</div>
+								<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+									<article class="info-item">
+										<section class="icon">
+											<span class="ico-area"></span>
+										</section>
+										<section class="text">
+											<section class="name">
+												Diện tích <span class="ico-info"></span>
+											</section>
+											<section class="value">
+												<%= @re.display_area %><span class="unit">m<sup>2</sup></span>
+											</section>
+										</section>
+										<section class="more">
+											<% if @re.fields.include?(:width_x) && @re.fields.include?(:width_y) %>
+												<article class="text">
+													<span class="name">
+														Kích thước
+													</span>
+													<span class="value">
+														<%= @re.display_width_x %><span class="unit">x</span><%= @re.display_width_y %><span class="unit">m</span>
+													</span>
+													<% if @re.fields.include?(:shape) && @re.display_shape(false).present? %>
+														<span class="value">
+															<span class="unit">-</span> <%= @re.display_shape(false) %> <%= @re.display_shape_width %><span class="unit">m</span>
+														</span>
+													<% end %>
+												</article>
+											<% end %>
+											<% if @re.fields.include? :campus_area %>
+												<article class="text">
+													<span class="name">
+														DT khuôn viên
+													</span>
+													<span class="value">
+														<%= @re.display_campus_area %><span class="unit">m<sup>2</sup></span>
+													</span>
+												</article>
+											<% end %>
+											<% if @re.fields.include? :constructional_area %>
+												<article class="text">
+													<span class="name">
+														DT xây dựng
+													</span>
+													<span class="value">
+														<%= @re.display_constructional_area %><span class="unit">m<sup>2</sup></span>
+													</span>
+												</article>
+											<% end %>
+											<% if @re.fields.include? :using_area %>
+												<article class="text">
+													<span class="name">
+														DT sử dụng
+													</span>
+													<span class="value">
+														<%= @re.display_using_area %><span class="unit">m<sup>2</sup></span>
+													</span>
+												</article>
+											<% end %>
+										</section>
+									</article>
+								</div>
+								<% if @re.fields.include? :bedroom_number %>
+									<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+										<article class="info-item">
+											<section class="icon">
+												<span class="ico-bedroom"></span>
+											</section>
+											<section class="text">
+												<section class="name">
+													Phòng ngủ
+												</section>
+												<section class="value">
+													<%= @re.display_bedroom %>
+												</section>
+											</section>
+										</article>
 									</div>
 								<% end %>
-								<% if @re.fields.include? :rent_price %>
-									<div role="tabpanel" class="tab-pane fade <%= 'in active' unless @re.fields.include? :sell_price %>" id="price-rent">
-										<% if @re.rent_price %>
-											<p style="margin: 5px 0;">
-												Giá thuê: <span style="color: #038ed1; font-size: 18px;"><%= @re.display_rent_price %></span> 
-												<!-- <select>
-													<% Currency.get_options.each do |c| %>
-														<option value="<%= c.id %>" <%= 'selected' if c.id == @re.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @re.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
-													<% end %>
-												</select>/<%= t 'unit.text.' + @re.rent_unit.name %> -->
-											</p>
-											<% if @re.is_negotiable %>
-												<div>
-													<i class="icon-16 icon-checker"></i>
-													<span>Còn thương lượng</span>
-												</div>
-											<% end %>
-										<% else %>
-											<p style="margin: 5px 0;"><span style="color: #038ed1; font-size: 18px;">Giá thỏa thuận</span></p>
-										<% end %>
-										<!-- <p style="margin: 5px 0;">Định giá: <span style="color: #038ed1;">12 triệu</span> <select><option>VNĐ</option><option>USD</option><option>SJC</option></select>/tháng</p> -->				
+								<% if @re.fields.include? :restroom_number %>
+									<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+										<article class="info-item">
+											<section class="icon">
+												<span class="ico-restroom"></span>
+											</section>
+											<section class="text">
+												<section class="name">
+													Phòng tắm
+												</section>
+												<section class="value">
+													<%= @re.display_restroom %>
+												</section>
+											</section>
+										</article>
+									</div>
+								<% end %>
+								<% if @re.fields.include? :direction %>
+									<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+										<article class="info-item">
+											<section class="icon">
+												<span class="ico-compass"></span>
+											</section>
+											<section class="text">
+												<section class="name">
+													Hướng
+												</section>
+												<section class="value">
+													<%= @re.display_direction %>
+												</section>
+											</section>
+										</article>
+									</div>
+								<% end %>
+								<% if @re.fields.include? :legal_record_type %>
+									<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+										<article class="info-item">
+											<section class="icon">
+												<span class="ico-newspaper"></span>
+											</section>
+											<section class="text">
+												<section class="name">
+													Giấy tờ <span class="ico-info"></span>
+												</section>
+												<section class="value">
+													<%= @re.display_legal_record_type %>
+												</section>
+											</section>
+											<section class="more">
+												<% if @re.fields.include? :constructional_level %>
+													<article class="text">
+														<span class="name">
+															Loại
+														</span>
+														<span class="value">
+															<%= @re.display_constructional_level %>
+														</span>
+													</article>
+												<% end %>
+												<% if @re.fields.include? :constructional_quality %>
+													<article class="text">
+														<span class="name">
+															Tình trạng
+														</span>
+														<span class="value">
+															<%= @re.display_constructional_quality %>
+														</span>
+													</article>
+												<% end %>
+												<% if @re.fields.include? :planning_status_type %>
+													<article class="text">
+														<span class="name">
+															Tình trạng quy hoạch
+														</span>
+														<span class="value">
+															<%= @re.display_planning_status_type %>
+														</span>
+													</article>
+												<% end %>
+											</section>
+										</article>
 									</div>
 								<% end %>
 							</div>
-						</div>
-					</div>
-					<div class="function">
-						<button aria-click="favorite" class="btn-icon-top btn-favor">
-							<i class="icon-favor <%= 'active' if @re.is_current_user_favorite %>"></i>
-							<span>Yêu thích</span>
-						</button>
-						<button class="btn-icon-top register-button">
-							<i class="icon-buy"></i>
-							<span>Đăng ký</span>
-							<span class="register-list">
-								<a aria-click="register_info">Đăng ký nhận tin</a>
-								<a aria-click="register_view">Đăng ký tham quan</a>
-								<a aria-click="register_buy">Đăng ký mua</a>
-							</span>
-						</button>
-					</div>				
-				</div>
-			</section>
-			<section class="line-block description">
-				<article class="title">
-					<span>Mô tả</span>
-				</article>
-				<article class="content">
-					<div class="title">
-						<h5><%= @re.name %></h5>
-					</div>
-					<div class="details"><%= @re.description.html_safe %></div>
-				</article>
-			</section>
-			<section class="line-block">
-				<article class="title">
-					<span>Thông tin chi tiết</span>
-				</article>
-				<article class="content detail-info">
-					<div class="row">
-						<div class="col-md-3">
-							<i class="icon-check"></i>
-							<span>Mục đích: <b><%= @re.display_purpose %></b></span>
-						</div>
-						<% if @re.fields.include? :real_estate_type %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Loại: <b><%= @re.display_real_estate_type %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :campus_area %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Diện tích khuôn viên: <b><%= @re.campus_area %>m<sup>2</sup></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :constructional_area %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Diện tích xây dựng: <b><%= @re.constructional_area %>m<sup>2</sup></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :using_area %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Diện tích sử dụng: <b><%= @re.using_area %>m<sup>2</sup></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include?(:width_x) && @re.width_x.present? %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Chiều rộng: <b><%= @re.width_x %>m</b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include?(:width_y) && @re.width_y.present? %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Chiều dài: <b><%= @re.width_y %>m</b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include?(:shape) && @re.shape != 0 %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span><%= @re.shape == 1 ? t('real_estate.attribute.shape_greater') : t('real_estate.attribute.shape_less') %>: <b><%= @re.shape_width %>m</b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include?(:floor_number) && @re.floor_number.present? %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Tầng: <b><%= @re.floor_number %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :restroom_number %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Phòng tắm: <b><%= @re.restroom_number == 4 ? 'Hơn 4' : @re.restroom_number %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :bedroom_number %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Phòng ngủ: <b><%= @re.bedroom_number == 4 ? 'Hơn 4' : @re.bedroom_number %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :direction_id %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Hướng: <b><%= t 'direction.text.' + @re.direction.name %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :constructional_level_id %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Hướng: <b><%= t 'constructional_level.text.' + @re.constructional_level.name %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :build_year %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Năm xây: <b><%= @re.build_year > 50 ? @re.build_year : (@re.build_year == 20 ? 'Hơn 20 năm' : 'Hơn 50 năm') %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :constructional_quality %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Chất lượng xây dựng: <b><%= @re.display_constructional_quality %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :legal_record_type %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Hồ sơ: <b><%= @re.display_legal_record_type %></b></span>
-							</div>
-						<% end %>
-						<% if @re.fields.include? :planning_status_type %>
-							<div class="col-md-3">
-								<i class="icon-check"></i>
-								<span>Tình trạng quy hoạch: <b><%= @re.display_planning_status_type %></b></span>
-							</div>
-						<% end %>
-					</div>
-				</article>
-			</section>
-			<% if @re.region_utilities.count > 0 %>
-				<section class="line-block">
-					<article class="title">
-						<span>Tiện ích khu vực</span>
-					</article>
-					<article class="content utility">
-						<div class="row">
-							<% @re.region_utilities.each do |u| %>
-								<div class="col-md-3">
-									<i class="icon-check"></i>
-									<span><%= t 'region_utility.text.' + u.name %></span>
-								</div>
-							<% end %>
-						</div>
+						</section>
 					</article>
 				</section>
-			<% end %>
-			<% if @re.property_utilities.count > 0 %>
-				<section class="line-block">
-					<article class="title">
-						<span>Tiện nghi</span>
-					</article>
-					<article class="content convenient-lg">
-						<div class="row">
-							<% @re.property_utilities.each do |u| %>
-								<div class="col-md-3">
-									<i class="icon-check"></i>
-									<span><%= t 'property_utility.text.' + u.name %></span>
-								</div>
-							<% end %>
-						</div>
-					</article>
+				<section class="buttons-container">
+					<a id="re_register" class="register btn btn-orange">
+						Đăng ký
+					</a>
+					<a id="re_favorite" class="btn" <%= 'data-actived' if @re.is_current_user_favorite %>>
+						Quan tâm
+					</a>
 				</section>
-			<% end %>
-			<section class="line-block">
-				<article class="title">
-					<span>Vị trí trên bản đồ</span>
-				</article>
-				<article class="content map">
-					<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @re.lat %>" data-long="<%= @re.long %>">
-						
-					</div>
-				</article>
-			</section>
-	<!-- start contact -->
-	<section class="line-block contact container">
-		<article class="title">
-			<span>Thông tin liên lạc</span>
-		</article>
-		<article class="content information" style="padding: 0;">
-			<div class="user-info row">
-				<div class="col-xs-4 col-sm-2 avatar">
-					<% if @re.user_id == 0 %>
-						<img class="img-circle" src="/assets/users/big/default.png" alt="<%= @re.user_full_name %>">
-					<% else %>
-						<%= user_avatar @re.user, style: 'big' %>
+			</div>
+
+		<!-- / Info -->
+
+		<!-- Description -->
+
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+				<section class="description-container">
+					<article class="box">
+						<section class="box-header">
+							<article class="box-title">
+								Mô tả
+							</article>
+						</section>
+						<section class="box-body">
+							<%= @re.display_description %>
+						</section>
+					</article>
+					<article class="box">
+						<section class="box-header">
+							<article class="box-title">
+								Bản đồ vị trí
+							</article>
+						</section>
+						<section class="box-body">
+							<section class="address">
+								<span class="name">
+									<span class="ico-location"></span> Địa chỉ
+								</span>
+								<span class="value">
+									<%= @re.display_address %>
+								</span>							
+							</section>
+							<section id="map" tabindex="0" style="outline: 0; height: 300px; width: 100%" data-lat="<%= @re.lat %>" data-long="<%= @re.long %>">
+								
+							</section>
+						</section>
+					</article>
+					<% if (@re.fields.include?(:property_utility) && @re.property_utilities.present?) || (@re.fields.include?(:region_utility) && @re.region_utilities.present?)  %>
+						<article class="box">
+							<section class="box-header">
+								<article class="box-title">
+									Tiện ích
+								</article>
+							</section>
+							<section class="box-body">
+								<% if @re.fields.include?(:property_utility) && @re.property_utilities.present? %>
+									<article class="content-box">
+										<section class="content-box-header">
+											<aricle class="content-box-title">
+												Tiện ích bất động sản
+											</aricle>
+										</section>
+										<section class="content-box-body">
+											<article class="items-list">
+												<% @re.property_utilities.each do |utility| %>
+													<article class="item">
+														<%= utility.display_name %>
+													</article>
+												<% end %>
+											</article>
+										</section>
+									</article>
+								<% end %>
+								<% if @re.fields.include?(:region_utility) && @re.region_utilities.present? %>
+									<article class="content-box">
+										<section class="content-box-header">
+											<aricle class="content-box-title">
+												Tiện ích khu vực
+											</aricle>
+										</section>
+										<section class="content-box-body">
+											<article class="items-list">
+												<% @re.region_utilities.each do |utility| %>
+													<article class="item">
+														<%= utility.display_name %>
+													</article>
+												<% end %>
+											</article>
+										</section>
+									</article>
+								<% end %>
+							</section>
+						</article>
 					<% end %>
-					<span><%= @re.display_user_name %></span>
-				</div>
-				<div class="col-xs-8 col-sm-10">
-					<ul class="info">
-						<% if @re.display_user_phone_number.present? %>
-							<li>
-								<i class="icon-phone"></i>
-								<span><%= @re.display_user_phone_number %></span>
-							</li>
-						<% end %>
-						<% if @re.display_user_email.present? %>
-							<li>
-								<i class="icon-mail"></i>
-								<span><%= @re.display_user_email %></span>
-							</li>
-						<% end %>
-						<li>
-							<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
-						</li>
-					</ul>
-					<div class="btn-contact">
-						
-					</div>
-				</div>
+					<% if (@re.fields.include?(:advantage) && @re.advantages.present?) || (@re.fields.include?(:disadvantage) && @re.disadvantages.present?) %>
+						<article class="box">
+							<section class="box-header">
+								<article class="box-title">
+									Đánh giá
+								</article>
+							</section>
+							<section class="box-body">
+								<% if @re.fields.include?(:advantage) && @re.advantages.present? %>
+									<article class="content-box">
+										<section class="content-box-header">
+											<aricle class="content-box-title">
+												Điểm tốt
+											</aricle>
+										</section>
+										<section class="content-box-body">
+											<article class="items-list">
+												<% @re.advantages.each do |advantage| %>
+													<article class="item">
+														<%= advantage.display_name %>
+													</article>
+												<% end %>
+											</article>
+										</section>
+									</article>
+								<% end %>
+								<% if @re.fields.include?(:disadvantage) && @re.disadvantages.present? %>
+									<article class="content-box">
+										<section class="content-box-header">
+											<aricle class="content-box-title">
+												Điểm xấu
+											</aricle>
+										</section>
+										<section class="content-box-body">
+											<article class="items-list">
+												<% @re.disadvantages.each do |disadvantage| %>
+													<article class="item">
+														<%= disadvantage.display_name %>
+													</article>
+												<% end %>
+											</article>
+										</section>
+									</article>
+								<% end %>
+							</section>
+						</article>
+					<% end %>
+				</section>
 			</div>
-			<div class="request-box">
-				<form>
-					<div class="form-group">
-						<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
-						<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
-					</div>
-				</form>
-			</div>
-		</article>
-	</section>
-	<!-- end -->
-		</article>
-	</section>
-	<!-- end details of Property -->
-	
-</section>
 
-<!-- start other property -->
-<section class="container other-property block">
-	<article class="title">
-		<a class="link" href="#">
-			<i class="icon-link"></i>
-			<span>Các bất động sản tương tự khác</span>
-		</a>
-	</article>
-	<article class="content">
-		<%
-			per = get_value_by_width_type [1, 2, 3, 4]
-		%>
-		<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#other_property > .row" data-pagination="#other_property > .paging" data-init_list="_initItemList($list)" id="other_property">
-			<%
-				res = RealEstate.search_with_params
-			%>
-			<div class="row">
-				<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
+		<!-- / Description -->
+
+		<!-- Contact -->
+			
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="float: right">
+				<section class="contact-container">
+					<article class="box">
+						<section class="box-header">
+							<article class="box-title">
+								Liên hệ
+							</article>
+						</section>
+						<section class="box-body">
+							<article class="user-info">
+								<% if @re.user.present? %>
+									<section class="avatar">
+										<%= user_avatar @re.user, style: :big %>
+									</section>
+									<section class="info">
+										<article class="text name">
+											<%= @re.user.full_name %>
+										</article>
+										<% if @re.user.email.present? %>
+											<article class="text">
+												<span class="icon ico-envelop"></span>
+												<%= @re.user.email %>
+											</article>
+										<% end %>
+										<% if @re.user.phone_number.present? %>
+											<article class="text" style="color: #FFC834">
+												<span class="icon ico-phone"></span>
+												<%= @re.user.phone_number %>
+											</article>
+										<% end %>
+										<% if @re.user.address.present? %>
+											<article class="text">
+												<span class="icon ico-location"></span>
+												<%= @re.user.address %>
+											</article>
+										<% end %>
+									</section>
+								<% else %>
+									<section class="avatar">
+										<img src="/assets/users/big/default.png" alt="<%= @re.user_full_name %>">
+									</section>
+									<section class="info">
+										<article class="text name">
+											<%= @re.user_full_name %>
+										</article>
+										<% if @re.user_email.present? %>
+											<article class="text">
+												<span class="icon ico-envelop"></span>
+												<%= @re.user_email %>
+											</article>
+										<% end %>
+										<% if @re.user_phone_number.present? %>
+											<article class="text">
+												<span class="icon ico-phone"></span>
+												<%= @re.user_phone_number %>
+											</article>
+										<% end %>
+									</section>
+								<% end %>
+							</article>
+							<article class="contact-request">
+								<form>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px">
+											<article class="text-center">
+												<button class="btn btn-orange" style="padding-left: 25px; padding-right: 25px">
+													Gửi
+												</button>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<article class="form-group">
+												<input class="form-control" placeholder="Email" />
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<article class="form-group">
+												<input class="form-control" placeholder="Điện thoại" />
+											</article>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<article class="form-group">
+												<textarea class="form-control" placeholder="Lời nhắn"></textarea>
+											</article>
+										</div>
+									</div>
+								</form>
+							</article>
+						</section>
+					</article>
+				</section>
 			</div>
-			<div class="paging">
-				<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
-			</div>
-		</div>
+
+		<!-- / Contact -->
+
 	</div>
-	</article>
-</section>
-<!-- end other property -->
+
+	<!-- Relative real-estate -->
+	
+		<article class="box box-transparent">
+			<section class="box-header">
+				<h2 class="box-title">
+					Bất động sản liên quan
+				</h2>
+			</section>
+			<section class="box-body">
+				<%
+					res = RealEstate.search_with_params.limit(6)
+				%>
+				<%= render partial: '/real_estates/item_list_2', locals: { res: res } %>
+			</section>
+		</article>
+	
+	<!-- / Relative real-estate -->
+</div>
+
+<article class="box" aria-popupcontent="re_register">
+	<section class="box-header">
+		<span class="box-title">
+			Đăng ký sản phẩm
+		</span>
+	</section>
+	<form class="box-body form">
+		<input type="hidden" name="request[type]" value="register" />
+		<input type="hidden" name="request[object]" value="real_estate" />
+		<input type="hidden" name="request[value]" value="<%= @re.id %>" />
+		<article class="callout">
+			Hãy để lại lời nhắn của bạn, chúng tôi sẽ phục vụ bạn trong thời gian sớm nhất.
+		</article>
+		<article class="form-group">
+			<label class="control-label">
+				Lời nhắn
+			</label>
+			<textarea class="form-control" name="request[message]" placeholder="Bạn đang có yêu cầu gì?"></textarea>
+		</article>
+		<article class="form-group text-right">
+			<button class="btn btn-green">
+				Đăng ký
+			</button>
+			<button type="button" aria-click="close-popup" class="btn">
+				Hủy
+			</button>
+		</article>
+	</form>
+</article>

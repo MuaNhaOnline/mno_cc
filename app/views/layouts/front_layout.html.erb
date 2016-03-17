@@ -28,14 +28,39 @@
 
 				<section class="top-header-container">
 					<article class="top-header container">
-						<a href="/dang-nhap" class="sign-in" title="Đăng nhập">
-							<span class="text">hoặc</span>
-							<span class="ico-sign-in"></span>
-						</a>
-						<a aria-click="facebook_login" class="facebook-login" title="Đăng nhập bằng Facebook">
-							<span class="text">Đăng nhập bằng</span>
-							<span class="ico-facebook"></span>
-						</a>
+						<% if signed? %>
+							<article class="user">
+								<%= user_avatar current_user, style: 'mini' %>
+								<a class="text" href="/trang-ca-nhan">
+									<%= current_user.full_name %>
+								</a>
+								<ul class="absolute-menu">
+									<li>
+										<a href="/trang-ca-nhan">Trang cá nhân</a>
+									</li>
+									<li>
+										<a href="/bat-dong-san/cua-toi">Tin của tôi</a>
+									</li>
+									<li>
+										<a href="/bat-dong-san/quan-tam">Tin đang quan tâm</a>
+									</li>
+									<li class="line"></li>
+									<li>
+										<a href="/signout">Đăng xuất</a>
+									</li>
+								</ul>
+							</article>
+						<% else %>
+							<a onclick="_openSignInPopup();" class="sign-in" title="Đăng nhập">
+								<span class="text">hoặc</span>
+								<span class="ico-sign-in"></span>
+							</a>
+							<a aria-click="facebook_login" class="facebook-login" title="Đăng nhập bằng Facebook">
+								<span class="text">Đăng nhập bằng</span>
+								<span class="ico-facebook"></span>
+							</a>
+						<% end %>
+
 						<a href="/bat-dong-san/dang-tin" class="new-post" title="Đăng tin miễn phí">
 							<span class="text">Đăng tin miễn phí</span>
 							<span class="ico-upload"></span>
@@ -66,7 +91,7 @@
 								<ul>
 									<li>
 										<a href="#">Bất động sản</a>
-										<ul class="col-2">
+										<ul class="absolute-menu col-2">
 											<li><a href="/bat-dong-san/danh-sach-nha-pho">Nhà phố</a></li>
 											<li><a href="/bat-dong-san/danh-sach-biet-thu">Biệt thự</a></li>
 											<li class="line"></li>
@@ -270,52 +295,103 @@
 		
 	</article>
 
+	<% unless signed? %>
+
+		<article class="box sign-in-box" aria-popupcontent="sign_in">
+			<section class="box-header">
+				<span class="box-title">
+					Đăng nhập
+				</span>
+			</section>
+			<section class="box-body">
+				<article class="callout">
+					Hãy đăng nhập để trãi nghiệm đầy đủ tính năng từ MuanhaOnline.vn.
+				</article>
+				<form class="form">
+					<div class="row">
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<label class="control-label">
+								Tên đăng nhập
+							</label>
+							<input data-constraint="required" class="form-control" name="user[account]" />
+						</article>
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<label class="control-label">
+								Mật khẩu
+							</label>
+							<input data-constraint="required" class="form-control" name="user[password]" />
+						</article>
+					</div>
+					<article class="form-group">
+						<article class="checkbox">
+							 <label><input name="remember" type="checkbox">Duy trì đăng nhập</label>
+						</article>
+					</article>
+					<article class="form-group text-center">
+						<button class="btn btn-green">
+							Đăng nhập
+						</button>
+					</article>
+				</form>
+				<article class="callout">
+					Hoặc kết nối với chúng tôi qua
+				</article>
+				<article class="text-center">
+					<a aria-click="facebook_login" class="icon ico-facebook"></a>
+				</article>
+			</section>
+		</article>
+
+	<% end %>
+
 	<script type="text/javascript" src="/assets/shared/jquery.js"></script>
 	<script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
 	<script type="text/javascript" src="/assets/shared/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/assets/shared/jquery.mobile.custom.min.js"></script>
-	<script type="text/javascript" src="/assets/shared/layout.js"></script>
+	<script type="text/javascript" src="/assets/shared/<%= I18n.locale %>.js"></script>
+	<script type="text/javascript" src="/assets/shared/layout.js"></script>	
 	<script type="text/javascript" src="/assets/shared/front_layout.js"></script>
 	<script type="text/javascript" src="/assets/shared/form_back.js"></script>
 	<%= yield :javascripts %>
 
 	<!-- Facebook -->
+
 		<script type="text/javascript">
 
 			$(function () {
 				$('[aria-click="facebook_login"]').on('click', function () {
-					request();
+					facebookLogin();
 				});
+			});
 
-				function request() {
-					FB.login(function (response) {
-					if (response.status == 'connected') {
-						FB.api('/me/permissions', function(response) {
-						var valid = true;
-						$(response.data).each(function () {
-							if (this.status != 'granted') {
-							valid = false;
-							alert('Vui lòng chấp nhận các đề xuất từ MuanhaOnline');
-							return false;
-							}
-						});
-						if (valid) {
-							$.ajax({
-								url: '/auth/facebook/callback'
-							}).done(function () {
-								window.location = '/';
-							}).fail(function () {
-								alert('Đăng nhập thất bại, vui lòng thử lại');
-							});
+			function facebookLogin() {
+				FB.login(function (response) {
+				if (response.status == 'connected') {
+					FB.api('/me/permissions', function(response) {
+					var valid = true;
+					$(response.data).each(function () {
+						if (this.status != 'granted') {
+						valid = false;
+						alert('Vui lòng chấp nhận các đề xuất từ MuanhaOnline');
+						return false;
 						}
-						}); 
+					});
+					if (valid) {
+						$.ajax({
+							url: '/auth/facebook/callback'
+						}).done(function () {
+							window.location = '/';
+						}).fail(function () {
+							alert('Đăng nhập thất bại, vui lòng thử lại');
+						});
 					}
-					}, {
+					}); 
+				}
+				}, {
 					scope: 'public_profile,email',
 					auth_type: 'rerequest'
-					});
-				}
-			});
+				});
+			}
 
 			window.fbAsyncInit = function() {
 				FB.init({
@@ -335,6 +411,7 @@
 			}(document, 'script', 'facebook-jssdk'));
 
 		</script>
+
 	<!-- / Facebook -->
 
 	<!-- Google analytics -->

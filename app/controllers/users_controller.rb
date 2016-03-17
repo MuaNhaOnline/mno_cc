@@ -302,6 +302,7 @@ class UsersController < ApplicationController
 		# View
 		# params: id(*)
 		def view
+			params[:id] ||= current_user.id
 			begin
 				@user = User.find(params[:id])
 			rescue

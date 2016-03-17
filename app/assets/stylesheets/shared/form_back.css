@@ -71,6 +71,10 @@
 			margin-top: 5px;
 		}
 
+			.form .callout-error:empty {
+				margin-top: 0;
+			}
+
 	/* / Error callout */
 
 	/* Icon button */

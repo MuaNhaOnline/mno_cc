@@ -51,7 +51,6 @@ Rails.application.routes.draw do
 		post 'real_estates/change_force_hide_status/:id/:is_force_hide' => 'real_estates#change_force_hide_status'
 		post 'real_estates/change_favorite_status/:id/:is_favorite' => 'real_estates#change_favorite_status'
 		post 'real_estates/approve/:id' => 'real_estates#approve'
-		post 'real_estates/user_favorite/:id/:is_add' => 'real_estates#user_favorite'
 
 		get 'real_estates/groups/get_image_for_interact_build/:id' => 'real_estates#groups_get_image_for_interact_build'
 		get 'real_estates/groups/get_data_for_interact_view/:id' => 'real_estates#groups_get_data_for_interact_view'
@@ -67,11 +66,11 @@ Rails.application.routes.draw do
 		get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
 		get 'bat-dong-san/cua-toi' => 'real_estates#my'
 		get 'bat-dong-san/yeu-thich-cua-toi' => 'real_estates#my_favorite'
+		get 'bat-dong-san/quan-tam' => 'real_estates#my_favorite'
 		get 'bat-dong-san/kiem-duyet' => 'real_estates#pending'
 		get 'bat-dong-san/quan-ly' => 'real_estates#manager'
 
 		get 'bat-dong-san/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'real_estates', action: 'view'
-		get 'bat-dong-san/view_2/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'real_estates', action: 'view_2'
 
 		get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index'
 		get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'
@@ -144,10 +143,10 @@ Rails.application.routes.draw do
 		post 'users/change_password'
 		post 'users/cancel_change_email/:id' => 'users#cancel_change_email'
 
-
 		get 'dang-ky' => 'users#create'
 		get 'dang-nhap' => 'users#signin'
 		get 'quen-mat-khau' => 'users#forgot_password'
+		get 'trang-ca-nhan' => 'users#view'
 		get 'thanh-vien/quan-ly' => 'users#manager'
 
 		get 'thanh-vien/:id', constraints: { id: /\d+/ }, controller: 'users', action: 'view'

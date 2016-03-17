@@ -129,7 +129,7 @@ function initForm($form, params) {
 		$container = $container || $form;
 
 		$container.find(':input:not([type="checkbox"]):not([type="radio"])').val('').data('invalid', false);
-		$container.find('.form-group').removeClass('has-success has-error').find('.success-label, .callout-error').remove();
+		$container.find('.form-group').removeClass('has-success has-error').find('.callout-error').remove();
 		$container.find('.money-text').text('');
 		// Icon input
 		$icon = $container.find('[aria-input-type="icon"]');
@@ -2303,7 +2303,7 @@ function initForm($form, params) {
 		};
 
 		function removeSuccessLabel($input) {
-			$input.closest('.form-group').removeClass('has-success').find('.success-label').remove();
+			$input.closest('.form-group').removeClass('has-success');
 
 			var 
 				$box = $input.closest('.box');
@@ -2353,9 +2353,7 @@ function initForm($form, params) {
 					var $box = $input.closest('.box');
 
 					// Callout success
-					if (isValid !== 1 && $formGroup.find('.success-label').length == 0) {
-						$formGroup.addClass('has-success').append('<section class="success-label text-right"><i class="fa fa-check fa-lg"></i></section>');
-					}	
+					$formGroup.addClass('has-success');
 
 					// Remove callout error
 					$formGroup.removeClass('has-error').find('.callout-error').remove();
@@ -2412,9 +2410,6 @@ function initForm($form, params) {
 					}
 
 					$callout.html(errorMessage || _t[params.object]['validate'][name + '_' + constraint]);
-
-					// Remove success label
-					$formGroup.find('.success-label').remove();
 
 					// Get error message
 					// var $errorMessage = $callout.find('[aria-name="' + name + '"]');

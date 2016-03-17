@@ -23,6 +23,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.ico-heart-minus:before {
+    content: "\e917";
+}
+.ico-heart-plus:before {
+    content: "\e918";
+}
 .ico-youtube:before {
     content: "\e915";
 }

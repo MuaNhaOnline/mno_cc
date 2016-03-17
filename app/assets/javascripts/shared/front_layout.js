@@ -101,3 +101,63 @@ $(function () {
 	}
 
 // / Scroll background image
+
+// Open sign-in popup
+
+	function _openSignInPopup() {
+		var
+			$html = $(_popupContent['sign_in']),
+			$form = $html.find('form');
+
+		popupFull({
+			html: $html,
+			width: 'medium'
+		});
+
+		$html.find('[aria-click="facebook_login"]').on('click', function () {
+			facebookLogin();
+		});
+
+		initForm($form, {
+			submit: function () {
+				$.ajax({
+					url: '/signin',
+					method: 'POST',
+					data: $form.serialize(),
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						window.location.reload();
+					}
+					else if (data.status == 5) {
+						if (data.result.status == 3) {
+							window.location = '/users/active_callout/' + data.result.result + '?status=unactive';
+							return;
+						}
+
+						popupPrompt({
+							title: _t.form.error_title,
+							content: data.result.result,
+							type: 'danger',
+							onEscape: function () {
+								$form.find('#password').val('').focus();
+								if (data.result.status == 1) {
+									// Account wrong
+									$form.find('#account').select();
+								}
+							}
+						});
+					}
+					else {
+						errorPopup();
+					}
+				}).fail(function () {
+					errorPopup();
+				});
+			}
+		});
+
+		$form.find(':input:visible:eq(0)').focus();
+	}
+
+// / Open sign-in popup
