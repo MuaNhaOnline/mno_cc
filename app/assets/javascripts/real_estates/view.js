@@ -298,6 +298,7 @@ $(function () {
 
 									// / Save data & async data other form
 
+									$('#re_register').text('Đã đăng ký');
 									$popup.off();
 									popupPrompt({
 										title: 'Đăng ký thành công',
