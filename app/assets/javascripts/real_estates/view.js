@@ -23,6 +23,20 @@ $(function () {
 				// Set status
 				$item.addClass('active').siblings('.active').removeClass('active');
 			})
+
+			if ($('.images-container .images-list .list').children().length > 1) {
+				// Click to next image event
+				$('.images-container .image').css('cursor', 'pointer').on('click', function () {
+					var $currentItem = $('.images-container .images-list .list .item.active');
+
+					if ($currentItem.is(':last-child')) {
+						$('.images-container .images-list .list > :first-child').click();
+					}
+					else {
+						$currentItem.next().click();
+					}
+				});
+			}
 		})();
 	
 	// / Images container
