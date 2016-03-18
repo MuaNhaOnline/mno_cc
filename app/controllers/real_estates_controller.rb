@@ -474,6 +474,10 @@ class RealEstatesController < ApplicationController
 
 				if @group.block.block_type.present?
 					unless @group.block.has_floor
+						navigator[:floor] = {
+							id: @group.block.floors.first.id,
+							name: @group.block.floors.first.display_name
+						}
 						navigator[:display_position] = false
 					end
 				end
@@ -865,6 +869,27 @@ class RealEstatesController < ApplicationController
 			end
 
 			render json: { status: 0, result: options }
+		end
+
+		# Get values
+		# params: project_id, keyword
+		def get_value_project_search
+			project = Project.find params[:project_id]
+
+			block_ids = project.blocks.map{ |block| block.id }
+
+			re_result = RealEstate.where(block_id: block_ids, short_label: params[:keyword]).first
+			if re_result.present?
+				return render json: { status: 0, result: { type: 'real_estate', id: re_result.id } }
+			end
+
+			re_ids = RealEstate.where(block_id: block_ids).map{ |re| re.id }
+			pos_result = FloorRealEstate.where(real_estate_id: re_ids, label: params[:keyword]).first
+			if pos_result.present?
+				return render json: { status: 0, result: { type: 'real_estates/floor', id: pos_result.id } }
+			end
+
+			return render json: { status: 1 }
 		end
 
 	# / Interact image

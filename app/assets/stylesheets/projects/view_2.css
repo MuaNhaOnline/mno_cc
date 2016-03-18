@@ -182,23 +182,13 @@
 	}
 
 		.content-panel .box {
-			margin-top: 30px;
-			margin-bottom: 50px;
+
 		}
 
-			.content-panel .box.white-box {
-				background-color: #fff;
+			.content-panel .box:not(.box-transparent):first-child {
+				margin-top: 0;
+				padding-top: 30px;
 			}
-
-				.content-panel .box.white-box + .box.white-box {
-					margin-top: -50px;
-					padding-top: 50px;
-				}
-
-				.content-panel .box.white-box:first-child {
-					margin-top: 0;
-					padding-top: 30px;
-				}
 
 			.content-panel .box .box-header {
 				text-align: center;
@@ -220,6 +210,11 @@
 			.content-panel .box .box-body {
 				padding: 20px;
 			}
+
+				.content-panel .box .box-body .callout {
+					margin-left: -20px;
+					margin-right: -20px;
+				}
 
 	/* Position */
 			
@@ -861,6 +856,7 @@
 			-webkit-align-items: center;
 			justify-content: center;
 			-webkit-justify-content: center;
+			margin-bottom: 15px;
 		}
 	
 			.register-description .navigator > * {

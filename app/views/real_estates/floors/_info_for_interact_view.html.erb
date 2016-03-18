@@ -18,9 +18,25 @@
 
 <section class="body">
 
-	<article class="register-button">
-		<a>Đăng ký sản phẩm</a>
-	</article>
+	<%
+		# Register info
+		if signed?
+			register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id).first_or_initialize request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id
+		else
+			register_info = ContactRequest.new request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id
+		end
+	%>
+	<% if signed? %>
+		<article class="register-button">
+			<a aria-click="register" data-value="<%= register_info.to_json only: [:id, :request_type, :object_type, :object_id, :message] %>">
+				<% if register_info.new_record? %>
+					Đăng ký sản phẩm
+				<% else %>
+					Đã đăng ký sản phẩm
+				<% end %>
+			</a>
+		</article>
+	<% end %>
 
 	<article class="info list">
 		<% if @position.floor.present? %>

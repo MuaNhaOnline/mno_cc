@@ -19,7 +19,6 @@
 =end
 	
 	@_title = @project.project_name
-
 %>
 
 <section class="cover-content">
@@ -104,7 +103,7 @@
 
 				<!-- Description -->
 
-					<article class="box white-box" aria-name="description">
+					<article class="box" aria-name="description">
 						<section class="box-header">
 							<h2 class="box-title">
 								Giới thiệu
@@ -121,7 +120,7 @@
 					
 				<!-- Ground -->
 				
-					<article class="box" aria-name="ground">
+					<article class="box box-transparent" aria-name="ground">
 						<section class="box-header">
 							<h2 class="box-title">
 								Thông tin dự án
@@ -158,7 +157,7 @@
 
 				<!-- Position -->
 				
-					<article class="box white-box" aria-name="position">
+					<article class="box" aria-name="position">
 						<section class="box-header">
 							<h2 class="box-title">
 								Vị trí
@@ -186,7 +185,7 @@
 					
 				<!-- Utilities -->
 				
-					<article class="box" aria-name="utilities">
+					<article class="box box-transparent" aria-name="utilities">
 						<section class="box-header">
 							<h2 class="box-title">
 								Tiện ích - Tính năng
@@ -263,7 +262,7 @@
 
 				<!-- Payment method -->
 				
-					<article class="box white-box" aria-name="payment_method">
+					<article class="box" aria-name="payment_method">
 						<section class="box-header">
 							<h2 class="box-title">
 								Phương thức thanh toán
@@ -290,7 +289,7 @@
 				
 				<!-- Products -->
 				
-					<article class="box" aria-name="products">
+					<article class="box box-transparent" aria-name="products">
 						<section class="box-header">
 							<h2 class="box-title">
 								Sản phẩm <small style="color: inherit;">&amp;</small> mặt bằng tổng thể
@@ -469,7 +468,7 @@
 											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
 										</li>
 										<li aria-name="real_estate">
-											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>
+											<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>
 										</li>
 										<li aria-name="position">
 											<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
@@ -533,7 +532,7 @@
 
 				<!-- Register -->
 					
-					<article class="box white-box" aria-name="register">
+					<article class="box" aria-name="register">
 						<section class="box-header">
 							<h2 class="box-title">
 								Đăng ký sản phẩm
@@ -556,7 +555,7 @@
 											<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
 										</li>
 										<li aria-name="real_estate">
-											<a aria-click="interact" data-type="real_estates">Xem sản phẩm</a>
+											<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>
 										</li>
 										<li aria-name="position">
 											<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
@@ -566,7 +565,9 @@
 										HOẶC
 									</section>
 									<section class="search-by-label">
-										<input class="form-control" placeholder="Hãy nhập mã" />
+										<form class="form" id="project_search_form">
+											<input name="keyword" data-constraint="required" class="form-control" placeholder="Hãy nhập mã" />
+										</form>
 									</section>
 								</section>
 								<section class="image-panel hidden">
@@ -594,42 +595,57 @@
 				<!-- / Register -->
 
 				<!-- Contact -->
-				
-					<article class="box" aria-name="contact">
-						<section class="box-header">
-							<h2 class="box-title">
-								Liên hệ
-							</h2>
-						</section>
-						<section class="box-body">
-							<form>
-								<div class="row">
-									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<article class="form-group">
-											<input class="form-control" placeholder="Email" />
+
+					<% if signed? %>
+
+						<%
+							if signed?
+								register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'project', object_id: @project.id).first_or_initialize
+							else
+								register_info = ContactRequest.new
+							end
+						%>
+						<article class="box box-transparent" aria-name="contact">
+							<section class="box-header">
+								<h2 class="box-title">
+									Liên hệ
+								</h2>
+							</section>
+							<section class="box-body">
+								<form id="contact_form" class="form">
+									<% if register_info.blank? %>
+										<article class="callout">
+											Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
 										</article>
-									</div>
-									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<article class="form-group">
-											<input class="form-control" placeholder="Điện thoại" />
+									<% end %>
+									<input type="hidden" name="request[id]" value="<%= register_info.id %>" />
+									<input type="hidden" name="request[request_type]" value="register" />
+									<input type="hidden" name="request[object_type]" value="project" />
+									<input type="hidden" name="request[object_id]" value="<%= @project.id %>" />
+									<div class="row">
+										<!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<article class="form-group">
+												<input class="form-control" placeholder="Email" />
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<article class="form-group">
+												<input class="form-control" placeholder="Điện thoại" />
+											</article>
+										</div> -->
+										<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<textarea class="form-control" placeholder="Lời nhắn" name="request[message]"><%= register_info.message %></textarea>
 										</article>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<article class="form-group">
-											<textarea class="form-control" placeholder="Lời nhắn"></textarea>
-										</article>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px">
-										<article class="text-center">
+										<article class="form-group text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
 											<button class="btn" style="padding-left: 25px; padding-right: 25px">
 												Gửi
 											</button>
 										</article>
 									</div>
-								</div>
-							</form>
-						</section>
-					</article>
+								</form>
+							</section>
+						</article>
+					<% end %>
 				
 				<!-- / Contact -->
 								
@@ -641,3 +657,37 @@
 
 </div>
 
+<% if signed? %>
+	<article class="box" aria-popupcontent="project_register">
+		<section class="box-header">
+			<span class="box-title">
+				Đăng ký sản phẩm
+			</span>
+		</section>
+		<section class="box-body">
+			<form class="form">
+				<input type="hidden" name="request[id]" value="" />
+				<input type="hidden" name="request[request_type]" value="" />
+				<input type="hidden" name="request[object_type]" value="" />
+				<input type="hidden" name="request[object_id]" value="" />
+				<article class="callout">
+					Hãy để lại lời nhắn của bạn, chúng tôi sẽ phục vụ bạn trong thời gian sớm nhất.
+				</article>
+				<article class="form-group">
+					<label class="control-label">
+						Lời nhắn
+					</label>
+					<textarea class="form-control" name="request[message]" placeholder="Bạn đang có yêu cầu gì?"><%= register_info.message %></textarea>
+				</article>
+				<article class="form-group text-right">
+					<button class="btn btn-green">
+						Đăng ký
+					</button>
+					<button type="button" aria-click="close-popup" class="btn">
+						Hủy
+					</button>
+				</article>
+			</form>
+		</section>
+	</article>
+<% end %>

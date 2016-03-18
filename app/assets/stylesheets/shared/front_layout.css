@@ -359,6 +359,10 @@ body {
 				background-color: transparent;
 			}
 	
+			main .box:first-child {
+				margin-top: 30px;
+			}
+	
 			main .box:last-child {
 				margin-bottom: 0;
 			}

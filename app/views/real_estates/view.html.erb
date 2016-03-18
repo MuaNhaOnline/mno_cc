@@ -38,7 +38,7 @@
 
 	# Register info
 	if signed?
-		register_info = ContactRequest.where(user_type: 'user', request_type: 'register', object_type: 'real_estate', object_id: @re.id).first_or_initialize
+		register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'real_estate', object_id: @re.id).first_or_initialize
 	else
 		register_info = ContactRequest.new
 	end

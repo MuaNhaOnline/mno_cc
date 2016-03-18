@@ -3,7 +3,7 @@ var projectId, mainColor;
 $(function () {
 	$window.on('unload', function () {
 		$window.scrollTop(0);
-	})
+	});
 
 	_initTabContainer($('.free-style-tab-container'));
 	$('.utilities .manual-horizontal-list').each(function (index) {
@@ -200,6 +200,7 @@ $(function () {
 						}
 						flag = 3;
 
+						$sideBar.addClass('bottom').removeClass('top');
 						$sideBar.css({
 							position: 'absolute',
 							top: ($contentPanel.offset().top + $contentPanel.height() - $sideBar.height()) + 'px'
@@ -229,7 +230,15 @@ $(function () {
 
 					$focusingBox = $contentPanel.find('.box[aria-name="' + $item.attr('aria-name') + '"]');
 
-					_scrollTo($focusingBox.offset().top, {
+					var
+						offsetTop = $focusingBox.offset().top,
+						maxScroll = $contentPanel.offset().top + $contentPanel.height() - $window.height();
+
+					if (offsetTop > maxScroll) {
+						offsetTop = maxScroll;
+					}
+
+					_scrollTo(offsetTop, {
 						complete: function () {
 							fixedSideBar();
 						}
@@ -392,7 +401,11 @@ $(function () {
 			interactData = {},
 			navigatorData = {};
 
-		function initInteractImage($container) {
+		function initInteractImage($container, mainParams) {
+
+			if (typeof mainParams == 'undefined') {
+				mainParams = {};
+			}
 
 			// General
 
@@ -602,6 +615,77 @@ $(function () {
 							$infoPanel.click();
 						}
 
+						// Register
+						
+							{
+								var
+									$button = $infoPanel.find('[aria-click="register"]'),
+									registerFormData = $button.data('value');
+
+								$button.on('click', function () {
+
+									var $html = $(_popupContent['project_register']);
+
+									var $popup = popupFull({
+										html: $html,
+										width: 'medium'
+									});
+
+									var $form = $html.find('form:eq(0)');
+
+									if (registerFormData) {
+										$form.find('[name="request[id]"]').val(registerFormData['id']);
+										$form.find('[name="request[message]"]').val(registerFormData['message']);
+										$form.find('[name="request[request_type]"]').val(registerFormData['request_type']);
+										$form.find('[name="request[object_type]"]').val(registerFormData['object_type']);
+										$form.find('[name="request[object_id]"]').val(registerFormData['object_id']);
+									}
+
+									initForm($form, {
+										submit: function () {
+											$.ajax({
+												url: '/contact_requests/new',
+												method: 'POST',
+												data: $form.serialize(),
+												dataType: 'JSON'
+											}).done(function (data) {
+												if (data.status == 0) {
+													// Save data
+													
+														registerFormData = {
+															id: data.result,
+															message: $form.find('[name="request[message]"]').val(),
+															request_type: $form.find('[name="request[request_type]"]').val(),
+															object_type: $form.find('[name="request[object_type]"]').val(),
+															object_id: $form.find('[name="request[object_id]"]').val()
+														};
+
+														delete interactData[registerFormData['object_type'] + '/' + registerFormData['object_id']];
+
+													// / Save data
+
+													$button.text('Đã đăng ký sản phẩm');
+													$popup.off();
+													popupPrompt({
+														title: 'Đăng ký thành công',
+														content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+													});
+												}
+												else {
+													errorPopup();
+												}
+											}).fail(function () {
+												errorPopup();
+											});
+										}
+									})
+
+									$form.find(':input:visible:eq(0)').focus();
+								});
+							}
+						
+						// / Register
+
 					// / Create info
 
 					// Create navigator
@@ -649,6 +733,10 @@ $(function () {
 						
 							if (type == 'project') {
 								$navigatorPanel.find('[aria-name="project"]').addClass('active');
+
+								if ('onSelectProject' in mainParams) {
+									mainParams['onSelectProject']();
+								}
 							}
 							getNavigatorData('block', projectId, function (navData) {
 								$html = $(
@@ -681,6 +769,10 @@ $(function () {
 
 								if (type == 'block') {
 									$block.addClass('active');
+
+									if ('onSelectBlock' in mainParams) {
+										mainParams['onSelectBlock']();
+									}
 								}
 
 								// Group
@@ -814,10 +906,14 @@ $(function () {
 
 								if (type == 'real_estates/group') {
 									$group.addClass('active');
+
+									if ('onSelectGroup' in mainParams) {
+										mainParams['onSelectGroup']();
+									}
 								}
 							}
 							else {
-								$group.find('> a').text('Hãy chọn nhóm').data('value', '');
+								$group.find('> a').text('Hãy chọn nhóm sản phẩm').data('value', '');
 							}
 						
 							// Floor
@@ -826,10 +922,14 @@ $(function () {
 
 								if (type == 'blocks/floor') {
 									$floor.addClass('active');
+
+									if ('onSelectFloor' in mainParams) {
+										mainParams['onSelectFloor']();
+									}
 								}
 							}
 							else {
-								$floor.find('> a').text('Hãy chọn tầng').data('value', '');
+								$floor.find('> a').text('Hãy chọn nhóm tầng').data('value', '');
 							}
 
 							// Real estate
@@ -894,6 +994,10 @@ $(function () {
 
 								if (type == 'real_estate') {
 									$re.addClass('active');
+
+									if ('onSelectRealEstate' in mainParams) {
+										mainParams['onSelectRealEstate']();
+									}
 								}
 
 								getNavigatorData('real_estates/floor', data.navigator.real_estate.id, function (navData) {
@@ -932,10 +1036,14 @@ $(function () {
 
 								if (type == 'real_estates/floor') {
 									$position.addClass('active');
+
+									if ('onSelectPosition' in mainParams) {
+										mainParams['onSelectPosition']();
+									}
 								}
 							}
 							else {
-								$position.find('> a').text('Hãy chọn vị trí').data('value', '');
+								$position.find('> a').text('Hãy chọn tầng').data('value', '');
 							}
 						
 						// / Position
@@ -1065,10 +1173,7 @@ $(function () {
 
 					function updateViewBox() {
 						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
-						$g.find('[aria-object="edit_point"]').attr('r', 5 / scale); }
-
-					function updateViewBoxWithValue(tranX, tranY, scale) {
-						$g.css('transform', 'translate(' + tranX + 'px,' + tranY + 'px) scale(' + scale +')');
+						$g.find('[aria-object="edit_point"]').attr('r', 5 / scale);
 					}
 
 				// / Move, zoom
@@ -1184,7 +1289,94 @@ $(function () {
 
 	// Register
 
-		initInteractImage($('#register_interact'))('project', projectId);
+		{
+			var $searchForm = $('#project_search_form');
+
+			var searchInteract = initInteractImage($('#register_interact'), {
+				onSelectProject: function () {
+					$('#register_interact .image-panel').addClass('hidden');
+				},
+				onSelectBlock: function () {
+					$('#register_interact .image-panel').addClass('hidden');
+				},
+				onSelectFloor: function () {
+					$('#register_interact .image-panel').addClass('hidden');
+				},
+				onSelectGroup: function () {
+					$('#register_interact .image-panel').addClass('hidden');
+				},
+				onSelectRealEstate: function () {
+					$('#register_interact .image-panel').removeClass('hidden');
+				},
+				onSelectPosition: function () {
+					$('#register_interact .image-panel').removeClass('hidden');
+				}
+			});
+
+			searchInteract('project', projectId);
+
+			initForm($searchForm, {
+				submit: function () {
+					$.ajax({
+						url: '/real_estates/get_value_project_search',
+						data: {
+							project_id: projectId,
+							keyword: $searchForm.find('[name="keyword"]').val()
+						},
+						dataType: 'JSON'
+					}).done(function (data) {
+						if (data.status == 0) {
+							searchInteract(data.result.type, data.result.id);
+						}
+						else if (data.status == 1) {
+							popupPrompt({
+								title: 'Không tìm thấy kết quả',
+								content: 'Rất tiếc, chúng tôi không tìm thấy kết quả phù hợp. Bạn vui lòng thử lại với mã khác.'
+							});
+						}
+						else {
+							errorPopup();
+						}
+					}).fail(function () {
+						errorPopup();
+					})
+				}
+			});
+		}
 
 	// / Register
+
+	// Contact
+	
+		{
+			var $contactForm = $('#contact_form');
+
+			initForm($contactForm, {
+				submit: function () {
+					$.ajax({
+						url: '/contact_requests/new',
+						method: 'POST',
+						data: $contactForm.serialize(),
+						dataType: 'JSON'
+					}).done(function (data) {
+						if (data.status == 0) {
+							// Fill id to form
+							$contactForm.find('[name="request[id]"]').val(data.result);
+
+							popupPrompt({
+								title: 'Đăng ký thành công',
+								content: 'Bạn đã đăng ký dự án thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+							});
+						}
+						else {
+							errorPopup();
+						}
+					}).fail(function () {
+						errorPopup();
+					});
+				}
+			});
+		}
+	
+	// / Contact
 })

@@ -19,34 +19,49 @@
 </section>
 
 <section class="body">
-
-	<article class="register-button">
-		<a>Đăng ký sản phẩm</a>
-	</article>
+	<%
+		# Register info
+		if signed?
+			register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'real_estate', object_id: @re.id).first_or_initialize request_type: 'register', object_type: 'real_estate', object_id: @re.id
+		else
+			register_info = ContactRequest.new request_type: 'register', object_type: 'real_estate', object_id: @re.id
+		end
+	%>
+	<% if signed? %>
+		<article class="register-button">
+			<a aria-click="register" data-value="<%= register_info.to_json only: [:id, :request_type, :object_type, :object_id, :message] %>">
+				<% if register_info.new_record? %>
+					Đăng ký sản phẩm
+				<% else %>
+					Đã đăng ký sản phẩm
+				<% end %>
+			</a>
+		</article>
+	<% end %>
 
 	<article class="info list">
-		<% if @re.bedroom_number.present? %>
+		<% if @re.display_bedroom.present? %>
 			<article class="list-item">
 				<span class="text">Phòng ngủ</span>
-				<span class="value"><%= @re.bedroom_number %></span>
+				<span class="value"><%= @re.display_bedroom %></span>
 			</article>
 		<% end %>
-		<% if @re.restroom_number.present? %>
+		<% if @re.display_restroom.present? %>
 			<article class="list-item">
 				<span class="text">Phòng tắm</span>
-				<span class="value"><%= @re.restroom_number %></span>
+				<span class="value"><%= @re.display_restroom %></span>
 			</article>
 		<% end %>
-		<% if @re.campus_area.present? %>
+		<% if @re.display_campus_area.present? %>
 			<article class="list-item">
 				<span class="text">Diện tích</span>
-				<span class="value"><%= @re.campus_area %>m<sup>2</sup></span>
+				<span class="value"><%= @re.display_campus_area %>m<sup>2</sup></span>
 			</article>
 		<% end %>
-		<% if @re.direction_id.present? %>
+		<% if @re.display_direction.present? %>
 			<article class="list-item">
 				<span class="text">Hướng</span>
-				<span class="value"><%= t "direction.text.#{@re.direction.name}" %></span>
+				<span class="value"><%= @re.display_direction %></span>
 			</article>
 		<% end %>
 		<% if @re.sell_price_text.present? %>
