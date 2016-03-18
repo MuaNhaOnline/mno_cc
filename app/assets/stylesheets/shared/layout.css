@@ -720,7 +720,7 @@
 				@keyframes turn-on-popup-content { 
 					0% {
 						opacity: 0;
-						transform: scale(0.7) rotate(-10deg);
+						transform: scale(0.7);
 					}
 					100% {
 						opacity: 1;

@@ -111,7 +111,8 @@ $(function () {
 
 		popupFull({
 			html: $html,
-			width: 'medium'
+			width: 'small',
+			id: 'sign_in_popup'
 		});
 
 		$html.find('[aria-click="facebook_login"]').on('click', function () {
@@ -161,3 +162,36 @@ $(function () {
 	}
 
 // / Open sign-in popup
+
+// Same contact popup
+
+	function _openSameContactPopup($html, params) {
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
+		$popup = popupFull({
+			html: $html,
+			width: 'medium',
+			esc: false,
+			id: 'same_contact_popup'
+		});
+
+		$html.find('[aria-click="yes"]').on('click', function () {
+			$popup.off();
+
+			if ('yes' in params) {
+				params['yes']();
+			}
+		});
+
+		$html.find('[aria-click="no"]').on('click', function () {
+			$popup.off();
+
+			if ('no' in params) {
+				params['no']();
+			}
+		});
+	}
+
+// / Same contact popup

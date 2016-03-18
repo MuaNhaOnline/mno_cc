@@ -558,45 +558,41 @@
 									</section>
 								<% end %>
 							</article>
-							<% if signed? %>
-								<article class="contact-request">
-									<% if register_info.new_record? %>
-										<article class="callout">
-											Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
-										</article>
-									<% end %>
-									<form id="register_form">
-										<input type="hidden" name="request[id]" value="<%= register_info.id %>" />
-										<input type="hidden" name="request[request_type]" value="register" />
-										<input type="hidden" name="request[object_type]" value="real_estate" />
-										<input type="hidden" name="request[object_id]" value="<%= @re.id %>" />
-										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px">
-												<article class="text-center">
-													<button class="btn btn-orange" style="padding-left: 25px; padding-right: 25px">
-														Gửi
-													</button>
-												</article>
-											</div>
-											<!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-												<article class="form-group">
-													<input class="form-control" placeholder="Email" />
-												</article>
-											</div>
-											<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-												<article class="form-group">
-													<input class="form-control" placeholder="Điện thoại" />
-												</article>
-											</div> -->
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-												<article class="form-group">
-													<textarea class="form-control" placeholder="Lời nhắn" name="request[message]"><%= register_info.message %></textarea>
-												</article>
-											</div>
+							<article class="contact-request">
+								<% if register_info.new_record? %>
+									<article class="callout">
+										Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+									</article>
+								<% end %>
+								<form id="register_form">
+									<input type="hidden" name="request[id]" value="<%= register_info.id %>" />
+									<input type="hidden" name="request[request_type]" value="register" />
+									<input type="hidden" name="request[object_type]" value="real_estate" />
+									<input type="hidden" name="request[object_id]" value="<%= @re.id %>" />
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px">
+											<article class="text-center">
+												<button class="btn btn-orange" style="padding-left: 25px; padding-right: 25px">
+													Gửi
+												</button>
+											</article>
 										</div>
-									</form>
-								</article>
-							<% end %>
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<article class="form-group">
+												<textarea class="form-control" placeholder="Lời nhắn" name="request[message]"><%= register_info.message %></textarea>
+											</article>
+										</div>
+										<% unless signed? %>
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-constraint="required multi-email" class="form-control" placeholder="Email" name="contact[email]" />
+											</article>
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+											</article>
+										<% end %>
+									</div>
+								</form>
+							</article>
 						</section>
 					</article>
 				</section>
@@ -625,37 +621,45 @@
 	<!-- / Relative real-estate -->
 </div>
 
-<% if signed? %>
-	<article class="box" aria-popupcontent="re_register">
-		<section class="box-header">
-			<span class="box-title">
-				Đăng ký sản phẩm
-			</span>
-		</section>
-		<section class="box-body">
-			<form class="form">
-				<input type="hidden" name="request[id]" value="<%= register_info.id %>" />
-				<input type="hidden" name="request[request_type]" value="register" />
-				<input type="hidden" name="request[object_type]" value="real_estate" />
-				<input type="hidden" name="request[object_id]" value="<%= @re.id %>" />
-				<article class="callout">
-					Hãy để lại lời nhắn của bạn, chúng tôi sẽ phục vụ bạn trong thời gian sớm nhất.
-				</article>
-				<article class="form-group">
-					<label class="control-label">
-						Lời nhắn
-					</label>
-					<textarea class="form-control" name="request[message]" placeholder="Bạn đang có yêu cầu gì?"><%= register_info.message %></textarea>
-				</article>
-				<article class="form-group text-right">
-					<button class="btn btn-green">
-						Đăng ký
-					</button>
-					<button type="button" aria-click="close-popup" class="btn">
-						Hủy
-					</button>
-				</article>
-			</form>
-		</section>
-	</article>
-<% end %>
+<article class="box" aria-popupcontent="re_register">
+	<section class="box-header">
+		<span class="box-title">
+			Đăng ký sản phẩm
+		</span>
+	</section>
+	<section class="box-body">
+		<form class="form">
+			<input type="hidden" name="request[id]" value="<%= register_info.id %>" />
+			<input type="hidden" name="request[request_type]" value="register" />
+			<input type="hidden" name="request[object_type]" value="real_estate" />
+			<input type="hidden" name="request[object_id]" value="<%= @re.id %>" />
+			<article class="callout">
+				Hãy để lại lời nhắn của bạn, chúng tôi sẽ phục vụ bạn trong thời gian sớm nhất.
+			</article>
+			<article class="form-group">
+				<label class="control-label">
+					Lời nhắn
+				</label>
+				<textarea class="form-control" name="request[message]" placeholder="Bạn đang có yêu cầu gì?"><%= register_info.message %></textarea>
+			</article>
+			<% unless signed? %>
+				<div class="row">
+					<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<input data-constraint="required multi-email" class="form-control" placeholder="Email" name="contact[email]" />
+					</article>
+					<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+					</article>
+				</div>
+			<% end %>
+			<article class="form-group text-right">
+				<button class="btn btn-green">
+					Đăng ký
+				</button>
+				<button type="button" aria-click="close-popup" class="btn">
+					Hủy
+				</button>
+			</article>
+		</form>
+	</section>
+</article>

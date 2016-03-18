@@ -2102,11 +2102,11 @@ function initForm($form, params) {
 					var keyCode = e.which || e.keyCode;
 
 					if (
-							//Number
+							// Number
 							(48 <= keyCode &&
 							keyCode <= 57) ||
 
-							//Enter key
+							// Enter key
 							keyCode == 13
 						) {
 						return;
@@ -2119,6 +2119,35 @@ function initForm($form, params) {
 
 					setTimeout(function () {
 						$input.val($input.val().replace(/\D/g, '')).change();
+					});
+				}
+			});
+
+			// Phone
+			$form.find('[data-constraint~="phone"]').on({
+				'keypress': function (e) {
+					var keyCode = e.which || e.keyCode;
+
+					if (
+							// Number
+							(48 <= keyCode &&
+							keyCode <= 57) ||
+
+							// Comma
+							keyCode == 44 ||
+
+							// Enter key
+							keyCode == 13
+						) {
+						return;
+					}
+					e.preventDefault();
+				},
+				'paste': function () {
+					var $input = $(this);
+
+					setTimeout(function () {
+						$input.val($input.val().replace(/[^\d,]/g, '')).change();
 					});
 				}
 			});
@@ -2142,7 +2171,6 @@ function initForm($form, params) {
 					}
 					e.preventDefault();
 				},
-
 				'paste': function () {
 					var $input = $(this);
 
@@ -2165,10 +2193,23 @@ function initForm($form, params) {
 
 			// Email
 			$form.find('[data-constraint~="email"]').on({
-				'change': function () {
+				change: function () {
 					var $input = $(this);
 					if ($input.val() && !/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test($input.val())) {
 						toggleValidInput($input, false, 'invalid');
+					}
+				}
+			});
+			$form.find('[data-constraint~="multi-email"]').on({
+				change: function () {
+					var $input = $(this);
+					if ($input.val()) {
+						$($input.val().split(',')).each(function () {
+							if (!/^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test(this)) {
+								toggleValidInput($input, false, 'invalid');
+								return;
+							}	
+						})	
 					}
 				}
 			});
@@ -2305,8 +2346,10 @@ function initForm($form, params) {
 		function removeSuccessLabel($input) {
 			$input.closest('.form-group').removeClass('has-success');
 
-			var 
-				$box = $input.closest('.box');
+			var $box = $input.closest('.box', $form[0]);
+				if ($box.length == 0) {
+					$box = $form;
+				}
 
 			if ($box.data('status') == 'success') {
 				$box.removeClass('box-success').data('status', 'normal').trigger('changeStatus');
@@ -2350,7 +2393,10 @@ function initForm($form, params) {
 
 					// Remove error message, remove error class from box
 
-					var $box = $input.closest('.box');
+					var $box = $input.closest('.box', $form[0]);
+					if ($box.length == 0) {
+						$box = $form;
+					}
 
 					// Callout success
 					$formGroup.addClass('has-success');
@@ -2396,7 +2442,10 @@ function initForm($form, params) {
 					$formGroup.removeClass('has-success').addClass('has-error');
 
 					// Add error class to box
-					var $box = $formGroup.closest('.box');
+					var $box = $formGroup.closest('.box', $form[0]);
+					if ($box.length == 0) {
+						$box = $form;
+					}
 
 					if ($box.data('status') != 'error') {
 						$box.addClass('box-danger').removeClass('box-success').data('status', 'error').trigger('changeStatus');	
@@ -2510,13 +2559,28 @@ function initForm($form, params) {
 					return;
 				}
 
+				// Check validate before check
+				if ($form.hasClass('box-danger')) {
+					return; 
+				}
+				else {
+					var $dangerBox = $form.find('.box-danger:visible');
+					if ($dangerBox.length) {
+						$body.animate({
+							scrollTop: $dangerBox.offset().top - 20 
+						}); 
+					
+						return; 
+					}	
+				}
+
 				if (params['submit_status']) {
-					$form.submitStatus(true);	
+					$form.submitStatus(true);
 				}
 
 				// Check validate
 				$form.find(':input:enabled:not([data-nonvalid]):not(button)').each(function () {
-					checkInvalidInput($(this));  
+					checkInvalidInput($(this));
 				});
 				
 				function waitCheckingList() {
@@ -2531,14 +2595,21 @@ function initForm($form, params) {
 				}
 
 				function submit() {
-					var $dangerBox = $form.find('.box-danger:visible');
-					if ($dangerBox.length) {
-						$body.animate({
-							scrollTop: $dangerBox.offset().top - 20 
-						}); 
-					
+					// Check validate after check
+					if ($form.hasClass('box-danger')) {
 						$form.submitStatus(false);
 						return; 
+					}
+					else {
+						var $dangerBox = $form.find('.box-danger:visible');
+						if ($dangerBox.length) {
+							$body.animate({
+								scrollTop: $dangerBox.offset().top - 20 
+							}); 
+						
+							$form.submitStatus(false);
+							return; 
+						}	
 					}
 
 					//Submit

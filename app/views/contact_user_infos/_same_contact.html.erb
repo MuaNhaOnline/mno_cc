@@ -5,32 +5,49 @@
 
 %>
 
-<article class="box box-primary" data-value="<%= same_contact.id %>">
-	<section class="box-header with-border">
-		<h2 class="box-title">
-			Bạn có phải là <%= same_contact.name %> với thông tin ...?
-		</h2>
+<article class="box">
+	<section class="box-header">
+		<span class="box-title">
+			Thông tin đã được sử dụng
+		</span>
 	</section>
-	<section class="box-body same-contact-container">
-		<div>
-			Email:
-			<div class="value">
-				<% same_contact.email.split(',').each do |email| %>
-					<div><%= email %></div>
-				<% end %>
-			</div>
-		</div>
-		<div>
-			Điện thoại:
-			<div class="value">
-				<% same_contact.phone_number.split(',').each do |phone_number| %>
-					<div><%= phone_number %></div>
-				<% end %>
-			</div>
-		</div>
-		<div class="text-center">
-			<button class="btn btn-primary" aria-click="yes">Phải, là tôi</button>
-			<button class="btn btn-default" aria-click="no">Không phải tôi</button>
-		</div>
+	<section class="box-body">
+		<p>
+			Thông tin này đã được sử dụng với
+		</p>
+		<ul>
+			<% if same_contact.name.present? %>
+				<li>
+					<p>
+						Tên: <%= same_contact.name %>
+					</p>
+				</li>
+			<% end %>
+			<% if same_contact.email.present? %>
+				<li>
+					<p>
+						Email: <%= same_contact.email %>
+					</p>
+				</li>
+			<% end %>
+			<% if same_contact.phone_number.present? %>
+				<li>
+					<p>
+						Điện thoại: <%= same_contact.phone_number %>
+					</p>
+				</li>
+			<% end %>
+		</ul>
+		<p>
+			Đây có phải là bạn không?
+		</p>
+		<article class="text-center">
+			<button aria-click="yes" class="btn btn-green">
+				Phải, thay thế với thông tin cũ
+			</button>
+			<button aria-click="no" class="btn">
+				Không, tôi sẽ nhập thông tin khác
+			</button>
+		</article>
 	</section>
 </article>

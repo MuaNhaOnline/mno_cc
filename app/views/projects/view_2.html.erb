@@ -532,7 +532,7 @@
 
 				<!-- Register -->
 					
-					<article class="box" aria-name="register">
+					<article class="box box-transparent" aria-name="register">
 						<section class="box-header">
 							<h2 class="box-title">
 								Đăng ký sản phẩm
@@ -613,11 +613,9 @@
 							</section>
 							<section class="box-body">
 								<form id="contact_form" class="form">
-									<% if register_info.blank? %>
-										<article class="callout">
-											Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
-										</article>
-									<% end %>
+									<article class="callout">
+										Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+									</article>
 									<input type="hidden" name="request[id]" value="<%= register_info.id %>" />
 									<input type="hidden" name="request[request_type]" value="register" />
 									<input type="hidden" name="request[object_type]" value="project" />

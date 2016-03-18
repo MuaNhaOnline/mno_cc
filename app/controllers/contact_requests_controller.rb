@@ -75,16 +75,38 @@ class ContactRequestsController < ApplicationController
 		# Handle
 		# params: request form
 		def new
-			request = nil
-			if params[:request][:id].present?
-				request = ContactRequest.find params[:request][:id]
-			else
-				request = ContactRequest.new user_id: current_user.id, user_type: 'user', status: 1
-			end
-			request.assign_attributes(params[:request].permit([:request_type, :object_type, :object_id, :message]))
-			request.save
+			if signed?
+				request = params[:request][:id].present? ? 
+					ContactRequest.find(params[:request][:id]) : 
+					ContactRequest.new(user_id: current_user.id, user_type: 'user', status: 1)
+				
+				request.save_with_params(params[:request])
 
-			render json: { status: 0, result: request.id }
+				render json: { status: 0, result: request.id }
+			else
+				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
+
+				result = contact_user.save_with_params params[:contact], params[:contact][:id].present?
+				if result[:status] == 5
+					return render json: {
+						status: 5,
+						result: {
+							same_contact: result[:result].to_json(only: [:id]),
+							html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { same_contact: result[:result] })
+						}
+					}
+				end
+
+				request = params[:request][:id].present? ? 
+					ContactRequest.find(params[:request][:id]) : 
+					ContactRequest.new(user_id: contact_user.id, user_type: 'contact_user', status: 1)
+				
+				request.save_with_params(params[:request])
+
+				render json: { status: 0, result: request.id }
+			end
+
+			
 		end
 	
 	# / Insert
