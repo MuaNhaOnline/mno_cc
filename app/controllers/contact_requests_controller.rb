@@ -70,24 +70,32 @@ class ContactRequestsController < ApplicationController
 
 	# / Index
 
-	# Insert
+	# Save
 		
 		# Handle
 		# params: request form
-		def new
+		def save
 			if signed?
+				# If signed => save request with current user
 				request = params[:request][:id].present? ? 
 					ContactRequest.find(params[:request][:id]) : 
 					ContactRequest.new(user_id: current_user.id, user_type: 'user', status: 1)
 				
 				request.save_with_params(params[:request])
 
-				render json: { status: 0, result: request.id }
+				render json: { 
+					status: 0, 
+					result: {
+						request_id: request.id
+					} 
+				}
 			else
+				# If not signed => get contact info
 				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
 
 				result = contact_user.save_with_params params[:contact], params[:contact][:id].present?
 				if result[:status] == 5
+					# If exists data => confirm
 					return render json: {
 						status: 5,
 						result: {
@@ -97,18 +105,32 @@ class ContactRequestsController < ApplicationController
 					}
 				end
 
+				# Save cookie, session contact info
+				cookies[:contact_user_id] = {
+					value: contact_user.id,
+					expires: 3.months.from_now
+				}
+				session[:contact_user_id] = contact_user.id
+
+				# Create request
 				request = params[:request][:id].present? ? 
 					ContactRequest.find(params[:request][:id]) : 
 					ContactRequest.new(user_id: contact_user.id, user_type: 'contact_user', status: 1)
 				
 				request.save_with_params(params[:request])
 
-				render json: { status: 0, result: request.id }
+				render json: { 
+					status: 0, 
+					result: {
+						request_id: request.id,
+						contact_id: contact_user.id
+					}
+				}
 			end
 
 			
 		end
 	
-	# / Insert
+	# / Save
 
 end

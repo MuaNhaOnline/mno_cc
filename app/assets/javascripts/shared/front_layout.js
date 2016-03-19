@@ -195,3 +195,153 @@ $(function () {
 	}
 
 // / Same contact popup
+
+// Init contact form
+	
+	/*
+		params:
+			requestInfo
+			contactInfo
+			done:
+				function(data)
+					data: {
+						requestInfo,
+						contactInfo
+					}
+	*/
+	function _initContactForm($form, params) {
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
+		$form.data('refill', function (newData) {
+			if (typeof newData == 'undefined') {
+				newData = {};
+			}
+
+			if (newData.requestInfo) {
+				params.requestInfo = newData.requestInfo;
+			}
+
+			if (newData.contactInfo) {
+				params.contactInfo = newData.contactInfo;
+			}
+
+			if (params.requestInfo) {
+				$form.find('[name="request[id]"]').val(params.requestInfo['id']);
+				$form.find('[name="request[request_type]"]').val(params.requestInfo['request_type']);
+				$form.find('[name="request[object_type]"]').val(params.requestInfo['object_type']);
+				$form.find('[name="request[object_id]"]').val(params.requestInfo['object_id']);
+				$form.find('[name="request[message]"]').val(params.requestInfo['message']);
+			}
+			if (params.contactInfo) {
+				$form.find('[name="contact[id]"]').val(params.contactInfo['id']);
+				if ($form.find('[name="contact[default_email]"]').val(params.contactInfo['email']).length == 0) {
+					$form.find('[name="contact[email]"]').val(params.contactInfo['email'])
+				}
+				if ($form.find('[name="contact[default_phone_number]"]').val(params.contactInfo['phone_number']).length == 0) {
+					$form.find('[name="contact[phone_number]"]').val(params.contactInfo['phone_number'])
+				}
+			}
+		});
+
+		$form.data('refill')();
+
+		initForm($form, {
+			submit: function () {
+				$.ajax({
+					url: '/contact_requests/save',
+					method: 'POST',
+					data: $form.serialize(),
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						if (params.done) {
+							params.requestInfo = {
+								id: data.result.request_id,
+								request_type: $form.find('[name="request[request_type]"]').val(),
+								object_type: $form.find('[name="request[object_type]"]').val(),
+								object_id: $form.find('[name="request[object_id]"]').val(),
+								message: $form.find('[name="request[message]"]').val()
+							};
+							$form.find('[name="request[id]"]').val(params.requestInfo['id']);
+
+							if (!$('body').is('[data-signed]')) {
+								params.contactInfo = {
+									id: data.result.contact_id,
+									email: $form.find('[name="contact[default_email]"]:enabled,[name="contact[email]"]:enabled').val(),
+									phone_number: $form.find('[name="contact[default_phone_number]"]:enabled,[name="contact[phone_number]"]:enabled').val()
+								}
+								$form.find('[name="contact[id]"]').val(params.contactInfo['id']);
+							}
+
+							if (params.contactInfo) {
+								$form.find('[name="contact[default_email]"]').val(params.contactInfo['email']);
+								$form.find('[name="contact[default_phone_number]"]').val(params.contactInfo['phone_number']);
+								$form.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();	
+							}
+
+							params['done']({
+								requestInfo: params.requestInfo,
+								contactInfo: params.contactInfo
+							});
+						}
+					}
+					else if (data.status == 5) {
+						data.result.same_contact = JSON.parse(data.result.same_contact);
+						
+						_openSameContactPopup($(data.result.html), {
+							yes: function () {
+								$.ajax({
+									url: '/contact_requests/save',
+									method: 'POST',
+									data: $form.serialize() + '&contact[id]=' + data.result.same_contact.id,
+									dataType: 'JSON'
+								}).done(function (data) {
+									if (params.done) {
+										params.requestInfo = {
+											id: data.result.request_id,
+											request_type: $form.find('[name="request[request_type]"]').val(),
+											object_type: $form.find('[name="request[object_type]"]').val(),
+											object_id: $form.find('[name="request[object_id]"]').val(),
+											message: $form.find('[name="request[message]"]').val()
+										};
+										$form.find('[name="request[id]"]').val(params.requestInfo['id']);
+
+										if (!$('body').is('[data-signed]')) {
+											params.contactInfo = {
+												id: data.result.contact_id,
+												email: $form.find('[name="contact[default_email]"]:enabled,[name="contact[email]"]:enabled').val(),
+												phone_number: $form.find('[name="contact[default_phone_number]"]:enabled,[name="contact[phone_number]"]:enabled').val()
+											}
+											$form.find('[name="contact[id]"]').val(params.contactInfo['id']);
+										}
+
+										if (params.contactInfo) {
+											$form.find('[name="contact[default_email]"]').val(params.contactInfo['email']);
+											$form.find('[name="contact[default_phone_number]"]').val(params.contactInfo['phone_number']);
+											$form.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();
+										}
+
+										params['done']({
+											requestInfo: params.requestInfo,
+											contactInfo: params.contactInfo
+										});
+									}
+								}).fail(function () {
+									errorPopup();
+								});
+							}
+						});
+					}
+					else {
+						errorPopup();
+					}
+				}).fail(function () {
+					errorPopup();
+				});
+			}
+		});
+	}
+
+// / Init contact form

@@ -12,8 +12,8 @@ class ContactRequest < ActiveRecord::Base
 
 	# Associations
 
-		belongs_to :user_request, class_name: 'User', foreign_key: 'user_id'
-		belongs_to :contact_user_request, class_name: 'ContactUserInfo', foreign_key: 'user_id'
+		belongs_to :user, class_name: 'User', foreign_key: 'user_id'
+		belongs_to :contact_user, class_name: 'ContactUserInfo', foreign_key: 'user_id'
 
 		has_many :results, class_name: 'ContactRequestResult'
 

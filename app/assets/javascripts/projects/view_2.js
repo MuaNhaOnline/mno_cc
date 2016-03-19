@@ -71,7 +71,9 @@ $(function () {
 					'.content-panel .btn:active {' +
 						'background-color: ' + desaturate20 + ';' +
 					'}' +
-					'.form-control:focus {' +
+					'.form-control:focus,' +
+					'.has-success .form-control:focus,' +
+					'.has-error .form-control:focus {' +
 						'border-bottom-color: ' + desaturate60 + ';' +
 					'}' +
 				'</style>'
@@ -620,7 +622,8 @@ $(function () {
 							{
 								var
 									$button = $infoPanel.find('[aria-click="register"]'),
-									registerFormData = $button.data('value');
+									requestInfo = $button.data('request_info'),
+									contactInfo = $button.data('contact_info');
 
 								$button.on('click', function () {
 
@@ -633,52 +636,23 @@ $(function () {
 
 									var $form = $html.find('form:eq(0)');
 
-									if (registerFormData) {
-										$form.find('[name="request[id]"]').val(registerFormData['id']);
-										$form.find('[name="request[message]"]').val(registerFormData['message']);
-										$form.find('[name="request[request_type]"]').val(registerFormData['request_type']);
-										$form.find('[name="request[object_type]"]').val(registerFormData['object_type']);
-										$form.find('[name="request[object_id]"]').val(registerFormData['object_id']);
-									}
+									_initContactForm($form, {
+										requestInfo: requestInfo,
+										contactInfo: contactInfo,
+										done: function (data) {
+											requestInfo = data.requestInfo;
+											contactInfo = data.contactInfo;
 
-									initForm($form, {
-										submit: function () {
-											$.ajax({
-												url: '/contact_requests/new',
-												method: 'POST',
-												data: $form.serialize(),
-												dataType: 'JSON'
-											}).done(function (data) {
-												if (data.status == 0) {
-													// Save data
-													
-														registerFormData = {
-															id: data.result,
-															message: $form.find('[name="request[message]"]').val(),
-															request_type: $form.find('[name="request[request_type]"]').val(),
-															object_type: $form.find('[name="request[object_type]"]').val(),
-															object_id: $form.find('[name="request[object_id]"]').val()
-														};
+											$button.text('Đã đăng ký sản phẩm');
+											delete interactData[requestInfo['object_type'] + '/' + requestInfo['object_id']];
 
-														delete interactData[registerFormData['object_type'] + '/' + registerFormData['object_id']];
-
-													// / Save data
-
-													$button.text('Đã đăng ký sản phẩm');
-													$popup.off();
-													popupPrompt({
-														title: 'Đăng ký thành công',
-														content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-													});
-												}
-												else {
-													errorPopup();
-												}
-											}).fail(function () {
-												errorPopup();
+											$popup.off();
+											popupPrompt({
+												title: 'Đăng ký thành công',
+												content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
 											});
 										}
-									})
+									});
 
 									$form.find(':input:visible:eq(0)').focus();
 								});
@@ -1349,30 +1323,18 @@ $(function () {
 	// Contact
 	
 		{
-			var $contactForm = $('#contact_form');
+			var 
+				$contactForm = $('#contact_form'),
+				requestInfo = $contactForm.data('request_info'),
+				contactInfo = $contactForm.data('contact_info');;
 
-			initForm($contactForm, {
-				submit: function () {
-					$.ajax({
-						url: '/contact_requests/new',
-						method: 'POST',
-						data: $contactForm.serialize(),
-						dataType: 'JSON'
-					}).done(function (data) {
-						if (data.status == 0) {
-							// Fill id to form
-							$contactForm.find('[name="request[id]"]').val(data.result);
-
-							popupPrompt({
-								title: 'Đăng ký thành công',
-								content: 'Bạn đã đăng ký dự án thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-							});
-						}
-						else {
-							errorPopup();
-						}
-					}).fail(function () {
-						errorPopup();
+			_initContactForm($contactForm, {
+				requestInfo: requestInfo,
+				contactInfo: contactInfo,
+				done: function (data) {
+					popupPrompt({
+						title: 'Đăng ký thành công',
+						content: 'Bạn đã đăng ký dự án thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
 					});
 				}
 			});

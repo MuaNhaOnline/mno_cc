@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 	skip_before_filter :verify_authenticity_token
 
 	before_action :init
-	helper_method :signed?, :current_user, :current_purpose, :current_width_type
+	helper_method :signed?, :current_user, :left_contact?, :current_left_contact, :current_purpose, :current_width_type
 
 	rescue_from CanCan::AccessDenied do |e|
 		respond_to do |format|
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
 		cookies[:purpose] = current_purpose
 	end
  
-	private
+	# private
 	# def set_locale
 	# 	# begin
 	# 	# 	if (cookies.has_key?('locale'))
@@ -110,74 +110,93 @@ class ApplicationController < ActionController::Base
 	# 	end
 	# end
 
-# Current width type
+	# Current width type
 
-	private
-	def get_current_width_type
-		cookies[:width_type]
-	end
-
-	def current_width_type
-		@current_width_type # Always have (run in before_action (init))
-	end
-
-# / Current width type
-
-# Current purpose
-	
-	private
-	def get_current_purpose
-		purposes = ['s', 'r']
-
-		if request.GET.has_key?(:purpose) && purposes.include?(request.GET[:purpose])
-			return cookies[:purpose] = request.GET[:purpose]
-		elsif cookies.has_key?(:purpose) && purposes.include?(cookies[:purpose])
-			return cookies[:purpose]
-		else
-			return cookies[:purpose] = 's'
-		end
-	end
-
-	def current_purpose
-		@current_purpose # Always have (run in before_action (init))
-	end
-
-# / Current purpose
-
-# Current user
-
-	private
-	def get_current_user
-		# if exists session user_id
-		unless session[:user_id].nil?
-			u = User.find session[:user_id]
-			return u if u.present?
+		private
+		def get_current_width_type
+			cookies[:width_type]
 		end
 
-		# if exists cookie user_account
-		if cookies.has_key? :user_account
-			result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
-			
-			if result[:status] == 0
-				return result[:result]
+		def current_width_type
+			@current_width_type # Always have (run in before_action (init))
+		end
+
+	# / Current width type
+
+	# Current purpose
+		
+		private
+		def get_current_purpose
+			purposes = ['s', 'r']
+
+			if request.GET.has_key?(:purpose) && purposes.include?(request.GET[:purpose])
+				return cookies[:purpose] = request.GET[:purpose]
+			elsif cookies.has_key?(:purpose) && purposes.include?(cookies[:purpose])
+				return cookies[:purpose]
+			else
+				return cookies[:purpose] = 's'
 			end
 		end
 
-		return User.new
-	end
+		def current_purpose
+			@current_purpose # Always have (run in before_action (init))
+		end
 
-	def signed?
-		session[:user_id].present?
-	end
+	# / Current purpose
 
-	def current_user
-		@current_user
-	end
+	# Current user
 
-	def current_ability
-		@current_ability # Always have (run in before_action (init))
-	end
+		private def get_current_user
+			# if exists session user_id
+			unless session[:user_id].nil?
+				u = User.find session[:user_id]
+				return u if u.present?
+			end
 
-# / Current user
+			# if exists cookie user_account
+			if cookies.has_key? :user_account
+				result = User.check_signin_without_encode cookies[:user_account], cookies[:user_password]
+				
+				if result[:status] == 0
+					return result[:result]
+				end
+			end
+
+			return User.new
+		end
+
+		def signed?
+			@signed ||= session[:user_id].present?
+		end
+
+		def current_user
+			@current_user # Always have (run in before_action (init))
+		end
+
+		def current_ability
+			@current_ability # Always have (run in before_action (init))
+		end
+
+	# / Current user
+
+	# Current contact user
+	
+		def left_contact? include_past = false
+			if include_past
+				@left_contact_include_past ||= session[:contact_user_id].present? || cookies[:contact_user_id].present?
+			else
+				@left_contact ||= session[:contact_user_id].present?
+			end
+		end
+
+		def current_left_contact include_past = false
+			if include_past
+				@current_left_contact_include_past ||= left_contact?(true) ? ContactUserInfo.find(session[:contact_user_id] || cookies[:contact_user_id]) : ContactUserInfo.new
+			else
+				@current_left_contact ||= left_contact? ? ContactUserInfo.find(session[:contact_user_id]) : ContactUserInfo.new
+			end
+		end
+	
+	# / Current contact user
 
 end

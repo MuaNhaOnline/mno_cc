@@ -174,7 +174,7 @@ Rails.application.routes.draw do
 		get 'contact_requests/_view_statistic/:id' => 'contact_requests#_view_statistic'
 		get 'contact_requests' => 'contact_requests#index'
 		post 'contact_requests/set_result'
-		post 'contact_requests/new'
+		post 'contact_requests/save'
 
 	# / Contact request
 

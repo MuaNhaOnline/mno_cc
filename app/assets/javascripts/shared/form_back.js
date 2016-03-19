@@ -173,6 +173,11 @@ function initForm($form, params) {
 			});
 
 			function toggle($input) {
+				if ($input.data('toggling')) {
+					return;
+				}
+				$input.data('toggling', true);
+				
 				// Get elements will be affect
 				var offElements = onElements = '';
 				if ($input.is('input[type="checkbox"], input[type="radio"]')) {
@@ -253,6 +258,7 @@ function initForm($form, params) {
 						// });
 					});
 				}
+				$input.data('toggling', false);
 			}
 
 			function toggleElement($element, on) {
@@ -261,13 +267,6 @@ function initForm($form, params) {
 						$element.removeClass('off');
 
 						$element.find(':input:disabled').prop('disabled', false).trigger('enable');
-						// .each(function () {
-						//  var $input = $(this);
-						//  var invalid = checkInvalidInput($input);
-						//  if (invalid) {
-						//    toggleValidInput($input, false, invalid);           
-						//  }
-						// });
 					}
 					else {
 						$element.addClass('off');
@@ -276,16 +275,9 @@ function initForm($form, params) {
 							var $input = $(this);
 
 							removeSuccessLabel($input);
-							toggleValidInput($input, 1);
+							// toggleValidInput($input, 1);
 						});
 					}
-
-					// if ($element.is('.form-group')) {
-					//  initConstraintFormGroup($element);
-					// }
-					// else {
-					//  initConstraintFormGroup($element.find('.form-group'));
-					// }
 				}
 				else {
 					$element.prop('disabled', !on);
@@ -301,10 +293,8 @@ function initForm($form, params) {
 						$element.addClass('off').trigger('disable');;
 
 						removeSuccessLabel($element);
-						toggleValidInput($element, 1);   
+						// toggleValidInput($element, 1);   
 					}
-
-					// initConstraintFormGroup($element.closest('.form-group'));
 				}
 			}
 		}

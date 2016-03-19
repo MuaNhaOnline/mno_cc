@@ -20,23 +20,30 @@
 
 	<%
 		# Register info
+		register_info = nil
 		if signed?
-			register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id).first_or_initialize request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id
+			register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id).first
 		else
+			if left_contact?
+				register_info = ContactRequest.where(user_type: 'contact_user', user_id: current_left_contact.id, request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id).first
+			end
+		end
+
+		if register_info.blank?
 			register_info = ContactRequest.new request_type: 'register', object_type: 'real_estates/floor', object_id: @position.id
 		end
 	%>
-	<% if signed? %>
-		<article class="register-button">
-			<a aria-click="register" data-value="<%= register_info.to_json only: [:id, :request_type, :object_type, :object_id, :message] %>">
-				<% if register_info.new_record? %>
-					Đăng ký sản phẩm
-				<% else %>
-					Đã đăng ký sản phẩm
-				<% end %>
-			</a>
-		</article>
-	<% end %>
+	<article class="register-button">
+		<a aria-click="register"
+			data-request_info="<%= register_info.to_json only: [:id, :request_type, :object_type, :object_id, :message] %>"
+			data-contact_info="<%= current_left_contact.to_json(only: [:id, :email, :phone_number]) %>">
+			<% if register_info.new_record? %>
+				Đăng ký sản phẩm
+			<% else %>
+				Đã đăng ký sản phẩm
+			<% end %>
+		</a>
+	</article>
 
 	<article class="info list">
 		<% if @position.floor.present? %>

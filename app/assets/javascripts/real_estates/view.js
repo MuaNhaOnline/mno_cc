@@ -66,10 +66,10 @@ $(function () {
 						// Remove current more
 						$removes = $infosRow.children('.more, .buffer-more');
 						$more = $infosRow.children('.more');
-						$more.animate({
+						$more.stop().animate({
 							top: '-10px'
 						}, 200, function () {
-							$more.slideUp(300, function () {
+							$more.stop().slideUp(300, function () {
 								$removes.remove();
 							});
 						});
@@ -80,7 +80,7 @@ $(function () {
 						$removeClass = $infosRow.find('.has-more.active');
 						$removes = $infosRow.children('.more, .buffer-more');
 						$removeMore = $infosRow.children('.more');
-						$removeMore.slideUp(300, function () {
+						$removeMore.stop().slideUp(300, function () {
 							$removes.remove();
 							$removeClass.removeClass('active')
 						});
@@ -125,8 +125,7 @@ $(function () {
 
 							// Add buffer for display (true position for clear left)
 							$more.after($('<article class="buffer-more"></article><article class="buffer-more"></article><article class="buffer-more"></article>'))
-							$more.hide().slideDown(300);
-							$more.css({
+							$more.hide().stop().slideDown(300).css({
 								top: '-10px'
 							}).animate({
 								top: '0px'
@@ -259,9 +258,10 @@ $(function () {
 		// Register
 
 			var
-				registerFormData = null,
-				$registerForm = $('#register_form');
-		
+				$registerForm = $('#register_form'),
+				requestInfo = $registerForm.data('request_info'),
+				contactInfo = $registerForm.data('contact_info');
+
 			$('#re_register').on('click', function () {
 				var $html = $(_popupContent['re_register']);
 
@@ -272,173 +272,43 @@ $(function () {
 
 				var $form = $html.find('form:eq(0)');
 
-				if (registerFormData) {
-					$form.find('[name="request[id]"]').val(registerFormData['id']);
-					$form.find('[name="request[message]"]').val(registerFormData['message']);
-					$form.find('[name="contact[email]"]').val(registerFormData['email']);
-					$form.find('[name="contact[phone_number]"]').val(registerFormData['phone_number']);
-				}
+				_initContactForm($form, {
+					requestInfo: requestInfo,
+					contactInfo: contactInfo,
+					done: function (data) {
+						requestInfo = data.requestInfo;
+						contactInfo = data.contactInfo;
+						$registerForm.data('refill')({
+							requestInfo: requestInfo,
+							contactInfo: contactInfo
+						});
+						$registerForm.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();
 
-				initForm($form, {
-					submit: function () {
-						$.ajax({
-							url: '/contact_requests/new',
-							method: 'POST',
-							data: $form.serialize(),
-							dataType: 'JSON'
-						}).done(function (data) {
-							if (data.status == 0) {
-
-								// Save data & async data other form
-								
-									registerFormData = {
-										id: data.result,
-										message: $form.find('[name="request[message]"]').val(),
-										email: $form.find('[name="contact[email]"]').val(),
-										phone_number: $form.find('[name="contact[phone_number]"]').val()
-									};
-									$registerForm.find('[name="request[id]"]').val(registerFormData['id']);
-									$registerForm.find('[name="request[message]"]').val(registerFormData['message']);
-									$registerForm.find('[name="contact[email]"]').val(registerFormData['email']);
-									$registerForm.find('[name="contact[phone_number]"]').val(registerFormData['phone_number']);
-
-								// / Save data & async data other form
-
-								$('#re_register').text('Đã đăng ký');
-								$popup.off();
-								popupPrompt({
-									title: 'Đăng ký thành công',
-									content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-								});
-							}
-							else if (data.status == 5) {
-								data.result.same_contact = JSON.parse(data.result.same_contact);
-								
-								_openSameContactPopup($(data.result.html), {
-									yes: function () {
-										$.ajax({
-											url: '/contact_requests/new',
-											method: 'POST',
-											data: $form.serialize() + '&contact[id]=' + data.result.same_contact.id,
-											dataType: 'JSON'
-										}).done(function (data) {
-											if (data.status == 0) {
-												// Save data & fill id to form
-												
-													registerFormData = {
-														id: data.result,
-														message: $form.find('[name="request[message]"]').val(),
-														email: $form.find('[name="contact[email]"]').val(),
-														phone_number: $form.find('[name="contact[phone_number]"]').val()
-													};
-													$registerForm.find('[name="request[id]"]').val(registerFormData['id']);
-													$registerForm.find('[name="request[message]"]').val(registerFormData['message']);
-													$registerForm.find('[name="contact[email]"]').val(registerFormData['email']);
-													$registerForm.find('[name="contact[phone_number]"]').val(registerFormData['phone_number']);
-
-												// / Save data & fill id to form
-
-												$('#re_register').text('Đã đăng ký');
-												$popup.off();
-												popupPrompt({
-													title: 'Đăng ký thành công',
-													content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-												});
-											}
-											else {
-												errorPopup();
-											}
-										}).fail(function () {
-											errorPopup();
-										});
-									}
-								});
-							}
-							else {
-								errorPopup();
-							}
-						}).fail(function () {
-							errorPopup();
+						$('#re_register').text('Đã đăng ký');
+						
+						$popup.off();
+						popupPrompt({
+							title: 'Đăng ký thành công',
+							content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
 						});
 					}
-				})
+				});
 
-				$html.find(':input:visible:eq(0)').focus();
+				$form.find(':input:visible:eq(0)').focus();
 			});
 
-			initForm($registerForm, {
-				submit: function () {
-					$.ajax({
-						url: '/contact_requests/new',
-						method: 'POST',
-						data: $registerForm.serialize(),
-						dataType: 'JSON'
-					}).done(function (data) {
-						if (data.status == 0) {
-							// Save data & fill id to form
-							
-								registerFormData = {
-									id: data.result,
-									message: $registerForm.find('[name="request[message]"]').val(),
-									email: $form.find('[name="contact[email]"]').val(),
-									phone_number: $form.find('[name="contact[phone_number]"]').val()
-								};
-								$registerForm.find('[name="request[id]"]').val(registerFormData['id']);
+			_initContactForm($registerForm, {
+				requestInfo: requestInfo,
+				contactInfo: contactInfo,
+				done: function (data) {
+					requestInfo = data.requestInfo;
+					contactInfo = data.contactInfo;
 
-							// / Save data & fill id to form
+					$('#re_register').text('Đã đăng ký');
 
-							$('#re_register').text('Đã đăng ký');
-
-							popupPrompt({
-								title: 'Đăng ký thành công',
-								content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-							});
-						}
-						else if (data.status == 5) {
-							data.result.same_contact = JSON.parse(data.result.same_contact);
-							
-							_openSameContactPopup($(data.result.html), {
-								yes: function () {
-									$.ajax({
-										url: '/contact_requests/new',
-										method: 'POST',
-										data: $registerForm.serialize() + '&contact[id]=' + data.result.same_contact.id,
-										dataType: 'JSON'
-									}).done(function (data) {
-										if (data.status == 0) {
-											// Save data & fill id to form
-											
-												registerFormData = {
-													id: data.result,
-													message: $registerForm.find('[name="request[message]"]').val(),
-													email: $form.find('[name="contact[email]"]').val(),
-													phone_number: $form.find('[name="contact[phone_number]"]').val()
-												};
-												$registerForm.find('[name="request[id]"]').val(registerFormData['id']);
-
-											// / Save data & fill id to form
-
-											$('#re_register').text('Đã đăng ký');
-
-											popupPrompt({
-												title: 'Đăng ký thành công',
-												content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-											});
-										}
-										else {
-											errorPopup();
-										}
-									}).fail(function () {
-										errorPopup();
-									});
-								}
-							});
-						}
-						else {
-							errorPopup();
-						}
-					}).fail(function () {
-						errorPopup();
+					popupPrompt({
+						title: 'Đăng ký thành công',
+						content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
 					});
 				}
 			});

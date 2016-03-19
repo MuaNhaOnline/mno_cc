@@ -22,7 +22,7 @@ class ContactUserInfo < ActiveRecord::Base
 			assign_attributes_with_params _params
 
 			unless _is_replace
-				_same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{phone_number})(\\y|,){1}' OR email ~ '(\\y|,){1}(#{email})(\\y|,){1}'").first
+				_same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{phone_number})(\\y|,){1}' OR email = '#{email}'").first
 				if _same_contact.present?
 					return { status: 5, result: _same_contact }
 				end
