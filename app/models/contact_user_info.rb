@@ -18,10 +18,10 @@ class ContactUserInfo < ActiveRecord::Base
 
 		# Save with params
 
-		def save_with_params _params, _is_replace = false
+		def save_with_params _params, _skip_check_exists = false
 			assign_attributes_with_params _params
 
-			unless _is_replace
+			unless _skip_check_exists
 				_same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{phone_number})(\\y|,){1}' OR email = '#{email}'").first
 				if _same_contact.present?
 					return { status: 5, code: 'contact_user', result: _same_contact }
