@@ -315,31 +315,6 @@ class HomeController < ApplicationController
 
 		# end
 
-		if params[:s] = '2'
-			RealEstate.where.not(user_full_name: nil).each do |re|
-			params[:contact] = {
-				name: re.user_full_name || 'MuanhaOnline',
-				email: re.user_email || 'info@muanhaonline.com.vn',
-				phone_number: re.user_phone_number || '0939262426'
-			}
-			contact_user = ContactUserInfo.new
-			result = contact_user.save_with_params params[:contact]
-			if result[:status] == 5
-				if result[:code] == 'user'
-					re.user_type = 'user'
-					re.user_id = result[:result].id
-				else
-					re.user_type = 'contact_user'
-					re.user_id = result[:result].id
-				end
-			else
-				re.user_type = 'contact_user'
-				re.user_id = contact_user.id
-			end
-			re.save
-		end
-		end
-
 		render layout: nil
 	end
 
