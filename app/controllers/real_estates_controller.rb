@@ -169,28 +169,57 @@ class RealEstatesController < ApplicationController
 		# params: real-estate form
 		def save
 			is_draft = params.has_key? :draft
+			re = params[:real_estate][:id].present? ? RealEstate.find(params[:real_estate][:id]) : RealEstate.new
 
-			if params[:real_estate][:id].blank?
-				params[:real_estate][:user_id] = signed? ? current_user.id : 0
-				real_estate = RealEstate.new
-			else 
-				real_estate = RealEstate.find(params[:real_estate][:id])
-				return render json: { status: 1 } if real_estate.nil?
-			end
+			if signed?
+				# If signed => save with current user
+				params[:real_estate][:user_id] = current_user.id
 
-			unless signed?
+				result = re.save_with_params(params[:real_estate], is_draft)
+
+				return render json: result if result[:status] != 0
+
+				render json: { status: 0, result: re.id }
+			else
+				# If not signed => get contact info
+				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
+
+				result = contact_user.save_with_params params[:contact], params[:contact][:id].present?
+				if result[:status] == 5
+					# If exists data => confirm
+					return render json: {
+						status: 5,
+						result: {
+							same_contact: result[:result].to_json(only: [:id]),
+							html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { code: result[:code], same_contact: result[:result] })
+						}
+					}
+				end
+
+				# Save cookie, session contact info
+				cookies[:contact_user_id] = {
+					value: contact_user.id,
+					expires: 3.months.from_now
+				}
+				session[:contact_user_id] = contact_user.id
+
+				# Save with contact user
+				params[:real_estate][:user_id] = contact_user.id
+				params[:real_estate][:user_type] = 'contact_user'
+
+				# Save ip for reload
 				params[:real_estate][:remote_ip] = request.remote_ip
+
+				result = re.save_with_params(params[:real_estate], is_draft)
+
+				return render json: result if result[:status] != 0
+
+				if params[:real_estate][:id].blank?
+					# RealEstateMailer.active(re).deliver_later
+				end
+
+				render json: { status: 0, result: re.id }
 			end
-
-			result = real_estate.save_with_params(params[:real_estate], is_draft)
-
-			return render json: result if result[:status] != 0
-
-			if !signed? && params[:real_estate][:id].blank?
-				RealEstateMailer.active(real_estate).deliver_later
-			end
-
-			render json: { status: 0, result: real_estate.id }
 		end
 
 		# Handle => View

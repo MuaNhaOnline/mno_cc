@@ -26,13 +26,31 @@ class UsersController < ApplicationController
 		# Handle
 		# params: form user
 		def save
+			# Get user
 			if is_sign_up = params[:user][:id].blank?
 				user = User.new
+
+				if params[:contact_id].present?
+					# Get contact data if get from contact
+					contact = ContactUserInfo.find params[:contact_id]
+
+					params[:user][:email] = contact.email
+					params[:user][:phone_number] = contact.phone_number
+				else
+					# Check if current email, phone_number was used by contact
+					same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{params[:user][:phone_number]})(\\y|,){1}' OR email = '#{params[:user][:email]}'").first
+					if same_contact.present?
+						return render json: {
+							status: 5,
+							result: {
+								same_contact: same_contact.to_json(only: [:id]),
+								html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { code: 'contact_user', same_contact: same_contact })
+							}
+						}
+					end
+				end
 			else 
 				user = User.find(params[:user][:id])
-				if user.nil?
-					return render json: { status: 1 }
-				end
 			end
 
 			result = user.save_with_params params[:user]
@@ -46,6 +64,11 @@ class UsersController < ApplicationController
 				session_info.leave_infos ||= []
 				session_info.leave_infos << ['user', user.id]
 				session_info.save
+
+				# Delete contact
+				if defined? contact
+					contact.update is_deleted: true
+				end
 			end
 
 			# Send active mail

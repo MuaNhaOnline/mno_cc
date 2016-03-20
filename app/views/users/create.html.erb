@@ -48,43 +48,43 @@
 
 					<!-- Account name -->
 
-					<article class="form-group">
-						<label for="account"><%= t 'user.attribute.account' %></label>
-						<sup class="required-label"></sup>
-						<div class="input-group">
-							<div class="input-group-addon">
-								<i class="fa fa-user"></i>
+						<article class="form-group">
+							<label for="account"><%= t 'user.attribute.account' %></label>
+							<sup class="required-label"></sup>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-user"></i>
+								</div>
+								<input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" autofocus />
 							</div>
-							<input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" autofocus />
-						</div>
-					</article>
+						</article>
 
 					<!-- / Account name -->
 
 					<!-- Password -->
 
-					<div class="row">
-						<article class="form-group col-md-6">
-							<label for="password"><%= t 'user.attribute.password' %></label>
-							<sup class="required-label"></sup>
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-lock"></i>
+						<div class="row">
+							<article class="form-group col-md-6">
+								<label for="password"><%= t 'user.attribute.password' %></label>
+								<sup class="required-label"></sup>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-lock"></i>
+									</div>
+									<input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
 								</div>
-								<input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
-							</div>
-						</article>
-						<article class="form-group col-md-6">
-							<label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
-							<sup class="required-label"></sup>
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-lock"></i>
+							</article>
+							<article class="form-group col-md-6">
+								<label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
+								<sup class="required-label"></sup>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-lock"></i>
+									</div>
+									<input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" />
 								</div>
-								<input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" />
-							</div>
-						</article>
-					</div>
+							</article>
+						</div>
 
 					<!-- / Password -->
 
@@ -92,77 +92,105 @@
 
 					<!-- Change password -->
 
-					<article class="form-group">
-						<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-flat btn-block">Đổi mật khẩu</a>
-					</article>
+						<article class="form-group">
+							<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-flat btn-block">Đổi mật khẩu</a>
+						</article>
 
 					<!-- / Change password -->
 
 				<% end %>
 
-				<!-- Email -->
+				<!-- Full name -->
 
-				<% if @user.provider.blank? %>
-
-					<% if @user.active_status == 2 || @user.active_status == 3 %>
-						<article class="form-group">
-							<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
-							<p class="text-center">
-								<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
-								<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
-							</p>
-						</article>
-						<article class="form-group hide" aria-name="email">
-					<% else %>
-						<article class="form-group">
-					<% end %>
-						<label for="email"><%= t 'user.attribute.email' %></label>
+					<article class="form-group">
+						<label for="full_name"><%= t 'user.attribute.full_name' %></label>
 						<sup class="required-label"></sup>
 						<div class="input-group">
 							<div class="input-group-addon">
-								<i class="fa fa-envelope"></i>
+								<i class="fa fa-font"></i>
 							</div>
-							<% if @user.new_record? %>
-								<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+							<input value="<%= @user.full_name %>" name="user[full_name]" data-constraint="required" type="text" class="form-control" id="full_name" />
+						</div>
+					</article>
+
+				<!-- / Full name -->
+
+				<!-- Email -->
+
+					<% if @user.provider.blank? %>
+
+						<% if @user.active_status == 2 || @user.active_status == 3 %>
+							<article class="form-group">
+								<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
+								<p class="text-center">
+									<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
+									<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
+								</p>
+							</article>
+							<article class="form-group hide" aria-name="email">
+						<% else %>
+							<article class="form-group">
+						<% end %>
+							<label for="email"><%= t 'user.attribute.email' %></label>
+							<sup class="required-label"></sup>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-envelope"></i>
+								</div>
+								<% if @user.new_record? %>
+									<% if left_contact? %>
+										<input data-toggled-element="default-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" value="<%= current_left_contact.email %>" readonly="true" tabindex="-1" />
+										<input data-toggled-element="new-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+									<% else %>
+										<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+									<% end %>
+								<% else %>
+									<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+								<% end %>
+							</div>
+						</article>
+
+					 <% end %>
+
+				<!-- / Email -->
+
+				<!-- Phone number -->
+
+					<article class="form-group">
+						<label for="phone_number">
+							<%= t 'user.attribute.phone_number' %>
+							<sup class="required-label"></sup>
+						</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-phone"></i>
+							</div>
+							<% if @user.new_record? && left_contact? %>
+								<input data-toggled-element="default-contact" value="<%= current_left_contact.phone_number %>" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" readonly="true" tabindex="-1" />
+								<input data-toggled-element="new-contact" value="" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" />
 							<% else %>
-								<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+								<input value="<%= @user.phone_number %>" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" />
 							<% end %>
 						</div>
 					</article>
 
-				 <% end %>
+				<!-- / Phone number -->
 
-				<!-- / Email -->
-
-				<!-- Full name -->
-
-				<article class="form-group">
-					<label for="full_name"><%= t 'user.attribute.full_name' %></label>
-					<sup class="required-label"></sup>
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-font"></i>
+				<% if @user.new_record? && left_contact? %>
+					<input data-toggled-element="default-contact" type="hidden" name="contact_id" value="<%= current_left_contact.id %>" />
+					<article class="form-group text-right">
+						<div class="radio margin-0">
+							<label data-toggled-element="default-contact">
+								<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+								<a style="color: inherit;">Không phải tôi</a>
+							</label>
+							<label data-toggled-element="new-contact">
+								<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+								<a style="color: inherit;">Quay lại</a>
+							</label>
 						</div>
-						<input value="<%= @user.full_name %>" name="user[full_name]" data-constraint="required" type="text" class="form-control" id="full_name" />
-					</div>
-				</article>
-
-				<!-- / Full name -->
-
-				<!-- Birthday -->
-
-				<article class="form-group">
-					<label for="birthday"><%= t 'user.attribute.birthday' %></label>
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-calendar"></i>
-						</div>
-						<input value="<%= @user.birthday.strftime('%Y') unless @user.birthday.nil? %>" data-constraint="integer range" data-minvalue="1900" data-maxvalue="<%= Date.today.strftime('%Y') %>" class="form-control" type="text" name="user[birthday]" />
-					</div>
-				</article>
-
-				<!-- / Birthday -->
-
+					</article>
+				<% end %>
 			</section>
 		</article>	
 	</div>
@@ -196,6 +224,20 @@
 			</section>
 			<section class="box-body">
 
+				<!-- Birthday -->
+
+					<article class="form-group">
+						<label for="birthday"><%= t 'user.attribute.birthday' %></label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input value="<%= @user.birthday.strftime('%Y') unless @user.birthday.nil? %>" data-constraint="integer range" data-minvalue="1900" data-maxvalue="<%= Date.today.strftime('%Y') %>" class="form-control" type="text" name="user[birthday]" />
+						</div>
+					</article>
+
+				<!-- / Birthday -->
+
 				<!-- Business name -->
 
 				<article class="form-group">
@@ -209,20 +251,6 @@
 				</article>
 
 				<!-- / Business name -->
-
-				<!-- Phone number -->
-
-				<article class="form-group">
-					<label for="phone_number"><%= t 'user.attribute.phone_number' %></label>
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-phone"></i>
-						</div>
-						<input value="<%= @user.phone_number %>" name="user[phone_number]" data-constraint="integer" type="text" class="form-control" id="phone_number" />
-					</div>
-				</article>
-
-				<!-- / Phone number -->
 
 				<!-- Address -->
 

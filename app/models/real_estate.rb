@@ -20,6 +20,7 @@ class RealEstate < ActiveRecord::Base
 		has_one :owner_info, class_name: 'RealEstateOwner', autosave: true
 
 		belongs_to :user
+		belongs_to :contact_user, class_name: 'ContactUserInfo', foreign_key: 'user_id'
 		belongs_to :real_estate_type
 		belongs_to :street
 		belongs_to :ward
@@ -240,14 +241,6 @@ class RealEstate < ActiveRecord::Base
 					return
 				end
 			end
-
-			# User contact
-			if user_id == 0
-				if user_full_name.blank?
-					errors.add :user_full_name, 'Họ tên liên lạc không thể bỏ trống'
-					return
-				end
-			end
 		end
 
 	# / Validations
@@ -347,7 +340,7 @@ class RealEstate < ActiveRecord::Base
 					:address_number, :street_type, :is_alley, :real_estate_type_id, :building_name,
 					:legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
 					:alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
-					:lat, :long, :user_id, :appraisal_purpose, :appraisal_type, :campus_area, :using_area, :constructional_area, :garden_area,
+					:lat, :long, :user_type, :user_id, :appraisal_purpose, :appraisal_type, :campus_area, :using_area, :constructional_area, :garden_area,
 					:shape, :shape_width, :bedroom_number, :build_year, :constructional_level_id, :restroom_number,
 					:width_x, :width_y, :floor_number, :constructional_quality, :direction_id, :block_id,
 					advantage_ids: [], disadvantage_ids: [], property_utility_ids: [], region_utility_ids: []
@@ -376,13 +369,11 @@ class RealEstate < ActiveRecord::Base
 					slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.name))
 				}
 
-				if user_id == 0
-					other_params = other_params.merge params.permit(:user_full_name, :user_phone_number)
-					other_params[:params] = { 'remote_ip' => params[:remote_ip] }
-
+				if user_type == 'contact_user'
 					if new_record?
-						other_params[:user_email] = params[:user_email]
 						other_params[:is_active] = false
+						other_params[:params] = {}
+						other_params[:params]['remote_ip'] = params[:remote_ip]
 						other_params[:params]['secure_code'] = SecureRandom.base64
 					end
 				end
@@ -1088,7 +1079,7 @@ class RealEstate < ActiveRecord::Base
 			tempLocale = I18n.locale
 			I18n.locale = 'vi'
 
-			assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_id == 0 ? user_full_name + ' ' + user_email + ' ' + user_phone_number : user.full_name + ' ' + user.email + ' ' + user.phone_number} #{title.gsub('Quận', '').gsub('quận', '')}"
+			assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_type == 'user' ? "#{user.full_name} #{user.email} #{user.phone_number}" : "#{contact_user.name} #{contact_user.email} #{contact_user.phone_number}"} #{title.gsub('Quận', '').gsub('quận', '')}"
 
 			I18n.locale = tempLocale
 		end
@@ -1152,17 +1143,17 @@ class RealEstate < ActiveRecord::Base
 
 		# User name
 		def display_user_name
-			@display_user_name ||= user_id == 0 ? user_full_name : user.full_name
+			@display_user_name ||= user_type == 'user' ? user.full_name : contact_user.name
 		end
 
 		# User email
 		def display_user_email
-			@display_user_email ||= user_id == 0 ? user_email : user.email
+			@display_user_email ||= user_type == 'user' ? user.email : contact_user.email
 		end
 
 		# User phone number
 		def display_user_phone_number
-			@display_user_phone_number ||= user_id == 0 ? user_phone_number : user.phone_number
+			@display_user_phone_number ||= user_type == 'user' ? user.phone_number : contact_user.phone_number
 		end
 
 		# Address

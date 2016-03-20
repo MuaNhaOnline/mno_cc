@@ -90,6 +90,7 @@ class ContactRequestsController < ApplicationController
 					} 
 				}
 			else
+				byebug
 				# If not signed => get contact info
 				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
 
@@ -127,8 +128,6 @@ class ContactRequestsController < ApplicationController
 					}
 				}
 			end
-
-			
 		end
 	
 	# / Save

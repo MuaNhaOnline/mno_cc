@@ -181,3 +181,41 @@ $(function () {
 	}
 
 // / String
+
+// Same contact popup (temporary from frontlayout)
+
+	function _openSameContactPopup($html, params) {
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
+		var $popup = popupFull({
+			html: $html,
+			width: 'medium',
+			esc: false,
+			id: 'same_contact_popup'
+		});
+
+		$html.find('[aria-click="yes"]').on('click', function () {
+			$popup.off();
+
+			if ('yes' in params) {
+				params['yes']();
+			}
+		});
+
+		$html.find('[aria-click="no"]').on('click', function () {
+			$popup.off();
+
+			if ('no' in params) {
+				params['no']();
+			}
+		});
+
+		$html.find('[aria-click="sign_in"]').on('click', function () {
+			$popup.off();
+			_openSignInPopup();
+		});
+	}
+
+// / Same contact popup (temporary from frontlayout)

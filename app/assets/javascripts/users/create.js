@@ -48,6 +48,51 @@ $(function () {
 						}
 					}
 				}
+				else if (data.status == 5) {
+					data.result.same_contact = JSON.parse(data.result.same_contact);
+
+					_openSameContactPopup($(data.result.html), {
+						yes: function () {
+							toggleLoadStatus(true);
+							$.ajax({
+								url: '/register',
+								method: 'POST',
+								data: $form.serialize() + '&contact_id=' + data.result.same_contact.id,
+								dataType: 'JSON'
+							}).always(function () {
+								toggleLoadStatus(false);
+								$form.submitStatus(false);
+							}).done(function (data) {
+								if (data.status == 0) {
+									if ($form.find('[name="user[id]"]').length == 0) {
+										window.location = '/users/active_callout/' + data.result + '/?status=success';
+									}
+									else {
+										if (data.email_changed) {
+											window.location = '/users/active_callout/' + data.result + '/?status=old_email';
+										}
+										else {
+											window.location = '/users/' + data.result;	
+										}
+									}
+								}
+								else {
+									popupPrompt({
+										title: _t.form.error_title,
+										type: 'danger',
+										content: _t.form.error_content
+									});
+								}
+							}).fail(function () {
+								popupPrompt({
+									title: _t.form.error_title,
+									type: 'danger',
+									content: _t.form.error_content
+								})
+							});
+						}
+					});
+				}
 				else {
 					popupPrompt({
 						title: _t.form.error_title,

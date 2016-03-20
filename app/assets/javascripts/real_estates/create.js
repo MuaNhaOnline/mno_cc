@@ -25,6 +25,7 @@ $(function () {
 					toggleLoadStatus(false);
 					$form.submitStatus(false);
 				}).done(function (data) {
+					console.log(data);
 					if (data.status == 0) {
 						if ($form.find('#is_full').val() == 'true') {
 							if (signed) {
@@ -93,6 +94,107 @@ $(function () {
 								]
 							})
 						}
+					}
+					else if (data.status == 5) {
+						data.result.same_contact = JSON.parse(data.result.same_contact);
+						
+						_openSameContactPopup($(data.result.html), {
+							yes: function () {
+								toggleLoadStatus(true);
+								$.ajax({
+									url: '/real_estates/create',
+									method: 'POST',
+									data: $form.serialize(),
+									dataType: 'JSON'
+								}).always(function () {
+									toggleLoadStatus(false);
+									$form.submitStatus(false);
+								}).done(function (data) {
+									if (data.status == 0) {
+										if ($form.find('#is_full').val() == 'true') {
+											if (signed) {
+												window.location = '/bat-dong-san/cua-toi';
+											}
+											else {
+												popupPrompt({
+													title: 'Đăng tin thành công',
+													content: 'Tin của bạn sẽ được hiển thị sau khi xử lý',
+													type: 'success',
+													buttons: [
+														{
+															text: 'Về trang chủ',
+															type: 'primary'
+														}
+													],
+													onEscape: function () {
+														window.location = '/';
+													}
+												})              
+											}
+										}
+										else {
+											popupPrompt({
+												title: _t.form.success_title,
+												content: _t.real_estate.view.create.success_content,
+												type: 'success',
+												esc: false,
+												buttons: [
+													{
+														text: _t.form.yes,
+														type: 'primary',
+														handle: function () {
+															// Hidden id input
+															$form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
+															$form.find('#is_full').val(true);
+															toggleUntilFull(1);
+
+															$form.find('#user_email').prop('disabled', true);
+														}
+													}, {
+														text: _t.form.no,
+														handle: function () {
+															if (signed) {
+																window.location = '/bat-dong-san/cua-toi';
+															}
+															else {
+																popupPrompt({
+																	title: 'Đăng tin thành công',
+																	content: 'Bạn vui lòng vào email để kích hoạt tin',
+																	type: 'success',
+																	buttons: [
+																		{
+																			text: 'Về trang chủ',
+																			type: 'primary'
+																		}
+																	],
+																	onEscape: function () {
+																		window.location = '/';
+																	}
+																});
+																return false;          
+															}
+														}
+													}
+												]
+											})
+										}
+									}
+									else {
+										popupPrompt({
+											title: _t.form.error_title,
+											type: 'danger',
+											content: _t.form.error_content
+										})
+									}
+								}).fail(function () {
+									popupPrompt({
+										title: _t.form.error_title,
+										type: 'danger',
+										content: _t.form.error_content
+									})
+								});
+							}
+						});
 					}
 					else {
 						popupPrompt({
