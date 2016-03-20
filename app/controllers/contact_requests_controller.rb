@@ -100,7 +100,7 @@ class ContactRequestsController < ApplicationController
 						status: 5,
 						result: {
 							same_contact: result[:result].to_json(only: [:id]),
-							html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { same_contact: result[:result] })
+							html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { code: result[:code], same_contact: result[:result] })
 						}
 					}
 				end

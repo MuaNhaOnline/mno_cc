@@ -24,7 +24,11 @@ class ContactUserInfo < ActiveRecord::Base
 			unless _is_replace
 				_same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{phone_number})(\\y|,){1}' OR email = '#{email}'").first
 				if _same_contact.present?
-					return { status: 5, result: _same_contact }
+					return { status: 5, code: 'contact_user', result: _same_contact }
+				end
+				_same_contact = User.where("phone_number ~ '(\\y|,){1}(#{phone_number})(\\y|,){1}' OR email = '#{email}'").first
+				if _same_contact.present?
+					return { status: 5, code: 'user', result: _same_contact }
 				end
 			end
 

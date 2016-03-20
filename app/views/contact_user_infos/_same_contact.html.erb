@@ -1,6 +1,6 @@
 <% 
 =begin
-	params: same_contact
+	params: same_contact, code
 =end
 
 %>
@@ -12,42 +12,85 @@
 		</span>
 	</section>
 	<section class="box-body">
-		<p>
-			Thông tin này đã được sử dụng với
-		</p>
-		<ul>
-			<% if same_contact.name.present? %>
-				<li>
-					<p>
-						Tên: <%= same_contact.name %>
-					</p>
-				</li>
-			<% end %>
-			<% if same_contact.email.present? %>
-				<li>
-					<p>
-						Email: <%= same_contact.email %>
-					</p>
-				</li>
-			<% end %>
-			<% if same_contact.phone_number.present? %>
-				<li>
-					<p>
-						Điện thoại: <%= same_contact.phone_number %>
-					</p>
-				</li>
-			<% end %>
-		</ul>
-		<p>
-			Đây có phải là bạn không?
-		</p>
-		<article class="text-center">
-			<button aria-click="yes" class="btn btn-green">
-				Phải, thay thế với thông tin cũ
-			</button>
-			<button aria-click="no" class="btn">
-				Không, tôi sẽ nhập thông tin khác
-			</button>
-		</article>
+		<% if code == 'user' %>
+			<p>
+				Thông tin này đã được đăng ký với
+			</p>
+			<ul>
+				<% if same_contact.full_name.present? %>
+					<li>
+						<p>
+							Tên: <%= same_contact.full_name %>
+						</p>
+					</li>
+				<% end %>
+				<% if same_contact.email.present? %>
+					<li>
+						<p>
+							Email: <%= same_contact.email %>
+						</p>
+					</li>
+				<% end %>
+				<% if same_contact.phone_number.present? %>
+					<li>
+						<p>
+							Điện thoại: <%= same_contact.phone_number %>
+						</p>
+					</li>
+				<% end %>
+			</ul>
+			<p>
+				Đây có phải là bạn không?
+			</p>
+			<article class="text-center">
+				<button aria-click="sign_in" class="btn btn-green">
+					Đăng nhập
+				</button>
+				<a href="/quen-mat-khau" class="btn btn-green">
+					Quên mật khẩu
+				</a>
+				<button aria-click="no" class="btn">
+					Không, tôi sẽ nhập thông tin khác
+				</button>
+			</article>
+		<% else %>
+			<p>
+				Thông tin này đã được sử dụng với
+			</p>
+			<ul>
+				<% if same_contact.name.present? %>
+					<li>
+						<p>
+							Tên: <%= same_contact.name %>
+						</p>
+					</li>
+				<% end %>
+				<% if same_contact.email.present? %>
+					<li>
+						<p>
+							Email: <%= same_contact.email %>
+						</p>
+					</li>
+				<% end %>
+				<% if same_contact.phone_number.present? %>
+					<li>
+						<p>
+							Điện thoại: <%= same_contact.phone_number %>
+						</p>
+					</li>
+				<% end %>
+			</ul>
+			<p>
+				Đây có phải là bạn không?
+			</p>
+			<article class="text-center">
+				<button aria-click="yes" class="btn btn-green">
+					Phải, thay thế với thông tin cũ
+				</button>
+				<button aria-click="no" class="btn">
+					Không, tôi sẽ nhập thông tin khác
+				</button>
+			</article>
+		<% end %>
 	</section>
 </article>

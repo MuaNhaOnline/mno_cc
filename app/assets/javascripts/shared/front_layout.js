@@ -170,7 +170,7 @@ $(function () {
 			params = {};
 		}
 
-		$popup = popupFull({
+		var $popup = popupFull({
 			html: $html,
 			width: 'medium',
 			esc: false,
@@ -191,6 +191,11 @@ $(function () {
 			if ('no' in params) {
 				params['no']();
 			}
+		});
+
+		$html.find('[aria-click="sign_in"]').on('click', function () {
+			$popup.off();
+			_openSignInPopup();
 		});
 	}
 
