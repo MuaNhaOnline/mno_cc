@@ -185,6 +185,11 @@
 
 		}
 
+			.content-panel .box + .box {
+				margin-top: -50px;
+				padding-top: 50px;
+			}
+
 			.content-panel .box:not(.box-transparent):first-child {
 				margin-top: 0;
 				padding-top: 30px;
