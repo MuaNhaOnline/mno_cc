@@ -1,359 +1,794 @@
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" href="/assets/projects/view.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/projects/view.css">
 <% end %>
 
-<% content_for :scripts do %>
+<% content_for :javascripts do %>
 	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/shared/tinycolor.js"></script>
 	<script type="text/javascript" src="/assets/projects/view.js"></script>
+	<script type="text/javascript">
+		projectId = <%= @project.id %>;
+		mainColor = '<%= @project.main_color %>';
+	</script>
 <% end %>
 
-<% 
+<%
 =begin
-	@project	
+	@project
 =end
- 		
-	@title = @project.project_name
-
+	
+	@_title = @project.project_name
 %>
 
-<!--start Search Box -->
-<%= render partial: 'shared/front_end_search_box' %>
-<!-- end Search Box-->
-
-<!-- start navigator -->
-<section class="navigator container">
-	<ol class="breadcrumb">
-		<li><a href="/">Trang chủ</a></li>
-		<li><a href="/">Dự án căn hộ cao cấp</a></li>
-		<li class="active"><%= @project.display_id %></li>
-	</ol>
+<section class="cover-content">
+	<article id="cover_image" class="cover-image" style="background-image: url('<%= @project.images.present? ? @project.images[0].image.url : '/assets/background/background-1.jpg' %>');"></article>
+	<article id="cover_content" class="content">
+		<% if @project.full_logo.present? || @project.logo.present? %>
+			<article class="logo">
+				<img src="<%= @project.full_logo.present? ? @project.full_logo.url(:medium) : @project.logo.url(:medium) %>">
+			</article>
+		<% end %>
+	</article>
 </section>
-<!-- end navigator -->
 
-<section id="project_info" data-value="<%= @project.id %>">
 
-	<!-- #start image infos -->
-	<section class="block container highlight">
-		<article class="block-title">
-			<a>			
-				<span><%= @project.project_name %></span>			
-			</a>
-		</article>
-		<article class="block-content block-content-empty">
-			<section class="image-info">
-				<div class="main-image">
-					<%= project_avatar @project, style: 'slide', attribute: "data-src=#{@project.images.count > 0 ? @project.images[0].image.url : '/assets/projects/original/default.png'}", open_gallery: true %>
-				</div>
-				<% if @project.images.count > 1 %>
-					<div class="other-image">
-						<ul>
-							<% @project.images.drop(1).each do |p_image| %>
-								<li>
-									<img aria-gallery="project" data-value="<%= @project.id %>" data-id="<%= p_image.id %>" src="<%= p_image.image.url('thumb') %>" class="img-thumbnail">
-								</li>
+<div class="row no-horizontal-padding">
+
+	<!-- Side bar -->
+
+		<div class="hidden-xs hidden-sm col-md-3 col-lg-3">
+		</div>
+
+		<section id="side_bar" class="side-bar hidden-xs hidden-sm col-md-3 col-lg-3">
+
+			<section class="cover-image-container">
+				<section class="cover-image" style="background-image: url('<%= @project.cover_image.present? ? @project.cover_image.url : '/assets/background/background-1.jpg' %>');"></section>
+			</section>
+
+			<section class="content">
+				<section class="project-name">
+					<h2>
+						<%= @project.project_name %>
+					</h2>
+				</section>
+				<% if @project.logo.present? %>
+					<section class="logo">
+						<img src="<%= @project.logo.url(:medium) %>" />
+					</section>
+				<% end %>
+				<nav class="navigator">
+					<ul>
+						<li>
+							<a aria-name="description" href="#">Giới thiệu</a>
+						</li>
+						<% if @project.create_step != 0 %>
+							<li>
+								<a aria-name="ground" href="#">Thông tin dự án</a>
+							</li>
+						<% end %>
+						<li>
+							<a aria-name="position" href="#">Vị trí</a>
+						</li>
+						<% if @project.create_step != 0 %>
+							<li>
+								<a aria-name="utilities" href="#">Tiện ích - Tính năng</a>
+							</li>
+						<% end %>
+						<li>
+							<a aria-name="payment_method" href="#">Phương thức thanh toán</a>
+						</li>
+						<% if @project.create_step != 0 %>
+							<li>
+								<a aria-name="products" href="#">Sản phẩm <small style="color: inherit;">&amp;</small> Mặt bằng tổng thể</a>
+							</li>
+						<% end %>
+						<!-- <li>
+							<a aria-name="progress" href="#">Tiến độ</a>
+						</li>
+						<li>
+							<a aria-name="investor" href="#">Chủ đầu tư</a>
+						</li> -->
+						<li>
+							<a aria-name="contact" href="#">Liên hệ</a>
+						</li>
+						<% if @project.create_step != 0 %>
+							<li class="register">
+								<a aria-name="register" href="#">Đăng ký sản phẩm</a>
+							</li>
+						<% end %>
+					</ul>
+				</nav>
+			</section>
+		
+		</section>
+			
+	<!-- / Side bar -->
+
+	<!-- Content -->
+
+		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+	
+			<section id="content_panel" class="content-panel">
+
+				<!-- Description -->
+
+					<article class="box" aria-name="description">
+						<section class="box-header">
+							<h2 class="box-title">
+								Giới thiệu
+							</h2>
+						</section>
+						<section class="box-body">
+							<p>
+								<%= @project.display_description %>
+							</p>
+						</section>
+					</article>
+
+				<!-- / Description -->
+					
+				<!-- Ground -->
+
+					<% if @project.create_step != 0 %>
+						<article class="box box-transparent" aria-name="ground">
+							<section class="box-header">
+								<h2 class="box-title">
+									Thông tin dự án
+								</h2>
+							</section>
+							<section class="box-body">
+								<article id="ground_interact" class="ground-description interact-image">
+									<section class="image-panel">
+										<svg>
+											<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+											<g>
+												<g aria-object="g">
+												</g>
+											</g>
+										</svg>
+										<article class="back-button button-in-panel">
+											<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
+										</article>
+										<section aria-object="info-panel-interact" class="info-panel">
+											<article class="content">
+												
+											</article>
+										</section>
+									</section>
+									<section class="images-list">
+										<ul aria-object="image-list">
+										</ul>
+									</section>
+								</article>
+							</section>
+						</article>
+					<% end %>
+
+				<!-- / Ground -->
+
+				<!-- Position -->
+				
+					<article class="box" aria-name="position">
+						<section class="box-header">
+							<h2 class="box-title">
+								Vị trí
+							</h2>
+						</section>
+						<section class="box-body">
+							<p class="address" style="font-size: 15px;">
+								<span class="name">
+									<span class="fa fa-map-marker fa-lg margin-right-5"></span>Địa chỉ
+								</span>
+								<span class="value">
+									<%= @project.display_address %>
+								</span>
+							</p>
+							<article id="map" style="height: 50vh; margin: 0 -20px" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>"></article>
+							<% if @project.display_position_description.present? %>
+								<article style="margin-top: 15px">
+									<%= @project.display_position_description %>
+								</article>
 							<% end %>
-						</ul>
+						</section>
+					</article>
+				
+				<!-- / Position -->
+					
+				<!-- Utilities -->
+					
+					<% if @project.create_step != 0 %>
+						<article class="box box-transparent" aria-name="utilities">
+							<section class="box-header">
+								<h2 class="box-title">
+									Tiện ích - Tính năng
+								</h2>
+							</section>
+							<section class="box-body">
+								<article class="utilities row no-horizontal-padding">
+									<section class="list-panel col-xs-12 col-md-4 col-lg-3">
+										<article class="list">
+											<% @project.utilities.each do |utility| %>
+												<%
+													images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
+												%>
+												<article class="item" data-images="<%= images %>" data-color="#4A525D">
+													<article class="arrow" style="border-right-color: #4A525D"></article>
+													<article class="content">
+														<section class="icon">
+														</section>
+														<h3 class="title">
+															<%= utility.title %>
+														</h3>
+														<section class="description hidden-md hidden-lg">
+															<%= utility.display_description %>
+														</section>
+														<% if utility.images.count > 0 %>
+															<section class="image hidden-md hidden-lg">
+																<img src="<%= utility.images[0].image.url %>">
+															</section>
+														<% end %>
+													</article>
+												</article>
+											<% end %>
+											<% @project.region_utilities.each do |utility| %>
+												<%
+													images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
+												%>
+												<article class="item" data-images="<%= images %>" data-color="#4A525D">
+													<article class="arrow" style="border-right-color: #4A525D"></article>
+													<article class="content">
+														<section class="icon">
+														</section>
+														<h3 class="title">
+															<%= utility.title %>
+														</h3>
+														<section class="description hidden-md hidden-lg">
+															<%= utility.display_description %>
+														</section>
+														<% if utility.images.count > 0 %>
+															<section class="image hidden-md hidden-lg">
+																<img src="<%= utility.images[0].image.url %>">
+															</section>
+														<% end %>
+													</article>
+												</article>
+											<% end %>
+										</article>
+									</section>
+									<section class="image-panel hidden-xs hidden-sm col-xs-12 col-md-8 col-lg-9">
+										<section class="image">
+											<img src="#">
+											<section class="images-list">
+												<ul class="image-list">
+												</ul>
+											</section>
+										</section>
+										<section class="description">
+										</section>
+									</section>
+								</article>
+							</section>
+						</article>
+					<% end %>
+				
+				<!-- / Utilities -->
+
+				<!-- Payment method -->
+				
+					<article class="box" aria-name="payment_method">
+						<section class="box-header">
+							<h2 class="box-title">
+								Phương thức thanh toán
+							</h2>
+						</section>
+						<section class="box-body payment_method">
+							<section class="description">
+								<%= @project.display_payment_method %>
+							</section>
+							<% if @project.payment_attachments.present? %>
+								<section class="attachments">
+									<h3 class="title">Tập tin đính kèm</h3>
+									<% @project.payment_attachments.each do |attachment| %>
+										<article class="item">
+											<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
+										</article>
+									<% end %>
+								</section>
+							<% end %>
+						</section>
+					</article>
+				
+				<!-- / Payment method -->
+				
+				<!-- Products -->
+				
+					<% if @project.create_step != 0 %>
+						<article class="box box-transparent" aria-name="products">
+							<section class="box-header">
+								<h2 class="box-title">
+									Sản phẩm <small style="color: inherit;">&amp;</small> mặt bằng tổng thể
+								</h2>
+							</section>
+							<section  class="box-body" id="products_container">
+
+								<%
+									# Get all real-estate type in project
+									# If types > 1 => Using tab else not
+									types = []
+									groups_by_type = {}
+									# Get all types & store groups of type
+										@project.blocks.each do |block|
+											block.real_estate_groups.each do |group|
+												# If not exist create new and 
+												unless types.include? group.real_estate_type_id
+													types << group.real_estate_type_id
+													groups_by_type[group.real_estate_type_id] = []
+												end
+
+												# Add group to
+												groups_by_type[group.real_estate_type_id] << group
+											end
+										end
+									# / Get all types & store groups of type
+									types = RealEstateType.find(types)
+								%>
+								
+								<% if types.count > 1 %>
+									<article class="free-style-tab-container">
+										<section class="tab-list horizontal-list-container text-left">
+											<ul class="horizontal-list">
+
+												<!-- Show all types -->
+												
+													<% types.each do |type| %>
+
+														<li class="horizontal-item" aria-name="<%= type.name %>">
+															<a href="javascript:void(0)" aria-click="change_tab"><%= t "real_estate_type.text.#{type.name}" %></a>
+														</li>
+
+													<% end %>
+												
+												<!-- / Show all types -->
+
+											</ul>
+										</section>
+										<section class="tab-content-list re-group-list">
+
+											<!-- Show all real-estate of each type -->
+										
+												<% types.each do |type| %>
+
+													<article class="tab-content row" aria-name="<%= type.name %>">
+
+														<% groups_by_type[type.id].each do |group| %>
+
+															<%
+																available_count = 0
+																count = 0
+																group.real_estates.each do |re|
+																	available_count += re.available_in_floors.count
+																	count += re.in_floors.count
+																end
+															%>
+
+															<article class="col-xs-12 col-sm-4 item-container" data-value="<%= group.id %>">
+																<article class="item">
+																	<section class="image">
+																		<%= block_real_estate_group_avatar group %>
+																	</section>
+																	<section class="content">
+																		<h3 class="title"><%= group.display_name %></h3>
+																		<section class="properties">
+																			<% if group.bedroom_number.present? %>
+																				<section class="node">
+																					<span class="text">Phòng ngủ</span><span class="value"><%= group.bedroom_number %></span>
+																				</section>
+																			<% end %>
+																			<% if group.restroom_number.present? %>
+																				<section class="node">
+																					<span class="text">Phòng vệ sinh</span><span class="value"><%= group.restroom_number %></span>
+																				</section>
+																			<% end %>
+																			<% if group.area.present? %>
+																				<section class="node">
+																					<span class="text">Diện tích</span><span class="value"><%= display_decimal group.area %>m<sup>2</sup></span>
+																				</section>
+																			<% end %>
+																		</section>
+																	</section>
+																	<section class="footer">
+																		Còn <b><%= available_count %>/<%= count %></b>
+																	</section>
+																</article>
+															</article>
+
+														<% end %>
+
+													</article>
+
+												<% end %>
+										
+											<!-- / Show all real-estate of each type -->
+
+										</section>
+									</article>
+								<% else %>
+									<section class="re-group-list">
+										<div class="row">
+											<%
+												groups = groups_by_type[groups_by_type.keys[0]]
+											%>
+											<% groups.each do |group| %>
+												<%
+
+													available_count = 0
+													count = 0
+													group.real_estates.each do |re|
+														available_count += re.available_in_floors.count
+														count += re.in_floors.count
+													end
+												%>
+
+												<article class="col-xs-12 col-sm-4 item-container" data-value="<%= group.id %>">
+													<article class="item">
+														<section class="image">
+															<%= block_real_estate_group_avatar group %>
+														</section>
+														<section class="content">
+															<h3 class="title"><%= group.display_name %></h3>
+															<section class="properties">
+																<% if group.bedroom_number.present? %>
+																	<section class="node">
+																		<span class="text">Phòng ngủ</span><span class="value"><%= group.bedroom_number %></span>
+																	</section>
+																<% end %>
+																<% if group.restroom_number.present? %>
+																	<section class="node">
+																		<span class="text">Phòng vệ sinh</span><span class="value"><%= group.restroom_number %></span>
+																	</section>
+																<% end %>
+																<% if group.area.present? %>
+																	<section class="node">
+																		<span class="text">Diện tích</span><span class="value"><%= display_decimal group.area %>m<sup>2</sup></span>
+																	</section>
+																<% end %>
+															</section>
+														</section>
+														<section class="footer">
+															Còn <b><%= available_count %>/<%= count %></b>
+														</section>
+													</article>
+												</article>
+											<% end %>
+										</div>
+									</section>
+								<% end %>
+							</section>
+							<article id="product_interact" class="col-xs-12" style="display: none">
+								<article class="product-description interact-image">
+									<section class="arrow"></section>
+									<section class="navigator">
+										<ul>
+											<li aria-name="project" class="active">
+												<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
+											</li>
+											<li aria-name="block">
+												<a aria-click="interact" data-type="block">Xem block</a>
+											</li>
+											<li aria-name="floor">
+												<a aria-click="interact" data-type="blocks/floor">Xem sàn</a>
+											</li>
+											<li aria-name="group">
+												<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
+											</li>
+											<li aria-name="real_estate">
+												<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>
+											</li>
+											<li aria-name="position">
+												<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
+											</li>
+										</ul>
+									</section>
+									<section class="image-panel">
+										<svg>
+											<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+											<g>
+												<g aria-object="g">
+												</g>
+											</g>
+										</svg>
+										<article class="back-button button-in-panel">
+											<a class="fa fa-arrow-left fa-fw fa-lg" title="Quay lại" aria-click="back_to_prev"></a>
+										</article>
+										<section aria-object="info-panel-interact" class="info-panel">
+											<article class="content">
+												
+											</article>
+										</section>
+									</section>
+									<section class="images-list">
+										<ul aria-object="image-list">
+										</ul>
+									</section>
+								</article>
+							</article>
+						</article>
+					<% end %>
+				
+				<!-- / Products -->
+
+				<!-- Progress -->
+				
+					<!-- <article class="box" aria-name="progress">
+						<section class="box-header">
+							<h2 class="box-title">
+								Tiến độ
+							</h2>
+						</section>
+						<section class="box-body">
+						</section>
+					</article> -->
+				
+				<!-- / Progress -->
+
+				<!-- Investor -->
+					
+					<!-- <article class="box" aria-name="investor">
+						<section class="box-header">
+							<h2 class="box-title">
+								Chủ đầu tư
+							</h2>
+						</section>
+						<section class="box-body">
+						</section>
+					</article> -->
+
+				<!-- / Investor -->
+
+				<!-- Register -->
+					
+					<% if @project.create_step != 0 %>
+						<article class="box box-transparent" aria-name="register">
+							<section class="box-header">
+								<h2 class="box-title">
+									Đăng ký sản phẩm
+								</h2>
+							</section>
+							<section class="box-body">
+								<article id="register_interact" class="register-description interact-image">
+									<section class="navigator">
+										<ul>
+											<li aria-name="project" class="hidden">
+												<a aria-click="interact" data-type="project" data-value="<%= @project.id %>"><%= @project.project_name %></a>
+											</li>
+											<li aria-name="block">
+												<a aria-click="interact" data-type="block">Xem block</a>
+											</li>
+											<li aria-name="floor">
+												<a aria-click="interact" data-type="blocks/floor">Xem sàn</a>
+											</li>
+											<li aria-name="group">
+												<a aria-click="interact" data-type="real_estates/group">Xem nhóm</a>
+											</li>
+											<li aria-name="real_estate">
+												<a aria-click="interact" data-type="real_estate">Xem sản phẩm</a>
+											</li>
+											<li aria-name="position">
+												<a aria-click="interact" data-type="real_estates/floor">Xem vị trí</a>
+											</li>
+										</ul>
+										<section class="callout-text">
+											HOẶC
+										</section>
+										<section class="search-by-label">
+											<form class="form" id="project_search_form">
+												<input name="keyword" data-constraint="required" class="form-control" placeholder="Hãy nhập mã" />
+											</form>
+										</section>
+									</section>
+									<section class="image-panel hidden">
+										<svg>
+											<pattern aria-object="pattern-image" patternunits="userSpaceOnUse"><image></image></pattern>
+											<g>
+												<g aria-object="g">
+												</g>
+											</g>
+										</svg>
+										<section aria-object="info-panel-interact" class="info-panel">
+											<article class="content">
+												
+											</article>
+										</section>
+									</section>
+									<section class="images-list hidden">
+										<ul aria-object="image-list">
+										</ul>
+									</section>
+								</article>
+							</section>
+						</article>
+					<% end %>
+
+				<!-- / Register -->
+
+				<!-- Contact -->
+
+					<%
+						register_info = nil
+						if signed?
+							register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'project', object_id: @project.id).first
+						else
+							if left_contact?
+								register_info = ContactRequest.where(user_type: 'contact_user', user_id: current_left_contact.id, request_type: 'register', object_type: 'project', object_id: @project.id).first
+							end
+						end
+
+						if register_info.blank?
+							register_info = ContactRequest.new request_type: 'register', object_type: 'project', object_id: @project.id
+						end
+					%>
+					<article class="box box-transparent" aria-name="contact">
+						<section class="box-header">
+							<h2 class="box-title">
+								Liên hệ
+							</h2>
+						</section>
+						<section class="box-body">
+							<form id="contact_form" class="form" 
+								data-request_info="<%= register_info.to_json only: [:id, :request_type, :object_type, :object_id, :message] %>" 
+								<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :email, :phone_number]}'".html_safe unless signed? %>
+							>
+								<article class="callout">
+									Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+								</article>
+								<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
+								<input type="hidden" name="request[request_type]" value="" />
+								<input type="hidden" name="request[object_type]" value="" />
+								<input type="hidden" name="request[object_id]" value="" />
+								<article class="form-group">
+									<textarea class="form-control" placeholder="Lời nhắn" name="request[message]"></textarea>
+								</article>
+								<% unless signed? %>
+									<% if left_contact? %>
+										<div class="row" data-toggled-element="default-contact">
+											<input type="hidden" name="contact[id]" value="" />
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-nonvalid class="form-control" name="contact[default_email]" value="" readonly="true" tabindex="-1" />
+											</article>
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-nonvalid class="form-control" name="contact[default_phone_number]" value="" readonly="true" tabindex="-1" />
+											</article>
+											<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+												<div class="radio margin-0">
+													<label>
+														<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+														<a style="color: inherit;">Không phải tôi</a>
+													</label>
+												</div>
+											</article>
+										</div>
+										<div class="row off" data-toggled-element="new-contact">
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+											</article>
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+											</article>
+											<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+												<div class="radio margin-0">
+													<label>
+														<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+														<a style="color: inherit;">Quay lại</a>
+													</label>
+												</div>
+											</article>
+										</div>
+									<% else %>
+										<div class="row">
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+											</article>
+											<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+												<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+											</article>
+										</div>
+									<% end %>
+								<% end %>
+								<article class="form-group text-center">
+									<button class="btn" style="padding-left: 25px; padding-right: 25px">
+										Gửi
+									</button>
+								</article>
+							</form>
+						</section>
+					</article>
+				
+				<!-- / Contact -->
+								
+			</section>
+			
+		</div>
+	
+	<!-- / Content -->
+
+</div>
+
+<article class="box" aria-popupcontent="project_register">
+	<section class="box-header">
+		<span class="box-title">
+			Đăng ký sản phẩm
+		</span>
+	</section>
+	<section class="box-body">
+		<form class="form">
+			<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
+			<input type="hidden" name="request[request_type]" value="" />
+			<input type="hidden" name="request[object_type]" value="" />
+			<input type="hidden" name="request[object_id]" value="" />
+			<article class="callout">
+				Hãy để lại lời nhắn của bạn, chúng tôi sẽ phục vụ bạn trong thời gian sớm nhất.
+			</article>
+			<article class="form-group">
+				<label class="control-label">
+					Lời nhắn
+				</label>
+				<textarea class="form-control" name="request[message]" placeholder="Bạn đang có yêu cầu gì?"></textarea>
+			</article>
+			<% unless signed? %>
+				<% if left_contact? %>
+					<div class="row" data-toggled-element="default-contact">
+						<input type="hidden" name="contact[id]" value="" />
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-nonvalid class="form-control" name="contact[default_email]" value="" readonly="true" tabindex="-1" />
+						</article>
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-nonvalid class="form-control" name="contact[default_phone_number]" value="" readonly="true" tabindex="-1" />
+						</article>
+						<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+							<div class="radio margin-0">
+								<label>
+									<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+									<a style="color: inherit;">Không phải tôi</a>
+								</label>
+							</div>
+						</article>
+					</div>
+					<div class="row off" data-toggled-element="new-contact">
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+						</article>
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+						</article>
+						<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+							<div class="radio margin-0">
+								<label>
+									<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+									<a style="color: inherit;">Quay lại</a>
+								</label>
+							</div>
+						</article>
+					</div>
+				<% else %>
+					<div class="row">
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+						</article>
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+						</article>
 					</div>
 				<% end %>
-			</section>
-		</article>
-	</section>
-	<!-- #end image infos -->
-
-	<!-- #start standard-info -->
-	<section class="standard-info container">
-		<div class="row">
-			<div class="col-sm-4 col-sm-push-8" style="text-align: center;">
-				<div class="price" id="price_box">
-					<div>
-						<!-- Nav tabs -->
-						<ul class="nav nav-tabs price-tab" role="tablist">
-							<li role="SalePrice" class="active"><a href="#price-sale" aria-controls="price-sale" role="tab" data-toggle="tab">Giá bán</a></li>
-						</ul>
-
-						<!-- Tab panes -->
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane fade in active" id="price-sale">
-								<p style="margin: 5px 0;">
-									Giá rao: 
-									<span style="color: #ff6511; font-size: 18px;"><%= @project.display_unit_price %>
-									</span>
-									<!-- <select>
-										<option>VNĐ</option>
-										<option>USD</option>
-										<option>SJC</option>
-									</select>/ <%= t 'unit.text.' + @project.price_unit.name %> -->
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="function">
-					<button aria-click="favorite" class="btn-icon-top btn-favor">
-						<i class="icon-favor <%= 'active' if @project.is_current_user_favorite %>"></i>
-						<span>Yêu thích</span>
-					</button>
-					<button data-popup="coming-soon" class="btn-icon-top">
-						<i class="icon-buy"></i>
-						<span>Đăng ký mua</span>
-					</button>
-				</div>
-			</div>
-			<div class="col-sm-8 col-sm-pull-4">
-				<ul class="detail">				
-					<li>
-						<button class="btn btn-primary">Xem các Bất động sản thuộc dự án</button>
-					</li>
-					<li>
-						<i class="icon icon-facebook"></i>
-						<i class="icon icon-googleplus"></i>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</section>
-	<!-- #end standard-info -->
-
-	<!-- start info-project -->
-	<section class="info-project line-block container">
-		<article class="title">
-			<span>Thông tin dự án</span>
-		</article>
-		<article class="content">
-			<ul style="text-align: left">
-				<li>
-					<i class="fa fa-circle"></i>
-					<span>Địa chỉ: <b><%= @project.display_address %></b></span>
-				</li>
-			</ul>
-
-			<div class="row">
-				<div class="col-sm-6">
-					<ul style="text-align: left">
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.project_type' %>: <b><%= t 'project_type.text.' + @project.project_type.name %></b></span>
-						</li>
-						<li>
-							<i class="fa fa-circle"></i>
-							<span><%= t 'project.attribute.campus_area' %>: <b><%= @project.campus_area %>m<sup>2</sup></b></span>
-						</li>
-						<% if @project.using_ratio.present? && @project.using_ratio != 0 %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.using_ratio' %>: <b><%= @project.using_ratio %>%</b></span>
-							</li>
-						<% end %>
-						<% if @project.investor.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.investor' %>: <b><%= @project.investor.name %></b></span>
-							</li>
-						<% end %>
-					</ul>
-				</div>
-				<div class="col-sm-6">
-					<ul style="text-align: left">
-						<% if @project.estimate_starting_date.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.estimate_starting_date' %>: <b><%= @project.get_string_date @project.estimate_starting_date %></b></span>
-							</li>
-						<% end %>
-						<% if @project.estimate_finishing_date.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.estimate_finishing_date' %>: <b><%= @project.get_string_date @project.estimate_finishing_date %></b></span>
-							</li>
-						<% end %>
-						<% if @project.starting_date.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.starting_date' %>: <b><%= @project.get_string_date @project.starting_date %></b></span>
-							</li>
-						<% end %>
-						<% if @project.finished_base_date.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.finished_base_date' %>: <b><%= @project.get_string_date @project.finished_base_date %></b></span>
-							</li>
-						<% end %>
-						<% if @project.transfer_date.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.transfer_date' %>: <b><%= @project.get_string_date @project.transfer_date %></b></span>
-							</li>
-						<% end %>
-						<% if @project.docs_issue_date.present? %>
-							<li>
-								<i class="fa fa-circle"></i>
-								<span><%= t 'project.attribute.docs_issue_date' %>: <b><%= @project.get_string_date @project.docs_issue_date %></b></span>
-							</li>
-						<% end %>
-					</ul>
-				</div>
-			</div>
-		</article>
-	</section>
-	<!-- end -->
-
-	<!-- start describe -->
-	<section class="description line-block container">
-		<article class="title">
-			<span>Mô tả</span>
-		</article>
-		<article class="content">
-			<div class="title">
-				<h5><%= @project.project_name %></h5>
-			</div>
-			<div class="details"><%= @project.description.html_safe %></div>
-			<% if @project.payment_method.present? %>
-				<hr />
-				<div class="details"><%= @project.payment_method.html_safe %></div>
 			<% end %>
-		</article>
+			<article class="form-group text-right">
+				<button class="btn btn-green">
+					Đăng ký
+				</button>
+				<button type="button" aria-click="close-popup" class="btn">
+					Hủy
+				</button>
+			</article>
+		</form>
 	</section>
-	<!-- end -->
-
-	<!-- start convenient -->
-	<!-- <section class="convenient line-block container">
-		<article class="title">
-			<span>Tiện nghi</span>
-		</article>
-		<article class="content">
-			<div class="row">
-				<div class="col-sm-4 item">
-					<i class="fa fa-check"></i>
-					<span>Gần trung tâm mua sắm</span>
-				</div>
-				<div class="col-sm-4 item">
-					<i class="fa fa-check"></i>
-					<span>Gần bệnh viện</span>
-				</div>
-				<div class="col-sm-4 item">
-					<i class="fa fa-check"></i>
-					<span>Gần coop mart</span>
-				</div>
-			</div>
-		</article>
-	</section> -->
-	<!-- end -->
-
-	<!-- start utility -->
-	<!-- <section class="utility line-block container">
-		<article class="title">
-			<span>Tiện ích khu vực</span>
-		</article>
-		<article class="content">
-			<div class="row">
-				<div class="col-sm-4 item">
-					<i class="fa fa-check"></i>
-					<span>Gần trung tâm mua sắm</span>
-				</div>
-				<div class="col-sm-4 item">
-					<i class="fa fa-check"></i>
-					<span>Gần bệnh viện</span>
-				</div>
-				<div class="col-sm-4 item">
-					<i class="fa fa-check"></i>
-					<span>Gần coop mart</span>
-				</div>
-			</div>
-		</article>
-	</section> -->
-	<!-- end -->
-
-	<!-- start map -->
-	<section class="line-block map container">
-		<article class="title">
-			<span>Vị trí trên bản đồ</span>
-		</article>
-	  <article class="content map">
-	  	<div id="map" tabindex="0" style="outline: 0;" data-lat="<%= @project.lat %>" data-long="<%= @project.long %>">
-	  		
-	  	</div>
-	  </article>
-	</section>
-	<!-- end -->
-
-	<!-- start contact -->
-	<section class="line-block contact container">
-		<article class="title">
-			<span>Thông tin liên lạc</span>
-		</article>
-		<article class="content information" style="padding: 0;">
-			<div class="user-info row">
-				<div class="col-xs-4 col-sm-2 avatar">
-					<%= user_avatar @project.user, style: 'big' %>
-					<span><%= @project.user.full_name %></span>
-				</div>
-				<div class="col-xs-8 col-sm-10">
-					<ul class="info">
-						<% if @project.user.phone_number.present? %>
-							<li>
-								<i class="icon-phone"></i>
-								<span><%= @project.user.phone_number %></span>
-							</li>
-						<% end %>
-						<% if @project.user.email.present? %>
-						<li>
-							<i class="icon-mail"></i>
-							<span><%= @project.user.email %></span>
-						</li>
-						<% end %>
-						<% if @project.user.address.present? %>
-						<li>
-							<i class="icon-address"></i>
-							<span><%= @project.user.address %></span>
-						</li>
-						<% end %>
-						<li>
-							<button class="btn btn-default btn-sm">Xem thêm BĐS khác</button>
-						</li>
-					</ul>
-					<div class="btn-contact">
-						
-					</div>
-				</div>
-			</div>
-			<div class="request-box">
-				<form>
-					<div class="form-group">
-						<textarea class="form-control" placeholder="Điền thông tin bạn cần yêu cầu"></textarea>
-						<button type="submit" class="btn btn-sm btn-primary">Gửi yêu cầu</button>
-					</div>
-				</form>
-			</div>
-		</article>
-	</section>
-	<!-- end -->
-
-</section>
-
-<!-- start other project -->
-<section class="container other-project block">
-	<article class="title">
-		<a class="link" href="#">
-			<i class="fa fa-link"></i>
-			<span>Gợi ý cho bạn</span>
-		</a>
-	</article>
-	<article class="content">
-		<% 
-			per = get_value_by_width_type [1, 2, 3, 4] 
-		%>
-		<div aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" id="suggest_property">
-			<% 
-				projects = Project.search_with_params
-			%>
-			<div class="row">
-				<%= render partial: 'projects/item_list', locals: { projects: projects.take(per) } %>
-			</div>
-			<div class="paging">
-				<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
-			</div>
-		</div>
-	</article>
-</section>
-<!-- end other project -->
+</article>
