@@ -260,6 +260,10 @@
 						color: #fff;
 					}
 
+					.infos-container .info-item:hover .name .ico-info {
+						color: #00D976;
+					}
+
 				.infos-container .info-item .value {
 					font-size: 15px;
 				}
