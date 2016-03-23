@@ -4,24 +4,40 @@
 		res
 		type (1)
 			1: medium list
+			2: large list
+				Force: has_container: true
 		has_container (true)
 			whether include container
 =end
+
+	return if res.blank?
 	
 	type ||= 1
 	type = type.to_i
 
+	if (type == 2)
+		has_container = true
+	end
+
 	unless defined? has_container
 		has_container = true
+	end
+
+	unless defined? list_id
+		list_id = ''
 	end
 %>
 
 <% if has_container %>
 	<% case type %>
 	<% when 1 %>
-		<article class="medium-items-list">
+		<article id="<%= list_id %>" class="medium-items-list">
 			<article class="list">
 				<div class="row">
+	<% when 2 %>
+		<section id="<%= list_id %>" class="large-items-list">
+			<section class="list-container">
+				<article class="list">
 	<% end %>
 <% end %>
 
@@ -45,6 +61,14 @@
 				<section class="address">
 					<span class="ico-location"></span> <%= re.display_short_address %>
 				</section>
+				<section class="price">
+					<% if re.display_sell_price.present? %>
+						<article class="sell-price-text"><%= re.display_sell_price %></article>
+					<% end %>
+					<% if re.display_rent_price.present? %>
+						<article class="rent-price-text"><%= re.display_rent_price %></article>
+					<% end %>
+				</section>
 				<section class="info">
 					<% if re.fields.include?(:bedroom_number) && re.display_bedroom.present? %>
 						<article>
@@ -65,11 +89,231 @@
 			</article>
 		</div>
 	<% end %>
+<% when 2 %>
+	<!--
+	<% res.each do |re| %>
+		--><article class="item" data-value="<%= re.id %>">
+			<div class="container no-horizontal-padding">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+						<section class="images-container hidden-xs hidden-sm">
+							<section class="image">
+								<img src="<%= re.images[0].image.url :slide if re.images.present? %>">
+							</section>
+							<% if re.images.count > 1 %>
+								<article class="circle-paging white-circle-paging">
+									<% re.images.each_with_index do |re_image, index| %>
+										<%
+											data = {
+												original: re_image.image.url,
+												slide: re_image.image.url(:slide)
+											}
+										%>
+										<a class="<%= 'active' if index == 0 %>" data-data="<%= data.to_json %>">
+											<span></span>
+										</a>
+									<% end %>
+								</article>
+							<% end %>
+						</section>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 info-container-background" style="<%= "background-image: url('#{re.images[0].image.url}')".html_safe if re.images.present? %>">
+						<section class="infos-container">
+							<article class="content">
+								<section class="title">
+									<h2>
+										<%= re.title %>
+									</h2>						
+								</section>
+								<section>
+									<% if re.fields.include? :sell_price %>
+										<section class="price sell-price-text">
+											<%= re.display_sell_price %>
+										</section>
+									<% end %>
+									<% if re.fields.include? :rent_price %>
+										<section class="price rent-price-text">
+											<%= re.display_rent_price %>
+										</section>
+									<% end %>
+								</section>
+								<section class="infos">
+									<div class="row no-horizontal-padding">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<section class="info-item">
+												<section class="icon">
+													<span class="ico-location"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Địa chỉ
+													</section>
+													<section class="value">
+														<%= re.display_address %>
+													</section>
+												</section>
+											</section>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-hash"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Mã
+													</section>
+													<section class="value">
+														<%= re.display_id %>
+													</section>
+												</section>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-clock"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Thời gian đăng
+													</section>
+													<section class="value" aria-time="<%= re.created_at %>">
+													</section>
+												</section>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-home"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Loại
+													</section>
+													<section class="value">
+														<%= re.display_real_estate_type %>
+													</section>
+												</section>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-area"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Diện tích
+													</section>
+													<section class="value">
+														<%= re.display_area %><span class="unit">m<sup>2</sup></span>
+													</section>
+												</section>
+											</article>
+										</div>
+										<% if re.fields.include? :bedroom_number %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-bedroom"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Phòng ngủ
+														</section>
+														<section class="value">
+															<%= re.display_bedroom %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+										<% if re.fields.include? :restroom_number %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-restroom"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Phòng tắm
+														</section>
+														<section class="value">
+															<%= re.display_restroom %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+										<% if re.fields.include? :direction %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-compass"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Hướng
+														</section>
+														<section class="value">
+															<%= re.display_direction %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+										<% if re.fields.include? :legal_record_type %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-newspaper"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Giấy tờ
+														</section>
+														<section class="value">
+															<%= re.display_legal_record_type %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+									</div>
+								</section>
+							</article>
+						</section>
+						<section class="buttons-container">
+							<a href="/bat-dong-san/<%= re.id %>" class="btn btn-orange">
+								Xem chi tiết
+							</a>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article><!--
+	<% end %>
+	-->
 <% end %>
 
 
 <% if has_container %>
-			</div>
+	<% case type %>
+	<% when 1 %>
+				</div>
+			</article>
 		</article>
-	</article>
+	<% when 2 %>
+			</article>
+		</section>
+		<% if res.count > 1 %>
+			<section class="circle-paging">
+				<% res.each_with_index do |re, index| %>
+					<a data-value="<%= re.id %>" class="<%= 'active' if index == 0 %>"><span></span></a>
+				<% end %>
+			</section>
+		<% end %>
+	<% end %>
 <% end %>

@@ -1,22 +1,33 @@
 class RealEstateType < ActiveRecord::Base
 
-  def options_hash
-    @options_hash
-  end
-  def options_hash= options_hash
-    @options_hash = options_hash
-  end
+	default_scope { order('"order" asc') }
 
-  after_find do |this|
-    begin
-      this.options_hash = JSON.parse(this.options)
-    rescue
+	def options_hash
+		@options_hash
+	end
+	def options_hash= options_hash
+		@options_hash = options_hash
+	end
 
-    end
-  end
+	after_find do |this|
+		begin
+			this.options_hash = JSON.parse(this.options)
+		rescue
 
-  def self.get_options
-    order order: 'ASC'
-  end
+		end
+	end
+
+	def self.get_options
+		order order: 'ASC'
+	end
+
+	# Attributes
+		
+		# Name
+		def display_name
+			@display_name ||= I18n.t("real_estate_type.text.#{name}")
+		end
+	
+	# / Attributes
 
 end

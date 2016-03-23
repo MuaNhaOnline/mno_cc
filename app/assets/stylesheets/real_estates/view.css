@@ -25,41 +25,16 @@
 				width: 100%;
 			}
 
-		.images-container .images-list {
+		.images-container .circle-paging {
 			position: absolute;
-			bottom: 5px;
+			bottom: 0;
 			left: 0;
 			width: 100%;
-			cursor: default;
 		}
 
-			.images-container .images-list .list {
-				text-align: center;
+			.images-container .circle-paging span:before {
+				background-color: #fff;
 			}
-
-			.images-container .images-list .item {
-				display: inline-block;
-			}
-
-			.images-container .images-list span {
-				padding: 4px;
-				display: block;
-			}
-
-				.images-container .images-list span:before {
-					content: '';
-					display: block;
-					width: 12px;
-					height: 12px;
-					border-radius: 50%;
-					background-color: #fff;
-					transition: .3s;
-				}
-
-				.images-container .images-list .item.active span:before,
-				.images-container .images-list .item span:hover:before {
-					background-color: #369836;
-				}
 
 /* / Images */
 
@@ -106,17 +81,17 @@
 
 		.infos-container .price {
 			font-size: 17px;
-			color: #FFD460;
-			margin-bottom: 10px;
 			font-weight: bold;
 		}
 
-			.infos-container .price.sell-price {
-
+			.infos-container .sell-price-text {
+				color: #FFD460;
+				margin-bottom: 10px;
 			}
 
-			.infos-container .price.rent-price {
+			.infos-container .rent-price-text {
 				color: #2DCEFC;
+				margin-bottom: 10px;
 			}
 
 		.infos-container .infos > .row > *:nth-child(2n+2) {

@@ -1,0 +1,201 @@
+/*start search-box*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 25px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search-box*/
+
+/*start navigator*/
+.navigator {
+	font-size: 86.67%;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+	}
+/*end navigator*/
+
+/*start user-property*/
+.user-property {
+}
+	.user-property .nav a {
+	}
+	/*Tab panes*/
+	.user-property .tab-content > div {
+		padding: 10px;
+	}
+
+		/*start link*/
+		.user-property .tab-content .link {
+			text-align: right;
+		}
+		/*end*/
+
+		/*start paging*/
+		.user-property .tab-content .paging {
+		}
+		/*end*/
+
+	/*end*/
+/*end*/
+
+/*start structure-property*/
+.structure-property {
+}
+	.structure-property .nav a {
+	}
+	/*Tab panes*/
+	.structure-property .tab-content > div {
+		padding: 10px;
+	}
+
+		/*start link*/
+		.structure-property .tab-content .link {
+			text-align: right;
+		}
+		/*end*/
+
+		/*start paging*/
+		.structure-property .tab-content .paging {
+		}
+		/*end*/
+/*end*/
+
+/*start position property*/
+.position-property {
+	
+}	
+	.position-property .title-position {
+		margin-bottom: 10px;
+		color: #333;
+		font-weight: bold;		
+	}
+	.title-position button {
+		padding: 0;
+		font-size: 17px;
+		vertical-align: middle;
+	}		
+		.title-position button:focus,
+		.title-position button:hover {
+			text-decoration: none;
+		}
+	
+	/*start link*/
+	.link {
+		text-align: right;		
+	}
+	/*end*/
+
+	/*start sub-title*/
+	.sub-title {
+
+	}
+		.sub-title span {
+			font-size: 106.67%;
+		}
+		.sub-title .btn-group {
+			vertical-align: -13px;
+		}
+		.sub-title .btn-group a {
+			font-size: 100%;
+		}
+	/*end*/
+
+	/*start dropdown-menu*/
+	.position-property .dropdown-menu {
+		font-size: 100%;
+	}
+		/*.position-property .dropdown-menu li a {
+			display: block;
+			padding: 3px 20px;
+			color: #333;
+		}*/
+	/*end*/
+/*end position property*/
+
+/*start price property*/
+.price-property {
+
+}
+	.price-property .irs {
+		overflow: hidden;
+	}
+/*end*/
+
+/*start propensity-property*/
+.propensity-property {
+}
+	.item-general {
+		position: relative;
+		margin-bottom: 40px;
+		margin-top: 20px;
+	}
+		.item-general .info {
+			position: absolute;
+			left: 10px;
+			top: 40px;
+		}
+			.item-general span {
+				display: block;
+				color: #fff;
+			}
+		.item-general img {
+			width: 100%;
+			border: 5px solid #fff;
+			outline: 1px solid #eee;
+		}
+		.item-general .name {
+			position: absolute;
+			width: 100%;
+			bottom: -30px;
+			text-align: center;
+		}
+			.item-general .name a {
+				display: inline-block;
+				font-size: 16px;
+				font-weight: bold;
+				background-color: #369836;
+				border: 3px solid #fff;
+				outline: 1px solid #eee;
+				padding: 10px 15px;
+				transition: .2s;
+			}		
+				.item-general .name a:hover {
+					background-color: #1B7C1B;
+				}	
+/*end propensity-property*/
+
+/*start contact*/
+.contact {
+	
+}
+	.contact img {
+		width: 100%;
+		max-width: 165px;
+		max-height: 249px;
+	}
+	.contact li {
+		font-size: 13px;
+		color: #666;
+		margin: 5px 0;
+	}
+	.contact textarea {
+		max-width: 263px;
+	}
+	.contact li button {
+		width: 60px;
+		font-size: 86.67%;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-bottom: 3px solid #50922A;
+	}
+		.contact li button:hover {
+			background-color: #50922A;
+			color: #fff;
+		}
+/*end contact*/

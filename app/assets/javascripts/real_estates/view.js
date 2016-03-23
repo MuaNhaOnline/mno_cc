@@ -9,7 +9,7 @@ $(function () {
 			var $img = $('.images-container .image img');
 
 			// Set buttons event
-			$('.images-container .images-list .item').on('click', function () {
+			$('.images-container .images-list a').on('click', function () {
 				$item = $(this);
 
 				// Check if is active => stop
@@ -27,13 +27,13 @@ $(function () {
 			if ($('.images-container .images-list .list').children().length > 1) {
 				// Click to next image event
 				$('.images-container .image').css('cursor', 'pointer').on('click', function () {
-					var $currentItem = $('.images-container .images-list .list .item.active');
+					var $currentItem = $('.images-container .images-list .list a.active');
 
-					if ($currentItem.is(':last-child')) {
-						$('.images-container .images-list .list > :first-child').click();
+					if (!$currentItem.is(':last-child')) {
+						$currentItem.next().click();
 					}
 					else {
-						$currentItem.next().click();
+						$('.images-container .images-list .list > :first-child').click();
 					}
 				});
 			}
@@ -71,6 +71,7 @@ $(function () {
 						}, 200, function () {
 							$more.stop().slideUp(300, function () {
 								$removes.remove();
+								$item.removeClass('active');
 							});
 						});
 					}

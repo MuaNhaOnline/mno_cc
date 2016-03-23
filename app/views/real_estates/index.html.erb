@@ -1,425 +1,61 @@
 <% content_for :stylesheets do %>
 	<link rel="stylesheet" href="/assets/real_estates/index.css" />
-	<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.skinFlat.css" />
-	<link rel="stylesheet" href="/assets/shared/ion.rangeSlider.css" />
-	<link rel="stylesheet" href="/assets/shared/normalize.css" />
 <% end %>
 
-<% content_for :scripts do %>
-	<script src="/assets/shared/ion.rangeSlider.min.js"></script>
-	<script src="/assets/real_estates/index.js"></script>
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/real_estates/index.js"></script>
 <% end %>
 
-<% 
-	@title = 'Bất động sản'
-	per = get_value_by_width_type [1, 2, 3, 4]
+<%
+=begin
+
+=end
+
+	@_title = 'Bất động sản'
+	@_description = "Danh sách bất động sản"
+
+	@_main_navigator = {
+		background: '/assets/shared/main_navigator/main_2.jpeg',
+		list: [
+			{
+				url: '/bat-dong-san',
+				text: 'Bất động sản'
+			}
+		]
+	}
 %>
 
-<!--start Search Box -->
-<%= render partial: 'shared/front_end_search_box' %>
-<!-- end Search Box-->
+<%
+	res = RealEstate.find 262, 264
+%>
 
-<!-- start favorite-property -->
-<section class="container block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Bất động sản được yêu thích</span>
-		</a>
-	</article>
-	<!-- margin-bottom for dots -->
-	<article class="block-content" style="margin-bottom: 30px; padding: 0;">
-		<section class="slick favorite-property">
-			<div class="content">
-				<%
-					res = RealEstate.search_with_params(is_favorite: 'true').random.limit 3
-				%>
-				<%= render partial: 'real_estates/item_list', locals: { res: res, type: 2 } %>
-			</div>
-			<button class="slider-control prev" id="favor-prev"></button>
-			<button class="slider-control next" id="favor-next"></button>
-		</section>
-	</article>
-</section>
-
-<section class="container block">
-	<section class="block-content block-content-empty">
-		<section class="user-property">		
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li class="active">
-					<a href="#new_property" role="tab" data-toggle="tab">
-						Bất động sản mới rao bán
-					</a>
-				</li>
-				<li>
-					<a href="#suggest_property" role="tab" data-toggle="tab">
-						Có thể bạn quan tâm
-					</a>
-				</li>
-			</ul>
-			<!-- end -->
-
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>, "newset":""}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="new_property">
-					<%
-						res = RealEstate.search_with_params newest: ''
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="suggest_property">
-					<%
-						res = RealEstate.search_with_params
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-			</div>
-			<!-- end -->
-		</section>
+<article class="container-box container-box-transparent">
+	<section class="container-box-header">
+		<h2 class="container-box-title">
+			Bất động sản đang được yêu thích
+		</h2>
 	</section>
-</section>
+	<section class="container-box-body">
+		<%= render partial: 'real_estates/item_list_2', locals: { type: 2, res: res, list_id: 'favorite_res_list' } %>
+	</section>
+</article>
 
-<!-- start structure-property -->
-<section class="container structure-property block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Bất động sản theo kết cấu</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">
-		<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li class="active">
-					<a href="#property" role="tab" data-toggle="tab">
-						Nhà phố
-					</a>
-				</li>
-				<li>
-					<a href="#villa" role="tab" data-toggle="tab">
-						Villa - Biệt thự
-					</a>
-				</li>
-				<li>
-					<a href="#apartment" role="tab" data-toggle="tab">
-						Căn hộ
-					</a>
-				</li>
-				<li>
-					<a href="#ground" role="tab" data-toggle="tab">
-						Mặt bằng
-					</a>
-				</li>
-				<li>
-					<a href="#land" role="tab" data-toggle="tab">
-						Đất
-					</a>
-				</li>
-			</ul>
-			<!-- end -->
-
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<% 
-					per_2_row = get_value_by_width_type [1, 4, 6, 8] 
-				%>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"town_house","per":<%= per_2_row %>}' data-list="#property > .row" data-pagination="#property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="property">
-					<%
-						res = RealEstate.search_with_params real_estate_type: 'town_house'
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per_2_row) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"villa","per":<%= per_2_row %>}' data-list="#villa > .row" data-pagination="#villa > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="villa">
-					<%
-						res = RealEstate.search_with_params real_estate_type: 'villa'
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per_2_row) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"apartment","per":<%= per_2_row %>}' data-list="#apartment > .row" data-pagination="#apartment > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="apartment">
-					<%
-						res = RealEstate.search_with_params real_estate_type: 'apartment'
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per_2_row) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"space","per":<%= per_2_row %>}' data-list="#ground > .row" data-pagination="#ground > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="ground">
-					<%
-						res = RealEstate.search_with_params real_estate_type: 'space'
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per_2_row) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"real_estate_type":"land","per":<%= per_2_row %>}' data-list="#land > .row" data-pagination="#land > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="land">
-					<%
-						res = RealEstate.search_with_params real_estate_type: 'land'
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per_2_row) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per_2_row, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-			</div>
-			<!-- end -->
-	</article>
-</section>
-<!-- end -->
-
-<!-- start position property -->
-<section class="container position-property block" style="display: none">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Bất động sản theo vị trí</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">	
-		<article class="sub-title">
-			<div class="row">
-				<div class="col-sm-10">
-					<span>Danh sách bất động sản tại </span>
-					<div class="btn-group">
-						<div class="btn-group">
-							<a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-								Thành phố Hồ Chí Minh<span class="caret" style="margin-left: 5px; vertical-align: 2px"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<% 
-									districts = District.order name: 'asc'
-								%>
-								<% districts.each do |district| %>
-									<li>
-										<a aria-click="position_change" data-value="<%= district.id %>" href="javascript:void(0)"><%= district.name %></a>
-									</li>
-								<% end %>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-2">
-					<div class="link">
-						<a href="/bat-dong-san" class="btn btn-default btn-sm btn-custom-default">Xem nhiều hơn</a>
-					</div>
-				</div>
-			</div>
-		</article>	
-		<%
-			res = RealEstate.search_with_params district: districts.first.id
-		%>
-		<div id="position_list" class="row">
-			<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
+<div class="container no-horizontal-padding">
+	<div class="row">
+		<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+			<article class="container-box container-box-transparent">
+				<section class="container-box-header">
+					<h2 class="container-box-title">
+						Bất động sản dành cho bạn
+					</h2>
+				</section>
+				<section class="container-box-body">
+					
+				</section>
+			</article>
 		</div>
-		<div id="position_pagination" class="paging">
-			<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+			
 		</div>
-	</article>
-</section>
-<!-- end position property -->
-
-<!-- start price property -->
-<section class="container price-property block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Tìm kiếm theo giá</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">
-		<% if current_purpose == 'r' %>
-			<input type="text" id="slider" data-from="0" data-to="5000000" data-min="0" data-max="10000000" data-step="500000" data-keyboard_step="500000" data-min_interval="2000000" data-per="<%= per %>" />
-			<% 
-				res = RealEstate.search_with_params price: '0;5000000'
-			%>
-		<% else %>
-			<input type="text" id="slider" data-from="0" data-to="2000000000" data-min="0" data-max="3000000000" data-step="1000000" data-keyboard_step="500000000" data-min_interval="300000000" data-per="<%= per %>" />
-			<% 
-				res = RealEstate.search_with_params price: '0;2000000000'
-			%>
-		<% end %>
-		<ul id="price_list" class="row" style="margin-top: 15px;">			
-			<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
-		</ul>
-		<div id="price_pagination" class="paging">
-			<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>
-		</div>
-	</article>
-</section>
-<!-- end -->
-
-<!-- start short property -->
-<section class="container short-property block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Tin nhanh</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty short-re-container">
-		<div aria-pagination data-url="/real_estates/search" data-data='{"is_full":false,"per":6,"type":4}' data-list="#short > .list" data-pagination="#short > .paging" data-init_list="_initShortRealEstateList($list)" id="short">
-			<%
-				res = RealEstate.search_with_params(is_full: 'false')
-			%>
-			<div class="list">
-				<%= render partial: 'real_estates/item_list', locals: { res: res.take(6), type: 4 } %>
-			</div>
-			<div class="paging">
-				<%= render partial: 'shared/pagination_2', locals: { per: 6, total: res.count, page: 1 } %>
-			</div>
-		</div>
-	</article>
-</section>
-<!-- end short property -->
-
-<!-- start propensity property -->
-<section class="propensity-property container block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Danh sách tổng hợp</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">
-		<div class="row">
-			<% 
-				query = {
-					real_estate_type: 'social_home',
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/danh-sach-nha-o-xa-hoi">
-								<span>Nhà ở xã hội</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-			<% 
-				query = {
-					real_estate_type: 'villa',
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/biet-thu">
-								<span>Biệt thự cao cấp</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-			<% 
-				query = {
-					real_estate_type: 'apartment',
-					utilities: {
-						pool: ''
-					},
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/danh-sach-can-ho-co-ho-boi">
-								<span>Căn hộ có hồ bơi</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-			<% 
-				query = {
-					real_estate_type: 'town_house',
-					price: '0;1000000000',
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/danh-sach-nha-pho-duoi-1-ty">
-								<span>Nhà phố dưới 1 tỷ</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-		</div>
-	</article>
-</section>
-<!-- end propensity property -->
-
-<!-- start contact -->
-<section class="contact block container">
-	<article class="block-title">
-		<a>
-			<span>Liên hệ MuaNhaOnline.vn</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">
-		<div class="row">
-			<div class="col-md-2 col-sm-3 col-xs-6">
-				<img src="/assets/contact/contact01.jpg" class="img-responsive">
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-6">
-				<%= render partial: 'questions/form_front' %>
-			</div>
-			<div class="col-md-7 question col-sm-6">
-				<div class="panel-group" id="accordion">
-					<% 
-						questions = Question.get_pinned 
-					%>
-					<%= render partial: 'questions/item_list_front', locals: { questions: questions } %>
-				</div>
-			</div>
-	</article>
-</section>
-<!-- end contact -->
+	</div>
+</div>

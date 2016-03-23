@@ -224,8 +224,9 @@ $(function () {
 	}
 
 	/*
+		to: integer
 		params:
-			to: integer
+			context: html, body
 			complete: func
 	*/
 	function _scrollTo(to, params) {
@@ -234,8 +235,26 @@ $(function () {
 		}
 
 		_isSystemScroll = true;
-		$('html, body').animate({
+		(params['context'] ? params['context'] : $('html, body')).animate({
 			scrollTop: to
+		}, 200, function () {
+			if (typeof params.complete == 'function') {
+				params.complete();
+			}
+			setTimeout(function () {
+				_isSystemScroll = false;
+			}, 200);
+		})
+	}
+	function _scrollLeftTo(to, params) {
+		console.log(to);
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
+		_isSystemScroll = true;
+		(params['context'] ? params['context'] : $('html, body')).animate({
+			scrollLeft: to
 		}, 200, function () {
 			if (typeof params.complete == 'function') {
 				params.complete();

@@ -2,6 +2,8 @@ class RealEstatesController < ApplicationController
 	layout 'layout_front'
 
 	def index
+
+		render layout: 'front_layout'
 	end
 
 	def demo

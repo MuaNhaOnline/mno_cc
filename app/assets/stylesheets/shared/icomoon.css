@@ -23,8 +23,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.ico-menu:before {
+.ico-search:before {
     content: "\e900";
+}
+.ico-menu:before {
+    content: "\e901";
 }
 .ico-youtube:before {
     content: "\e915";
@@ -45,7 +48,7 @@
     content: "\e90d";
 }
 .ico-clock:before {
-    content: "\e905";
+    content: "\e906";
 }
 .ico-info:before {
     content: "\e90a";
@@ -57,42 +60,42 @@
     content: "\e909";
 }
 .ico-bedroom:before {
-    content: "\e911";
+    content: "\e912";
 }
 .ico-home:before {
-    content: "\e913";
+    content: "\e914";
 }
 .ico-upload:before {
     content: "\e90f";
 }
 .ico-text_align_right:before {
-    content: "\e901";
-}
-.ico-text_align_center:before {
     content: "\e902";
 }
-.ico-text_align_left:before {
+.ico-text_align_center:before {
     content: "\e903";
 }
-.ico-text_align_justify:before {
+.ico-text_align_left:before {
     content: "\e904";
 }
-.ico-chevron-left:before {
-    content: "\e906";
+.ico-text_align_justify:before {
+    content: "\e905";
 }
-.ico-chevron-right:before {
+.ico-chevron-left:before {
     content: "\e907";
 }
+.ico-chevron-right:before {
+    content: "\e90b";
+}
 .ico-restroom:before {
-    content: "\e912";
+    content: "\e913";
 }
 .ico-area:before {
-    content: "\e914";
-}
-.ico-hash:before {
     content: "\e917";
 }
+.ico-hash:before {
+    content: "\e918";
+}
 .ico-location:before {
-    content: "\e90b";
+    content: "\e911";
 }
 

@@ -394,6 +394,7 @@ function initForm($form, params) {
 
 								// Crop
 
+								console.log(e.target.result);
 								var
 									orginalImageData = e.target.result,
 									$img = $('<img src="' + orginalImageData + '" />');

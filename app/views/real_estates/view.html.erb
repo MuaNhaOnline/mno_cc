@@ -23,10 +23,6 @@
 		background: '/assets/shared/main_navigator/main_2.jpeg',
 		list: [
 			{
-				url: '/',
-				text: '<span class="ico-home"></span>'.html_safe
-			},
-			{
 				url: '/bat-dong-san',
 				text: 'Bất động sản'
 			},
@@ -36,6 +32,8 @@
 			}
 		]
 	}
+
+	@_hide_search_box = true
 
 	# Register info
 	register_info = nil
@@ -63,20 +61,18 @@
 						<section class="image">
 							<img src="<%= @re.images[0].image.url(:slide) %>" />
 						</section>
-						<section class="images-list">
-							<article class="list">
-								<% @re.images.each_with_index do |re_image, index| %>
-									<%
-										data = {
-											original: re_image.image.url,
-											slide: re_image.image.url(:slide)
-										}
-									%>
-									<a class="item <%= 'active' if index == 0 %>" data-data="<%= data.to_json %>">
-										<span></span>
-									</a>
-								<% end %>
-							</article>
+						<section class="circle-paging">
+							<% @re.images.each_with_index do |re_image, index| %>
+								<%
+									data = {
+										original: re_image.image.url,
+										slide: re_image.image.url(:slide)
+									}
+								%>
+								<a class="<%= 'active' if index == 0 %>" data-data="<%= data.to_json %>">
+									<span></span>
+								</a>
+							<% end %>
 						</section>
 					</section>
 				</div>
@@ -94,14 +90,14 @@
 								<%= @re.title %>
 							</h2>						
 						</section>
-						<section>
+						<section class="price">
 							<% if @re.fields.include? :sell_price %>
-								<section class="price sell-price sell-price-text">
+								<section class="sell-price-text">
 									<%= @re.display_sell_price %>
 								</section>
 							<% end %>
 							<% if @re.fields.include? :rent_price %>
-								<section class="price rent-price rent-price-text">
+								<section class="rent-price-text">
 									<%= @re.display_rent_price %>
 								</section>
 							<% end %>
