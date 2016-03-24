@@ -37,21 +37,21 @@
 								<a class="text" href="/trang-ca-nhan">
 									<%= current_user.full_name %>
 								</a>
-								<ul class="absolute-menu">
-									<li>
+								<section class="absolute-menu">
+									<article class="item">
 										<a href="/trang-ca-nhan">Trang cá nhân</a>
-									</li>
-									<li>
+									</article>
+									<article class="item">
 										<a href="/bat-dong-san/cua-toi">Tin của tôi</a>
-									</li>
-									<li>
+									</article>
+									<article class="item">
 										<a href="/bat-dong-san/quan-tam">Tin đang quan tâm</a>
-									</li>
-									<li class="line"></li>
-									<li>
+									</article>
+									<article class="line"></article>
+									<article class="item">
 										<a href="/signout">Đăng xuất</a>
-									</li>
-								</ul>
+									</article>
+								</section>
 							</article>
 						<% else %>
 							<a onclick="_openSignInPopup();" class="sign-in" title="Đăng nhập">
