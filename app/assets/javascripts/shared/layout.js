@@ -171,7 +171,14 @@ $(function () {
 		return false;
 	}
 
-	function _initFixedScroll($object, $follow) {
+	/*
+		params:
+	*/
+	function _initFixedScroll($object, $follow, params) {
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+
 		var 
 			// 1: Top, 2: Middle, 3: Bottom
 			flag = -1;
@@ -181,7 +188,7 @@ $(function () {
 		function doIt() {
 			var 
 				min = $follow.offset().top,
-				max = $follow.offset().top + $follow.height() - $object.height(),
+				max = $follow.offset().top + $follow.outerHeight() - $object.outerHeight(),
 				scrollTop = $(window).scrollTop();
 
 			if (scrollTop < min) {
@@ -508,8 +515,8 @@ $(function () {
 			fail
 			data
 	*/
-	function _startPagination() {
-		$('[aria-pagination]').each(function () {
+	function _startPagination($container) {
+		(typeof($container) == 'undefined' ? $('[aria-pagination]') : $container.find('[aria-pagination]')).each(function () {
 			var 
 				$pagination = $(this),
 				params = {};

@@ -53,7 +53,7 @@ $(function () {
 	// Search box toggle button
 	
 		$('.search-box-container .box-title').on('click', function () {
-			$('.search-box-container .box-content').stop().slideToggle();
+			$(this).next().stop().slideToggle();
 		});
 	
 	// / Search box toggle button
@@ -438,16 +438,71 @@ $(function () {
 		});
 
 		// Items list
+
+			var $currentItem = $list.children(':eq(0)');
 		
 			if ($itemsPaging.length != 0) {
 				$itemsPaging.children().on('click', function () {
-					var $button = $(this);
+					var
+						$button = $(this),
+						$item = $list.children(':eq(' + $button.index() + ')');
 
-					_scrollLeftTo($list.children(':eq(' + $(this).index() + ')').offset().left + $listContainer.scrollLeft(), {
-						context: $listContainer
+					// Check if active => return
+					if ($button.hasClass('active')) {
+						return;
+					}
+
+					// Remove active status in old button
+					$button.siblings().removeClass('active');
+
+					// Set active status
+					$button.addClass('active');
+
+					// Scroll left to item
+					$listContainer.scrollLeft($item.position().left);
+
+					// Make animation
+					var $cloneItem = $currentItem.clone();
+
+					// Append clone item for animation
+					$list.append($cloneItem);
+					$cloneItem.css({
+						position: 'absolute',
+						top: $item.position().top + 'px',
+						left: $item.position().left + 'px',
+						width: $currentItem.width() + 'px',
+						height: $currentItem.height() + 'px'
+					}).find('.container').css('box-shadow', 'none');
+
+					// Make animation
+					$cloneItem.find('.images-container, .infos-container-background').css({
+						transform: 'none',
+						opacity: 1,
+						transition: 'transform .5s, opacity .2s .3s',
+						'transition-timing-function': 'cubic-bezier(.4, .1, .5, .9)'
 					});
+					setTimeout(function () {
+						$cloneItem.find('.images-container').css({
+							transform: 'translateX(-50%)',
+							opacity: 0
+						});
+						$cloneItem.find('.infos-container-background').css({
+							transform: 'translateX(50%)',
+							opacity: 0
+						});
+						setTimeout(function () {
+							$cloneItem.remove();
+						}, 700);
+					}, 200);
+
+					$currentItem = $item;
 				});
 			}
+
+			// Reset position if resize
+			$(window).on('resize', function () {
+				$listContainer.scrollLeft($currentItem.position().left);
+			});
 		
 		// / Items list
 
