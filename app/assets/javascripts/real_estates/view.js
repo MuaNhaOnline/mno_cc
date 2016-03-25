@@ -231,7 +231,7 @@ $(function () {
 						if (flag != 2) {
 							$contactContainer.css({
 								position: 'absolute',
-								top: (offsetTopRange[1] - $contactContainer.parent().offset().top) + 'px'
+								top: offsetTopRange[1] + 'px'
 							});	
 							flag = 2
 						}
