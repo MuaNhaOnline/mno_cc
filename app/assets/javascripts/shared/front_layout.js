@@ -477,17 +477,22 @@ $(function () {
 					// Make animation
 					$cloneItem.find('.images-container, .infos-container-background').css({
 						transform: 'none',
+						'-webkit-transform': 'none',
 						opacity: 1,
 						transition: 'transform .5s, opacity .2s .3s',
+						'-webkit-transition': 'transform .5s, opacity .2s .3s',
 						'transition-timing-function': 'cubic-bezier(.4, .1, .5, .9)'
+						'-webkit-transition-timing-function': 'cubic-bezier(.4, .1, .5, .9)'
 					});
 					setTimeout(function () {
 						$cloneItem.find('.images-container').css({
 							transform: 'translateX(-50%)',
+							'-webkit-transform': 'translateX(-50%)',
 							opacity: 0
 						});
 						$cloneItem.find('.infos-container-background').css({
 							transform: 'translateX(50%)',
+							'-webkit-transform': 'translateX(50%)',
 							opacity: 0
 						});
 						setTimeout(function () {

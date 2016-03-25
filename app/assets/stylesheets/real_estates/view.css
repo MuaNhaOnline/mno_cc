@@ -373,7 +373,11 @@
 				.contact-container .user-info .info {
 					margin-left: 120px;
 				}
-		
+
+					.contact-container .user-info .info.email {
+						word-break: break-word;
+					}
+
 					.contact-container .user-info .info .name {
 						font-size: 21px;
 						display: inline-block;
