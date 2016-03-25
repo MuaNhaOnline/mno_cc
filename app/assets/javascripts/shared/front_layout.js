@@ -1,4 +1,8 @@
 $(function () {
+
+	$('.content-wrapper').show();
+	_togglePageSpinner();
+
 	_initScrollBackgroundImage($('.main-navigator'));
 
 	// Scroll background image
@@ -398,12 +402,10 @@ $(function () {
 
 			// Dotdotdot title
 
-				setTimeout(function () {			
-					$item.find('.title a').dotdotdot({
-						watch: 'window',
-						height: 50
-					});
-				}, 500);
+				$item.find('.title a').dotdotdot({
+					watch: 'window',
+					height: 50
+				});
 			
 			// / Dotdotdot title
 
