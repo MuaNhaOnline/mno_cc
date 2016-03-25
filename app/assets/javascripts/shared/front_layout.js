@@ -396,20 +396,16 @@ $(function () {
 
 	function _initMediumItemsList($listBox) {
 
-		$listBox.find('.item').each(function () {
-
-			var $item = $(this);
-
-			// Dotdotdot title
-
-				$item.find('.title a').dotdotdot({
+		// Dotdotdot title
+			
+			setTimeout(function () {
+				$listBox.find('.item .title a').dotdotdot({
 					watch: 'window',
 					height: 50
 				});
-			
-			// / Dotdotdot title
-
-		});
+			}, 500);
+		
+		// / Dotdotdot title
 
 	}
 
@@ -422,6 +418,16 @@ $(function () {
 			$listContainer = $listBox.find('> .list-container'),
 			$list = $listBox.find('> .list-container > .list'),
 			$itemsPaging = $listContainer.next('.circle-paging');
+
+		// Dotdotdot title
+		
+			setTimeout(function () {
+				$listBox.find('.item .infos-container .title > *').dotdotdot({
+					watch: 'window',
+					height: 54
+				});
+			}, 500);
+		// / Dotdotdot title
 
 		$list.children().each(function () {
 			var $item = $(this);
