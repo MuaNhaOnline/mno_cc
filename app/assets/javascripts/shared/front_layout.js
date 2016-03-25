@@ -481,7 +481,7 @@ $(function () {
 						opacity: 1,
 						transition: 'transform .5s, opacity .2s .3s',
 						'-webkit-transition': 'transform .5s, opacity .2s .3s',
-						'transition-timing-function': 'cubic-bezier(.4, .1, .5, .9)'
+						'transition-timing-function': 'cubic-bezier(.4, .1, .5, .9)',
 						'-webkit-transition-timing-function': 'cubic-bezier(.4, .1, .5, .9)'
 					});
 					setTimeout(function () {
