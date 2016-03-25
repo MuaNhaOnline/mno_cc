@@ -422,7 +422,7 @@ $(function () {
 		// Dotdotdot title
 		
 			setTimeout(function () {
-				$listBox.find('.item .infos-container .title > *').dotdotdot({
+				$listBox.find('.item .infos-container .title > * > *').dotdotdot({
 					watch: 'window',
 					height: 54
 				});
