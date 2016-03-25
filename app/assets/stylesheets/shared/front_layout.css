@@ -701,7 +701,7 @@ body {
 
 							.large-items-list .item .infos-container {
 								background-color: rgba(0, 0, 0, .7);
-								height: 454px;
+								height: 469px;
 								padding: 20px;
 								color: #fff;
 							}
@@ -740,7 +740,7 @@ body {
 											display: inline-block;
 											font-size: 21px;
 											line-height: 27px;
-											color: #333;
+											color: #fff;
 										}
 
 								.large-items-list .item .infos-container .price {
@@ -862,7 +862,7 @@ body {
 					}
 
 					.large-items-list .item .infos-container {
-						height: 330px;
+						height: 365px;
 					}
 				}
 				
@@ -900,6 +900,10 @@ body {
 						.large-items-list .item .infos-container .title > * {
 							border-bottom: 2px solid #008549;
 						}
+
+							.large-items-list .item .infos-container .title > * > * {
+								color: #333;
+							}
 				}
 				
 				@media (min-width: 1200px) {

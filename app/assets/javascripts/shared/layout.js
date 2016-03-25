@@ -197,8 +197,7 @@ $(function () {
 				}
 				flag = 1;
 				$object.css({
-					position: 'absolute',
-					top: min + 'px'
+					position: 'static'
 				});
 			}
 			else if (scrollTop < max) {

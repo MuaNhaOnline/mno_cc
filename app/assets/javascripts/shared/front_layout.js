@@ -1,8 +1,5 @@
 $(function () {
 
-	$('.content-wrapper').show();
-	_togglePageSpinner();
-
 	_initScrollBackgroundImage($('.main-navigator'));
 
 	// Scroll background image

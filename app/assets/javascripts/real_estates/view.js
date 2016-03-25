@@ -9,7 +9,7 @@ $(function () {
 			var $img = $('.images-container .image img');
 
 			// Set buttons event
-			$('.images-container .images-list a').on('click', function () {
+			$('.images-container .circle-paging > *').on('click', function () {
 				$item = $(this);
 
 				// Check if is active => stop
@@ -24,16 +24,16 @@ $(function () {
 				$item.addClass('active').siblings('.active').removeClass('active');
 			})
 
-			if ($('.images-container .images-list .list').children().length > 1) {
+			if ($('.images-container .circle-paging > *').length > 1) {
 				// Click to next image event
 				$('.images-container .image').css('cursor', 'pointer').on('click', function () {
-					var $currentItem = $('.images-container .images-list .list a.active');
+					var $currentItem = $('.images-container .circle-paging > *.active');
 
 					if (!$currentItem.is(':last-child')) {
 						$currentItem.next().click();
 					}
 					else {
-						$('.images-container .images-list .list > :first-child').click();
+						$('.images-container .circle-paging > :first-child').click();
 					}
 				});
 			}
@@ -165,88 +165,17 @@ $(function () {
 
 			// Fixed
 
-				var 
-					$contactContainer = $('.contact-container'),
-					$descriptionContainer = $('.description-container'),
-					lastScrollTop = $(window).scrollTop(),
-
-					// Top range = [(min),(max)]
-					// Min = top of description
-					// Max = bottom of description - height of contact
-					offsetTopRange = null,
-					flag,
-					forceStatic;
-
-				function resetData() {
-					// Top range = [(min),(max)]
-					// Min = top of description
-					// Max = bottom of description - height of contact
-					offsetTopRange = [
-						$descriptionContainer.offset().top,
-						$descriptionContainer.offset().top + $descriptionContainer.height() - $contactContainer.height()
-					];
-
-					// Base width = width of parent
-					$contactContainer.css('width', $contactContainer.parent().width() + 'px');
-
-					// Force static if < 992
-					forceStatic = $window.width() < 992;
-				}
-
-				// Base width = width of parent
-				$contactContainer.css('width', $contactContainer.parent().width() + 'px');
+				_initFixedScroll(
+					$('.contact-container'), 
+					$('.description-container')
+				);
 
 				$(window).on('resize', function () {
-					offsetTopRange = null;
-					$contactContainer.css('width', 'auto');
-					$contactContainer.css('position', 'static');
-					flag = 1
+					$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
 				});
-
-				$(window).on('scroll', function () {
-					if (offsetTopRange == null) {
-						resetData();
-					}
-
-					if (forceStatic == true) {
-						if (flag != 1) {
-							$contactContainer.css('position', 'static');
-							flag = 1
-						}
-						return;
-					}
-
-					// Get current scrollTop
-					var scrollTop = $(window).scrollTop();
-
-					// If scrollTop < min => static
-					if (scrollTop < offsetTopRange[0]) {
-						if (flag != 1) {
-							$contactContainer.css('position', 'static');
-							flag = 1
-						}
-					}
-					// If scrollTop > max => absolute
-					else if (scrollTop > offsetTopRange[1]) {
-						if (flag != 2) {
-							$contactContainer.css({
-								position: 'absolute',
-								top: offsetTopRange[1] + 'px'
-							});	
-							flag = 2
-						}
-					}
-					// If scrollTop in range => Fixed
-					else {
-						if (flag != 3) {
-							$contactContainer.css({
-								position: 'fixed',
-								top: '0px'
-							});
-							flag = 3;
-						}
-					}
-				});
+				$('body').on('loaded', function () {
+					$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
+				})
 			
 			// / Fixed
 
