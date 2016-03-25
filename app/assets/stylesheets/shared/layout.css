@@ -11,10 +11,12 @@
 
 	.sell-price-text {
 		color: #CE9600;
+		font-weight: bold;
 	}
 
 	.rent-price-text {
 		color: #0085AB;
+		font-weight: bold;
 	}
 
 /* / Standar */

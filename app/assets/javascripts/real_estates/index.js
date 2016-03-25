@@ -2,14 +2,13 @@ $(function () {
 
 	// Init favorite items list
 	
-		_initLargeItemList($('#favorite_res_list'));
+		_initLargeItemsList($('#favorite_res_list'));
+		_initMediumItemsList($('#res_list'));
 	
 	// / Init favorite items list
 
 	// Fixed search box
 
-		{
-		}
 		_initFixedScroll(
 			$('.re-index .search-box-container'), 
 			$('.re-index #res_list')

@@ -388,9 +388,34 @@ $(function () {
 
 // / Toggle page spinner
 
+// Init medium items list
+
+	function _initMediumItemsList($listBox) {
+
+		$listBox.find('.item').each(function () {
+
+			var $item = $(this);
+
+			// Dotdotdot title
+
+				setTimeout(function () {			
+					$item.find('.title a').dotdotdot({
+						watch: 'window',
+						height: 50
+					});
+				}, 500);
+			
+			// / Dotdotdot title
+
+		});
+
+	}
+
+// / Init medium items list
+
 // Init large items list
 
-	function _initLargeItemList($listBox) {
+	function _initLargeItemsList($listBox) {
 		var
 			$listContainer = $listBox.find('> .list-container'),
 			$list = $listBox.find('> .list-container > .list'),

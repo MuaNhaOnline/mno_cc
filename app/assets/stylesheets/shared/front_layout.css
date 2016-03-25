@@ -602,11 +602,15 @@ body {
 						}
 
 					.medium-items-list .item .title {
+						max-height: 50px;
+						overflow: hidden;
 					}
 
 						.medium-items-list .item .title a {
-							font-size: 18px;
+							font-size: 16px;
 							color: #333;
+							display: block;
+							line-height: 25px;
 						}
 
 					.medium-items-list .item .address {
