@@ -2,6 +2,8 @@ class RealEstatesController < ApplicationController
 	layout 'layout_front'
 
 	def index
+		@favorite_res = RealEstate.search_with_params(is_favorite: 'true')
+		@res = RealEstate.search_with_params(newest: '')
 
 		render layout: 'front_layout'
 	end

@@ -1,0 +1,309 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/home/search.css">
+<% end %>
+
+<%; content_for :scripts do %>
+	<script src="/assets/home/search.js"></script>
+<% end %>
+
+<% 
+	if @search_params.present?
+		currency_unit = ''
+		if @search_params[:price_from].present? && @search_params[:price_to].present?
+			case @search_params[:currency_unit]
+			when 'billion'
+				currency_unit = 'tỷ'
+			when 'million'
+				currency_unit = 'triệu'
+			when 'usd'
+				currency_unit = 'USD'
+			when 'sjc'
+				currency_unit = 'SJC'
+			end
+		end
+
+		keyword = @search_params[:keyword].present? ? 
+			@search_params[:keyword] :
+			"#{t('real_estate_type.text.' + RealEstateType.find(@search_params[:real_estate_type]).name) if @search_params[:real_estate_type].present?} #{Project.find(@search_params[:project]).project_name if @search_params[:project].present?} #{District.find(@search_params[:district]).name if @search_params[:district].present?} #{Province.find(@search_params[:province]).name if @search_params[:province].present?} #{'từ ' + @search_params[:price_from].to_s if @search_params[:price_from].present?} #{@search_params[:price_from].present? ? 'đến' : 'dưới' if @search_params[:price_to].present?} #{@search_params[:price_to].to_s if @search_params[:price_to].present?} #{currency_unit}"
+
+		keyword = keyword.strip
+		if keyword.present?
+			keyword[0] = keyword[0].upcase
+		end
+	else
+		keyword = 'Tìm kiếm'
+	end
+%>
+
+<!-- start navigator -->
+<section class="navigator container">
+	<ol class="breadcrumb">
+		<li><a href="/" class="active">Trang chủ</a></li>
+		<li><a href="/search"><%= keyword %></a></li>
+	</ol>
+</section>
+<!-- end navigator -->
+
+<!-- Error -->
+
+<% if params[:error].present? %>
+	<% 
+		error = '' 
+		case params[:error]
+		when '404'
+			error = 'Trang không tồn tại hoặc đã bị gỡ bỏ'
+		when '422'
+			error = 'Truy cập không hợp lệ'
+		when '500'
+			error = 'Có lỗi xảy ra trong quá trình xử lý	'
+		when 'author'
+			error = 'Bạn không có quyền thực hiện chức năng này'
+		end
+	%>
+
+	<section class="result-real container">
+		<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-exclamation fa-lg"></i> <%= error %></h4><p>Bạn có thể tìm thấy thông tin cần thiết bằng cách tìm kiếm</p></div>
+	</section>
+<% end %>
+
+<!-- / Error -->
+
+<!--start Search Box -->
+<section class="search-result container">
+	<div class="search-box-result">
+		<form action="/search">
+			<article class="title">				
+				<div class="text">
+					<h4>Kết quả tìm kiếm</h4>
+				</div>
+				<div class="tabs">
+					<label>
+						<input type="radio" name="purpose" value="s" <%= 'checked' if current_purpose != 'r' %> />
+						<div class="cover-tab"><i class="home-sale-icon"></i><span>Đang Bán</span></div>
+					</label>
+					<label>
+						<input type="radio" name="purpose" value="r" <%= 'checked' if current_purpose == 'r' %> />
+						<div class="cover-tab"><i class="home-rent-icon"></i><span>Cho Thuê</span></div>
+					</label>
+				</div>
+			</article>
+			<article class="content">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group-custom" style="margin-bottom: 0;">
+							<input type="text" class="form-control search-keyword" placeholder="... nhà phố quận 2" name="search[keyword]" value="<%= @search_params[:keyword] %>">
+							<div class="btn-group history-search">
+								<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									từ khóa
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Từ khóa 01</a></li>
+									<li><a href="#">Từ khóa 02</a></li>
+									<li><a href="#">Từ khóa 03</a></li>
+								</ul>
+							</div>
+							<div class="separator">
+								<span>|</span>
+							</div>
+							<div class="btn-search">
+								<button type="submit"></button>
+								<div class="btn-more" data-function="show-search-plus">
+									<span class="caret"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2 btn-plus">
+						<button type="button" class="btn btn-success btn-sm" data-function="zestimate" data-popup="coming-soon">Định giá khu vực này</button>						
+					</div>
+					<div class="col-md-2 btn-plus">
+						<button type="submit" class="btn btn-success btn-sm btn-search-plus">
+							<img src="/assets/icon/search-plus.png">
+							Tìm nâng cao
+						</button>
+					</div>
+				</div>				
+				<div class="more-search" id="more_search" style="margin-top: 10px;">
+					<div class="form-group-custom container-fluid">
+						<div class="row">
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm" name="search[province]">
+									<option hidden value="">--Chọn thành phố/Tỉnh--</option>
+									<% Province.all.each do |province| %>
+										<option <%= 'selected' if province == @search_params[:province] %> value="<%= province.id %>"><%= province.name %></option>
+									<% end %>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-control input-sm" name="search[district]">
+									<option hidden value="">--Chọn quận/huyện--</option>
+									<% District.all.each do |district| %>
+										<option <%= 'selected' if district == @search_params[:district] %> value="<%= district.id %>"><%= district.name %></option>
+									<% end %>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<div class="input-group">
+									<input name="search[price_from]" type="text" class="form-control" placeholder="Giá từ" value="<%= @search_params[:price_from] %>" />
+									<span class="input-group-addon" style="border-left: 0; border-right: 0; width: 0">đến</span>
+									<input name="search[price_to]" type="text" class="form-control" placeholder="..." style="border-right: 0" value="<%= @search_params[:price_to] %>" />
+									<span style="display:table-cell;width:0"></span>
+									<span>
+										<div class="input-group-btn">
+											<input aria-input-type="dropdownselect" type="hidden" name="search[currency_unit]" />
+											<button type="button" style="border-radius: 0" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span></button>
+											<ul class="dropdown-menu pull-right">
+												<li>
+													<a <%= 'data-selected' if @search_params[:currency_unit] == 'million' || @search_params[:currency_unit].blank? %> data-value="million">triệu</a>
+												</li>
+												<li>
+													<a <%= 'data-selected' if @search_params[:currency_unit] == 'billion' %> data-value="billion">tỷ</a>
+												</li>
+												<li>
+													<a <%= 'data-selected' if @search_params[:currency_unit] == 'usd' %> data-value="usd">USD</a>
+												</li>
+												<li>
+													<a <%= 'data-selected' if @search_params[:currency_unit] == 'sjc' %> data-value="sjc">SJC</a>
+												</li>
+											</ul>
+										</div>
+									</span>
+									<span class="input-group-addon" style="border-left: 0;border-right: 0; width: 0">/</span>
+									<div class="input-group-btn">
+										<input aria-input-type="dropdownselect" type="hidden" name="search[unit]" />
+										<button type="button" class="btn btn-flat btn-default dropdown-toggle unit-label" data-toggle="dropdown" aria-expanded="false"><span class="text"></span></button>
+										<ul class="dropdown-menu pull-right">
+											<li data-for="sell">
+												<a <%= 'data-selected' if @search_params[:unit] == 'square_meter' %> data-value="square_meter">m<sup>2</sup></a>
+											</li>
+											<li data-for="sell">
+												<a <%= 'data-selected' if @search_params[:unit] == 'per' || @search_params.blank? %> data-value="per">căn</a>
+											</li>
+											<li data-for="sell">
+												<a <%= 'data-selected' if @search_params[:unit] == 'per' %> data-value="per">nền</a>
+											</li>
+											<li data-for="rent">
+												<a <%= 'data-selected' if @search_params[:unit] == 'month' %> data-value="month">tháng</a>
+											</li>
+											<li data-for="rent">
+												<a <%= 'data-selected' if @search_params[:unit] == 'year' %> data-value="year">năm</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group-custom container-fluid" style="margin-bottom: 0px;">
+						<div class="row">
+							<div class="col-md-6 input-inline">
+								<select class="form-control input-sm" name="search[project]">
+									<option hidden value="">--Chọn danh sách dự án--</option>
+									<% Project.all.each do |project| %>
+										<option <%= 'selected' if @search_params[:project] == project.id %> value="<%= project.id %>"><%= project.project_name %></option>
+									<% end %>
+								</select>
+							</div>
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm" name="search[area]">
+									<option hidden value="">--Chọn diện tích--</option>
+									<option <%= 'selected' if @search_params[:area] == '0-50' %> value="0-50">Dưới 50m2</option>
+									<option <%= 'selected' if @search_params[:area] == '50-100' %> value="50-100">50m2 - 100m2</option>
+									<option <%= 'selected' if @search_params[:area] == '100-15' %> value="100-150">100m2 - 150m2</option>
+									<option <%= 'selected' if @search_params[:area] == '150-200' %> value="150-200">150m2 - 200m2</option>
+									<option <%= 'selected' if @search_params[:area] == '200-0' %> value="200-0">Trên 200m2</option>
+								</select>
+							</div>
+							<div class="col-md-3 input-inline">
+								<select class="form-control input-sm" name="search[real_estate_type]">
+									<option hidden value="">--Chọn loại bất động sản--</option>
+									<% RealEstateType.all.each do |type| %>
+										<option <%= 'selected' if @search_params[:real_estate_type] == type.id %> value="<%= type.id %>"><%= t 'real_estate_type.text.' + type.name %></option>
+									<% end %>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</form>
+	</div>
+</section>
+<!-- end Search Box-->
+
+<% if params[:search].present? && @res.blank? && @res_short.blank? && @projects.blank? %>
+	<section class="result-real container">
+		<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả phù hợp</h4></div>
+	</section>
+<% end %>
+
+<% if @res.present? %>
+	<section class="container price-property block">
+		<article class="block-title">
+			<%= keyword %>
+		</article>
+		<article class="block-content block-content-empty">
+			<% 
+				per = get_value_by_width_type [2, 4, 6, 8]
+				per *= 2 if @res_short.blank? || @projects.blank?
+				@search_params[:per] = per
+				@search_params[:is_full] = 'true'
+			%>
+			<article class="content" aria-pagination data-url="/_search_list" data-data='<%= @search_params.to_json %>' data-list="#real_estate_list > .row" data-pagination="#real_estate_list > .paging" data-init_list="_initItemList($list)" id="real_estate_list">
+				<div class="row">
+					<%= render partial: 'real_estates/item_list', locals: { res: @res.take(per) } %>
+				</div>		
+				<div class="paging">
+					<%= render partial: 'shared/pagination_2', locals: { per: per, total: @res.count, page: 1 } %>			
+				</div>
+			</article>
+		</article>
+	</section>
+<% end %>
+
+<% if @res_short.present? %>
+	<section class="container short-property block">
+		<article class="block-title">
+			[TIN NHANH] <%= keyword %>
+		</article>
+		<article class="block-content block-content-empty short-re-container">
+			<% 
+				per = 6
+				@search_params[:per] = per
+				@search_params[:is_full] = 'false'
+			%>
+			<article class="content" aria-pagination data-url="/_search_list" data-data='<%= @search_params.to_json %>' data-list="#short_real_estate_list > .list" data-pagination="#short_real_estate_list > .paging" data-init_list="_initShortRealEstateList($list)" id="short_real_estate_list">
+				<div class="list">
+					<%= render partial: 'real_estates/item_list', locals: { res: @res_short.take(per), type: 4 } %>
+				</div>		
+				<div class="paging">
+					<%= render partial: 'shared/pagination_2', locals: { per: per, total: @res_short.count, page: 1 } %>			
+				</div>
+			</article>
+		</article>
+	</section>
+<% end %>
+
+<% if @projects.present? %>
+	<section class="container short-property block">
+		<article class="block-title">
+			[DỰ ÁN] <%= keyword %>
+		</article>
+		<article class="block-content block-content-empty short-re-container">
+			<% 
+				per = get_value_by_width_type [2, 4, 6, 8]
+				@search_params[:per] = per
+				@search_params[:type] = 1
+				@search_params[:part] = 'project'
+			%>
+			<article aria-pagination data-url="/_search_list" data-data='<%= @search_params.to_json %>' data-list="#project_list > .row" data-pagination="#project_list > .paging" data-init_list="_initItemList($list)" class="content" id="project_list">
+				<div class="row">
+					<%= render partial: 'projects/item_list', locals: { projects: @projects.take(per) } %>
+				</div>
+				<div class="paging">
+					<%= render partial: 'shared/pagination_2', locals: { per: per, total: @projects.count, page: 1 } %>						
+				</div>
+			</article>
+		</article>
+	</section>
+<% end %>

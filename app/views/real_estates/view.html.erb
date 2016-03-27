@@ -200,7 +200,7 @@
 											</section>
 										</section>
 										<section class="more">
-											<% if @re.fields.include?(:width_x) && @re.fields.include?(:width_y) %>
+											<% if @re.fields.include?(:width_x) && @re.display_width_x.present? && @re.fields.include?(:width_y) && @re.display_width_y.present?%>
 												<article class="text">
 													<span class="name">
 														Kích thước

@@ -165,15 +165,15 @@ $(function () {
 
 			// Fixed
 
-				_initFixedScroll(
-					$('.contact-container'), 
-					$('.description-container')
-				);
-
 				$(window).on('resize', function () {
 					$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
 				});
 				$('body').on('loaded', function () {
+					_initFixedScroll(
+						$('.contact-container'), 
+						$('.description-container')
+					);
+					
 					$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
 				})
 			
@@ -248,35 +248,40 @@ $(function () {
 		// Favorite
 		
 			$('#re_favorite').on('click', function () {
-				var
-					$button = $(this),
-					active = !$button.is('[data-actived]');
+				if ($('body').is('[data-signed]')) {
+					var
+						$button = $(this),
+						active = !$button.is('[data-actived]');
 
-				$button.attr('disabled', true);
-				$.ajax({
-					url: '/real_estates/user_favorite/' + realEstateId,
-					method: 'POST',
-					data: {
-						is_add: active ? '1' : '0'
-					},
-					dataType: 'JSON'
-				}).done(function (data) {
-					if (data.status == 0) {
-						if (active) {
-							$button.text('Đã quan tâm').attr('data-actived', '');
+					$button.attr('disabled', true);
+					$.ajax({
+						url: '/real_estates/user_favorite/' + realEstateId,
+						method: 'POST',
+						data: {
+							is_add: active ? '1' : '0'
+						},
+						dataType: 'JSON'
+					}).done(function (data) {
+						if (data.status == 0) {
+							if (active) {
+								$button.text('Đã quan tâm').attr('data-actived', '');
+							}
+							else {
+								$button.text('Quan tâm').removeAttr('data-actived');
+							}
 						}
 						else {
-							$button.text('Quan tâm').removeAttr('data-actived');
+							errorPopup();
 						}
-					}
-					else {
+					}).fail(function () {
 						errorPopup();
-					}
-				}).fail(function () {
-					errorPopup();
-				}).always(function () {
-					$button.attr('disabled', false);
-				});
+					}).always(function () {
+						$button.attr('disabled', false);
+					});
+				}
+				else {
+					_openSignInPopup()
+				}
 			});
 
 			{

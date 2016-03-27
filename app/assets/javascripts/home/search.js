@@ -1,18 +1,10 @@
-// Initilization
-$(function() {
-	Jump();
+$(function () {
+
+	// Init favorite items list
+	
+		_initLargeItemsList($('#favorite_res_list'));
+		_initMediumItemsList($('#res_list'));
+	
+	// / Init favorite items list
+
 });
-// end
-
-// init Jump
-function Jump() {
-	var top;
-	$(window).load(function() {
-		top = $('.navigator').offset().top;		
-
-		$body.animate({
-			scrollTop: top
-		}, 500)
-	});
-}
-// end

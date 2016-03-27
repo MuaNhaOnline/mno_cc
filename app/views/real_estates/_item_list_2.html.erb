@@ -74,21 +74,24 @@
 				<section class="address">
 					<span class="ico-location"></span> <%= re.display_short_address %>
 				</section>
+				<section class="type">
+					<span class="ico-home"></span> <%= re.display_real_estate_type %>
+				</section>
 				<section class="price">
-					<% if re.fields.include?(:sell_price) && re.display_sell_price.present? %>
+					<% if re.display_sell_price.present? %>
 						<article class="sell-price-text"><%= re.display_sell_price %></article>
 					<% end %>
-					<% if re.fields.include?(:rent_price) && re.display_rent_price.present? %>
+					<% if re.display_rent_price.present? %>
 						<article class="rent-price-text"><%= re.display_rent_price %></article>
 					<% end %>
 				</section>
-				<section class="info">
-					<% if re.fields.include?(:bedroom_number) && re.display_bedroom.present? %>
+				<section class="infos">
+					<% if re.display_bedroom.present? %>
 						<article>
 							<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
 						</article>
 					<% end %>
-					<% if re.fields.include?(:restroom_number) && re.display_restroom.present? %>
+					<% if re.display_restroom.present? %>
 						<article>
 							<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
 						</article>
@@ -139,12 +142,12 @@
 									</h3>						
 								</section>
 								<section>
-									<% if re.fields.include? :sell_price %>
+									<% if re.display_sell_price.present? %>
 										<section class="price sell-price-text">
 											<%= re.display_sell_price %>
 										</section>
 									<% end %>
-									<% if re.fields.include? :rent_price %>
+									<% if re.display_rent_price.present? %>
 										<section class="price rent-price-text">
 											<%= re.display_rent_price %>
 										</section>
@@ -162,7 +165,7 @@
 														Địa chỉ
 													</section>
 													<section class="value">
-														<%= re.display_address %>
+														<%= re.display_short_address %>
 													</section>
 												</section>
 											</section>
@@ -229,7 +232,7 @@
 												</section>
 											</article>
 										</div>
-										<% if re.fields.include? :bedroom_number %>
+										<% if re.display_bedroom.present? %>
 											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
 												<article class="info-item">
 													<section class="icon">
@@ -246,7 +249,7 @@
 												</article>
 											</div>
 										<% end %>
-										<% if re.fields.include? :restroom_number %>
+										<% if re.display_restroom.present? %>
 											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
 												<article class="info-item">
 													<section class="icon">
@@ -263,7 +266,7 @@
 												</article>
 											</div>
 										<% end %>
-										<% if re.fields.include? :direction %>
+										<% if re.display_direction.present? %>
 											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
 												<article class="info-item">
 													<section class="icon">
@@ -280,7 +283,7 @@
 												</article>
 											</div>
 										<% end %>
-										<% if re.fields.include? :legal_record_type %>
+										<% if re.display_legal_record_type.present? %>
 											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
 												<article class="info-item">
 													<section class="icon">

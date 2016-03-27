@@ -1224,12 +1224,16 @@ class RealEstate < ActiveRecord::Base
 
 		# Street type
 		def display_street_type
-			@display_street_type ||= case street_type
-			when 1
-				'Đường nội bộ'
-			else
-				'Đường chính'
-			end
+			@display_street_type ||= 
+			 	fields.include?(:street_type) ? 
+				 	case street_type
+					when 1
+						'Đường nội bộ'
+					else
+						'Đường chính'
+					end
+				:
+					''
 		end
 
 		# Area
@@ -1248,56 +1252,72 @@ class RealEstate < ActiveRecord::Base
 
 		# Width
 		def display_width_x
-			@display_width_x ||= width_x.present? ? ApplicationHelper.display_decimal(width_x) : ''
+			@display_width_x ||= fields.include?(:width_x) && width_x.present? ? ApplicationHelper.display_decimal(width_x) : ''
 		end
 		def display_width_y
-			@display_width_y ||= width_y.present? ? ApplicationHelper.display_decimal(width_y) : ''
+			@display_width_y ||= fields.include?(:width_y) && width_y.present? ? ApplicationHelper.display_decimal(width_y) : ''
 		end
 
 		# Shape
 		def display_shape display_normal = true
 			if display_normal
-				@display_shape_display_normal ||= case shape
-				when 0
-					'Bình thường'
-				when 1
-					'Nở hậu'
-				when 2
-					'Tóp hậu'
-				end
+				@display_shape_display_normal ||= 
+					fields.include?(:shape) ?
+						case shape
+						when 0
+							'Bình thường'
+						when 1
+							'Nở hậu'
+						when 2
+							'Tóp hậu'
+						else
+							''
+						end
+					:
+						''
 			else
-				@display_shape_no_display_normal ||= case shape
-				when 1
-					'Nở hậu'
-				when 2
-					'Tóp hậu'
-				end
+				@display_shape_no_display_normal ||= 
+					fields.include?(:shape) ?
+						case shape
+						when 1
+							'Nở hậu'
+						when 2
+							'Tóp hậu'
+						else
+							''
+						end
+					:
+						''
 			end
 		end
 
 		# Shape width
 		def display_shape_width
-			@display_shape_width ||= (shape == 1 || shape == 2) && shape_width.present? ? ApplicationHelper.display_decimal(shape_width) : ''
+			@display_shape_width ||= fields.include?(:shape) && (shape == 1 || shape == 2) && shape_width.present? ? ApplicationHelper.display_decimal(shape_width) : ''
 		end
 
 		# Is alley
 		def display_is_alley
-			@display_is_alley ||= is_alley ? 'Hẻm' : 'Mặt tiền'
+			@display_is_alley ||= 
+				fields.include?(:is_alley) ? 
+					(is_alley ? 'Hẻm' : 'Mặt tiền')
+				:
+					''
 		end
 
 		# Alley width
 		def display_alley_width
-			@display_alley_width ||= is_alley && alley_width.present? ? ApplicationHelper.display_decimal(alley_width) : ''
+			@display_alley_width ||= fields.include?(:is_alley) && is_alley && alley_width.present? ? ApplicationHelper.display_decimal(alley_width) : ''
 		end
 
 		# Direction
 		def display_direction
-			@display_direction ||= direction.present? ? I18n.t("direction.text.#{direction.name}") : ''
+			@display_direction ||= fields.include?(:direction) && direction.present? ? I18n.t("direction.text.#{direction.name}") : ''
 		end
 
 		# Contructional level
 		def display_constructional_level
-			@display_constructional_level ||= constructional_level.present? ? I18n.t("constructional_level.text.#{constructional_level.name}") : ''
+			@display_constructional_level ||= fields.include?(:constructional_level) && constructional_level.present? ? I18n.t("constructional_level.text.#{constructional_level.name}") : ''
 		end
 
 		# Real estate type
@@ -1307,12 +1327,20 @@ class RealEstate < ActiveRecord::Base
 
 		# Restroom
 		def display_restroom
-			@display_restroom ||= restroom_number == 4 ? '>4' : restroom_number
+			@display_restroom ||= 
+				fields.include?(:restroom_number) ?
+					(restroom_number == 4 ? '>4' : restroom_number)
+				:
+					''
 		end
 
 		# Bedroom
 		def display_bedroom
-			@display_bedroom ||= bedroom_number == 4 ? '>4' : bedroom_number
+			@display_bedroom ||= 
+				fields.include?(:bedroom_number) ?
+					(bedroom_number == 4 ? '>4' : bedroom_number)
+				:
+					''
 		end
 
 		# Purpose
@@ -1327,22 +1355,30 @@ class RealEstate < ActiveRecord::Base
 
 		# Sell price
 		def display_sell_price
-			@display_sell_price_text ||= (sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + sell_unit.name)).html_safe
+			@display_sell_price_text ||=
+				fields.include?(:sell_price) ?
+					(sell_price_text.blank? ? 'Giá thỏa thuận' : sell_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + sell_unit.name)).html_safe
+				:
+					''
 		end
 
 		# Sell unit
 		def display_sell_unit
-			@display_sell_unit ||= sell_unit.present? ? I18n.t("unit.text.#{sell_unit.name}") : ''
+			@display_sell_unit ||= fields.include?(:sell_unit) && sell_unit.present? ? I18n.t("unit.text.#{sell_unit.name}") : ''
 		end
 
 		# Rent price
 		def display_rent_price
-			@display_rent_price_text ||= (rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + rent_unit.name)).html_safe
+			@display_rent_price_text ||=
+				fields.include?(:sell_price) ?
+					(rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + rent_unit.name)).html_safe
+				:
+					''
 		end
 
 		# Rent unit
 		def display_rent_unit
-			@display_rent_unit ||= rent_unit.present? ? I18n.t("unit.text.#{rent_unit.name}") : ''
+			@display_rent_unit ||= fields.include?(:rent_unit) && rent_unit.present? ? I18n.t("unit.text.#{rent_unit.name}") : ''
 		end
 
 		# Price
@@ -1363,16 +1399,20 @@ class RealEstate < ActiveRecord::Base
 							legal_record_type_id != 0 ? 
 								(
 									legal_record_type.present? ?
-										I18n.t("legal_record_type.text.#{legal_record_type.name}") :
+										I18n.t("legal_record_type.text.#{legal_record_type.name}")
+									:
 										''
-								) :
+								) 
+							:
 								custom_legal_record_type
-						) :
+						)
+					:
 						''
 			else
 				@display_legal_record_type ||= 
 					fields.include?(:legal_record_type) && legal_record_type.present? ? 
-						I18n.t("legal_record_type.text.#{legal_record_type.name}") : 
+						I18n.t("legal_record_type.text.#{legal_record_type.name}")
+					: 
 						''
 			end
 		end
@@ -1386,32 +1426,40 @@ class RealEstate < ActiveRecord::Base
 							planning_status_type_id != 0 ? 
 								(
 									planning_status_type.present? ?
-										I18n.t("planning_status_type.text.#{planning_status_type.name}") :
+										I18n.t("planning_status_type.text.#{planning_status_type.name}")
+									:
 										''
-								) :
+								) 
+							:
 								custom_planning_status_type
-						) :
+						) 
+					:
 						''
 			else
 				@display_planning_status_type ||= 
 					fields.include?(:planning_status_type) && planning_status_type.present? ? 
-						I18n.t("planning_status_type.text.#{planning_status_type.name}") : 
+						I18n.t("planning_status_type.text.#{planning_status_type.name}") 
+					: 
 						''
 			end
 		end
 
 		# Constructional quality
 		def display_constructional_quality
-			@display_constructional_quality ||= case constructional_quality
-			when 1
-				'Đang xuống cấp'
-			when 2
-				'Còn tốt'
-			when 3
-				'Mới'
-			else
-				'Rất mới'
-			end
+			@display_constructional_quality ||=
+				fields.include?(:constructional_quality) ? 
+					case constructional_quality
+				when 1
+					'Đang xuống cấp'
+				when 2
+					'Còn tốt'
+				when 3
+					'Mới'
+				else
+					'Rất mới'
+				end
+			:
+				''
 		end
 
 		# Owner type

@@ -613,6 +613,7 @@ body {
 							line-height: 25px;
 						}
 
+					.medium-items-list .item .type,
 					.medium-items-list .item .address {
 						font-size: 13px;
 					}
@@ -623,17 +624,17 @@ body {
 						font-size: 15px;
 					}
 
-					.medium-items-list .item .info {
+					.medium-items-list .item .infos {
 						text-align: center;
 						border-top: 2px solid #008549;
 					}
 		
-						.medium-items-list .item .info > * {
+						.medium-items-list .item .infos > * {
 							display: inline-block;
 							margin: 10px 10px 0 10px;
 						}
 		
-						.medium-items-list .item .info .icon {
+						.medium-items-list .item .infos .icon {
 							font-size: 18px;
 						}
 		
@@ -762,6 +763,10 @@ body {
 									font-size: 17px;
 									margin-bottom: 10px;
 									font-weight: bold;
+								}
+
+								.large-items-list .item .infos-container .content .infos {
+									margin-bottom: -15px;
 								}
 
 								.large-items-list .item .infos-container .infos > .row > *:nth-child(2n+1) {
