@@ -25,7 +25,6 @@ $(function () {
 					toggleLoadStatus(false);
 					$form.submitStatus(false);
 				}).done(function (data) {
-					console.log(data);
 					if (data.status == 0) {
 						if ($form.find('#is_full').val() == 'true') {
 							if (signed) {

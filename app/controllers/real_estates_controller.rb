@@ -131,8 +131,6 @@ class RealEstatesController < ApplicationController
 				@re.update(view_count: @re.view_count + 1)
 				session[:real_estate_viewed] << id
 			end
-			
-			render layout: 'front_layout'
 		end
 
 	# / View
@@ -166,7 +164,7 @@ class RealEstatesController < ApplicationController
 				end
 			end
 
-			render layout: 'layout_back'
+			render layout: 'front_layout'
 		end  
 
 		# Handle
