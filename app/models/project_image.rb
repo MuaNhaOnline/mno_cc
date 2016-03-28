@@ -3,7 +3,7 @@ class ProjectImage < ActiveRecord::Base
 	# Image
 
 	  has_attached_file :image, 
-	  	styles: { thumb: '300x225#', slide: '960x540#' },
+	  	styles: { thumb: '300x225#', slide: '780x513#' },
 	  	default_url: "/assets/projects/:style/default.png", 
 	  	:path => ":rails_root/app/assets/file_uploads/project_images/:style/:id_:filename", 
 	  	:url => "/assets/project_images/:style/:id_:filename"

@@ -686,45 +686,6 @@ class RealEstate < ActiveRecord::Base
 					where += " AND sell_price >= #{params[:price_from]}" if params[:price_from].present?
 					where += " AND sell_price <= #{params[:price_to]}" if params[:price_to].present?
 				end
-
-				# # Get currency unit & parse number
-				# currency_unit = 'VND'
-
-				# case params[:currency_unit]
-				# when 'billion'
-				# 	params[:price_from] *= 1000000000 if params[:price_from].present?
-				# 	params[:price_to] *= 1000000000 if params[:price_to].present?
-				# when 'million'
-				# 	params[:price_from] *= 1000000 if params[:price_from].present?
-				# 	params[:price_to] *= 1000000 if params[:price_to].present?
-				# when 'USD'
-				# 	currency_unit = 'USD'
-				# when 'SJC'
-				# 	currency_unit = 'SJC'
-				# end
-
-				# # Get unit
-				# unit = params[:unit].present? ? params[:unit] : 'per'
-
-				# # Call
-				# # Join currency
-				# joins << :currency
-				# # Join unit
-				# if User.options[:current_purpose] == 'r'
-				# 	joins << :rent_unit
-				# else
-				# 	joins << :sell_unit
-				# end
-
-				# Condition
-				# where += " AND currencies.code = '#{currency_unit}' AND units.code = '#{unit}'"
-				# if User.options[:current_purpose] == 'r'
-				# 	where += " AND rent_price >= #{params[:price_from]}" if params[:price_from].present?
-				# 	where += " AND rent_price <= #{params[:price_to]}" if params[:price_to].present?
-				# else
-				# 	where += " AND sell_price >= #{params[:price_from]}" if params[:price_from].present?
-				# 	where += " AND sell_price <= #{params[:price_to]}" if params[:price_to].present?
-				# end
 			end
 
 			# Area range

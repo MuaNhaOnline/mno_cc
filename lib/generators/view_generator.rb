@@ -16,7 +16,18 @@ class ViewGenerator < Rails::Generators::Base
 	params: 
 =end
 
-	@title = '';
+	@_title = '';
+	@_description = '';
+	@_main_navigator = {
+		background: '',
+		list: [
+			{
+				url: '',
+				text: ''
+			}
+		]
+	}
+	@_main_class = ''
 %>"
 		create_file "app/assets/javascripts/#{view_name}.js"
 		create_file "app/assets/stylesheets/#{view_name}.css"

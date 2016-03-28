@@ -1,0 +1,345 @@
+<% 
+=begin
+	params: 
+		res
+		type (1)
+			1: medium list
+			2: large list
+				Force: has_container: true
+		items_col
+			type 1: col-xs-12 col-sm-6 col-md-4 col-lg-4
+		has_container (true)
+			whether include container
+		list_id
+		paging_id
+		paging (false) - numeric (number of page)
+			whether include paging
+		paging_attrs - string
+		page_href - proc
+		current_page - numeric
+=end
+
+	return if res.blank?
+	
+	type ||= 1
+	type = type.to_i
+
+	case type
+	when 1
+	when 2
+		has_container = true
+		paging = true
+	end
+
+	has_container ||= true
+	paging ||= false
+	current_page ||= 1
+	paging_attrs ||= ''
+	page_href ||= nil
+	list_id ||= ''
+	paging_id ||= ''
+%>
+
+<% if has_container %>
+	<% case type %>
+	<% when 1 %>
+		<article id="<%= list_id %>" class="medium-items-list">
+			<section class="list">
+				<div class="row">
+	<% when 2 %>
+		<article id="<%= list_id %>" class="large-items-list">
+			<section class="list-container">
+				<article class="list">
+	<% end %>
+<% end %>
+
+<% case type %>
+<% when 1 %>
+	<% res.each do |re| %>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<article class="item">
+				<section class="image">
+					<a href="/bat-dong-san/<%= re.full_slug %>">
+						<%= real_estate_avatar re %>
+					</a>
+				</section>
+				<section class="title">
+					<h3>
+						<a href="/bat-dong-san/<%= re.full_slug %>">
+							<%= re.title %>
+						</a>
+					</h3>
+				</section>
+				<section class="address">
+					<span class="ico-location"></span> <%= re.display_short_address %>
+				</section>
+				<section class="type">
+					<span class="ico-home"></span> <%= re.display_real_estate_type %>
+				</section>
+				<section class="price">
+					<% if re.display_sell_price.present? %>
+						<article class="sell-price-text"><%= re.display_sell_price %></article>
+					<% end %>
+					<% if re.display_rent_price.present? %>
+						<article class="rent-price-text"><%= re.display_rent_price %></article>
+					<% end %>
+				</section>
+				<section class="infos">
+					<% if re.display_bedroom.present? %>
+						<article>
+							<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
+						</article>
+					<% end %>
+					<% if re.display_restroom.present? %>
+						<article>
+							<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
+						</article>
+					<% end %>
+					<% if re.display_area.present? %>
+						<article>
+							<span class="icon ico-area"></span> <span class="text"><%= re.display_area %><small>m<sup>2</sup></small></span>
+						</article>
+					<% end %>
+				</section>
+			</article>
+		</div>
+	<% end %>
+<% when 2 %>
+	<!--
+	<% res.each do |re| %>
+		--><article class="item" data-value="<%= re.id %>">
+			<div class="container no-horizontal-padding">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+						<section class="images-container hidden-xs hidden-sm">
+							<section class="image">
+								<img src="<%= re.images[0].image.url :slide if re.images.present? %>">
+							</section>
+							<% if re.images.count > 1 %>
+								<article class="circle-paging white-circle-paging">
+									<% re.images.each_with_index do |re_image, index| %>
+										<%
+											data = {
+												original: re_image.image.url,
+												slide: re_image.image.url(:slide)
+											}
+										%>
+										<a class="<%= 'active' if index == 0 %>" data-data="<%= data.to_json %>">
+											<span></span>
+										</a>
+									<% end %>
+								</article>
+							<% end %>
+						</section>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 infos-container-background" style="<%= "background-image: url('#{re.images[0].image.url}')".html_safe if re.images.present? %>">
+						<section class="infos-container">
+							<article class="content">
+								<section class="title">
+									<h3>
+										<a href="/bat-dong-san/<%= re.full_slug %>"><%= re.title %></a>
+									</h3>						
+								</section>
+								<section>
+									<% if re.display_sell_price.present? %>
+										<section class="price sell-price-text">
+											<%= re.display_sell_price %>
+										</section>
+									<% end %>
+									<% if re.display_rent_price.present? %>
+										<section class="price rent-price-text">
+											<%= re.display_rent_price %>
+										</section>
+									<% end %>
+								</section>
+								<section class="infos">
+									<div class="row no-horizontal-padding">
+										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+											<section class="info-item">
+												<section class="icon">
+													<span class="ico-location"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Địa chỉ
+													</section>
+													<section class="value">
+														<%= re.display_short_address %>
+													</section>
+												</section>
+											</section>
+										</div>
+										<div class="hidden"></div>
+										<div class="hidden"></div>
+										<div class="hidden"></div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-hash"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Mã
+													</section>
+													<section class="value">
+														<%= re.display_id %>
+													</section>
+												</section>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-clock"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Thời gian đăng
+													</section>
+													<section class="value" aria-time="<%= re.created_at %>">
+													</section>
+												</section>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-home"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Loại
+													</section>
+													<section class="value">
+														<%= re.display_real_estate_type %>
+													</section>
+												</section>
+											</article>
+										</div>
+										<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+											<article class="info-item">
+												<section class="icon">
+													<span class="ico-area"></span>
+												</section>
+												<section class="text">
+													<section class="name">
+														Diện tích
+													</section>
+													<section class="value">
+														<%= re.display_area %><span class="unit">m<sup>2</sup></span>
+													</section>
+												</section>
+											</article>
+										</div>
+										<% if re.display_bedroom.present? %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-bedroom"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Phòng ngủ
+														</section>
+														<section class="value">
+															<%= re.display_bedroom %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+										<% if re.display_restroom.present? %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-restroom"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Phòng tắm
+														</section>
+														<section class="value">
+															<%= re.display_restroom %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+										<% if re.display_direction.present? %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-compass"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Hướng
+														</section>
+														<section class="value">
+															<%= re.display_direction %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+										<% if re.display_legal_record_type.present? %>
+											<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
+												<article class="info-item">
+													<section class="icon">
+														<span class="ico-newspaper"></span>
+													</section>
+													<section class="text">
+														<section class="name">
+															Giấy tờ
+														</section>
+														<section class="value">
+															<%= re.display_legal_record_type %>
+														</section>
+													</section>
+												</article>
+											</div>
+										<% end %>
+									</div>
+								</section>
+							</article>
+						</section>
+						<section class="buttons-container">
+							<a href="/bat-dong-san/<%= re.id %>" class="btn btn-orange">
+								Xem chi tiết
+							</a>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article><!--
+	<% end %>
+	-->
+<% end %>
+
+
+<% if has_container %>
+	<% case type %>
+	<% when 1 %>
+				</div>
+			</section>
+			<% if paging %>
+				<section id="<%= paging_id %>" class="numeric-paging" <%= paging_attrs.html_safe %>>
+					<% (1..paging).each do |num| %>
+						<a href="<%= page_href.call(num) if page_href.present? %>" class="<%= 'active' if num == current_page %>" data-page="<%= num %>" aria-click="paging"><%= num %></a>
+					<% end %>
+				</section>
+			<% end %>
+		</article>
+	<% when 2 %>
+				</article>
+			</section>
+			<% if paging && res.count > 1 %>
+				<section id="<%= paging_id %>" class="circle-paging" <%= paging_attrs.html_safe %>>
+					<% res.each_with_index do |re, index| %>
+						<a class="<%= 'active' if index + 1 == current_page %>"><span></span></a>
+					<% end %>
+				</section>
+			<% end %>
+		</article>
+	<% end %>
+<% end %>

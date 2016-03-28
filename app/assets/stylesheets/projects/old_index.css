@@ -1,0 +1,348 @@
+/*start search-box*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 20px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search-box*/
+
+/*start navigator*/
+.navigator {
+	font-size: 86.67%;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+	}
+/*end navigator*/
+
+/*start favorite*/
+.favorite {
+	position: relative;
+}
+	.favorite .slider-control {
+		position: absolute;
+		top: calc(50% - 32px);		
+	}
+		.favorite .slider-control.prev {
+			left: -50px;
+		}
+		.favorite .slider-control.next {
+			right: -50px;
+		}
+/*end*/
+
+/*start user-property*/
+.user-projects {
+}
+	/*Tab panes*/
+	.user-projects .tab-content > div {
+		padding: 10px 0;
+	}
+
+		/*start link*/
+		.user-projects .tab-content .link {
+			margin: 10px 0;
+			text-align: center;
+		}
+		/*end*/
+
+		/*start paging*/
+		.user-projects .tab-content .paging {
+			margin-bottom: 10px;
+		}
+		/*end*/
+
+	/*end*/
+/*end*/
+
+/*start seo-word*/
+.seo-word {
+}
+	/*start details*/
+	.seo-word .content {
+		text-align: center;
+	}
+	.seo-word img {
+		width: 200px;
+		height: 200px;
+		display: block;	
+		margin: 0 auto;	
+		margin-bottom: 7px;	
+		padding: 5px;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+	.seo-word span {
+		font-size: 130.77%;
+		color: #333;
+	}
+		.seo-word a:hover span {
+			color: #1B7C1B;
+		}
+	/*end*/
+/*end*/
+
+/*start list-project*/
+.list-project {
+	margin-bottom: 40px;
+}
+	/*start tab*/
+	.list-project .tabs-wrapper {
+		height: 38px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid #eee;
+	}
+		.list-project .tabs-wrapper .tabs-scroll.affix {
+			top: 0;
+			padding: 10px 0 10px 0;	
+			z-index: 1;
+			background-color: #f6f6f6;
+			width: 1170px;
+			border-bottom: 1px solid #eee;
+		}
+		body.nav-list-project .tabs-scroll.affix {
+			top: 46px !important;
+		}
+		.tabs-scroll.affix-bottom {
+			position: absolute;
+		}
+		.tabs-scroll li.active a,
+		.tabs-scroll li.active a:link,
+		.tabs-scroll li.active a:focus {
+			background-color: #369836;
+		}	
+			.tabs-scroll li:hover a {
+				background-color: transparent;
+			}
+	/*end*/
+
+	/*start tab-content*/
+	.tab-content {
+
+	}
+		/*start panel-left fix*/
+		.tab-content .panel-left-box {
+
+		}
+			.tab-content .panel-left-box.affix {
+				top: 60px;
+				width: 292px;
+			}
+			body.nav-list-project .panel-left-box.affix {
+				top: 106px !important;
+			}
+			.panel-left-box {
+				border: 1px solid transparent;
+			}
+			 .panel-left-box.affix-bottom {
+			 	position: absolute;
+			 	width: 213px;
+			 }
+				.panel-left-box li a {	
+					display: block;
+					color: #333;
+				}
+				.panel-left-box .active {
+					border-left: 2px solid #54b40d;
+					font-weight: bold;
+				}
+					.panel-left-box .active a {
+						color: #54b40d;
+					}
+				.panel-left-box li a:hover {
+					border-color: transparent;
+				}	
+		/*end*/
+	/*end*/
+
+	/*start new project*/
+	.new-project {
+		margin-bottom: 20px;
+	}	
+	/*end*/
+
+	/*start price project*/
+	.price-project {
+		margin-bottom: 20px;
+	}
+		.price-project ul.suggest {
+			text-align: center;
+			padding: 20px;
+		}	
+		.price-project ul.suggest li {
+			display: inline-block;
+			margin: 10px 20px;
+		}		
+		.price-project ul.suggest li a {
+			display: block;
+			border-radius: 2px;
+			background-color: #fff;
+			padding: 10px;
+			border: 1px solid #ccc;
+			color: #333;
+			transition: 0.2s;
+			cursor: pointer;
+		}
+			.price-project ul.suggest li a:hover {
+				background-color: #1B7C1B;
+				color: #fff;
+			}
+		/*start title*/
+		.price-project label {
+			color: #333;
+			font-size: 115.38%;
+			font-weight: normal;
+		}
+		/*end*/
+	/*end*/
+
+	/*start position*/
+	.position-project {
+	}
+		/*start title*/F
+		.position-project > .title {
+			font-size: 130.77%;
+			color: #333;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+		.position-project .title span {
+			color: #333;
+		}
+		.position-project .title a {
+			cursor: pointer;
+			color: #333;
+		}
+		.position-project .dropdown-menu {
+			margin-top: 5px;
+		}
+			.position-project .dropdown-menu a:hover {
+				background-color: #54b40d;	
+				color: #fff;
+			}
+		.position-project .dropdown-district {
+			text-align: right;
+		}
+		.position-project .dropdown-district .dropdown-box {
+			width: 400px;
+			font-weight: normal;
+			text-transform: none;
+		}
+			.position-project .dropdown-district .dropdown-box a:hover {
+				background-color: #54b40d;	
+				color: #fff;
+			}
+		@media screen and (max-width: 767px) {
+			.position-project .dropdown-district .dropdown-box {
+				width: auto;
+			}
+		}
+		/*end*/
+	/*end*/
+/*end*/
+
+/*start distributor*/
+.distributor-project {
+	display: block;
+}
+
+	/*start slick*/
+	.single-logo {
+		width: 500px;
+		margin: auto;
+	}
+	.slick-slide {
+		width: 500px;
+	}
+		.slick-slide img {
+			margin: 0 auto;
+		}
+		/*start button*/
+		.wrapper {
+			position: relative;
+			margin-bottom: 30px;
+		}
+		.wrapper .slick-left {
+			position: absolute;
+			left: 30%;
+			top: 50%;
+			cursor: pointer;
+			color: #ccc;
+		}
+			.wrapper .slick-left:hover {
+				color: #333;
+			}
+		.wrapper .slick-right {
+			position: absolute;
+			right: 30%;
+			top: 50%;
+			cursor: pointer;
+			color: #ccc;
+		}
+			.wrapper .slick-right:hover {
+				color: #333;
+			}
+		/*end*/
+	/*end*/
+
+	/*start slide-nav*/	
+	.slide-nav {
+		margin-bottom: 30px;
+		overflow: hidden;
+		white-space: nowrap;
+		position: relative;
+	}
+		.slide-nav ul {			
+			text-align: center;
+		}
+		.slide-nav li {
+			border: 1px solid #ddd;
+			background-color: #fff;
+			padding: 10px;
+			margin: 10px 10px 0 10px;
+			display: inline-block;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		.slide-nav li.active {
+			background-color: #369836;
+			color: #fff;
+			position: relative;
+		}
+			.slide-nav li.active:after {
+				content: '';
+				width: 0;
+				height: 0;
+				border-left: 9px solid transparent;
+				border-right: 9px solid rgba(199, 53, 53, 0);
+				border-bottom: 9px solid #F6F6F6;
+				bottom: -2px;
+				position: absolute;
+				left: calc(50% - 10px);
+			}				
+			.slide-nav li:hover {
+				background-color: #369836;
+				color: #fff;
+			}		
+	/*end*/
+
+	/*start content*/
+	.nav-project .content {
+
+	}
+		.nav-project .content li {
+			display: none;
+		}
+		.nav-project .content li.active {
+			display: block;
+		}
+	/*end*/
+	
+/*end*/
+
+/*-------------------------*/

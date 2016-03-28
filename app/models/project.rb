@@ -441,16 +441,16 @@ class Project < ActiveRecord::Base
 		# Search with params
 
 		# params: 
-		#   keyword, page, price(x;y), district, price_from, price_to, currency_unit, unit, project
+		#   keyword, page, price(x;y), district, price_from, price_to, currency_unit, unit
 		#   newest
 		def self.search_with_params params = {}
 			where = 'is_pending = false AND is_show = true AND is_force_hide = false'
 			joins = []
 			order = {}
 
-			if params[:project].present?
-				return where(id: params[:project])
-			end
+			# if params[:project].present?
+			# 	return where(id: params[:project])
+			# end
 
 			# Price
 			if params.has_key? :price
@@ -463,36 +463,15 @@ class Project < ActiveRecord::Base
 			# Price range
 			if params[:price_from].present? || params[:price_to].present?
 				# Format number
-				params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f if params[:price_from].present?
-				params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f if params[:price_to].present?
+				params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000000 if params[:price_from].present?
+				params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000000 if params[:price_to].present?
 
-				# Get currency unit & parse number
-				currency_unit = 'VND'
-
-				case params[:currency_unit]
-				when 'billion'
-					params[:price_from] *= 1000000000 if params[:price_from].present?
-					params[:price_to] *= 1000000000 if params[:price_to].present?
-				when 'million'
-					params[:price_from] *= 1000000 if params[:price_from].present?
-					params[:price_to] *= 1000000 if params[:price_to].present?
-				when 'USD'
-					currency_unit = 'USD'
-				when 'SJC'
-					currency_unit = 'SJC'
+				if params[:price_from].present? && params[:price_to].present? && params[:price_from] > params[:price_to]
+					temp = params[:price_from]
+					params[:price_from] = params[:price_to]
+					params[:price_to] = temp
 				end
 
-				# Get unit
-				unit = params[:unit].present? ? params[:unit] : 'per'
-
-				# Call
-				# Join currency
-				joins << :currency
-				# Join unit
-				joins << :price_unit
-
-				# Condition
-				where += " AND currencies.code = '#{currency_unit}' AND units.code = '#{unit}'"
 				where += " AND unit_price >= #{params[:price_from]}" if params[:price_from].present?
 				where += " AND unit_price <= #{params[:price_to]}" if params[:price_to].present?
 			end
@@ -501,6 +480,11 @@ class Project < ActiveRecord::Base
 			if params[:district].present?
 				joins << :district
 				where += " AND districts.id = #{params[:district]} "
+			end
+
+			# Favorite
+			if params.has_key? :is_favorite
+				where += " AND is_favorite = #{params[:is_favorite]}"
 			end
 
 			# Time order
@@ -702,7 +686,10 @@ class Project < ActiveRecord::Base
 			@display_project_type ||= project_type.present? ? I18n.t("project_type.text.#{project_type.name}") : ''
 		end
 
-		# Full address
+		# Address
+		def display_short_address
+			@display_address ||= "#{street.name unless street.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
+		end
 		def display_address
 			@display_address ||= "#{address_number} #{street.name unless street.nil?}#{', ' + ward.name unless ward.nil?}#{', ' + district.name unless district.nil?}#{', ' + province.name unless province.nil?}".gsub(/\b\w/) { $&.capitalize }
 		end
@@ -789,16 +776,12 @@ class Project < ActiveRecord::Base
 		end
 
 		# Unit price
-		def get_unit_price
-			if unit_price_text.present?
-				(unit_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + price_unit.name)).html_safe
-			else
-				'Giá thỏa thuận'
-			end
-		end
-
 		def display_unit_price
-			@display_unit_price ||= get_unit_price
+			@display_unit_price ||=
+				unit_price_text.present? ?
+					(unit_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + price_unit.name)).html_safe
+				:
+					''
 		end
 
 	# / Attributes

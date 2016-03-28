@@ -5,7 +5,10 @@ class ProjectsController < ApplicationController
 
 		# View
 		def index
-			@projects = Project.where(is_draft: 0, is_show: 1).limit(6)
+			@favorite_projects = Project.search_with_params(is_favorite: 'true')
+			@projects = Project.search_with_params(newest: '')
+
+			render layout: 'front_layout'
 		end
 
 		def demo
