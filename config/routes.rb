@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 	
 		get 'quan-ly-quyen' => 'system_groups#manage'
 		get 'system_groups/:action(/:id)', controller: 'system_groups'
+		post 'system_groups/:action(/:id)', controller: 'system_groups'
 	
 	# / System groups
 
@@ -82,16 +83,6 @@ Rails.application.routes.draw do
 
 	# Project
 
-		get 'projects/set_is_full_status/:id/:is_full' => 'projects#set_is_full_status'
-		post 'projects/create' => 'projects#save'
-		post 'projects/delete/:id' => 'projects#delete'
-		post 'projects/change_show_status/:id/:is_show' => 'projects#change_show_status'
-		post 'projects/approve/:id' => 'projects#approve'
-		post 'projects/change_force_hide_status/:id/:is_force_hide' => 'projects#change_force_hide_status'
-		post 'projects/change_favorite_status/:id/:is_favorite' => 'projects#change_favorite_status'
-		post 'projects/user_favorite/:id/:is_add' => 'projects#user_favorite'
-		post 'projects/save_interact_images'
-
 		get 'du-an/dang-tin(/:id)' => 'projects#create'
 		get 'du-an/chinh-sua(/:id)' => 'projects#create'
 		get 'du-an/dang-chi-tiet(/:id)' => 'projects#create_details'
@@ -102,13 +93,30 @@ Rails.application.routes.draw do
 		get 'du-an/yeu-thich-cua-toi' => 'projects#my_favorite'
 		get 'du-an/kiem-duyet' => 'projects#pending'
 		get 'du-an/quan-ly' => 'projects#manager'
-
+		
 		get 'du-an/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'projects', action: 'view'
 
 		get 'du-an(/:action(/:id))', controller: 'projects', action: 'index'
 		get 'projects(/:action(/:id))', controller: 'projects', action: 'index'
 
+		get 'projects/:action(/:id)', controller: 'projects'
+
 	# / Project
+
+	# Investor
+
+		get 'chu-dau-tu/them-moi(/:id)', controller: 'investors', action: 'create'
+		get 'chu-dau-tu/cap-nhat/:id', controller: 'investors', action: 'create'
+		get 'chu-dau-tu/quan-ly', controller: 'investors', action: 'manager'
+
+		get 'chu-dau-tu/:id', constraints: { id: /\d+/ }, controller: 'investors', action: 'view'
+
+		get 'chu-dau-tu(/:action(/:id))', controller: 'investors', action: 'index'
+		get 'investors(/:action(/:id))', controller: 'investors', action: 'index'
+
+		post 'investors/:action(/:id)', controller: 'investors'
+
+	# / Investor
 
 	# Block
 
@@ -245,16 +253,6 @@ Rails.application.routes.draw do
 		post 'mail_boxes/delete' => 'mail_boxes#delete'
 
 	# / Mail box
-
-	# Investor
-
-		get 'investors/autocomplete'
-		get 'investors/manager'
-		get 'investors/_manager_list'
-		post 'investors/delete/:id' => 'investors#delete'
-		post 'investors/rename'
-
-	# / Investor
 
 	# Temp
 

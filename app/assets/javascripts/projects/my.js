@@ -85,6 +85,9 @@ $(function () {
 					$.ajax({
 						url: '/projects/change_show_status/' + $item.data('value') + '/' + (isShow ? 0 : 1),
 						method: 'POST',
+						data: {
+							is_show: (isShow ? 0 : 1)
+						},
 						contentType: 'JSON'
 					}).always(function () {
 						toggleLoadStatus(false);

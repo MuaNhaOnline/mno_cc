@@ -197,7 +197,8 @@ $(function () {
 				}
 				flag = 1;
 				$object.css({
-					position: 'static'
+					position: 'absolute',
+					top: min + 'px'
 				});
 			}
 			else if (scrollTop < max) {
@@ -1827,7 +1828,9 @@ $(function () {
 		OR
 			url: (* or html)
 				url to load popup content
+			urlData
 			success:
+				function ($popup)
 			always:
 			fail:
 
@@ -1882,6 +1885,7 @@ $(function () {
 			// Url
 			$.ajax({
 				url: params.url,
+				data: params.urlData,
 				dataType: 'JSON'
 			}).always(function () {
 				if ('always' in params) {
@@ -1909,12 +1913,18 @@ $(function () {
 					if ('fail' in params) {
 						params['fail']();
 					}
+					else {
+						errorPopup();
+					}
 				}
 			}).fail(function () {
 				$popup.remove();
 
 				if ('fail' in params) {
 					params['fail']();
+				}
+				else {
+					errorPopup();
 				}
 			});
 		}
@@ -1973,8 +1983,8 @@ $(function () {
 		var $popupContent = $popup.find('.popup-content');
 
 		$popupContent.css({
-				width: 'auto',
-				height: 'auto'
+			width: 'auto',
+			height: 'auto'
 		});
 
 		var 

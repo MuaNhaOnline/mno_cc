@@ -13,7 +13,7 @@
 class User < ActiveRecord::Base
 
 	include PgSearch
-	pg_search_scope :search, against: [:full_name], using: { tsearch: { prefix: true, any_word: true } }
+	pg_search_scope :search, against: [:full_name, :email], using: { tsearch: { prefix: true, any_word: true } }
 
 	has_attached_file :avatar, 
 		styles: { mini: '40x40#', thumb: '100x100#', big: '150x150#' },
@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
 		has_many :favorite_real_estates, through: :users_favorite_real_estates, source: 'real_estate'
 		has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
 		has_many :favorite_projects, through: :users_favorite_projects, source: 'project'
+		has_many :investors, foreign_key: 'representation_id'
 
 	# / Associations
 
@@ -135,7 +136,6 @@ class User < ActiveRecord::Base
 			end
 
 			# Avatar
-
 			if _params[:avatar_id].present?
 				_value = JSON.parse _params[:avatar_id]
 

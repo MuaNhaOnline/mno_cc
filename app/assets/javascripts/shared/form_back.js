@@ -1330,7 +1330,7 @@ function initForm($form, params) {
 					acName = acName.substr(0, acName.length - 1) + '_ac]';
 				}
 				else {
-					acName = name + '_ac'
+					acName = name + '_ac';
 				}
 
 				$input.after('<input data-constraint="' + $input.attr('data-constraint') + '" type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
@@ -1542,11 +1542,11 @@ function initForm($form, params) {
 					$input = $currentInput;
 
 				if ($input.is('[data-free]') && $input.val()) {
-					$input.next().val('0').change();
+					$input.next().val('0').change().trigger('valueChange');
 					$input.removeClass('focus');	
 				}
 				else {
-					$input.next().val('').change();
+					$input.next().val('').change().trigger('valueChange');
 					$input.removeClass('focus').val('');	
 					_temp[prefix + 'value'] = '';
 				}
@@ -1557,7 +1557,7 @@ function initForm($form, params) {
 
 			function getAutoComplete($item) {
 				if (!$item) {
-					$item = $currentList.find('.selected')
+					$item = $currentList.find('.selected');
 				}
 
 				var 
@@ -1566,8 +1566,8 @@ function initForm($form, params) {
 					text = $selected.text() || '',
 					value = $selected.data('value') || '';
 
-				$input.next().val(value).change();
-				$input.removeClass('focus').val(text).change();
+				$input.next().val(value).change().trigger('valueChange');
+				$input.data('value', value).removeClass('focus').val(text).change().trigger('valueChange');
 
 				_temp[prefix + 'change'] = false;
 				_temp[prefix + 'value'] = $input.val();
@@ -2229,6 +2229,29 @@ function initForm($form, params) {
 
 					if (maxValue && maxValue < value) {
 						$input.val(maxValue).change();
+					}
+				}
+			});
+
+			// Length
+			$form.find('[data-constraint~="length"]').on({
+				change: function () {
+					var
+						$input = $(this),
+						minLength = $input.data('minlength'),
+						maxLength = $input.data('maxlength');
+					
+					if (minLength && $input.val().length < minLength || maxLength && $input.val().length > maxLength) {
+						$input.val('');
+					}
+				},
+				keypress: function (e) {
+					var
+						$input = $(this),
+						maxLength = $input.data('maxlength');
+
+					if (maxLength && $input.val().length >= maxLength) {
+						e.preventDefault();
 					}
 				}
 			});

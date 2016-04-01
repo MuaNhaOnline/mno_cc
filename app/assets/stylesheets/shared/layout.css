@@ -778,5 +778,35 @@
 						margin: 0;
 					}
 
-
 /*  / Popup */
+
+/* User info box */
+
+	.box.user-info-box {
+		
+	}
+
+		.box.user-info-box .image {
+			padding: 10px;
+			text-align: center;
+		}
+
+			.box.user-info-box .image img {
+				height: 100px;
+			}
+
+		.box.user-info-box .name {
+			font-size: 21px;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+
+		.box.user-info-box .text {
+			font-weight: bold;
+		}
+
+			.box.user-info-box .text .label {
+				font-weight: normal;
+			}
+
+/* / User info box */

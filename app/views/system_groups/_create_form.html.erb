@@ -1,0 +1,39 @@
+<%
+=begin
+	params: group
+=end	
+
+%>
+
+<article class="box">
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			<% if group.new_record? %>
+				Tạo nhóm mới
+			<% else %>
+				Cập nhật nhóm
+			<% end %>
+		</h2>
+	</section>
+	<section class="box-body">
+		<form class="form">
+			<input type="hidden" name="group[id]" value="<%= group.id %>" />
+			<article class="form-group">
+				<label class="control-label" for="group[name]">
+					Tên
+				</label>
+				<input class="form-control" name="group[name]" id="group[name]" value="<%= group.name %>" />
+			</article>
+			<article class="form-group">
+				<label class="control-label" for="group[description]">
+					Mô tả
+				</label>
+				<textarea class="form-control" name="group[description]" id="group[description]"><%= group.description %></textarea>
+			</article>
+			<article class="form-group text-right">
+				<button class="btn btn-primary">Hoàn tất</button>
+				<button type="button" class="btn btn-default" aria-click="close-popup">Hủy</button>
+			</article>
+		</form>
+	</section>
+</article>

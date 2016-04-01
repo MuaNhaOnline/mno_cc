@@ -1,46 +1,218 @@
 /* Groups */
 
 	.groups-container {
-		background-color: #fff;
-		height: 300px;
-		overflow-y: auto;
-		margin: 5px;
+		margin-bottom: 5px;
+		height: 350px;
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: column;
+		-webkit-flex-direction: column;
 	}
 
+		.groups-container > * {
+			box-sizing: content-box;
+		}
+
 		.groups-container .list {
-			padding: 5px 0px;
+			overflow: auto;
 		}
 
 			.groups-container .list .item {
-				display: block;
-				color: #fff;
-				padding: 6px 12px;
-				text-decoration: none;
+				position: relative;
 			}
 
-				.groups-container .list .item.active,
-				.groups-container .list .item:hover {
-					background-color: #646B76;
+				.groups-container .list .item:nth-child(even) {
+					background-color: #f5f5f5;
 				}
 
+				.groups-container .list .item:hover {
+					background-color: #f0f0f0;
+				}
+
+				.groups-container .list .item.active {
+					background-color: #3c8dbc;
+					color: #fff;
+				}
+
+				.groups-container .list .item a.text {
+					display: block;
+					padding: 6px 12px;
+					color: inherit;
+				}
+
+				.groups-container .list .item .control {
+					position: absolute;
+					top: 5px;
+					right: 5px;
+				}
+
+					.groups-container .list .item .control > a {
+						color: #ccc;
+					}
+
+						.groups-container .list .item:hover .control > a {
+							color: #666;
+						}
+
+						.groups-container .list .item .control > a:hover {
+							color: #3c8dbc;
+						}
+
 /* / Groups */
-
-/* Users */
-
-	.users-container {
-		background-color: #fff;
-		height: 300px;
-		margin: 5px;
-	}
-
-/* / Users */
 
 /* Permission */
 
 	.permissions-container {
-		background-color: #fff;
-		height: 300px;
-		margin: 5px;
+		margin-bottom: 5px;
+		height: 350px;
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: column;
+		-webkit-flex-direction: column;
 	}
 
+		.permissions-container > * {
+			box-sizing: content-box;
+		}
+
+		.permissions-container .box-body {
+			height: 100%;
+		}
+
+		.permissions-container .box-footer {
+			padding: 0;
+		}
+
+			.permissions-container .box-footer .btn {
+				border: 0
+			}
+		
+		@media (min-width: 992px) {
+			.permissions-container .list > :nth-child(2n+2) {
+				float: right;
+			}	
+		}
+
+		.permissions-container .item {
+
+		}
+
+			.permissions-container .item > .item {
+				display: none;
+				padding-left: 20px;
+			}
+
+				.permissions-container .item.open > .item {
+					display: block;
+				}
+
+			.permissions-container .item .permission {
+				display: flex;
+				display: -webkit-flex;
+				white-space: nowrap;
+				font-weight: normal;
+			}
+
+				.permissions-container .item .permission > * {
+					line-height: 25px;
+					box-sizing: border-box;
+					padding-right: 4px;
+				}
+
+				.permissions-container .item .permission input {
+					margin: 0;
+					vertical-align: middle;
+				}
+
+				.permissions-container .item .permission > .name {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					width: 100%;
+				}
+
+				.permissions-container .item .permission .description {
+					color: #666;
+					font-size: .9em;
+				}
+
+				.permissions-container .item .permission a {
+					padding: 0 10px;
+					font-size: 18px;
+				}
+
 /* / Permission */
+
+/* Users */
+
+	.users-container {
+		margin-bottom: 5px;
+		max-height: 450px;
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: column;
+		-webkit-flex-direction: column;
+	}
+
+		.users-container > * {
+			box-sizing: content-box;
+		}
+
+		.users-container .list {
+			overflow: auto;
+		}
+
+			.users-container .list > :nth-child(2n+1) {
+				clear: left;
+			}
+
+			@media (min-width: 768px) {
+				.users-container .list > :nth-child(2n+1) {
+					clear: none;
+				}
+
+				.users-container .list > :nth-child(3n+1) {
+					clear: left;
+				}
+			}
+			
+			@media (min-width: 992px) {
+				.users-container .list > :nth-child(3n+1) {
+					clear: none;
+				}
+
+				.users-container .list > :nth-child(4n+1) {
+					clear: left;
+				}
+			}
+			
+			@media (min-width: 1200px) {
+				.users-container .list > :nth-child(4n+1) {
+					clear: none;
+				}
+
+				.users-container .list > :nth-child(6n+1) {
+					clear: left;
+				}
+			}
+
+			.users-container .item {
+				max-width: 100px;
+				margin: 10px auto;
+				cursor: pointer;
+			}
+
+				.users-container .item .image {
+					text-align: center;
+					max-width: 80px;
+					margin: 0 auto;
+				}
+
+					.users-container .item .image img {
+					}
+
+				.users-container .item .name {
+					text-align: center;
+					font-size: 15px;
+				}
+
+/* / Users */

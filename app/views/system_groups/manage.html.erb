@@ -18,57 +18,81 @@
 	@title = 'Quản lý quyền';
 %>
 
-<div class="row no-horizontal-padding">
+<div class="row">
 	
 	<!-- Groups -->
 
 		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-			<section class="groups-container">
-				<section class="list">
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
+			<section class="box groups-container">
+				<section class="box-header with-border">
+					<h2 class="box-title">
+						Danh sách nhóm
+					</h2>
+					<article class="pull-right">
+						<a id="create_group" class="btn btn-flat btn-default btn-xs">Thêm</a>
 					</article>
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
-					</article>
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
-					</article>
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
-					</article>
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
-					</article>
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
-					</article>
-					<article class="item">
-						<a class="text">Quản lý hệ thống</a>
-					</article>
+				</section>
+				<section class="box-body padding-0 list" id="groups_list">
+					<%= render partial: 'group_items', locals: { groups: @groups } %>
 				</section>
 			</section>
 		</div>
 
 	<!-- / Groups -->
 
-	<!-- Users -->
-	
-		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-			<section class="users-container">
-				
-			</section>
-		</div>
-	
-	<!-- / Users -->
-
 	<!-- Permission -->
 	
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<section class="permissions-container">
-				
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+			<section class="box permissions-container hidden">
+				<section class="box-header with-border">
+					<h2 class="box-title">
+						Danh sách quyền
+					</h2>
+					<article class="pull-right">
+						<a id="edit_group" class="btn btn-flat btn-default btn-xs">Sửa nhóm</a>
+						<a id="delete_group" class="btn btn-flat btn-default btn-xs">Xóa nhóm</a>
+					</article>
+				</section>
+				<section class="box-body content">
+					<form class="row list" id="permissions_list">
+						<%= render partial: 'permission_items', locals: { permissions: Permission.where(scope: ['sys_general', 'sys_real_estate', 'sys_project'], parent_permission_id: nil), first: true } %>
+					</form>
+				</section>
+				<section class="box-footer">
+					<button class="btn btn-flat btn-default btn-block" id="save_permissions">
+						Cập nhật
+					</button>
+				</section>
 			</section>
 		</div>
 	
 	<!-- / Permission -->
+
+	<!-- Users -->
+	
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<section class="box users-container hidden">
+				<section class="box-header with-border">
+					<h2 class="box-title">
+						Danh sách người dùng thuộc nhóm
+					</h2>
+					<article class="pull-right">
+						<a id="edit_group" class="btn btn-flat btn-default btn-xs">Sửa nhóm</a>
+						<a id="delete_group" class="btn btn-flat btn-default btn-xs">Xóa nhóm</a>
+					</article>
+				</section>
+				<section class="box-body">
+					<form class="form" id="find_user_form">
+						<input data-nonvalid class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="find_user" placeholder="Nhập thông tin tài khoản cần tìm" />
+					</form>
+				</section>
+				<section class="box-body padding-0 list">
+					<div class="row no-horizontal-padding list" id="users_list">
+						
+					</div>
+				</section>
+			</section>
+		</div>
+	
+	<!-- / Users -->
 </div>

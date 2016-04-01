@@ -1,0 +1,12 @@
+<%
+=begin
+	params: groups
+=end
+
+%>
+
+<% groups.each do |group| %>
+	<article class="item" data-value="<%= group.id %>">
+		<a class="text"><%= group.name %></a>
+	</article>
+<% end %>

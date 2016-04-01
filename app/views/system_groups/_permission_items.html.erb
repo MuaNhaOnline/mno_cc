@@ -1,0 +1,32 @@
+<%
+=begin
+	params: permissions, first
+=end
+	
+	first ||= false
+%>
+
+<% permissions.each do |permission| %>
+	<% if first %>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+	<% end %>
+		<article class="item">
+			<label class="permission">
+				<article>
+					<input name="permission_ids[]" type="checkbox" value="<%= permission.id %>" />
+				</article>
+				<article class="name">
+					<span><%= permission.name %></span> <span class="description" title="<%= permission.description %>">- <%= permission.description %></span>
+				</article>
+				<% if permission.value.blank? && permission.childs.present? %>
+					<a class="fa fa-fw fa-caret-left" aria-click="toggle_childs"></a>
+				<% end %>
+			</label>
+			<% if permission.value.blank? && permission.childs.present? %>
+				<%= render partial: 'permission_items', locals: { permissions: permission.childs } %>
+			<% end %>
+		</article>
+	<% if first %>
+		</div>
+	<% end %>
+<% end %>

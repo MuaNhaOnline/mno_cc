@@ -1,28 +1,20 @@
 <% investors.each do |i| %>
-  <% 
-
-    avatar_init_value = ''
-    if i.avatar.present?
-      avatar_init_value = { url: i.avatar.url }.to_json
-    end
-     
-  %>
-  <article class="col-md-3 col-sm-4 col-xs-6">
-    <article class="item" data-value="<%= i.id %>" data-avatar="<%= avatar_init_value %>">
-      <section class="top">
-        <%= investor_avatar i, attribute: 'aria-object="avatar"' %>
-      </section>
-      <section class="bottom">
-        <p aria-object="name" class="title"><%= i.name %></p>
-      </section>
-      <section class="control">
-        <span class="node">
-          <a aria-click="rename" title="Sửa" href="javascript:void(0)" class="fa fa-pencil fa-lg"></a>
-        </span>
-        <span class="node">
-          <a aria-click="delete" title="Xóa" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
-        </span>
-      </section>
-    </article>
-  </article>
+	<article class="col-md-3 col-sm-4 col-xs-6">
+		<article class="item" data-value="<%= i.id %>">
+			<section class="top">
+				<%= investor_avatar i %>
+			</section>
+			<section class="bottom">
+				<p aria-object="name" class="title"><%= i.name %></p>
+			</section>
+			<section class="control">
+				<span class="node">
+					<a aria-click="rename" title="Sửa" href="/chu-dau-tu/cap-nhat/<%= i.id %>" class="fa fa-pencil fa-lg"></a>
+				</span>
+				<span class="node">
+					<a aria-click="delete" title="Xóa" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+				</span>
+			</section>
+		</article>
+	</article>
 <% end %>

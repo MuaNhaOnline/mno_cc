@@ -739,7 +739,8 @@
 
 								<article class="form-group">
 									<label class="control-label" for="investor_id"><%= t 'project.attribute.investor' %></label>
-									<input class="form-control" data-url="/investors/autocomplete" aria-input-type="autocomplete" <%= "value=\"#{@project.investor.name}\" data-value=\"#{@project.investor.id}\"".html_safe if @project.investor.present? %> data-free name="project[investor_id]" id="investor_id" />
+									<input class="form-control" readonly="true" value="<%= current_user.investors.first.name if current_user.investors.present? %>" />
+									<input class="form-control" type="hidden" name="project[investor_id]" value="<%= current_user.investors.first.id if current_user.investors.present? %>" />
 								</article>
 
 							<!-- / Investor -->

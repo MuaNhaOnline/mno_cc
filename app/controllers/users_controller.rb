@@ -463,7 +463,7 @@ class UsersController < ApplicationController
 
 			list = []
 			users.each do |user|
-				list << { value: user.id, text: user.full_name }
+				list << { value: user.id, text: "#{user.full_name} - #{user.email}" }
 			end
 
 			render json: { status: 0, result: list }

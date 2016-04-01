@@ -1,0 +1,19 @@
+<%
+=begin
+	params: users
+=end
+
+%>
+
+<% users.each do |user| %>
+	<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+		<article class="item" data-value="<%= user.id %>">
+			<section class="image">
+				<%= user_avatar user, style: 'thumb' %>
+			</section>
+			<section class="name">
+				<%= user.full_name %>
+			</section>
+		</article>
+	</div>
+<% end %>

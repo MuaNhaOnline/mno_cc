@@ -33,13 +33,11 @@ $(function () {
 								type: 'primary',
 								handle: function () {
 									window.location = '/du-an/dang-chi-tiet/' + data.result;
-									// window.location = '/projects/set_is_full_status/' + data.result + '/1';
 								}
 							}, {
 								text: 'Để sau',
 								handle: function () {
 									window.location = '/du-an/cua-toi';
-									// window.location = '/projects/set_is_full_status/' + data.result + '/0';
 								}
 							}
 						]
@@ -157,7 +155,7 @@ $(function () {
 			toggleLoadStatus(true);
 			$form.submitStatus(true);
 			$.ajax({
-				url: '/projects/create',
+				url: '/projects/save',
 				method: 'POST',
 				data: $form.serialize() + '&draft',
 				dataType: 'JSON'

@@ -1,70 +1,70 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/investors/manager.css" />
+	<link rel="stylesheet" href="/assets/investors/manager.css" />
 <% end %>
 
 <% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/investors/manager.js"></script>
+	<script type="text/javascript" src="/assets/investors/manager.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
-  <%= t 'investor.view.manager.form_title' %>
+	<%= t 'investor.view.manager.form_title' %>
 <% end %>
 
 <%
 =begin
-  params: @investor
+	params: @investor
 =end
 
-  @title = t 'investor.view.manager.page_title'
+	@title = t 'investor.view.manager.page_title'
 
-  total = @investors.count
-  per = Rails.application.config.item_per_page
+	total = @investors.count
+	per = Rails.application.config.item_per_page
 %>
 
 <section class="box box-solid">
-  <section class="box-body">
-    <form id="search_form">
-      <div class="input-group margin">
-        <input data-nonvalid name="keyword" type="text" class="form-control" placeholder="<%= t 'investor.view.manager.search_placeholder' %>">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit"><%= t 'investor.view.manager.search' %></button>
-        </span>
-      </div>
-    </form>
-  </section>
+	<section class="box-body">
+		<form id="search_form">
+			<div class="input-group margin">
+				<input data-nonvalid name="keyword" type="text" class="form-control" placeholder="<%= t 'investor.view.manager.search_placeholder' %>">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="submit"><%= t 'investor.view.manager.search' %></button>
+				</span>
+			</div>
+		</form>
+	</section>
 </section>
 
 <section>
-  <article id="investor_list" class="row item-list">
-    <% if total != 0 %>
-      <%= render partial: 'investors/manager_list', locals: { investors: @investors.page(1, per) } %>
-    <% else %>
-      <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có nhà đầu tư nào</h4></div>
-    <% end %>
-  </article>
-  <nav class="text-center" id="pagination">
-    <% if total != 0 %>
-      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
-    <% end %>
-  </nav>
+	<article id="investor_list" class="row item-list">
+		<% if total != 0 %>
+			<%= render partial: 'investors/manager_list', locals: { investors: @investors.page(1, per) } %>
+		<% else %>
+			<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có nhà đầu tư nào</h4></div>
+		<% end %>
+	</article>
+	<nav class="text-center" id="pagination">
+		<% if total != 0 %>
+			<%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
+		<% end %>
+	</nav>
 </section>
 
 <article aria-popupcontent="edit_form" style="width: 300px; max-width: 80vw" class="box box-solid box-default">
-  <form class="form box-body">
-    <input type="hidden" name="id" />
-    <article class="form-group">
-      <input class="form-control" name="name" />
-    </article>
-    <article class="form-group">
-      <input type="file" class="form-control file-upload" name="avatar_id" />
-    </article>    
-    <article class="text-center">
-      <button type="submit" class="btn btn-primary btn-flat">
-        <%= t 'form.finish' %>
-      </button>
-      <button type="button" class="btn btn-default btn-flat">
-        <%= t 'form.cancel' %>
-      </button>
-    </article>
-  </form>
+	<form class="form box-body">
+		<input type="hidden" name="id" />
+		<article class="form-group">
+			<input class="form-control" name="name" />
+		</article>
+		<article class="form-group">
+			<input type="file" class="form-control file-upload" name="avatar_id" />
+		</article>    
+		<article class="text-center">
+			<button type="submit" class="btn btn-primary btn-flat">
+				<%= t 'form.finish' %>
+			</button>
+			<button type="button" class="btn btn-default btn-flat">
+				<%= t 'form.cancel' %>
+			</button>
+		</article>
+	</form>
 </article>

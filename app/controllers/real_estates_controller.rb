@@ -163,6 +163,8 @@ class RealEstatesController < ApplicationController
 					@re.save
 				end
 			end
+
+			render layout: 'layout_back'
 		end  
 
 		# Handle

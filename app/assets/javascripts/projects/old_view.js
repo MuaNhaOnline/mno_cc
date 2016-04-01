@@ -20,8 +20,11 @@ $(function() {
 					isAdd = $button.find('i.active').length == 0
 
 				$.ajax({
-					url: '/projects/user_favorite/' + $item.data('value') + '/' + (isAdd ? '1' : '0'),
+					url: '/projects/user_favorite/' + $item.data('value'),
 					method: 'POST',
+					data: {
+						is_add: isAdd ? 1 : 0
+					},
 					dataType: 'JSON'
 				}).done(function (data) {
 					if (data.status == 0) {

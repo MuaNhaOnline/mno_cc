@@ -788,7 +788,8 @@
 								<%= t 'real_estate.attribute.title' %>
 								<sup class="required-label"></sup>
 							</label>
-							<input data-constraint="required" class="form-control" name="real_estate[title]" id="title" value="<%= @re.title %>" />
+							<input data-constraint="required length" data-maxlength="60" class="form-control" name="real_estate[title]" id="title" value="<%= @re.title %>" />
+							<p>Tối đa 60 ký tự</p>
 						</article>
 						<article class="form-group">
 							<label class="control-label" for="description">

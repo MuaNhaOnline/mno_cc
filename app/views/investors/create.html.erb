@@ -1,0 +1,114 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/investors/create.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/investors/create.js"></script>
+<% end %>
+
+<%
+=begin
+	params: @investor
+=end
+
+	@_title = @investor.new_record? ? 'Thêm chủ đầu tư' : 'Cập nhật chủ đầu tư';
+	@_description = @investor.new_record? ? 'Thêm chủ đầu tư' : 'Cập nhật chủ đầu tư';
+%>
+
+<form class="form" id="investor_form">
+	<article class="box">
+		<section class="box-header">
+			<h2 class="box-title">
+				Thông tin chủ đầu tư
+			</h2>
+		</section>
+		<section class="box-body">
+			<input type="hidden" name="investor[id]" value="<%= @investor.id %>" />
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<!-- Name -->
+					
+						<article class="form-group">
+							<label class="control-label" for="investor[name]">
+								Tên công ty
+							</label>
+							<input class="form-control" id="investor[name]" name="investor[name]" value="<%= @investor.name %>" />
+						</article>
+					
+					<!-- / Name -->
+
+					<!-- Logo -->
+
+						<%
+							logo_init_value = ''
+							if !@investor.new_record? && @investor.logo.present?
+								logo_init_value = { 'url': @investor.logo.url }.to_json
+							end
+						%>					
+						<article class="form-group">
+							<label class="control-label" for="investor[logo]">
+								Logo
+							</label>
+							<input data-init-value="<%= logo_init_value %>" name="investor[logo]" id="investor[logo]" class="file-upload" type="file" data-types="image" />
+						</article>
+					
+					<!-- / Logo -->
+
+					<!-- Representation -->
+						
+						<article class="form-group">
+							<label class="control-label" for="investor[representation_id]">
+								Tài khoản đại diện
+							</label>
+	  						<input data-constraint="required" <%= "value=\"#{@investor.representation.full_name}\" data-value=\"#{@investor.representation.id}\"".html_safe if !@investor.new_record? && @investor.representation.present? %> class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="investor[representation_id]" name="investor[representation_id]" />
+						</article>
+					
+					<!-- / Representation -->
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<!-- Email -->
+					
+						<article class="form-group">
+							<label class="control-label" for="investor[email]">
+								Email
+							</label>
+							<input data-constraint="email" class="form-control" name="investor[email]" id="investor[email]" value="<%= @investor.email %>" />
+						</article>
+					
+					<!-- / Email -->
+
+					<!-- Phone -->
+					
+						<article class="form-group">
+							<label class="control-label" for="investor[phone]">
+								Điện thoại
+							</label>
+							<input data-constraint="phone" class="form-control" name="investor[phone]" id="investor[phone]" value="<%= @investor.phone %>" />
+						</article>
+					
+					<!-- / Phone -->
+
+					<!-- Address -->
+					
+						<article class="form-group">
+							<label class="control-label" for="investor[address]">
+								Địa chỉ
+							</label>
+							<textarea class="form-control" name="investor[address]" id="investor[address]"><%= @investor.address %></textarea>
+						</article>
+					
+					<!-- / Address -->
+				</div>
+			</div>
+			<article class="form-group">
+				<label class="control-label" for="investor[description]">
+					Mô tả
+				</label>			
+				<textarea class="form-control" aria-input-type="editor" name="investor[description]" id="investor[description]"><%= @investor.description %></textarea>
+			</article>
+			<button class="btn btn-primary btn-block">
+				Hoàn tất
+			</button>			
+		</section>
+	</article>
+</form>
