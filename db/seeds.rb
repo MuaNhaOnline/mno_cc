@@ -407,7 +407,7 @@ BlockType.create [
 Permission.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE permissions_id_seq RESTART WITH 1')
 Permission.create [
-	# 13
+	# 4
 
 		# {
 		# 	id: 1,
@@ -425,105 +425,26 @@ Permission.create [
 			id: 1,
 			scope: 'sys_general',
 			name: 'Quản lý quyền',
-			description: 'Quyền phân quyền cho các thành viên trong hệ thống.',
+			description: 'Quyền phân quyền cho các thành viên trong hệ thống',
 			value: 'manage_group',
 			order: 1
 		},
 		{
 			id: 2,
-			scope: 'sys_real_estate',
+			scope: 'sys_re',
 			name: 'Quản lý bất động sản',
-			description: 'Quyền quản lý các bất động sản trong hệ thống.',
+			description: 'Quyền quản lý các bất động sản trong hệ thống',
+			value: 'manage',
 			order: 2
 		},
-			{
-				id: 4,
-				scope: 'sys_real_estate',
-				name: 'Sửa bất động sản',
-				description: 'Sửa thông tin bất động sản.',
-				value: 'edit',
-				parent_permission_id: 2,
-				order: 1
-			},
-			{
-				id: 5,
-				scope: 'sys_real_estate',
-				name: 'Xóa bất động sản',
-				description: 'Xóa tin bất động sản.',
-				value: 'delete',
-				parent_permission_id: 2,
-				order: 2
-			},
-			{
-				id: 6,
-				scope: 'sys_real_estate',
-				name: 'Duyệt bất động sản',
-				description: 'Kiểm duyệt tin bất động sản.',
-				value: 'pend',
-				parent_permission_id: 2,
-				order: 3
-			},
-			{
-				id: 7,
-				scope: 'sys_real_estate',
-				name: 'Quản lý bất động sản yêu thích',
-				description: 'Quản lý danh sách bất động sản yêu thích.',
-				value: 'manage_favorite',
-				parent_permission_id: 2,
-				order: 4
-			},
 		{
 			id: 3,
-			scope: 'sys_project',
+			scope: 'sys_pj',
 			name: 'Quản lý dự án, chủ đầu tư',
 			description: 'Quyền quản lý các dự án trong dự án, thông tin chủ đầu tư',
+			value: 'manage',
 			order: 3
-		},
-			{
-				id: 8,
-				scope: 'sys_project',
-				name: 'Sửa dự án',
-				description: 'Sửa thông tin dự án.',
-				value: 'edit',
-				parent_permission_id: 3,
-				order: 1
-			},
-			{
-				id: 9,
-				scope: 'sys_project',
-				name: 'Xóa dự án',
-				description: 'Xóa tin bất động sản.',
-				value: 'delete',
-				parent_permission_id: 3,
-				order: 2
-			},
-			{
-				id: 10,
-				scope: 'sys_project',
-				name: 'Duyệt dự án',
-				description: 'Kiểm duyệt tin dự án.',
-				value: 'pend',
-				parent_permission_id: 3,
-				order: 3
-			},
-			{
-				id: 11,
-				scope: 'sys_project',
-				name: 'Quản lý dự án yêu thích',
-				description: 'Quản lý danh sách dự án yêu thích.',
-				value: 'manage_favorite',
-				parent_permission_id: 3,
-				order: 4
-			},
-			{
-				id: 12,
-				scope: 'sys_project',
-				name: 'Quản lý chủ đầu tư',
-				description: 'Quản lý các thông tin chủ đầu tư.',
-				value: 'manage_investor',
-				parent_permission_id: 3,
-				order: 5
-			},
+		}
 
 	# / System group
 ]

@@ -13,4 +13,9 @@ class Permission < ActiveRecord::Base
 		has_many :childs, class_name: 'Permission', foreign_key: 'parent_permission_id'
 	
 	# / Associations
+
+	# Attributes
+	
+	# / Attributes
+
 end

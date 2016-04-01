@@ -119,18 +119,13 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: slug(*)
 		def view
+			# Get id from slug
 			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
 
 			@re = RealEstate.find id
 
 			# Author
 			authorize! :view, @re
-
-			session[:real_estate_viewed] ||= []
-			unless session[:real_estate_viewed].include? id
-				@re.update(view_count: @re.view_count + 1)
-				session[:real_estate_viewed] << id
-			end
 		end
 
 	# / View
@@ -140,20 +135,12 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: id (if edit)
 		def create
-			if params.has_key? :id
-				begin
-					@re = RealEstate.find params[:id]
-				rescue
-					@re = RealEstate.new
-				end
-			else
-				@re = RealEstate.new
-			end
+			@re = params[:id].present? ? RealEstate.find(params[:id]) : RealEstate.new
 			
 			# Author
 			if @re.new_record?
 				authorize! :create, RealEstate
-				@is_appraisal = params[:appraisal].present? && params[:appraisal] == true
+				@is_appraisal = params[:appraisal] == true
 			else
 				authorize! :edit, @re
 				@is_appraisal = @re.appraisal_type != 0
@@ -217,7 +204,7 @@ class RealEstatesController < ApplicationController
 				return render json: result if result[:status] != 0
 
 				if params[:real_estate][:id].blank?
-					# RealEstateMailer.active(re).deliver_later
+					RealEstateMailer.active(re).deliver_later
 				end
 
 				render json: { status: 0, result: re.id }
@@ -243,6 +230,10 @@ class RealEstatesController < ApplicationController
 		# params: block_id(*), group_id(*)
 		def _block_create
 			@block = Block.find params[:block_id]
+
+			# Author
+			authorize! :edit, @block.project
+
 			@selected_group = BlockRealEstateGroup.find params[:group_id]
 			@re = RealEstate.new
 
@@ -256,6 +247,9 @@ class RealEstatesController < ApplicationController
 			@selected_group = @re.block_group
 			@block = @re.block
 
+			# Author
+			authorize! :edit, @block.project
+
 			render json: { status: 0, result: render_to_string(partial: 'real_estates/block_create') }
 		end
 
@@ -265,6 +259,9 @@ class RealEstatesController < ApplicationController
 			params[:real_estate][:user_id] = current_user.id
 
 			re = params[:real_estate][:id].blank? ? RealEstate.new : RealEstate.find(params[:real_estate][:id])
+
+			# Author
+			authorize! :edit, re.block.project
 
 			result = re.block_save_with_params params[:real_estate]
 
@@ -430,7 +427,11 @@ class RealEstatesController < ApplicationController
 			# Images
 
 				# Result for request
-				images = []
+				images = []					other_params[:is_active] = false
+					other_params[:params] = {}
+					other_params[:params]['remote_ip'] = params[:remote_ip]
+					other_params[:params]['secure_code'] = SecureRandom.base64
+
 
 				# Get group's image
 				real_estate_group_images = BlockRealEstateGroupImage.where(block_real_estate_group_id: params[:id])
@@ -941,7 +942,7 @@ class RealEstatesController < ApplicationController
 		# params: keyword, page
 		def _my_list
 			# Author
-			return render json: { status: 6 } if cannot? :view_my, RealEstate
+			authorize! :view_my, RealEstate
 
 			per = Rails.application.config.item_per_page
 
@@ -982,7 +983,7 @@ class RealEstatesController < ApplicationController
 		# View
 		def my_favorite
 			# Author
-			authorize! :view_my_favorite, RealEstate
+			authorize! :view_my, RealEstate
 
 			@res = RealEstate.my_favorite_search_with_params interact: 'desc'
 
@@ -993,7 +994,7 @@ class RealEstatesController < ApplicationController
 		# params: keyword, page
 		def _my_favorite_list
 			# Author
-			return render json: { status: 6 } if cannot? :view_my_favorite, RealEstate
+			authorize! :view_my, RealEstate
 
 			per = Rails.application.config.item_per_page
 
@@ -1022,7 +1023,7 @@ class RealEstatesController < ApplicationController
 		# View
 		def pending
 			# Author
-			authorize! :approve, RealEstate
+			authorize! :manage, RealEstate
 
 			@res = RealEstate.pending_search_with_params interact: 'desc'
 
@@ -1033,7 +1034,7 @@ class RealEstatesController < ApplicationController
 		# params: keyword
 		def _pending_list
 			# Author
-			return render json: { staus: 6 } if cannot? :approve, RealEstate
+			authorize! :manage, RealEstate
 
 			per = Rails.application.config.item_per_page
 			
@@ -1079,7 +1080,7 @@ class RealEstatesController < ApplicationController
 		# params: keyword, page
 		def _manager_list
 			# Author
-			return render json: { status: 6 } if cannot? :manage, RealEstate
+			authorize! :manage, RealEstate
 
 			per = Rails.application.config.item_per_page
 

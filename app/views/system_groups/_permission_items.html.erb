@@ -10,7 +10,7 @@
 	<% if first %>
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 	<% end %>
-		<article class="item">
+		<article class="item <%= 'has-child' if permission.value.blank? && permission.childs.present?  %>">
 			<label class="permission">
 				<article>
 					<input name="permission_ids[]" type="checkbox" value="<%= permission.id %>" />

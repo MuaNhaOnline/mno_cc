@@ -55,7 +55,7 @@
 				</section>
 				<section class="box-body content">
 					<form class="row list" id="permissions_list">
-						<%= render partial: 'permission_items', locals: { permissions: Permission.where(scope: ['sys_general', 'sys_real_estate', 'sys_project'], parent_permission_id: nil), first: true } %>
+						<%= render partial: 'permission_items', locals: { permissions: Permission.where(scope: ['sys_general', 'sys_re', 'sys_pj'], parent_permission_id: nil), first: true } %>
 					</form>
 				</section>
 				<section class="box-footer">

@@ -284,7 +284,7 @@ class Project < ActiveRecord::Base
 				:project_type_id, :campus_area, :constructional_area, :is_draft,
 				:using_ratio, :estimate_starting_date, :estimate_finishing_date,
 				:starting_date, :finished_base_date, :transfer_date, :docs_issue_date,
-				:investor_id, :unit_description,:user_id, :date_display_type, :main_color
+				:unit_description,:user_id, :date_display_type, :main_color
 			]
 		end
 
@@ -292,8 +292,9 @@ class Project < ActiveRecord::Base
 
 		def save_with_params _params, _is_draft = false
 			# Author
+			assign_attributes investor_id: _params[:investor_id]
 			if new_record?
-				return { status: 6 } if User.current.cannot? :create, Project
+				return { status: 6 } if User.current.cannot? :create, self
 			else
 				return { status: 6 } if User.current.cannot? :edit, self
 			end
@@ -323,7 +324,6 @@ class Project < ActiveRecord::Base
 			_is_new_record = new_record?
 
 			if save validate: !_is_draft
-				User.increase_project_count User.current.id if _is_new_record
 				{ status: 0 }
 			else 
 				{ status: 3 }
@@ -342,7 +342,7 @@ class Project < ActiveRecord::Base
 			project = find id
 
 			# Author
-			return { status: 6 } if User.current.cannot? :change_show_status, project
+			return { status: 6 } if User.current.cannot? :edit, project
 
 			project.is_show = is_show
 
@@ -359,7 +359,7 @@ class Project < ActiveRecord::Base
 
 		def self.update_pending_status id, is_pending
 			# Author
-			return { status: 6 } if User.current.cannot? :approve, Project
+			return { status: 6 } if User.current.cannot? :manage, Project
 
 			project = find id
 
@@ -380,7 +380,7 @@ class Project < ActiveRecord::Base
 			project = find id
 
 			# Author
-			return { status: 6 } if User.current.cannot? :change_force_hide_status, project
+			return { status: 6 } if User.current.cannot? :manage, project
 
 			project.is_force_hide = is_force_hide
 
@@ -399,7 +399,7 @@ class Project < ActiveRecord::Base
 			project = find id
 
 			# Author
-			return { status: 6 } if User.current.cannot? :change_favorite_status, project
+			return { status: 6 } if User.current.cannot? :manage, project
 
 			project.is_favorite = is_favorite
 
@@ -419,15 +419,12 @@ class Project < ActiveRecord::Base
 		def self.delete_by_id id
 			project = find id
 
-			return { status: 1 } if project.nil?
-
 			# Author
 			return { status: 6 } if User.current.cannot? :delete, project
 
 			_user_id = project.user_id
 
 			if destroy id
-				User.decrease_project_count _user_id
 				{ status: 0 }
 			else
 				{ status: 2 }

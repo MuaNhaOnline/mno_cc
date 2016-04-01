@@ -270,6 +270,7 @@ $(function () {
 
 		// Init item
 			
+			// Toggle childs
 			$('#permissions_list [aria-click="toggle_childs"]').on('click', function (e) {
 				// Prevent default of label
 				e.preventDefault();
@@ -283,6 +284,39 @@ $(function () {
 				else {
 					$button.closest('.item').addClass('open');
 					$button.addClass('fa-caret-down active').removeClass('fa-caret-left');
+				}
+			});
+
+			// Flag to detect up / down for trigger change event
+
+			// Check parent => check childs
+			$('#permissions_list .item.has-child > .permission input').on('change', function (e, type) {
+				var $item = $(this).closest('.item');
+				if (type != 'up') {
+					$item.find('input').not(this).prop('checked', this.checked).trigger('change', 'down');
+				}
+			});
+
+			// check/uncheck child => check/uncheck parent
+			$('#permissions_list .item > .item > .permission input').on('change', function (e, type) {
+				var $item = $(this).closest('.item');
+				a = $item;
+				if (this.checked) {
+					if ($item.siblings('.item').find('input:not(:checked)').length == 0) {
+						var $parentInput = $item.parent().closest('.item').find('> .permission input').prop('checked', true);
+						if (type != 'down') {
+							$parentInput.trigger('change', 'up');
+						}
+					}
+				}
+				else {
+					var $parentInput = $item.parent().closest('.item').find('> .permission input');
+					if ($parentInput.prop('checked')) {
+						$parentInput.prop('checked', false);
+						if (type != 'down') {
+							$parentInput.trigger('change', 'up');
+						}
+					}
 				}
 			});
 		
@@ -302,7 +336,11 @@ $(function () {
 					dataType: 'JSON'
 				}).done(function (data) {
 					if (data.status == 0) {
-						alert('OK');
+						popupPrompt({
+							title: 'Cập nhật thành công',
+							content: 'Cập nhật thành công.',
+							type: 'success'
+						});
 					}
 					else {
 						errorPopup();

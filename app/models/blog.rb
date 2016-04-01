@@ -33,12 +33,6 @@ class Blog < ActiveRecord::Base
 		# Save with params
 
 			def save_with_params params
-				# Author
-				if new_record?
-					return { status: 6 } if User.current.cannot? :create, Blog
-				else
-					return { status: 6 } if User.current.cannot? :edit, self
-				end
 
 				assign_attributes_with_params params
 

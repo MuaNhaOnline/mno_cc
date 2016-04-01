@@ -28,7 +28,9 @@ class User < ActiveRecord::Base
 		has_many :favorite_real_estates, through: :users_favorite_real_estates, source: 'real_estate'
 		has_many :users_favorite_projects, class_name: 'UsersFavoriteProject'
 		has_many :favorite_projects, through: :users_favorite_projects, source: 'project'
-		has_many :investors, foreign_key: 'representation_id'
+		has_many :represented_investors, class_name: 'Investor', foreign_key: 'representation_id'
+
+		has_and_belongs_to_many :system_groups
 
 	# / Associations
 
@@ -113,6 +115,29 @@ class User < ActiveRecord::Base
 			end
 
 		# / Options
+
+		# System permissions
+
+			def system_permission_values
+				@system_permission_values ||=
+					Proc.new {
+						permission_values = {}
+
+						# Merge permissions each group
+						system_groups.each do |system_group|
+							system_group.permissions.group_by { |permission| permission.scope }.each do |scope, permissions_by_scope|
+								scope = scope.to_sym
+
+								permission_values[scope] ||= []
+								permission_values[scope].concat permissions_by_scope.map{ |permission| permission.value }
+							end
+						end
+
+						permission_values
+					}.call
+			end
+		
+		# / System permissions
 
 	# / Attribute
 

@@ -6,10 +6,13 @@ class UsersFavoriteRealEstate < ActiveRecord::Base
 
 		def self.add_favorite real_estate_id
 			# Author
-			return { status: 6 } if User.current.cannot? :add, UsersFavoriteRealEstate
+			return { status: 6 } if User.current.cannot? :create, UsersFavoriteRealEstate
 
-			create user_id: User.current.id, real_estate_id: real_estate_id
-			{ status: 0 }
+			if create user_id: User.current.id, real_estate_id: real_estate_id
+				{ status: 0 }
+			else
+				{ status: 2 }
+			end
 		end
 
 	# / Add
@@ -20,7 +23,7 @@ class UsersFavoriteRealEstate < ActiveRecord::Base
 			favorite_re = where(user_id: User.current.id, real_estate_id: real_estate_id)
 
 			# Author
-			return { status: 6 } if User.current.cannot? :remove, favorite_re.first
+			return { status: 6 } if User.current.cannot? :delete, favorite_re.first
 
 			if favorite_re.delete_all
 				{ status: 0 }

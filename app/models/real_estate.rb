@@ -353,7 +353,8 @@ class RealEstate < ActiveRecord::Base
 
 			def save_with_params params, is_draft = false
 				# Author
-				return { status: 6 } if is_draft == true && !User.signed?
+				# Unsigned user can't save draft
+				return { status: 6 } if is_draft && !User.signed?
 				if new_record?
 					return { status: 6 } if User.current.cannot? :create, RealEstate
 				else
@@ -369,13 +370,11 @@ class RealEstate < ActiveRecord::Base
 					slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.name))
 				}
 
-				if user_type == 'contact_user'
-					if new_record?
-						other_params[:is_active] = false
-						other_params[:params] = {}
-						other_params[:params]['remote_ip'] = params[:remote_ip]
-						other_params[:params]['secure_code'] = SecureRandom.base64
-					end
+				if user_type == 'contact_user' && new_record?
+					other_params[:is_active] = false
+					other_params[:params] = {}
+					other_params[:params]['remote_ip'] = params[:remote_ip]
+					other_params[:params]['secure_code'] = SecureRandom.base64
 				end
 
 				unless new_record?
@@ -387,7 +386,6 @@ class RealEstate < ActiveRecord::Base
 				assign_meta_search
 
 				if save validate: !is_draft
-					User.increase_real_estate_count User.current.id if User.signed? && new_record?
 					{ status: 0 }
 				else 
 					{ status: 3, result: errors.full_messages }
@@ -947,7 +945,7 @@ class RealEstate < ActiveRecord::Base
 				real_estate = find id
 
 				# Author
-				return { status: 6 } if User.current.cannot? :change_force_hide_status, real_estate
+				return { status: 6 } if User.current.cannot? :manage, real_estate
 
 				real_estate.is_force_hide = is_force_hide
 
@@ -966,7 +964,7 @@ class RealEstate < ActiveRecord::Base
 				real_estate = find id
 
 				# Author
-				return { status: 6 } if User.current.cannot? :change_favorite_status, real_estate
+				return { status: 6 } if User.current.cannot? :manage, real_estate
 
 				real_estate.is_favorite = is_favorite
 
@@ -983,7 +981,7 @@ class RealEstate < ActiveRecord::Base
 
 			def self.update_pending_status id, is_pending
 				# Author
-				return { status: 6 } if User.current.cannot? :approve, RealEstate
+				return { status: 6 } if User.current.cannot? :manage, RealEstate
 
 				real_estate = find id
 
@@ -1098,10 +1096,8 @@ class RealEstate < ActiveRecord::Base
 			return { status: 6 } if User.current.cannot? :delete, real_estate
 
 			_user_id = real_estate.user_id
-			_belongs_to_block = real_estate.block_id.present?
 
 			if delete id
-				User.decrease_real_estate_count _user_id if _user_id != 0 && _belongs_to_block
 				{ status: 0 }
 			else
 				{ status: 2 }

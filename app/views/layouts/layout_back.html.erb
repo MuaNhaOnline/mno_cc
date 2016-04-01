@@ -146,16 +146,11 @@
 				</div>
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
-					<% if can? :manage, User %>
+					<% if can? :manage, SystemGroup %>
 						<li>
 							<a href="#">
-								<i class="fa fa-user"></i> <span>Người dùng</span> <i class="fa fa-caret-left pull-right"></i>
+								<i class="fa fa-street-view"></i> <span>Quản lý nhóm</span>
 							</a>
-							<ul class="treeview-menu">
-								<li><a href="/thanh-vien/quan-ly"><i class="fa fa-street-view"></i> Quản lý nhóm</a></li>
-								<!-- <li><a href="/users/visit_counter"><i class="fa fa-circle-o"></i> Lượng truy cập</a></li>
-								<li><a href="/users/view_all"><i class="fa fa-circle-o"></i> Danh sách</a></li> -->
-							</ul>
 						</li>
 					<% end %>
 					<% if can? :create, Blog %>
@@ -175,8 +170,6 @@
 						<ul class="treeview-menu">
 							<% if can? :view_my, RealEstate %>
 								<li><a href="/bat-dong-san/cua-toi"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
-							<% end %>
-							<% if can? :view_my_favorite, RealEstate %>
 								<li><a href="/bat-dong-san/yeu-thich-cua-toi"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
 							<% end %>
 							<% if can? :create, RealEstate %>
@@ -227,15 +220,6 @@
 							<% if can? :view_assigned_list, AppraisalCompany %>
 								<li><a href="/appraisal_companies/appraise"><i class="fa fa-circle-o"></i> Thẩm định</a></li>
 							<% end %>
-						</ul>
-					</li>
-					<li class="treeview">
-						<a href="#">
-							<i class="fa fa-yelp"></i> <span>Thống kê</span> <i class="fa fa-caret-left pull-right"></i>
-						</a>
-						<ul class="treeview-menu">
-							<li><a href="/contact_user_infos"><i class="fa fa-circle-o"></i> Thông tin liên hệ</a></li>
-							<li><a href="/sessions"><i class="fa fa-circle-o"></i> Lượt truy cập (đến lead)</a></li>
 						</ul>
 					</li>
 				</ul>

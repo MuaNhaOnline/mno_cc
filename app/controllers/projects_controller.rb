@@ -55,20 +55,11 @@ class ProjectsController < ApplicationController
 		# View
 		# params: id
 		def create
-			if params.has_key? :id
-				begin
-					@project = Project.find params[:id]
-				rescue
-					@project = Project.new create_step: 0
-				end
-			else
-				@project = Project.new create_step: 0
-			end
+			@project = params[:id].present? ? Project.find(params[:id]) : Project.new(create_step: 0)
 			
 			# Author
 			if @project.new_record?
-
-				authorize! :create, Project
+				authorize! :create, @project
 			else
 				authorize! :edit, @project
 			end
@@ -115,6 +106,9 @@ class ProjectsController < ApplicationController
 		# params: id
 		def create_details
 			@project = Project.find params[:id]
+
+			# Author
+			authorize! :edit, @project
 			
 			render layout: 'layout_back'
 		end
@@ -123,6 +117,9 @@ class ProjectsController < ApplicationController
 		# params: id(*)
 		def setup_interact_images
 			@project = Project.find params[:id]
+
+			# Author
+			authorize! :edit, @project
 
 			# Update step
 			if (@project.create_step < 3)
@@ -145,6 +142,10 @@ class ProjectsController < ApplicationController
 			# ]
 		def setup_interact_images_finish
 			project = Project.find params[:id]
+
+			# Author
+			authorize! :edit, project
+
 			errors = []
 
 			# Check block (project image must point to all blocks)
@@ -242,6 +243,11 @@ class ProjectsController < ApplicationController
 			# 	]
 			# }
 		def get_image_for_interact_build
+			project = Project.find params[:id]
+
+			# Author
+			authorize! :edit, project
+
 			# Result for request
 			images = []
 
@@ -312,6 +318,9 @@ class ProjectsController < ApplicationController
 		def get_data_for_interact_view
 
 			@project = Project.find params[:id]
+
+			# Author
+			authorize! :edit, @project
 
 			# Images
 
@@ -414,7 +423,7 @@ class ProjectsController < ApplicationController
 		# params: keyword
 		def _my_list
 			# Author
-			return render json: { status: 6 } if cannot? :view_my, Project
+			authorize! :view_my, Project
 
 			per = Rails.application.config.item_per_page
 			
@@ -449,7 +458,7 @@ class ProjectsController < ApplicationController
 		# View
 		def my_favorite
 			# Author
-			authorize! :view_my_favorite, Project
+			authorize! :view_my, Project
 
 			@projects = Project.my_favorite_search_with_params interact: 'desc'
 
@@ -460,7 +469,7 @@ class ProjectsController < ApplicationController
 		# params: keyword, page
 		def _my_favorite_list
 			# Author
-			return render json: { status: 6 } if cannot? :view_my_favorite, Project
+			authorize! :view_my, Project
 
 			per = Rails.application.config.item_per_page
 
@@ -545,7 +554,7 @@ class ProjectsController < ApplicationController
 		# params: keyword, page
 		def _manager_list
 			# Author
-			return render json: { status: 6 } if cannot? :manage, Project
+			authorize! :manage, Project
 
 			per = Rails.application.config.item_per_page
 

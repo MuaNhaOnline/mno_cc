@@ -17,9 +17,6 @@ class BlogsController < ApplicationController
 		# View
 		# params: (id)
 		def create
-			# Author
-			authorize! :create, Blog
-
 			@blog = params[:id].present? ? Blog.find(params[:id]) : Blog.new
 
 			render layout: 'layout_back'
