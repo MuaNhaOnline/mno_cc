@@ -373,7 +373,6 @@ class RealEstate < ActiveRecord::Base
 				if user_type == 'contact_user' && new_record?
 					other_params[:is_active] = false
 					other_params[:params] = {}
-					other_params[:params]['remote_ip'] = params[:remote_ip]
 					other_params[:params]['secure_code'] = SecureRandom.base64
 				end
 

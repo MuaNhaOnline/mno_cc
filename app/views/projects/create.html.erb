@@ -739,8 +739,24 @@
 
 								<article class="form-group">
 									<label class="control-label" for="investor_id"><%= t 'project.attribute.investor' %></label>
-									<input class="form-control" readonly="true" value="<%= current_user.represented_investors.first.name if current_user.represented_investors.present? %>" />
-									<input class="form-control" type="hidden" name="project[investor_id]" value="<%= current_user.represented_investors.first.id if current_user.represented_investors.present? %>" />
+									<% if current_user.represented_investors.present? %>
+										<% if current_user.represented_investors.count == 1 %>
+											<input class="form-control" readonly="true" value="<%= current_user.represented_investors.first.name if current_user.represented_investors.present? %>" />
+											<input class="form-control" type="hidden" name="project[investor_id]" value="<%= current_user.represented_investors.first.id if current_user.represented_investors.present? %>" />
+										<% else %>
+											<select data-constraint="required" class="form-control" name="project[investor_id]">
+												<option value="" hidden>Chọn nhà đầu tư</option>
+												<% current_user.represented_investors.each do |investor| %>
+													<option value="<%= investor.id %>"><%= investor.name %></option>
+												<% end %>
+											</select>
+										<% end %>
+									<% else %>
+										<%
+											# Don't display if have not investor
+										%>
+										<% return %>
+									<% end %>
 								</article>
 
 							<!-- / Investor -->

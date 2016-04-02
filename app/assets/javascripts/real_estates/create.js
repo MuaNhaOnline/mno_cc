@@ -58,6 +58,10 @@ $(function () {
 										text: _t.form.yes,
 										type: 'primary',
 										handle: function () {
+											if (!$('body').is('[data-signed]')) {
+												$('#secure_code').val(data.secure_code);
+											}
+
 											// Hidden id input
 											$form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
 											$form.find('#is_full').val(true);
@@ -96,6 +100,8 @@ $(function () {
 					}
 					else if (data.status == 5) {
 						data.result.same_contact = JSON.parse(data.result.same_contact);
+
+						$form.find('[name="contact[id]"]').val(data.result.same_contact.id);
 						
 						_openSameContactPopup($(data.result.html), {
 							yes: function () {
@@ -142,6 +148,10 @@ $(function () {
 														text: _t.form.yes,
 														type: 'primary',
 														handle: function () {
+															if (!$('body').is('[data-signed]')) {
+																$('#secure_code').val(data.secure_code);
+															}
+
 															// Hidden id input
 															$form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
 															$form.find('#is_full').val(true);

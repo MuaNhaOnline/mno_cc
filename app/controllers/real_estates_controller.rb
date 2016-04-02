@@ -144,11 +144,6 @@ class RealEstatesController < ApplicationController
 			else
 				authorize! :edit, @re
 				@is_appraisal = @re.appraisal_type != 0
-
-				if @re.user_id == 0
-					@re.params['remote_ip'] = request.remote_ip
-					@re.save
-				end
 			end
 
 			render layout: 'layout_back'
@@ -196,18 +191,15 @@ class RealEstatesController < ApplicationController
 				params[:real_estate][:user_id] = contact_user.id
 				params[:real_estate][:user_type] = 'contact_user'
 
-				# Save ip for reload
-				params[:real_estate][:remote_ip] = request.remote_ip
-
 				result = re.save_with_params(params[:real_estate], is_draft)
 
 				return render json: result if result[:status] != 0
 
 				if params[:real_estate][:id].blank?
-					RealEstateMailer.active(re).deliver_later
+					# RealEstateMailer.active(re).deliver_later
 				end
 
-				render json: { status: 0, result: re.id }
+				render json: { status: 0, result: re.id, secure_code: re.params['secure_code'] }
 			end
 		end
 
@@ -427,11 +419,7 @@ class RealEstatesController < ApplicationController
 			# Images
 
 				# Result for request
-				images = []					other_params[:is_active] = false
-					other_params[:params] = {}
-					other_params[:params]['remote_ip'] = params[:remote_ip]
-					other_params[:params]['secure_code'] = SecureRandom.base64
-
+				images = []
 
 				# Get group's image
 				real_estate_group_images = BlockRealEstateGroupImage.where(block_real_estate_group_id: params[:id])

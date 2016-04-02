@@ -688,7 +688,7 @@
 									</label>
 									<select data-constraint="required" class="form-control" name="real_estate[direction_id]" id="direction_id">
 										<% Direction.get_options.each do |d| %>
-											<option <%= 'selected' if @re.direction_id.blank? ? d.options.has_key?('default') : d.id == @re.direction_id %> value="<%= d.id %>"><%= t 'direction.text.' + d.name %></option>
+											<option <%= 'selected' if @re.direction_id.blank? && d.options.present? ? d.options.has_key?('default') : d.id == @re.direction_id %> value="<%= d.id %>"><%= t 'direction.text.' + d.name %></option>
 										<% end %>
 									</select>
 								</article>
@@ -1001,6 +1001,8 @@
 						</section>
 						<section class="box-body hide-until-full">
 
+							<input type="hidden" name="secure_code" id="secure_code" value="<%= @re.params['secure_code'] || params[:secure_code] %>" />
+
 							<!-- User full name -->
 
 							<% if left_contact? %>
@@ -1035,6 +1037,7 @@
 									</article>
 								</div>
 								<div class="row off" data-toggled-element="new-contact">
+									<input type="hidden" name="contact[id]" />
 									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 										<label class="control-label">
 											Tên
@@ -1067,6 +1070,7 @@
 								</div>
 							<% else %>
 								<div class="row">
+									<input type="hidden" name="contact[id]" />
 									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
 										<label class="control-label">
 											Tên
