@@ -631,13 +631,30 @@ $(function () {
 
 								$tbody = $html.find('tbody');
 								$(floors).each(function () {
+									var floor = this;
 									$tbody.append(
 										'<tr>' +
 											'<td>' +
-												label.replace('{f}', this) +
+												label.replace(/{f(:.*)*}/, function (match) {
+													match = match.split(':');
+													if (match.length == 1) {
+														return floor;
+													}
+
+													// Padding left number with zero
+													var strFloor = floor.toString();
+													match[1] = parseInt(match[1]);
+													if (match[1] && strFloor.length < match[1]) {
+														for(var i = match[1] - strFloor.length; i > 0; i--) {
+															strFloor = '0' + strFloor;
+														}
+														return strFloor;
+													}
+													return floor;
+												}) +
 											'</td>' +
 											'<td>' +
-												moneyFormat(eval(coefficient.replace(/\{f\}/g, this).replace(/\{p\}/g, price)), ',') +
+												moneyFormat(eval(coefficient.replace(/\{f\}/g, floor).replace(/\{p\}/g, price)), ',') +
 											'</td>' +
 										'</tr>'
 									)

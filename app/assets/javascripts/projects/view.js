@@ -709,7 +709,7 @@ $(function () {
 								$navigatorPanel.find('[aria-name="project"]').addClass('active');
 
 								if ('onSelectProject' in mainParams) {
-									mainParams['onSelectProject']();
+									mainParams['onSelectProject'](data);
 								}
 							}
 							getNavigatorData('block', projectId, function (navData) {
@@ -745,7 +745,7 @@ $(function () {
 									$block.addClass('active');
 
 									if ('onSelectBlock' in mainParams) {
-										mainParams['onSelectBlock']();
+										mainParams['onSelectBlock'](data);
 									}
 								}
 
@@ -882,7 +882,7 @@ $(function () {
 									$group.addClass('active');
 
 									if ('onSelectGroup' in mainParams) {
-										mainParams['onSelectGroup']();
+										mainParams['onSelectGroup'](data);
 									}
 								}
 							}
@@ -898,7 +898,7 @@ $(function () {
 									$floor.addClass('active');
 
 									if ('onSelectFloor' in mainParams) {
-										mainParams['onSelectFloor']();
+										mainParams['onSelectFloor'](data);
 									}
 								}
 							}
@@ -970,7 +970,7 @@ $(function () {
 									$re.addClass('active');
 
 									if ('onSelectRealEstate' in mainParams) {
-										mainParams['onSelectRealEstate']();
+										mainParams['onSelectRealEstate'](data);
 									}
 								}
 
@@ -1012,7 +1012,7 @@ $(function () {
 									$position.addClass('active');
 
 									if ('onSelectPosition' in mainParams) {
-										mainParams['onSelectPosition']();
+										mainParams['onSelectPosition'](data);
 									}
 								}
 							}
@@ -1270,8 +1270,14 @@ $(function () {
 				onSelectProject: function () {
 					$('#register_interact .image-panel').addClass('hidden');
 				},
-				onSelectBlock: function () {
+				onSelectBlock: function (data) {
 					$('#register_interact .image-panel').addClass('hidden');
+					if (data['has_floor']) {
+						$('#register_interact [aria-name="floor"]').show();
+					}
+					else {
+						$('#register_interact [aria-name="floor"]').hide();
+					}
 				},
 				onSelectFloor: function () {
 					$('#register_interact .image-panel').addClass('hidden');

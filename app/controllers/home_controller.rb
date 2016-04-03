@@ -27,6 +27,8 @@ class HomeController < ApplicationController
 		# end
 
 		def search
+			params[:search] ||= {}
+			
 			params[:search][:is_favorite] = 'true'
 			@favorite_res = RealEstate.search_with_params(params[:search].clone)
 

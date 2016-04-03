@@ -46,25 +46,23 @@ $(function () {
 					dataType: 'JSON'
 				}).done(function (data) {
 					if (data.status == 0) {
-						if (data.result.length > 0) {
-							buildChecking = true;
-							$('.error-icon').hide();
-							$('.error-text').hide().find('span').remove();
-							$(data.result).each(function () {
-								$('[aria-object="' + this.type + this.id + '-error-icon"]').show();
-								$('[aria-object="' + this.type + this.id + '-error-text"]').show().append('<span>' + this.name + '</span>');
+						window.location = '/du-an/cua-toi'
+					}
+					else if (data.status == 5 && data.result.length > 0) {
+						buildChecking = true;
+						$('.error-icon').hide();
+						$('.error-text').hide().find('span').remove();
+						$(data.result).each(function () {
+							$('[aria-object="' + this.type + this.id + '-error-icon"]').show();
+							$('[aria-object="' + this.type + this.id + '-error-text"]').show().append('<span>' + this.name + '</span>');
 
-								if (this.type == 'surface') {
-									$('[aria-object="block' + this.id + '-error-icon"]').show();
-								}
-							});
-							$body.animate({
-								scrollTop: $('.error-icon:eq(0)').offset().top - 20
-							}, 100);
-						}
-						else {
-							window.location = '/du-an/cua-toi'
-						}
+							if (this.type == 'surface') {
+								$('[aria-object="block' + this.id + '-error-icon"]').show();
+							}
+						});
+						$body.animate({
+							scrollTop: $('.error-icon:eq(0)').offset().top - 20
+						}, 100);
 					}
 					else {
 						errorPopup();
@@ -270,10 +268,12 @@ $(function () {
 								if (data.status == 0) {
 									$('.error-icon').hide();
 									$('.error-text').hide().html('');
+								}
+								else if (data.status == 5) {
+									$('.error-icon').hide();
+									$('.error-text').hide().html('');
 
 									if (data.result.length > 0) {
-										$('.error-icon').hide();
-										$('.error-text').hide().html('');
 										$(data.result).each(function () {
 											$('[aria-object="' + this.type + this.id + '-error-icon"]').show();
 											$('[aria-object="' + this.type + this.id + '-error-text"]').show().append('<span>' + this.name + '</span>');

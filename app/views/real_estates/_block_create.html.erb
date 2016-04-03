@@ -526,6 +526,9 @@
 					Khi mã bao gồm tầng / vị trí các bạn có thể sử dụng mã nhúng là "{f}" để giúp cho hệ thống thay thế giá trị tầng tương ứng vào.
 				</p>
 				<p>
+					Nếu bạn muốn hiển thị "01" thay vì "1" bạn có thể nhập "{f:2}" thay vì "{f}". Giá trị "2" có ý nghĩa là hiển thị tối thiểu 2 ký tự.
+				</p>
+				<p>
 					Ví dụ: Một sản phẩm có mã là CH-A-12-1 với 12 là tầng / vị trí, các bạn cần nhập mã sản phẩm là CH-A-{f}-1
 				</p>
 			</li>
@@ -572,10 +575,14 @@
 						</p>
 						<ul>
 							<li>
-								<b>{p}</b>: Giá cơ bản
+								<p>
+									<b>{p}</b>: Giá cơ bản
+								</p>
 							</li>
 							<li>
-								<b>{f}</b>: Tầng / vị trí
+								<p>
+									<b>{f}</b>: Tầng / vị trí
+								</p>
 							</li>
 						</ul>
 						<p>

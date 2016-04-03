@@ -538,7 +538,18 @@ class RealEstate < ActiveRecord::Base
 
 						_floor_info.status = 'available' if _floor_info.new_record?
 
-						_floor_info.label = label.gsub('{f}', _floor_number.to_s)
+						_floor_info.label = label.gsub(/{f(:.*)*}/) do |match|
+							match = match.split(':')
+							next _floor_number if (match.count == 1)
+
+							_strFloor = _floor_number.to_s
+							match[1] = match[1].to_i
+							if match[1].present?
+								next _strFloor.rjust(match[1], '0')
+							end
+							next _floor_number
+						end
+
 						_floor_info.floor = _floor_number
 
 						if _info['sell_price'].present?
@@ -602,6 +613,7 @@ class RealEstate < ActiveRecord::Base
 
 				in_floor = _in_floors
 				save
+				label
 			end
 
 		# / Build in floor

@@ -37,6 +37,12 @@ class ProjectImage < ActiveRecord::Base
 				# Read each description
 				data['descriptions'].each do |description_data|
 					_image_description = description_data['id'].present? ? ProjectImageDescription.find(description_data['id']) : ProjectImageDescription.new
+					# Reset description object
+					case _image_description.area_type
+					when 'block'
+						_image_description.block_description = nil
+					end unless _image_description.new_record?
+
 					_image_description.description_type = description_data['description']['type']
 					_image_description.area_type = description_data['tag_name']
 

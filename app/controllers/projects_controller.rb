@@ -167,7 +167,7 @@ class ProjectsController < ApplicationController
 							name: floor.display_name
 						}
 					end
-				end
+				end if block.has_floor
 
 				# Check real-estate (block floor image must point to all real-estates)
 				block.real_estates.each do |re|
@@ -199,9 +199,11 @@ class ProjectsController < ApplicationController
 				end
 				project.create_step = 4
 				project.save
+
+				return render json: { status: 0 }
 			end
 
-			render json: { status: 0, result: errors }
+			render json: { status: 5, result: errors }
 		end
 
 	# / Create

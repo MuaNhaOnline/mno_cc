@@ -269,7 +269,8 @@ class BlocksController < ApplicationController
 					result: {
 						images: images,
 						info: info,
-						navigator: navigator
+						navigator: navigator,
+						has_floor: @block.has_floor
 					} 
 				}
 			end

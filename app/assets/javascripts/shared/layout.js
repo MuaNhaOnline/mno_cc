@@ -1809,8 +1809,10 @@ $(function () {
 		$popup.off = function (isButtonClick) {
 			$popup.removeClass('on');
 			$(document).off('keydown.turn_off_popup_' + id);
-			$body.removeClass('no-scroll');
-			$body.css('width', '');
+			if ($('.popup-full-container.on').length == 0) {
+				$body.removeClass('no-scroll');
+				$body.css('width', '');	
+			}
 
 			// $popup.trigger('onEscape');
 			if ($popup.data('onEscape')) {

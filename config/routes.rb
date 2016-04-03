@@ -99,7 +99,7 @@ Rails.application.routes.draw do
 		get 'du-an(/:action(/:id))', controller: 'projects', action: 'index'
 		get 'projects(/:action(/:id))', controller: 'projects', action: 'index'
 
-		get 'projects/:action(/:id)', controller: 'projects'
+		post 'projects/:action(/:id)', controller: 'projects'
 
 	# / Project
 

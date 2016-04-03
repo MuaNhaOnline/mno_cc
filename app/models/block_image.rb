@@ -37,6 +37,17 @@ class BlockImage < ActiveRecord::Base
 				# Read each description
 				data['descriptions'].each do |description_data|
 					_image_description = description_data['id'].present? ? BlockImageDescription.find(description_data['id']) : BlockImageDescription.new
+					# Reset description object
+					case _image_description.area_type
+					when 'real_estate'
+						_image_description.real_estate_description = nil
+					when 'block_floor'
+						_image_description.block_floor_description = nil
+					when 'text_image'
+						_image_description.text_description = nil
+						_image_description.images_description = nil
+					end unless _image_description.new_record?
+
 					_image_description.description_type = description_data['description']['type']
 					_image_description.area_type = description_data['tag_name']
 

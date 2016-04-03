@@ -56,6 +56,15 @@ class BlockFloor < ActiveRecord::Base
 				# Read each description
 				data['descriptions'].each do |description_data|
 					_surface_description = description_data['id'].present? ? BlockFloorSurfaceDescription.find(description_data['id']) : BlockFloorSurfaceDescription.new
+					# Reset description object
+					case _surface_description.area_type
+					when 'real_estate'
+						_surface_description.real_estate_description = nil
+					when 'text_image'
+						_surface_description.text_description = nil
+						_surface_description.images_description = nil
+					end unless _surface_description.new_record?
+					
 					_surface_description.description_type = description_data['description']['type']
 					_surface_description.area_type = description_data['tag_name']
 

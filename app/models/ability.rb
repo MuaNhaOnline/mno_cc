@@ -60,17 +60,13 @@ class Ability
 
 			# System group
 			
-				if user.system_permission_values.has_key? :sys_general
-					can :manage, SystemGroup if user.system_permission_values[:sys_general].include? 'manage_group'
-				end
+				can :manage, SystemGroup if user.system_permissions.include? 1
 			
 			# / System group
 		
 			# Real estate
 
-				if user.system_permission_values.has_key? :sys_re
-					can :manage, RealEstate if user.system_permission_values[:sys_re].include? 'manage'
-				end
+				can :manage, RealEstate if user.system_permissions.include? 2
 			
 			# / Real estate
 
@@ -80,9 +76,7 @@ class Ability
 					project.new_record? || user.represented_investors.exists?(id: project.investor_id)
 				end if user.represented_investors.present?
 
-				if user.system_permission_values.has_key? :sys_pj
-					can :manage, Project if user.system_permission_values[:sys_pj].include? 'manage'
-				end
+				can :manage, Project if user.system_permissions.include? 3
 			
 			# / Project
 		

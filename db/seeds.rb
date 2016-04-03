@@ -426,7 +426,6 @@ Permission.create [
 			scope: 'sys_general',
 			name: 'Quản lý quyền',
 			description: 'Quyền phân quyền cho các thành viên trong hệ thống',
-			value: 'manage_group',
 			order: 1
 		},
 		{
@@ -434,7 +433,6 @@ Permission.create [
 			scope: 'sys_re',
 			name: 'Quản lý bất động sản',
 			description: 'Quyền quản lý các bất động sản trong hệ thống',
-			value: 'manage',
 			order: 2
 		},
 		{
@@ -442,7 +440,6 @@ Permission.create [
 			scope: 'sys_pj',
 			name: 'Quản lý dự án, chủ đầu tư',
 			description: 'Quyền quản lý các dự án trong dự án, thông tin chủ đầu tư',
-			value: 'manage',
 			order: 3
 		}
 

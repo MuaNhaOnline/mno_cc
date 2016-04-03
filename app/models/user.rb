@@ -118,22 +118,16 @@ class User < ActiveRecord::Base
 
 		# System permissions
 
-			def system_permission_values
-				@system_permission_values ||=
+			def system_permissions
+				@system_permissions ||=
 					Proc.new {
-						permission_values = {}
-
-						# Merge permissions each group
+						permissions = []
 						system_groups.each do |system_group|
-							system_group.permissions.group_by { |permission| permission.scope }.each do |scope, permissions_by_scope|
-								scope = scope.to_sym
 
-								permission_values[scope] ||= []
-								permission_values[scope].concat permissions_by_scope.map{ |permission| permission.value }
-							end
+							permissions.concat system_group.permissions.map{ |permission| permission.id }
+							
 						end
-
-						permission_values
+						permissions
 					}.call
 			end
 		
@@ -445,7 +439,7 @@ class User < ActiveRecord::Base
 		#     2: password is not correct
 		def self.check_signin account, password
 			# Author
-			return { status: 6 } if User.current.cannot? :signin, nil
+			return { status: 6 } if User.current.cannot? :login, nil
 
 			user = find_by_account account.downcase
 
