@@ -1,9 +1,9 @@
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" href="/assets/investors/manager.css" />
+	<link rel="stylesheet" href="/assets/investors/manage.css" />
 <% end %>
 
 <% content_for :scripts do %>
-	<script type="text/javascript" src="/assets/investors/manager.js"></script>
+	<script type="text/javascript" src="/assets/investors/manage.js"></script>
 <% end %>
 
 <% content_for :content_header do %>
@@ -37,7 +37,7 @@
 <section>
 	<article id="investor_list" class="row item-list">
 		<% if total != 0 %>
-			<%= render partial: 'investors/manager_list', locals: { investors: @investors.page(1, per) } %>
+			<%= render partial: 'investors/manage_list', locals: { investors: @investors.page(1, per) } %>
 		<% else %>
 			<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có nhà đầu tư nào</h4></div>
 		<% end %>

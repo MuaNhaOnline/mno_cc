@@ -16,6 +16,14 @@ class Investor < ActiveRecord::Base
 
 	# / Associations
 
+	# Attributes
+	
+		def display_description
+			@display_description ||= description.html_safe
+		end
+	
+	# / Attributes
+
 	# Save
 
 		# Assign attributes with params
@@ -52,56 +60,56 @@ class Investor < ActiveRecord::Base
 
 	# / Save
 
-# Delete
-	
-	def self.delete_by_id id
-		investor = find id
+	# Delete
+		
+		def self.delete_by_id id
+			investor = find id
 
-		return { status: 1 } if investor.nil?
+			return { status: 1 } if investor.nil?
 
-		# Author
-		return { status: 6 } if User.current.cannot? :delete, investor
+			# Author
+			return { status: 6 } if User.current.cannot? :delete, investor
 
-		if delete id
-			{ status: 0 }
-		else
-			{ status: 2 }
-		end
-	end
-
-# / Delete
-
-# Update
-
-	def self.update_name id, new_name, avatar_id
-		investor = find id
-
-		return { status: 1 } if investor.nil?
-
-		# Author
-		return { status: 6 } if User.current.cannot? :rename, investor
-
-		investor.assign_attributes name: new_name
-
-		if avatar_id.present?
-			_value = JSON.parse avatar_id
-
-			if _value['is_new']
-				TemporaryFile.get_file(_value['id']) do |_avatar|
-					investor.assign_attributes avatar: _avatar
-				end
+			if delete id
+				{ status: 0 }
+			else
+				{ status: 2 }
 			end
-		else
-			investor.assign_attributes avatar: nil
 		end
 
-		if investor.save
-			{ status: 0, result: investor }
-		else
-			{ status: 2 }
-		end
-	end
+	# / Delete
 
-# / Update
+	# Update
+
+		def self.update_name id, new_name, avatar_id
+			investor = find id
+
+			return { status: 1 } if investor.nil?
+
+			# Author
+			return { status: 6 } if User.current.cannot? :rename, investor
+
+			investor.assign_attributes name: new_name
+
+			if avatar_id.present?
+				_value = JSON.parse avatar_id
+
+				if _value['is_new']
+					TemporaryFile.get_file(_value['id']) do |_avatar|
+						investor.assign_attributes avatar: _avatar
+					end
+				end
+			else
+				investor.assign_attributes avatar: nil
+			end
+
+			if investor.save
+				{ status: 0, result: investor }
+			else
+				{ status: 2 }
+			end
+		end
+
+	# / Update
 
 end

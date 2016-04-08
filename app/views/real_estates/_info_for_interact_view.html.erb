@@ -89,7 +89,7 @@
 		<article class="info">
 			Tầng
 			<ul>
-				<% @re.in_floors.each do |floor_re| %>
+				<% @re.available_in_floors.each do |floor_re| %>
 					<li>
 						<a aria-click="interact" data-type="real_estates/floor" data-value="<%= floor_re.id %>">
 							Thứ <%= floor_re.floor %></a>

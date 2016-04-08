@@ -1,4 +1,14 @@
+=begin
+	attributes:
+		status: enum(available, unavailable, sold)
+
+		
+=end
+
+
 class FloorRealEstate < ActiveRecord::Base
+
+	default_scope { order('floor asc') }
 
 	# Associations
 	
@@ -33,6 +43,20 @@ class FloorRealEstate < ActiveRecord::Base
 		end
 		def display_rent_price
 			@display_rent_price ||= rent_price_text
+		end
+
+		# Status
+		def display_status
+			@display_status ||= case self.status
+			when 'available'
+				'Đang cung cấp'
+			when 'unavailable'
+				'Không cung cấp'
+			when 'sold'
+				'Đã bán'
+			else
+				''
+			end				
 		end
 	
 	# / Attributes

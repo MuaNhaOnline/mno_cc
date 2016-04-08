@@ -174,11 +174,12 @@
 							<% end %>
 							<% if can? :create, RealEstate %>
 								<li><a href="/bat-dong-san/dang-tin"><i class="fa fa-circle-o"></i> Đăng tin</a></li>
-								<li><a href="/bat-dong-san/dang-tin-tham-dinh"><i class="fa fa-circle-o"></i> Đăng tin thẩm định</a></li>
+								<li style="display: none"><a href="/bat-dong-san/dang-tin-tham-dinh"><i class="fa fa-circle-o"></i> Đăng tin thẩm định</a></li>
 							<% end %>
 							<% if can? :manage, RealEstate %>
 								<li><a href="/bat-dong-san/kiem-duyet"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>
 								<li><a href="/bat-dong-san/quan-ly"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
+								<li><a href="/bat-dong-san/yeu-cau"><i class="fa fa-circle-o"></i> Quản lý yêu cầu</a></li>
 								<li style="display: none"><a href="/bat-dong-san/appraise"><i class="fa fa-circle-o"></i> Danh sách thẩm định</a></li>
 							<% end %>
 						</ul>
@@ -190,19 +191,15 @@
 						<ul class="treeview-menu">
 							<% if can? :view_my, Project %>
 								<li><a href="/du-an/cua-toi"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
-							<% end %>
-							<% if can? :view_my_favorite, Project %>
 								<li><a href="/du-an/yeu-thich-cua-toi"><i class="fa fa-circle-o"></i> Danh sách yêu thích</a></li>
 							<% end %>
 							<% if can? :create, Project %>
-								<li><a href="/du-an/dang-tin"><i class="fa fa-circle-o"></i>  Đăng tin</a></li>
+								<li><a href="/du-an/dang-tin"><i class="fa fa-circle-o"></i> Đăng tin</a></li>
 							<% end %>
 							<% if can? :manage, Project %>
 								<li><a href="/du-an/kiem-duyet"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>
 								<li><a href="/du-an/quan-ly"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
-							<% end %>
-							<% if can? :manage, Investor %>
-								<li><a href="/investors/manager"><i class="fa fa-circle-o"></i> Quản lý nhà đầu tư</a></li>
+								<li><a href="/chu-dau-tu/quan-ly"><i class="fa fa-circle-o"></i> Quản lý nhà đầu tư</a></li>
 							<% end %>
 						</ul>
 					</li>

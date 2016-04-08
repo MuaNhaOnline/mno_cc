@@ -65,7 +65,7 @@ class Project < ActiveRecord::Base
 
 	# / Validations
 
-	# Insert
+	# Save
 
 		# Get params
 
@@ -93,13 +93,7 @@ class Project < ActiveRecord::Base
 				using_ratio = ApplicationHelper.format_f(params[:using_ratio]).to_f
 				params[:using_ratio] = using_ratio < 0 ? 0 : (using_ratio > 100 ? 100 : using_ratio)
 			end
-
-			# Investor
-			if params[:investor_id] == '0' && !params[:investor_id_ac].blank?
-				investor = Investor.find_or_create_by name: params[:investor_id_ac]
-				params[:investor_id] = investor.id
-			end
-
+			
 			# Location
 			unless params[:province].blank?
 				if params[:province] == 'Hồ Chí Minh'
@@ -332,10 +326,6 @@ class Project < ActiveRecord::Base
 
 		# / Save with params
 
-	# / Insert
-
-	# Updates
-
 		# Update show status
 
 		def self.update_show_status id, is_show
@@ -412,7 +402,27 @@ class Project < ActiveRecord::Base
 
 		# / Update favorite status
 
-	# / Update
+		# Set product status
+		
+			def self.set_product_status id, product_type, product_id, product_status
+				if product_type == 'real_estate'
+					if RealEstate.joins(block: :project).where("projects.id = #{id} AND real_estates.id = #{product_id}").update_all(status: product_status)
+						{ status: 0 }
+					else
+						{ status: 2 }
+					end
+				elsif product_type == 'floor_real_estate'
+					if FloorRealEstate.joins(real_estate: { block: :project }).where("projects.id = #{id} AND floor_real_estates.id = #{product_id}").update_all(status: product_status)
+						{ status: 0 }
+					else
+						{ status: 2 }
+					end
+				end
+			end
+		
+		# / Set product status
+
+	# / Save
 
 	# Delete
 		
@@ -434,8 +444,6 @@ class Project < ActiveRecord::Base
 	# / Delete
 
 	# Get
-
-		# Search with params
 
 		# params: 
 		#   keyword, page, price(x;y), district, price_from, price_to, currency_unit, unit
@@ -608,6 +616,49 @@ class Project < ActiveRecord::Base
 			end
 		end
 
+		# params:
+		# 	id, label, block_id, floor_id, group_id
+		def self.product_search_with_params params = {}
+			res = []
+			floor_res = []
+
+			# If have label => just find with label
+			if params[:label].present?
+				params[:label] = params[:label].gsub(/\s*,\s*/, ',').split(',')
+
+				res = RealEstate.joins(block: :project).where(short_label: nil).where("projects.id = #{params[:id]}").where(label: params[:label])
+				floor_res = FloorRealEstate.joins(real_estate: { block: :project }).where("projects.id = #{params[:id]}").where(label: params[:label])
+			else
+				res_joins = [{ block: :project }]
+				floor_res_joins = [{ real_estate: { block: :project } }]
+				where = "projects.id = #{params[:id]}"
+
+				if params[:block_id].present?
+					where += " AND blocks.id = #{params[:block_id]}"
+				end
+
+				if params[:floor_id].present?
+					res_joins << :block_floor
+					floor_res_joins << { real_estate: :block_floor }
+					where += " AND block_floors.id = #{params[:floor_id]}"
+				end
+
+				if params[:group_id].present?
+					res_joins << :block_group
+					floor_res_joins << { real_estate: :block_group }
+					where += " AND block_real_estate_groups.id = #{params[:group_id]}"
+				end
+
+				res = RealEstate.where(short_label: nil).joins(res_joins).where(where)
+				floor_res = FloorRealEstate.joins(floor_res_joins).where(where)
+			end
+
+			{
+				real_estates: res,
+				floor_real_estates: floor_res
+			}
+		end
+
 		# Current user favorite
 		def get_is_current_user_favorite
 			return false unless User.signed?
@@ -617,8 +668,6 @@ class Project < ActiveRecord::Base
 		def is_current_user_favorite
 			@is_current_user_favorite ||= get_is_current_user_favorite
 		end
-
-		# / Search with params
 
 	# / Get
 

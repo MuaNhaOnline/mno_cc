@@ -12,7 +12,7 @@ $(function () {
 
 			toggleLoadStatus(true);
 			$.ajax({
-				url: '/projects/create',
+				url: '/projects/save',
 				method: 'POST',
 				data: $form.serialize(),
 				dataType: 'JSON'
@@ -49,7 +49,6 @@ $(function () {
 						type: 'danger',
 						content: _t.form.error_content
 					});
-					window.location.reload();
 				}
 			}).fail(function () {
 				popupPrompt({
@@ -57,7 +56,6 @@ $(function () {
 					type: 'danger',
 					content: _t.form.error_content
 				});
-				window.location.reload();
 			});
 		}
 	});

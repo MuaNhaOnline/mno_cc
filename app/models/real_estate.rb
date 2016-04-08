@@ -1,3 +1,11 @@
+=begin
+	attributes:
+		status: enum(available, unavailable, sold)
+
+	
+=end
+
+
 class RealEstate < ActiveRecord::Base
 
 	# PgSearch
@@ -46,7 +54,7 @@ class RealEstate < ActiveRecord::Base
 			class_name: 'AppraisalCompany'
 		has_many :users_favorite_real_estates, class_name: 'UsersFavoriteRealEstate'
 		has_many :in_floors, class_name: 'FloorRealEstate', dependent: :destroy, autosave: true
-		has_many :available_in_floors, -> { where('floor_real_estates.status <> \'sold\'') }, class_name: 'FloorRealEstate'
+		has_many :available_in_floors, -> { where('floor_real_estates.status = \'available\'') }, class_name: 'FloorRealEstate'
 
 		has_and_belongs_to_many :property_utilities, dependent: :destroy
 		has_and_belongs_to_many :region_utilities, dependent: :destroy
@@ -399,25 +407,29 @@ class RealEstate < ActiveRecord::Base
 
 				# Short label
 
-					if label != params[:label]
-						_short_label = params[:label]
-						_f_index = _short_label =~ /\{f.*\}/
-						if _f_index.present?
-							_short_label = _short_label.gsub /\{f.*\}/, ''
+					if Block.find(params[:block_id]).has_floor
+						if label != params[:label]
+							_short_label = params[:label]
+							_f_index = _short_label =~ /\{f.*\}/
+							if _f_index.present?
+								_short_label = _short_label.gsub /\{f.*\}/, ''
 
-							# First position => Check if right 1 (= current position because was deleted)
-							if _f_index == 0
-								_short_label[0] = '' if _short_label[0] =~ /[^a-zA-Z0-9]/
-							# Last position => Check left 1
-							elsif _f_index == _short_label.length
-								_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/
-							# If middle & If left 1, right 1 (= current position because was deleted) is [a-zA-Z0-9] => remove left
-							else
-								_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/ && _short_label[_f_index] =~ /[^a-zA-Z0-9]/
+								# First position => Check if right 1 (= current position because was deleted)
+								if _f_index == 0
+									_short_label[0] = '' if _short_label[0] =~ /[^a-zA-Z0-9]/
+								# Last position => Check left 1
+								elsif _f_index == _short_label.length
+									_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/
+								# If middle & If left 1, right 1 (= current position because was deleted) is [a-zA-Z0-9] => remove left
+								else
+									_short_label[_f_index - 1] = '' if _short_label[_f_index - 1] =~ /[^a-zA-Z0-9]/ && _short_label[_f_index] =~ /[^a-zA-Z0-9]/
+								end
 							end
-						end
 
-						assign_attributes short_label: _short_label
+							assign_attributes short_label: _short_label
+						end
+					else
+						assign_attributes short_label: nil
 					end
 
 				# / Short label
@@ -465,6 +477,8 @@ class RealEstate < ActiveRecord::Base
 					is_full: true,
 					is_pending: true
 				}
+
+				other_params[:status] = 'unavailable' if self.new_record?
 
 				assign_attributes other_params
 
@@ -534,9 +548,7 @@ class RealEstate < ActiveRecord::Base
 
 				floor_infos_text.each do |_info|
 					_parseFloors(_info['floors']).each do |_floor_number|
-						_floor_info = FloorRealEstate.where(real_estate_id: id, floor: _floor_number).first_or_initialize
-
-						_floor_info.status = 'available' if _floor_info.new_record?
+						_floor_info = FloorRealEstate.where(real_estate_id: id, floor: _floor_number).first_or_initialize(status: 'unavailable')
 
 						_floor_info.label = label.gsub(/{f(:.*)*}/) do |match|
 							match = match.split(':')
@@ -1118,7 +1130,7 @@ class RealEstate < ActiveRecord::Base
 	# / Delete
 
 	# Attributes
-	
+
 		serialize :params, JSON
 		serialize :floor_infos_text, JSON
 
@@ -1417,22 +1429,22 @@ class RealEstate < ActiveRecord::Base
 			@display_constructional_quality ||=
 				fields.include?(:constructional_quality) ? 
 					case constructional_quality
-				when 1
-					'Đang xuống cấp'
-				when 2
-					'Còn tốt'
-				when 3
-					'Mới'
-				else
-					'Rất mới'
-				end
+					when 1
+						'Đang xuống cấp'
+					when 2
+						'Còn tốt'
+					when 3
+						'Mới'
+					else
+						'Rất mới'
+					end
 			:
 				''
 		end
 
 		# Owner type
 		def display_owner_type
-			@display_owner_type ||= case
+			@display_owner_type ||= case owner_type
 			when 'owner'
 				'Chủ sở hữu'
 			when 'agency'
@@ -1444,7 +1456,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Appraisal purpose
 		def display_appraisal_purpose
-			@display_appraisal_purpose ||= case
+			@display_appraisal_purpose ||= case appraisal_purpose
 			when 1
 				'Mua bán'
 			when 2
@@ -1456,11 +1468,25 @@ class RealEstate < ActiveRecord::Base
 
 		# Appraisal type
 		def display_appraisal_type
-			@display_appraisal_type ||= case
+			@display_appraisal_type ||= case appraisal_type
 			when 1
 				'Tư vấn miễn phí'
 			when 2
 				'Thẩm định'
+			end				
+		end
+
+		# Status
+		def display_status
+			@display_status ||= case self.status
+			when 'available'
+				'Đang cung cấp'
+			when 'unavailable'
+				'Không cung cấp'
+			when 'sold'
+				'Đã bán'
+			else
+				''
 			end				
 		end
 

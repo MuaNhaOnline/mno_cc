@@ -79,7 +79,7 @@ class ContactRequestsController < ApplicationController
 				# If signed => save request with current user
 				request = params[:request][:id].present? ? 
 					ContactRequest.find(params[:request][:id]) : 
-					ContactRequest.new(user_id: current_user.id, user_type: 'user', status: 1)
+					ContactRequest.new(user_id: current_user.id, user_type: 'user')
 				
 				request.save_with_params(params[:request])
 
@@ -115,7 +115,7 @@ class ContactRequestsController < ApplicationController
 				# Create request
 				request = params[:request][:id].present? ? 
 					ContactRequest.find(params[:request][:id]) : 
-					ContactRequest.new(user_id: contact_user.id, user_type: 'contact_user', status: 1)
+					ContactRequest.new(user_id: contact_user.id, user_type: 'contact_user')
 				
 				request.save_with_params(params[:request])
 

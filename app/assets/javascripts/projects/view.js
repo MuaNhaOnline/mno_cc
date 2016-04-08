@@ -1098,7 +1098,7 @@ $(function () {
 							transition: '.3s',
 							'transform-origin': '50% 50%',
 							cursor: 'pointer'
-						});
+						}).html('<title>' + (descriptionData.description.description || '') + '</title>');
 
 						if (descriptionData.status == 'highlight') {
 							$polyline.css({

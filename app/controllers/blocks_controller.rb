@@ -211,21 +211,23 @@ class BlocksController < ApplicationController
 								case image_description.description_type
 								when 'real_estate'
 									description[:description][:id] = image_description.real_estate_description.real_estate_id
+									description[:description][:description] = image_description.real_estate_description.real_estate.short_label || image_description.block_description.real_estate.label
 								when 'block_floor'
 									description[:description][:id] = image_description.block_floor_description.block_floor_id
+									description[:description][:description] = image_description.block_floor_description.block_floor.display_name
 								when 'text_image'
 									description[:description][:data] = {}
 									if image_description.text_description.present?
-										description[:description][:data][:description] = image_description.text_description.description
+										description[:description][:description] = image_description.text_description.description
 									end
 
-									if image_description.image_descriptions.present?
-										image_data = []
-										image_description.image_descriptions.each do |data|
-											image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
-										end
-										description[:description][:data][:images] = image_data.to_json
-									end
+									# if image_description.image_descriptions.present?
+									# 	image_data = []
+									# 	image_description.image_descriptions.each do |data|
+									# 		image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+									# 	end
+									# 	description[:description][:data][:images] = image_data.to_json
+									# end
 								end
 
 								image[:descriptions] << description
@@ -431,19 +433,20 @@ class BlocksController < ApplicationController
 							case surface_description.description_type
 							when 'real_estate'
 								description[:description][:id] = surface_description.real_estate_description.real_estate_id
+								description[:description][:description] = surface_description.real_estate_description.real_estate.short_label || surface_description.real_estate_description.real_estate.label
 							when 'text_image'
 								description[:description][:data] = {}
 								if surface_description.text_description.present?
-									description[:description][:data][:description] = surface_description.text_description.description
+									description[:description][:description] = surface_description.text_description.description
 								end
 
-								if surface_description.image_descriptions.present?
-									image_data = []
-									surface_description.image_descriptions.each do |data|
-										image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
-									end
-									description[:description][:data][:images] = image_data.to_json
-								end
+								# if surface_description.image_descriptions.present?
+								# 	image_data = []
+								# 	surface_description.image_descriptions.each do |data|
+								# 		image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+								# 	end
+								# 	description[:description][:data][:images] = image_data.to_json
+								# end
 							end
 
 							image[:descriptions] << description

@@ -1,0 +1,56 @@
+<%
+=begin
+	params: requests
+=end
+
+%>
+
+<% requests.each do |request| %>
+
+	<tr>
+		<td class="type">
+			<%= request.display_request_type %>
+		</td>
+		<td class="message">
+			<%= request.message %>
+		</td>
+		<td class="object">
+			<a href="/real_estates/<%= request.real_estate.full_slug %>"><%= request.real_estate.display_id %></a>
+		</td>
+		<td class="user">
+			<% case request.user_type %>
+			<% when 'user' %>
+				<% if request.user.present? %>
+					<a href="javascript:" data-value="<%= request.user.id %>" data-type="user">
+						<%= request.user.full_name %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% when 'contact_user' %>
+				<% if request.contact_user.present? %>
+					<a href="javascript:" data-value="<%= request.contact_user.id %>" data-type="contact_user">
+						<%= request.contact_user.name || request.contact_user.email %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% else %>
+				Không có dữ liệu
+			<% end %>
+		</td>
+		<td class="status">
+			<select class="form-control">
+				<option value="" hidden>Chưa xác định</option>
+				<option value="1" <%= 'selected' if request.status == 1 %>>Chờ liên hệ</option>
+				<option value="2" <%= 'selected' if request.status == 2 %>>Chờ liên hệ lại</option>
+				<option value="3" <%= 'selected' if request.status == 3 %>>Đã bỏ qua</option>
+				<option value="4" <%= 'selected' if request.status == 4 %>>Đã liên hệ</option>
+			</select>
+		</td>
+		<td class="note">
+			<textarea class="form-control" style="height: 34px"><%= request.note %></textarea>
+		</td>
+	</tr>
+
+<% end %>

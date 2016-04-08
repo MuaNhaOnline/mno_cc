@@ -1,23 +1,15 @@
 class UsersController < ApplicationController
 	layout 'layout_back'
 
-	# Sign up
+	# Register
 		
 		# View
 		def create
-			if (params.has_key?(:id))
-				begin
-					@user = User.find(params[:id])
-				rescue
-					@user = User.new
-				end
-			else
-				@user = User.new
-			end
+			@user = params[:id].present? ? User.find(params[:id]) : User.new
 			
 			# Author
 			if @user.new_record?
-				authorize! :signup, nil
+				authorize! :create, nil
 			else  
 				authorize! :edit, @user
 			end
@@ -27,7 +19,7 @@ class UsersController < ApplicationController
 		# params: form user
 		def save
 			# Get user
-			if is_sign_up = params[:user][:id].blank?
+			if is_new = params[:user][:id].blank?
 				user = User.new
 
 				if params[:contact_id].present?
@@ -59,14 +51,14 @@ class UsersController < ApplicationController
 			return render json: result if result[:status] != 0
 
 			# If signup
-			if is_sign_up
+			if is_new
 				session_info = SessionInfo.find session[:session_info_id]
 				session_info.leave_infos ||= []
 				session_info.leave_infos << ['user', user.id]
 				session_info.save
 
 				# Delete contact
-				if defined? contact
+				if contact.present?
 					contact.update is_deleted: true
 				end
 			end
@@ -94,7 +86,7 @@ class UsersController < ApplicationController
 			render json: { status: 0, result: !User.exists?(email: params[:email]) }
 		end
 
-	# / Sign up
+	# / Register
 
 	# Active account
 
@@ -185,7 +177,7 @@ class UsersController < ApplicationController
 		# View
 		def signin
 			# Author
-			authorize! :signin, nil
+			authorize! :login, nil
 		end
 
 		# Handle

@@ -94,7 +94,7 @@ class ProjectsController < ApplicationController
 					return render json: { status: 1 }
 				end
 			end
-
+			
 			result = project.save_with_params(params[:project], is_draft)
 
 			return render json: result if result[:status] != 0
@@ -358,19 +358,20 @@ class ProjectsController < ApplicationController
 							case image_description.description_type
 							when 'block'
 								description[:description][:id] = image_description.block_description.block_id
+								description[:description][:description] = image_description.block_description.block.display_name
 							when 'text_image'
 								description[:description][:data] = {}
 								if image_description.text_description.present?
-									description[:description][:data][:description] = image_description.text_description.description
+									description[:description][:description] = image_description.text_description.description
 								end
 
-								if image_description.image_descriptions.present?
-									image_data = []
-									image_description.image_descriptions.each do |data|
-										image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
-									end
-									description[:description][:data][:images] = image_data.to_json
-								end
+								# if image_description.image_descriptions.present?
+								# 	image_data = []
+								# 	image_description.image_descriptions.each do |data|
+								# 		image_data << { id: data.id, url: data.image.url, description: data.description, is_avatar: data.is_avatar }
+								# 	end
+								# 	description[:description][:data][:images] = image_data.to_json
+								# end
 							end
 
 							image[:descriptions] << description
@@ -596,6 +597,89 @@ class ProjectsController < ApplicationController
 		end
 
 	# / Manager
+
+	# Products manage
+	
+		# View
+		# params: id(*)
+		def products_manage
+			@project = Project.find params[:id]
+
+			# Author
+			authorize! :edit, @project
+
+			render layout: 'layout_back'
+		end
+
+		# Partial view
+		# params: search form, page
+		def _products_manage_list
+			project = Project.find params[:search][:id]
+
+			# Author
+			authorize! :edit, project
+
+			products = Project.product_search_with_params params[:search]
+
+			return render json: { status: 1 } if products[:real_estates].blank? && products[:floor_real_estates].blank?
+
+			# Paging
+			per = 30
+			count = products[:real_estates].count + products[:floor_real_estates].count
+			params[:page] ||= 1
+			page = params[:page].to_i
+			if products[:real_estates].present?
+				offset = (page - 1) * per
+
+				if offset >= products[:real_estates].count
+					offset -= products[:real_estate].count
+					products[:real_estates] = []
+					products[:floor_real_estates] = products[:floor_real_estates].offset(offset).limit(per)
+				else
+					products[:real_estates] = products[:real_estates].offset(offset).limit(per)
+					if products[:real_estate].count == per
+						products[:floor_real_estates] = []
+					else
+						limit = per - products[:real_estates].count
+						products[:floor_real_estates].limit(limit)
+					end
+				end
+			else
+				products[:floor_real_estates] = products[:floor_real_estates].page page, per
+			end
+
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partia_managel: 'products_list', locals: { products: products }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { page: page, per: per, total: count })
+				}
+			}
+		end
+
+		# Handle
+		# params: product_id, product_type, product_status
+		def set_product_status
+			project = nil
+
+			case params[:product_type]
+			when 'real_estate'
+				project = Project.joins(blocks: :real_estates).where("real_estates.id = #{params[:product_id]}").first
+			when 'floor_real_estate'
+				project = Project.joins(blocks: { real_estates: :in_floors }).where("floor_real_estates.id = #{params[:product_id]}").first
+			end
+
+			return render json: { status: 1 } if project.blank?
+
+			# Author
+			authorize! :edit, project
+
+			result = Project.set_product_status project.id, params[:product_type], params[:product_id], params[:product_status]
+
+			render json: result
+		end
+	
+	# / Products manage
 
 	# Delete
 

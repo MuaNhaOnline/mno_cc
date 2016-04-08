@@ -85,10 +85,10 @@
 						<% end %>
 						<!-- <li>
 							<a aria-name="progress" href="#">Tiến độ</a>
-						</li>
+						</li> -->
 						<li>
 							<a aria-name="investor" href="#">Chủ đầu tư</a>
-						</li> -->
+						</li>
 						<li>
 							<a aria-name="contact" href="#">Liên hệ</a>
 						</li>
@@ -534,15 +534,24 @@
 
 				<!-- Investor -->
 					
-					<!-- <article class="box" aria-name="investor">
+					<article class="box" aria-name="investor">
 						<section class="box-header">
 							<h2 class="box-title">
 								Chủ đầu tư
 							</h2>
 						</section>
-						<section class="box-body">
+						<section class="box-body investor-ctn">
+							<article class="logo">
+								<%= investor_avatar @project.investor %>
+							</article>
+							<article class="name">
+								<%= @project.investor.name %>
+							</article>
+							<article class="description">
+								<%= @project.investor.display_description %>
+							</article>
 						</section>
-					</article> -->
+					</article>
 
 				<!-- / Investor -->
 

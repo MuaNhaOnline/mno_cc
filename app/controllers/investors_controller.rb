@@ -25,17 +25,22 @@ class InvestorsController < ApplicationController
 			investor = params[:investor][:id].present? ? Investor.find(params[:investor][:id]) : Investor.new
 			result = investor.save_with_params params[:investor]
 
-			render json: result
+			return render json: result if result[:status] != 0
+
+			render json: {
+				status: 0,
+				result: investor.id
+			}
 		end
 	
 	# / Create
 
-# Manager
+# Manage
 
 	# View
-	def manager
+	def manage
 		# Author
-		authorize! :manager, Investor
+		authorize! :manage, Project
 
 		@investors = Investor.order(updated_at: 'asc')
 
@@ -44,9 +49,9 @@ class InvestorsController < ApplicationController
 
 	# Partial view
 	# params: keyword
-	def _manager_list
+	def _manage_list
 		# Author
-		return render json: { staus: 6 } if cannot? :manager, Investor
+		authorize! :manage, Project
 
 		per = Rails.application.config.item_per_page
 
@@ -63,7 +68,7 @@ class InvestorsController < ApplicationController
 		render json: {
 			status: 0,
 			result: {
-				list: render_to_string(partial: 'investors/manager_list', locals: { investors: investors.page(params[:page].to_i, per) }),
+				list: render_to_string(partial: 'investors/manage_list', locals: { investors: investors.page(params[:page].to_i, per) }),
 				pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per })
 			}
 		}
@@ -79,7 +84,7 @@ class InvestorsController < ApplicationController
 		render json: { status: 0, avatar_url: result[:result].avatar.url(:thumb) }
 	end
 
-# / Manager
+# / Manage
 
 # Autocomplete
 

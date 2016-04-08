@@ -1,6 +1,6 @@
 module ActiveRecordExtensions
-	def page page, per
-		offset = (page - 1) * per
+	def page page, per, params = {}
+		offset = (page.to_i - 1) * per
 		limit(per).offset(offset)
 	end
 

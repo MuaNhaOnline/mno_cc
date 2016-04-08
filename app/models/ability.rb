@@ -10,7 +10,7 @@ class Ability
 			# User
 			
 				if user.new_record?
-					can :login
+					can [:create, :login]
 				else
 					can :logout
 				end
@@ -40,6 +40,12 @@ class Ability
 		# Sign in required
 
 			can [:view_my, :set_my], :all
+
+			# User
+			
+				can [:edit], User, id: user.id
+			
+			# / User
 
 			# Real estate
 			

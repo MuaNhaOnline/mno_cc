@@ -1,0 +1,131 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/projects/products_manage.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/projects/products_manage.js"></script>
+<% end %>
+
+<%
+=begin
+	params: @project
+=end
+
+	@title = @project.project_name
+%>
+
+<section class="box box-default search-box">
+	<section class="box-header">
+		<h2 class="box-title">
+			Tìm kiếm
+		</h2>
+	</section>
+	<section class="box-body">
+		<form id="search_form" class="form">
+			<input type="hidden" name="search[id]" value="<%= @project.id %>" />
+			<div class="row">
+				<article class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<input class="form-control" name="search[label]" placeholder="Mã. VD: CH-12, CH-13, CH-14,..." />
+				</article>
+				<% if @project.blocks.count > 1 %>
+					<%
+						block_ids = @project.block_ids.map{ |id| "b#{id}" }
+					%>
+					<article class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						<select class="form-control input-toggle" name="search[block_id]">
+							<option value="" hidden data-off="<%= block_ids.join(' ') %>">Hãy chọn lô/block</option>
+							<option value="" data-off="<%= block_ids.join(' ') %>">Bất kỳ</option>
+							<% @project.blocks.each do |block| %>
+								<option data-off="<%= (block_ids - ["b#{block.id}"]).join(' ') %>" data-on="b<%= block.id %>" value="<%= block.id %>"><%= block.display_name %></option>
+							<% end %>
+						</select>
+					</article>
+					<% @project.blocks.each do |block| %>
+						<% if block.has_floor %>
+							<article data-toggled-element="b<%= block.id %>" class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<select class="form-control" name="search[floor_id]">
+									<option value="" hidden>Hãy chọn tầng</option>
+									<option value="">Bất kỳ</option>
+									<% block.floors.each do |floor| %>
+										<option value="<%= floor.id %>"><%= floor.display_name %></option>
+									<% end %>
+								</select>
+							</article>
+						<% end %>
+						<article data-toggled-element="b<%= block.id %>" class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+							<select class="form-control" name="search[group_id]">
+								<option value="" hidden>Hãy chọn nhóm</option>
+								<option value="">Bất kỳ</option>
+								<% block.real_estate_groups.each do |group| %>
+									<option value="<%= group.id %>"><%= group.display_name %></option>
+								<% end %>
+							</select>
+						</article>
+					<% end %>
+				<% elsif @project.blocks.present? %>
+					<% if @project.blocks.first.has_floor %>
+						<article class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+							<select class="form-control" name="search[floor_id]">
+								<option value="" hidden>Hãy chọn tầng</option>
+								<option value="">Bất kỳ</option>
+								<% @project.blocks.first.floors.each do |floor| %>
+									<option value="<%= floor.id %>"><%= floor.display_name %></option>
+								<% end %>
+							</select>
+						</article>
+					<% end %>
+					<article class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						<select class="form-control" name="search[group_id]">
+							<option value="" hidden>Hãy chọn nhóm</option>
+							<option value="">Bất kỳ</option>
+							<% @project.block.first.real_estate_groups.each do |group| %>
+								<option value="<%= group.id %>"><%= group.display_name %></option>
+							<% end %>
+						</select>
+					</article>
+				<% end %>
+			</div>
+			<article class="form-group text-center">
+				<button class="btn btn-primary">Tìm kiếm</button>
+			</article>
+		</form>
+	</section>
+</section>
+
+<section class="box box-solid">
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			Danh sách sản phẩm
+		</h2>
+	</section>
+	<section class="box-body no-padding">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						Mã
+					</th>
+					<th>
+						Block/Lô
+					</th>
+					<th>
+						Tầng
+					</th>
+					<th>
+						Nhóm
+					</th>
+					<th>
+						Trạng thái
+					</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+				
+			</tbody>
+		</table>
+	</section>
+</section>
+
+<section id="pagination" class="text-center">
+	
+</section>

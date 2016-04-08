@@ -139,7 +139,7 @@
 								</div>
 								<% if @user.new_record? %>
 									<% if left_contact? %>
-										<input data-toggled-element="default-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" value="<%= current_left_contact.email %>" readonly="true" tabindex="-1" />
+										<input data-toggled-element="default-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" value="<%= current_left_contact.email %>" readonly="true" tabindex="-1" />
 										<input data-toggled-element="new-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
 									<% else %>
 										<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />

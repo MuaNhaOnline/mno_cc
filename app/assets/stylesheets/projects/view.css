@@ -818,6 +818,32 @@
 
 	/* / Products */
 
+	/* Investor */
+	
+		.investor-ctn {
+			
+		}
+	
+			.investor-ctn .logo {
+				text-align: center;
+			}
+	
+				.investor-ctn .logo img {
+					max-width: 80%;
+					max-height: 300px;
+				}
+	
+			.investor-ctn .name {
+				font-size: 21px;
+				text-align: center;
+			}
+	
+			.investor-ctn .description {
+				margin-top: 20px;
+			}
+	
+	/* / Investor */
+
 	/* Payment method */
 
 		.payment_method {

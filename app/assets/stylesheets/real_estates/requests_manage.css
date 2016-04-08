@@ -1,0 +1,19 @@
+/* List */
+
+	.requests-list {
+		
+	}
+
+		.requests-list .type,
+		.requests-list .status,
+		.requests-list .object,
+		.requests-list .user {
+			width: 1%;
+			white-space: nowrap;
+		}
+
+			.requests-list .status select {
+				width: 120px;
+			}
+
+/* / List */

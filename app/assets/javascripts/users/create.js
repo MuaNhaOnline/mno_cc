@@ -173,7 +173,7 @@ $(function () {
 	// Check email
 
 	function initCheckEmail() {
-		var $email = $form.find('#email')
+		var $email = $form.find('#email');
 
 		_temp.emailChecking = false;
 

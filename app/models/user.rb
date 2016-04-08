@@ -179,7 +179,7 @@ class User < ActiveRecord::Base
 		def save_with_params _params
 			# Author
 			if new_record?
-				return { status: 6 } if User.current.cannot? :signup, nil
+				return { status: 6 } if User.current.cannot? :create, nil
 			else
 				return { status: 6 } if User.current.cannot? :edit, self
 			end

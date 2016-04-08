@@ -107,7 +107,7 @@ Rails.application.routes.draw do
 
 		get 'chu-dau-tu/them-moi(/:id)', controller: 'investors', action: 'create'
 		get 'chu-dau-tu/cap-nhat/:id', controller: 'investors', action: 'create'
-		get 'chu-dau-tu/quan-ly', controller: 'investors', action: 'manager'
+		get 'chu-dau-tu/quan-ly', controller: 'investors', action: 'manage'
 
 		get 'chu-dau-tu/:id', constraints: { id: /\d+/ }, controller: 'investors', action: 'view'
 

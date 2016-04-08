@@ -1,6 +1,7 @@
 <!-- page, per, total -->
 <%
 	page ||= 1
+	page = page.to_i
 	page_count = (total + per - 1) / per
 
 	return if page_count <= 1
@@ -10,12 +11,12 @@
 	<% (1..page_count).each do |i| %>
 		<% if i == page %>
 			<li class="active">
-		    <a href="javascript:void(0)"><%= i %></a>
-		  </li>
-  	<% else %>
+				<a href="javascript:void(0)"><%= i %></a>
+			</li>
+		<% else %>
 			<li>
-		    <a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
-		  </li>
-  	<% end %>
+				<a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
+			</li>
+		<% end %>
 	<% end %>
 </ul>

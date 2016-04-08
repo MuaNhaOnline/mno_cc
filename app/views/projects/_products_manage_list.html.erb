@@ -1,0 +1,55 @@
+<%
+=begin
+	params: products{real_estates, floor_real_estates}
+=end
+
+%>
+
+<% products[:real_estates].each do |re| %>
+	<tr data-value="<%= re.id %>" data-type="real_estate">
+		<td>
+			<%= re.label %>
+		</td>
+		<td>
+			<%= re.block.display_name %>
+		</td>
+		<td>
+			<%= re.block_floor.display_name if re.block.has_floor %>
+		</td>
+		<td>
+			<%= re.block_group.display_name %>
+		</td>
+		<td style="width: 1%">
+			<select style="width: 150px;" aria-object="status" class="form-control">
+				<option value="" hidden>Chưa xác định</option>
+				<option value="available" <%= 'selected' if re.status == 'available' %>>Đang cung cấp</option>
+				<option value="unavailable" <%= 'selected' if re.status == 'unavailable' %>>Không cung cấp</option>
+				<option value="sold" <%= 'selected' if re.status == 'sold' %>>Đã bán</option>
+			</select>
+		</td>
+	</tr>
+<% end %>
+<% products[:floor_real_estates].each do |floor_re| %>
+	<tr data-value="<%= floor_re.id %>" data-type="floor_real_estate">
+		<td>
+			<%= floor_re.label %>
+		</td>
+		<td>
+			<%= floor_re.real_estate.block.display_name %>
+		</td>
+		<td>
+			<%= floor_re.real_estate.block_floor.display_name if floor_re.real_estate.block.has_floor %>
+		</td>
+		<td>
+			<%= floor_re.real_estate.block_group.display_name %>
+		</td>
+		<td style="width: 1%">
+			<select style="width: 150px;" aria-object="status" class="form-control">
+				<option value="" hidden>Chưa xác định</option>
+				<option value="available" <%= 'selected' if floor_re.status == 'available' %>>Đang cung cấp</option>
+				<option value="unavailable" <%= 'selected' if floor_re.status == 'unavailable' %>>Không cung cấp</option>
+				<option value="sold" <%= 'selected' if floor_re.status == 'sold' %>>Đã bán</option>
+			</select>
+		</td>
+	</tr>
+<% end %>
