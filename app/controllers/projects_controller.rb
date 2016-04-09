@@ -681,6 +681,63 @@ class ProjectsController < ApplicationController
 	
 	# / Products manage
 
+	# Request manage
+	
+		# View
+		def requests_manage
+			# Author
+			authorize! :manage, Project
+
+			@requests = ContactRequest.project_contact.need_contact
+
+			render layout: 'layout_back'
+		end
+
+		# Partial view
+		# params: page
+		def _requests_manage_list
+			# Author
+			authorize! :manage, Project
+
+			requests = ContactRequest.project_contact.need_contact
+
+			page = params[:page] || 1
+			per = 20
+			count = requests.count
+
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'requests_manage_list', locals: { requests: requests.page(page, per) }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: page })
+				}
+			}
+		end
+
+		# Partial view
+		# params: user_type, user_id
+		def _request_manage_user_info
+			# Author
+			authorize! :manage, Project
+
+			case params[:user_type]
+			when 'user'
+				render json: {
+					status: 0,
+					result: render_to_string(partial: 'users/info_popup', locals: { user: User.find(params[:user_id]) })
+				}
+			when 'contact_user'
+				render json: {
+					status: 0,
+					result: render_to_string(partial: 'contact_user_infos/info_popup', locals: { contact_user: ContactUserInfo.find(params[:user_id]) })
+				}
+			else
+				render json: { status: 1 }
+			end
+		end
+	
+	# / Request manage
+
 	# Delete
 
 		# Handle

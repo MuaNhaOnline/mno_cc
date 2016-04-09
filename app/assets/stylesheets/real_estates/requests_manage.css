@@ -4,6 +4,10 @@
 		
 	}
 
+		.requests-list th {
+			white-space: nowrap;
+		}
+
 		.requests-list .type,
 		.requests-list .status,
 		.requests-list .object,

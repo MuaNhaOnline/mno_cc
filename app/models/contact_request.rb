@@ -20,6 +20,8 @@ class ContactRequest < ActiveRecord::Base
 		belongs_to :contact_user, class_name: 'ContactUserInfo', foreign_key: 'user_id'
 		belongs_to :real_estate, foreign_key: 'object_id'
 		belongs_to :project, foreign_key: 'object_id'
+		belongs_to :real_estate, foreign_key: 'object_id'
+		belongs_to :floor_real_estate, foreign_key: 'object_id'
 
 		has_many :results, class_name: 'ContactRequestResult'
 
@@ -33,6 +35,10 @@ class ContactRequest < ActiveRecord::Base
 
 		def self.real_estate_contact
 			where(object_type: 'real_estate')
+		end
+
+		def self.project_contact
+			where(object_type: ['project', 'real_estate', 'real_estates/floor'])
 		end
 	
 	# / Get
@@ -83,6 +89,22 @@ class ContactRequest < ActiveRecord::Base
 			end
 
 			assign_attributes_with_params _params
+
+			if save
+				{ status: 0 }
+			else
+				{ status: 3 }
+			end
+		end
+
+		# Assign attributes with params
+		def manage_assign_attributes_with_params _params
+			assign_attributes _params.permit([:status, :note])
+		end
+	
+		# Save with params
+		def manage_save_with_params _params
+			manage_assign_attributes_with_params _params
 
 			if save
 				{ status: 0 }

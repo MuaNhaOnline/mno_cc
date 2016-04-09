@@ -15,7 +15,26 @@
 			<%= request.message %>
 		</td>
 		<td class="object">
-			<a href="/real_estates/<%= request.real_estate.full_slug %>"><%= request.real_estate.display_id %></a>
+			<% case request.object_type %>
+			<% when 'project' %>
+				<a href="/projects/<%= request.project.full_slug %>"><%= request.project.display_id %></a>
+			<% when 'real_estates/floor' %>
+				<% if defined? request.floor_real_estate.real_estate.block.project %>
+					<a href="/projects/<%= request.floor_real_estate.real_estate.block.project.full_slug %>">
+						<%= request.floor_real_estate.real_estate.block.project.display_id %>
+						<br />
+						<%= request.floor_real_estate.label %>
+					</a>
+				<% end %>
+			<% when 'real_estate' %>
+				<% if defined? request.real_estate.block.project %>
+					<a href="/projects/<%= request.real_estate.block.project.full_slug %>">
+						<%= request.real_estate.block.project.display_id %>
+						<br />
+						<%= request.real_estate.short_label || request.real_estate.label %>
+					</a>
+				<% end %>
+			<% end %>
 		</td>
 		<td class="user">
 			<% case request.user_type %>

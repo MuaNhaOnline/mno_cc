@@ -128,6 +128,27 @@ class ContactRequestsController < ApplicationController
 				}
 			end
 		end
+
+		# Handle
+		# params: request form,
+		def manage_save
+			request = ContactRequest.find params[:request][:id]
+
+			case request.object_type
+			when 'real_estate'
+				# Author
+				authorize! :manage, RealEstate
+			when 'project'
+				# Author
+				authorize! :manage, Project
+			end
+
+			result = request.manage_save_with_params(params[:request])
+
+			render json: {
+				status: 0
+			}
+		end
 	
 	# / Save
 

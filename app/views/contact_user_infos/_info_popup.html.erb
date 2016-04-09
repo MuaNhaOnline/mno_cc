@@ -1,0 +1,48 @@
+<%
+=begin
+	params: contact_user, infos, controls
+=end
+	
+	infos ||= []
+	controls ||= []
+
+%>
+
+<article class="box box-primary user-info-box">
+	<section class="box-header with-border">
+		<h2 class="box-title">
+			Thông tin liên hệ
+		</h2>
+	</section>
+	<section class="box-body">
+		<section class="image">
+			<img src="/assets/users/thumb/default.png" alt="<%= contact_user.name || contact_user.email %>">
+		</section>
+		<% if contact_user.name.present? %>
+			<h3 class="name">
+				<%= contact_user.name %>
+			</h3>
+		<% end %>
+		<% if contact_user.email.present? %>
+			<article class="text">
+				<span class="label">Email:</span> <%= contact_user.email %>
+			</article>
+		<% end %>
+		<% if contact_user.phone_number.present? %>
+			<article class="text">
+				<span class="label">Điện thoại:</span> <%= contact_user.phone_number %>
+			</article>
+		<% end %>	
+		<% infos.each do |info| %>
+			<article class="text">
+				<span class="label"><%= "#{info[:label]}: " if info[:label].present? %></span> <%= info[:text] %>
+			</article>
+		<% end %>
+	</section>
+	<section class="box-footer with-border text-center">
+		<% controls.each do |control| %>
+			<%= control.html_safe %>
+		<% end %>
+		<button class="btn btn-default" aria-click="close-popup">Đóng</button>
+	</section>
+</article>

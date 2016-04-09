@@ -1,0 +1,58 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/projects/requests_manage.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/projects/requests_manage.js"></script>
+<% end %>
+
+<%
+=begin
+	params: @requests
+=end
+
+	@title = 'Quản lý yêu cầu liên hệ';
+
+	per = 20
+%>
+
+<section class="box box-default">
+	<section class="box-header">
+		<h2 class="box-title">
+			Danh sách yêu cầu
+		</h2>
+	</section>
+	<section class="box-body padding-0 requests-list">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						Yêu cầu
+					</th>
+					<th>
+						Lời nhắn
+					</th>
+					<th>
+						Dự án
+					</th>
+					<th>
+						Thành viên
+					</th>
+					<th>
+						Trạng thái
+					</th>
+					<th>
+						Ghi chú
+					</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+				<%= render partial: 'requests_manage_list', locals: { requests: @requests.limit(per) } %>
+			</tbody>
+		</table>
+	</section>
+</section>
+
+<section id="pagination" class="text-center">
+	<%= render partial: 'shared/pagination', locals: { total: @requests.count, per: per } %>
+</section>

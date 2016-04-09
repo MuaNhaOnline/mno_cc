@@ -34,7 +34,7 @@ $(function () {
 
 				$('#list .user a').on('click', function () {
 					popupFull({
-						url: '/real_estates/_request_manage_user_info',
+						url: '/projects/_request_manage_user_info',
 						urlData: {
 							user_id: $(this).data('value'),
 							user_type: $(this).data('type')
@@ -49,7 +49,7 @@ $(function () {
 		// Pagination
 		
 			find = _initPagination({
-				url: '/real_estates/_requests_manage_list',
+				url: '/projects/_requests_manage_list',
 				pagination: $('#pagination'),
 				done: function (content) {
 					$('#list').html(content);

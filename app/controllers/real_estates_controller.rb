@@ -1195,6 +1195,28 @@ class RealEstatesController < ApplicationController
 				}
 			}
 		end
+
+		# Partial view
+		# params: user_type, user_id
+		def _request_manage_user_info
+			# Author
+			authorize! :manage, RealEstate
+
+			case params[:user_type]
+			when 'user'
+				render json: {
+					status: 0,
+					result: render_to_string(partial: 'users/info_popup', locals: { user: User.find(params[:user_id]) })
+				}
+			when 'contact_user'
+				render json: {
+					status: 0,
+					result: render_to_string(partial: 'contact_user_infos/info_popup', locals: { contact_user: ContactUserInfo.find(params[:user_id]) })
+				}
+			else
+				render json: { status: 1 }
+			end
+		end
 	
 	# / Request manage
 

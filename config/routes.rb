@@ -184,6 +184,7 @@ Rails.application.routes.draw do
 		get 'contact_requests' => 'contact_requests#index'
 		post 'contact_requests/set_result'
 		post 'contact_requests/save'
+		post 'contact_requests/save'
 
 	# / Contact request
 
@@ -356,4 +357,7 @@ Rails.application.routes.draw do
 		#   end
 
 	# / Temp
+
+	get ':controller(/:action(/:id))', action: 'index'
+	post ':controller/:action'
 end
