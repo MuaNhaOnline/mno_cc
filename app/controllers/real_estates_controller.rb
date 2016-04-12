@@ -126,6 +126,8 @@ class RealEstatesController < ApplicationController
 
 			# Author
 			authorize! :view, @re
+
+			render layout: 'front_layout'
 		end
 
 	# / View
