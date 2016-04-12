@@ -5,7 +5,7 @@ class SystemGroupsController < ApplicationController
 
 		# View
 		def manage
-			@groups = SystemGroup.all
+			@groups = SystemGroup.where(is_locked: false)
 		end
 
 		# Partial view

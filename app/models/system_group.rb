@@ -2,8 +2,6 @@ class SystemGroup < ActiveRecord::Base
 
 	# Default
 	
-		default_scope { where.not(is_locked: true) }
-	
 	# / Default
 
 	# Association
