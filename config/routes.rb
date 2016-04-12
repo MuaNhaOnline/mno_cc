@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
 	# System groups
 	
-		get 'quan-ly-quyen' => 'system_groups#manage'
+		get 'quan-ly-nhom-quyen' => 'system_groups#manage'
 		get 'system_groups/:action(/:id)', controller: 'system_groups'
 		post 'system_groups/:action(/:id)', controller: 'system_groups'
 	
