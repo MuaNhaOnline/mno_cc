@@ -99,7 +99,10 @@ class ProjectsController < ApplicationController
 
 			return render json: result if result[:status] != 0
 
-			render json: { status: 0, result: project.id }
+			render json: {
+				status: 0,
+				result: project.id
+			}
 		end
 
 		# View

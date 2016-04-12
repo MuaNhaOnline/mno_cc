@@ -67,6 +67,18 @@ $(function () {
 											$form.find('#is_full').val(true);
 											toggleUntilFull(1);
 
+											$('#images_list [aria-name="hidden_input"]').each(function (index) {
+												var 
+													$input = $(this),
+													value = JSON.parse($input.val());
+
+												if (value['is_new']) {
+													value['id'] = data['images'][index];
+													value['is_new'] = false;
+													$input.val(JSON.stringify(value));
+												}
+											});
+
 											$form.find('#user_email').prop('disabled', true);
 										}
 									}, {
@@ -156,6 +168,18 @@ $(function () {
 															$form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
 															$form.find('#is_full').val(true);
 															toggleUntilFull(1);
+
+															$('#images_list [aria-name="hidden_input"]').each(function (index) {
+																var 
+																	$input = $(this),
+																	value = JSON.parse($input.val());
+
+																if (value['is_new']) {
+																	value['id'] = data['images'][index];
+																	value['is_new'] = false;
+																	$input.val(JSON.stringify(value));
+																}
+															});
 
 															$form.find('#user_email').prop('disabled', true);
 														}
@@ -724,6 +748,19 @@ $(function () {
 				}).done(function (data) {
 					if (data.status == 0) {
 						$form.prepend('<input type="hidden" name="real_estate[id]" value="' + data.result + '" />');
+
+						$('#images_list [aria-name="hidden_input"]').each(function (index) {
+							var 
+								$input = $(this),
+								value = JSON.parse($input.val());
+
+							if (value['is_new']) {
+								value['id'] = data['images'][index];
+								value['is_new'] = false;
+								$input.val(JSON.stringify(value));
+							}
+						});
+
 						popupPrompt({
 							title: _t.form.success_title,
 							content: _t.real_estate.view.create.save_draft_success_content,

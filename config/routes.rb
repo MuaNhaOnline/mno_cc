@@ -71,6 +71,7 @@ Rails.application.routes.draw do
 		get 'bat-dong-san/quan-tam' => 'real_estates#my_favorite'
 		get 'bat-dong-san/kiem-duyet' => 'real_estates#pending'
 		get 'bat-dong-san/quan-ly' => 'real_estates#manager'
+		get 'bat-dong-san/yeu-cau' => 'real_estates#requests_manage'
 
 		get 'bat-dong-san/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'real_estates', action: 'view'
 
@@ -93,6 +94,7 @@ Rails.application.routes.draw do
 		get 'du-an/yeu-thich-cua-toi' => 'projects#my_favorite'
 		get 'du-an/kiem-duyet' => 'projects#pending'
 		get 'du-an/quan-ly' => 'projects#manager'
+		get 'du-an/yeu-cau' => 'projects#requests_manage'
 		
 		get 'du-an/:slug', constraints: { slug: /(\w|-)*\d+/ }, controller: 'projects', action: 'view'
 

@@ -150,7 +150,7 @@ class RealEstatesController < ApplicationController
 		end  
 
 		# Handle
-		# params: real-estate form
+		# params: real_estate form
 		def save
 			is_draft = params.has_key? :draft
 			re = params[:real_estate][:id].present? ? RealEstate.find(params[:real_estate][:id]) : RealEstate.new
@@ -163,7 +163,11 @@ class RealEstatesController < ApplicationController
 
 				return render json: result if result[:status] != 0
 
-				render json: { status: 0, result: re.id }
+				render json: {
+					status: 0,
+					result: re.id, 
+					images: re.images.map{ |image| image.id }, 
+				}
 			else
 				# If not signed => get contact info
 				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
@@ -196,10 +200,15 @@ class RealEstatesController < ApplicationController
 				return render json: result if result[:status] != 0
 
 				if params[:real_estate][:id].blank?
-					# RealEstateMailer.active(re).deliver_later
+					RealEstateMailer.active(re).deliver_later
 				end
 
-				render json: { status: 0, result: re.id, secure_code: re.params['secure_code'] }
+				render json: { 
+					status: 0, 
+					result: re.id, 
+					images: re.images.map{ |image| image.id }, 
+					secure_code: re.params['secure_code']
+				}
 			end
 		end
 

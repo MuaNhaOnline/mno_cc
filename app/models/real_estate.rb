@@ -11,15 +11,12 @@ class RealEstate < ActiveRecord::Base
 	# PgSearch
 
 		include PgSearch
-		pg_search_scope :search, against: {
-			meta_search_1: 'A',
-			meta_search_2: 'B',
-			meta_search_3: 'C'
-		}, using: { 
-			tsearch: { 
-				any_word: true
-			}
-		}
+		pg_search_scope :search, against: [
+			:meta_search_1,
+			:id,
+			:title,
+			:description
+		]
 
 	# / PgSearch
 
@@ -1096,12 +1093,14 @@ class RealEstate < ActiveRecord::Base
 		# Get meta search
 
 		def assign_meta_search
-			tempLocale = I18n.locale
-			I18n.locale = 'vi'
+			assign_attributes meta_search_1: "#{display_id}"
+			
+			# tempLocale = I18n.locale
+			# I18n.locale = 'vi'
 
-			assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_type == 'user' ? "#{user.full_name} #{user.email} #{user.phone_number}" : "#{contact_user.name} #{contact_user.email} #{contact_user.phone_number}"} #{title.gsub('Quận', '').gsub('quận', '')}"
+			# assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_type == 'user' ? "#{user.full_name} #{user.email} #{user.phone_number}" : "#{contact_user.name} #{contact_user.email} #{contact_user.phone_number}"} #{title.gsub('Quận', '').gsub('quận', '')}"
 
-			I18n.locale = tempLocale
+			# I18n.locale = tempLocale
 		end
 
 		# / Get meta search

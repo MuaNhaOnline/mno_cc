@@ -162,12 +162,13 @@ $(function () {
 				$form.submitStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
-					$form.prepend('<input type="hidden" name="project[id]" value="' + data.result + '" />');
-					popupPrompt({
-						title: _t.form.success_title,
-						content: _t.project.view.create.save_draft_success_content,
-						type: 'success'
-					});
+					window.location = '/du-an/cua-toi';
+					// $form.prepend('<input type="hidden" name="project[id]" value="' + data.result + '" />');
+					// popupPrompt({
+					// 	title: _t.form.success_title,
+					// 	content: _t.project.view.create.save_draft_success_content,
+					// 	type: 'success'
+					// });
 				}
 				else {
 					popupPrompt({

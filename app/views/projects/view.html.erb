@@ -649,7 +649,7 @@
 								<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :email, :phone_number]}'".html_safe unless signed? %>
 							>
 								<article class="callout">
-									Chào <%= signed? ? current_user.full_name : 'bạn' %>, hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+									Hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
 								</article>
 								<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
 								<input type="hidden" name="request[request_type]" value="" />

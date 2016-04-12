@@ -35,6 +35,8 @@ class HomeController < ApplicationController
 			params[:search].delete :is_favorite
 			@res = RealEstate.search_with_params(params[:search].clone)
 
+			# @projects = Project.search_with_params(params[:search].clone)
+
 			render layout: 'front_layout'
 		end
 

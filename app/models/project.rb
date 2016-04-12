@@ -13,15 +13,12 @@ class Project < ActiveRecord::Base
 	# PgSearch
 
 		include PgSearch
-		pg_search_scope :search, against: {
-			meta_search_1: 'A',
-			meta_search_2: 'B',
-			meta_search_3: 'C'
-		}, using: { 
-			tsearch: { 
-				any_word: true
-			}
-		}
+		pg_search_scope :search, against: [
+			:meta_search_1,
+			:id,
+			:project_name,
+			:description
+		]
 
 	# / PgSearch
 
@@ -313,7 +310,7 @@ class Project < ActiveRecord::Base
 				end
 			end
 
-			assign_meta_search
+			asign_meta_search
 
 			_is_new_record = new_record?
 
@@ -458,28 +455,28 @@ class Project < ActiveRecord::Base
 			# end
 
 			# Price
-			if params.has_key? :price
-				price_range = params[:price].split(';')
-				where += " AND unit_price IS NOT NULL AND unit_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+			# if params.has_key? :price
+			# 	price_range = params[:price].split(';')
+			# 	where += " AND unit_price IS NOT NULL AND unit_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
 				
-				order[:unit_price] = 'asc'
-			end
+			# 	order[:unit_price] = 'asc'
+			# end
 
 			# Price range
-			if params[:price_from].present? || params[:price_to].present?
-				# Format number
-				params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000000 if params[:price_from].present?
-				params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000000 if params[:price_to].present?
+			# if params[:price_from].present? || params[:price_to].present?
+			# 	# Format number
+			# 	params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000000 if params[:price_from].present?
+			# 	params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000000 if params[:price_to].present?
 
-				if params[:price_from].present? && params[:price_to].present? && params[:price_from] > params[:price_to]
-					temp = params[:price_from]
-					params[:price_from] = params[:price_to]
-					params[:price_to] = temp
-				end
+			# 	if params[:price_from].present? && params[:price_to].present? && params[:price_from] > params[:price_to]
+			# 		temp = params[:price_from]
+			# 		params[:price_from] = params[:price_to]
+			# 		params[:price_to] = temp
+			# 	end
 
-				where += " AND unit_price >= #{params[:price_from]}" if params[:price_from].present?
-				where += " AND unit_price <= #{params[:price_to]}" if params[:price_to].present?
-			end
+			# 	where += " AND unit_price >= #{params[:price_from]}" if params[:price_from].present?
+			# 	where += " AND unit_price <= #{params[:price_to]}" if params[:price_to].present?
+			# end
 
 			# District
 			if params[:district].present?
@@ -683,13 +680,15 @@ class Project < ActiveRecord::Base
 
 		# Get meta search
 
-		def assign_meta_search
-			tempLocale = I18n.locale
-			I18n.locale = 'vi'
+		def asign_meta_search
+			asign_attributes meta_search_1: "#{display_id}"
+			
+			# tempLocale = I18n.locale
+			# I18n.locale = 'vi'
 
-			assign_attributes meta_search_1: "#{display_id} #{id} #{district.name.gsub('Quận', '') if district.present?} #{street.name if street.present?} #{project_name}", meta_search_2: "#{province.name if province.present?} #{investor.name if investor.present?}", meta_search_3: "#{slogan} #{user.full_name + ' ' + user.email + ' ' + user.phone_number if user.present?} #{I18n.t('project_type.text.' + project_type.name) if project_type.present?}"
+			# asign_attributes meta_search_1: "#{display_id} #{id} #{district.name.gsub('Quận', '') ì district.present?Ư #{street.name ì street.present?Ư #{project_name}", meta_search_2: "#{province.name ì province.present?Ư #{investor.name ì investor.present?Ư", meta_search_3: "#{slogan} #{user.full_name + ' ' + ủe.email + ' ' + ủe.phone_number ì ủe.present?Ư #ƠI18n.t('project_type.tẽt.' + project_type.name) ì project_type.present?Ư"
 
-			I18n.locale = tempLocale
+			# I18n.locale = tempLocale
 		end
 
 		# / Get meta search
