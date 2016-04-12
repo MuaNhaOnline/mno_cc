@@ -202,14 +202,13 @@
 			}
 
 				.content-panel .box .box-title {
-					font-size: 21px;
 					padding: 10px 20px;
 					text-transform: uppercase;
 					display: inline-block;
-					color: #fff;
-					background-color: #303740;
-					border-left: 10px solid #4A525D;
-					border-right: 10px solid #4A525D;
+					font-size: 28px;
+					font-weight: bold;
+					color: #333;
+					background-color: transparent;
 				}
 
 			.content-panel .box .box-body {

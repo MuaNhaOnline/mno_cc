@@ -28,11 +28,6 @@ $(function () {
 					'.side-bar .navigator li:hover:after {' +
 						'background-color: ' + desaturate40 + ';' +
 					'}' +
-					'.content-panel .box .box-title {' +
-						'background-color: ' + desaturate60 + ';' +
-						'border-left-color: ' + desaturate40 + ';' +
-						'border-right-color: ' + desaturate40 + ';' +
-					'}' +
 					'.content-panel .address .name {' +
 						'background-color: ' + desaturate40 + ';' +
 					'}' +
