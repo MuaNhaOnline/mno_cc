@@ -55,9 +55,9 @@
 
 		<!-- Images -->
 
-			<% if @re.images.present? %>
-				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-					<section class="images-container">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+				<section class="images-container">
+					<% if @re.images.present? %>
 						<section class="image">
 							<img src="<%= @re.images[0].image.url(:slide) %>" />
 						</section>
@@ -74,9 +74,9 @@
 								</a>
 							<% end %>
 						</section>
-					</section>
-				</div>
-			<% end %>
+					<% end %>
+				</section>
+			</div>
 
 		<!-- / Images -->
 

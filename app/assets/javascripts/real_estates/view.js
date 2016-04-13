@@ -168,14 +168,17 @@ $(function () {
 				$(window).on('resize', function () {
 					$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
 				});
-				$('body').on('loaded', function () {
-					_initFixedScroll(
-						$('.contact-container'), 
-						$('.description-container')
-					);
-					
-					$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
-				})
+				$('.contact-container').css('width', $('.contact-container').parent().width() + 'px');
+				
+				_initFixedScroll(
+					$('.contact-container'),
+					$('.description-container'),
+					{
+						topHandle: function () {
+							$('.contact-container').css('position', 'static');
+						}
+					}
+				);
 			
 			// / Fixed
 

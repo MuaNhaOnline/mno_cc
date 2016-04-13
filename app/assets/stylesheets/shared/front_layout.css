@@ -766,7 +766,8 @@ body {
 								}
 
 								.large-items-list .item .infos-container .content .infos {
-									margin-bottom: -15px;
+									margin: -20px;
+									padding: 20px;
 								}
 
 								.large-items-list .item .infos-container .infos > .row > *:nth-child(2n+1) {

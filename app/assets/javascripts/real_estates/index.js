@@ -12,14 +12,12 @@ $(function () {
 		$(window).on('resize', function () {
 			$('.re-index .search-box-container').css('width', $('.re-index .search-box-container').parent().width() + 'px');
 		});
-		$('body').on('loaded', function () {
-			$('.re-index .search-box-container').css('width', $('.re-index .search-box-container').parent().width() + 'px');
+		$('.re-index .search-box-container').css('width', $('.re-index .search-box-container').parent().width() + 'px');
 
-			_initFixedScroll(
-				$('.re-index .search-box-container'), 
-				$('.re-index #res_list')
-			);
-		})
+		_initFixedScroll(
+			$('.re-index .search-box-container'), 
+			$('.re-index #res_list')
+		);
 	
 	// / Fixed search box
 

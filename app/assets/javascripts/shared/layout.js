@@ -173,6 +173,9 @@ $(function () {
 
 	/*
 		params:
+			topHandle
+			middleHandle
+			bottomHandle
 	*/
 	function _initFixedScroll($object, $follow, params) {
 		if (typeof params == 'undefined') {
@@ -196,30 +199,45 @@ $(function () {
 					return;
 				}
 				flag = 1;
-				$object.css({
-					position: 'absolute',
-					top: min + 'px'
-				});
+				if (params.topHandle) {
+					params.topHandle();
+				}
+				else {
+					$object.css({
+						position: 'absolute',
+						top: min + 'px'
+					});	
+				}
 			}
 			else if (scrollTop < max) {
 				if (flag == 2) {
 					return;
 				}
 				flag = 2;
-				$object.css({
-					position: 'fixed',
-					top: '0px'
-				});
+				if (params.middleHandle) {
+					params.middleHandle();
+				}
+				else {
+					$object.css({
+						position: 'fixed',
+						top: '0px'
+					});
+				}
 			}
 			else {
 				if (flag == 3) {
 					return;
 				}
 				flag = 3;
-				$object.css({
-					position: 'absolute',
-					top: max + 'px'
-				});
+				if (params.bottomHandle) {
+					params.bottomHandle();
+				}
+				else {
+					$object.css({
+						position: 'absolute',
+						top: max + 'px'
+					});
+				}
 			}
 		}
 
