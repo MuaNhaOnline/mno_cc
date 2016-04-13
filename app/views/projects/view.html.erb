@@ -212,11 +212,9 @@
 												<%
 													images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
 												%>
-												<article class="item" data-images="<%= images %>" data-color="#4A525D">
-													<article class="arrow" style="border-right-color: #4A525D"></article>
+												<article class="item" data-images="<%= images %>">
+													<article class="arrow"></article>
 													<article class="content">
-														<section class="icon">
-														</section>
 														<h3 class="title">
 															<%= utility.title %>
 														</h3>
@@ -235,8 +233,8 @@
 												<%
 													images = utility.images.map{ |utility_image| { url: utility_image.image.url } }.to_json
 												%>
-												<article class="item" data-images="<%= images %>" data-color="#4A525D">
-													<article class="arrow" style="border-right-color: #4A525D"></article>
+												<article class="item" data-images="<%= images %>">
+													<article class="arrow"></article>
 													<article class="content">
 														<section class="icon">
 														</section>

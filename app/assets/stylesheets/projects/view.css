@@ -182,13 +182,8 @@
 	}
 
 		.content-panel .box {
-
+			padding: 50px 0;
 		}
-
-			.content-panel .box + .box {
-				margin-top: -50px;
-				padding-top: 50px;
-			}
 
 			.content-panel .box:not(.box-transparent):first-child {
 				margin-top: 0;
@@ -250,22 +245,26 @@
 		}
 
 			.content-panel .utilities .list-panel {
-				background-color: #f8f8f8;
-				border-right: 3px solid #0085AB;
+				background-color: #4A525D;
 				max-height: 80vh;
 				overflow-y: hidden;
-				filter: saturate(80%);
-				-webkit-filter: saturate(80%);
+				color: #ffffff;
 			}
 
-				.content-panel .utilities .list-panel .list {				
+				.content-panel .utilities .list-panel .list {	
+					padding: 10px;			
 				}
 
 					.content-panel .utilities .list-panel .item {
-						padding: 0 15px;
+						padding: 10px;
 						position: relative;
 						cursor: pointer;
+						border-bottom: 1px solid #646B76;
 					}
+
+						.content-panel .utilities .list-panel .item:last-child {
+							border-bottom: 0;
+						}
 
 						.content-panel .utilities .list-panel .item.active {
 							cursor: default;
@@ -275,34 +274,15 @@
 							position: absolute;
 							height: 0;
 							width: 0;
-							right: 0;
-							top: 45px;
+							right: -10px;
+							top: calc(50% - 10px);
 							border: 10px solid transparent;
-							filter: saturate(80%);
-							-webkit-filter: saturate(80%);
+							border-right-color: #ffffff;
 						}
 
 						.content-panel .utilities .list-panel .content {
 							padding: 10px 0;
 						}
-
-						.content-panel .utilities .list-panel .icon {
-							height: 30px;
-							text-align: center;
-							border-top: 2px solid #ddd;
-							margin-top: 15px;
-							margin-bottom: -10px;
-						}
-
-							.content-panel .utilities .list-panel .icon * {
-								width: 30px;
-								height: 30px;
-								font-size: 25px;
-								line-height: 30px;
-								position: relative;
-								top: -15px;
-								background-color: #f8f8f8;
-							}
 
 						.content-panel .utilities .list-panel .title {
 							font-size: 18px;
@@ -346,11 +326,8 @@
 
 				.content-panel .utilities .image-panel .description {
 					padding: 10px;
-					box-sizing: content-box;
-					background-color: #006582;
 					color: #fff;
-					filter: saturate(60%);
-					-webkit-filter: saturate(60%);
+					background-color: #4A525D;
 				}
 
 				.content-panel .utilities .image-panel .image {
