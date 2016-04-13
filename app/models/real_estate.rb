@@ -1349,7 +1349,7 @@ class RealEstate < ActiveRecord::Base
 		# Rent price
 		def display_rent_price
 			@display_rent_price_text ||=
-				fields.include?(:sell_price) ?
+				fields.include?(:rent_price) ?
 					(rent_price_text.blank? ? 'Giá thỏa thuận' : rent_price_text + (currency.code != 'VND' ? ' ' + currency.name : '') + I18n.t('unit.text.display_' + rent_unit.name)).html_safe
 				:
 					''

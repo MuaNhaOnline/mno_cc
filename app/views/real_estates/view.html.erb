@@ -91,12 +91,12 @@
 							</h2>						
 						</section>
 						<section class="price">
-							<% if @re.fields.include? :sell_price %>
+							<% if @re.display_rent_price.present? %>
 								<section class="sell-price-text">
 									<%= @re.display_sell_price %>
 								</section>
 							<% end %>
-							<% if @re.fields.include? :rent_price %>
+							<% if @re.display_rent_price.present? %>
 								<section class="rent-price-text">
 									<%= @re.display_rent_price %>
 								</section>
