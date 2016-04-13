@@ -76,13 +76,17 @@ class RealEstatesController < ApplicationController
 		def list
 			return redirect_to '/bat-dong-san' if params[:search].blank?
 
-			@search_params = get_search_param_from_keyword(params[:search]) if params[:search].is_a? String
+			search_params = get_search_param_from_keyword(params[:search]) if params[:search].is_a? String
 
-			@search_params[:is_full] = 'true'
-			@full_res = RealEstate.search_with_params @search_params.clone
+			search_params[:is_favorite] = 'true'
+			@favorite_res = RealEstate.search_with_params search_params.clone
 
-			@search_params[:is_full] = 'false'
-			@short_res = RealEstate.search_with_params @search_params.clone
+			search_params[:is_favorite] = 'false'
+			@res = RealEstate.search_with_params search_params.clone
+
+			@search_name = search_params[:search_name]
+
+			render layout: 'front_layout'
 		end
 
 		# Partial view

@@ -1,23 +1,15 @@
-/*start search-box*/
-.search {
-	background: url('/assets/background/background-search.jpg') no-repeat center center;
-	height: 550px;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	margin-bottom: 25px;
-}	
-	.search .search-box {
-		margin: auto;
-	}
-/*end search-box*/
+.re-list {
 
-/*start navigator*/
-.navigator {
-	font-size: 86.67%;
 }
-	.navigator .breadcrumb {
-		padding-left: 0;
-		background-color: #f6f6f6;
+
+/* Search box */
+	
+	.re-list .search-box-container {
+		
 	}
-/*end navigator*/
+	
+		.re-list .search-box-container .box-title {
+			left: 10px;
+		}
+	
+/* / Search box */
