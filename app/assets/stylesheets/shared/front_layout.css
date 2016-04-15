@@ -115,7 +115,7 @@ body {
 			}
 	
 				header .top-header .new-post:hover {
-					background-color: #A27600;
+					background-color: #A37700;
 				}
 
 			/* User */
@@ -750,7 +750,7 @@ body {
 								}
 
 									.large-items-list .item .infos-container .sell-price-text {
-										color: #FFD460;
+										color: #FFC732;
 										margin-bottom: 10px;
 									}
 
@@ -888,7 +888,7 @@ body {
 					}
 
 						.large-items-list .item .infos-container .sell-price-text {
-							color: #CE9600;
+							color: #BE8A00;
 						}
 
 						.large-items-list .item .infos-container .rent-price-text {
@@ -1190,16 +1190,16 @@ body {
 						}
 
 					.btn.btn-orange {
-						background-color: #CE9600;
+						background-color: #BE8A00;
 					}
 
 						.btn.btn-orange:hover,
 						.btn.btn-orange:focus {
-							background-color: #A27600;
+							background-color: #A37700;
 						}
 
 						.btn.btn-orange:active {
-							background-color: #FFBA00;
+							background-color: #DCA001;
 						}
 			
 			/* / Button */

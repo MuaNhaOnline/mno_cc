@@ -170,7 +170,7 @@
 
 				.side-bar.bottom .navigator li.register a {
 					font-size: 21px;
-					background-color: #A27600;
+					background-color: #A37700;
 				}
 
 /* / Side bar */
@@ -223,7 +223,7 @@
 			
 			.content-panel .address .name {
 				display: inline-block; 
-				background-color: #B28200; 
+				background-color: #BE8A00; 
 				color: #fff; 
 				padding: 5px 10px; 
 				margin-right: -4px
@@ -473,7 +473,7 @@
 						
 						.interact-image .info-panel .heading {
 							color: #fff;
-							background-color: #CE9600;
+							background-color: #BE8A00;
 							margin: 0;
 							padding: 10px;
 							box-sizing: content-box;
@@ -486,7 +486,7 @@
 								cursor: default;
 								padding: 10px 20px;
 								transition: padding-left .2s .4s;
-								border-bottom: 3px solid #A27600;
+								border-bottom: 3px solid #A37700;
 							}
 
 							.interact-image .info-panel .heading .title {
@@ -553,7 +553,7 @@
 							.interact-image .info-panel .register-button a {
 								display: block;
 								padding: 6px 12px;
-								background-color: #CE9600;
+								background-color: #BE8A00;
 								color: #fff;
 								text-decoration: none;
 								font-size: 18px;
@@ -561,11 +561,11 @@
 								
 								.interact-image .info-panel .register-button a:hover,
 								.interact-image .info-panel .register-button a:focus {
-									background-color: #A27600;
+									background-color: #A37700;
 								}
 									
 								.interact-image .info-panel .register-button a:active {
-									background-color: #FFBA00;
+									background-color: #DCA001;
 								}
 
 					/* / General */

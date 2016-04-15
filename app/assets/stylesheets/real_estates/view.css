@@ -86,7 +86,7 @@
 		}
 
 			.infos-container .sell-price-text {
-				color: #FFD460;
+				color: #FFC732;
 				margin-bottom: 10px;
 			}
 
@@ -268,7 +268,7 @@
 			}
 		
 				.description-container .address .name {
-					background-color: #A27600;
+					background-color: #A37700;
 					padding: 5px 10px 5px 5px;
 					color: #fff;
 					display: inline-block;
@@ -281,7 +281,7 @@
 				}
 		
 				.description-container .address .value {
-					background-color: #CE9600;
+					background-color: #BE8A00;
 					display: inline-block;
 					padding: 5px 10px;
 					color: #fff;
