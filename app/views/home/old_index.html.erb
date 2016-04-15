@@ -1,0 +1,299 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/home/index.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/Pe-icon-7-stroke.css">	
+<% end %>
+
+<% content_for :scripts do %>
+	<script src="/assets/home/index.js"></script>
+<% end %>
+
+<% 
+	per = get_value_by_width_type([1, 2, 3, 4]) 
+%>
+
+<!--start Search Box -->
+<%= render partial: 'shared/front_end_search_box' %>
+<!-- end Search Box-->
+
+<!-- start Interested Project -->
+<section class="container block">
+	<article class="block-title">
+		<a href="#" class="link">
+			<span>Dự án được quan tâm</span>
+		</a>
+	</article>
+	<!-- margin-bottom for dots -->
+	<article class="block-content" style="margin-bottom: 30px; padding: 0;">
+		<section class="slick project-is-interested">
+			<div class="content">
+				<% 
+					projects = Project.search_with_params.random.limit 3
+				%>
+				<%= render partial: 'projects/item_list', locals: { projects: projects, type: 3 } %>
+			</div>
+			<button class="slider-control prev" id="project-prev"></button>
+			<button class="slider-control next" id="project-next"></button>
+		</section>
+	</article>
+</section>
+
+<!-- <section class="other-project container">
+	<div class="list">
+		<a class="btn btn-success btn-sm">Dự án nhà ở xã hội</a>
+		<a class="btn btn-success btn-sm">Dự án văn phòng cho thuê</a>
+		<a class="btn btn-success btn-sm">Dự án cao cấp</a>
+		<a class="btn btn-success btn-sm">Dự án tại một số Quận/Huyện</a>
+		<a class="btn btn-success btn-sm">Dự án đất nền</a>
+	</div>
+</section> -->
+<!-- end The Care of Project -->
+
+<!-- start suggest project -->
+<section class="suggest-project container block">
+	<div class="block-title">
+		<a href="#" class="link">
+			<span>Dự án dành cho bạn</span>
+		</a>
+	</div>
+	<div class="block-content block-content-empty" id="suggest_project" aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_project > .row" data-pagination="#suggest_project > .paging" data-init_list="_initItemList($list)">
+		<div class="row">
+			<% 
+				projects = Project.search_with_params
+			%>
+			<%= render partial: 'projects/item_list', locals: { projects: projects.limit(per) } %>
+		</div>
+		<div class="paging">
+			<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
+		</div>	
+	</div>
+</section>
+<!-- end suggest project -->
+
+<!-- start favorite-property -->
+<section class="container block">
+	<article class="block-title">
+		<a href="#" class="link">
+			<span>Bất động sản được yêu thích</span>
+		</a>
+	</article>
+	<!-- margin-bottom for dots -->
+	<article class="block-content" style="margin-bottom: 30px; padding: 0;">
+		<section class="slick favorite-property">
+			<div class="content">
+				<%
+					res = RealEstate.search_with_params(is_favorite: 'true').random.limit 3
+				%>
+				<%= render partial: 'real_estates/item_list', locals: { res: res, type: 2 } %>
+			</div>
+			<button class="slider-control prev" id="favor-prev"></button>
+			<button class="slider-control next" id="favor-next"></button>
+		</section>
+	</article>
+</section>
+
+<section class="container block">
+	<section class="block-content block-content-empty">
+		<section class="user-property">		
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="active">
+					<a href="#new_property" role="tab" data-toggle="tab">
+						Bất động sản mới rao bán
+					</a>
+				</li>
+				<li>
+					<a href="#suggest_property" role="tab" data-toggle="tab">
+						Có thể bạn quan tâm
+					</a>
+				</li>
+			</ul>
+			<!-- end -->
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>, "newset":""}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="new_property">
+					<%
+						res = RealEstate.search_with_params newest: ''
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
+					</div>
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
+					</div>
+				</div>
+				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="suggest_property">
+					<%
+						res = RealEstate.search_with_params
+					%>
+					<div class="row">
+						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
+					</div>
+					<div class="paging">
+						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
+					</div>
+				</div>
+			</div>
+			<!-- end -->
+		</section>
+	</section>
+</section>
+<!-- 
+<section class="other-project other-property container">
+	<div class="list">
+		<a class="btn btn-success btn-sm">Văn phòng cho thuê giá rẻ</a>
+		<a class="btn btn-success btn-sm">Villa - Biệt thự cần hoàn thành</a>
+		<a class="btn btn-success btn-sm">Căn hộ chung cư giá rẻ</a>
+		<a class="btn btn-success btn-sm">Đất thổ cư cần bán</a>
+	</div>
+</section> -->
+<!-- end favorite-property -->
+
+<!-- start propensity property -->
+<section class="propensity-property container block">
+	<article class="block-title">
+		<a href="#" class="link">
+			<span>Danh sách tổng hợp</span>
+		</a>
+	</article>
+	<article class="block-content block-content-empty">
+		<div class="row">
+			<% 
+				query = {
+					real_estate_type: 'social_home',
+					newest: ''
+				}
+				re = RealEstate.search_with_params(query).first 
+			%>
+			<% if re.present? %>
+				<div class="col-md-6">
+					<div class="item-general">
+						<a href="/bat-dong-san/<%= re.full_slug %>">
+							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
+						</a>
+						<div class="name">
+							<a href="/bat-dong-san/danh-sach-nha-o-xa-hoi">
+								<span>Nhà ở xã hội</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			<% end %>
+			<% 
+				query = {
+					real_estate_type: 'villa',
+					newest: ''
+				}
+				re = RealEstate.search_with_params(query).first 
+			%>
+			<% if re.present? %>
+				<div class="col-md-6">
+					<div class="item-general">
+						<a href="/bat-dong-san/<%= re.full_slug %>">
+							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
+						</a>
+						<div class="name">
+							<a href="/bat-dong-san/biet-thu">
+								<span>Biệt thự cao cấp</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			<% end %>
+			<% 
+				query = {
+					real_estate_type: 'apartment',
+					utilities: {
+						pool: ''
+					},
+					newest: ''
+				}
+				re = RealEstate.search_with_params(query).first 
+			%>
+			<% if re.present? %>
+				<div class="col-md-6">
+					<div class="item-general">
+						<a href="/bat-dong-san/<%= re.full_slug %>">
+							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
+						</a>
+						<div class="name">
+							<a href="/bat-dong-san/danh-sach-can-ho-co-ho-boi">
+								<span>Căn hộ có hồ bơi</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			<% end %>
+			<% 
+				query = {
+					real_estate_type: 'town_house',
+					price: '0;1000000000',
+					newest: ''
+				}
+				re = RealEstate.search_with_params(query).first 
+			%>
+			<% if re.present? %>
+				<div class="col-md-6">
+					<div class="item-general">
+						<a href="/bat-dong-san/<%= re.full_slug %>">
+							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
+						</a>
+						<div class="name">
+							<a href="/bat-dong-san/danh-sach-nha-pho-duoi-1-ty">
+								<span>Nhà phố dưới 1 tỷ</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</article>
+</section>
+<!-- end propensity property -->
+
+<!-- start contact -->
+<section class="contact block container">
+	<article class="block-title">
+		<a>
+			<span>Liên hệ MuaNhaOnline.vn</span>
+		</a>
+	</article>
+	<article class="block-content block-content-empty">
+		<div class="row">
+			<div class="col-md-2 col-sm-3 col-xs-6">
+				<img src="/assets/contact/contact01.jpg" class="img-responsive">
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-6">
+				<%= render partial: 'questions/form_front' %>
+			</div>
+			<div class="col-md-7 question col-sm-6">
+				<div class="panel-group" id="accordion">
+					<% 
+						questions = Question.get_pinned 
+					%>
+					<%= render partial: 'questions/item_list_front', locals: { questions: questions } %>
+				</div>
+			</div>
+	</article>
+</section>
+<!-- end contact -->
+
+<!-- start agent -->
+<section class="block agent container">
+	<article class="block-title">
+		<a href="#" class="link">
+			<span>Đối tác Muanhaonline.vn</span>
+		</a>	
+	</article>
+	<article class="block-content block-content-empty">
+		<ul class="slick-agent">
+			<div class="item-agent"></div>
+			<div class="item-agent"></div>
+			<div class="item-agent"></div>
+			<div class="item-agent"></div>
+			<div class="item-agent"></div>
+			<div class="item-agent"></div>
+		</ul>
+	</article>
+</section>
+<!-- end agent -->

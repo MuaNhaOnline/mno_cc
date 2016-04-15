@@ -1,0 +1,38 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/home/error.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/home/error.js"></script>
+<% end %>
+
+<%
+=begin
+	params: error
+=end
+
+	@_title = 'Rất tiếc';
+	params[:error] = '500'
+%>
+
+<article class="content-ctn">
+	<div class="container-ctn">
+		<div class="container">
+			<p class="error">
+				<%= params[:error] %>
+			</p>
+			<p class="title">
+				Ồ... :(
+			</p>
+			<p class="text">
+				Rất tiếc,
+				<% case params[:error] %>
+				<% when '404' %>
+					trang không tồn tại hoặc đã bị gỡ
+				<% else %>
+					có lỗi đã xảy ra
+				<% end %>
+			</p>
+		</div>
+	</div>
+</article>

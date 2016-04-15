@@ -1,0 +1,155 @@
+/*start search*/
+.search {
+	background: url('/assets/background/background-search.jpg') no-repeat center center;
+	height: 550px;
+	display: flex;
+	margin-bottom: 25px;
+}	
+	.search .search-box {
+		margin: auto;
+	}
+/*end search*/
+
+/*start navigator*/
+.navigator {
+	font-size: 13px;
+}
+	.navigator .breadcrumb {
+		padding-left: 0;
+		background-color: #f6f6f6;
+	}
+/*end navigator*/
+
+/*start Interested Project*/
+.project-is-interested {
+}
+/*end Interested Project*/
+
+/*start other-project*/
+.other-project {
+	margin-bottom: 40px;
+}
+	.other-project .list {
+		text-align: center;
+		margin-bottom: 10px;
+	}
+	@media(max-width: 768px) {
+		.other-project .list {
+			text-align: left;
+		}
+	}
+	.other-project a { 
+		margin: 5px 10px;
+	}
+	@media(max-width: 992px) {
+		.other-project a {
+			margin: 7px 10px;
+		}
+	}
+/*end other-project*/
+
+/*start favorite property*/
+	/*start other-property*/
+	.other-property .title {
+		color: #666;
+		display: block;
+		margin-bottom: 20px;
+	}
+	/*end other-property*/
+/*end favorite property*/
+
+/*start user-property*/
+.user-property {
+	margin-bottom: 30px;
+}
+	.user-property ul.nav-tabs li a {
+	}
+/*end*/
+
+/*start propensity-property*/
+.propensity-property {
+}
+	.item-general {
+		position: relative;
+		margin-bottom: 40px;
+		margin-top: 20px;
+	}
+		.item-general .info {
+			position: absolute;
+			left: 10px;
+			top: 40px;
+		}
+			.item-general span {
+				display: block;
+				color: #fff;
+			}
+		.item-general img {
+			width: 100%;
+			border: 5px solid #fff;
+			outline: 1px solid #eee;
+		}
+		.item-general .name {
+			position: absolute;
+			width: 100%;
+			bottom: -30px;
+			text-align: center;
+		}
+			.item-general .name a {
+				display: inline-block;
+				font-size: 16px;
+				font-weight: bold;
+				background-color: #369836;
+				border: 3px solid #fff;
+				outline: 1px solid #eee;
+				padding: 10px 15px;
+				transition: .2s;
+			}		
+				.item-general .name a:hover {
+					background-color: #1B7C1B;
+				}	
+/*end propensity-property*/
+
+/*start contact*/
+.contact {
+	
+}
+	.contact img {
+		width: 100%;
+	}
+	.contact li {
+		font-size: 13px;
+		color: #999;
+		margin: 5px 0;
+	}
+	.contact li textarea {
+		max-width: 100%;
+	}
+
+	.contact li button {
+		width: 60px;
+		font-size: 86.67%;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-bottom: 3px solid #50922A;
+	}
+		.contact li button:hover {
+			background-color: #50922A;
+			color: #fff;
+		}
+/*end contact*/
+
+/*start agent*/
+.agent {
+	margin-bottom: 40px;
+}
+	.agent ul {
+	}
+	.agent .item-agent {
+		height: 150px;
+		width: 150px;
+		border: 1px solid #ccc;	
+	}
+	.agent .slick-slide {
+		margin: 0 20px;
+	}
+/*end agent*/

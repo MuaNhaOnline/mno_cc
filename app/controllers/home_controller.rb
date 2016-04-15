@@ -1,7 +1,8 @@
 class HomeController < ApplicationController
 	layout 'layout_front'
+
 	def index
-			
+		# render layout: 'front_layout'
 	end
 
 	# Search result
@@ -351,11 +352,15 @@ class HomeController < ApplicationController
 	# end
 
 	# View/Handle
-	# params
+	# params: error
 	def error
 		respond_to do |format|
-			format.html { redirect_to("/search?error=#{params[:error]}") }
-			format.json { render json: { status: params[:error] == '404' ? 1 : 2, result: params[:error] } }
+			format.html { 
+				render 'error', layout: 'front_layout', locals: { error: params[:error] }
+			}
+			format.json {
+				render json: { status: params[:error] == '404' ? 1 : 2, result: params[:error] }
+			}
 		end
 	end
 end

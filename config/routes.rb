@@ -8,9 +8,7 @@ Rails.application.routes.draw do
 
 	# Home, shared
 
-		get '/404', to: 'home#error', defaults: { error: '404' }
-		get '/422', to: 'home#error', defaults: { error: '422' }
-		get '/500', to: 'home#error', defaults: { error: '500' }
+		get ':error', controller: 'home', action: 'error', constraints: {error: /(404|422|500)/}
 
 		get 'home/result'
 		get 'home/index'

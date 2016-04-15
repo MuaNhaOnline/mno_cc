@@ -1145,7 +1145,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Slug
 		def full_slug
-			@full_slug ||= "#{slug}-#{id}"
+			@full_slug ||= "#{slug}-#{id}.html"
 		end
 
 		# ID

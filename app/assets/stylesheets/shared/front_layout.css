@@ -416,8 +416,6 @@ body {
 /* Main */
 
 	main {
-		padding-top: 50px;
-		padding-bottom: 100px;
 	}
 
 	/* Callout */
@@ -441,14 +439,6 @@ body {
 	
 			main .container-box.container-box-transparent {
 				background-color: transparent;
-			}
-	
-			main .container-box:first-child {
-				margin-top: 30px;
-			}
-	
-			main .container-box:last-child {
-				margin-bottom: 0;
 			}
 
 			main .container-box .container-box-header {
@@ -476,14 +466,6 @@ body {
 	
 			main .box.box-transparent {
 				background-color: transparent;
-			}
-	
-			main .box:first-child {
-				margin-top: 30px;
-			}
-	
-			main .box:last-child {
-				margin-bottom: 0;
 			}
 	
 			main .box .box-header {
@@ -1015,6 +997,7 @@ body {
 		color: #fff;
 		background: url('/assets/shared/footer/background.png') center center;
 		background-size: cover;
+		margin-top: 100px;
 	}
 
 		footer .title {

@@ -3,7 +3,6 @@
 	.cover-content {
 		height: calc(100vh - 100px);
 		position: relative;
-		margin-top: -50px;
 		overflow: hidden;
 	}
 

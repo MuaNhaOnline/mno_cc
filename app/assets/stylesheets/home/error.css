@@ -1,0 +1,39 @@
+.content-ctn {
+	height: calc(100vh - 145px);
+	min-height: 400px;
+	color: #ffffff;
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	justify-content: center;
+	-webkit-justify-content: center;
+}
+
+	@media (min-width: 992px) {
+		.content-ctn {
+			height: calc(100vh - 100px);
+		}
+	}
+
+	.content-ctn .container-ctn {
+		background-color: #008549;
+		padding: 20px 0;
+		margin-top: -20%;
+	}
+
+	.content-ctn .error {
+		font-size: 90px;
+		height: 90px;
+		line-height: 90px;
+		float: left;
+		margin: 0 30px;
+	}
+
+	.content-ctn .title {
+		font-size: 50px;
+	}
+
+	.content-ctn .text {
+		font-size: 21px;
+	}
