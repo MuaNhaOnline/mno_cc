@@ -310,7 +310,7 @@ class Project < ActiveRecord::Base
 				end
 			end
 
-			asign_meta_search
+			assign_meta_search
 
 			_is_new_record = new_record?
 
@@ -680,13 +680,13 @@ class Project < ActiveRecord::Base
 
 		# Get meta search
 
-		def asign_meta_search
-			asign_attributes meta_search_1: "#{display_id}"
+		def assign_meta_search
+			assign_attributes meta_search_1: "#{display_id}"
 			
 			# tempLocale = I18n.locale
 			# I18n.locale = 'vi'
 
-			# asign_attributes meta_search_1: "#{display_id} #{id} #{district.name.gsub('Quận', '') ì district.present?Ư #{street.name ì street.present?Ư #{project_name}", meta_search_2: "#{province.name ì province.present?Ư #{investor.name ì investor.present?Ư", meta_search_3: "#{slogan} #{user.full_name + ' ' + ủe.email + ' ' + ủe.phone_number ì ủe.present?Ư #ƠI18n.t('project_type.tẽt.' + project_type.name) ì project_type.present?Ư"
+			# assign_attributes meta_search_1: "#{display_id} #{id} #{district.name.gsub('Quận', '') ì district.present?Ư #{street.name ì street.present?Ư #{project_name}", meta_search_2: "#{province.name ì province.present?Ư #{investor.name ì investor.present?Ư", meta_search_3: "#{slogan} #{user.full_name + ' ' + ủe.email + ' ' + ủe.phone_number ì ủe.present?Ư #ƠI18n.t('project_type.tẽt.' + project_type.name) ì project_type.present?Ư"
 
 			# I18n.locale = tempLocale
 		end

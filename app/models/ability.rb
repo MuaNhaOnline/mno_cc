@@ -77,12 +77,10 @@ class Ability
 			# / Real estate
 
 			# Project
-				
-				if user.represented_investors.present?
-					can [:create, :edit, :delete], Project do |project|
-						project.new_record? || user.represented_investors.exists?(id: project.investor_id)
-					end
-				end
+			
+				can [:create, :edit, :delete], Project do |project|
+					project.new_record? || user.represented_investors.exists?(id: project.investor_id)
+				end if user.represented_investors.present?
 
 				can :manage, Project if user.system_permissions.include? 3
 			
