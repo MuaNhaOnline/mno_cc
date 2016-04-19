@@ -2,7 +2,7 @@ class HomeController < ApplicationController
 	layout 'layout_front'
 
 	def index
-		render 'new_index', layout: 'front_layout'
+		render 'new_index', layout: 'front_layout' if params.has_key? :new
 	end
 
 	# Search result
