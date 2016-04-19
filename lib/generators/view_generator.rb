@@ -16,8 +16,8 @@ class ViewGenerator < Rails::Generators::Base
 	params: 
 =end
 
-	@_title = '';
-	@_description = '';
+	@_title = ''
+	@_description = ''
 	@_main_navigator = {
 		background: '',
 		list: [

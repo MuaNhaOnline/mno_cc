@@ -2,7 +2,7 @@ class HomeController < ApplicationController
 	layout 'layout_front'
 
 	def index
-		# render layout: 'front_layout'
+		render 'new_index', layout: 'front_layout'
 	end
 
 	# Search result

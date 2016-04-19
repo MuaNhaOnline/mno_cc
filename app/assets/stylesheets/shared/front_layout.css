@@ -4,7 +4,7 @@
 body {
 	background-color: #eff1f5;
 	overflow-x: hidden;
-	font: normal 15px 'Segoe UI';
+	font: normal 14px 'Segoe UI';
 }
 
 /* Spinner loadding */
@@ -128,9 +128,9 @@ body {
 				}
 
 					header .top-header .user .text {
-						font-weight: bold;
+						font-weight: 600;
 						padding: 0 10px;
-						font-size: 15px;
+						font-size: 14px;
 						color: #fff;
 						display: initial;
 					}
@@ -182,8 +182,9 @@ body {
 				header .bottom-header .logo .slogan {
 					text-align: right;
 					font-size: 16px;
-					letter-spacing: 2px;
-					font-weight: bold;
+					font-family: 'Open Sans';
+					letter-spacing: 1px;
+					font-weight: 600;
 					color: #999;
 					line-height: 0;
 					padding-right: 10px;
@@ -221,7 +222,7 @@ body {
 					}
 				
 					header .bottom-header nav li > a {
-						font-size: 16px;
+						font-size: 15px;
 						padding: 0 15px;
 						line-height: 60px;
 						display: block;
@@ -319,7 +320,7 @@ body {
 
 		.main-navigator .item {
 			display: inline-block;
-			font-size: 15px;
+			font-size: 14px;
 		}
 
 		.main-navigator .item:not(:last-child):after {
@@ -404,7 +405,7 @@ body {
 				padding: 0 10px;
 				background-color: #008549;
 				color: #fff;
-				font-size: 18px;
+				font-size: 16px;
 			}
 
 		.search-box-container .box-content {
@@ -728,7 +729,7 @@ body {
 
 								.large-items-list .item .infos-container .price {
 									font-size: 17px;
-									font-weight: bold;
+									font-weight: 600;
 								}
 
 									.large-items-list .item .infos-container .sell-price-text {
@@ -744,7 +745,7 @@ body {
 								.large-items-list .item .infos-container .price {
 									font-size: 17px;
 									margin-bottom: 10px;
-									font-weight: bold;
+									font-weight: 600;
 								}
 
 								.large-items-list .item .infos-container .content .infos {
@@ -1001,8 +1002,7 @@ body {
 	}
 
 		footer .title {
-			font-size: 18px;
-			font-weight: bold;
+			font: 600 18px 'Open Sans';
 			margin-bottom: 10px;
 		}
 
@@ -1093,7 +1093,8 @@ body {
 					border: none;
 					border-radius: 0;
 					border-bottom: 2px solid #CED5E2;
-					transition: .3s;
+					transition: border-bottom-color .3s;
+					height: 40px;
 				}
 
 					.form-control,
@@ -1130,7 +1131,7 @@ body {
 					border: none;
 					border-radius: 0;
 					background: #00A459;
-					font-size: 16px;
+					font-size: 15px;
 					color: #fff;
 				}
 
@@ -1226,7 +1227,7 @@ body {
 			min-width: 170px;
 			color: #CFF8E5;
 			transition: .3s;
-			font-size: 14px;
+			font-size: 13px;
 			line-height: initial;
 		}
 

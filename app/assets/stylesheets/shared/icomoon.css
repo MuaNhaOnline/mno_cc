@@ -1,9 +1,9 @@
 @font-face {
     font-family: 'icomoon';
     src:
-        url('/assets/icomoon/icomoon.ttf?uqqzl5') format('truetype'),
-        url('/assets/icomoon/icomoon.woff?uqqzl5') format('woff'),
-        url('/assets/icomoon/icomoon.svg?uqqzl5#icomoon') format('svg');
+        url('/assets/icomoon/icomoon.ttf?t957fu') format('truetype'),
+        url('/assets/icomoon/icomoon.woff?t957fu') format('woff'),
+        url('/assets/icomoon/icomoon.svg?t957fu#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -23,6 +23,39 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.ico-map-o:before {
+    content: "\e919";
+}
+.ico-filter:before {
+    content: "\e91a";
+}
+.ico-text_align_right:before {
+    content: "\e902";
+}
+.ico-text_align_center:before {
+    content: "\e903";
+}
+.ico-text_align_left:before {
+    content: "\e904";
+}
+.ico-text_align_justify:before {
+    content: "\e905";
+}
+.ico-chevron-left:before {
+    content: "\e907";
+}
+.ico-chevron-right:before {
+    content: "\e90b";
+}
+.ico-restroom:before {
+    content: "\e913";
+}
+.ico-area:before {
+    content: "\e917";
+}
+.ico-hash:before {
+    content: "\e918";
+}
 .ico-search:before {
     content: "\e900";
 }
@@ -67,33 +100,6 @@
 }
 .ico-upload:before {
     content: "\e90f";
-}
-.ico-text_align_right:before {
-    content: "\e902";
-}
-.ico-text_align_center:before {
-    content: "\e903";
-}
-.ico-text_align_left:before {
-    content: "\e904";
-}
-.ico-text_align_justify:before {
-    content: "\e905";
-}
-.ico-chevron-left:before {
-    content: "\e907";
-}
-.ico-chevron-right:before {
-    content: "\e90b";
-}
-.ico-restroom:before {
-    content: "\e913";
-}
-.ico-area:before {
-    content: "\e917";
-}
-.ico-hash:before {
-    content: "\e918";
 }
 .ico-location:before {
     content: "\e911";
