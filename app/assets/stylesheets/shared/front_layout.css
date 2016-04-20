@@ -1019,6 +1019,10 @@ body {
 			color: #fff;
 		}
 
+			footer a:hover {
+				color: #fff;
+			}
+
 		footer .icon {
 			font-size: 40px;
 			display: inline-block;
@@ -1096,6 +1100,11 @@ body {
 					transition: border-bottom-color .3s;
 					height: 40px;
 				}
+
+					.form-control[readonly],
+					.form-control[disabled] {
+						cursor: not-allowed;
+					}
 
 					.form-control,
 					.has-error .form-control,

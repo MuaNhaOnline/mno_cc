@@ -266,11 +266,14 @@ $(function () {
 			}
 			if (params.contactInfo) {
 				$form.find('[name="contact[id]"]').val(params.contactInfo['id']);
+				if ($form.find('[name="contact[default_name]"]').val(params.contactInfo['name']).length == 0) {
+					$form.find('[name="contact[name]"]').val(params.contactInfo['name']);
+				}
 				if ($form.find('[name="contact[default_email]"]').val(params.contactInfo['email']).length == 0) {
-					$form.find('[name="contact[email]"]').val(params.contactInfo['email'])
+					$form.find('[name="contact[email]"]').val(params.contactInfo['email']);
 				}
 				if ($form.find('[name="contact[default_phone_number]"]').val(params.contactInfo['phone_number']).length == 0) {
-					$form.find('[name="contact[phone_number]"]').val(params.contactInfo['phone_number'])
+					$form.find('[name="contact[phone_number]"]').val(params.contactInfo['phone_number']);
 				}
 			}
 		});
@@ -299,6 +302,7 @@ $(function () {
 							if (!$('body').is('[data-signed]')) {
 								params.contactInfo = {
 									id: data.result.contact_id,
+									name: $form.find('[name="contact[default_name]"]:enabled,[name="contact[name]"]:enabled').val(),
 									email: $form.find('[name="contact[default_email]"]:enabled,[name="contact[email]"]:enabled').val(),
 									phone_number: $form.find('[name="contact[default_phone_number]"]:enabled,[name="contact[phone_number]"]:enabled').val()
 								}
@@ -306,6 +310,7 @@ $(function () {
 							}
 
 							if (params.contactInfo) {
+								$form.find('[name="contact[default_name]"]').val(params.contactInfo['name']);
 								$form.find('[name="contact[default_email]"]').val(params.contactInfo['email']);
 								$form.find('[name="contact[default_phone_number]"]').val(params.contactInfo['phone_number']);
 								$form.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();	
@@ -341,6 +346,7 @@ $(function () {
 										if (!$('body').is('[data-signed]')) {
 											params.contactInfo = {
 												id: data.result.contact_id,
+												name: $form.find('[name="contact[default_name]"]:enabled,[name="contact[name]"]:enabled').val(),
 												email: $form.find('[name="contact[default_email]"]:enabled,[name="contact[email]"]:enabled').val(),
 												phone_number: $form.find('[name="contact[default_phone_number]"]:enabled,[name="contact[phone_number]"]:enabled').val()
 											}
@@ -348,6 +354,7 @@ $(function () {
 										}
 
 										if (params.contactInfo) {
+											$form.find('[name="contact[default_name]"]').val(params.contactInfo['name']);
 											$form.find('[name="contact[default_email]"]').val(params.contactInfo['email']);
 											$form.find('[name="contact[default_phone_number]"]').val(params.contactInfo['phone_number']);
 											$form.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();

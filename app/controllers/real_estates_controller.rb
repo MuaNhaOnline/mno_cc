@@ -139,9 +139,25 @@ class RealEstatesController < ApplicationController
 	# Create
 
 		# View
-		# params: id (if edit)
+		# params: id (if edit), p (purpose when click from home)
 		def create
 			@re = params[:id].present? ? RealEstate.find(params[:id]) : RealEstate.new
+
+			# Check if purpose
+			if @re.new_record? && params[:p].present?
+				@re.purpose = Purpose.where(code:
+					case params[:p]
+					when 's'
+						'sell'
+					when 'r'
+						'rent'
+					when 't'
+						'transfer'
+					else
+						nil
+					end
+				).first
+			end
 			
 			# Author
 			if @re.new_record?
