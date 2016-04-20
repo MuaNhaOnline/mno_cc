@@ -5,7 +5,7 @@ body {
 /* Post */
 
 	.post-ctn {
-		padding: 200px 20px;
+		padding: 150px 20px;
 		color: #ffffff;
 		position: relative;
 		text-align: center;
@@ -307,6 +307,48 @@ body {
 		}
 
 /* / Contact */
+
+/* Gallery */
+
+	.gallery-ctn {
+		padding: 120px 20px;
+	}
+
+		.gallery-ctn .images-list {
+			text-align: center;
+			white-space: nowrap;
+			position: relative;
+		}
+
+			.gallery-ctn .images-list img {
+				z-index: 0;
+				max-width: calc(100% - 100px);
+				opacity: .5;
+				transform: scale(.7);
+				transition: .5s;
+			}
+
+				.gallery-ctn .images-list img:nth-child(1) {
+					position: absolute;
+					left: 0;
+				}
+
+				.gallery-ctn .images-list img:nth-child(2) {
+					position: relative;
+				}
+
+				.gallery-ctn .images-list img:nth-child(3) {
+					position: absolute;
+					right: 0;
+				}
+
+				.gallery-ctn .images-list img.active {
+					z-index: 1;
+					transform: none;
+					opacity: 1;
+				}
+
+/* / Gallery */
 
 /* Concept */
 
