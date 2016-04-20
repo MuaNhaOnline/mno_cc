@@ -7,6 +7,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="description" content="<%= @_description.blank? ? 'MuanhaOnline - Giá trị thực trong tầm tay. Đăng tin bất động sản miễn phí. Tìm kiếm bất động sản bạn cần.' : @_description %>">
 	<meta name="keyword" content="<%= @_keyword %>">
+	
+	<!-- <meta property="og:url" content="http://www.your-domain.com/your-page.html" /> -->
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="<%= @_title.blank? ? '' : @_title + ' - ' %> Mua nhà online" />
+	<meta property="og:description" content="<%= @_description.blank? ? 'MuanhaOnline - Giá trị thực trong tầm tay. Đăng tin bất động sản miễn phí. Tìm kiếm bất động sản bạn cần.' : @_description %>" />
+	<meta property="og:image" content="/assets/shared/logo/logo.png" />
 
 	<link rel="shortcut icon" href="/assets/shared/mini_icon.ico">
 

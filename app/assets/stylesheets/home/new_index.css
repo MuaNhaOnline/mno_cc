@@ -310,7 +310,7 @@ body {
 
 /* Gallery */
 
-	.gallery-ctn {
+	/*.gallery-ctn {
 		padding: 120px 20px;
 	}
 
@@ -349,7 +349,7 @@ body {
 					transform: none;
 					opacity: 1;
 					box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);
-				}
+				}*/
 
 /* / Gallery */
 
