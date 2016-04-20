@@ -1001,7 +1001,11 @@
 						</section>
 						<section class="box-body hide-until-full">
 
-							<input type="hidden" name="secure_code" id="secure_code" value="<%= @re.params['secure_code'] || params[:secure_code] %>" />
+							<%
+								@re.params ||= {}
+								@re.params['secure_code'] ||= params[:secure_code]
+							%>
+							<input type="hidden" name="secure_code" id="secure_code" value="<%= @re.params['secure_code'] %>" />
 
 							<!-- User full name -->
 
