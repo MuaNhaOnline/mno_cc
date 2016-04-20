@@ -25,19 +25,21 @@
 	page = params[:page].present? ? params[:page].to_i : 1
 %>
 
-<article class="container-box container-box-transparent">
-	<section class="container-box-header">
-		<h2 class="container-box-title">
-			<%= @search_name || 'Bất động sản' %> đang được yêu thích
-		</h2>
-	</section>
-	<section class="container-box-body">
-		<%
-			per = 3
-		%>
-		<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res.random.limit(per), list_id: 'favorite_res_list' } %>
-	</section>
-</article>
+<% if @favorite_res_list.present? %>
+	<article class="container-box container-box-transparent">
+		<section class="container-box-header">
+			<h2 class="container-box-title">
+				<%= @search_name || 'Bất động sản' %> đang được yêu thích
+			</h2>
+		</section>
+		<section class="container-box-body">
+			<%
+				per = 3
+			%>
+			<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res.random.limit(per), list_id: 'favorite_res_list' } %>
+		</section>
+	</article>
+<% end %>
 
 <article class="container-box container-box-transparent">
 	<section class="container-box-header">
