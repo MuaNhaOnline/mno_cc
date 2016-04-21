@@ -300,6 +300,10 @@
 									display: block;
 								}
 
+									.content-panel .utilities .list-panel .item.active .description p:last-child {
+										margin-bottom: 0;
+									}
+
 							.content-panel .utilities .list-panel .image {
 								text-align: center;
 								margin-top: 10px;

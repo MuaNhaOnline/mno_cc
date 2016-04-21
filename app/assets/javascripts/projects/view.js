@@ -354,8 +354,8 @@ $(function () {
 
 					// Update description
 
-						if ($item.find('.description').text()) {
-							$description.show().text($item.find('.description').text());
+						if ($item.find('.description').html()) {
+							$description.show().html($item.find('.description').html());
 						}
 						else {
 							$description.hide();

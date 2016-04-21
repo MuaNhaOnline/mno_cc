@@ -75,9 +75,11 @@
 								<a aria-name="utilities" href="#">Tiện ích - Tính năng</a>
 							</li>
 						<% end %>
-						<li>
-							<a aria-name="payment_method" href="#">Phương thức thanh toán</a>
-						</li>
+						<% if @project.display_payment_method.present? || @project.payment_attachments.present? %>
+							<li>
+								<a aria-name="payment_method" href="#">Phương thức thanh toán</a>
+							</li>
+						<% end %>
 						<% if @project.create_step != 0 %>
 							<li>
 								<a aria-name="products" href="#">Sản phẩm <small style="color: inherit;">&amp;</small> Mặt bằng tổng thể</a>
@@ -218,9 +220,7 @@
 														<h3 class="title">
 															<%= utility.title %>
 														</h3>
-														<section class="description hidden-md hidden-lg">
-															<%= utility.display_description %>
-														</section>
+														<section class="description hidden-md hidden-lg"><%= utility.display_description %></section>
 														<% if utility.images.count > 0 %>
 															<section class="image hidden-md hidden-lg">
 																<img src="<%= utility.images[0].image.url %>">
@@ -241,9 +241,7 @@
 														<h3 class="title">
 															<%= utility.title %>
 														</h3>
-														<section class="description hidden-md hidden-lg">
-															<%= utility.display_description %>
-														</section>
+														<section class="description hidden-md hidden-lg"><%= utility.display_description %></section>
 														<% if utility.images.count > 0 %>
 															<section class="image hidden-md hidden-lg">
 																<img src="<%= utility.images[0].image.url %>">
@@ -273,29 +271,33 @@
 				<!-- / Utilities -->
 
 				<!-- Payment method -->
-				
-					<article class="box" aria-name="payment_method">
-						<section class="box-header">
-							<h3 class="box-title">
-								Phương thức thanh toán
-							</h3>
-						</section>
-						<section class="box-body payment_method">
-							<section class="description">
-								<%= @project.display_payment_method %>
+					
+					<% if @project.display_payment_method.present? || @project.payment_attachments.present? %>
+						<article class="box" aria-name="payment_method">
+							<section class="box-header">
+								<h3 class="box-title">
+									Phương thức thanh toán
+								</h3>
 							</section>
-							<% if @project.payment_attachments.present? %>
-								<section class="attachments">
-									<h3 class="title">Tập tin đính kèm</h3>
-									<% @project.payment_attachments.each do |attachment| %>
-										<article class="item">
-											<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
-										</article>
-									<% end %>
-								</section>
-							<% end %>
-						</section>
-					</article>
+							<section class="box-body payment_method">
+								<% if @project.display_payment_method.present? %>
+									<section class="description">
+										<%= @project.display_payment_method %>
+									</section>
+								<% end %>
+								<% if @project.payment_attachments.present? %>
+									<section class="attachments">
+										<h3 class="title">Tập tin đính kèm</h3>
+										<% @project.payment_attachments.each do |attachment| %>
+											<article class="item">
+												<%= file_download_image({ url: attachment.file.url, description: attachment.description.present? ? attachment.description : attachment.file_file_name }) %>
+											</article>
+										<% end %>
+									</section>
+								<% end %>
+							</section>
+						</article>
+					<% end %>
 				
 				<!-- / Payment method -->
 				
