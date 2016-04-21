@@ -324,9 +324,6 @@ class ProjectsController < ApplicationController
 
 			@project = Project.find params[:id]
 
-			# Author
-			authorize! :edit, @project
-
 			# Images
 
 				# Result for request
