@@ -173,6 +173,7 @@ $(function () {
 
 	/*
 		params:
+			staticTop: boolean
 			topHandle
 			middleHandle
 			bottomHandle
@@ -203,10 +204,17 @@ $(function () {
 					params.topHandle();
 				}
 				else {
-					$object.css({
-						position: 'absolute',
-						top: min + 'px'
-					});	
+					if (params.staticTop) {
+						$object.css({
+							position: 'static'
+						});
+					}
+					else {
+						$object.css({
+							position: 'absolute',
+							top: min + 'px'
+						});
+					}
 				}
 			}
 			else if (scrollTop < max) {

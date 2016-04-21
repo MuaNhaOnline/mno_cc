@@ -1,6 +1,12 @@
 @font-face{
 	font-family: 'Segoe UI';
 	src: url('/assets/segoeui.ttf');
+	font-weight: normal;
+}
+@font-face{
+	font-family: 'Segoe UI';
+	src: url('/assets/segoeui_semibold.ttf');
+	font-weight: bold;
 }
 @font-face{
 	font-family: 'Ericsson';

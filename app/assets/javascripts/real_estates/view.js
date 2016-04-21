@@ -174,9 +174,7 @@ $(function () {
 					$('.contact-container'),
 					$('.description-container'),
 					{
-						topHandle: function () {
-							$('.contact-container').css('position', 'static');
-						}
+						staticTop: true
 					}
 				);
 			

@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
-	layout 'layout_front'
+	layout 'front_layout'
 
 	def index
-		render 'new_index', layout: 'front_layout' if params.has_key? :new
 	end
 
 	# Search result
@@ -38,7 +37,6 @@ class HomeController < ApplicationController
 
 			# @projects = Project.search_with_params(params[:search].clone)
 
-			render layout: 'front_layout'
 		end
 
 		# def _search_list
@@ -356,7 +354,7 @@ class HomeController < ApplicationController
 	def error
 		respond_to do |format|
 			format.html { 
-				render 'error', layout: 'front_layout', locals: { error: params[:error] }
+				render 'error', locals: { error: params[:error] }
 			}
 			format.json {
 				render json: { status: params[:error] == '404' ? 1 : 2, result: params[:error] }

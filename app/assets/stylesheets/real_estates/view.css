@@ -84,6 +84,22 @@ main {
 				border-bottom: 2px solid #00D976;
 			}
 
+		.infos-container .view-count {
+			float: right;
+			text-align: center;
+			line-height: 1;
+		}
+
+			.infos-container .view-count .name {
+				color: #00D976;
+				font-size: 13px;
+			}
+
+			.infos-container .view-count .value {
+				font-weight: bold;
+				font-size: 21px;
+			}
+
 		.infos-container .price {
 			font-size: 17px;
 			font-weight: bold;

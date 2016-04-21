@@ -131,6 +131,29 @@ class RealEstatesController < ApplicationController
 			# Author
 			authorize! :view, @re
 
+			# Track
+			session[:res_viewed] ||= []
+			unless session[:res_viewed].include? @re.id
+				session[:res_viewed] << @re.id
+
+				log = RealEstateLog.new(
+					real_estate_id: @re.id,
+					action: 'view'	
+				)
+
+				if signed?
+					log.user_type = 'user'
+					log.user_id = current_user.id
+				elsif left_contact?
+					log.user_type = 'contact_user'
+					log.user_id = current_left_contact.id
+				else
+					log.user_type = 'guess'
+				end
+
+				log.save
+			end
+
 			render layout: 'front_layout'
 		end
 

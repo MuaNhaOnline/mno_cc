@@ -1133,6 +1133,8 @@ class RealEstate < ActiveRecord::Base
 		serialize :params, JSON
 		serialize :floor_infos_text, JSON
 
+		reverse_geocoded_by :lat, :long
+
 		# Fields
 		def fields
 			@fields ||= RealEstate.get_fields self
@@ -1497,6 +1499,11 @@ class RealEstate < ActiveRecord::Base
 		end
 		def is_current_user_favorite
 			@is_current_user_favorite ||= get_is_current_user_favorite
+		end
+
+		# View count
+		def view_count
+			@view_count ||= RealEstateLog.where(real_estate_id: self.id, action: 'view').count
 		end
 
 	# / Attributes

@@ -90,6 +90,11 @@
 								<%= @re.title %>
 							</h2>						
 						</section>
+						<section class="view-count">
+							<span class="value"><%= @re.view_count %></span>
+							<br />
+							<span class="name">lượt xem</span>
+						</section>
 						<section class="price">
 							<% if @re.display_sell_price.present? %>
 								<section class="sell-price-text">
@@ -141,6 +146,8 @@
 										</section>
 									</section>
 								</div>
+								<div class="hidden"></div>
+								<div class="hidden"></div>
 								<div class="hidden"></div>
 								<div class="col-xs-6 col-sm-3 col-md-6 col-lg-6">
 									<article class="info-item">

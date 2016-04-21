@@ -7,7 +7,7 @@ class ViewGenerator < Rails::Generators::Base
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/#{view_name}.css\">
 <% end %>
 
-<% content_for :scripts do %>
+<% content_for :javascripts do %>
 	<script type=\"text/javascript\" src=\"/assets/#{view_name}.js\"></script>
 <% end %>
 

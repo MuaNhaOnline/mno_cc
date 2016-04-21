@@ -29,6 +29,9 @@ module Mno
     I18n.available_locales = [:vi, :en]
     I18n.default_locale = :vi
 
+    # Content type
+    # config.middleware.use Rack::ContentLength
+
     # Timezone
     config.time_zone = 'Hanoi'
     # config.active_record.default_timezone = 'Hanoi'

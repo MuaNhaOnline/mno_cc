@@ -12,7 +12,7 @@
 			title: "Drag Me",
 			draggable: options.draggable
 		});
-
+		
 		return {
 			map: _map,
 			marker: _marker,

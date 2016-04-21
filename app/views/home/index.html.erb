@@ -1,299 +1,373 @@
 <% content_for :stylesheets do %>
 	<link rel="stylesheet" type="text/css" href="/assets/home/index.css">
-	<link rel="stylesheet" type="text/css" href="/assets/shared/Pe-icon-7-stroke.css">	
 <% end %>
 
-<% content_for :scripts do %>
-	<script src="/assets/home/index.js"></script>
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/home/index.js"></script>
 <% end %>
 
-<% 
-	per = get_value_by_width_type([1, 2, 3, 4]) 
+<%
+=begin
+	params: 
+=end
+
+	@_title = 'Trang chủ'
+	@_description = 'MuanhaOnline - Đăng tin nhà đất miễn phí. Tìm kiếm nhà đất chính chủ, liên hệ dự án trực tiếp với chủ đầu tư.'
 %>
 
-<!--start Search Box -->
-<%= render partial: 'shared/front_end_search_box' %>
-<!-- end Search Box-->
+<!-- Post -->
 
-<!-- start Interested Project -->
-<section class="container block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Dự án được quan tâm</span>
-		</a>
-	</article>
-	<!-- margin-bottom for dots -->
-	<article class="block-content" style="margin-bottom: 30px; padding: 0;">
-		<section class="slick project-is-interested">
-			<div class="content">
-				<% 
-					projects = Project.search_with_params.random.limit 3
-				%>
-				<%= render partial: 'projects/item_list', locals: { projects: projects, type: 3 } %>
-			</div>
-			<button class="slider-control prev" id="project-prev"></button>
-			<button class="slider-control next" id="project-next"></button>
+	<article class="post-ctn">
+		<section class="background"></section>
+		<h2 class="box-title">
+			Đăng tin miễn phí
+			<span class="sub-title">
+				Các bạn có thể đăng tin nhanh chóng và hoàn toàn miễn phí.
+			</span>
+		</h2>
+		<section class="callout-text">
+			BẠN ĐANG MUỐN
+		</section>
+		<section class="purposes-list">
+			<a href="/bat-dong-san/dang-tin?p=s">
+				Bán
+			</a>
+			<a href="/bat-dong-san/dang-tin?p=r">
+				Cho thuê
+			</a>
+			<a href="/bat-dong-san/dang-tin?p=t">
+				Sang nhượng
+			</a>
+		</section>
+		<section class="callout-text">
+			KHÔNG CẦN ĐĂNG KÝ
+		</section>
+		<section class="btn-ctn">
+			<a href="/bat-dong-san/dang-tin" class="btn btn-green">
+				Đăng ngay
+			</a>
 		</section>
 	</article>
-</section>
 
-<!-- <section class="other-project container">
-	<div class="list">
-		<a class="btn btn-success btn-sm">Dự án nhà ở xã hội</a>
-		<a class="btn btn-success btn-sm">Dự án văn phòng cho thuê</a>
-		<a class="btn btn-success btn-sm">Dự án cao cấp</a>
-		<a class="btn btn-success btn-sm">Dự án tại một số Quận/Huyện</a>
-		<a class="btn btn-success btn-sm">Dự án đất nền</a>
-	</div>
-</section> -->
-<!-- end The Care of Project -->
+<!-- / Post -->
 
-<!-- start suggest project -->
-<section class="suggest-project container block">
-	<div class="block-title">
-		<a href="#" class="link">
-			<span>Dự án dành cho bạn</span>
-		</a>
-	</div>
-	<div class="block-content block-content-empty" id="suggest_project" aria-pagination data-url="/projects/search" data-data='{"per":<%= per %>}' data-list="#suggest_project > .row" data-pagination="#suggest_project > .paging" data-init_list="_initItemList($list)">
-		<div class="row">
-			<% 
-				projects = Project.search_with_params
-			%>
-			<%= render partial: 'projects/item_list', locals: { projects: projects.limit(per) } %>
-		</div>
-		<div class="paging">
-			<%= render partial: 'shared/pagination_2', locals: { per: per, total: projects.count, page: 1 } %>						
-		</div>	
-	</div>
-</section>
-<!-- end suggest project -->
+<!-- Info intro -->
 
-<!-- start favorite-property -->
-<section class="container block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Bất động sản được yêu thích</span>
-		</a>
+	<article class="info-intro-ctn">
+		<h2 class="box-title">
+			Tiếp cận thông tin chính chủ, trực tiếp
+		</h2>
+		<article class="items-list">
+			<a class="item" href="/bat-dong-san">
+				<img class="image" src="/assets/home/index/owner.png">
+				<h3 class="title">
+					Nhà chính chủ
+				</h3>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud.
+				</p>
+			</a>
+			<a class="item" href="/du-an">
+				<img class="image" src="/assets/home/index/direct.png">
+				<h3 class="title">
+					Liên hệ trực tiếp với chủ đầu tư
+				</h3>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat.
+				</p>
+			</a>
+		</article>
 	</article>
-	<!-- margin-bottom for dots -->
-	<article class="block-content" style="margin-bottom: 30px; padding: 0;">
-		<section class="slick favorite-property">
-			<div class="content">
-				<%
-					res = RealEstate.search_with_params(is_favorite: 'true').random.limit 3
-				%>
-				<%= render partial: 'real_estates/item_list', locals: { res: res, type: 2 } %>
+
+<!-- / Info intro -->
+
+<!-- Search -->
+
+	<article class="search-ctn">
+		<section class="background"></section>
+		<div class="container no-horizontal-padding">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+					<h2 class="title">
+						Tìm kiếm <br class="hidden-md hidden-lg" />theo nhu cầu
+						<span class="sub-title">
+							Bạn có thể tìm kiếm các bất động sản theo tiêu chí mà bạn muốn bằng các công cụ sẵn có của hệ thống.
+						</span>
+					</h2>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
+					<div class="form-ctn">
+						<form class="form" action="/tim_kiem" method="get">
+							<a href="javascript::" class="search-type map-search">
+								<span class="icon ico-map-o"></span> Theo vị trí với bản đồ
+							</a>
+							<label class="search-type" for="search_keyword">
+								<span class="icon ico-filter"></span> Theo tiêu chí cụ thể
+							</label>
+							<div class="row">
+								<article class="form-group col-xs-6">
+									<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả" id="search_keyword" />
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[purpose]">
+										<option value="">Đang bán hoặc cho thuê</option>
+										<option value="">Bất kì</option>
+										<option value="sell">Đang bán</option>
+										<option value="rent">Đang cho thuê</option>
+									</select>
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[real_estate_type]">
+										<option value="" hidden>Loại bất động sản</option>
+										<option value="">Bất kì</option>
+										<% RealEstateType.all.each do |type| %>
+											<option value="<%= type.id %>"><%= type.display_name %></option>
+										<% end %>
+									</select>
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[district]">
+										<option value="" hidden>Quận/huyện</option>
+										<option value="">Bất kì</option>
+										<% District.all.each do |district| %>
+											<option value="<%= district.id %>"><%= district.name %></option>
+										<% end %>
+									</select>
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[price_from]">
+										<option value="" hidden>Giá tối thiểu</option>
+										<option value="">Bất kì</option>
+										<option value="1">1 tỷ</option>
+										<option value="1.5">1.5 tỷ</option>
+										<option value="2">2 tỷ</option>
+										<option value="3">3 tỷ</option>
+										<option value="5">5 tỷ</option>
+										<option value="10">10 tỷ</option>
+									</select>
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[price_to]">
+										<option value="" hidden>Giá tối đa</option>
+										<option value="">Bất kì</option>
+										<option value="1">1 tỷ</option>
+										<option value="1.5">1.5 tỷ</option>
+										<option value="2">2 tỷ</option>
+										<option value="3">3 tỷ</option>
+										<option value="5">5 tỷ</option>
+										<option value="10">10 tỷ</option>
+									</select>
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[area_from]">
+										<option value="" hidden>Diện tích tối thiểu</option>
+										<option value="">Bất kì</option>
+										<option value="50">50m2</option>
+										<option value="100">100m2</option>
+										<option value="150">150m2</option>
+										<option value="200">200m2</option>
+										<option value="300">300m2</option>
+										<option value="500">500m2</option>
+									</select>
+								</article>
+								<article class="form-group col-xs-6">
+									<select class="form-control" name="search[area_to]">
+										<option value="" hidden>Diện tích tối đa</option>
+										<option value="">Bất kì</option>
+										<option value="50">50m2</option>
+										<option value="100">100m2</option>
+										<option value="150">150m2</option>
+										<option value="200">200m2</option>
+										<option value="300">300m2</option>
+										<option value="500">500m2</option>
+									</select>
+								</article>
+							</div>
+							<article class="form-group margin-top-15">
+								<button type="submit" class="btn btn-block btn-green">
+									Tìm kiếm
+								</button>
+							</article>
+						</form>
+					</div>
+				</div>
 			</div>
-			<button class="slider-control prev" id="favor-prev"></button>
-			<button class="slider-control next" id="favor-next"></button>
-		</section>
-	</article>
-</section>
-
-<section class="container block">
-	<section class="block-content block-content-empty">
-		<section class="user-property">		
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li class="active">
-					<a href="#new_property" role="tab" data-toggle="tab">
-						Bất động sản mới rao bán
-					</a>
-				</li>
-				<li>
-					<a href="#suggest_property" role="tab" data-toggle="tab">
-						Có thể bạn quan tâm
-					</a>
-				</li>
-			</ul>
-			<!-- end -->
-
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>, "newset":""}' data-list="#new_property > .row" data-pagination="#new_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade in active" id="new_property">
-					<%
-						res = RealEstate.search_with_params newest: ''
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-				<div aria-pagination data-url="/real_estates/search" data-data='{"per":<%= per %>}' data-list="#suggest_property > .row" data-pagination="#suggest_property > .paging" data-init_list="_initItemList($list)" class="tab-pane fade" id="suggest_property">
-					<%
-						res = RealEstate.search_with_params
-					%>
-					<div class="row">
-						<%= render partial: 'real_estates/item_list', locals: { res: res.take(per) } %>
-					</div>
-					<div class="paging">
-						<%= render partial: 'shared/pagination_2', locals: { per: per, total: res.count, page: 1 } %>						
-					</div>
-				</div>
-			</div>
-			<!-- end -->
-		</section>
-	</section>
-</section>
-<!-- 
-<section class="other-project other-property container">
-	<div class="list">
-		<a class="btn btn-success btn-sm">Văn phòng cho thuê giá rẻ</a>
-		<a class="btn btn-success btn-sm">Villa - Biệt thự cần hoàn thành</a>
-		<a class="btn btn-success btn-sm">Căn hộ chung cư giá rẻ</a>
-		<a class="btn btn-success btn-sm">Đất thổ cư cần bán</a>
-	</div>
-</section> -->
-<!-- end favorite-property -->
-
-<!-- start propensity property -->
-<section class="propensity-property container block">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Danh sách tổng hợp</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">
-		<div class="row">
-			<% 
-				query = {
-					real_estate_type: 'social_home',
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/danh-sach-nha-o-xa-hoi">
-								<span>Nhà ở xã hội</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-			<% 
-				query = {
-					real_estate_type: 'villa',
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/biet-thu">
-								<span>Biệt thự cao cấp</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-			<% 
-				query = {
-					real_estate_type: 'apartment',
-					utilities: {
-						pool: ''
-					},
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/danh-sach-can-ho-co-ho-boi">
-								<span>Căn hộ có hồ bơi</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
-			<% 
-				query = {
-					real_estate_type: 'town_house',
-					price: '0;1000000000',
-					newest: ''
-				}
-				re = RealEstate.search_with_params(query).first 
-			%>
-			<% if re.present? %>
-				<div class="col-md-6">
-					<div class="item-general">
-						<a href="/bat-dong-san/<%= re.full_slug %>">
-							<%= real_estate_avatar re, style_class: 'img-responsive', style: 'slide' %>
-						</a>
-						<div class="name">
-							<a href="/bat-dong-san/danh-sach-nha-pho-duoi-1-ty">
-								<span>Nhà phố dưới 1 tỷ</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			<% end %>
 		</div>
 	</article>
-</section>
-<!-- end propensity property -->
 
-<!-- start contact -->
-<section class="contact block container">
-	<article class="block-title">
-		<a>
-			<span>Liên hệ MuaNhaOnline.vn</span>
-		</a>
-	</article>
-	<article class="block-content block-content-empty">
-		<div class="row">
-			<div class="col-md-2 col-sm-3 col-xs-6">
-				<img src="/assets/contact/contact01.jpg" class="img-responsive">
-			</div>
-			<div class="col-md-3 col-sm-3 col-xs-6">
-				<%= render partial: 'questions/form_front' %>
-			</div>
-			<div class="col-md-7 question col-sm-6">
-				<div class="panel-group" id="accordion">
-					<% 
-						questions = Question.get_pinned 
-					%>
-					<%= render partial: 'questions/item_list_front', locals: { questions: questions } %>
-				</div>
-			</div>
-	</article>
-</section>
-<!-- end contact -->
+<!-- / Search -->
 
-<!-- start agent -->
-<section class="block agent container">
-	<article class="block-title">
-		<a href="#" class="link">
-			<span>Đối tác Muanhaonline.vn</span>
-		</a>	
+<!-- Contact -->
+
+	<article class="contact-ctn">
+		<h2 class="box-title">
+			Bạn đang cần gì?
+			<span class="sub-title">
+				Hãy để lại thông tin, chúng tôi sẽ tư vấn giúp bạn.
+			</span>
+		</h2>
+		<%
+			# Register info
+			register_info = nil
+			if signed?
+				register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'contact', object_type: 'general').first
+			else
+				if left_contact?
+					register_info = ContactRequest.where(user_type: 'contact_user', user_id: current_left_contact.id, request_type: 'contact', object_type: 'general').first
+				end
+			end
+
+			if register_info.blank?
+				register_info = ContactRequest.new request_type: 'contact', object_type: 'general'
+			end
+		%>
+		<form id="contact_form" class="form" 
+			data-request_info="<%= register_info.to_json only: [:id, :request_type, :object_type, :message] %>" 
+			<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :name, :email, :phone_number]}'".html_safe unless signed? %>
+		>
+			<article class="background"></article>
+			<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
+			<input type="hidden" name="request[request_type]" value="" />
+			<input type="hidden" name="request[object_type]" value="" />
+			<% unless signed? %>
+				<% if left_contact? %>
+					<div data-toggled-element="default-contact">
+						<input type="hidden" name="contact[id]" />
+						<article class="form-group">
+							<input class="form-control" name="contact[default_name]" readonly="true" tabindex="-1" />
+						</article>
+						<div class="row">
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-nonvalid class="form-control" name="contact[default_email]" readonly="true" tabindex="-1" />
+							</article>
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-nonvalid class="form-control" name="contact[default_phone_number]" readonly="true" tabindex="-1" />
+							</article>
+							<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+								<div class="radio margin-0">
+									<label>
+										<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+										<a style="color: inherit;">Không phải tôi</a>
+									</label>
+								</div>
+							</article>
+						</div>
+					</div>
+					<div class="off" data-toggled-element="new-contact">
+						<article class="form-group">
+							<input class="form-control" name="contact[name]" placeholder="Tên của bạn" />
+						</article>
+						<div class="row">
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-constraint="required email" class="form-control" name="contact[email]" placeholder="Email của bạn" />
+							</article>
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-constraint="required phone" class="form-control" name="contact[phone_number]" placeholder="Điện thoại của bạn" />
+							</article>
+							<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+								<div class="radio margin-0">
+									<label>
+										<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+										<a style="color: inherit;">Quay lại</a>
+									</label>
+								</div>
+							</article>
+						</div>
+					</div>
+				<% else %>
+					<article class="form-group">
+						<input class="form-control" placeholder="Tên của bạn" />
+					</article>
+					<div class="row">
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-constraint="required email" class="form-control" placeholder="Email của bạn" name="contact[email]" />
+						</article>
+						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<input data-constraint="required phone" class="form-control" placeholder="Điện thoại của bạn" name="contact[phone_number]" />
+						</article>
+					</div>
+				<% end %>
+			<% end %>
+			<article class="form-group">
+				<textarea class="form-control" name="request[message]" placeholder="Bạn đang cần gì?"></textarea>
+			</article>
+			<article class="form-group text-center">
+				<button type="submit" class="btn">
+					Gửi
+				</button>
+			</article>
+			<p class="callout-text">
+				Chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất
+			</p>
+		</form>
 	</article>
-	<article class="block-content block-content-empty">
-		<ul class="slick-agent">
-			<div class="item-agent"></div>
-			<div class="item-agent"></div>
-			<div class="item-agent"></div>
-			<div class="item-agent"></div>
-			<div class="item-agent"></div>
-			<div class="item-agent"></div>
-		</ul>
+
+<!-- / Contact -->
+
+<!-- Gallery -->
+
+	<!-- <article class="gallery-ctn">
+		<article class="images-list">
+			<img src="/assets/home/index/gallery_1.png">
+			<img class="active" src="/assets/home/index/gallery_2.png">
+			<img src="/assets/home/index/gallery_3.png">
+		</article>
 	</article>
-</section>
-<!-- end agent -->
+ -->
+<!-- / Gallery -->
+
+<!-- Concept -->
+
+	<article class="concept-ctn">
+		<h2 class="box-title">
+			Thẩm định giá trực tuyến
+			<span class="sub-title">
+				Bạn có biết?
+			</span>
+		</h2>
+		<img class="content-image" src="/assets/home/index/calculator.png">
+		<section class="content">
+			<p>
+				Thẩm định giá là .....
+			</p>
+			<p>
+				Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
+			</p>
+			<p>
+				At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.
+			</p>
+		</section>
+		<section class="btn-ctn">
+			<a class="btn" href="/bat-dong-san/dang-tin-tham-dinh">
+				Đăng ký thẩm định
+			</a>
+		</section>
+	</article>
+
+<!-- / Concept -->
+
+<!-- Rating -->
+
+	<article class="rating-ctn">
+		<img src="/assets/home/index/coop.png">
+		<h2 class="box-title">
+			Cám ơn bạn đã ghé thăm
+			<span class="sub-title">
+				Bạn có thích website của chúng tôi không?
+			</span>
+		</h2>
+		<section class="buttons-list">
+			<button class="btn btn-5">Rất thích</button>
+			<button class="btn btn-4">Thích</button>
+			<button class="btn btn-3">Tạm được</button>
+			<button class="btn btn-2">Chưa tốt</button>
+			<button class="btn btn-1">Rất tệ</button>
+		</section>
+	</article>
+
+<!-- / Rating -->

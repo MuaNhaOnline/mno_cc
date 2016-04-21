@@ -333,7 +333,6 @@ body {
 
 		.main-navigator a {
 			color: #fff;
-			text-decoration: none;
 			vertical-align: middle;
 		}
 
@@ -407,6 +406,10 @@ body {
 				color: #fff;
 				font-size: 16px;
 			}
+
+				.search-box-container .box-title:hover .text {
+					text-decoration: underline;
+				}
 
 		.search-box-container .box-content {
 			padding: 20px;
