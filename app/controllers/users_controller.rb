@@ -52,10 +52,10 @@ class UsersController < ApplicationController
 
 			# If signup
 			if is_new
-				session_info = SessionInfo.find session[:session_info_id]
-				session_info.leave_infos ||= []
-				session_info.leave_infos << ['user', user.id]
-				session_info.save
+				# session_info = SessionInfo.find session[:session_info_id]
+				# session_info.leave_infos ||= []
+				# session_info.leave_infos << ['user', user.id]
+				# session_info.save
 
 				# Delete contact
 				if contact.present?
@@ -214,10 +214,10 @@ class UsersController < ApplicationController
 			end
 
 			# Track session sign in
-			session_info = SessionInfo.find session[:session_info_id]
-			session_info.signed_users ||= []
-			session_info.signed_users << user.id unless session_info.signed_users.include? user.id
-			session_info.save
+			# session_info = SessionInfo.find session[:session_info_id]
+			# session_info.signed_users ||= []
+			# session_info.signed_users << user.id unless session_info.signed_users.include? user.id
+			# session_info.save
 
 			# Store id into session
 			session[:user_id] = user.id

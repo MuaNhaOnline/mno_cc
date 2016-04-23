@@ -383,7 +383,7 @@ $(function () {
 
 // / Init contact form
 
-// Toggle page spinner
+// Toggle page spinner (GLOBAL)
 
 	function _togglePageSpinner(down) {
 		if (down) {

@@ -85,6 +85,8 @@ class HomeController < ApplicationController
 	
 	def back
 
+		return render layout: 'back_layout'
+
 		# if params[:s] == '1'
 		# 	SessionInfo.delete_all
 
