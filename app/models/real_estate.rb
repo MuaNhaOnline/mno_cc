@@ -668,7 +668,7 @@ class RealEstate < ActiveRecord::Base
 
 			# Purpose
 			if params[:purpose].present?
-				where += " AND purposes.code = #{params[:purpose]}"
+				where += " AND purposes.code = '#{params[:purpose]}'"
 				joins << :purpose
 			end
 
