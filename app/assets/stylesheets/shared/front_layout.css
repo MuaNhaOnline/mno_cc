@@ -1007,7 +1007,7 @@ body {
 
 	footer {
 		color: #fff;
-		background: url('/assets/shared/footer/background.png') center center;
+		background: center center;
 		background-size: cover;
 		margin-top: 100px;
 	}

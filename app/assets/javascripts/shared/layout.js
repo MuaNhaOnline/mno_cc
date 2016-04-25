@@ -33,6 +33,10 @@ $(function () {
 	$('a[href="#"]').on('click', function (e) {
 		e.preventDefault();
 	});
+
+	$('.lazyload').lazyload({
+		effect : 'fadeIn'
+	});
 });
 
 // Helper

@@ -491,7 +491,6 @@ $(function () {
 					title: 'Xác nhận',
 					content: 'Bạn muốn đăng thông tin nhanh hay chi tiết?',
 					type: 'primary',
-					overlay: 'gray',
 					buttons: [
 						{
 							text: 'Tin nhanh',

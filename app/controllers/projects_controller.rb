@@ -651,7 +651,7 @@ class ProjectsController < ApplicationController
 			render json: {
 				status: 0,
 				result: {
-					list: render_to_string(partia_managel: 'products_list', locals: { products: products }),
+					list: render_to_string(partial: 'products_list', locals: { products: products }),
 					pagination: render_to_string(partial: 'shared/pagination', locals: { page: page, per: per, total: count })
 				}
 			}

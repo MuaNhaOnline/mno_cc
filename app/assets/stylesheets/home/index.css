@@ -18,7 +18,7 @@ body {
 			z-index: -1;
 			top: 0;
 			left: 0;
-			background: url('/assets/home/index/post_new.jpg') center bottom no-repeat;
+			background: center bottom no-repeat;
 			background-size: cover;
 			-webkit-filter: brightness(60%);
 			filter: brightness(60%);
@@ -125,7 +125,6 @@ body {
 			}
 
 				.info-intro-ctn .items-list .item .image {
-					width: 100%;
 				}
 
 				.info-intro-ctn .items-list .item .title {
@@ -163,7 +162,7 @@ body {
 			z-index: -1;
 			top: 0;
 			left: 0;
-			background: url('/assets/home/index/filter.jpg') center center no-repeat;
+			background: center center no-repeat;
 			background-size: cover;
 			-webkit-filter: brightness(60%);
 			filter: brightness(60%);
@@ -284,7 +283,7 @@ body {
 				z-index: -1;
 				top: 0;
 				left: 0;
-				background: url('/assets/home/index/help.png') center center no-repeat;
+				background: center center no-repeat;
 				background-size: cover;
 				-webkit-filter: brightness(60%);
 				filter: brightness(60%);

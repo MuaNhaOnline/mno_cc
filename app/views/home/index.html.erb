@@ -18,7 +18,7 @@
 <!-- Post -->
 
 	<article class="post-ctn">
-		<section class="background"></section>
+		<section class="background lazyload" data-original="/assets/home/index/post_new.jpg"></section>
 		<h2 class="box-title">
 			Đăng tin miễn phí
 			<span class="sub-title">
@@ -59,7 +59,7 @@
 		</h2>
 		<article class="items-list">
 			<a class="item" href="/bat-dong-san">
-				<img class="image" src="/assets/home/index/owner.png">
+				<img class="image lazyload" data-original="/assets/home/index/owner.png">
 				<h3 class="title">
 					Nhà chính chủ
 				</h3>
@@ -70,7 +70,7 @@
 				</p> -->
 			</a>
 			<a class="item" href="/du-an">
-				<img class="image" src="/assets/home/index/direct.png">
+				<img class="image lazyload" data-original="/assets/home/index/direct.png">
 				<h3 class="title">
 					Liên hệ trực tiếp với chủ đầu tư
 				</h3>
@@ -89,7 +89,7 @@
 <!-- Search -->
 
 	<article class="search-ctn">
-		<section class="background"></section>
+		<section class="background lazyload" data-original="/assets/home/index/filter.jpg"></section>
 		<div class="container no-horizontal-padding">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -230,7 +230,7 @@
 			data-request_info="<%= register_info.to_json only: [:id, :request_type, :object_type, :message] %>" 
 			<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :name, :email, :phone_number]}'".html_safe unless signed? %>
 		>
-			<article class="background"></article>
+			<article class="background lazyload" data-original="/assets/home/index/help.png"></article>
 			<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
 			<input type="hidden" name="request[request_type]" value="" />
 			<input type="hidden" name="request[object_type]" value="" />
@@ -330,7 +330,7 @@
 				Bạn có biết?
 			</span>
 		</h2>
-		<img class="content-image" src="/assets/home/index/calculator.png">
+		<img class="content-image lazyload" data-original="/assets/home/index/calculator.png">
 		<!-- <section class="content">
 			<p>
 				Thẩm định giá là .....
@@ -354,7 +354,7 @@
 <!-- Rating -->
 
 	<article class="rating-ctn">
-		<img src="/assets/home/index/coop.png">
+		<img class="lazyload" data-original="/assets/home/index/coop.png">
 		<h2 class="box-title">
 			Cám ơn bạn đã ghé thăm
 			<span class="sub-title">
