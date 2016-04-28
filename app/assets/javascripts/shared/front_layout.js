@@ -260,7 +260,12 @@ $(function () {
 			if (params.requestInfo) {
 				$form.find('[name="request[id]"]').val(params.requestInfo['id']);
 				$form.find('[name="request[request_type]"]').val(params.requestInfo['request_type']);
-				$form.find('[name="request[object_type]"]').val(params.requestInfo['object_type']);
+				if ($form.find('[name="request[object_type]"]').is('input[type="radio"]')) {
+					$form.find('[name="request[object_type]"][value="' + params.requestInfo['object_type'] + '"]').prop('checked', true);
+				}
+				else {
+					$form.find('[name="request[object_type]"]').val(params.requestInfo['object_type']);
+				}
 				$form.find('[name="request[object_id]"]').val(params.requestInfo['object_id']);
 				$form.find('[name="request[message]"]').val(params.requestInfo['message']);
 			}

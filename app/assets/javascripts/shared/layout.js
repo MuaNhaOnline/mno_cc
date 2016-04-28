@@ -37,6 +37,15 @@ $(function () {
 	$('.lazyload').lazyload({
 		effect : 'fadeIn'
 	});
+
+	$('.processing-function').on('click', function (e) {
+		e.preventDefault();
+		popupPrompt({
+			title: 'Chức năng đang hoàn thiện',
+			content: 'Cám ơn bạn đã sử dụng dịch vụ. Chức năng sẽ sớm được đưa vào sử dụng.'
+		});
+	});
+
 });
 
 // Helper

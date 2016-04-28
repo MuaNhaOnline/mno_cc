@@ -23,52 +23,65 @@
 		]
 	}
 	@_main_class = 'home-search'
+	@_fill_search_box = true
 
 	page = params[:page].present? ? params[:page].to_i : 1
 %>
 
-<article class="container-box container-box-transparent">
-	<section class="container-box-header">
-		<h2 class="container-box-title">
-			Bất động sản đang được yêu thích
-		</h2>
-	</section>
-	<section class="container-box-body">
-		<%
-			per = 3
-		%>
-		<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res.random.limit(per), list_id: 'favorite_res_list' } %>
-	</section>
-</article>
-
-<article class="container-box container-box-transparent">
-	<section class="container-box-header">
-		<h2 class="container-box-title">
-			Bất động sản dành cho bạn
-		</h2>
-	</section>
-	<section class="container-box-body">
+<% if @favorite_res.blank? && @res.blank? %>
+	<div class="alert alert-danger" role="alert">
 		<div class="container">
-			<%
-				per = 12
-							
-				page_href = Proc.new do |page| 
-					request.GET['page'] = page
-					'?' + request.GET.to_query
-				end
-			%>
-			<%=
-				render(
-					partial: 'real_estates/items_list',
-					locals: { 
-						res: @res.page(page, per), 
-						paging: (@res.count / per.to_f).ceil,
-						list_id: 'res_list',
-						page_href: page_href,
-						current_page: page
-					}
-				)
-			%>
+			Không tìm thấy kết quả phù hợp.
 		</div>
-	</section>
-</article>
+	</div>
+<% end %>
+
+<% if @favorite_res.present? %>
+	<article class="container-box container-box-transparent">
+		<section class="container-box-header">
+			<h2 class="container-box-title">
+				Bất động sản đang được yêu thích
+			</h2>
+		</section>
+		<section class="container-box-body">
+			<%
+				per = 3
+			%>
+			<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res.random.limit(per), list_id: 'favorite_res_list' } %>
+		</section>
+	</article>
+<% end %>
+
+<% if @res.present? %>
+	<article class="container-box container-box-transparent">
+		<section class="container-box-header">
+			<h2 class="container-box-title">
+				Bất động sản dành cho bạn
+			</h2>
+		</section>
+		<section class="container-box-body">
+			<div class="container">
+				<%
+					per = 12
+								
+					page_href = Proc.new do |page| 
+						request.GET['page'] = page
+						'?' + request.GET.to_query
+					end
+				%>
+				<%=
+					render(
+						partial: 'real_estates/items_list',
+						locals: { 
+							res: @res.page(page, per), 
+							paging: (@res.count / per.to_f).ceil,
+							list_id: 'res_list',
+							page_href: page_href,
+							current_page: page
+						}
+					)
+				%>
+			</div>
+		</section>
+	</article>
+<% end %>

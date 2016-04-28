@@ -304,6 +304,35 @@ body {
 					background-color: #00D976;
 				}
 
+			.contact-ctn .form .types-list {
+				margin-bottom: 25px;
+				text-align: center;
+			}
+
+				.contact-ctn .form .types-list input {
+					position: absolute;
+					left: -9999px;
+				}
+
+				.contact-ctn .form .types-list label {
+					display: inline-block;
+					margin-bottom: 4px;
+					cursor: pointer;
+				}
+
+				.contact-ctn .form .types-list .text {
+					display: block;
+					padding: 5px 15px;
+					border: 1px solid #eee;
+					background-color: rgba(255, 255, 255, .1);
+					border: 1px solid rgba(255, 255, 255, .5);
+				}
+
+					.contact-ctn .form .types-list input:checked + .text {
+						background-color: #00A459;
+						border-color: transparent;
+					}
+
 		.contact-ctn .callout-text {
 			font-size: 13px;
 			font-weight: bold;

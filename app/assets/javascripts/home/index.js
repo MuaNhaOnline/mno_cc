@@ -20,16 +20,7 @@ $(function () {
 	// / Contact
 
 	// Search
-	
-		(function () {
-			$('.search-ctn .map-search').on('click', function () {
-				popupPrompt({
-					title: 'Rất tiếc',
-					content: 'Xin lỗi bạn, chức năng này đang hoàn thiện'
-				});
-			});
-		})();
-	
+		
 	// / Search
 
 	// Gallery

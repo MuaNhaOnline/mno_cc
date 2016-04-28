@@ -1,8 +1,9 @@
 =begin Attributes rules
 
 	request_type:
-		contact
-		register
+		advisory (general - in home/index)
+		contact (product)
+		register (product)
 	
 	status
 		1: Waiting contact
@@ -34,11 +35,11 @@ class ContactRequest < ActiveRecord::Base
 		end
 
 		def self.real_estate_contact
-			where(object_type: 'real_estate')
+			where(object_type: 'real_estate', request_type: ['contact', 'register'])
 		end
 
 		def self.project_contact
-			where(object_type: ['project', 'real_estate', 'real_estates/floor'])
+			where(object_type: ['project', 'real_estate', 'real_estates/floor'], request_type: ['contact', 'register'])
 		end
 	
 	# / Get
