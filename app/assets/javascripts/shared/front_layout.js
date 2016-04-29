@@ -72,7 +72,7 @@ $(function () {
 					}).done(function (data) {
 						if (data.status == 0) {
 							$district
-								.html(data.result.map(function (district) {
+								.html('<option value="">Quận/huyện</option>' + data.result.map(function (district) {
 									return '<option value="' + district.id + '">' + district.name + '</option>'
 								}).join(''))
 								.prop('disabled', false);
