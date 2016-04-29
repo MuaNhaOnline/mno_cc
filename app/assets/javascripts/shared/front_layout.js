@@ -51,13 +51,46 @@ $(function () {
 	
 	// / Mobile menu button
 
-	// Search box toggle button
+	// Search box
 	
 		$('.search-box-container .box-title').on('click', function () {
 			$(this).next().stop().slideToggle();
 		});
+
+		(function () {
+			var $form = $('.search-box-container form');
+			initForm($form);
+
+			$form.find('[name="search[province]"]').on('change', function () {
+				var $district = $(this).closest('form').find('[name="search[district]"]');
+
+				if (this.value) {
+					$.ajax({
+						url: '/districts/get_by_province',
+						data: { province_id: this.value },
+						dataType: 'JSON'
+					}).done(function (data) {
+						if (data.status == 0) {
+							$district
+								.html(data.result.map(function (district) {
+									return '<option value="' + district.id + '">' + district.name + '</option>'
+								}).join(''))
+								.prop('disabled', false);
+						}
+						else {
+							$district.prop('disabled', true);
+						}
+					}).fail(function () {
+						$district.prop('disabled', true);
+					});
+				}
+				else {
+					$district.prop('disabled', true);
+				}
+			});
+		})();
 	
-	// / Search box toggle button
+	// / Search box
 
 	// Click header => Scroll to box
 	

@@ -203,51 +203,77 @@
 							<form class="form" action="/tim_kiem" method="get">
 								<div class="row">
 									<% if @_fill_search_box && params[:search].present? %>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<%
+											params[:search][:real_estate_type] = params[:search][:real_estate_type].to_i
+											params[:search][:province] = params[:search][:province].to_i
+											params[:search][:district] = params[:search][:district].to_i
+										%>
+										<article class="form-group col-xs-12 col-sm-4 col-md-6 col-lg-6">
 											<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả" value="<%= params[:search][:keyword] %>" />
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
-											<select class="form-control" name="search[purpose]">
-												<option value="">Đang bán hoặc cho thuê</option>
-												<option value="" <%= 'selected' if params[:search][:purpose].blank? %>>Bất kì</option>
-												<option value="sell" <%= 'selected' if params[:search][:purpose] == 'sell' %>>Đang bán</option>
-												<option value="rent" <%= 'selected' if params[:search][:purpose] == 'rent' %>>Đang cho thuê</option>
+											<select class="form-control input-toggle" name="search[purpose]">
+												<option data-on="sell" data-off="rent" value="">Hình thức giao dịch</option>
+												<option data-on="sell" data-off="rent" value="sell" <%= 'selected' if params[:search][:purpose] == 'sell' %>>Đang bán</option>
+												<option data-on="rent" data-off="sell" value="rent" <%= 'selected' if params[:search][:purpose] == 'rent' %>>Đang cho thuê</option>
 											</select>
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
 											<select class="form-control" name="search[real_estate_type]">
 												<option value="" hidden>Loại bất động sản</option>
-												<option value="" <%= 'selected' if params[:search][:real_estate_type].blank? %>>Bất kì</option>
 												<% RealEstateType.all.each do |type| %>
 													<option value="<%= type.id %>" <%= 'selected' if params[:search][:real_estate_type] == type.id %>><%= type.display_name %></option>
 												<% end %>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
+											<select class="form-control" name="search[province]">
+												<option value="">Tỉnh/thành phố</option>
+												<% Province.all.each do |province| %>
+													<option value="<%= province.id %>" <%= 'selected' if params[:search][:province] == province.id %>><%= province.name %></option>
+												<% end %>
+											</select>
+										</article>
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[district]">
-												<option value="" hidden>Quận/huyện</option>
-												<option value="" <%= 'selected' if params[:search][:district].blank? %>>Bất kì</option>
+												<option value="">Quận/huyện</option>
 												<% District.all.each do |district| %>
 													<option value="<%= district.id %>" <%= 'selected' if params[:search][:district] == district.id %>><%= district.name %></option>
 												<% end %>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
-											<select class="form-control" name="search[price_from]">
-												<option value="" hidden>Giá tối thiểu</option>
-												<option value="" <%= 'selected' if params[:search][:price_from].blank? %>>Bất kì</option>
-												<option value="1" <%= 'selected' if params[:search][:price_from] == '1' %>>Từ 1 tỷ</option>
-												<option value="1.5" <%= 'selected' if params[:search][:price_from] == '1.5' %>>Từ 1.5 tỷ</option>
-												<option value="2" <%= 'selected' if params[:search][:price_from] == '2' %>>Từ 2 tỷ</option>
-												<option value="3" <%= 'selected' if params[:search][:price_from] == '3' %>>Từ 3 tỷ</option>
-												<option value="5" <%= 'selected' if params[:search][:price_from] == '5' %>>Từ 5 tỷ</option>
-												<option value="10" <%= 'selected' if params[:search][:price_from] == '10' %>>Từ 10 tỷ</option>
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
+											<select data-toggled-element="sell" class="form-control" name="search[price_from]">
+												<option value="">Giá tối thiểu</option>
+												<option value="1000" <%= 'selected' if params[:search][:price_from] == '1000' %>>Từ 1 tỷ</option>
+												<option value="1500" <%= 'selected' if params[:search][:price_from] == '1500' %>>Từ 1.5 tỷ</option>
+												<option value="2000" <%= 'selected' if params[:search][:price_from] == '2000' %>>Từ 2 tỷ</option>
+												<option value="3000" <%= 'selected' if params[:search][:price_from] == '3000' %>>Từ 3 tỷ</option>
+												<option value="5000" <%= 'selected' if params[:search][:price_from] == '5000' %>>Từ 5 tỷ</option>
+												<option value="10000" <%= 'selected' if params[:search][:price_from] == '10000' %>>Từ 10 tỷ</option>
+											</select>
+											<select data-toggled-element="rent" class="form-control" name="search[price_from]">
+												<option value="">Giá tối thiểu</option>
+												<option value="1" <%= 'selected' if params[:search][:price_from] == '1' %>>Từ 1 triệu</option>
+												<option value="1.5" <%= 'selected' if params[:search][:price_from] == '1.5' %>>Từ 1.5 triệu</option>
+												<option value="2" <%= 'selected' if params[:search][:price_from] == '2' %>>Từ 2 triệu</option>
+												<option value="3" <%= 'selected' if params[:search][:price_from] == '3' %>>Từ 3 triệu</option>
+												<option value="5" <%= 'selected' if params[:search][:price_from] == '5' %>>Từ 5 triệu</option>
+												<option value="10" <%= 'selected' if params[:search][:price_from] == '10' %>>Từ 10 triệu</option>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
-											<select class="form-control" name="search[price_to]">
-												<option value="" hidden>Giá tối đa</option>
-												<option value="" <%= 'selected' if params[:search][:price_to].blank? %>>Bất kì</option>
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
+											<select data-toggled-element="sell" class="form-control" name="search[price_to]">
+												<option value="">Giá tối đa</option>
+												<option value="1000" <%= 'selected' if params[:search][:price_to] == '1000' %>>Đến 1 tỷ</option>
+												<option value="1500" <%= 'selected' if params[:search][:price_to] == '1500' %>>Đến 1.5 tỷ</option>
+												<option value="2000" <%= 'selected' if params[:search][:price_to] == '2000' %>>Đến 2 tỷ</option>
+												<option value="3000" <%= 'selected' if params[:search][:price_to] == '3000' %>>Đến 3 tỷ</option>
+												<option value="5000" <%= 'selected' if params[:search][:price_to] == '5000' %>>Đến 5 tỷ</option>
+												<option value="10000" <%= 'selected' if params[:search][:price_to] == '10000' %>>Đến 10 tỷ</option>
+											</select>
+											<select data-toggled-element="rent" class="form-control" name="search[price_to]">
+												<option value="">Giá tối đa</option>
 												<option value="1" <%= 'selected' if params[:search][:price_to] == '1' %>>Đến 1 tỷ</option>
 												<option value="1.5" <%= 'selected' if params[:search][:price_to] == '1.5' %>>Đến 1.5 tỷ</option>
 												<option value="2" <%= 'selected' if params[:search][:price_to] == '2' %>>Đến 2 tỷ</option>
@@ -256,10 +282,9 @@
 												<option value="10" <%= 'selected' if params[:search][:price_to] == '10' %>>Đến 10 tỷ</option>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[area_from]">
-												<option value="" hidden>Diện tích tối thiểu</option>
-												<option value="" <%= 'selected' if params[:area_from].blank? %>>Bất kì</option>
+												<option value="">Diện tích tối thiểu</option>
 												<option value="50" <%= 'selected' if params[:area_from] == '50' %>>Từ 50m2</option>
 												<option value="100" <%= 'selected' if params[:area_from] == '100' %>>Từ 100m2</option>
 												<option value="150" <%= 'selected' if params[:area_from] == '150' %>>Từ 150m2</option>
@@ -268,10 +293,9 @@
 												<option value="500" <%= 'selected' if params[:area_from] == '500' %>>Từ 500m2</option>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[area_to]">
-												<option value="" hidden>Diện tích tối đa</option>
-												<option value="" <%= 'selected' if params[:area_to].blank? %>>Bất kì</option>
+												<option value="">Diện tích tối đa</option>
 												<option value="50" <%= 'selected' if params[:area_to] == '50' %>>Đến 50m2</option>
 												<option value="100" <%= 'selected' if params[:area_to] == '100' %>>Đến 100m2</option>
 												<option value="150" <%= 'selected' if params[:area_to] == '150' %>>Đến 150m2</option>
@@ -281,39 +305,46 @@
 											</select>
 										</article>
 									<% else %>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-12 col-sm-4 col-md-6 col-lg-6">
 											<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả" />
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
 											<select class="form-control" name="search[purpose]">
-												<option value="">Đang bán hoặc cho thuê</option>
-												<option value="">Bất kì</option>
+												<option value="">Hình thức giao dịch</option>
 												<option value="sell">Đang bán</option>
 												<option value="rent">Đang cho thuê</option>
 											</select>
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
 											<select class="form-control" name="search[real_estate_type]">
-												<option value="" hidden>Loại bất động sản</option>
-												<option value="">Bất kì</option>
+												<option value="">Loại bất động sản</option>
 												<% RealEstateType.all.each do |type| %>
 													<option value="<%= type.id %>"><%= type.display_name %></option>
 												<% end %>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<%
+											hcm_province = Province.where(name: 'Tp. Hồ Chí Minh').first_or_initialize
+										%>
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
+											<select class="form-control" name="search[province]">
+												<option value="">Tỉnh/thành phố</option>
+												<% Province.all.each do |province| %>
+													<option value="<%= province.id %>" <%= 'selected' if province.id == hcm_province.id %>><%= province.name %></option>
+												<% end %>
+											</select>
+										</article>
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[district]">
-												<option value="" hidden>Quận/huyện</option>
-												<option value="">Bất kì</option>
-												<% District.all.each do |district| %>
+												<option value="">Quận/huyện</option>
+												<% District.where(province_id: hcm_province.id).each do |district| %>
 													<option value="<%= district.id %>"><%= district.name %></option>
 												<% end %>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[price_from]">
-												<option value="" hidden>Giá tối thiểu</option>
-												<option value="">Bất kì</option>
+												<option value="">Giá tối thiểu</option>
 												<option value="1">Từ 1 tỷ</option>
 												<option value="1.5">Từ 1.5 tỷ</option>
 												<option value="2">Từ 2 tỷ</option>
@@ -322,10 +353,9 @@
 												<option value="10">Từ 10 tỷ</option>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[price_to]">
-												<option value="" hidden>Giá tối đa</option>
-												<option value="">Bất kì</option>
+												<option value="">Giá tối đa</option>
 												<option value="1">Đến 1 tỷ</option>
 												<option value="1.5">Đến 1.5 tỷ</option>
 												<option value="2">Đến 2 tỷ</option>
@@ -334,10 +364,9 @@
 												<option value="10">Đến 10 tỷ</option>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[area_from]">
-												<option value="" hidden>Diện tích tối thiểu</option>
-												<option value="">Bất kì</option>
+												<option value="">Diện tích tối thiểu</option>
 												<option value="50">Từ 50m2</option>
 												<option value="100">Từ 100m2</option>
 												<option value="150">Từ 150m2</option>
@@ -346,10 +375,9 @@
 												<option value="500">Từ 500m2</option>
 											</select>
 										</article>
-										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
+										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[area_to]">
-												<option value="" hidden>Diện tích tối đa</option>
-												<option value="">Bất kì</option>
+												<option value="">Diện tích tối đa</option>
 												<option value="50">Đến 50m2</option>
 												<option value="100">Đến 100m2</option>
 												<option value="150">Đến 150m2</option>
@@ -360,6 +388,23 @@
 										</article>
 									<% end %>
 								</div>
+								<article class="suggest-keywords">
+									<span class="label">
+										Gợi ý:
+									</span>
+									<a href="/bat-dong-san/danh-sach-nha-tam">
+										Nhà tạm
+									</a>
+									<a href="/bat-dong-san/danh-sach-nha-cap-4">
+										Nhà cấp 4
+									</a>
+									<a href="/bat-dong-san/danh-sach-can-ho-co-ho-boi">
+										Căn hộ có hồ bơi
+									</a>
+									<a href="/bat-dong-san/danh-sach-nha-pho-duoi-1-ty">
+										Nhà phố dưới 1 tỷ
+									</a>
+								</article>
 								<article class="form-group text-center margin-top-15">
 									<button type="submit" class="btn btn-large btn-green">Tìm kiếm</button>
 								</article>

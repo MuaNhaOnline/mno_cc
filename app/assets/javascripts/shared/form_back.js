@@ -2566,6 +2566,10 @@ function initForm($form, params) {
 			$form.submitStatus(false);
 
 			$form.on('submit', function (e) {
+				if (!('submit' in params)) {
+					return;
+				}
+				
 				e.preventDefault();
 
 				if ($form.data('submitting')) {
@@ -2626,16 +2630,14 @@ function initForm($form, params) {
 					}
 
 					//Submit
-					if ('submit' in params) {
-						if (params.submit() == false) {
-							var $dangerBox = $form.find('.box-danger:visible');
-							if ($dangerBox.length) {
-								$body.animate({
-									scrollTop: $dangerBox.offset().top - 20 
-								}); 
-							
-								$form.submitStatus(false);
-							}
+					if (params.submit() == false) {
+						var $dangerBox = $form.find('.box-danger:visible');
+						if ($dangerBox.length) {
+							$body.animate({
+								scrollTop: $dangerBox.offset().top - 20 
+							}); 
+						
+							$form.submitStatus(false);
 						}
 					}
 				}

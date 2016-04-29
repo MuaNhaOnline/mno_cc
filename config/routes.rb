@@ -284,7 +284,6 @@ Rails.application.routes.draw do
 		resources :news
 		resources :streets
 		resources :wards
-		resources :districts
 		resources :provinces
 		resources :property_utilities
 		resources :images

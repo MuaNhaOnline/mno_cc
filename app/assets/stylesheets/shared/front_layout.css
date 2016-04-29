@@ -423,6 +423,27 @@ body {
 			padding: 20px;
 		}
 
+			.search-box-container .box-content .suggest-keywords {
+				padding: 10px;
+			}
+
+				.search-box-container .box-content .suggest-keywords .label {
+					font-weight: bold;
+				}
+
+				.search-box-container .box-content .suggest-keywords a {
+					color: #333;
+					display: inline-block;
+					padding: 1px 7px;
+					border-bottom: 2px solid #ddd;
+					text-decoration: none;
+					transition: border-bottom-color .3s;
+				}
+
+					.search-box-container .box-content .suggest-keywords a:hover {
+						border-bottom-color: #00A459;
+					}
+
 /* / Seach box */
 
 /* Main */

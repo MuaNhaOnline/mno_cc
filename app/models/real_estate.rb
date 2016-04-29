@@ -686,8 +686,8 @@ class RealEstate < ActiveRecord::Base
 			# Price range
 			if params[:price_from].present? || params[:price_to].present?
 				# Format number
-				params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000000 if params[:price_from].present?
-				params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000000 if params[:price_to].present?
+				params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000 if params[:price_from].present?
+				params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000 if params[:price_to].present?
 
 				if params[:price_from].present? && params[:price_to].present? && params[:price_from] > params[:price_to]
 					temp = params[:price_from]
