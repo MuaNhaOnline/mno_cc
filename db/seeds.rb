@@ -25,9 +25,34 @@ ConstructionalLevel.create [
 Currency.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE currencies_id_seq RESTART WITH 1')
 Currency.create [
-	{ name: 'VNĐ', code: 'VND', options: '{"html":{"attributes":"data-value=VND"},"default":""}' },
-	{ name: 'USD', code: 'USD', options: '{"html":{"attributes":"data-value=USD"}}' },
-	{ name: 'SJC', code: 'SJC', options: '{"html":{"attributes":"data-value=SJC"}}' }
+	{
+		name: 'VNĐ',
+		code: 'VND',
+		options: {
+			html: {
+				attributes: 'data-value="VND"'
+			},
+			default: true
+		}
+	},
+	{
+		name: 'USD',
+		code: 'USD',
+		options: {
+			html: {
+				attributes: 'data-value="USD"'
+			}
+		}
+	},
+	{
+		name: 'SJC',
+		code: 'SJC',
+		options: {
+			html: {
+				attributes: 'data-value="SJC"'
+			}
+		}
+	}
 ]
 
 Direction.delete_all
@@ -36,7 +61,7 @@ Direction.create [
 	{ 
 		name: 'non', 
 		options: {
-			default: ''
+			default: true
 		} 
 	},
 	{ name: 'east' },
@@ -62,18 +87,17 @@ Disadvantage.create [
 LegalRecordType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE legal_record_types_id_seq RESTART WITH 1')
 LegalRecordType.create [
-	{ name: 'red', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}}' },
-	{ name: 'pink', options: '{"html":{"attributes":"data-off=custom-legal-record-type"}}' },
-	{ name: 'other', code: 'Custom', options: '{"html":{"attributes":"data-on=custom-legal-record-type"}}' }
+	{ name: 'red' },
+	{ name: 'pink' },
+	{ name: 'other' }
 ]
 
 PlanningStatusType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE planning_status_types_id_seq RESTART WITH 1')
 PlanningStatusType.create [
-	{ name: 'stable', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
-	{ name: 'part', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
-	{ name: 'full', options: '{"html":{"attributes":"data-off=custom-planning-status-type"}}' },
-	{ name: 'other', code: 'Custom', options: '{"html":{"attributes":"data-on=custom-planning-status-type"}}' }
+	{ name: 'stable' },
+	{ name: 'part' },
+	{ name: 'full' }
 ]
 
 PropertyUtility.delete_all
@@ -90,32 +114,230 @@ PropertyUtility.create [
 Purpose.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE purposes_id_seq RESTART WITH 1')
 Purpose.create [
-	{ name: 'sell', code: 'sell', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' },
-	{ name: 'rent', code: 'rent', options: '{"html":{"attributes":"data-on=rent data-off=un-rent"}}' },
-	{ name: 'sell_rent', code: 'sell_rent', options: '{"html":{"attributes":"data-on=\"sell rent\""}}' },
-	{ name: 'transfer', code: 'transfer', options: '{"html":{"attributes":"data-on=sell data-off=un-sell"}}' }
+	{
+		name: 'sell',
+		code: 'sell',
+		options: {
+			html: {
+				attributes: 'data-on="sell" data-off="un-sell"'
+			}
+		}
+	},
+	{
+		name: 'rent',
+		code: 'rent',
+		options: {
+			html: {
+				attributes: 'data-on="rent" data-off="un-rent"'
+			}
+		}
+	},
+	{
+		name: 'sell_rent',
+		code: 'sell_rent',
+		options: {
+			html: {
+				attributes: 'data-on="sell rent"'
+			}
+		}
+	},
+	{
+		name: 'transfer',
+		code: 'transfer',
+		options: {
+			html: {
+				attributes: 'data-on="rent" data-off="un-rent"'
+			}
+		}
+	}
 ]
 
 RealEstateType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
 RealEstateType.create [
-	{ id: 1, name: 'residential_land', code: '|land|residential_land|', options: '{"group":"land"}' },
-	{ id: 2, name: 'vacant_land', code: '|land|vacant_land|', options: '{"group":"land"}' },
-	{ id: 3, name: 'other_land', code: '|land|', options: '{"group":"land"}' },
-	{ id: 4, name: 'office', code: '|space|complex_apartment|office|', options: '{"group":"space","html":{"attributes":"data-on=office data-off=un-office"}}' },
-	{ id: 5, name: 'motel', code: '|space|motel|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ id: 6, name: 'store', code: '|space|store|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ id: 7, name: 'restaurant_hotel', code: '|space|restaurant_hotel|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ id: 8, name: 'storage_workshop', code: '|space|storage_workshop|', options: '{"group":"space","html":{"attributes":"data-off=office"}}' },
-	{ id: 9, name: 'high_apartment', code: '|high_apartment|apartment|complex_apartment|', options: '{"group":"apartment","html":{"attributes":"data-on=apartment data-off=un-apartment"}}' },
-	{ id: 10, name: 'medium_apartment', code: '|medium_apartment|apartment|complex_apartment|', options: '{"group":"apartment","html":{"attributes":"data-on=apartment data-off=un-apartment"}}' },
-	{ id: 11, name: 'low_apartment', code: '|low_apartment|apartment|complex_apartment|', options: '{"group":"apartment","html":{"attributes":"data-on=apartment data-off=un-apartment"}}' },
-	{ id: 12, name: 'villa', code: '|house|villa|', options: '{"html":{"attributes":"data-on=villa data-off=un-villa"},"group":"house"}' },
-	{ id: 13, name: 'town_house', code: '|house|town_house|', options: '{"html":{"attributes":"data-on=town-house data-off=un-town-house"},"group":"house"}' },
-	{ id: 14, name: 'social_home', code: '|social_home|', options: '{"group":"apartment"}' },
-	{ id: 15, name: 'forest_land', code: '|land|forest_land|', options: '{"group":"land"}' },
-	{ id: 16, name: 'productive_land', code: '|land|productive_land|', options: '{"group":"land"}' },
-	{ id: 17, name: 'project_land', code: '|land|project_land|', options: '{"group":"land"}' }
+	{
+		id: 1,
+		name: 'residential_land',
+		code: '|land|residential_land|',
+		options: {
+			group: 'land'			
+		},
+		order: 1
+	},
+	{
+		id: 2, 
+		name: 'vacant_land', 
+		code: '|land|vacant_land|', 
+		options: {
+			group: 'land'			
+		},
+		order: 2
+	},
+	{ 
+		id: 3, 
+		name: 'other_land', 
+		code: '|land|', 
+		options: {
+			group: 'land'
+		},
+		order: 3
+	},
+	{ 
+		id: 15, 
+		name: 'forest_land', 
+		code: '|land|forest_land|', 
+		options: {
+			group: 'land'
+		},
+		order: 4
+	},
+	{ 
+		id: 16, 
+		name: 'productive_land', 
+		code: '|land|productive_land|', 
+		options: {
+			group: 'land'
+		},
+		order: 5
+	},
+	{ 
+		id: 17, 
+		name: 'project_land', 
+		code: '|land|project_land|', 
+		options: {
+			group: 'land'
+		},
+		order: 6
+	},
+	{ 
+		id: 4, 
+		name: 'office', 
+		code: '|space|complex_apartment|office|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-on="office" data-off="un-office"'
+			}
+		},
+		order: 7
+	},
+	{ 
+		id: 5, 
+		name: 'motel', 
+		code: '|space|motel|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
+		order: 8
+	},
+	{ 
+		id: 6, 
+		name: 'store', 
+		code: '|space|store|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
+		order: 9
+	},
+	{ 
+		id: 7, 
+		name: 'restaurant_hotel', 
+		code: '|space|restaurant_hotel|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
+		order: 10
+	},
+	{ 
+		id: 8, 
+		name: 'storage_workshop', 
+		code: '|space|storage_workshop|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
+		order: 11
+	},
+	{ 
+		id: 9, 
+		name: 'high_apartment', 
+		code: '|high_apartment|apartment|complex_apartment|', 
+		options: {
+			group: 'apartment',
+			html: {
+				attributes: 'data-on="apartment" data-off="un-apartment"'
+			}
+		},
+		order: 12
+	},
+	{ 
+		id: 10, 
+		name: 'medium_apartment', 
+		code: '|medium_apartment|apartment|complex_apartment|', 
+		options: {
+			group: 'apartment',
+			html: {
+				attributes: 'data-on="apartment" data-off="un-apartment"'
+			}
+		},
+		order: 13
+	},
+	{ 
+		id: 11,
+		name: 'low_apartment',
+		code: '|low_apartment|apartment|complex_apartment|',
+		options: {
+			group: 'apartment',
+			html: {
+				attributes: 'data-on="apartment" data-off="un-apartment"'
+			}
+		},
+		order: 14
+	},
+	{ 
+		id: 14, 
+		name: 'social_home', 
+		code: '|social_home|', 
+		options: {
+			group: 'apartment'
+		},
+		order: 15
+	},
+	{
+		id: 12, 
+		name: 'villa', 
+		code: '|house|villa|', 
+		options: {
+			group: 'house',
+			html: {
+				attributes: 'data-on="villa" data-off="un-villa"'
+			}
+		},
+		order: 16
+	},
+	{ 
+		id: 13, 
+		name: 'town_house', 
+		code: '|house|town_house|', 
+		options: {
+			group: 'house',
+			html: {
+				attributes: 'data-on="town-house" data-off="un-town-house"'
+			}
+		},
+		order: 17
+	}
 ]
 
 RegionUtility.delete_all
@@ -134,14 +356,90 @@ RegionUtility.create [
 Unit.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE units_id_seq RESTART WITH 1')
 Unit.create [
-	{ name: 'area', code: 'per', options: '{"group":"sell","default":""}' },
-	{ name: 'square_meter', code: 'square_meter', options: '{"group":"sell"}' },
-	{ name: 'square_meter', code: 'square_meter', options: '{"group":"rent"}' },
-	{ name: 'month', code: 'month', options: '{"group":"rent","default":""}' },
-	{ name: 'year', code: 'year', options: '{"group":"rent"}' },
-	{ name: 'square_meter', code: 'square_meter', options: '{"group":"project"}' },
-	{ name: 'per', code: 'per', options: '{"group":"project"}' },
-	{ name: 'platform', code: 'per', options: '{"group":"project","default":""}' }
+	{
+		id: 1,
+		name: 'area',
+		code: 'per',
+		options: {
+			group: 'sell',
+			default: true
+		},
+		order: 1
+	},
+	{ 
+		id: 2,
+		name: 'square_meter',
+		code: 'square_meter',
+		options: {
+			group: 'sell'
+		},
+		order: 2
+	},
+	{ 
+		id: 3,
+		name: 'square_meter_per_month',
+		code: 'square_meter_per_month',
+		options: {
+			group: 'rent'
+		},
+		order: 3
+	},
+	{ 
+		id: 9,
+		name: 'square_meter_per_year',
+		code: 'square_meter_per_year',
+		options: {
+			group: 'rent'
+		},
+		order: 4
+	},
+	{
+		id: 4,
+		name: 'month',
+		code: 'month',
+		options: {
+			group: 'rent',
+			default: true
+		},
+		order: 5
+	},
+	{
+		id: 5,
+		name: 'year',
+		code: 'year',
+		options: {
+			group: 'rent'
+		},
+		order: 6
+	},
+	{
+		id: 6,
+		name: 'square_meter',
+		code: 'square_meter',
+		options: {
+			group: 'project'
+		},
+		order: 7
+	},
+	{
+		id: 7,
+		name: 'per',
+		code: 'per',
+		options: {
+			group: 'project'
+		},
+		order: 8
+	},
+	{
+		id: 8,
+		name: 'platform',
+		code: 'per',
+		options: {
+			group: 'project',
+			default: true
+		},
+		order: 9
+	}
 ]
 
 ProjectType.delete_all

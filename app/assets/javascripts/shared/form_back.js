@@ -264,9 +264,12 @@ function initForm($form, params) {
 			function toggleElement($element, on) {
 				if (!$element.is(':input')) {
 					if (on) {
-						$element.removeClass('off');
+						// Check unless in off parent
+						if ($element.parent().closest('.off', $form[0]).length == 0) {
+							$element.removeClass('off');
 
-						$element.find(':input:disabled').prop('disabled', false).trigger('enable');
+							$element.find(':input:disabled').prop('disabled', false).trigger('enable');
+						}
 					}
 					else {
 						$element.addClass('off');

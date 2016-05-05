@@ -78,7 +78,7 @@
 											<option data-off="un-block_land un-block_apartment un-block_complex_apartment un-block_adjacent_house un-block_office" value hidden>Chọn loại</option>
 											<% block_types.each do |t| %>
 												<% next if t.options.has_key? 'parent' %>
-												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id || t.name == selected_block_type_parent %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'block_type.text.' + t.name %></option>
+												<option value="<%= t.id %>" <%= 'selected' if @block.block_type_id == t.id || t.name == selected_block_type_parent %> <%= t.options['html']['attributes'].html_safe if defined?(t.options['html']['attributes']) %>><%= t 'block_type.text.' + t.name %></option>
 											<% end %>
 										</select>
 									</article>
@@ -107,7 +107,7 @@
 									<label class="control-label" for="block_type">
 										Loại block
 									</label>
-									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= general_block_type.options['html']['attributes'].html_safe if general_block_type.present? && general_block_type.options.has_key?('html') %> />
+									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= general_block_type.options['html']['attributes'].html_safe if defined?(general_block_type.options['html']['attributes']) %> />
 								</article>
 							<% end %>
 						<% elsif ['apartment', 'adjacent_house'].include? @project.project_type.name %>
@@ -140,7 +140,7 @@
 									<label class="control-label" for="block_type">
 										Loại block
 									</label>
-									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= general_block_type.options['html']['attributes'].html_safe if general_block_type.present? && general_block_type.options.has_key?('html') %> />
+									<input class="form-control input-toggle" readonly="true" value="<%= @block.display_block_type %>" <%= general_block_type.options['html']['attributes'].html_safe if defined?(general_block_type.options['html']['attributes']) %> />
 								</article>
 							<% end %>
 						<% end %>
@@ -208,7 +208,7 @@
 											<select data-constraint="required" class="form-control input-toggle" name="block[group][tab_name][real_estate_type_id]">
 												<option value hidden data-off="apartment office">Chọn loại</option>
 												<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
-													<option value="<%= t.id %>" <%= defined?(t.options_hash['html']['attributes']) ? t.options_hash['html']['attributes'] : '' %>><%= t 'real_estate_type.text.' + t.name %></option>
+													<option value="<%= t.id %>" <%= t.options['html']['attributes'].html_safe if defined?(t.options['html']['attributes']) %>><%= t.display_name %></option>
 												<% end %>
 											</select>
 										</article>
@@ -299,7 +299,7 @@
 												<select data-constraint="required" class="form-control input-toggle" name="block[group][tab_name][real_estate_type_id]">
 													<option value hidden data-off="apartment office">Chọn loại</option>
 													<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
-														<option value="<%= t.id %>" <%= 'selected' if group.real_estate_type_id == t.id %> <%= defined?(t.options_hash['html']['attributes']) ? t.options_hash['html']['attributes'] : '' %>><%= t 'real_estate_type.text.' + t.name %></option>
+														<option value="<%= t.id %>" <%= 'selected' if group.real_estate_type_id == t.id %> <%= t.options['html']['attributes'].html_safe if defined?(t.options['html']['attributes']) %>><%= t 'real_estate_type.text.' + t.name %></option>
 													<% end %>
 												</select>
 											</article>

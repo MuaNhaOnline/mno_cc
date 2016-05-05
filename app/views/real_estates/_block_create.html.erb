@@ -8,11 +8,11 @@
 	# Unit options
 	sell_unit_options = rent_unit_options = ''
 	Unit.get_options.each do |u|
-		case u.options_hash['group']
+		case u.options['group']
 		when 'sell'
-			sell_unit_options += "<option value='#{u.id}' #{'selected' if u.id == @re.sell_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.sell_unit_id.blank?)}>#{t 'unit.text.' + u.name}</option>"
+			sell_unit_options += "<option value='#{u.id}' #{'selected' if u.id == @re.sell_unit_id || (defined?(u.options['default']) && u.options['default'] && @re.sell_unit_id.blank?)}>#{t 'unit.text.' + u.name}</option>"
 		when 'rent'
-			rent_unit_options += "<option value='#{u.id}' #{'selected' if u.id == @re.rent_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @re.rent_unit_id.blank?)}>#{t 'unit.text.' + u.name}</option>"
+			rent_unit_options += "<option value='#{u.id}' #{'selected' if u.id == @re.rent_unit_id || (defined?(u.options['default']) && u.options['default'] && @re.rent_unit_id.blank?)}>#{t 'unit.text.' + u.name}</option>"
 		end
 	end
 
@@ -232,7 +232,7 @@
 								<option data-off="sell rent" value hidden>Chọn mục đích</option>
 								<% Purpose.get_options.each do |p| %>
 									<% next if p.code == 'transfer' %>
-									<option value="<%= p.id %>" <%= 'selected' if p.name == default_purpose_name %> <%= p.options_hash['html']['attributes'].html_safe if defined? p.options_hash['html']['attributes'] %>><%= t 'purpose.text.' + p.name %></option>
+									<option value="<%= p.id %>" <%= 'selected' if p.name == default_purpose_name %> <%= p.options['html']['attributes'].html_safe if defined?(p.options['html']['attributes']) %>><%= t 'purpose.text.' + p.name %></option>
 								<% end %>
 							</select>
 						</article>

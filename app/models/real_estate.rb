@@ -1061,13 +1061,13 @@ class RealEstate < ActiveRecord::Base
 				end
 
 				if re.real_estate_type.present?
-					case re.real_estate_type.options_hash['group']
+					case re.real_estate_type.options['group']
 						when 'land'
 							fields << :campus_area << :shape << :width_x << :width_y
 						when 'space', 'house'
 							fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
 								:constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
-							if re.real_estate_type.options_hash['group'] == 'house'
+							if re.real_estate_type.options['group'] == 'house'
 								fields << :floor_number
 								if re.real_estate_type.name == 'villa'
 									fields.delete :constructional_level

@@ -58,36 +58,68 @@ $(function () {
 		});
 
 		(function () {
-			var $form = $('.search-box-container form');
-			initForm($form);
+			var $forms = $('form[data-object="search-form"], .search-box-container form');
 
-			$form.find('[name="search[province]"]').on('change', function () {
-				var $district = $(this).closest('form').find('[name="search[district]"]');
+			$forms.each(function () {
+				var $form = $(this);
+				initForm($form);
 
-				if (this.value) {
-					$.ajax({
-						url: '/districts/get_by_province',
-						data: { province_id: this.value },
-						dataType: 'JSON'
-					}).done(function (data) {
-						if (data.status == 0) {
-							$district
-								.html('<option value="">Quận/huyện</option>' + data.result.map(function (district) {
-									return '<option value="' + district.id + '">' + district.name + '</option>'
-								}).join(''))
-								.prop('disabled', false);
-						}
-						else {
+				$form.find('[name="search[province]"]').on('change', function () {
+					var $district = $form.find('[name="search[district]"]');
+
+					if (this.value) {
+						$.ajax({
+							url: '/districts/get_by_province',
+							data: { province_id: this.value },
+							dataType: 'JSON'
+						}).done(function (data) {
+							if (data.status == 0) {
+								$district
+									.html('<option value="">Quận/huyện</option>' + data.result.map(function (district) {
+										return '<option value="' + district.id + '">' + district.name + '</option>'
+									}).join(''))
+									.prop('disabled', false);
+							}
+							else {
+								$district.prop('disabled', true);
+							}
+						}).fail(function () {
 							$district.prop('disabled', true);
-						}
-					}).fail(function () {
+						});
+					}
+					else {
 						$district.prop('disabled', true);
-					});
-				}
-				else {
-					$district.prop('disabled', true);
-				}
-			});
+					}
+				});
+
+				$form.find('[name="search[price_to]"], [name="search[price_from]"], [name="search[area_from]"], [name="search[area_to]"]').on('change', function () {
+					var
+						$input = $(this),
+						$besideInput;
+
+					switch($input.attr('name')) {
+						case 'search[price_to]':
+							$besideInput = $form.find('[name="search[price_from]"]:enabled');
+							break;
+						case 'search[price_from]':
+							$besideInput = $form.find('[name="search[price_to]"]:enabled');
+							break;
+						case 'search[area_from]':
+							$besideInput = $form.find('[name="search[area_to]"]:enabled');
+							break;
+						case 'search[area_to]':
+							$besideInput = $form.find('[name="search[area_from]"]:enabled');
+							break;
+						default:
+							return;
+					}
+
+					$besideInput.find('option:disabled').prop('disabled', false);
+					if ($input.val()) {
+						$besideInput.find('option[value="' + $input.val() + '"]').prop('disabled', true);
+					}
+				});
+			})
 		})();
 	
 	// / Search box

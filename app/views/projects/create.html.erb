@@ -29,8 +29,8 @@
 	price_unit_html = ''
 	current_price_unit = nil
 	Unit.get_options.each do |u|
-		if u.options_hash['group'] == 'project'
-			if u.id == @project.price_unit_id || (!u.options_hash.nil? && u.options_hash.has_key?('default') && @project.price_unit_id.blank?)
+		if u.options['group'] == 'project'
+			if u.id == @project.price_unit_id || (defined?(u.options['default']) && u.options['default'] && @project.price_unit_id.blank?)
 				current_price_unit = u
 			end
 
@@ -306,7 +306,7 @@
 												<option hidden value data-off="un-apartment un-complex_apartment un-adjacent_house un-office un-land un-complex">Chọn loại</option>
 												<% project_types.each do |t| %>
 													<% next if t.options.has_key? 'parent' %>
-													<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id || t.name == selected_project_type_parent %> <%= t.options.has_key?('html') ? t.options['html']['attributes'].html_safe : '' %>><%= t 'project_type.text.' + t.name %></option>
+													<option value="<%= t.id %>" <%= 'selected' if @project.project_type_id == t.id || t.name == selected_project_type_parent %> <%= t.options['html']['attributes'].html_safe if defined?(t.options['html']['attributes']) %>><%= t 'project_type.text.' + t.name %></option>
 												<% end %>
 											</select>
 										</article>
@@ -789,7 +789,7 @@
 									<label class="control-label" for="currency_id"><%= t 'project.attribute.currency' %></label>
 									<select name="project[currency_id]" class="form-control" id="currency_id">
 										<% Currency.get_options.each do |c| %>
-											<option value="<%= c.id %>" <%= 'selected' if c.id == @project.currency_id || (!c.options_hash.nil? && c.options_hash.has_key?('default') && @project.currency_id.blank?) %> <%= c.options_hash['html']['attributes'] %>><%= c.name %></option>
+											<option value="<%= c.id %>" <%= 'selected' if c.id == @project.currency_id || (defined?(c.options['default']) && c.options['default'] && @project.currency_id.blank?) %> <%= c.options['html']['attributes'] if defined?(c.options['html']['attributes']) %>><%= c.name %></option>
 										<% end %>
 									</select>
 								</article>
