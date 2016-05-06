@@ -92,22 +92,56 @@ $(function () {
 					}
 				});
 
+				// $form.find('[name="search[price_to]"], [name="search[price_from]"], [name="search[area_from]"], [name="search[area_to]"]').on('change', function () {
+				// 	var
+				// 		$input = $(this),
+				// 		$besideInput;
+
+				// 	switch($input.attr('name')) {
+				// 		case 'search[price_to]':
+				// 			$besideInput = $form.find('[name="search[price_from]"]:enabled');
+				// 			break;
+				// 		case 'search[price_from]':
+				// 			$besideInput = $form.find('[name="search[price_to]"]:enabled');
+				// 			break;
+				// 		case 'search[area_from]':
+				// 			$besideInput = $form.find('[name="search[area_to]"]:enabled');
+				// 			break;
+				// 		case 'search[area_to]':
+				// 			$besideInput = $form.find('[name="search[area_from]"]:enabled');
+				// 			break;
+				// 		default:
+				// 			return;
+				// 	}
+
+				// 	$besideInput.find('option:disabled').prop('disabled', false);
+				// 	if ($input.val()) {
+				// 		$besideInput.find('option[value="' + $input.val() + '"]').prop('disabled', true);
+				// 	}
+				// });
+
 				$form.find('[name="search[price_to]"], [name="search[price_from]"], [name="search[area_from]"], [name="search[area_to]"]').on('change', function () {
 					var
 						$input = $(this),
-						$besideInput;
+						$besideInput,
+						// If from => disable up else => disable down
+						isFrom;
 
 					switch($input.attr('name')) {
 						case 'search[price_to]':
+							isFrom = false;
 							$besideInput = $form.find('[name="search[price_from]"]:enabled');
 							break;
 						case 'search[price_from]':
+							isFrom = true;
 							$besideInput = $form.find('[name="search[price_to]"]:enabled');
 							break;
 						case 'search[area_from]':
+							isFrom = false;
 							$besideInput = $form.find('[name="search[area_to]"]:enabled');
 							break;
 						case 'search[area_to]':
+							isFrom = true;
 							$besideInput = $form.find('[name="search[area_from]"]:enabled');
 							break;
 						default:
@@ -116,7 +150,10 @@ $(function () {
 
 					$besideInput.find('option:disabled').prop('disabled', false);
 					if ($input.val()) {
-						$besideInput.find('option[value="' + $input.val() + '"]').prop('disabled', true);
+						var $selectedOption = $besideInput.find('option[value="' + $input.val() + '"]');
+						
+						$selectedOption.prop('disabled', true);
+						(isFrom ? $selectedOption.prevUntil('[value=""]') : $selectedOption.nextUntil('[value=""]')).prop('disabled', true);
 					}
 				});
 			})

@@ -155,120 +155,6 @@ Purpose.create [
 RealEstateType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
 RealEstateType.create [
-	{
-		id: 1,
-		name: 'residential_land',
-		code: '|land|residential_land|',
-		options: {
-			group: 'land'			
-		},
-		order: 1
-	},
-	{
-		id: 2, 
-		name: 'vacant_land', 
-		code: '|land|vacant_land|', 
-		options: {
-			group: 'land'			
-		},
-		order: 2
-	},
-	{ 
-		id: 3, 
-		name: 'other_land', 
-		code: '|land|', 
-		options: {
-			group: 'land'
-		},
-		order: 3
-	},
-	{ 
-		id: 15, 
-		name: 'forest_land', 
-		code: '|land|forest_land|', 
-		options: {
-			group: 'land'
-		},
-		order: 4
-	},
-	{ 
-		id: 16, 
-		name: 'productive_land', 
-		code: '|land|productive_land|', 
-		options: {
-			group: 'land'
-		},
-		order: 5
-	},
-	{ 
-		id: 17, 
-		name: 'project_land', 
-		code: '|land|project_land|', 
-		options: {
-			group: 'land'
-		},
-		order: 6
-	},
-	{ 
-		id: 4, 
-		name: 'office', 
-		code: '|space|complex_apartment|office|', 
-		options: {
-			group: 'space',
-			html: {
-				attributes: 'data-on="office" data-off="un-office"'
-			}
-		},
-		order: 7
-	},
-	{ 
-		id: 5, 
-		name: 'motel', 
-		code: '|space|motel|', 
-		options: {
-			group: 'space',
-			html: {
-				attributes: 'data-off="office"'
-			}
-		},
-		order: 8
-	},
-	{ 
-		id: 6, 
-		name: 'store', 
-		code: '|space|store|', 
-		options: {
-			group: 'space',
-			html: {
-				attributes: 'data-off="office"'
-			}
-		},
-		order: 9
-	},
-	{ 
-		id: 7, 
-		name: 'restaurant_hotel', 
-		code: '|space|restaurant_hotel|', 
-		options: {
-			group: 'space',
-			html: {
-				attributes: 'data-off="office"'
-			}
-		},
-		order: 10
-	},
-	{ 
-		id: 8, 
-		name: 'storage_workshop', 
-		code: '|space|storage_workshop|', 
-		options: {
-			group: 'space',
-			html: {
-				attributes: 'data-off="office"'
-			}
-		},
-		order: 11
-	},
 	{ 
 		id: 9, 
 		name: 'high_apartment', 
@@ -279,7 +165,7 @@ RealEstateType.create [
 				attributes: 'data-on="apartment" data-off="un-apartment"'
 			}
 		},
-		order: 12
+		order: 1
 	},
 	{ 
 		id: 10, 
@@ -291,7 +177,7 @@ RealEstateType.create [
 				attributes: 'data-on="apartment" data-off="un-apartment"'
 			}
 		},
-		order: 13
+		order: 2
 	},
 	{ 
 		id: 11,
@@ -303,7 +189,7 @@ RealEstateType.create [
 				attributes: 'data-on="apartment" data-off="un-apartment"'
 			}
 		},
-		order: 14
+		order: 3
 	},
 	{ 
 		id: 14, 
@@ -312,7 +198,73 @@ RealEstateType.create [
 		options: {
 			group: 'apartment'
 		},
-		order: 15
+		order: 4
+	},
+	{
+		id: 1,
+		name: 'residential_land',
+		code: '|land|residential_land|',
+		options: {
+			group: 'land'			
+		},
+		order: 5
+	},
+	{
+		id: 2, 
+		name: 'vacant_land', 
+		code: '|land|vacant_land|', 
+		options: {
+			group: 'land'			
+		},
+		order: 6
+	},
+	{ 
+		id: 3, 
+		name: 'other_land', 
+		code: '|land|', 
+		options: {
+			group: 'land'
+		},
+		order: 7
+	},
+	{ 
+		id: 15, 
+		name: 'forest_land', 
+		code: '|land|forest_land|', 
+		options: {
+			group: 'land'
+		},
+		order: 8
+	},
+	{ 
+		id: 16, 
+		name: 'productive_land', 
+		code: '|land|productive_land|', 
+		options: {
+			group: 'land'
+		},
+		order: 9
+	},
+	{ 
+		id: 17, 
+		name: 'project_land', 
+		code: '|land|project_land|', 
+		options: {
+			group: 'land'
+		},
+		order: 10
+	},
+	{ 
+		id: 13, 
+		name: 'town_house', 
+		code: '|house|town_house|', 
+		options: {
+			group: 'house',
+			html: {
+				attributes: 'data-on="town-house" data-off="un-town-house"'
+			}
+		},
+		order: 11
 	},
 	{
 		id: 12, 
@@ -324,16 +276,64 @@ RealEstateType.create [
 				attributes: 'data-on="villa" data-off="un-villa"'
 			}
 		},
+		order: 12
+	},
+	{ 
+		id: 4, 
+		name: 'office', 
+		code: '|space|complex_apartment|office|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-on="office" data-off="un-office"'
+			}
+		},
+		order: 13
+	},
+	{ 
+		id: 5, 
+		name: 'motel', 
+		code: '|space|motel|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
+		order: 14
+	},
+	{ 
+		id: 6, 
+		name: 'store', 
+		code: '|space|store|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
+		order: 15
+	},
+	{ 
+		id: 7, 
+		name: 'restaurant_hotel', 
+		code: '|space|restaurant_hotel|', 
+		options: {
+			group: 'space',
+			html: {
+				attributes: 'data-off="office"'
+			}
+		},
 		order: 16
 	},
 	{ 
-		id: 13, 
-		name: 'town_house', 
-		code: '|house|town_house|', 
+		id: 8, 
+		name: 'storage_workshop', 
+		code: '|space|storage_workshop|', 
 		options: {
-			group: 'house',
+			group: 'space',
 			html: {
-				attributes: 'data-on="town-house" data-off="un-town-house"'
+				attributes: 'data-off="office"'
 			}
 		},
 		order: 17
