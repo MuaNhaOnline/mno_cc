@@ -271,7 +271,7 @@ class Project < ActiveRecord::Base
 			assign_attributes params.permit [
 				:project_name, :slogan, :description, :unit_price, :unit_price_text, :currency_id, :payment_method, 
 				:price_unit_id, :position_description,
-				:lat, :long, :address_number, :province_id, :district_id, :ward_id, :street_id, 
+				:lat, :lng, :address_number, :province_id, :district_id, :ward_id, :street_id, 
 				:project_type_id, :campus_area, :constructional_area, :is_draft,
 				:using_ratio, :estimate_starting_date, :estimate_finishing_date,
 				:starting_date, :finished_base_date, :transfer_date, :docs_issue_date,

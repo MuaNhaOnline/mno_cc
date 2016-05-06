@@ -98,12 +98,12 @@ $(function () {
 	function initLocation() {
 		var 
 			$lat = $form.find('#lat'),
-			$long = $form.find('#long')
+			$lng = $form.find('#lng')
 			options = {
 				radius: 100,
 				inputBinding: {
 					latitudeInput: $lat,
-					longitudeInput: $long,
+					longitudeInput: $lng,
 					locationNameInput: $form.find('#location'),
 					streetInput: $form.find('#street'),
 					wardInput: $form.find('#ward'),
@@ -113,8 +113,8 @@ $(function () {
 				enableAutocomplete: true
 			};
 
-		if ($lat.val() && $long.val()) {
-			options.location = { latitude: $lat.val(), longitude: $long.val() }
+		if ($lat.val() && $lng.val()) {
+			options.location = { latitude: $lat.val(), longitude: $lng.val() }
 		}
 
 		$form.find('#map').css({

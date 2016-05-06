@@ -22,10 +22,11 @@ $(function () {
 	// Search
 
 		// Map
-		
 			
 	
 			(function () {
+				var objects = {};
+
 				$('.search-type.map-search').on('click', function () {
 					var 
 						$map = $('#search_map');
@@ -35,32 +36,50 @@ $(function () {
 						var map = _initMap('search_map', {
 						});	
 
+						var to = null;
 						map.addListener('bounds_changed', function() {
-							var
-								bs = map.getBounds(),
-								bounds = {
-									from: {
-										lat: bs.H.H,
-										long: bs.j.H,
+							clearTimeout(to);
+							to = setTimeout(function () {
+								var
+									bs = map.getBounds(),
+									bounds = {
+										from: {
+											lat: bs.H.H,
+											lng: bs.j.H,
+										},
+										to: {
+											lat: bs.H.j,
+											lng: bs.j.j,
+										}
+									};
+
+								$.ajax({
+									url: '/home/search_by_bounds',
+									data: {
+										bounds: bounds
 									},
-									to: {
-										lat: bs.H.j,
-										long: bs.j.j,
+									dataType: 'JSON'
+								}).done(function (data) {
+									if (data.status == 0) {
+										var result = data.result;
+
+										$.each(result, function (id, value) {
+											if (!(id in objects)) {
+												objects[id] = value;
+
+												var marker = new google.maps.Marker({
+												    position: { lat: value.lat, lng: value.lng },
+												    map: map,
+												    title: value.title
+											  	});
+											  	marker.addListener('click', function () {
+											  		window.location = value.url;
+											  	});												
+											}
+										});
 									}
-								};
-
-							$.ajax({
-								url: '/home/search_by_bounds',
-								data: {
-									bounds: bounds
-								},
-								dataType: 'JSON'
-							}).done(function (data) {
-								if (data.status == 0) {
-									console.log(data.result);
-								}
-							});
-
+								});
+							}, 100);
 						});
 					}
 				});

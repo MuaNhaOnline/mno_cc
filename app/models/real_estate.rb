@@ -345,7 +345,7 @@ class RealEstate < ActiveRecord::Base
 					:address_number, :street_type, :is_alley, :real_estate_type_id, :building_name,
 					:legal_record_type_id, :planning_status_type_id, :custom_advantages, :custom_disadvantages,
 					:alley_width, :shape_width, :custom_legal_record_type, :custom_planning_status_type, :is_draft,
-					:lat, :long, :user_type, :user_id, :appraisal_purpose, :appraisal_type, :campus_area, :using_area, :constructional_area, :garden_area,
+					:lat, :lng, :user_type, :user_id, :appraisal_purpose, :appraisal_type, :campus_area, :using_area, :constructional_area, :garden_area,
 					:shape, :shape_width, :bedroom_number, :build_year, :constructional_level_id, :restroom_number,
 					:width_x, :width_y, :floor_number, :constructional_quality, :direction_id, :block_id,
 					advantage_ids: [], disadvantage_ids: [], property_utility_ids: [], region_utility_ids: []
@@ -781,8 +781,19 @@ class RealEstate < ActiveRecord::Base
 
 			# Bounds
 			if params.has_key?(:bounds)
+				if params[:bounds][:from][:lat] > params[:bounds][:to][:lat]
+					temp = params[:bounds][:from][:lat]
+					params[:bounds][:from][:lat] = params[:bounds][:to][:lat]
+					params[:bounds][:to][:lat] = temp
+				end
+				if params[:bounds][:from][:lng] > params[:bounds][:to][:lng]
+					temp = params[:bounds][:from][:lng]
+					params[:bounds][:from][:lng] = params[:bounds][:to][:lng]
+					params[:bounds][:to][:lng] = temp
+				end
+
 				where += " AND lat BETWEEN #{params[:bounds][:from][:lat]} AND #{params[:bounds][:to][:lat]}"
-				where += " AND long BETWEEN #{params[:bounds][:from][:long]} AND #{params[:bounds][:to][:long]}"
+				where += " AND lng BETWEEN #{params[:bounds][:from][:lng]} AND #{params[:bounds][:to][:lng]}"
 			end
 
 			# where += " AND is_full = #{params[:is_full] || 'true'}"
@@ -1048,7 +1059,7 @@ class RealEstate < ActiveRecord::Base
 		def self.get_fields re
 			fields = [
 				:purpose, :currency, :is_negotiable,
-				:address_number, :province, :district, :ward, :street, :lat, :long,
+				:address_number, :province, :district, :ward, :street, :lat, :lng,
 				:title, :description]
 
 			if re.purpose.present?
@@ -1140,7 +1151,7 @@ class RealEstate < ActiveRecord::Base
 		serialize :params, JSON
 		serialize :floor_infos_text, JSON
 
-		reverse_geocoded_by :lat, :long
+		# reverse_geocoded_by :lat, :lng
 
 		# Fields
 		def fields

@@ -25,9 +25,14 @@ class HomeController < ApplicationController
 
 			@res = RealEstate.search_with_params bounds: bounds
 
+			result = {}
+			@res.each do |re|
+				result[re.id] = { lat: re.lat, lng: re.lng, title: re.title, url: "/bat-dong-san/#{re.full_slug}" }
+			end
+
 			render json: {
 				status: 0,
-				result: @res.map{ |re| { id: re.id, lat: re.lat, long: re.long } }
+				result: result
 			}
 		end
 
