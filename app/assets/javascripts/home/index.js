@@ -70,7 +70,8 @@ $(function () {
 												var marker = new google.maps.Marker({
 												    position: { lat: value.lat, lng: value.lng },
 												    map: map,
-												    title: value.title
+												    title: value.title,
+												    animation: google.maps.Animation.DROP
 											  	});
 											  	marker.addListener('click', function () {
 											  		window.location = value.url;
@@ -79,9 +80,10 @@ $(function () {
 										});
 									}
 								});
-							}, 100);
+							}, 50);
 						});
 					}
+					_scrollTo($map.offset().top);
 				});
 			})();
 		

@@ -293,7 +293,6 @@ $(function () {
 		})
 	}
 	function _scrollLeftTo(to, params) {
-		console.log(to);
 		if (typeof params == 'undefined') {
 			params = {};
 		}
