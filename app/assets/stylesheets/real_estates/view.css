@@ -333,6 +333,12 @@ main {
 		position: relative;
 	}
 
+	@media (max-width: 992px) {
+		.contact-container {
+			position: static !important;
+		}
+	}
+
 		.contact-container .box {
 			margin: 0 !important;
 			background-color: #4a525d;
