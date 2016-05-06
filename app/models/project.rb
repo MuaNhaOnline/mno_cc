@@ -697,6 +697,8 @@ class Project < ActiveRecord::Base
 
 	# Attributes
 
+		serialize :params, JSON
+
 		# Logo
 		has_attached_file :logo,
 			default_url: "/assets/projects/:style/default.png", 

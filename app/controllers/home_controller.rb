@@ -6,26 +6,6 @@ class HomeController < ApplicationController
 
 	# Search result
 
-		# Handle => View
-		# params: search form
-		# def search
-		# 	@res = @res_short = @projects = nil
-		# 	@search_params = {}
-		# 	if params[:search].present?
-
-		# 		@res = RealEstate.search_with_params params[:search].clone
-
-		# 		params[:search][:is_full] = 'false'
-		# 		@res_short = RealEstate.search_with_params params[:search].clone
-
-		# 		@projects = Project.search_with_params params[:search].clone
-				
-		# 		@search_params = params[:search]
-		# 	end
-
-		# 	params.delete :search 
-		# end
-
 		def search
 			params[:search] ||= {}
 			
@@ -36,43 +16,20 @@ class HomeController < ApplicationController
 			@res = RealEstate.search_with_params(params[:search].clone)
 
 			# @projects = Project.search_with_params(params[:search].clone)
-
 		end
 
-		# def _search_list
-		# 	params[:page] = params[:page].to_i
-		# 	params[:per] = params[:per].to_i
+		# Get
+		# params: bounds
+		def search_by_bounds
+			bounds = params[:bounds]
 
-		# 	if params[:part] == 'project'
-		# 		projects = Project.search_with_params params
+			@res = RealEstate.search_with_params bounds: bounds
 
-		# 		count = projects.count
-
-		# 		return render json: { status: 1 } if count == 0
-
-		# 		render json: {
-		# 			status: 0,
-		# 			result: {
-		# 				list: render_to_string(partial: 'projects/item_list', locals: { projects: projects.page(params[:page], params[:per]), type: params[:type].to_s }),
-		# 				pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: count, per: params[:per], page: params[:page] })
-		# 			}
-		# 		}
-		# 	else
-		# 		res = RealEstate.search_with_params params
-
-		# 		count = res.count
-
-		# 		return render json: { status: 1 } if count == 0
-
-		# 		render json: {
-		# 			status: 0,
-		# 			result: {
-		# 				list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: (params[:is_full] == 'true' ? 1 : 4) }),
-		# 				pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: count, per: params[:per], page: params[:page] })
-		# 			}
-		# 		}
-		# 	end
-		# end
+			render json: {
+				status: 0,
+				result: @res.map{ |re| { id: re.id, lat: re.lat, long: re.long } }
+			}
+		end
 
 	# / Search result
 

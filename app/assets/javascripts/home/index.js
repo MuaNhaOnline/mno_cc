@@ -20,6 +20,53 @@ $(function () {
 	// / Contact
 
 	// Search
+
+		// Map
+		
+			
+	
+			(function () {
+				$('.search-type.map-search').on('click', function () {
+					var 
+						$map = $('#search_map');
+
+					if ($map.hasClass('hidden')) {
+						$map.removeClass('hidden');
+						var map = _initMap('search_map', {
+						});	
+
+						map.addListener('bounds_changed', function() {
+							var
+								bs = map.getBounds(),
+								bounds = {
+									from: {
+										lat: bs.H.H,
+										long: bs.j.H,
+									},
+									to: {
+										lat: bs.H.j,
+										long: bs.j.j,
+									}
+								};
+
+							$.ajax({
+								url: '/home/search_by_bounds',
+								data: {
+									bounds: bounds
+								},
+								dataType: 'JSON'
+							}).done(function (data) {
+								if (data.status == 0) {
+									console.log(data.result);
+								}
+							});
+
+						});
+					}
+				});
+			})();
+		
+		// / Map
 		
 	// / Search
 

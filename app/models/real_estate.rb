@@ -661,6 +661,7 @@ class RealEstate < ActiveRecord::Base
 		#   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area, constructional_level
 		#   is_favorite
 		#   newest, cheapest
+		# 	bounds
 		def self.search_with_params params = {}
 			where = 'is_pending = false AND is_show = true AND is_force_hide = false AND block_real_estate_group_id IS NULL'
 			joins = []
@@ -776,6 +777,12 @@ class RealEstate < ActiveRecord::Base
 				else
 					order[:sell_price] = 'asc'
 				end
+			end
+
+			# Bounds
+			if params.has_key?(:bounds)
+				where += " AND lat BETWEEN #{params[:bounds][:from][:lat]} AND #{params[:bounds][:to][:lat]}"
+				where += " AND long BETWEEN #{params[:bounds][:from][:long]} AND #{params[:bounds][:to][:long]}"
 			end
 
 			# where += " AND is_full = #{params[:is_full] || 'true'}"

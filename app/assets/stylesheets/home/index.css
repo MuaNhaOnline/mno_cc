@@ -245,6 +245,14 @@ body {
 
 /* / Search */
 
+/* Map search */
+
+	.map-search-ctn {
+		height: 60vh;
+	}
+
+/* / Map search */
+
 /* Contact */
 
 	.contact-ctn {

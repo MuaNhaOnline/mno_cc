@@ -184,15 +184,15 @@ $(function () {
 					lat: ...
 					long: ...
 	*/
-	function _initMap(id, params) {
+	function _initMap(id, params, options) {
 		if (typeof params === 'undefined') {
 			params = {}
 		}
+		if (typeof options === 'undefined') {
+			options = {}
+		}
 
-		var options = {
-			scrollwheel: false
-		};
-
+		options.scrollwheel = false;
 		options.zoom = params.zoom || 17
 
 		if ('center' in params ) {
