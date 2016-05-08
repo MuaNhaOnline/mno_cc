@@ -88,8 +88,7 @@ LegalRecordType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE legal_record_types_id_seq RESTART WITH 1')
 LegalRecordType.create [
 	{ name: 'red' },
-	{ name: 'pink' },
-	{ name: 'other' }
+	{ name: 'pink' }
 ]
 
 PlanningStatusType.delete_all

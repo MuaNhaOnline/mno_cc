@@ -844,8 +844,9 @@
 									<select data-constraint="required" name="real_estate[legal_record_type_id]" class="form-control input-toggle" id="legal_record_type_id">
 										<option value hidden data-off="custom-legal-record-type">Chọn loại</option>
 										<% LegalRecordType.get_options.each do |t| %>
-											<option <%= 'selected' if t.id == @re.legal_record_type_id || (t.code == 'Custom' && @re.legal_record_type_id == 0) || (defined?(t.options['default']) && t.options['default'] && @re.legal_record_type_id.blank?) %> value="<%= t.code != 'Custom' ? t.id : 0 %>" <%= t.options['html']['attributes'] if defined?(t.options['html']['attributes']) %>><%= t 'legal_record_type.text.' + t.name %></option>
+											<option <%= 'selected' if t.id == @re.legal_record_type_id %> value="<%= t.id %>"><%= t.display_name %></option>
 										<% end %>
+										<option value="0" data-on="custom-legal-record-type">Khác</option>
 									</select>
 								</article>
 
@@ -871,8 +872,9 @@
 									<select data-constraint="required" name="real_estate[planning_status_type_id]" class="form-control input-toggle" id="planning_status_type_id">
 										<option value hidden data-off="custom-planning-status-type">Chọn loại</option>
 										<% PlanningStatusType.get_options.each do |t| %>
-											<option <%= 'selected' if t.id == @re.planning_status_type_id || (t.code == 'Custom' && @re.planning_status_type_id == 0) || (defined?(t.options['default']) && t.options['default'] && @re.planning_status_type_id.blank?) %> value="<%= t.code != 'Custom' ? t.id : 0 %>" <%= t.options['html']['attributes'] if defined?(t.options['html']['attributes']) %>><%= t 'planning_status_type.text.' + t.name %></option>
+											<option <%= 'selected' if t.id == @re.planning_status_type_id %> value="<%= t.id %>"><%= t.display_name %></option>
 										<% end %>
+										<option value="0" data-on="custom-planning-status-type">Khác</option>
 									</select>
 								</article>
 
