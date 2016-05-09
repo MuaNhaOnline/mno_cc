@@ -8,8 +8,8 @@ $(function () {
 	$document = $(document);
 
 	_temp['pagination_count'] = 0;
-	initSize();
 	_startPagination();
+	_initSizeProcess();
 	initReadTime();
 
 	// setInterval(function () {
@@ -35,7 +35,10 @@ $(function () {
 	});
 
 	$('.lazyload').lazyload({
-		effect : 'fadeIn'
+		effect: 'fadeIn',
+		appear: function () {
+			$(this).removeClass('lazyload');
+		}
 	});
 
 	$('.processing-function').on('click', function (e) {
@@ -313,42 +316,61 @@ $(function () {
 // / Helper
 
 // Size
+	
+	function _initSizeProcess() {
+		// Get size
+		function _getSize() {
+			var width = $(window).width(), widthType, oldWidthType = $body.data('width');
 
-	function initSize() {
-		_temp['resizing'] = null;
-		$window.on('resize', function () {
-			clearTimeout(_temp['resizing']);
-			_temp['resizing'] = setTimeout(function () {
-				var width = $(window).width(), widthType, oldWidthType = $body.data('width');
+			if (width >= 1200) {
+				widthType = 'lg';
+			}
+			else if (width >= 992) {
+				widthType = 'md';
+			}
+			else if (width >= 768) {
+				widthType = 'sm';
+			}
+			else {
+				widthType = 'xs';
+			}
 
-				if (width >= 1200) {
-					widthType = 'lg';
-				}
-				else if (width >= 992) {
-					widthType = 'md';
-				}
-				else if (width >= 768) {
-					widthType = 'sm';
+			if (widthType == oldWidthType) {
+				return;
+			}
+
+			$body.data('width', widthType);
+		}
+
+		// Size load
+		function _sizeLoad() {
+			$('.sizeload').each(function () {
+				var $object = $(this);
+				var url = $object.data('sizeload')[$body.data('width')];
+				if ($object.hasClass('lazyload')) {
+					$object.attr('data-original', url);
 				}
 				else {
-					widthType = 'xs';
+					$("<img />").on("load", function() {
+						if ($object.is('img')) {
+							$object.attr('src', url);
+						}
+						else {
+							$object.css('backgroundImage', 'url("' + url + '")');
+						}
+					}).attr("src", url);
 				}
-
-				if (widthType == oldWidthType) {
-					return;
-				}
-
-				$body.data('width', widthType);
-				$.ajax({
-					url: '/set_width/' + widthType,
-					method: 'POST'
-				});
-			}, 500);
-		});
-
+			});
+		}
 		$window.isWidthType = function (arrayType) {
 			return arrayType.indexOf($body.data('width')) != -1;
 		}
+		_getSize();
+		_sizeLoad();
+		$window.on('resize', function () {
+			_getSize();
+			_sizeLoad();
+		});
 	}
 
 // / Size
