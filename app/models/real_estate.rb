@@ -1111,7 +1111,7 @@ class RealEstate < ActiveRecord::Base
 		# Get meta search
 
 		def assign_meta_search
-			assign_attributes meta_search_1: "#{display_id}"
+			assign_attributes meta_search_1: "#{display_id} #{title} #{description}"
 			
 			# tempLocale = I18n.locale
 			# I18n.locale = 'vi'
