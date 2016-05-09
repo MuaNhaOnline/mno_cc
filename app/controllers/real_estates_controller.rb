@@ -135,12 +135,12 @@ class RealEstatesController < ApplicationController
 			session[:res_viewed] ||= []
 			unless session[:res_viewed].include? @re.id
 				session[:res_viewed] << @re.id
+				@project.update(view_count: @project.view_count + 1)
 
 				log = RealEstateLog.new(
 					real_estate_id: @re.id,
 					action: 'view'	
 				)
-
 				if signed?
 					log.user_type = 'user'
 					log.user_id = current_user.id
