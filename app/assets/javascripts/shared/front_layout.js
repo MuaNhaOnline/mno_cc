@@ -128,20 +128,20 @@ $(function () {
 						isFrom;
 
 					switch($input.attr('name')) {
-						case 'search[price_to]':
-							isFrom = false;
-							$besideInput = $form.find('[name="search[price_from]"]:enabled');
-							break;
 						case 'search[price_from]':
 							isFrom = true;
 							$besideInput = $form.find('[name="search[price_to]"]:enabled');
 							break;
-						case 'search[area_from]':
+						case 'search[price_to]':
 							isFrom = false;
+							$besideInput = $form.find('[name="search[price_from]"]:enabled');
+							break;
+						case 'search[area_from]':
+							isFrom = true;
 							$besideInput = $form.find('[name="search[area_to]"]:enabled');
 							break;
 						case 'search[area_to]':
-							isFrom = true;
+							isFrom = false;
 							$besideInput = $form.find('[name="search[area_from]"]:enabled');
 							break;
 						default:
