@@ -224,6 +224,17 @@ $(function () {
 			}
 		}).attr('tabindex', '0').css('outline', '0');
 
+		if (!('center' in params) && !('markers' in params && params.markers.length > 0)) {
+			var geoSuccess = function(position) {
+				startPos = position;
+				map.setCenter({
+					lat: startPos.coords.latitude,
+					lng: startPos.coords.longitude
+				})
+			};
+			navigator.geolocation.getCurrentPosition(geoSuccess);
+		}
+
 		return map;
 	}
 

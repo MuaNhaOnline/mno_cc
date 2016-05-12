@@ -33,8 +33,44 @@ $(function () {
 
 					if ($map.hasClass('hidden')) {
 						$map.removeClass('hidden');
-						var map = _initMap('search_map', {
-						});	
+						var map = _initMap('search_map', {}, {
+						    mapTypeControl: true,
+						    mapTypeControlOptions: {
+						        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+						        position: google.maps.ControlPosition.BOTTOM_CENTER
+						    },
+						});
+
+						setTimeout(function() {
+							var $input = $('#search_map_input').removeClass('hidden');
+							map.controls[google.maps.ControlPosition.TOP_LEFT].push($input[0]);
+							var autocomplete = new google.maps.places.Autocomplete($input[0]);
+							autocomplete.bindTo('bounds', map);
+
+							autocomplete.addListener('place_changed', function() {
+								var place = autocomplete.getPlace();
+								if (!place.geometry) {
+									return;
+								}
+
+								// If the place has a geometry, then present it on a map.
+								if (place.geometry.viewport) {
+									map.fitBounds(place.geometry.viewport);
+								} else {
+									map.setCenter(place.geometry.location);
+									map.setZoom(17);
+								}
+
+								var address = '';
+								if (place.address_components) {
+									address = [
+										(place.address_components[0] && place.address_components[0].short_name || ''),
+										(place.address_components[1] && place.address_components[1].short_name || ''),
+										(place.address_components[2] && place.address_components[2].short_name || '')
+									].join(' ');
+								}
+							});
+						}, 1000);
 
 						var to = null;
 						map.addListener('bounds_changed', function() {
@@ -68,14 +104,14 @@ $(function () {
 												objects[id] = value;
 
 												var marker = new google.maps.Marker({
-												    position: { lat: value.lat, lng: value.lng },
-												    map: map,
-												    title: value.title,
-												    animation: google.maps.Animation.DROP
-											  	});
-											  	marker.addListener('click', function () {
-											  		window.location = value.url;
-											  	});												
+														position: { lat: value.lat, lng: value.lng },
+														map: map,
+														title: value.title,
+														animation: google.maps.Animation.DROP
+													});
+													marker.addListener('click', function () {
+														window.location = value.url;
+													});												
 											}
 										});
 									}
@@ -84,6 +120,7 @@ $(function () {
 						});
 					}
 					_scrollTo($map.offset().top);
+					$map.click();
 				});
 			})();
 		

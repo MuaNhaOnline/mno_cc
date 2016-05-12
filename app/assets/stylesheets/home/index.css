@@ -202,6 +202,7 @@ body {
 			font-weight: normal;
 			margin-bottom: 10px;
 			text-decoration: none;
+			cursor: pointer;
 		}
 
 			.search-ctn .search-type .icon {
@@ -211,6 +212,10 @@ body {
 				display: inline-block;
 				vertical-align: middle;
 			}
+
+				.search-ctn .search-type:hover .icon {
+					color: #00D976;
+				}
 
 		.search-ctn .form-ctn {
 			padding: 0 20px;
@@ -248,7 +253,7 @@ body {
 /* Map search */
 
 	.map-search-ctn {
-		height: 60vh;
+		height: 95vh;
 	}
 
 /* / Map search */
