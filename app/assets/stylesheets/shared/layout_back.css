@@ -50,6 +50,14 @@
 		border-radius: 0;
 	}
 
+	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+		font-family: inherit;
+	}
+
+	.timeline>li>.timeline-item>.timeline-header {
+		font-size: 15px;
+	}
+
 /* / Custom template */
 
 /* Loading */

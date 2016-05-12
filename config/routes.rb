@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 		get 'home/result'
 		get 'home/index'
 		get 'home/back'
-		post 'set_width/:width_type' => 'home#set_width'
+		get 'nhat-ky' => 'home#admin_dashboard'
 		# post 'nothing' => 'home#nothing'
 		# post 'end_session' => 'home#end_session'
 		# post 'track_session' => 'home#track_session'

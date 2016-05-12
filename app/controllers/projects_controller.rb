@@ -42,29 +42,16 @@ class ProjectsController < ApplicationController
 			# Track
 			session[:projects_viewed] ||= []
 			unless session[:projects_viewed].include? @project.id
+				@project.update(view_count: @project.view_count + 1)
 				session[:projects_viewed] << @project.id
 
-				log = ProjectLog.new(
-					project_id: @re.id,
-					action: 'view'	
+				Log.create(
+					object_type: 'Project',
+					object_id: @project.id,
+					action: 'view',
+					user_type: current_user_type,
+					user_id: current_user_id
 				)
-				if signed?
-					log.user_type = 'user'
-					log.user_id = current_user.id
-				elsif left_contact?
-					log.user_type = 'contact_user'
-					log.user_id = current_left_contact.id
-				else
-					log.user_type = 'guess'
-				end
-
-				log.save
-			end
-
-			session[:project_viewed] ||= []
-			unless session[:project_viewed].include? id
-				@project.update(view_count: @project.view_count + 1)
-				session[:project_viewed] << id
 			end
 
 			render layout: 'front_layout'

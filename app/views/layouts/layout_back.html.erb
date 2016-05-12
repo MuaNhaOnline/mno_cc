@@ -49,7 +49,7 @@
 
 	<%= yield :stylesheets %>
 </head>
-<body data-width="<%= current_width_type %>" class="skin-blue sidebar-mini <%= 'sidebar-collapse' if cookies[:sidebar_collapse] != '0' %>">
+<body class="skin-blue sidebar-mini <%= 'sidebar-collapse' if cookies[:sidebar_collapse] != '0' %>">
 <div id="loading_page" style="
 		position: fixed;
 		width: 100%;
@@ -146,6 +146,13 @@
 				</div>
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
+					<% if can?(:manage, SystemGroup) || can?(:manage, RealEstate) || can?(:manage, Project) %>
+						<li>
+							<a href="/nhat-ky">
+								<i class="fa fa-yelp"></i> <span>Nhật ký</span>
+							</a>
+						</li>
+					<% end %>
 					<% if can? :manage, SystemGroup %>
 						<li>
 							<a href="/quan-ly-nhom-quyen">

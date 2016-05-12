@@ -1,0 +1,26 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/home/admin_dashboard.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/home/admin_dashboard.js"></script>
+<% end %>
+
+<%
+=begin
+	params: @logs
+=end
+
+	@title = 'Dashboard'
+%>
+
+<div>
+	<section>
+		<ul class="timeline" id="activity_log">
+			<%= render partial: '/home/build_log', locals: { logs: @logs } %>
+		</ul>
+	</section>
+	<section class="text-center">
+		<button class="btn btn-primary" id="activity_log_load">Xem thêm</button>
+	</section>
+</div>

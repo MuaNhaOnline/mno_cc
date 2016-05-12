@@ -1,6 +1,5 @@
 $(function () {
 	init();
-	initSize();
 	customPrototype();
 	customJquery();
 	_initGlobalEvent();

@@ -135,23 +135,15 @@ class RealEstatesController < ApplicationController
 			session[:res_viewed] ||= []
 			unless session[:res_viewed].include? @re.id
 				session[:res_viewed] << @re.id
-				@project.update(view_count: @project.view_count + 1)
+				@re.update(view_count: @re.view_count + 1)
 
-				log = RealEstateLog.new(
-					real_estate_id: @re.id,
-					action: 'view'	
+				Log.create(
+					object_type: 'RealEstate',
+					object_id: @re.id,
+					action: 'view',
+					user_type: current_user_type,
+					user_id: current_user_id
 				)
-				if signed?
-					log.user_type = 'user'
-					log.user_id = current_user.id
-				elsif left_contact?
-					log.user_type = 'contact_user'
-					log.user_id = current_left_contact.id
-				else
-					log.user_type = 'guess'
-				end
-
-				log.save
 			end
 
 			render layout: 'front_layout'
@@ -255,6 +247,15 @@ class RealEstatesController < ApplicationController
 					secure_code: re.params['secure_code']
 				}
 			end
+
+			# Log
+			Log.create(
+				object_type: 'RealEstate',
+				object_id: re.id,
+				action: params[:real_estate][:id].present? ? 'edit' : 'create',
+				user_type: current_user_type,
+				user_id: current_user_id
+			)
 		end
 
 		# Handle => View
@@ -1102,8 +1103,22 @@ class RealEstatesController < ApplicationController
 
 		# Handle
 		# params: id(*)
-		def approve   
-			render json: RealEstate.update_pending_status(params[:id], 0)
+		def approve
+			result = RealEstate.update_pending_status params[:id], 0
+
+			if result[:status] == 0
+				# Log
+				Log.create(
+					object_type: 'RealEstate',
+					object_id: params[:id],
+					action: 'approve',
+					user_type: current_user_type,
+					user_id: current_user_id
+				)
+			end
+
+			render json: result
+
 		end
 
 	# / Pending

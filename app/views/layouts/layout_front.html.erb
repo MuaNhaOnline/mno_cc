@@ -23,7 +23,7 @@
 	<%= yield :stylesheets %>
 </head>
 
-<body data-spy="scroll" data-target=".scrollspy" data-width="<%= current_width_type %>" <%= 'data-signed' if signed? %>>
+<body data-spy="scroll" data-target=".scrollspy" <%= 'data-signed' if signed? %>>
 <div id="loading_page" style="
 	position: fixed;
 	width: 100%;
@@ -138,32 +138,6 @@
 			<!-- end sitemap -->
 			
 			<!-- start switch button -->
-			<article class="switch-button hidden-md hidden-sm hidden-xs">
-				<label>
-					<% if current_purpose != 's' %>
-						<% 
-							request.GET['purpose'] = 's'
-						%>
-						<input type="radio" name="switchType" id="sale">
-						<a href="?<%= request.GET.to_query %>">Bán</a>
-					<% else %>
-						<input type="radio" name="switchType" id="sale" checked>
-						<a>Bán</a>
-					<% end %>
-				</label>
-				<label>
-					<% if current_purpose != 'r' %>
-						<% 
-							request.GET['purpose'] = 'r'
-						%>
-						<input type="radio" name="switchType" id="rent">
-						<a href="?<%= request.GET.to_query %>">Cho thuê</a>
-					<% else %>
-						<input type="radio" name="switchType" id="rent" checked>
-						<a>Cho thuê</a>
-					<% end %>
-				</label>
-			</article>
 			<!-- end -->
 
 			<!-- start mini menu -->

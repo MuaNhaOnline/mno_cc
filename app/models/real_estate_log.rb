@@ -1,8 +1,7 @@
 =begin
 
 	Atrributes:
-		action:
-			view
+		action: view, edit, create
 
 =end
 class RealEstateLog < ActiveRecord::Base

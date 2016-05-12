@@ -57,6 +57,13 @@ class UsersController < ApplicationController
 				# session_info.leave_infos << ['user', user.id]
 				# session_info.save
 
+				# Log
+				Log.create(
+					object_type: 'User',
+					object_id: user.id,
+					action: 'create'
+				)
+				
 				# Delete contact
 				if contact.present?
 					contact.update is_deleted: true

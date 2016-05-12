@@ -1519,11 +1519,6 @@ class RealEstate < ActiveRecord::Base
 			@is_current_user_favorite ||= get_is_current_user_favorite
 		end
 
-		# View count
-		def view_count
-			@view_count ||= RealEstateLog.where(real_estate_id: self.id, action: 'view').count
-		end
-
 	# / Attributes
 
 	# Get keyword

@@ -325,4 +325,27 @@ class HomeController < ApplicationController
 			}
 		end
 	end
+
+	# View
+	def admin_dashboard
+		@logs = Log.where.not(action: 'view').limit(10)
+
+		render layout: 'layout_back'
+	end
+
+	# Partial view
+	# params: page, per
+	def _log_list
+		page = (params[:page] || 1).to_i
+		per = (params[:per] || 10).to_i
+
+		logs = Log.page page, per
+
+		return render json: { status: 1 } if logs.count == 0
+
+		render json: {
+			status: 0,
+			result: render_to_string(partial: 'build_log', locals: { logs: logs })
+		}
+	end
 end
