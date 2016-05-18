@@ -133,7 +133,7 @@ class RealEstatesController < ApplicationController
 
 			# Track
 			session[:res_viewed] ||= []
-			if !bot? && !session[:res_viewed].include? @re.id
+			if !bot? && !session[:res_viewed].include?(@re.id)
 				session[:res_viewed] << @re.id
 				@re.update(view_count: @re.view_count + 1)
 
