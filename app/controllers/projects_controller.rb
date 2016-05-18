@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
 
 			# Track
 			session[:projects_viewed] ||= []
-			if !bot? && !session[:projects_viewed].include? @project.id
+			if !bot? && !session[:projects_viewed].include?(@project.id)
 				@project.update(view_count: @project.view_count + 1)
 				session[:projects_viewed] << @project.id
 
