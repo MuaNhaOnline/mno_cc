@@ -2,11 +2,15 @@
 =begin
 	params: log
 =end
-
+	
+	return if log.user.blank?
+	
 	user = case log.user_type
 		when 'user'
+			return if log.interact_user.blank?
 			"<a href='/thanh-vien/#{log.interact_user.id}'>#{log.interact_user.full_name}</a>".html_safe
 		when 'contact_user'
+			return if log.interact_contact_user.blank?
 			log.interact_contact_user.name
 		when 'guess'
 			'Khách'
@@ -20,7 +24,7 @@
 		<% case log.action %>
 		<% when 'create' %>
 			<h3 class="timeline-header">
-				<a href="/thanh-vien/<%= log.user.id %>"><%= log.user.full_name %></a> vừa đăng ký vào hệ thống
+				<a href="/thanh-vien/<%= log.user.id %>"><%= log.user.full_name %></a> đã đăng ký vào hệ thống
 			</h3>
 		<% end %>
 	</div>
