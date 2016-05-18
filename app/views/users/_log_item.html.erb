@@ -3,14 +3,14 @@
 	params: log
 =end
 	
-	return if log.user.blank?
+	return log.delete if log.user.blank?
 	
 	user = case log.user_type
 		when 'user'
-			return if log.interact_user.blank?
+			return log.delete if log.interact_user.blank?
 			"<a href='/thanh-vien/#{log.interact_user.id}'>#{log.interact_user.full_name}</a>".html_safe
 		when 'contact_user'
-			return if log.interact_contact_user.blank?
+			return log.delete if log.interact_contact_user.blank?
 			log.interact_contact_user.name
 		when 'guess'
 			'Khách'
