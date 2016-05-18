@@ -43,6 +43,8 @@ gem 'sitemap_generator'
 gem "geocoder"
 gem "geokit"
 
+gem 'browser'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

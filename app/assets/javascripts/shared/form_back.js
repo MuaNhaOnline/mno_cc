@@ -1478,6 +1478,7 @@ function initForm($form, params) {
 							case 13:
 								e.preventDefault();
 								getAutoComplete();
+								break;
 
 							//Tab
 							case 9:

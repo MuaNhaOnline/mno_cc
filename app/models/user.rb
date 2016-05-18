@@ -145,7 +145,6 @@ class User < ActiveRecord::Base
 
 			# Password
 			if _params.has_key? :password
-				require 'digest/md5'
 				_params[:password] = ApplicationHelper.md5_encode _params[:password]
 			end
 

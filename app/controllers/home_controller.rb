@@ -339,7 +339,7 @@ class HomeController < ApplicationController
 		page = (params[:page] || 1).to_i
 		per = (params[:per] || 10).to_i
 
-		logs = Log.page page, per
+		logs = Log.where.not(action: 'view').page page, per
 
 		return render json: { status: 1 } if logs.count == 0
 

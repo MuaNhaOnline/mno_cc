@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 	skip_before_filter :verify_authenticity_token
 
 	before_action :init
-	helper_method :signed?, :current_user, :left_contact?, :current_left_contact
+	helper_method :signed?, :current_user, :left_contact?, :current_left_contact, :bot?
 
 	rescue_from CanCan::AccessDenied do |e|
 		respond_to do |format|
@@ -184,6 +184,15 @@ class ApplicationController < ActionController::Base
 	
 	# / Current
 
-
+	# Bot?
+	
+		def bot?
+			@bot ||= 
+				Proc.new {
+					Browser.new(request.env["HTTP_USER_AGENT"]).bot?
+				}.call
+		end
+	
+	# / Bot?
 
 end
