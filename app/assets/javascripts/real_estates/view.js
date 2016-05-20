@@ -146,15 +146,86 @@ $(function () {
 			var 
 				$map = $('#map'),
 				lat = $map.data('lat'),
-				long = $map.data('long');
+				lng = $map.data('lng');
 
-			_initMap('map', {
+			var map = _initMap('map', {
 				markers: [
 					{ 
-						latLng: { lat: lat, lng: long } 
+						latLng: { lat: lat, lng: lng } 
 					}
 				]
 			});
+
+			var objects = {}, markers = [], to = null;
+			objects[realEstateId] = null;
+			$('#view_surround').on('change', function () {
+				if (this.checked) {
+					$(markers).each(function () {
+						this.setMap(map);
+					});
+
+					getData();
+
+					map.addListener('bounds_changed', function() {
+						clearTimeout(to);
+						to = setTimeout(function () {
+							getData();
+						}, 50);
+					});
+				}
+				else {
+					google.maps.event.clearListeners(map, 'bounds_changed');
+					$(markers).each(function () {
+						this.setMap(null);
+					});
+				}
+			});
+
+			function getData() {
+				var
+					bs = map.getBounds(),
+					bounds = {
+						from: {
+							lat: bs.H.H,
+							lng: bs.j.H,
+						},
+						to: {
+							lat: bs.H.j,
+							lng: bs.j.j,
+						}
+					};
+
+				$.ajax({
+					url: '/home/search_by_bounds',
+					data: {
+						bounds: bounds
+					},
+					dataType: 'JSON'
+				}).done(function (data) {
+					if (data.status == 0) {
+						var result = data.result;
+
+						$.each(result, function (id, value) {
+							if (!(id in objects)) {
+								objects[id] = value;
+
+								var marker = new google.maps.Marker({
+									position: { lat: value.lat, lng: value.lng },
+									map: map,
+									title: value.title,
+									animation: google.maps.Animation.DROP,
+									icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+								});
+								marker.addListener('click', function () {
+									window.location = value.url;
+								});
+
+								markers.push(marker);
+							}
+						});
+					}
+				});
+			}
 		})();
 	
 	// / Description container
