@@ -991,7 +991,7 @@ $(function () {
 			shortText = years + ' năm trước';
 		}
 
-		fullText = time.getDate() + ' tháng ' + (time.getMonth() + 1) + ' năm ' + time.getFullYear() + ' lúc ' + time.getHours() + ' giờ ' + time.getMinutes();
+		fullText = time.getDate() + '/' + (time.getMonth() + 1) + '/' + time.getFullYear() + ' lúc ' + time.getHours() + ':' + ('0' + time.getMinutes()).slice(-2);
 
 		return { short: shortText, full: fullText, repeat: repeat };
 	}

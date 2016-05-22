@@ -128,6 +128,68 @@ class ContactRequestsController < ApplicationController
 				}
 			end
 		end
+	
+	# / Save
+
+	# Request manage
+	
+		# View
+		def manage
+			# Author
+			# authorize! :manage, ContactRequest
+
+			@requests = ContactRequest.need_contact
+
+			render layout: 'layout_back'
+		end
+
+		# Partial view
+		# params: page
+		def _manage_list
+			# Author
+			# authorize! :manage, ContactRequest
+
+			page = (params[:page] || 1).to_i + 1
+			begin
+				requests = ContactRequest.need_contact
+
+				page -= 1
+				per = 10
+				count = requests.count
+
+				requests_in_page = requests.page(page, per)
+			end while requests_in_page.count == 0 && page != 1
+
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'manage_list', locals: { requests: requests_in_page }),
+					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: page })
+				}
+			}
+		end
+
+		# Partial view
+		# params: user_type, user_id
+		def _manage_user_info
+			# Author
+			authorize! :manage, RealEstate
+
+			case params[:user_type]
+			when 'user'
+				render json: {
+					status: 0,
+					result: render_to_string(partial: 'users/info_popup', locals: { user: User.find(params[:user_id]) })
+				}
+			when 'contact_user'
+				render json: {
+					status: 0,
+					result: render_to_string(partial: 'contact_user_infos/info_popup', locals: { contact_user: ContactUserInfo.find(params[:user_id]) })
+				}
+			else
+				render json: { status: 1 }
+			end
+		end
 
 		# Handle
 		# params: request form,
@@ -150,6 +212,6 @@ class ContactRequestsController < ApplicationController
 			}
 		end
 	
-	# / Save
+	# / Request manage
 
 end

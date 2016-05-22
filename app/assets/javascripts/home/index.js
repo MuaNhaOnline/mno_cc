@@ -23,7 +23,6 @@ $(function () {
 
 		// Map
 			
-	
 			(function () {
 				var objects = {};
 

@@ -128,6 +128,8 @@ class RealEstatesController < ApplicationController
 
 			@re = RealEstate.find id
 
+			return redirect_to "/bat-dong-san/#{@re.full_slug}" if @re.full_slug != params[:slug] + '.html'
+
 			# Author
 			authorize! :view, @re
 
@@ -138,7 +140,7 @@ class RealEstatesController < ApplicationController
 				@re.update(view_count: @re.view_count + 1)
 
 				Log.create(
-					object_type: 'RealEstate',
+					object_type: 'real_estate',
 					object_id: @re.id,
 					action: 'view',
 					user_type: current_user_type,
@@ -250,7 +252,7 @@ class RealEstatesController < ApplicationController
 
 			# Log
 			Log.create(
-				object_type: 'RealEstate',
+				object_type: 'real_estate',
 				object_id: re.id,
 				action: params[:real_estate][:id].present? ? 'edit' : 'create',
 				user_type: current_user_type,
@@ -1109,7 +1111,7 @@ class RealEstatesController < ApplicationController
 			if result[:status] == 0
 				# Log
 				Log.create(
-					object_type: 'RealEstate',
+					object_type: 'real_étate',
 					object_id: params[:id],
 					action: 'approve',
 					user_type: current_user_type,

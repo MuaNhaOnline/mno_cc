@@ -9,12 +9,8 @@
 <% logs.each do |log| %>
 	<%
 		controller = case log.object_type
-			when 'RealEstate'
-				'real_estates'
-			when 'Project'
-				'projects'
-			when 'User'
-				'users'
+			when 'real_estate', 'project', 'user'
+				log.object_type + 's'
 			else
 				next
 			end

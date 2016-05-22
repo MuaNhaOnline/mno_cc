@@ -59,7 +59,7 @@ class UsersController < ApplicationController
 
 				# Log
 				Log.create(
-					object_type: 'User',
+					object_type: 'user',
 					object_id: user.id,
 					action: 'create'
 				)

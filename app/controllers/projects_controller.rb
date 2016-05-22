@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
 				session[:projects_viewed] << @project.id
 
 				Log.create(
-					object_type: 'Project',
+					object_type: 'project',
 					object_id: @project.id,
 					action: 'view',
 					user_type: current_user_type,

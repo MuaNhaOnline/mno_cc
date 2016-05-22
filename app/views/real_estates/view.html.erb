@@ -583,7 +583,7 @@
 								<% end %>
 								<form id="register_form" class="form" 
 									data-request_info="<%= register_info.to_json only: [:id, :request_type, :object_type, :object_id, :message] %>" 
-									<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :email, :phone_number]}'".html_safe unless signed? %>
+									<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :name, :email, :phone_number]}'".html_safe unless signed? %>
 								>
 									<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
 									<input type="hidden" name="request[request_type]" value="" />
@@ -599,46 +599,59 @@
 									</article>
 									<% unless signed? %>
 										<% if left_contact? %>
-											<div class="row" data-toggled-element="default-contact">
-												<input type="hidden" name="contact[id]" value="" />
-												<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<input data-nonvalid class="form-control" name="contact[default_email]" value="" readonly="true" tabindex="-1" />
+											<div data-toggled-element="default-contact">
+												<input type="hidden" name="contact[id]" />
+												<article class="form-group">
+													<input class="form-control" name="contact[default_name]" readonly="true" tabindex="-1" />
 												</article>
-												<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<input data-nonvalid class="form-control" name="contact[default_phone_number]" value="" readonly="true" tabindex="-1" />
-												</article>
-												<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-													<div class="radio margin-0">
-														<label>
-															<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
-															<a style="color: inherit;">Không phải tôi</a>
-														</label>
-													</div>
-												</article>
+												<div class="row">
+													<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+														<input data-nonvalid class="form-control" name="contact[default_email]" readonly="true" tabindex="-1" />
+													</article>
+													<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+														<input data-nonvalid class="form-control" name="contact[default_phone_number]" readonly="true" tabindex="-1" />
+													</article>
+													<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+														<div class="radio margin-0">
+															<label>
+																<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+																<a style="color: inherit;">Không phải tôi</a>
+															</label>
+														</div>
+													</article>
+												</div>
 											</div>
-											<div class="row off" data-toggled-element="new-contact">
-												<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<input data-constraint="required email" class="form-control" name="contact[email]" />
+											<div class="off" data-toggled-element="new-contact">
+												<article class="form-group">
+													<input data-constraint="required" class="form-control" name="contact[name]" placeholder="Tên của bạn" />
 												</article>
-												<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<input data-constraint="required phone" class="form-control" name="contact[phone_number]" />
-												</article>
-												<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-													<div class="radio margin-0">
-														<label>
-															<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
-															<a style="color: inherit;">Quay lại</a>
-														</label>
-													</div>
-												</article>
+												<div class="row">
+													<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+														<input data-constraint="required email" class="form-control" name="contact[email]" placeholder="Email của bạn" />
+													</article>
+													<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+														<input data-constraint="required phone" class="form-control" name="contact[phone_number]" placeholder="Điện thoại của bạn" />
+													</article>
+													<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+														<div class="radio margin-0">
+															<label>
+																<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+																<a style="color: inherit;">Quay lại</a>
+															</label>
+														</div>
+													</article>
+												</div>
 											</div>
 										<% else %>
+											<article class="form-group">
+												<input data-constraint="required" class="form-control" name="contact[name]" placeholder="Tên của bạn" />
+											</article>
 											<div class="row">
 												<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+													<input data-constraint="required email" class="form-control" placeholder="Email của bạn" name="contact[email]" />
 												</article>
 												<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-													<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+													<input data-constraint="required phone" class="form-control" placeholder="Điện thoại của bạn" name="contact[phone_number]" />
 												</article>
 											</div>
 										<% end %>
@@ -671,6 +684,7 @@
 		</article>
 	
 	<!-- / Relative real-estate -->
+
 </div>
 
 <article class="box" aria-popupcontent="re_register">
@@ -696,46 +710,59 @@
 			</article>
 			<% unless signed? %>
 				<% if left_contact? %>
-					<div class="row" data-toggled-element="default-contact">
-						<input type="hidden" name="contact[id]" value="" />
-						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<input data-nonvalid class="form-control" name="contact[default_email]" value="" readonly="true" tabindex="-1" />
+					<div data-toggled-element="default-contact">
+						<input type="hidden" name="contact[id]" />
+						<article class="form-group">
+							<input class="form-control" name="contact[default_name]" readonly="true" tabindex="-1" />
 						</article>
-						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<input data-nonvalid class="form-control" name="contact[default_phone_number]" value="" readonly="true" tabindex="-1" />
-						</article>
-						<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-							<div class="radio margin-0">
-								<label>
-									<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
-									<a style="color: inherit;">Không phải tôi</a>
-								</label>
-							</div>
-						</article>
+						<div class="row">
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-nonvalid class="form-control" name="contact[default_email]" readonly="true" tabindex="-1" />
+							</article>
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-nonvalid class="form-control" name="contact[default_phone_number]" readonly="true" tabindex="-1" />
+							</article>
+							<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+								<div class="radio margin-0">
+									<label>
+										<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+										<a style="color: inherit;">Không phải tôi</a>
+									</label>
+								</div>
+							</article>
+						</div>
 					</div>
-					<div class="row off" data-toggled-element="new-contact">
-						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+					<div class="off" data-toggled-element="new-contact">
+						<article class="form-group">
+							<input data-constraint="required" class="form-control" name="contact[name]" placeholder="Tên của bạn" />
 						</article>
-						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
-						</article>
-						<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-							<div class="radio margin-0">
-								<label>
-									<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
-									<a style="color: inherit;">Quay lại</a>
-								</label>
-							</div>
-						</article>
+						<div class="row">
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-constraint="required email" class="form-control" name="contact[email]" placeholder="Email của bạn" />
+							</article>
+							<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<input data-constraint="required phone" class="form-control" name="contact[phone_number]" placeholder="Điện thoại của bạn" />
+							</article>
+							<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+								<div class="radio margin-0">
+									<label>
+										<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+										<a style="color: inherit;">Quay lại</a>
+									</label>
+								</div>
+							</article>
+						</div>
 					</div>
 				<% else %>
+					<article class="form-group">
+						<input data-constraint="required" class="form-control" name="contact[name]" placeholder="Tên của bạn" />
+					</article>
 					<div class="row">
 						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
+							<input data-constraint="required email" class="form-control" placeholder="Email của bạn" name="contact[email]" />
 						</article>
 						<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<input data-constraint="required phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
+							<input data-constraint="required phone" class="form-control" placeholder="Điện thoại của bạn" name="contact[phone_number]" />
 						</article>
 					</div>
 				<% end %>

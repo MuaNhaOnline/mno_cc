@@ -53,8 +53,21 @@ class ContactRequest < ActiveRecord::Base
 				'Đăng ký sản phẩm'
 			when 'contact'
 				'Liên hệ'
+			when 'advisory'
+				case object_type
+				when 'real_estate'
+					'Tư vấn BĐS'
+				when 'finance'
+					'Tư vấn tài chính'
+				when 'law'
+					'Tư vấn luật'
+				when 'architecture'
+					'Tư vấn kiến trúc'
+				else
+					'Tư vấn'
+				end
 			else
-				''
+				''				
 			end
 		end
 

@@ -1,0 +1,64 @@
+<%
+=begin
+	params: requests
+=end
+
+%>
+
+<% requests.each do |request| %>
+
+	<tr data-value="<%= request.id %>">
+		<td class="type">
+			<%= request.display_request_type %>
+		</td>
+		<td class="object">
+			<% case request.object_type %>
+			<% when 'real_estate' %>
+				<% if request.real_estate.present? %>
+					<a href="/bat-dong-san/<%= request.real_estate.full_slug %>"><%= request.real_estate.display_id %></a>
+				<% end %>
+			<% end %>
+		</td>
+		<td class="message">
+			<%= request.message %>
+		</td>
+		<td class="user">
+			<% case request.user_type %>
+			<% when 'user' %>
+				<% if request.user.present? %>
+					<a href="javascript:" data-value="<%= request.user.id %>" data-type="user">
+						<%= request.user.full_name %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% when 'contact_user' %>
+				<% if request.contact_user.present? %>
+					<a href="javascript:" data-value="<%= request.contact_user.id %>" data-type="contact_user">
+						<%= request.contact_user.name || request.contact_user.email %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% else %>
+				Không có dữ liệu
+			<% end %>
+		</td>
+		<td>
+			<span aria-time="<%= request.created_at %>"></span>
+		</td>
+		<td class="status">
+			<select class="form-control" name="status">
+				<option value="" hidden>Chưa xác định</option>
+				<option value="1" <%= 'selected' if request.status == 1 %>>Chờ liên hệ</option>
+				<option value="2" <%= 'selected' if request.status == 2 %>>Chờ liên hệ lại</option>
+				<option value="3" <%= 'selected' if request.status == 3 %>>Bỏ qua</option>
+				<option value="4" <%= 'selected' if request.status == 4 %>>Đã liên hệ</option>
+			</select>
+		</td>
+		<td class="note">
+			<textarea class="form-control" style="height: 34px" name="note"><%= request.note %></textarea>
+		</td>
+	</tr>
+
+<% end %>
