@@ -8,7 +8,7 @@
 		return
 	end
 	
-	user = case log.user_type
+	user_name = case log.user_type
 		when 'user'
 			if log.interact_user.blank?
 				log.delete

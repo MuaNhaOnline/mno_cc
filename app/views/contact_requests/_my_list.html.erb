@@ -1,0 +1,33 @@
+<%
+=begin
+	params: requests
+=end
+
+%>
+
+<% requests.each do |request| %>
+
+	<tr data-value="<%= request.id %>">
+		<td class="type">
+			<%= request.display_request_type %>
+		</td>
+		<td class="object">
+			<% case request.object_type %>
+			<% when 'real_estate' %>
+				<% if request.real_estate.present? %>
+					<a href="/bat-dong-san/<%= request.real_estate.full_slug %>"><%= request.real_estate.display_id %></a>
+				<% end %>
+			<% end %>
+		</td>
+		<td class="message" style="width: 1%">
+			<textarea class="form-control" style="height: 34px; min-width: 20vw; max-width: 20vw;" name="message"><%= request.message %></textarea>
+		</td>
+		<td>
+			<span aria-time="<%= request.created_at %>"></span>
+		</td>
+		<td class="status">
+			<%= request.display_status %>
+		</td>
+	</tr>
+
+<% end %>

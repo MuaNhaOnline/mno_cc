@@ -14,44 +14,87 @@
 	@title = @user.full_name 
 %>
 
-<div class="row">
-	<article class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-ss-6 col-ss-offset-3">
-		<div class="box box-widget widget-user">
-		  <!-- Add the bg color to the header using any of the bg-* classes -->
-		  <div class="widget-user-header bg-aqua-active">
-		    <h3 class="widget-user-username"><%= @user.full_name %></h3>
-		    <div class="widget-user-desc"><span class="fa fa-fw fa-envelope"></span> <%= @user.email %></div>
-		    <% if @user.phone_number.present? %>
-		    	<div class="widget-user-desc"><span class="fa fa-fw fa-phone"></span> <%= @user.phone_number %></div>
-		    <% end %>
-		    <% if @user.address.present? %>
-		    	<div class="widget-user-desc"><span class="fa fa-fw fa-map-marker"></span> <%= @user.address %></div>
-		    <% end %>
-			  <div class="widget-user-image">
-			  	<%= user_avatar @user, style: :thumb %>
-			  </div>
-		  </div>
-		  <div class="box-footer">
-		    <div class="row">
-		      <div class="col-xs-6">
-		        <div class="description-block">
-		          <div class="description-header"><%= @user.real_estate_count %></div>
-		          <span class="description-text">Bất động sản</span>
-		        </div>
-		      </div>
-		      <div class="col-xs-6">
-		        <div class="description-block">
-		          <div class="description-header"><%= @user.project_count %></div>
-		          <span class="description-text">Dự án</span>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="box-footer padding-10">
-		  	<% if can? :edit, @user %>
-		    	<a href="/users/create/<%= @user.id %>" class="btn btn-primary btn-block"><b>Cập nhật thông tin</b></a>
-		    <% end %>
-		  </div>
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-sm-offset-3 col-md-offset-0">
+	<div class="box box-primary">
+		<div class="box-body box-profile">
+			<%= user_avatar @user, style: :thumb, style_class: 'profile-user-img img-responsive img-circle' %>
+
+			<h3 class="profile-username text-center margin-bottom-15"><%= @user.full_name %></h3>
+
+			<ul class="list-group list-group-unbordered">
+				<li class="list-group-item">
+					<b>Email</b> <span class="pull-right"><%= @user.email %></span>
+				</li>
+				<li class="list-group-item">
+					<b>Phone</b> <span class="pull-right"><%= @user.phone_number %></span>
+				</li>
+				<li class="list-group-item">
+					<b>Address</b> <span class="pull-right"><%= @user.address %></span>
+				</li>
+			</ul>
+
+			<a href="/users/create/<%= @user.id %>" class="btn btn-primary btn-block"><b>Cập nhật thông tin</b></a>
 		</div>
-	</article>
+	</div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+			<div class="small-box bg-aqua">
+				<% if current_user.id == @user.id %>
+					<div class="inner">
+						<span class="count"><%= RealEstate.my_search_with_params.count %></span>
+						<p>Tin bất động sản</p>
+					</div>
+					<div class="icon">
+						<i class="ico-home"></i>
+					</div>
+					<a href="/bat-dong-san/cua-toi" class="small-box-footer">
+						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				<% else %>
+					<div class="inner">
+						<span class="count"><%= RealEstate.user_search_with_params('user', @user.id).count %></span>
+						<p>Tin bất động sản</p>
+					</div>
+					<div class="icon">
+						<i class="ico-home"></i>
+					</div>
+					<a href="/bat-dong-san/cua-thanh-vien/<%= @user.id %>" class="small-box-footer">
+						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				<% end %>
+			</div>
+		</div>
+		<% if current_user.id == @user.id %>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+				<div class="small-box bg-purple">
+					<div class="inner">
+						<span class="count"><%= RealEstate.my_favorite_search_with_params.count %></span>
+						<p>Tin BĐS đang quan tâm</p>
+					</div>
+					<div class="icon">
+						<i class="ico-home"></i>
+					</div>
+					<a href="/bat-dong-san/quan-tam-cua-toi" class="small-box-footer">
+						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+				<div class="small-box bg-orange">
+					<div class="inner">
+						<span class="count"><%= ContactRequest.my_request.count %></span>
+						<p>Yêu cầu</p>
+					</div>
+					<div class="icon">
+						<i class="ico-git-pull-request"></i>
+					</div>
+					<a href="/yeu-cau/cua-toi" class="small-box-footer">
+						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+		<% end %>
+	</div>
 </div>

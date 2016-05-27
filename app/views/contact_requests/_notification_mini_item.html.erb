@@ -1,0 +1,41 @@
+<%
+=begin
+	variables: notification
+=end
+
+	if notification.contact_request.blank?
+		notification.delete
+		return
+	end
+
+	user_name = case notification.user_type
+		when 'user'
+			if notification.interact_user.blank?
+				notification.delete
+				return
+			end
+			notification.interact_user.full_name
+		when 'contact_user'
+			if notification.interact_contact_user.blank?
+				notification.delete
+				return
+			end
+			notification.interact_contact_user.name
+		when 'guess'
+			'Khách'
+		end
+%>
+
+<% case notification.action %>
+<% when 'create' %>
+	<%
+		url = "/yeu-cau/quan-ly"
+		text = "#{user_name} gửi yêu cầu mới"
+	%>
+<% end %>
+
+<li data-value="<%= notification.id %>" class="<%= 'unread' unless notification.read? %>">
+	<a href="<%= url %>">
+		<i class="icon ico-git-pull-request text-orange"></i> <%= text %>
+	</a>
+</li>

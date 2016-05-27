@@ -74,17 +74,28 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: search params
 		def list
+			if params[:user_id].present?
+				params[:search] ||= {}
+				params[:search][:user_id] = params[:user_id]
+			end
+
 			return redirect_to '/bat-dong-san' if params[:search].blank?
 
-			search_params = get_search_param_from_keyword(params[:search]) if params[:search].is_a? String
+			if params[:search].is_a? String
+				search_params = get_search_param_from_keyword(params[:search]) 
+
+				@search_name = search_params[:search_name]
+			else
+				search_params = params[:search]
+
+				@search_name = 'Danh sách của ' + User.find(search_params[:user_id]).full_name if params[:search][:user_id].present?
+			end
 
 			search_params[:is_favorite] = 'true'
 			@favorite_res = RealEstate.search_with_params search_params.clone
 
 			search_params[:is_favorite] = 'false'
 			@res = RealEstate.search_with_params search_params.clone
-
-			@search_name = search_params[:search_name]
 
 			render layout: 'front_layout'
 		end
@@ -252,6 +263,14 @@ class RealEstatesController < ApplicationController
 
 			# Log
 			Log.create(
+				object_type: 'real_estate',
+				object_id: re.id,
+				action: params[:real_estate][:id].present? ? 'edit' : 'create',
+				user_type: current_user_type,
+				user_id: current_user_id
+			)
+
+			Notification.create_new(
 				object_type: 'real_estate',
 				object_id: re.id,
 				action: params[:real_estate][:id].present? ? 'edit' : 'create',
@@ -1111,7 +1130,15 @@ class RealEstatesController < ApplicationController
 			if result[:status] == 0
 				# Log
 				Log.create(
-					object_type: 'real_étate',
+					object_type: 'real_estate',
+					object_id: params[:id],
+					action: 'approve',
+					user_type: current_user_type,
+					user_id: current_user_id
+				)
+
+				Notification.create_new(
+					object_type: 'real_estate',
 					object_id: params[:id],
 					action: 'approve',
 					user_type: current_user_type,

@@ -58,6 +58,48 @@
 		font-size: 15px;
 	}
 
+	.sidebar-menu>li>a>.icon {
+		display: inline-block;
+		width: 20px;
+	}
+
+	.small-box .count {
+	    font-size: 38px;
+	    font-weight: bold;
+	    margin: 0 0 10px 0;
+	    white-space: nowrap;
+	    padding: 0;
+	}
+
+	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu {
+		max-height: 70vh;
+	}
+
+	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li>a {
+		text-overflow: initial;
+		white-space: normal;		
+	}
+
+	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li>a>.icon {
+		display: inline-block;
+		width: 20px;
+	}
+
+	.navbar-nav>.notifications-menu>.dropdown-menu>li .unread {
+		position: relative;
+	}
+	
+		.navbar-nav>.notifications-menu>.dropdown-menu>li .unread:after {
+			content: '';
+			display: block;
+			position: absolute;
+			width: 3px;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background-color: #3c8dbc;
+		}
+
 /* / Custom template */
 
 /* Loading */

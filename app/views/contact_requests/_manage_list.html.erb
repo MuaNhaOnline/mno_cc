@@ -56,8 +56,8 @@
 				<option value="4" <%= 'selected' if request.status == 4 %>>Đã liên hệ</option>
 			</select>
 		</td>
-		<td class="note">
-			<textarea class="form-control" style="height: 34px" name="note"><%= request.note %></textarea>
+		<td class="note" style="width: 1%;">
+			<textarea class="form-control" style="height: 34px; min-width: 20vw; max-width: 20vw;" name="note"><%= request.note %></textarea>
 		</td>
 	</tr>
 

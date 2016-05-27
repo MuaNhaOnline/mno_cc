@@ -1,0 +1,55 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/contact_requests/my.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/contact_requests/my.js"></script>
+<% end %>
+
+<%
+=begin
+	params: 
+=end
+
+	@title = 'Danh sách yêu cầu của tôi'
+
+	per = 10
+%>
+
+<section class="box box-default">
+	<section class="box-header">
+		<h2 class="box-title">
+			Danh sách yêu cầu của tôi
+		</h2>
+	</section>
+	<section class="box-body padding-0 requests-list">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						Yêu cầu
+					</th>
+					<th>
+						Đối tượng
+					</th>
+					<th>
+						Lời nhắn
+					</th>
+					<th>
+						Thời điểm
+					</th>
+					<th>
+						Trạng thái
+					</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+				<%= render partial: 'my_list', locals: { requests: @requests.limit(per) } %>
+			</tbody>
+		</table>
+	</section>
+</section>
+
+<section id="pagination" class="text-center">
+	<%= render partial: 'shared/pagination', locals: { total: @requests.count, per: per } %>
+</section>

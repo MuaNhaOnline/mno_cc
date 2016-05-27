@@ -15,6 +15,12 @@
 
 class ContactRequest < ActiveRecord::Base
 
+	# Default
+	
+		default_scope { order('created_at desc') }
+	
+	# / Default
+
 	# Associations
 
 		belongs_to :user
@@ -41,6 +47,39 @@ class ContactRequest < ActiveRecord::Base
 		def self.project_contact
 			where(object_type: ['project', 'real_estate', 'real_estates/floor'], request_type: ['contact', 'register'])
 		end
+
+		def self.user_request user_type, user_id, params = {}
+			where = "user_id = #{user_id} AND user_type = '#{user_type}'"
+			joins = []
+			order = {}
+
+			return joins(joins).where(where).order(order)
+
+			joins(joins).where(where).order(order)
+		end
+
+		def self.my_request params = {}
+			where = "user_id = #{User.current.id} AND user_type = 'user'"
+			joins = []
+			order = {}
+
+			return joins(joins).where(where).order(order)
+
+			joins(joins).where(where).order(order)
+		end
+
+		# Get need notify users
+		
+			def self.need_notify_users notification
+				case notification.action
+				when 'create'
+					User.joins(system_groups: :permissions).where(permissions: { id: 4 }).all.map{ |user| [user.id, 'user'] }
+				else
+					[]
+				end
+			end
+		
+		# / Get need notify users
 	
 	# / Get
 

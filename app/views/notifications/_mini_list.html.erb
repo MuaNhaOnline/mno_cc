@@ -1,0 +1,20 @@
+<%
+=begin
+	notifications
+=end
+%>
+
+<% notifications.each do |notif| %>
+	
+	<%
+		controller = case notif.object_type
+			when 'real_estate', 'contact_request'
+				notif.object_type + 's'
+			else
+				next
+			end
+	%>
+
+	<%= render partial: "/#{controller}/notification_mini_item", locals: { notification: notif } %>
+
+<% end %>

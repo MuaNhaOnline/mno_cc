@@ -1,11 +1,12 @@
 class ContactRequestsController < ApplicationController
 
+	layout 'layout_back'
+
 	# Index
 
 		# View
 		def index
 			@contacts = ContactRequest.need_contact
-			render layout: 'layout_back'
 		end
 
 		# Partial view
@@ -89,6 +90,16 @@ class ContactRequestsController < ApplicationController
 						request_id: request.id
 					} 
 				}
+
+				if params[:request][:id].blank?
+					Notification.create_new(
+						object_type: 'contact_request',
+						object_id: request.id,
+						action: 'create',
+						user_type: 'user',
+						user_id: current_user.id
+					)
+				end
 			else
 				# If not signed => get contact info
 				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
@@ -126,6 +137,16 @@ class ContactRequestsController < ApplicationController
 						contact_id: contact_user.id
 					}
 				}
+
+				if params[:request][:id].blank?
+					Notification.create_new(
+						object_type: 'contact_request',
+						object_id: request.id,
+						action: 'create',
+						user_type: 'contact_user',
+						user_id: contact_user.id
+					)
+				end
 			end
 		end
 	
@@ -136,29 +157,28 @@ class ContactRequestsController < ApplicationController
 		# View
 		def manage
 			# Author
-			# authorize! :manage, ContactRequest
+			authorize! :manage, ContactRequest
 
 			@requests = ContactRequest.need_contact
-
-			render layout: 'layout_back'
 		end
 
 		# Partial view
 		# params: page
 		def _manage_list
 			# Author
-			# authorize! :manage, ContactRequest
+			authorize! :manage, ContactRequest
 
+			requests = ContactRequest.need_contact
 			page = (params[:page] || 1).to_i + 1
-			begin
-				requests = ContactRequest.need_contact
+			per = 10
 
+			begin
 				page -= 1
-				per = 10
-				count = requests.count
 
 				requests_in_page = requests.page(page, per)
 			end while requests_in_page.count == 0 && page != 1
+
+			count = requests.count
 
 			render json: {
 				status: 0,
@@ -172,9 +192,6 @@ class ContactRequestsController < ApplicationController
 		# Partial view
 		# params: user_type, user_id
 		def _manage_user_info
-			# Author
-			authorize! :manage, RealEstate
-
 			case params[:user_type]
 			when 'user'
 				render json: {
@@ -213,5 +230,42 @@ class ContactRequestsController < ApplicationController
 		end
 	
 	# / Request manage
+
+	# My
+	
+		# View
+		def my
+			# Author
+			authorize! :view_my, ContactRequest
+
+			@requests = ContactRequest.my_request
+		end
+
+		# Partial view
+		# params: page, per
+		def _my_list
+			# Author
+			authorize! :view_my, ContactRequest
+
+			requests = ContactRequest.my_request
+			count = requests.count
+			page = (params[:page] || 1).to_i + 1
+			per = 10
+
+			begin
+				page -= 1
+				requests_in_page = requests.page(page, per)
+			end while requests_in_page.count == 0 && page != 1
+
+			render json: {
+				status: 0,
+				result: {
+					list: render_to_string(partial: 'my_list', locals: { requests: requests_in_page }),
+					pagination: render_to_string(partial: '/shared/pagination', locals: { total: count, per: per, page: page })
+				}
+			}
+		end
+	
+	# / My
 
 end

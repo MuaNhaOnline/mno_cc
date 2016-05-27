@@ -1,0 +1,52 @@
+<%
+=begin
+	variables: notification
+=end
+
+	if notification.real_estate.blank?
+		notification.delete
+		return
+	end
+
+	user_name = case notification.user_type
+		when 'user'
+			if notification.interact_user.blank?
+				notification.delete
+				return
+			end
+			notification.interact_user.full_name
+		when 'contact_user'
+			if notification.interact_contact_user.blank?
+				notification.delete
+				return
+			end
+			notification.interact_contact_user.name
+		when 'guess'
+			'Khách'
+		end
+
+%>
+
+<% case notification.action %>
+<% when 'create' %>
+	<%
+		url = "/bat-dong-san/#{notification.real_estate.full_slug}"
+		text = "#{user_name} đã tin đăng bất động sản mới"
+	%>
+<% when 'edit' %>
+	<%
+		url = "/bat-dong-san/#{notification.real_estate.full_slug}"
+		text = "#{user_name} đã sử tin bất động sản"
+	%>
+<% when 'approve' %>
+	<%
+		url = "/bat-dong-san/#{notification.real_estate.full_slug}"
+		text = "Tin bất động sản của bạn đã được duyệt"
+	%>
+<% end %>
+
+<li data-value="<%= notification.id %>" class="<%= 'unread' unless notification.read? %>">
+	<a href="<%= url %>">
+		<i class="icon ico-home text-green"></i> <%= text %>
+	</a>
+</li>

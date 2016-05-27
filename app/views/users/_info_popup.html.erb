@@ -16,10 +16,14 @@
 	</section>
 	<section class="box-body">
 		<section class="image">
-			<%= user_avatar user, style: 'thumb' %>
+			<a href="/thanh-vien/<%= user.id %>">
+				<%= user_avatar user, style: 'thumb' %>
+			</a>
 		</section>
 		<h3 class="name">
-			<%= user.full_name %>
+			<a href="/thanh-vien/<%= user.id %>">
+				<%= user.full_name %>
+			</a>
 		</h3>
 		<% if user.email.present? %>
 			<article class="text">

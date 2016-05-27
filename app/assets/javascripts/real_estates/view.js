@@ -336,7 +336,7 @@ $(function () {
 					}).done(function (data) {
 						if (data.status == 0) {
 							if (active) {
-								$button.text('Đã quan tâm').attr('data-actived', '');
+								$button.text('Đang quan tâm').attr('data-actived', '');
 							}
 							else {
 								$button.text('Quan tâm').removeAttr('data-actived');

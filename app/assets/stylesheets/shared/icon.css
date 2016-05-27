@@ -1,164 +1,125 @@
-/*--------------------------------------------------------*/
-/*Icon*/
-/*--------------------------------------------------------*/
-/*start icon size*/
-.icon-16 {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background: url('/assets/icon/icon.png') no-repeat;
-	vertical-align: middle;
+@font-face {
+    font-family: 'icomoon';
+    src:
+        url('/assets/icomoon/icomoon.ttf?t957fu') format('truetype'),
+        url('/assets/icomoon/icomoon.woff?t957fu') format('woff'),
+        url('/assets/icomoon/icomoon.svg?t957fu#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
-.icon-24 {
-	display: inline-block;
-	width: 24px;
-	height: 24px;
-	background: url('/assets/icon/icon.png') no-repeat;
-	vertical-align: middle;
-}
-.icon-32 {
-	display: inline-block;
-	width: 32px;
-	height: 32px;
-	background: url('/assets/icon/icon.png') no-repeat;
-	vertical-align: middle;
-}
-/*end*/
 
-/*start icon-16*/
-.icon-menu {
-	background-position: 0 -112px; 
-}
-.icon-checker {
-	background-position: 0 -128px;
-}
-/*end*/
+[class^="ico-"], [class*=" ico-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-/*start icon-24*/
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
-/*end*/
+.ico-git-pull-request:before {
+    content: "\e91b";
+}
+.ico-bullhorn:before {
+    content: "\e91c";
+}
+.ico-search:before {
+    content: "\e900";
+}
+.ico-menu:before {
+    content: "\e901";
+}
+.ico-youtube:before {
+    content: "\e915";
+}
+.ico-google-plus:before {
+    content: "\e916";
+}
+.ico-facebook:before {
+    content: "\e910";
+}
+.ico-sign-in:before {
+    content: "\e90e";
+}
+.ico-phone:before {
+    content: "\e90c";
+}
+.ico-envelop:before {
+    content: "\e90d";
+}
+.ico-clock:before {
+    content: "\e906";
+}
+.ico-info:before {
+    content: "\e90a";
+}
+.ico-newspaper:before {
+    content: "\e908";
+}
+.ico-compass:before {
+    content: "\e909";
+}
+.ico-bedroom:before {
+    content: "\e912";
+}
+.ico-home:before {
+    content: "\e914";
+}
+.ico-street-view:before {
+    content: "\e91d";
+}
+.ico-pencil-square:before {
+    content: "\e91e";
+}
+.ico-pencil:before {
+    content: "\e91f";
+}
+.ico-building:before {
+    content: "\e920";
+}
+.ico-map-o:before {
+    content: "\e919";
+}
+.ico-filter:before {
+    content: "\e91a";
+}
+.ico-text_align_right:before {
+    content: "\e902";
+}
+.ico-text_align_center:before {
+    content: "\e903";
+}
+.ico-text_align_left:before {
+    content: "\e904";
+}
+.ico-text_align_justify:before {
+    content: "\e905";
+}
+.ico-chevron-left:before {
+    content: "\e907";
+}
+.ico-chevron-right:before {
+    content: "\e90b";
+}
+.ico-restroom:before {
+    content: "\e913";
+}
+.ico-area:before {
+    content: "\e917";
+}
+.ico-hash:before {
+    content: "\e918";
+}
+.ico-upload:before {
+    content: "\e90f";
+}
+.ico-location:before {
+    content: "\e911";
+}
 
-/*start icon-32*/
-.icon-home-sale {
-	background-position: -40px 0; 	
-}
-.icon-home-rent {
-	background-position: -40px -32px; 
-}
-.icon-home-sale-result {
-	background-position: -40px -64px;
-}
-.icon-home-rent-result {
-	background-position: -40px -96px;
-}
-/*end*/
-
-
-/*start icon-24*/
-.icon-search {
-	background-position: -16px 0;
-}
-/*end*/
-
-/*start icon-16*/
-.icon-done {
-	background-position: 0 0;	
-}
-.icon-position {
-	background-position: 0 -16px;	
-}
-.icon-dollar {
-	background-position: 0 -32px;
-}
-/*end*/
-
-/*start icon*/
-.icon {
-	display: inline-block;
-	vertical-align: -3px;
-	margin-right: 7px;
-}
-	.icon-favor {
-		background: url('/assets/icon/icon-favor.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-		.icon-favor:hover,
-		.icon-favor.active {
-			background-position: 0 -16px;
-		}
-	.icon-buy {
-		background: url('/assets/icon/icon-buy.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-		.icon-buy:hover {
-			background-position: 0 -16px;
-		}
-	.icon-share {
-		background: url('/assets/icon/icon-share.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-		.icon-share:hover {
-			background-position: 0 -16px;
-		}
-	.icon-zestimate {
-		background: url('/assets/icon/icon-zestimate.png') no-repeat;
-		width: 20px;
-		height: 16px;
-	}
-		.icon-zestimate:hover {
-			background-position: 0 -16px;
-		}
-	.icon-mini-menu {
-		background: url('/assets/icon/menu.png') no-repeat;
-		width: 30px;
-		height: 30px;
-	}
-	.icon-phone {
-		background: url('/assets/icon/icon-phone.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-address {
-		background: url('/assets/icon/icon-address.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-skype {
-		background: url('/assets/icon/icon-skype.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-mail {
-		background: url('/assets/icon/icon-mail.png') no-repeat;
-		width: 16px;
-		height: 15px;
-	}
-	.icon-check {
-		background: url('/assets/icon/icon-check.png') no-repeat;
-		width: 15px;
-		height: 15px;
-	}
-	.icon-facebook {
-		background: url('/assets/icon/icon-facebook.png') no-repeat;
-		width: 32px;
-		height: 32px;
-	}
-	.icon-googleplus {
-		background: url('/assets/icon/icon-googleplus.png') no-repeat;
-		width: 32px;
-		height: 32px;
-	}
-	.icon-youtube {
-		background: url('/assets/icon/icon-youtube.png') no-repeat;
-		width: 32px;
-		height: 32px;
-	}
-	.icon-gift {
-		background: url('/assets/icon/icon-gift.png') no-repeat;
-		width: 16px;
-		height: 16px;
-	}
-	/*end icon*/

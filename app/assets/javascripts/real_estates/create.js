@@ -474,7 +474,8 @@ $(function () {
 			$form.find('#map').css({
 				height: '300px'
 			}).locationpicker(options, {
-				'isNew': $form.find('#location').data('new')
+				'isNew': $form.find('#location').data('new'),
+				required: true
 			});
 		}
 

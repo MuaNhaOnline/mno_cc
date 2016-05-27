@@ -967,15 +967,7 @@ $(function () {
 						}
 					}
 					else {
-						if (days == 1) {
-							shortText = 'Hôm qua';
-						}
-						else if (days == 2) {
-							shortText = 'Hôm kia';
-						}
-						else {
-							shortText = days + ' ngày trước';
-						}
+						shortText = days + ' ngày trước';
 						repeat = (24 * (days + 1) - hours) * 3600;
 					}
 				}

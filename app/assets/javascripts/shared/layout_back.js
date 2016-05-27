@@ -1,16 +1,69 @@
 $(function () {
-	init();
 	customPrototype();
 	customJquery();
 	_initGlobalEvent();
 
 	// Init
 
-	function init() {
+	(function () {
 		$('[data-toggle="offcanvas"]').on('click', function () {
 			$.cookie('sidebar_collapse', $body.is('.sidebar-collapse') ? '1' : '0');
 		});
-	}
+
+		// Notification
+			
+			function initItems($items) {
+				$items.siblings('.unread').on('mouseenter.change_read_status click.change_read_status', function () {
+					var $item = $(this);
+
+					$item.removeClass('unread');
+					var remain = $('#notifications_list li.unread').length;
+					if (remain != 0) {
+						$('#notification_count').text(remain);
+					}
+					else {
+						$('#notification_count').remove();
+					}
+
+					$.ajax({
+						url: '/notifications/set_read_status/' + $item.data('value'),
+						method: 'POST',
+						dataType: 'JSON'
+					});
+				});	
+			}
+
+			initItems($('#notifications_list li'));
+
+			var loading = false, page = 1;
+			$('#notifications_list').on('scroll', function () {
+				if (this.scrollTop + $(this).height() >= this.scrollHeight - 50 && !loading) {
+					loading = true;
+					$.ajax({
+						url: '/notifications/load_more',
+						data: {
+							page: ++page
+						},
+						dataType: 'JSON'
+					}).always(function () {
+						loading = false;
+					}).done(function (data) {
+						if (data.status == 0) {
+							var $newItems = $(data.result);
+							initItems($newItems);
+							$('#notifications_list').append($newItems);
+						}
+						else {
+							page--;
+						}
+					}).fail(function () {
+						page--;
+					});
+				}
+			});
+		
+		// / Notification
+	})();
 
 	// / Init
 

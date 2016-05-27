@@ -48,6 +48,7 @@ $(function () {
 
 							autocomplete.addListener('place_changed', function() {
 								var place = autocomplete.getPlace();
+								console.log(a = place);
 								if (!place.geometry) {
 									return;
 								}

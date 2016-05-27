@@ -8,7 +8,7 @@
 		return
 	end
 
-	user = case log.user_type
+	user_name = case log.user_type
 		when 'user'
 			if log.interact_user.blank?
 				log.delete
@@ -33,7 +33,7 @@
 		<% case log.action %>
 		<% when 'create' %>
 			<h3 class="timeline-header">
-				<%= user %> Đã tạo bất động sản mới
+				<%= user_name %> Đã tạo bất động sản mới
 			</h3>
 			<div class="timeline-body">
 				<a href="/bat-dong-san/<%= log.real_estate.full_slug %>">
@@ -43,7 +43,7 @@
 			</div>
 		<% when 'edit' %>
 			<h3 class="timeline-header">
-				<%= user %> Đã sửa bất động sản
+				<%= user_name %> Đã sửa bất động sản
 			</h3>
 			<div class="timeline-body">
 				<a href="/bat-dong-san/<%= log.real_estate.full_slug %>">
@@ -53,7 +53,7 @@
 			</div>
 		<% when 'approve' %>
 			<h3 class="timeline-header">
-				<%= user %> Đã duyệt
+				<%= user_name %> Đã duyệt
 			</h3>
 			<div class="timeline-body">
 				<a href="/bat-dong-san/<%= log.real_estate.full_slug %>">

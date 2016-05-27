@@ -633,294 +633,372 @@ class RealEstate < ActiveRecord::Base
 
 		# Get by purpose
 
-		def self.get_by_current_purpose
-			purpose_condition = nil
+			def self.get_by_current_purpose
+				purpose_condition = nil
 
-			case User.options[:current_purpose]
-			when 'r'
-				purpose_condition = 'purposes.code = \'rent\' OR purposes.code = \'sell_rent\''
-			else
-				purpose_condition = 'purposes.code = \'sell\' OR purposes.code = \'sell_rent\''
+				case User.options[:current_purpose]
+				when 'r'
+					purpose_condition = 'purposes.code = \'rent\' OR purposes.code = \'sell_rent\''
+				else
+					purpose_condition = 'purposes.code = \'sell\' OR purposes.code = \'sell_rent\''
+				end
+				joins(:purpose).where(purpose_condition)
 			end
-			joins(:purpose).where(purpose_condition)
-		end
 
 		# / Get by purpose
 
 		# Get random
 
-		def self.get_random
-			order('RANDOM()')
-		end
+			def self.get_random
+				order('RANDOM()')
+			end
 
 		# / Get random
 
 		# Search with params
 
-		# params: 
-		#   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area, constructional_level
-		#   is_favorite
-		#   newest, cheapest
-		# 	bounds
-		def self.search_with_params params = {}
-			where = 'is_pending = false AND is_show = true AND is_force_hide = false AND block_real_estate_group_id IS NULL'
-			joins = []
-			order = {}
+			# params: 
+			#   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area, constructional_level
+			#   is_favorite
+			#   newest, cheapest
+			# 	bounds
+			def self.search_with_params params = {}
+				where = 'is_pending = false AND is_show = true AND is_force_hide = false AND block_real_estate_group_id IS NULL'
+				joins = []
+				order = {}
 
-			# Purpose
-			if params[:purpose].present?
-				where += " AND purposes.code = '#{params[:purpose]}'"
-				joins << :purpose
-			end
+				# Purpose
+				if params[:purpose].present?
+					where += " AND purposes.code = '#{params[:purpose]}'"
+					joins << :purpose
+				end
 
-			# Price
-			if params[:price].present?
-				price_range = params[:price].split(';')
+				# Price
+				if params[:price].present?
+					price_range = params[:price].split(';')
 
-				if User.options[:current_purpose] == 'r'
-					where += " AND rent_price IS NOT NULL AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+					if User.options[:current_purpose] == 'r'
+						where += " AND rent_price IS NOT NULL AND rent_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+					else
+						where += " AND sell_price IS NOT NULL AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+					end
+				end
+
+				# Price range
+				if params[:price_from].present? || params[:price_to].present?
+					# Format number
+					params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000 if params[:price_from].present?
+					params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000 if params[:price_to].present?
+
+					if params[:price_from].present? && params[:price_to].present? && params[:price_from] > params[:price_to]
+						temp = params[:price_from]
+						params[:price_from] = params[:price_to]
+						params[:price_to] = temp
+					end
+
+					if params[:purpose] == '' || params[:purpose] == 'rent'
+						where += " AND rent_price >= #{params[:price_from]}" if params[:price_from].present?
+						where += " AND rent_price <= #{params[:price_to]}" if params[:price_to].present?
+					end
+
+					if params[:purpose] == '' || params[:purpose] == 'sell'
+						where += " AND sell_price >= #{params[:price_from]}" if params[:price_from].present?
+						where += " AND sell_price <= #{params[:price_to]}" if params[:price_to].present?
+					end
+				end
+
+				# Area range
+				if params[:area_from].present? || params[:area_to].present?
+					# Format number
+					params[:area_from] = ApplicationHelper.format_f(params[:area_from]).to_f if params[:area_from].present?
+					params[:area_to] = ApplicationHelper.format_f(params[:area_to]).to_f if params[:area_to].present?
+
+					if params[:area_from].present? && params[:area_to].present? && params[:area_from] > params[:area_to]
+						temp = params[:area_from]
+						params[:area_from] = params[:area_to]
+						params[:area_to] = temp
+					end
+
+					where += " AND (campus_area >= #{params[:area_from]} OR using_area >= #{params[:area_from]} OR constructional_area >= #{params[:area_from]})" if params[:area_from].present?
+					where += " AND (campus_area <= #{params[:area_to]} OR using_area <= #{params[:area_to]} OR constructional_area <= #{params[:area_to]})" if params[:area_to].present?
+				end
+
+				# Real estate type
+				if params[:real_estate_type].present?
+					if ApplicationHelper.numeric? params[:real_estate_type]
+						where += " AND real_estate_type_id = #{params[:real_estate_type]}"
+					else
+						joins << :real_estate_type
+						where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
+					end
+				end
+
+				if params[:utilities].present?
+					# Pool
+					if params[:utilities].has_key? :pool
+						joins << :property_utilities
+						where += " AND property_utilities.code LIKE '%|pool|%'"
+					end
+				end
+
+				# Contructional level
+				if params[:constructional_level].present?
+					joins << :constructional_level
+					where += " AND constructional_levels.code LIKE '%|#{params[:constructional_level]}|%'"
+				end
+
+				# District
+				if params[:district].present?
+					joins << :district
+					where += " AND districts.id = #{params[:district]}"
+				end
+
+				# Area
+				if params[:area].present?
+					params[:area] = params[:area].split('-')
+					params[:area][1] = '1000000' if params[:area][1] == '0'
+					where += " AND ((#{params[:area][0]} <= constructional_area AND constructional_area <= #{params[:area][1]}) OR (#{params[:area][0]} <= using_area AND using_area <= #{params[:area][1]}) OR (#{params[:area][0]} <= campus_area AND campus_area <= #{params[:area][1]}))"
+				end
+
+				# Favorite
+				if params.has_key? :is_favorite
+					where += " AND is_favorite = #{params[:is_favorite]}"
+				end
+
+				# Time order
+				if params.has_key? :newest
+					order[:created_at] = 'desc'
+				end
+
+				# Price order
+				if params.has_key?(:cheapest) || params.has_key?(:price)
+					if User.options[:current_purpose] == 'r'
+						order[:rent_price] = 'asc'
+					else
+						order[:sell_price] = 'asc'
+					end
+				end
+
+				# Bounds
+				if params.has_key?(:bounds)
+					if params[:bounds][:from][:lat] > params[:bounds][:to][:lat]
+						temp = params[:bounds][:from][:lat]
+						params[:bounds][:from][:lat] = params[:bounds][:to][:lat]
+						params[:bounds][:to][:lat] = temp
+					end
+					if params[:bounds][:from][:lng] > params[:bounds][:to][:lng]
+						temp = params[:bounds][:from][:lng]
+						params[:bounds][:from][:lng] = params[:bounds][:to][:lng]
+						params[:bounds][:to][:lng] = temp
+					end
+
+					where += " AND lat BETWEEN #{params[:bounds][:from][:lat]} AND #{params[:bounds][:to][:lat]}"
+					where += " AND lng BETWEEN #{params[:bounds][:from][:lng]} AND #{params[:bounds][:to][:lng]}"
+				end
+
+				# where += " AND is_full = #{params[:is_full] || 'true'}"
+
+				joins = joins.uniq
+
+				# Keyword
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
 				else
-					where += " AND sell_price IS NOT NULL AND sell_price BETWEEN #{price_range[0]} AND #{price_range[1]}"
+					joins(joins).where(where).order(order)
 				end
 			end
 
-			# Price range
-			if params[:price_from].present? || params[:price_to].present?
-				# Format number
-				params[:price_from] = ApplicationHelper.format_f(params[:price_from]).to_f * 1000000 if params[:price_from].present?
-				params[:price_to] = ApplicationHelper.format_f(params[:price_to]).to_f * 1000000 if params[:price_to].present?
+			def self.user_search_with_params user_type, user_id, params = {}
+				where = "user_id = #{user_id} AND user_type = '#{user_type}' AND is_show = true AND is_draft = false AND block_real_estate_group_id IS NULL"
+				joins = []
+				order = {}
 
-				if params[:price_from].present? && params[:price_to].present? && params[:price_from] > params[:price_to]
-					temp = params[:price_from]
-					params[:price_from] = params[:price_to]
-					params[:price_to] = temp
+				if User.current.cannot? :manage, RealEstate
+					where += ' AND is_force_hide = false'
 				end
 
-				if params[:purpose] == '' || params[:purpose] == 'rent'
-					where += " AND rent_price >= #{params[:price_from]}" if params[:price_from].present?
-					where += " AND rent_price <= #{params[:price_to]}" if params[:price_to].present?
+				if params.has_key? :view
+					order[:view_count] = params[:view]
 				end
 
-				if params[:purpose] == '' || params[:purpose] == 'sell'
-					where += " AND sell_price >= #{params[:price_from]}" if params[:price_from].present?
-					where += " AND sell_price <= #{params[:price_to]}" if params[:price_to].present?
-				end
-			end
-
-			# Area range
-			if params[:area_from].present? || params[:area_to].present?
-				# Format number
-				params[:area_from] = ApplicationHelper.format_f(params[:area_from]).to_f if params[:area_from].present?
-				params[:area_to] = ApplicationHelper.format_f(params[:area_to]).to_f if params[:area_to].present?
-
-				if params[:area_from].present? && params[:area_to].present? && params[:area_from] > params[:area_to]
-					temp = params[:area_from]
-					params[:area_from] = params[:area_to]
-					params[:area_to] = temp
+				if params.has_key? :interact
+					order[:updated_at] = params[:interact]
 				end
 
-				where += " AND (campus_area >= #{params[:area_from]} OR using_area >= #{params[:area_from]} OR constructional_area >= #{params[:area_from]})" if params[:area_from].present?
-				where += " AND (campus_area <= #{params[:area_to]} OR using_area <= #{params[:area_to]} OR constructional_area <= #{params[:area_to]})" if params[:area_to].present?
-			end
+				if params.has_key? :id
+					order[:id] = params[:id]
+				end
 
-			# Real estate type
-			if params[:real_estate_type].present?
-				if ApplicationHelper.numeric? params[:real_estate_type]
-					where += " AND real_estate_type_id = #{params[:real_estate_type]}"
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
 				else
-					joins << :real_estate_type
-					where += " AND real_estate_types.code LIKE '%|#{params[:real_estate_type]}|%'"
+					joins(joins).where(where).order(order)
 				end
 			end
 
-			if params[:utilities].present?
-				# Pool
-				if params[:utilities].has_key? :pool
-					joins << :property_utilities
-					where += " AND property_utilities.code LIKE '%|pool|%'"
+			# params: 
+			#   keyword,
+			#   newest, cheapest, interact, view, id
+			def self.user_favorite_search_with_params user_id, params = {}
+				where = "users_favorite_real_estates.user_id = #{User.current.id} AND is_show = true AND is_draft = false AND block_real_estate_group_id IS NULL"
+				joins = [:users_favorite_real_estates]
+				order = {}
+
+				if User.current.cannot? :manage, RealEstate
+					where += ' AND is_force_hide = false'
 				end
-			end
 
-			# Contructional level
-			if params[:constructional_level].present?
-				joins << :constructional_level
-				where += " AND constructional_levels.code LIKE '%|#{params[:constructional_level]}|%'"
-			end
+				if params.has_key? :view
+					order[:view_count] = params[:view]
+				end
 
-			# District
-			if params[:district].present?
-				joins << :district
-				where += " AND districts.id = #{params[:district]}"
-			end
+				if params.has_key? :interact
+					order[:updated_at] = params[:interact]
+				end
 
-			# Area
-			if params[:area].present?
-				params[:area] = params[:area].split('-')
-				params[:area][1] = '1000000' if params[:area][1] == '0'
-				where += " AND ((#{params[:area][0]} <= constructional_area AND constructional_area <= #{params[:area][1]}) OR (#{params[:area][0]} <= using_area AND using_area <= #{params[:area][1]}) OR (#{params[:area][0]} <= campus_area AND campus_area <= #{params[:area][1]}))"
-			end
+				if params.has_key? :id
+					order[:id] = params[:id]
+				end
 
-			# Favorite
-			if params.has_key? :is_favorite
-				where += " AND is_favorite = #{params[:is_favorite]}"
-			end
-
-			# Time order
-			if params.has_key? :newest
-				order[:created_at] = 'desc'
-			end
-
-			# Price order
-			if params.has_key?(:cheapest) || params.has_key?(:price)
-				if User.options[:current_purpose] == 'r'
-					order[:rent_price] = 'asc'
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
 				else
-					order[:sell_price] = 'asc'
+					joins(joins).where(where).order(order)
 				end
 			end
 
-			# Bounds
-			if params.has_key?(:bounds)
-				if params[:bounds][:from][:lat] > params[:bounds][:to][:lat]
-					temp = params[:bounds][:from][:lat]
-					params[:bounds][:from][:lat] = params[:bounds][:to][:lat]
-					params[:bounds][:to][:lat] = temp
+			# params: 
+			#   keyword,
+			#   newest, cheapest, interact, view, id
+			def self.my_search_with_params params = {}
+				where = "user_id = #{User.current.id} AND user_type = 'user' AND block_real_estate_group_id IS NULL"
+				joins = []
+				order = {}
+
+				if params.has_key? :view
+					order[:view_count] = params[:view]
 				end
-				if params[:bounds][:from][:lng] > params[:bounds][:to][:lng]
-					temp = params[:bounds][:from][:lng]
-					params[:bounds][:from][:lng] = params[:bounds][:to][:lng]
-					params[:bounds][:to][:lng] = temp
+
+				if params.has_key? :interact
+					order[:updated_at] = params[:interact]
 				end
 
-				where += " AND lat BETWEEN #{params[:bounds][:from][:lat]} AND #{params[:bounds][:to][:lat]}"
-				where += " AND lng BETWEEN #{params[:bounds][:from][:lng]} AND #{params[:bounds][:to][:lng]}"
+				if params.has_key? :id
+					order[:id] = params[:id]
+				end
+
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
+				else
+					joins(joins).where(where).order(order)
+				end
 			end
 
-			# where += " AND is_full = #{params[:is_full] || 'true'}"
+			# params: 
+			#   keyword,
+			#   newest, cheapest, interact, view, id
+			def self.my_favorite_search_with_params params = {}
+				where = "users_favorite_real_estates.user_id = #{User.current.id}"
+				joins = [:users_favorite_real_estates]
+				order = {}
 
-			joins = joins.uniq
+				if params.has_key? :view
+					order[:view_count] = params[:view]
+				end
 
-			# Keyword
-			if params[:keyword].present?
-				search(params[:keyword]).joins(joins).where(where).order(order)
-			else
-				joins(joins).where(where).order(order)
-			end
-		end
+				if params.has_key? :interact
+					order[:updated_at] = params[:interact]
+				end
 
-		# params: 
-		#   keyword,
-		#   newest, cheapest, interact, view, id
-		def self.my_search_with_params params = {}
-			where = "user_id = #{User.current.id} AND block_real_estate_group_id IS NULL"
-			joins = []
-			order = {}
+				if params.has_key? :id
+					order[:id] = params[:id]
+				end
 
-			if params.has_key? :view
-				order[:view_count] = params[:view]
-			end
-
-			if params.has_key? :interact
-				order[:updated_at] = params[:interact]
-			end
-
-			if params.has_key? :id
-				order[:id] = params[:id]
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
+				else
+					joins(joins).where(where).order(order)
+				end
 			end
 
-			if params[:keyword].present?
-				search(params[:keyword]).joins(joins).where(where).order(order)
-			else
-				joins(joins).where(where).order(order)
-			end
-		end
+			# params: 
+			#   keyword,
+			#   newest, cheapest, interact, view, id
+			def self.pending_search_with_params params = {}
+				where = 'is_pending = true AND is_draft = false AND is_active = true AND block_real_estate_group_id IS NULL'
+				joins = []
+				order = {}
 
-		# params: 
-		#   keyword,
-		#   newest, cheapest, interact, view, id
-		def self.my_favorite_search_with_params params = {}
-			where = "users_favorite_real_estates.user_id = #{User.current.id}"
-			joins = [:users_favorite_real_estates]
-			order = {}
+				if params.has_key? :view
+					order[:view_count] = params[:view]
+				end
 
-			if params.has_key? :view
-				order[:view_count] = params[:view]
-			end
+				if params.has_key? :interact
+					order[:updated_at] = params[:interact]
+				end
 
-			if params.has_key? :interact
-				order[:updated_at] = params[:interact]
-			end
+				if params.has_key? :id
+					order[:id] = params[:id]
+				end
 
-			if params.has_key? :id
-				order[:id] = params[:id]
-			end
-
-			if params[:keyword].present?
-				search(params[:keyword]).joins(joins).where(where).order(order)
-			else
-				joins(joins).where(where).order(order)
-			end
-		end
-
-		# params: 
-		#   keyword,
-		#   newest, cheapest, interact, view, id
-		def self.pending_search_with_params params = {}
-			where = 'is_pending = true AND is_draft = false AND is_active = true AND block_real_estate_group_id IS NULL'
-			joins = []
-			order = {}
-
-			if params.has_key? :view
-				order[:view_count] = params[:view]
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
+				else
+					joins(joins).where(where).order(order)
+				end
 			end
 
-			if params.has_key? :interact
-				order[:updated_at] = params[:interact]
-			end
+			# params: 
+			#   keyword,
+			#   newest, cheapest, interact, view, id, favorite
+			def self.manager_search_with_params params = {}
+				where = 'is_pending = false AND block_real_estate_group_id IS NULL'
+				joins = []
+				order = {}
 
-			if params.has_key? :id
-				order[:id] = params[:id]
-			end
+				if params.has_key? :view
+					order[:view_count] = params[:view]
+				end
 
-			if params[:keyword].present?
-				search(params[:keyword]).joins(joins).where(where).order(order)
-			else
-				joins(joins).where(where).order(order)
-			end
-		end
+				if params.has_key? :interact
+					order[:updated_at] = params[:interact]
+				end
 
-		# params: 
-		#   keyword,
-		#   newest, cheapest, interact, view, id, favorite
-		def self.manager_search_with_params params = {}
-			where = 'is_pending = false AND block_real_estate_group_id IS NULL'
-			joins = []
-			order = {}
+				if params.has_key? :favorite
+					order[:is_favorite] = params[:favorite]
+				end
 
-			if params.has_key? :view
-				order[:view_count] = params[:view]
-			end
+				if params.has_key? :id
+					order[:id] = params[:id]
+				end
 
-			if params.has_key? :interact
-				order[:updated_at] = params[:interact]
+				if params[:keyword].present?
+					search(params[:keyword]).joins(joins).where(where).order(order)
+				else
+					joins(joins).where(where).order(order)
+				end
 			end
-
-			if params.has_key? :favorite
-				order[:is_favorite] = params[:favorite]
-			end
-
-			if params.has_key? :id
-				order[:id] = params[:id]
-			end
-
-			if params[:keyword].present?
-				search(params[:keyword]).joins(joins).where(where).order(order)
-			else
-				joins(joins).where(where).order(order)
-			end
-		end
 
 		# / Search with params
+
+		# Get need notify users
+		
+			def self.need_notify_users notification
+				case notification.action
+				when 'create', 'edit'
+					User.joins(system_groups: :permissions).where(permissions: { id: 2 }).all.map{ |user| [user.id, 'user'] }
+				when 'approve'
+					if notification.real_estate.user_type == 'user'
+						[[notification.real_estate.user_id, 'user']]
+					else
+						[]
+					end
+				else
+					[]
+				end
+			end
+		
+		# / Get need notify users
 
 	# / Get
 

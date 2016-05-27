@@ -61,11 +61,12 @@ Rails.application.routes.draw do
 
 		get 'bat-dong-san/danh-sach' => 'real_estates#list'
 		get 'bat-dong-san/danh-sach-:search' => 'real_estates#list'
+		get 'bat-dong-san/cua-thanh-vien/:user_id' => 'real_estates#list'
 		get 'bat-dong-san/dang-tin(/:id)' => 'real_estates#create'
 		get 'bat-dong-san/dang-tin-tham-dinh(/:id)' => 'real_estates#create', appraisal: true
 		get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
 		get 'bat-dong-san/cua-toi' => 'real_estates#my'
-		get 'bat-dong-san/yeu-thich-cua-toi' => 'real_estates#my_favorite'
+		get 'bat-dong-san/quan-tam-cua-toi' => 'real_estates#my_favorite'
 		get 'bat-dong-san/quan-tam' => 'real_estates#my_favorite'
 		get 'bat-dong-san/kiem-duyet' => 'real_estates#pending'
 		get 'bat-dong-san/quan-ly' => 'real_estates#manager'
@@ -178,13 +179,8 @@ Rails.application.routes.draw do
 
 	# Contact request
 
-		get 'contact_requests/index'
-		get 'contact_requests/_index_list'
-		get 'contact_requests/_view_statistic/:id' => 'contact_requests#_view_statistic'
-		get 'contact_requests' => 'contact_requests#index'
-		post 'contact_requests/set_result'
-		post 'contact_requests/save'
-		post 'contact_requests/save'
+		get 'yeu-cau/quan-ly' => 'contact_requests#manage'
+		get 'yeu-cau/cua-toi' => 'contact_requests#my'
 
 	# / Contact request
 
@@ -235,7 +231,7 @@ Rails.application.routes.draw do
 		post 'questions/pin/:id/:status' => 'questions#pin'
 		post 'questions/delete/:id' => 'questions#delete'
 
-	# / Question
+	# / Questioncontact_request
 
 	# Mail box
 
@@ -358,5 +354,5 @@ Rails.application.routes.draw do
 	# / Temp
 
 	get ':controller(/:action(/:id))', action: 'index'
-	post ':controller/:action'
+	post ':controller/:action(/:id)'
 end

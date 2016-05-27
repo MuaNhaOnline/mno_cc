@@ -85,6 +85,12 @@ class Ability
 				can :manage, Project if user.system_permissions.include? 3
 			
 			# / Project
+
+			# Contact request
+			
+				can :manage, ContactRequest if user.system_permissions.include? 4
+			
+			# / Contact request
 		
 		# / With permission
 
