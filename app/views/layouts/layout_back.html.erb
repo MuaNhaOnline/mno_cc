@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
 <head>
-	<title><%= @title.blank? ? '' : @title + ' - ' %> Mua nhà online</title>
+	<title><%= @title.blank? ? '' : @title + ' - ' %> <%= @_title.blank? ? '' : @_title + ' - ' %> Mua nhà online</title>
 
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="description" Contents="MuaNhaOnline - Giá trị thực trong tầm tay">
 
@@ -75,12 +75,10 @@
 		</a>
 		<!-- Header Navbar: style can be found in header.less -->
 		<nav class="navbar navbar-static-top" role="navigation">
+			<a href="#" class="visible-xs sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+			</a>
 			<!-- Sidebar toggle button-->
-			<% if signed? %>
-				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-					<span class="sr-only">Toggle navigation</span>
-				</a>
-			<% end %>
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
 					<li class="dropdown notifications-menu">
@@ -262,7 +260,7 @@
 	<div class="content-wrapper clearfix <%= 'margin-0' unless signed? %>">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
-			<h1><%= yield :content_header %></h1>
+			<h1><%= yield :content_header %> <%= @_content_header %></h1>
 			<!--<ol class="breadcrumb"><%= yield :navigator %></ol> -->
 			<!-- <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Dashboard</li> -->
@@ -338,6 +336,7 @@
 <script type="text/javascript" src="/assets/shared/cropper.min.js"></script>
 <script type="text/javascript" src="/assets/shared/ckeditor/ckeditor.js"></script>
 <%= yield :scripts %>
+<%= yield :javascripts %>
 <!-- Google analytics -->
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');

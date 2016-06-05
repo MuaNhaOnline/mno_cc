@@ -1402,4 +1402,30 @@ class RealEstatesController < ApplicationController
 	
 	# / Zoho
 
+	# Registraion
+	
+		# View
+		def register
+			@registration = ReRegistration.new
+
+			if request.post?
+				if @registration.save_with_params params[:re_registration]
+					response = {
+						status: 0,
+						result: @registration.id
+					}
+				else
+					response = {
+						status: 2
+					}
+				end
+
+				return render json: response
+			end
+			
+			render layout: 'layout_back'
+		end
+	
+	# / Registraion
+
 end

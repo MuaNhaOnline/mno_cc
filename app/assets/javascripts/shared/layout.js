@@ -11,6 +11,7 @@ $(function () {
 	_startPagination();
 	_initSizeProcess();
 	initReadTime();
+	customJquery();
 
 	// setInterval(function () {
 	//   $.ajax({
@@ -49,6 +50,53 @@ $(function () {
 		});
 	});
 
+
+	// Custom jquery
+
+		function customJquery() {
+			$.ajaxSetup({
+				dataType: 'JSON'
+			});
+
+			/*
+				params: {}
+			*/
+			$.fn.isOnScreen = function (params) {
+				// Default params
+				params = params || {};
+
+				var win = $(window);
+
+				var viewport = {
+					top: 	win.scrollTop(),
+					// left: 	win.scrollLeft()
+				};
+				viewport.bottom = 	viewport.top + win.height();
+				// viewport.right 	= 	viewport.left + win.width();
+
+				var bounds 		= 	this.offset();
+				bounds.bottom 	= 	bounds.top + this.outerHeight();
+				// bounds.right 	= 	bounds.left + this.outerWidth();
+
+				return !(viewport.bottom < bounds.top  || viewport.top  > bounds.bottom);
+				// viewport.right 	< bounds.left || viewport.left > bounds.right || 
+			};
+
+			$.fn.startLoadingStatus = function (action) {
+				this.data('loading', action);
+				this.html('<i class="fa fa-circle-o-notch fa-spin fa-lg fa-fw"></i>');
+			}
+
+			$.fn.endLoadingStatus = function (action) {
+				if (this.data('loading') == action) {
+					this.data('loading', '');
+					this.html('');
+				}
+			}
+		}
+
+	// / Custom jquery
+	
 });
 
 // Helper
@@ -165,26 +213,24 @@ $(function () {
 			params = {};
 		}
 
-		var 
-			topW = $window.scrollTop(),
-			heightW = window.innerHeight,
-			bottomW = topW + heightW,
-			topI = $item.offset().top + (params['addTop'] || 0),
-			heightI = $item.height() + (params['addHeight'] || 0),
-			bottomI = topI + heightI + (params['addBottom'] || 0);
+		var win = $(window);
 
-		if (heightW > heightI) {
-			if ((topW < topI && topI < bottomW) ||
-				(topW < bottomI && bottomI < bottomW)) {
-				return true;
-			}
-		}
-		else if ((topI < bottomW && bottomW < bottomI) ||
-			(topI < topW && topW < bottomI)) {
-			return true;
-		}
+			var viewport = {
+					top : win.scrollTop(),
+					left : win.scrollLeft()
+			};
+			viewport.right = viewport.left + win.width();
+			viewport.bottom = viewport.top + win.height();
 
-		return false;
+			var bounds = this.offset();
+			bounds.right = bounds.left + this.outerWidth();
+			bounds.bottom = bounds.top + this.outerHeight();
+
+			var isOnScreen = (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+
+			return isOnScreen
+				? cbTrue && cbTrue(viewport, bounds)
+				: cbFalse && cbFalse(viewport, bounds);
 	}
 
 	/*
@@ -313,6 +359,19 @@ $(function () {
 		})
 	}
 
+	function _scrollIfCantSee($item, $ctn) {
+		var
+			scrollTop = $ctn.scrollTop(),
+			top = $item.position().top + scrollTop;
+
+		if (top < scrollTop) {
+			$ctn.scrollTop(top);
+		}
+		else if (top + $item.outerHeight() > scrollTop + $ctn.outerHeight()) {
+			$ctn.scrollTop(top - $ctn.outerHeight() + $item.outerHeight());
+		}
+	}
+
 // / Helper
 
 // Size
@@ -407,12 +466,13 @@ $(function () {
 			function()
 		init_list
 			function($list)
+		replaceState: false
 		return find(findParams)
 			findParams:
 				url
 				data
 					data pass to find
-				use_last_data: bool
+					'last_data' if want to use last data
 				note
 	*/
 	function _initPagination(params) {
@@ -423,7 +483,8 @@ $(function () {
 
 		var 
 			no = _temp['pagination_count']++
-			keyFind = 'is_finding_' + no;
+			keyFind = 'is_finding_' + no,
+			replaceState = 'replaceState' in params ? params['replaceState'] : false;
 
 		_temp[keyFind] = false;
 
@@ -485,8 +546,7 @@ $(function () {
 
 			_temp[keyFind] = $.ajax({
 					url: url,
-					data: data,
-					dataType: 'JSON'
+					data: data
 			}).always(function () {
 				_temp[keyFind] = false;
 			}).done(function (data) {
@@ -500,7 +560,7 @@ $(function () {
 							params['list'].html(data.result.list); 
 
 							if ('init_list' in params) {
-								params['init_list'](params['list']); 
+								params['init_list'](params['list'], findParams.note); 
 							}
 						}
 					}
@@ -509,6 +569,20 @@ $(function () {
 					if ('pagination' in params) {
 						params['pagination'].html(data.result.pagination);
 						initPagination(); 
+					}
+
+					if (replaceState) {
+						window.history.replaceState({}, document.title, this.url);
+					}
+				}
+				else if (data.status == 1) {
+					if ('list' in params) {
+						if (params['list'].closest('table').length == 0) {
+							params['list'].html('<article class="callout callout-warning"><h4>Không có kết quả</h4><p>Không tìm thấy kết quả, vui lòng thử lại sau</p></article>');
+						}
+						else {
+							params['list'].html('');
+						}
 					}
 				}
 				else {
@@ -2108,6 +2182,14 @@ $(function () {
 	}
 
 	function errorPopup() {
+		popupPrompt({
+			title: _t.form.error_title,
+			type: 'danger',
+			content: _t.form.error_content
+		});
+	}
+
+	function _errorPopup() {
 		popupPrompt({
 			title: _t.form.error_title,
 			type: 'danger',

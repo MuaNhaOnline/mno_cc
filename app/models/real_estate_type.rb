@@ -8,6 +8,17 @@ class RealEstateType < ActiveRecord::Base
 		order order: 'ASC'
 	end
 
+	# PgSearch
+
+		include PgSearch
+		pg_search_scope :search,
+			against: 		:meta_search,
+			using: 			{
+								:tsearch => { prefix: true }
+							}
+
+	# / PgSearch
+
 	# Attributes
 		
 		# Name

@@ -1,21 +1,10 @@
-<% content_for :stylesheets do %>
-	<link rel="stylesheet" type="text/css" href="/assets/system_groups/manage.css">
-<% end %>
-
-<% content_for :scripts do %>
-	<script type="text/javascript" src="/assets/system_groups/manage.js"></script>
-<% end %>
-
-<% content_for :content_header do %>
-	Quản lý quyền
-<% end %>
-
 <%
 =begin
-	params: 
+	params: @groups
 =end
 
-	@title = 'Quản lý quyền';
+	@_title 			=
+	@_content_header 	= 'Quản lý quyền';
 %>
 
 <div class="row">
@@ -28,8 +17,8 @@
 					<h2 class="box-title">
 						Danh sách nhóm
 					</h2>
-					<article class="pull-right">
-						<a id="create_group" class="btn btn-flat btn-default btn-xs">Thêm</a>
+					<article class="box-tools pull-right">
+						<a id="create_group" class="btn btn-box-tool"><span class="fa fa-plus"></span> Thêm</a>
 					</article>
 				</section>
 				<section class="box-body padding-0 list" id="groups_list">
@@ -48,9 +37,9 @@
 					<h2 class="box-title">
 						Danh sách quyền
 					</h2>
-					<article class="pull-right">
-						<a id="edit_group" class="btn btn-flat btn-default btn-xs">Sửa nhóm</a>
-						<a id="delete_group" class="btn btn-flat btn-default btn-xs">Xóa nhóm</a>
+					<article class="box-tools pull-right">
+						<a id="edit_group" class="btn btn-box-tool"><span class="fa fa-pencil"></span> Sửa nhóm</a>
+						<a id="delete_group" class="btn btn-box-tool"><span class="fa fa-close"></span> Xóa nhóm</a>
 					</article>
 				</section>
 				<section class="box-body content">
@@ -76,9 +65,9 @@
 					<h2 class="box-title">
 						Danh sách người dùng thuộc nhóm
 					</h2>
-					<article class="pull-right">
-						<a id="edit_group" class="btn btn-flat btn-default btn-xs">Sửa nhóm</a>
-						<a id="delete_group" class="btn btn-flat btn-default btn-xs">Xóa nhóm</a>
+					<article class="box-tools pull-right">
+						<a id="edit_group" class="btn btn-box-tool"><span class="fa fa-pencil"></span> Sửa nhóm</a>
+						<a id="delete_group" class="btn btn-box-tool"><span class="fa fa-close"></span> Xóa nhóm</a>
 					</article>
 				</section>
 				<section class="box-body">
@@ -96,3 +85,11 @@
 	
 	<!-- / Users -->
 </div>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/system_groups/manage.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/system_groups/manage.js"></script>
+<% end %>

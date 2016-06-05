@@ -294,11 +294,11 @@ class RealEstate < ActiveRecord::Base
 					params[:district_id] = district.id
 				end
 				unless params[:ward].blank?
-					ward = Ward.find_or_create_by name: params[:ward]
+					ward = Ward.find_or_create_by name: params[:ward], district_id: params[:district_id]
 					params[:ward_id] = ward.id
 				end
 				unless params[:street].blank?
-					street = Street.find_or_create_by name: params[:street]
+					street = Street.find_or_create_by name: params[:street], district_id: params[:district_id]
 					params[:street_id] = street.id
 				end
 

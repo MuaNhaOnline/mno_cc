@@ -11,11 +11,11 @@
 	<% (1..page_count).each do |i| %>
 		<% if i == page %>
 			<li class="active">
-				<a href="javascript:void(0)"><%= i %></a>
+				<a href="javascript:;"><%= i %></a>
 			</li>
 		<% else %>
 			<li>
-				<a href="javascript:void(0)" aria-click="paging" data-page="<%= i %>"><%= i %></a>
+				<a href="javascript:;" aria-click="paging" data-page="<%= i %>"><%= i %></a>
 			</li>
 		<% end %>
 	<% end %>

@@ -58,6 +58,10 @@
 		font-size: 15px;
 	}
 
+	.user-panel>.image img {
+		border-radius: 50%;
+	}
+
 	.sidebar-menu>li>a>.icon {
 		display: inline-block;
 		width: 20px;
@@ -117,7 +121,6 @@
 
 	body.loading {
 		cursor: progress;
-		opacity: .9;
 	}
 
 		body.loading > .loading-page {

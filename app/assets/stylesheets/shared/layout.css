@@ -759,6 +759,7 @@
 					overflow-x: hidden;
 					max-width: 90vw;
 					max-height: 90vh;
+					min-width: 300px;
 				}
 
 					.popup-full-container[data-dock="right"] > .popup-full > .popup-content {

@@ -8,7 +8,7 @@
 	status
 		1: Waiting contact
 		2: Recontact
-		3: Eliminate
+		3: Eliminated
 		4: Done
 
 =end 
@@ -36,9 +36,29 @@ class ContactRequest < ActiveRecord::Base
 
 	# Get
 
-		def self.need_contact
-			order(updated_at: 'asc').where('status = 1 OR status = 2')
-		end
+		# By status
+		
+			def self.need_contact_list
+				order(updated_at: 'asc').where('status = 1 OR status = 2')
+			end
+
+			def self.wait_contact_list
+				order(updated_at: 'asc').where('status = 1')
+			end
+
+			def self.recontact_list
+				order(updated_at: 'asc').where('status = 2')
+			end
+
+			def self.eliminated_list
+				order(updated_at: 'desc').where('status = 3')
+			end
+
+			def self.done_list
+				order(updated_at: 'desc').where('status = 4')
+			end
+		
+		# / By status
 
 		def self.real_estate_contact
 			where(object_type: 'real_estate', request_type: ['contact', 'register'])

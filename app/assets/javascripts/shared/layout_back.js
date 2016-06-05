@@ -1,6 +1,5 @@
 $(function () {
 	customPrototype();
-	customJquery();
 	_initGlobalEvent();
 
 	// Init
@@ -84,14 +83,6 @@ $(function () {
 	}
 
 	// / Custom property
-
-	// Custom jquery
-
-	function customJquery() {
-
-	}
-
-	// / Custom jquery
 
 });
 

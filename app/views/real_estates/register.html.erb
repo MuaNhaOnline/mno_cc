@@ -1,0 +1,186 @@
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/real_estates/register.css">
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/real_estates/register.js"></script>
+<% end %>
+
+<%
+=begin
+	params: 
+=end
+
+	@_title = 'Đăng ký bất động sản'
+	@_content_header = 'Đăng ký bất động sản'
+%>
+
+<%= form_for(
+	@registration,
+	url: 			'/real_estates/register',
+	method: 		'POST',
+	html: 			{
+						id: 		'register_form',
+						class: 		'form'
+					},
+	builder: 		ApplicationFormBuilder
+) do |f| %>
+	
+<div class="row">
+
+	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+
+		<div class="box box-primary">
+			<section class="box-header with-border">
+				<h2 class="box-title">
+					Thông tin đăng ký
+				</h2>
+			</section>
+			<section class="box-body">
+				<%= f.field(
+					'select',
+					:purpose_id,
+					{},
+					{
+						label: 					'Nhu cầu',
+						select_options_list: 	Purpose.where.not(code: 'sell_rent').all.map do |purpose|
+													[
+														purpose.display_name(true),
+														purpose.id
+													]
+												end
+					}
+				) %>
+				<%= f.field(
+					'autocomplete',
+					:real_estate_type_ids,
+					{
+						multiple: 			true,
+						'data-url': 		'/real_estate_types/get_by_keyword',
+						'data-init-values': RealEstateType.all.map do |type|
+												[ type.id, type.display_name ]
+											end.to_h.to_json
+					},
+					{
+						label: 			'Loại bất động sản'
+					}
+				) %>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<%= f.field(
+							'money',
+							:min_price,
+							{},
+							{
+								label: 		'Giá tối thiểu'
+							}
+						) %>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<%= f.field(
+							'money',
+							:max_price,
+							{},
+							{
+								label: 		'Giá tối đa'
+							}
+						) %>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<%= f.field(
+							'area',
+							:min_area,
+							{},
+							{
+								label: 		'Diện tích tối thiểu'
+							}
+						) %>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<%= f.field(
+							'area',
+							:max_area,
+							{},
+							{
+								label: 		'Diện tích tối đa'
+							}
+						) %>
+					</div>
+				</div>
+				<!-- Location -->
+					
+					<div>
+						<%= f.field(
+							'hidden',
+							:id,
+							{
+								'data-name': 	"#{f.object_name}[locations][][type]",
+								name: 			nil,
+								value: 			nil,
+								id: 			'type_input'
+							}
+						) %>
+						<%= f.field(
+							'hidden',
+							:id,
+							{
+								'data-name': 	"#{f.object_name}[locations][][province]",
+								name: 			nil,
+								value: 			nil,
+								id: 			'province_input'
+							}
+						) %>
+						<%= f.field(
+							'hidden',
+							:id,
+							{
+								'data-name': 	"#{f.object_name}[locations][][district]",
+								name: 			nil,
+								value: 			nil,
+								id: 			'district_input'
+							}
+						) %>
+						<%= f.field(
+							'hidden',
+							:id,
+							{
+								'data-name': 	"#{f.object_name}[locations][][street]",
+								name: 			nil,
+								value: 			nil,
+								id: 			'street_input'
+							}
+						) %>
+						<%= f.field(
+							'text',
+							:locations,
+							{
+								'data-input-type'	=>	'location',
+								value: 			nil,
+								name: 			nil,
+								id: 			'location_input',
+								placeholder: 	''
+							},
+							{
+								label: 			'Vị trí',
+								before: 		'<section class="tags-ctn" id="locations_list"></section>'
+							}
+						) %>						
+					</div>
+				
+				<!-- / Location -->
+
+				<div id="map" style="height: 300px" class="hidden"></div>
+			</section>
+			<section class="box-footer text-center">
+				<%= f.submit 'Hoàn tất', class: 'btn btn-primary' %>
+			</section>
+		</div>
+
+	</div>
+	
+</div>
+<% end %>

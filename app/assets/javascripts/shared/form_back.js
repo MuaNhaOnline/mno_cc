@@ -1,86 +1,3 @@
-var iconList = {
-	fa: [
-		'fa-shopping-basket',
-		'fa-shopping-bag',
-		'fa-automobile',
-		'fa-balance-scale',
-		'fa-bank',
-		'fa-beer',
-		'fa-bed',
-		'fa-bell',
-		'fa-bell-slash',
-		'fa-bicycle',
-		'fa-birthday-cake',
-		'fa-book',
-		'fa-building',
-		'fa-bullhorn',
-		'fa-bus',
-		'fa-cab',
-		'fa-calendar',
-		'fa-camera-retro',
-		'fa-child',
-		'fa-clock-o',
-		'fa-coffee',
-		'fa-comments-o',
-		'fa-compass',
-		'fa-credit-card-alt',
-		'fa-cutlery',
-		'fa-desktop',
-		'fa-eye',
-		'fa-eye-slash',
-		'fa-female',
-		'fa-fire-extinguisher',
-		'fa-film',
-		'fa-futbol-o',
-		'fa-gamepad',
-		'fa-globe',
-		'fa-gift',
-		'fa-graduation-cap',
-		'fa-group',
-		'fa-home',
-		'fa-key',
-		'fa-leaf',
-		'fa-lightbulb-o',
-		'fa-lock',
-		'fa-male',
-		'fa-map-marker',
-		'fa-map-o',
-		'fa-money',
-		'fa-motorcycle',
-		'fa-music',
-		'fa-newspaper-o',
-		'fa-paint-brush',
-		'fa-paper-plane-o',
-		'fa-paw',
-		'fa-phone',
-		'fa-pie-chart',
-		'fa-plane',
-		'fa-plug',
-		'fa-plus',
-		'fa-puzzle-piece',
-		'fa-question',
-		'fa-recycle',
-		'fa-road',
-		'fa-share-alt',
-		'fa-signal',
-		'fa-star',
-		'fa-street-view',
-		'fa-taxi',
-		'fa-thumbs-o-up',
-		'fa-tint',
-		'fa-tree',
-		'fa-trophy',
-		'fa-truck',
-		'fa-umbrella',
-		'fa-wifi',
-		'fa-wheelchair',
-		'fa-wrench',
-		'fa-ambulance',
-		'fa-bicycle',
-		'fa-subway',
-		'fa-train'
-	]
-}
 /*
 	object:
 		object form (for validate)
@@ -1313,6 +1230,208 @@ function initForm($form, params) {
 	// Auto complete
 
 		function initAutoComplete() {
+			var ajax;
+
+			$form.find('[data-input-type="autocomplete"][data-multiple]').val('').each(function () {
+				var
+					$input = $(this),
+					$itemsList = $input.closest('.autocomplete-input-ctn').find('.list'),
+					$inputsList = $input.closest('.form-group').find('.tags-ctn'),
+					lastVal = this.value,
+					timeout,
+					startPlaceholder 	= '<a class="item">Hãy nhập từ khóa</a>',
+					emptyPlaceholder 	= '<a class="item">Không có dữ liệu phù hợp</a>',
+					errorPlaceholder 	= '<a class="item">Lỗi, vui lòng thử lại</a>',
+					hasInitValues		= false;
+
+				// Empty items (init items)
+				if ($input.data('init-values') && $input.data('init-values').length != 0) {
+					hasInitValues = true;
+					startPlaceholder = '';
+					$.each($input.data('init-values'), function (id, text) {
+						startPlaceholder += '<a class="item" data-value="' + id + '">' + text + '</a>'
+					});
+				}
+
+				initInputs($inputsList.find('.item'));
+
+				$input.on({
+					'click': function (e) {
+						e.stopPropagation();
+					},
+					'focus': function () {
+						focus();
+					},
+					'keydown': function (e) {
+						switch (e.which || e.keyCode) {
+							// Up
+							case 38:
+								e.preventDefault();
+								var $current 	= $itemsList.find('a.hover'),
+									$hoverItem 	= $();
+
+								$current.removeClass('hover');
+								if ($current.is(':first-child')) {
+									$hoverItem = $itemsList.find('> :last-child').addClass('hover');
+								}
+								else {
+									$hoverItem = $current.prev().addClass('hover');
+								}
+
+								_scrollIfCantSee($hoverItem, $itemsList);
+								break;
+
+							// Down
+							case 40:
+								e.preventDefault();
+								var $current = $itemsList.find('a.hover');
+								$current.removeClass('hover');
+								if ($current.is(':last-child')) {
+									$hoverItem = $itemsList.find('> :first-child').addClass('hover');
+								}
+								else {
+									$hoverItem = $current.next().addClass('hover');
+								}
+
+								_scrollIfCantSee($hoverItem, $itemsList);
+								break;
+
+							// Enter
+							case 13:
+								if ($itemsList.html()) {
+									e.preventDefault();
+									$itemsList.find('a.hover').click();	
+								}
+								break;
+
+							//Tab, Esc
+							case 9:
+							case 27:
+								focusout();
+								break;
+
+							default:
+								break;
+						}
+					},
+					'keyup': function () {
+						if (this.value == lastVal) {
+							return;
+						}
+						lastVal = this.value;
+
+						if (ajax) {
+							ajax.abort();
+						}
+
+						if (!this.value) {
+							$itemsList.html(startPlaceholder);
+							if (hasInitValues) {
+								$itemsList.find('a:eq(0)').addClass('hover');
+								initItems($itemsList.find('a'));	
+							}
+							return;
+						}
+
+						var except = $inputsList.find('[type="hidden"]').get().map(function (input) {
+							return input.value;
+						}).join(',');
+
+						clearTimeout(timeout);
+						timeout = setTimeout(function () {
+							ajax = $.ajax({
+								url: $input.data('url'),
+								data: {
+									keyword: lastVal,
+									except: except
+								},
+								dataType: 'JSON'
+							}).done(function (data) {
+								if (data.status == 0) {
+									var html = '';
+									$.each(data.result, function (id, text) {
+										html += '<a class="item" data-value="' + id + '">' + text + '</a>'
+									});
+
+									$itemsList.html(html);
+
+									$itemsList.find('a:eq(0)').addClass('hover');
+									initItems($itemsList.find('a'));
+								}
+								else if (data.status == 1) {
+									$itemsList.html(emptyPlaceholder);
+								}
+								else {
+									errorPopup();
+									$itemsList.html(errorPlaceholder);
+								}
+							}).fail(function (xhr, status) {
+								if (status != 'abort') {
+									errorPopup();
+									$itemsList.html(errorPlaceholder);
+								}
+							});
+						}, 250);
+					}
+				});
+
+				function focus() {
+					$itemsList.html(startPlaceholder);
+					if (hasInitValues) {
+						$itemsList.find('a:eq(0)').addClass('hover');
+						initItems($itemsList.find('a'));	
+					}
+					
+					$input.addClass('focus');
+					$(document).on('click.autocomplete_input', function (e) {
+						focusout();
+					});
+				}
+
+				function focusout() {
+					$input.removeClass('focus').blur();
+					$(document).off('click.autocomplete_input');
+				}
+
+				function initItems($items) {
+					$items.on({
+						'click': function (e) {
+							e.stopPropagation();
+
+							var $item = $(this);
+
+							var $inputItem = $(
+								'<article class="item">' +
+									'<input type="hidden" value="' + $item.data('value') + '" name="' + $input.data('name') + '" />' +
+									'<span class="text">' + $item.text() + '</span>' +
+									'<a class="remove">&times;</a>' +
+								'</article>'
+							);
+							initInputs($inputItem);
+
+							$inputsList.append($inputItem);
+
+							$input.val(lastVal = '');
+							$itemsList.html('');
+						},
+						'mouseenter': function () {
+							$(this).addClass('hover').siblings('.hover').removeClass('hover');
+						}
+					});
+				}
+
+				function initInputs($items) {
+					$items.each(function () {
+						var $item = $(this);
+						$item.find('.remove').on('click', function () {
+							$item.remove();
+						});
+					});
+				}
+			});
+		}
+
+		/*function initAutoComplete() {
 			var prefix = 'ac_';
 			var $currentList, $currentInput;
 			_temp[prefix + 'ajax'] = false;
@@ -1588,7 +1707,7 @@ function initForm($form, params) {
 
 				return html;
 			}
-		}
+		}*/
 
 	// / Auto complete
 

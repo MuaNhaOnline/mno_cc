@@ -186,6 +186,12 @@ vi:
       rent: 'Cho thuê'
       sell_rent: 'Bán hoặc cho thuê'
       transfer: 'Sang nhượng'
+  demand:
+    text:
+      sell: 'Mua'
+      rent: 'Thuê'
+      sell_rent: ''
+      transfer: 'Sang nhượng'
   direction:
     text:
       non: 'Không xác định'

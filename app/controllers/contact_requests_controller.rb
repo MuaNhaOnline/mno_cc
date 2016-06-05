@@ -159,34 +159,58 @@ class ContactRequestsController < ApplicationController
 			# Author
 			authorize! :manage, ContactRequest
 
-			@requests = ContactRequest.need_contact
-		end
+			# Get params
+			page 		= 	(params[:page] || 1).to_i
+			per 		=	(params[:per] || 10).to_i
+			by_status 	=	params[:by_status] || 'need_contact'
 
-		# Partial view
-		# params: page
-		def _manage_list
-			# Author
-			authorize! :manage, ContactRequest
+			# Get request
+			requests = eval("ContactRequest.#{by_status}_list")
 
-			requests = ContactRequest.need_contact
-			page = (params[:page] || 1).to_i + 1
-			per = 10
-
-			begin
-				page -= 1
-
-				requests_in_page = requests.page(page, per)
-			end while requests_in_page.count == 0 && page != 1
-
-			count = requests.count
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'manage_list', locals: { requests: requests_in_page }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: page })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'manage',
+						locals: {
+							requests: 	requests,
+							page: 		page,
+							per: 		per
+						}
 				}
-			}
+				f.json {
+					requests_in_page = requests.page page, per
+
+					# Check if empty
+					if requests_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'manage_list',
+									formats: :html,
+									locals: {
+										requests: requests_in_page
+									}
+								),
+								pagination: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	requests.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
+
 		end
 
 		# Partial view

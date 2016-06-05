@@ -1,0 +1,31 @@
+<%
+=begin
+	params: logs(*)
+=end
+
+	date_milestone = nil
+%>
+
+<% logs.each do |log| %>
+	<%
+		controller = case log.object_type
+			when 'real_estate', 'project', 'user'
+				log.object_type + 's'
+			else
+				next
+			end
+	%>
+
+	<% if log.created_at.strftime('%Y/%m/%d') != date_milestone %>
+		<%
+			date_milestone = log.created_at.strftime('%Y/%m/%d')
+		%>
+		<li class="time-label" data-milestone="<%= date_milestone %>">
+			<span class="bg-red">
+				<%= date_milestone == Date.current.strftime('%Y/%m/%d') ? 'Hôm nay' : log.created_at.strftime('%d/%m/%Y') %>
+			</span>
+		</li>
+	<% end %>
+
+	<%= render partial: "/#{controller}/log_item", locals: { log: log } %>
+<% end %>

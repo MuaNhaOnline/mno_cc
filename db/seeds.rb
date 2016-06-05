@@ -118,7 +118,11 @@ Purpose.create [
 		code: 'sell',
 		options: {
 			html: {
-				attributes: 'data-on="sell" data-off="un-sell"'
+				attributes: 'data-on="sell" data-off="un-sell"',
+				attributes2: {
+					'data-on' 	=> 'sell',
+					'data-off' 	=> 'un-sell'
+				}
 			}
 		}
 	},
@@ -127,7 +131,11 @@ Purpose.create [
 		code: 'rent',
 		options: {
 			html: {
-				attributes: 'data-on="rent" data-off="un-rent"'
+				attributes: 'data-on="rent" data-off="un-rent"',
+				attributes2: {
+					'data-on' 	=> 'rent',
+					'data-off' 	=> 'un-rent'
+				}
 			}
 		}
 	},
@@ -136,7 +144,10 @@ Purpose.create [
 		code: 'sell_rent',
 		options: {
 			html: {
-				attributes: 'data-on="sell rent"'
+				attributes: 'data-on="sell rent"',
+				attributes2: {
+					'data-on' 	=> 'sell rent',
+				}
 			}
 		}
 	},
@@ -145,7 +156,11 @@ Purpose.create [
 		code: 'transfer',
 		options: {
 			html: {
-				attributes: 'data-on="rent" data-off="un-rent"'
+				attributes: 'data-on="rent" data-off="un-rent"',
+				attributes2: {
+					'data-on' 	=> 'rent',
+					'data-off' 	=> 'un-rent'
+				}
 			}
 		}
 	}
@@ -164,7 +179,8 @@ RealEstateType.create [
 				attributes: 'data-on="apartment" data-off="un-apartment"'
 			}
 		},
-		order: 1
+		order: 1,
+		meta_search: 'Căn hộ cao cấp'
 	},
 	{ 
 		id: 10, 
@@ -176,7 +192,8 @@ RealEstateType.create [
 				attributes: 'data-on="apartment" data-off="un-apartment"'
 			}
 		},
-		order: 2
+		order: 2,
+		meta_search: 'Căn hộ trung bình'
 	},
 	{ 
 		id: 11,
@@ -188,7 +205,8 @@ RealEstateType.create [
 				attributes: 'data-on="apartment" data-off="un-apartment"'
 			}
 		},
-		order: 3
+		order: 3,
+		meta_search: 'Căn hộ thu nhập thấp'
 	},
 	{ 
 		id: 14, 
@@ -197,7 +215,8 @@ RealEstateType.create [
 		options: {
 			group: 'apartment'
 		},
-		order: 4
+		order: 4,
+		meta_search: 'Nhà ở xã hội'
 	},
 	{
 		id: 1,
@@ -206,7 +225,8 @@ RealEstateType.create [
 		options: {
 			group: 'land'			
 		},
-		order: 5
+		order: 5,
+		meta_search: 'Đất thổ cư'
 	},
 	{
 		id: 2, 
@@ -215,7 +235,8 @@ RealEstateType.create [
 		options: {
 			group: 'land'			
 		},
-		order: 6
+		order: 6,
+		meta_search: 'Đất nông nghiệp'
 	},
 	{ 
 		id: 3, 
@@ -224,7 +245,8 @@ RealEstateType.create [
 		options: {
 			group: 'land'
 		},
-		order: 7
+		order: 7,
+		meta_search: 'Đất khác'
 	},
 	{ 
 		id: 15, 
@@ -233,7 +255,8 @@ RealEstateType.create [
 		options: {
 			group: 'land'
 		},
-		order: 8
+		order: 8,
+		meta_search: 'Đất lâm nghiệp'
 	},
 	{ 
 		id: 16, 
@@ -251,7 +274,8 @@ RealEstateType.create [
 		options: {
 			group: 'land'
 		},
-		order: 10
+		order: 10,
+		meta_search: 'Đất dự án'
 	},
 	{ 
 		id: 13, 
@@ -263,7 +287,8 @@ RealEstateType.create [
 				attributes: 'data-on="town-house" data-off="un-town-house"'
 			}
 		},
-		order: 11
+		order: 11,
+		meta_search: 'Nhà phố'
 	},
 	{
 		id: 12, 
@@ -275,7 +300,8 @@ RealEstateType.create [
 				attributes: 'data-on="villa" data-off="un-villa"'
 			}
 		},
-		order: 12
+		order: 12,
+		meta_search: 'Biệt thự'
 	},
 	{ 
 		id: 4, 
@@ -287,7 +313,8 @@ RealEstateType.create [
 				attributes: 'data-on="office" data-off="un-office"'
 			}
 		},
-		order: 13
+		order: 13,
+		meta_search: 'Văn phòng'
 	},
 	{ 
 		id: 5, 
@@ -299,7 +326,8 @@ RealEstateType.create [
 				attributes: 'data-off="office"'
 			}
 		},
-		order: 14
+		order: 14,
+		meta_search: 'Phòng trọ'
 	},
 	{ 
 		id: 6, 
@@ -311,7 +339,8 @@ RealEstateType.create [
 				attributes: 'data-off="office"'
 			}
 		},
-		order: 15
+		order: 15,
+		meta_search: 'Mặt bằng - Cửa hàng'
 	},
 	{ 
 		id: 7, 
@@ -323,7 +352,8 @@ RealEstateType.create [
 				attributes: 'data-off="office"'
 			}
 		},
-		order: 16
+		order: 16,
+		meta_search: 'Nhà hàng - Khách sạn'
 	},
 	{ 
 		id: 8, 
@@ -335,7 +365,8 @@ RealEstateType.create [
 				attributes: 'data-off="office"'
 			}
 		},
-		order: 17
+		order: 17,
+		meta_search: 'Kho - xưởng'
 	}
 ]
 

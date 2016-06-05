@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 	pg_search_scope :search, against: [:full_name, :email], using: { tsearch: { prefix: true, any_word: true } }
 
 	has_attached_file :avatar, 
-		styles: { mini: '40x40#', thumb: '100x100#', big: '150x150#' },
+		styles: { mini: '50x50#', thumb: '100x100#', big: '150x150#' },
 		default_url: "/assets/users/:style/default.png", 
 		:path => ":rails_root/app/assets/file_uploads/user_images/:style/:id_:filename", 
 		:url => "/assets/user_images/:style/:id_:filename"

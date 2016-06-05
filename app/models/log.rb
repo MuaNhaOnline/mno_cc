@@ -23,4 +23,12 @@ class Log < ActiveRecord::Base
 
 	# / Associations
 
+	# Get
+	
+		def self.get_without_view_action
+			where.not(action: 'view')
+		end
+	
+	# / Get
+
 end

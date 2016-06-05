@@ -1,0 +1,41 @@
+<%
+=begin
+	params: logs(*), page(1), per(10)
+=end
+
+	@_title 			=
+	@_content_header 	=	'Nhật ký hệ thống'
+
+	page 				||= 1
+	per 				||= 10
+
+	logs_in_page 		= 	logs.page(page, per)
+%>
+
+<% if logs_in_page.count != 0 %>
+	<ul class="timeline" id="activity_log">
+		<%= render partial: 'build', locals: { logs: logs_in_page } %>
+	</ul>
+	<div id="reach_bottom" class="text-center reach-bottom"></div>
+<% else %>
+	<article class="callout callout-warning">
+		<h4>
+			Không có kết quả
+		</h4>
+		<p>
+			Không tìm thấy kết quả, vui lòng thử lại sau
+		</p>
+	</article>
+<% end %>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/logs/index.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/logs/index.js"></script>
+	<script type="text/javascript">
+		currentPage = <%= page %>;
+		itemPerPage = <%= per %>;
+	</script>
+<% end %>

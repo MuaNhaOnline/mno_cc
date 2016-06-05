@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 		get 'home/result'
 		get 'home/index'
 		get 'home/back'
-		get 'nhat-ky' => 'home#admin_dashboard'
 		# post 'nothing' => 'home#nothing'
 		# post 'end_session' => 'home#end_session'
 		# post 'track_session' => 'home#track_session'
@@ -184,6 +183,12 @@ Rails.application.routes.draw do
 
 	# / Contact request
 
+	# Log
+	
+		get 	'nhat-ky' 		=>	'logs#index'
+	
+	# / Log
+
 	# Session
 
 		get 'sessions' => 'sessions#index'
@@ -290,7 +295,6 @@ Rails.application.routes.draw do
 		resources :legal_record_types
 		resources :constructional_levels
 		resources :directions
-		resources :real_estate_types
 		resources :street_types
 		resources :units
 		resources :currencies

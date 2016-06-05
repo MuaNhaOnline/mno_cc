@@ -25,7 +25,8 @@
 				street: null,
 				ward: null,
 				district: null,
-				province: null
+				province: null,
+				type: null
 			},
 			settings: options.settings,
 			domContainer: domElement,
@@ -250,6 +251,9 @@
 			if (inputBinding.provinceInput) {
 				inputBinding.provinceInput.val('');
 			}
+			if (inputBinding.typeInput) {
+				inputBinding.typeInput.val('');
+			}
 
 			var type;
 			if (gmapContext.currentTypes.indexOf('street_address') != -1 || gmapContext.currentTypes.indexOf('route') != -1) {
@@ -270,8 +274,8 @@
 					if (!address.street || !address.district || !address.province) {
 						break;
 					}
-					if (inputBinding.streetNumberInput) {
-						inputBinding.streetNumberInput.val(address.streetNumber);
+					if (inputBinding.streetInput) {
+						inputBinding.streetInput.val(address.street);
 					}
 					if (inputBinding.locationNameInput) {
 						inputBinding.locationNameInput.val(address.street + ', ' + address.district + ', ' + address.province);
@@ -300,13 +304,8 @@
 					break;
 			}
 
-			if (inputBinding.locationNameInput) {
-				if (inputBinding.locationNameInput.val()) {
-					inputBinding.locationNameInput.trigger('change', [ true ]);
-				}
-				else {
-					inputBinding.locationNameInput.change();
-				}
+			if (inputBinding.typeInput) {
+				inputBinding.typeInput.val(type);
 			}
 			if (inputBinding.streetNumberInput) {
 				inputBinding.streetNumberInput.change();
@@ -322,6 +321,17 @@
 			}
 			if (inputBinding.provinceInput) {
 				inputBinding.provinceInput.change();
+			}
+			if (inputBinding.typeInput) {
+				inputBinding.typeInput.change();
+			}
+			if (inputBinding.locationNameInput) {
+				if (inputBinding.locationNameInput.val()) {
+					inputBinding.locationNameInput.trigger('change', [ true ]);
+				}
+				else {
+					inputBinding.locationNameInput.change();
+				}
 			}
 		}
 
@@ -346,8 +356,8 @@
 			}
 			if (inputBinding.locationNameInput && gmapContext.settings.enableAutocomplete) {
 				var blur = false;
-				inputBinding.locationNameInput.on('change', function (e, data) {
-					if (!data) {
+				inputBinding.locationNameInput.on('change', function (e, valid) {
+					if (!valid) {
 						inputBinding.locationNameInput.val('').trigger('change', [ true ]);
 
 						if (inputBinding.latitudeInput) {

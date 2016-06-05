@@ -1,6 +1,6 @@
 <%
 =begin
-	params: requests
+	params: requests(*)
 =end
 
 %>
@@ -48,7 +48,7 @@
 			<span aria-time="<%= request.created_at %>"></span>
 		</td>
 		<td class="status">
-			<select class="form-control" name="status">
+			<select class="form-control" name="request[status]">
 				<option value="" hidden>Chưa xác định</option>
 				<option value="1" <%= 'selected' if request.status == 1 %>>Chờ liên hệ</option>
 				<option value="2" <%= 'selected' if request.status == 2 %>>Chờ liên hệ lại</option>
@@ -57,7 +57,13 @@
 			</select>
 		</td>
 		<td class="note" style="width: 1%;">
-			<textarea class="form-control" style="height: 34px; min-width: 20vw; max-width: 20vw;" name="note"><%= request.note %></textarea>
+			<textarea class="form-control" style="height: 34px; min-width: 20vw; max-width: 20vw;" name="request[note]"><%= request.note %></textarea>
+		</td>
+		<td style="width: 1%;">
+			<input type="hidden" name="request[id]" value="<%= request.id %>" />
+			<button type="submit" class="btn btn-default btn-flat">
+				Cập nhật
+			</button>
 		</td>
 	</tr>
 
