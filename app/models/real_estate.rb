@@ -867,82 +867,94 @@ class RealEstate < ActiveRecord::Base
 				end
 			end
 
-			# params: 
-			#   keyword,
-			#   newest, cheapest, interact, view, id
-			def self.my_search_with_params params = {}
+			def self.my_search_with_params conditions = {}, orders = {}
 				where = "user_id = #{User.current.id} AND user_type = 'user' AND block_real_estate_group_id IS NULL"
 				joins = []
 				order = {}
 
-				if params.has_key? :view
-					order[:view_count] = params[:view]
-				end
+				# Order
 
-				if params.has_key? :interact
-					order[:updated_at] = params[:interact]
-				end
+					# Id
+					if orders.has_key? :id
+						order[:id] = orders[:id]
+					end
+					
+					# View count
+					if orders.has_key? :view
+						order[:view_count] = orders[:view]
+					end
+					
+					# Updated at
+					if orders.has_key? :interact
+						order[:updated_at] = orders[:interact]
+					end
 
-				if params.has_key? :id
-					order[:id] = params[:id]
-				end
+				# / Order
 
-				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
+				if conditions[:keyword].present?
+					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end
 			end
 
-			# params: 
-			#   keyword,
-			#   newest, cheapest, interact, view, id
-			def self.my_favorite_search_with_params params = {}
+			def self.my_favorite_search_with_params conditions = {}, orders = {}
 				where = "users_favorite_real_estates.user_id = #{User.current.id}"
 				joins = [:users_favorite_real_estates]
 				order = {}
 
-				if params.has_key? :view
-					order[:view_count] = params[:view]
-				end
+				# Order
 
-				if params.has_key? :interact
-					order[:updated_at] = params[:interact]
-				end
+					# Id
+					if orders.has_key? :id
+						order[:id] = orders[:id]
+					end
+					
+					# View count
+					if orders.has_key? :view
+						order[:view_count] = orders[:view]
+					end
+					
+					# Updated at
+					if orders.has_key? :interact
+						order[:updated_at] = orders[:interact]
+					end
 
-				if params.has_key? :id
-					order[:id] = params[:id]
-				end
+				# / Order
 
-				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
+				if conditions[:keyword].present?
+					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end
 			end
 
-			# params: 
-			#   keyword,
-			#   newest, cheapest, interact, view, id
-			def self.pending_search_with_params params = {}
+			def self.pending_search_with_params conditions = {}, orders = {}
 				where = 'is_pending = true AND is_draft = false AND is_active = true AND block_real_estate_group_id IS NULL'
 				joins = []
 				order = {}
 
-				if params.has_key? :view
-					order[:view_count] = params[:view]
-				end
+				# Order
 
-				if params.has_key? :interact
-					order[:updated_at] = params[:interact]
-				end
+					# Id
+					if orders.has_key? :id
+						order[:id] = orders[:id]
+					end
+					
+					# View count
+					if orders.has_key? :view
+						order[:view_count] = orders[:view]
+					end
+					
+					# Updated at
+					if orders.has_key? :interact
+						order[:updated_at] = orders[:interact]
+					end
 
-				if params.has_key? :id
-					order[:id] = params[:id]
-				end
+				# / Order
 
-				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
+				if conditions[:keyword].present?
+					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end
@@ -951,29 +963,37 @@ class RealEstate < ActiveRecord::Base
 			# params: 
 			#   keyword,
 			#   newest, cheapest, interact, view, id, favorite
-			def self.manager_search_with_params params = {}
+			def self.manage_search_with_params conditions = {}, orders = {}
 				where = 'is_pending = false AND block_real_estate_group_id IS NULL'
 				joins = []
 				order = {}
 
-				if params.has_key? :view
-					order[:view_count] = params[:view]
-				end
+				# Order
 
-				if params.has_key? :interact
-					order[:updated_at] = params[:interact]
-				end
+					# Id
+					if orders.has_key? :id
+						order[:id] = orders[:id]
+					end
+					
+					# View count
+					if orders.has_key? :view
+						order[:view_count] = orders[:view]
+					end
+					
+					# Updated at
+					if orders.has_key? :interact
+						order[:updated_at] = orders[:interact]
+					end
+					
+					# Updated at
+					if orders.has_key? :favorite
+						order[:is_favorite] = orders[:favorite]
+					end
 
-				if params.has_key? :favorite
-					order[:is_favorite] = params[:favorite]
-				end
+				# / Order
 
-				if params.has_key? :id
-					order[:id] = params[:id]
-				end
-
-				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
+				if conditions[:keyword].present?
+					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end

@@ -65,6 +65,7 @@
 	.sidebar-menu>li>a>.icon {
 		display: inline-block;
 		width: 20px;
+		text-align: center;
 	}
 
 	.small-box .count {
@@ -77,12 +78,18 @@
 
 	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu {
 		max-height: 70vh;
+		height: auto !important;
 	}
 
 	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li>a {
 		text-overflow: initial;
-		white-space: normal;		
+		white-space: normal;
+		background-color: #fafafa;
 	}
+
+		.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li.new>a {
+			background-color: #fff;
+		}
 
 	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu>li>a>.icon {
 		display: inline-block;
@@ -103,6 +110,11 @@
 			left: 0;
 			background-color: #3c8dbc;
 		}
+
+	.pagination>li>a, .pagination>li>span {
+		margin-top: 4px;
+		margin-bottom: 4px;
+	}
 
 /* / Custom template */
 
@@ -287,6 +299,24 @@
 					}
 
 		/* / Control */
+
+	@media (min-width: 768px) and (max-width: 991px) {
+		.row.item-list > .col-sm-6:nth-child(2n+1) {
+			clear: left;
+		}
+	}
+	
+	@media (min-width: 992px) and (max-width: 1199px) {
+		.row.item-list > .col-md-4:nth-child(3n+1) {
+			clear: left;
+		}
+	}
+	
+	@media (min-width: 1200px) {
+		.row.item-list > .col-lg-3:nth-child(4n+1) {
+			clear: left;
+		}		
+	}
 
 /* / Item list */
 

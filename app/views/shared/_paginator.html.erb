@@ -1,0 +1,22 @@
+<!-- page, per, total -->
+<%
+	page ||= 1
+	page = page.to_i
+	page_count = (total + per - 1) / per
+
+	return if page_count <= 1
+%>
+
+<ul class="pagination inline-block <%= class_style if defined? class_style %>">
+	<% (1..page_count).each do |i| %>
+		<% if i == page %>
+			<li class="active">
+				<a href="javascript:;"><%= i %></a>
+			</li>
+		<% else %>
+			<li>
+				<a href="javascript:;" aria-click="paging" data-page="<%= i %>"><%= i %></a>
+			</li>
+		<% end %>
+	<% end %>
+</ul>

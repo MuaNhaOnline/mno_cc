@@ -678,16 +678,16 @@ $(function () {
 				}, 100);
 			});
 
-			$formNavigator.on('mousewheel', function (e) {
+			$formNavigator.parent().on('mousewheel', function (e) {
 				e.preventDefault();
 				e = e.originalEvent;
 				// Down
 				if (e.wheelDeltaY < 0) {
-					$formNavigator.css('top', '+=80');
+					$formNavigator.css('top', '-=80');
 				}
 				// Up
 				else {
-					$formNavigator.css('top', '-=80');
+					$formNavigator.css('top', '+=80');
 				}
 			});
 

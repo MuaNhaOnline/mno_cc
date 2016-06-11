@@ -1,0 +1,68 @@
+<% res.each do |re| %>
+	<% 
+		# Get status
+		status = '';
+
+		if re.is_full
+			status += 'full '
+		end
+
+		if re.is_force_hide
+			status += 'force_hide '
+		end
+
+		if re.is_favorite
+			status += 'favorite'
+		end
+	%>
+
+	<article class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+		<article class="item" data-value="<%= re.id %>" data-status="<%= status %>">
+			<section class="top">
+				<a href="/bat-dong-san/<%= re.full_slug %>">
+					<%= real_estate_avatar re %>
+				</a>
+				<section class="left">
+					<article class="node">
+						<span><b><%= re.display_id %></b></span>
+					</article>
+				</section>
+				<section class="right circle-node" aria-name="status">
+				</section>
+			</section>
+			<section class="bottom">
+				<p class="title" title="<%= re.title %>">
+					<%= re.title %>
+				</p>
+				<p class="small text-muted">
+					<span class="pull-left">
+						<%= re.created_at.strftime '%d/%m/%Y' %>
+					</span>
+					<span class="pull-right">
+						<%= re.view_count %> lượt xem
+					</span>
+				</p>
+				<p>
+					<span class="fa fa-fw fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %>
+				</p>
+				<p>
+					<span class="fa fa-fw fa-tag"></span> <%= re.display_purpose %>
+				</p>
+				<p class="address">
+					<span class="fa fa-fw fa-map-marker"></span> <%= re.display_address %>
+				</p>
+			</section>
+			<section class="control">
+				<span class="node">
+					<a aria-click="change-favorite-status" href="javascript:void(0)" class="fa fa-lg"></a>
+				</span>
+				<span class="node">
+					<a aria-click="change-force-hide-status" href="javascript:void(0)" class="fa fa-lg"></a>
+				</span>
+				<span class="node">
+					<a aria-click="delete" href="javascript:void(0)" class="fa fa-trash-o fa-lg"></a>
+				</span>
+			</section>
+		</article>
+	</article>
+<% end %>

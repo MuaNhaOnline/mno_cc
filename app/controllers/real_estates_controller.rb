@@ -999,35 +999,59 @@ class RealEstatesController < ApplicationController
 			# Author
 			authorize! :view_my, RealEstate
 
-			@res = RealEstate.my_search_with_params interact: 'desc'
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 12).to_i
+			search_params 	=	params[:search] || {}
+			order_params 	= 	params[:order] || {}
 
-			render layout: 'layout_back'
-		end
+			# Get res
+			res = RealEstate.my_search_with_params search_params, order_params
 
-		# Partial view
-		# params: keyword, page
-		def _my_list
-			# Author
-			authorize! :view_my, RealEstate
-
-			per = Rails.application.config.item_per_page
-
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
-
-			res = RealEstate.my_search_with_params params
-
-			count = res.count
-
-			return render json: { status: 1 } if count == 0
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'real_estates/my_list', locals: { res: res.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'my',
+						layout: 'layout_back',
+						locals: {
+							res: 	res,
+							page: 	page,
+							per: 	per
+						}
 				}
-			}
+				f.json {
+					res_in_page = res.page page, per
+
+					# Check if empty
+					if res_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'my',
+									formats: :html,
+									locals: {
+										res: res_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	res.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
 		end
 
 		def change_show_status
@@ -1051,35 +1075,59 @@ class RealEstatesController < ApplicationController
 			# Author
 			authorize! :view_my, RealEstate
 
-			@res = RealEstate.my_favorite_search_with_params interact: 'desc'
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 12).to_i
+			search_params 	=	params[:search] || {}
+			order_params 	= 	params[:order] || {}
 
-			render layout: 'layout_back'
-		end
+			# Get res
+			res = RealEstate.my_favorite_search_with_params search_params, order_params
 
-		# Partial view
-		# params: keyword, page
-		def _my_favorite_list
-			# Author
-			authorize! :view_my, RealEstate
-
-			per = Rails.application.config.item_per_page
-
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
-
-			res = RealEstate.my_favorite_search_with_params params
-
-			count = res.count
-
-			return render json: { status: 1 } if count === 0
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'real_estates/my_favorite_list', locals: { res: res.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'my_favorite',
+						layout: 'layout_back',
+						locals: {
+							res: 	res,
+							page: 	page,
+							per: 	per
+						}
 				}
-			}
+				f.json {
+					res_in_page = res.page page, per
+
+					# Check if empty
+					if res_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'my_favorite',
+									formats: :html,
+									locals: {
+										res: res_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	res.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
 		end
 
 	# / My favorite list
@@ -1091,41 +1139,65 @@ class RealEstatesController < ApplicationController
 			# Author
 			authorize! :manage, RealEstate
 
-			@res = RealEstate.pending_search_with_params interact: 'desc'
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 12).to_i
+			search_params 	=	params[:search] || {}
+			order_params 	= 	params[:order] || {}
 
-			render layout: 'layout_back'
-		end
+			# Get res
+			res = RealEstate.pending_search_with_params search_params, order_params
 
-		# Partial view
-		# params: keyword
-		def _pending_list
-			# Author
-			authorize! :manage, RealEstate
-
-			per = Rails.application.config.item_per_page
-			
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
-
-			res = RealEstate.pending_search_with_params params
-
-			count = res.count
-
-			return render json: { status: 1 } if count == 0
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'real_estates/pending_list', locals: { res: res.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'pending',
+						layout: 'layout_back',
+						locals: {
+							res: 	res,
+							page: 	page,
+							per: 	per
+						}
 				}
-			}
+				f.json {
+					res_in_page = res.page page, per
+
+					# Check if empty
+					if res_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'pending',
+									formats: :html,
+									locals: {
+										res: res_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	res.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
 		end
 
 		# Handle
 		# params: id(*)
 		def approve
-			result = RealEstate.update_pending_status params[:id], 0
+			result = RealEstate.update_pending_status params[:id], false
 
 			if result[:status] == 0
 				# Log
@@ -1155,39 +1227,63 @@ class RealEstatesController < ApplicationController
 	# Manager
 
 		# View
-		def manager
+		def manage
 			# Author
 			authorize! :manage, RealEstate
 
-			@res = RealEstate.manager_search_with_params interact: 'desc'
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 12).to_i
+			search_params 	=	params[:search] || {}
+			order_params 	= 	params[:order] || {}
 
-			render layout: 'layout_back'
-		end
+			# Get res
+			res = RealEstate.manage_search_with_params search_params, order_params
 
-		# Partial view
-		# params: keyword, page
-		def _manager_list
-			# Author
-			authorize! :manage, RealEstate
-
-			per = Rails.application.config.item_per_page
-
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
-
-			res = RealEstate.manager_search_with_params params
-
-			count = res.count
-
-			return render json: { status: 1 } if count == 0
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'real_estates/manager_list', locals: { res: res.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'manage',
+						layout: 'layout_back',
+						locals: {
+							res: 	res,
+							page: 	page,
+							per: 	per
+						}
 				}
-			}
+				f.json {
+					res_in_page = res.page page, per
+
+					# Check if empty
+					if res_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'manage',
+									formats: :html,
+									locals: {
+										res: res_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	res.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
 		end
 
 		# Handle
@@ -1260,63 +1356,6 @@ class RealEstatesController < ApplicationController
 		end
 
 	# / Appraise
-
-	# Request manage
-	
-		# View
-		def requests_manage
-			# Author
-			authorize! :manage, RealEstate
-
-			@requests = ContactRequest.real_estate_contact.need_contact
-
-			render layout: 'layout_back'
-		end
-
-		# Partial view
-		# params: page
-		def _requests_manage_list
-			# Author
-			authorize! :manage, RealEstate
-
-			requests = ContactRequest.real_estate_contact.need_contact
-
-			page = params[:page] || 1
-			per = 20
-			count = requests.count
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'requests_manage_list', locals: { requests: requests.page(page, per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: page })
-				}
-			}
-		end
-
-		# Partial view
-		# params: user_type, user_id
-		def _request_manage_user_info
-			# Author
-			authorize! :manage, RealEstate
-
-			case params[:user_type]
-			when 'user'
-				render json: {
-					status: 0,
-					result: render_to_string(partial: 'users/info_popup', locals: { user: User.find(params[:user_id]) })
-				}
-			when 'contact_user'
-				render json: {
-					status: 0,
-					result: render_to_string(partial: 'contact_user_infos/info_popup', locals: { contact_user: ContactUserInfo.find(params[:user_id]) })
-				}
-			else
-				render json: { status: 1 }
-			end
-		end
-	
-	# / Request manage
 
 	# Delete
 

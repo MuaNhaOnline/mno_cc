@@ -7,11 +7,12 @@
 
 <% requests.each do |request| %>
 
-	<tr data-value="<%= request.id %>">
-		<td class="type">
+	<tr>
+		<td class="hightlight-cell"></td>
+		<td class="type min-width-cell">
 			<%= request.display_request_type %>
 		</td>
-		<td class="object">
+		<td class="object min-width-cell">
 			<% case request.object_type %>
 			<% when 'real_estate' %>
 				<% if request.real_estate.present? %>
@@ -22,7 +23,7 @@
 		<td class="message">
 			<%= request.message %>
 		</td>
-		<td class="user">
+		<td class="user min-width-cell">
 			<% case request.user_type %>
 			<% when 'user' %>
 				<% if request.user.present? %>
@@ -44,10 +45,12 @@
 				Không có dữ liệu
 			<% end %>
 		</td>
-		<td>
+		<td class="min-width-cell">
 			<span aria-time="<%= request.created_at %>"></span>
 		</td>
-		<td class="status">
+	</tr>
+	<tr>
+		<td class="status" colspan="3">
 			<select class="form-control" name="request[status]">
 				<option value="" hidden>Chưa xác định</option>
 				<option value="1" <%= 'selected' if request.status == 1 %>>Chờ liên hệ</option>
@@ -56,12 +59,12 @@
 				<option value="4" <%= 'selected' if request.status == 4 %>>Đã liên hệ</option>
 			</select>
 		</td>
-		<td class="note" style="width: 1%;">
-			<textarea class="form-control" style="height: 34px; min-width: 20vw; max-width: 20vw;" name="request[note]"><%= request.note %></textarea>
+		<td class="note" colspan="2">
+			<textarea class="form-control" style="height: 34px; resize: vertical;" name="request[note]"><%= request.note %></textarea>
 		</td>
-		<td style="width: 1%;">
+		<td class="min-width-cell">
 			<input type="hidden" name="request[id]" value="<%= request.id %>" />
-			<button type="submit" class="btn btn-default btn-flat">
+			<button type="submit" class="btn btn-default btn-flat btn-block">
 				Cập nhật
 			</button>
 		</td>

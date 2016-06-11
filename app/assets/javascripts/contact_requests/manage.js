@@ -23,11 +23,13 @@ $(function () {
 	
 		function initItems() {
 			$('#list button[type="submit"]').on('click', function () {
-				var $item = $(this).closest('tr');
+				var 
+					$button = $(this);
+					$item 	= $button.closest('tr');
 
 				data = $item.find(':input').serialize();
 
-				toggleLoadStatus(true);
+				$button.startLoadingStatus('submit');
 				$.ajax({
 					url: '/contact_requests/manage_save',
 					method: 'POST',
@@ -37,7 +39,8 @@ $(function () {
 					if (data.status == 0) {
 						a = currentStatus;
 						b = $item.find('[name="request[status]"]').val();
-						if (currentStatus.indexOf($item.find('[name="request[status]"]').val().toString()) == -1) {
+
+						if (currentStatus.indexOf($item.find('[name="request[status]"]').val()) == -1) {
 							find({
 								data: 'last_data',
 								note: 'reload'
@@ -50,7 +53,7 @@ $(function () {
 				}).fail(function () {
 					errorPopup();
 				}).always(function () {
-					toggleLoadStatus(false);
+					$button.endLoadingStatus('submit');
 				})
 			});
 

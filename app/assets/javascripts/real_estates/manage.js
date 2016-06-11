@@ -31,57 +31,40 @@ $(function () {
 
 					var 
 						status = $item.data('status'),
-						isDraft = listString.has('draft', status),
-						isPending = listString.has('pending', status),
-						isShow = listString.has('show', status),
+						isForceHide = listString.has('force_hide', status),
 						isFull = listString.has('full', status),
+						isFavorite = listString.has('favorite', status),
 						// isAppraised = listString.has('appraised', status),
 						// isNotAppraised = listString.has('not_appraised', status);
 						$status = $item.find('[aria-name="status"]');
 
 					$status.html('');
 
-					if (isDraft) {
-						if ($status.children('[aria-name="draft"]').length == 0) {
-							$status.append('<article class="node status-animation node-default"><div class="text"><span>' + _t.real_estate.attribute.draft_status + '</span></div><div class="fa fa-file-text-o"></div></article>')
-						}
+					if (isForceHide) {
+						$status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.real_estate.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
 					}
 					else {
-						// if (isAppraised) {
-						//   statusHtml += '<span class="label label-success">' + _t.real_estate.attribute.appraised_status + '</span><br />';
-						// }
-						// else if (isNotAppraised) {
-						//   statusHtml += '<span class="label label-warning">' + _t.real_estate.attribute.not_appraised_status + '</span><br />';
-						// }
+						$status.append('<article class="node status-animation node-primary"><div class="text"><span>' + _t.real_estate.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
+					}
 
-						if (isPending) {
-							$status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.real_estate.attribute.pending_status + '</span></div><div class="fa fa-legal"></div></article>')
-						}
-						else {
-							$status.append('<article class="node status-animation node-success"><div class="text"><span>' + _t.real_estate.attribute.success_status + '</span></div><div class="fa fa-check"></div></article>')
-						}
-
-						if (isShow) {
-							$status.append('<article class="node status-animation node-primary"><div class="text"><span>' + _t.real_estate.attribute.show_status + '</span></div><div class="fa fa-eye"></div></article>')
-						}
-						else {
-							$status.append('<article class="node status-animation node-warning"><div class="text"><span>' + _t.real_estate.attribute.hide_status + '</span></div><div class="fa fa-eye-slash"></div></article>')
-						}
+					if (isFavorite) {
+						$status.append('<article class="node status-animation node-danger"><div class="text"><span>' + _t.real_estate.attribute.favorite_status + '</span></div><div style="top: 1px" class="fa fa-heart"></div></article>')
 					}
 
 					// Constrol buttons
-					if (isShow) {
-						$item.find('[aria-click="change-show-status"]').attr('title', _t.real_estate.view.my.hide).removeClass('fa-eye').addClass('fa-eye-slash');
+
+					if (isForceHide) {
+						$item.find('[aria-click="change-force-hide-status"]').attr('title', _t.real_estate.view.manager.show).removeClass('fa-eye-slash').addClass('fa-eye');
 					}
 					else {
-						$item.find('[aria-click="change-show-status"]').attr('title', _t.real_estate.view.my.show).removeClass('fa-eye-slash').addClass('fa-eye');
+						$item.find('[aria-click="change-force-hide-status"]').attr('title', _t.real_estate.view.manager.hide).removeClass('fa-eye').addClass('fa-eye-slash');
 					}
 
-					if (isDraft) {
-						$item.find('[aria-click="edit"]').attr('title', _t.real_estate.view.my['continue']);
+					if (isFavorite) {
+						$item.find('[aria-click="change-favorite-status"]').attr('title', _t.real_estate.view.manager.unfavorite).removeClass('fa-heart').addClass('fa-heart-o');
 					}
 					else {
-						$item.find('[aria-click="edit"]').attr('title', _t.real_estate.view.my.edit);
+						$item.find('[aria-click="change-favorite-status"]').attr('title', _t.real_estate.view.manager.favorite).removeClass('fa-heart-o').addClass('fa-heart');
 					}
 
 					_initStatusAnimation($item);
@@ -92,27 +75,24 @@ $(function () {
 
 				// / Status
 
-				// Change show status buttons
+				// Change force hide status buttons
 
-					$item.find('[aria-click="change-show-status"]').on('click', function () {
-						var $button = $(this),
-							status 	= $item.data('status'),
-							isShow 	= listString.has('show', status);
+					$item.find('[aria-click="change-force-hide-status"]').on('click', function () {
+						var $button 	= 	$(this);
+							status 		= 	$item.data('status');
+							isForceHide = 	listString.has('force_hide', status);
 
 						$button.startLoadingStatus();
 						$.ajax({
-							url: '/real_estates/change_show_status/' + $item.data('value') + '/' + (isShow ? 0 : 1),
-							method: 'POST',
-							contentType: 'JSON'
-						}).always(function () {
-							$button.endLoadingStatus();
+							url: '/real_estates/change_force_hide_status/' + $item.data('value') + '/' + (isForceHide ? 0 : 1),
+							method: 'POST'
 						}).done(function (data) {
 							if (data.status == 0) {
-								if (isShow) {
-									$item.data('status', listString.remove('show', status));
+								if (isForceHide) {
+									$item.data('status', listString.remove('force_hide', status));
 								}
 								else {
-									$item.data('status', listString.add('show', status));
+									$item.data('status', listString.add('force_hide', status));
 								}
 								initItems($item, true);
 							}
@@ -121,81 +101,59 @@ $(function () {
 							}
 						}).fail(function () {
 							_errorPopup();
+						}).always(function () {
+							$button.endLoadingStatus();
 						});
 					});
 
-				// / Change show status buttons
+				// / Change force hide status buttons
+			
+				// Change favorite status buttons
 
-				// Owner
-				
-					$item.find('[aria-click="own_info"]').on('click', function () {
-						var $button 	= 	$(this),
-							$html 		= 	$(_popupContent['re_owner']),
-							$popup 		= 	popupFull({
-												html: $html,
-												width: 'small'
-											}),
-							$form 		= 	$popup.find('form'),
-							form 		= 	$form[0],
-							owner_info 	= 	$item.data('owner');
+					$item.find('[aria-click="change-favorite-status"]').on('click', function () {
+						var $button 	= 	$(this);
+							status 		= 	$item.data('status');
+							isFavorite 	= 	listString.has('favorite', status);
 
-						form['owner_info[id]'].value 		= $item.data('value');
-						form['owner_info[type]'].value 		= owner_info['type'] || '';
-						form['owner_info[name]'].value 		= owner_info['name'] || '';
-						form['owner_info[phone]'].value 	= owner_info['phone'] || '';
-						form['owner_info[email]'].value 	= owner_info['email'] || '';
-						form['owner_info[address]'].value 	= owner_info['address'] || '';
-
-						initForm($form, {
-							submit: function () {
-								$popup.off();
-								if (form['owner_info[type]'].value == '') {
-									return;
+						$button.startLoadingStatus();
+						$.ajax({
+							url: '/real_estates/change_favorite_status/' + $item.data('value') + '/' + (isFavorite ? 0 : 1),
+							method: 'POST'
+						}).done(function (data) {
+							if (data.status == 0) {
+								if (isFavorite) {
+									$item.data('status', listString.remove('favorite', status));
 								}
-								
-								$button.startLoadingStatus();
-								$.ajax({
-									url: '/real_estates/set_owner_info',
-									data: $form.serialize(),
-									method: 'POST',
-									dataType: 'JSON'
-								}).done(function (data) {
-									if (data.status == 0) {
-										$item.data('owner', {
-											type: form['owner_info[type]'].value,
-											name: form['owner_info[name]'].value,
-											phone: form['owner_info[phone]'].value,
-											email: form['owner_info[email]'].value,
-											address: form['owner_info[address]'].value
-										});
-									}
-									else {
-										_errorPopup();
-									}
-								}).fail(function () {
-									_errorPopup();
-								}).always(function () {
-									$button.endLoadingStatus();
-								});
+								else {
+									$item.data('status', listString.add('favorite', status));
+								}
+								initItems($item, true);
 							}
+							else {
+								_errorPopup();
+							}
+						}).fail(function () {
+							_errorPopup();
+						}).always(function () {
+							$button.endLoadingStatus();
 						});
 					});
-				
-				// / Owner
 
+				// / Change favorite status buttons
+		
 				// Delete buttons
 
 					$item.find('[aria-click="delete"]').on('click', function () {
 						var $button = $(this);
 						popupPrompt({
 							title: _t.form.confirm_title,
-							content: _t.real_estate.view.my.delete_confirm,
+							content: _t.real_estate.view.manager.delete_confirm,
 							type: 'warning',
+							primaryButton: true,
 							buttons: [
 								{
 									text: _t.form.yes,
 									type: 'warning',
-									primaryButton: true,
 									handle: function () {
 										$button.startLoadingStatus();
 										$.ajax({

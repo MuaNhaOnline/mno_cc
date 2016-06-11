@@ -5,59 +5,88 @@ $(function () {
 	// Init
 
 	(function () {
-		$('[data-toggle="offcanvas"]').on('click', function () {
-			$.cookie('sidebar_collapse', $body.is('.sidebar-collapse') ? '1' : '0');
-		});
 
 		// Notification
+
+			var
+				page 	= 	0,
+				loading = 	false,
+				$list 	= 	$('#_notifications_list');
+
+			// Load items
+			function loadItems(untilFull) {
+				if (loading) {
+					return;
+				}
+
+				// Loading status
+				loading = $('<li class="text-center" style="padding: 10px;"></li>');
+				$list.append(loading);
+				loading.startLoadingStatus();
+				$.ajax({
+					url: '/notifications/_mini_list',
+					data: {
+						page: ++page
+					}
+				}).always(function () {
+					loading.remove();
+					loading = false;
+				}).done(function (data) {
+					if (data.status == 0) {
+						var $newItems = $(data.result);
+						initItems($newItems);
+						$list.append($newItems);
+
+						if (untilFull) {
+							if ($list.prop('scrollHeight') < $list.parent().height()) {
+								loadItems(true);
+							}
+						}
+					}
+					else if (data.status == 1) {
+						// Set loading = true for stop load item again
+						loading = true;
+					}
+					else {
+						page--;
+					}
+				}).fail(function () {
+					page--;
+				});
+			}
+
+			function setReadItem($item) {
+				$item.removeClass('unread');
+				var remain = $('#_notifications_list li.unread').length;
+				if (remain != 0) {
+					$('#notification_count').text(remain);
+				}
+				else {
+					$('#notification_count').remove();
+				}
+
+				$.ajax({
+					url: '/notifications/set_read_status/' + $item.data('value'),
+					method: 'POST',
+					dataType: 'JSON'
+				});
+			}
 			
 			function initItems($items) {
 				$items.siblings('.unread').on('mouseenter.change_read_status click.change_read_status', function () {
-					var $item = $(this);
-
-					$item.removeClass('unread');
-					var remain = $('#notifications_list li.unread').length;
-					if (remain != 0) {
-						$('#notification_count').text(remain);
-					}
-					else {
-						$('#notification_count').remove();
-					}
-
-					$.ajax({
-						url: '/notifications/set_read_status/' + $item.data('value'),
-						method: 'POST',
-						dataType: 'JSON'
-					});
+					setReadItem($(this));
 				});	
 			}
 
-			initItems($('#notifications_list li'));
+			// First load notification button
+			$('#_notification_button').on('click.loadItems', function () {
+				$(this).off('click.loadItems');
+				loadItems(true);
+			});
 
-			var loading = false, page = 1;
-			$('#notifications_list').on('scroll', function () {
+			$list.on('scroll', function () {
 				if (this.scrollTop + $(this).height() >= this.scrollHeight - 50 && !loading) {
-					loading = true;
-					$.ajax({
-						url: '/notifications/load_more',
-						data: {
-							page: ++page
-						},
-						dataType: 'JSON'
-					}).always(function () {
-						loading = false;
-					}).done(function (data) {
-						if (data.status == 0) {
-							var $newItems = $(data.result);
-							initItems($newItems);
-							$('#notifications_list').append($newItems);
-						}
-						else {
-							page--;
-						}
-					}).fail(function () {
-						page--;
-					});
+					loadItems();
 				}
 			});
 		

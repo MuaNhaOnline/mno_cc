@@ -3,3 +3,4 @@ log/
 tmp/
 app/assets/file_uploads
 db/schema.rb
+.byebug_history

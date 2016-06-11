@@ -3,8 +3,8 @@
 	params: res(*), page(1), per(12)
 =end
 
-	@_title 			= 	'Của tôi - Bất động sản'
-	@_content_header	= 	'Bất động sản của tôi'
+	@_title 			= 	'Quản lý bất động sản'
+	@_content_header	= 	'Quản lý - Bất động sản'
 
 	page 				||= 1
 	per 				||= 12
@@ -38,6 +38,11 @@
 					<i class="fa fa-mail-reply-all"></i>
 					<i class="fa fa-sort" aria-name="sort"></i>
 				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" aria-click="order" data-name="favorite" data-sort="desc" class="no-underline text-muted" title="Yêu thích">
+					<i class="fa fa-heart"></i>
+					<i class="fa fa-sort" aria-name="sort"></i>
+				</a>
 			</article>
 		</form>
 	</section>
@@ -60,7 +65,7 @@
 	</nav>
 <% else %>
 	<section id="re_list" class="row item-list">
-		<%= render partial: 'my', locals: { res: res_in_page } %>
+		<%= render partial: 'manage', locals: { res: res_in_page } %>
 	</section>
 	<section id="alert">
 	</section>
@@ -69,66 +74,8 @@
 	</nav>
 <% end %>
 
-<article class="box box-primary" aria-popupcontent="re_owner">
-	<section class="box-header with-border">
-		<h3 class="box-title">
-			Thông tin quản lý
-		</h3>
-	</section>
-	<section class="box-body">
-		<p class="text-right"><small>Thông tin này được bảo mật</small></p>
-		<form class="form">
-			<input type="hidden" name="owner_info[id]" />
-			<article class="form-group">
-				<label class="control-label">
-					Tình trạng sở hữu
-				</label>
-				<section>
-					<label class="radio-inline">
-						<input class="input-toggle" data-off="owner" type="radio" name="owner_info[type]" value="owner" /> Chính chủ
-					</label>
-					<label class="radio-inline">
-						<input class="input-toggle" data-on="owner" type="radio" name="owner_info[type]" value="agency" /> Ký gửi
-					</label>
-					<label class="radio-inline">
-						<input class="input-toggle" data-on="owner" type="radio" name="owner_info[type]" value="other" /> Khác
-					</label>
-				</section>
-			</article>
-			<article class="form-group" data-toggled-element="owner">
-				<label class="control-label">
-					Tên chủ sở hữu
-				</label>
-				<input class="form-control" name="owner_info[name]" />
-			</article>
-			<article class="form-group" data-toggled-element="owner">
-				<label class="control-label">
-					Email
-				</label>
-				<input data-constraint="email" class="form-control" name="owner_info[email]" />
-			</article>
-			<article class="form-group" data-toggled-element="owner">
-				<label class="control-label">
-					Số điện thoại
-				</label>
-				<input data-constraint="integer" class="form-control" name="owner_info[phone]" />
-			</article>
-			<article class="form-group" data-toggled-element="owner">
-				<label class="control-label">
-					Địa chỉ
-				</label>
-				<textarea class="form-control" name="owner_info[address]"></textarea>
-			</article>
-			<article class="text-center">
-				<button type="submit" class="btn btn-primary">Hoàn tất</button>
-				<button type="button" aria-click="close-popup" class="btn btn-default">Hủy</button>
-			</article>
-		</form>
-	</section>
-</article>
-
 <% content_for :javascripts do %>
-	<script type="text/javascript" src="/assets/real_estates/my.js"></script>
+	<script type="text/javascript" src="/assets/real_estates/manage.js"></script>
 	<script type="text/javascript">
 		<% if params[:order].present? %>
 			order = {

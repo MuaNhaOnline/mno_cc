@@ -45,7 +45,7 @@
 	%>
 <% end %>
 
-<li data-value="<%= notification.id %>" class="<%= 'unread' unless notification.read? %>">
+<li data-value="<%= notification.id %>" class="<%= 'unread new' unless notification.read? %>">
 	<a href="<%= url %>">
 		<i class="icon ico-home text-green"></i> <%= text %>
 	</a>

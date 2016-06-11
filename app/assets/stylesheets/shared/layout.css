@@ -13,6 +13,19 @@
 	src: url('/assets/ericsson.ttf');
 }
 
+/* General */
+
+	.loading-status {
+		
+	}
+
+		.loading-status:before,
+		.loading-status:after {
+			content: '' !important;
+		}
+
+/* / General */
+
 /* Standar */
 
 	.sell-price-text {

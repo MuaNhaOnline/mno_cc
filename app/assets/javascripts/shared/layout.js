@@ -83,14 +83,17 @@ $(function () {
 			};
 
 			$.fn.startLoadingStatus = function (action) {
-				this.data('loading', action);
-				this.html('<i class="fa fa-circle-o-notch fa-spin fa-lg fa-fw"></i>');
+				this.data('loading', action || 'request')
+					.data('before-change-html', this.html())
+					.html('<i class="fa fa-circle-o-notch fa-spin"></i>')
+					.addClass('loading-status');
 			}
 
 			$.fn.endLoadingStatus = function (action) {
-				if (this.data('loading') == action) {
-					this.data('loading', '');
-					this.html('');
+				if (this.data('loading') == (action || 'request')) {
+					this.data('loading', '')
+						.html(this.data('before-change-html'))
+						.removeClass('loading-status');
 				}
 			}
 		}
@@ -215,22 +218,18 @@ $(function () {
 
 		var win = $(window);
 
-			var viewport = {
-					top : win.scrollTop(),
-					left : win.scrollLeft()
-			};
-			viewport.right = viewport.left + win.width();
-			viewport.bottom = viewport.top + win.height();
+		var viewport = {
+				top : win.scrollTop(),
+				left : win.scrollLeft()
+		};
+		viewport.right = viewport.left + win.width();
+		viewport.bottom = viewport.top + win.height();
 
-			var bounds = this.offset();
-			bounds.right = bounds.left + this.outerWidth();
-			bounds.bottom = bounds.top + this.outerHeight();
+		var bounds = $item.offset();
+		bounds.right = bounds.left + $item.outerWidth();
+		bounds.bottom = bounds.top + $item.outerHeight();
 
-			var isOnScreen = (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-
-			return isOnScreen
-				? cbTrue && cbTrue(viewport, bounds)
-				: cbFalse && cbFalse(viewport, bounds);
+		return !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
 	}
 
 	/*
@@ -477,7 +476,7 @@ $(function () {
 	*/
 	function _initPagination(params) {
 		// Check if have not params or url
-		if (typeof params == 'undefined' || typeof params.url == 'undefined') {
+		if (typeof params == 'undefined' || 'url' in params) {
 			return;
 		}
 
@@ -637,6 +636,194 @@ $(function () {
 
 		return find;
 	}
+
+	/*
+		params:
+			url(*)
+			data 			{}
+							{} || function
+			list 			$()
+			paginator 		$()
+			alert 			$('<section></section>')
+			emptyHtml 		'...'
+			replaceState	false
+			done 			function
+			fail 			function
+			empty 			function
+			scrollTo 		list
+	*/
+	function _initPagination2(params) {
+		// Check if have not params or url
+		if (typeof params == 'undefined' || !('url' in params)) {
+			return;
+		}
+
+		var 
+			xhr		= 	null,
+			obj,
+
+		// Create object
+		obj = {
+			url: 			params.url,
+			list: 			params.list || $(),
+			paginator:		params.paginator || $(),
+			alert: 			params.alert || $('<section></section>'),
+			emptyHtml: 		params.alertHtml || '<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không có kết quả</h4><p>Không tìm thấy kết quả phù hợp, vui lòng thử lại sau</p></div>',
+			lastData: 		{},
+			data: 			params.data || {},
+			getData: 		function () {
+								return typeof obj.data == 'function' ?
+									obj.data() :
+									obj.data;
+							},
+			replaceState: 	params.replaceState || false,
+			done: 			params.done || function () {},
+			fail: 			params.fail || function () {},
+			empty: 			params.empty || function () {},
+			/*
+				findParams
+					scrollTo 		true
+									Whether scrollTo ...
+					data 			nothing
+					url 			param url
+					startRequest 	function () {}
+					endRequest 		function () {}
+			*/
+			find: 			function (findParams) {
+								findParams = findParams || {};
+
+								// Params
+								if (typeof findParams.scrollTo == 'undefined') {
+									findParams.scrollTo = true;
+								}
+								findParams.startRequest = 	findParams.startRequest || function () {};
+								findParams.endRequest 	= 	findParams.endRequest 	|| function () {};
+
+								// Get data
+
+									// Clone data
+									var data = $.extend({}, obj.getData());
+
+									// Use find params if exists
+									if ('data' in findParams) {
+										$.extend(data, findParams.data);
+									}
+
+									// Default value
+									data.page = data.page || 1;
+
+									// Save to last data
+									obj.lastData = data;
+
+								// / Get data
+
+								// Request
+								
+									// Get url
+									var url = findParams.url || obj.url;
+
+									// Hide alert
+									obj.alert.hide();
+
+									// Call request
+									findParams.startRequest();
+									xhr = $.ajax({
+										url: url,
+										data: data,
+										cache: false
+									}).done(function (data) {
+										if (data.status == 0) {
+											// Replace html
+											obj.list.html(data.result.list);
+											obj.paginator.html(data.result.paginator);
+
+											// Callback
+											obj.done(data.result);
+											initPaginator();
+
+											// Scroll to list
+											if (findParams.scrollTo) {
+												_scrollTo(obj.list.offset().top);
+											}
+
+											if (obj.replaceState) {
+												// Remove timestamp in url
+												window.history.replaceState({}, document.title, this.url.replace(/&?_=[0-9]*/, ''));
+											}
+										}
+										else if (data.status == 1) {
+											// Replace html
+											obj.list.html('');
+											obj.paginator.html('');
+
+											// Callback
+											obj.empty();
+
+											// Alert
+											obj.alert.show().html(obj.emptyHtml);
+										}
+										else {
+											// Replace html
+											obj.list.html('');
+											obj.paginator.html('');
+
+											// Callback
+											obj.fail();
+
+											// Alert
+											_errorPopup();
+										}
+									}).fail(function (xhr, status) {
+										if (status != 'abort') {
+											// Replace html
+											obj.list.html('');
+											obj.paginator.html('');
+											obj.list.next()
+
+											// Callback
+											obj.fail();
+
+											// Alert
+											_errorPopup();
+										}
+									}).always(function () {
+										findParams.endRequest();
+									});
+								
+								// / Request
+							}
+		};
+		obj.scrollTo = params.scrollTo || obj.list;
+
+		// Append alert
+
+			if (!params.alert) {
+				// Get table
+				var $replaceAfter = obj.list.closest('table');
+
+				// If not in table => Append after list
+				if ($replaceAfter.length == 0) {
+					$replaceAfter = obj.list;
+				}
+
+				// Append
+				$replaceAfter.after(obj.alert);
+			}
+
+		// / Append alert
+
+		function initPaginator() {
+			obj.paginator.find('[aria-click="paging"]').on('click', function () {
+				$(this).startLoadingStatus();
+				obj.lastData['page'] = $(this).data('page');
+				obj.find({ data: obj.lastData });
+			});
+		}
+		initPaginator();
+
+		return obj;
+	}
+
 
 	/*
 		aria-pagination

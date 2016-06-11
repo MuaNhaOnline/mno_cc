@@ -1,24 +1,28 @@
 class NotificationsController < ApplicationController
 
-	# Load more
+	# Mini list
 	
 		# Patial view
-		# params: page
-		def load_more
-			page = params[:page].present? ? params[:page].to_s || 1
-			per = 10
+		# params: page, per
+		def _mini_list
+			# Get params
+			page 	= 	(params[:page] || 1).to_i
+			per 	= 	(params[:per] || 10).to_i
 
-			notifications = Notification.get_by_current_user.page(page, per)
+			# Get notifications
+			notifications = Notification.get_by_current_user.page page, per
 
+			# Check if empty
 			return render json: { status: 1 } if notifications.count == 0
 
+			# Render result
 			render json: {
 				status: 0,
 				result: render_to_string(partial: 'mini_list', locals: { notifications: notifications })
 			}
 		end
 	
-	# / Load more
+	# / Mini list
 
 	# Set read status
 	

@@ -33,7 +33,6 @@ class Notification < ActiveRecord::Base
 					ContactRequest
 				end.need_notify_users(noti)
 
-				byebug
 				# Get 'user' type
 				user_ids = relative_users.map{ |value| value[1] == 'user' ? value[0] : nil }.select{ |value| !value.nil? }
 

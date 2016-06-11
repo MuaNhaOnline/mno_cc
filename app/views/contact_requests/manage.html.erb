@@ -18,11 +18,11 @@
 			<%= label_tag :by_status, 'Danh sách' %>
 			<%= select_tag :by_status,
 				options_for_select([
-					['Cần liên hệ', 'need_contact', 'data-value': '[1,2]'],
-					['Chưa liên hệ', 'wait_contact', 'data-value': '[1]'],
-					['Cần liên hệ lại', 'recontact', 'data-value': '[2]'],
-					['Đã bỏ qua', 'eliminated', 'data-value': '[3]'],
-					['Đã liên hệ', 'done', 'data-value': '[4]']
+					['Cần liên hệ', 'need_contact', 'data-value': '["1","2"]'],
+					['Chưa liên hệ', 'wait_contact', 'data-value': '["1"]'],
+					['Cần liên hệ lại', 'recontact', 'data-value': '["2"]'],
+					['Đã bỏ qua', 'eliminated', 'data-value': '["3"]'],
+					['Đã liên hệ', 'done', 'data-value': '["4"]']
 				], by_status),
 				{
 					class: 'form-control'
@@ -36,6 +36,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+						<th class="hightlight-cell"></th>
 						<th>
 							Yêu cầu
 						</th>
@@ -51,10 +52,12 @@
 						<th>
 							Thời điểm
 						</th>
-						<th>
+					</tr>
+					<tr>
+						<th colspan="3">
 							Trạng thái
 						</th>
-						<th>
+						<th colspan="2">
 							Ghi chú
 						</th>
 						<th>
@@ -81,6 +84,10 @@
 			Không tìm thấy kết quả, vui lòng thử lại sau
 		</p>
 	</article>
+<% end %>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/contact_requests/manage.css">
 <% end %>
 
 <% content_for :javascripts do %>

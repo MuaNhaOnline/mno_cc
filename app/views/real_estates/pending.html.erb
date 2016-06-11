@@ -1,63 +1,82 @@
-<% content_for :stylesheets do %>
-  <link rel="stylesheet" href="/assets/real_estates/pending.css" />
-<% end %>
-
-<% content_for :scripts do %>
-  <script type="text/javascript" src="/assets/real_estates/pending.js"></script>
-<% end %>
-
-<% content_for :content_header do %>
-  <%= t 'real_estate.view.pending.form_title' %>
-<% end %>
 <%
-  @title = 'Duyệt bất động sản'
+=begin
+	params: res(*), page(1), per(12)
+=end
 
-  total = @res.count
-  per = Rails.application.config.item_per_page
+	@_title 			= 	'Kiểm duyệt bất động sản'
+	@_content_header	= 	'Kiểm duyệt - Bất động sản'
+
+	page 				||= 1
+	per 				||= 12
+	res_in_page			=	res.page page, per
 %>
 
 <section class="box box-solid">
-  <section class="box-body">
-    <form id="search_form">
-      <article class="form-group">
-        <div class="input-group margin">
-          <input data-nonvalid name="keyword" type="text" class="form-control" placeholder="<%= t 'form.search_placeholder' %>" />
-          <span class="input-group-btn">
-            <button data-nonvalid class="btn btn-default" type="submit"><%= t 'form.search' %></button>
-          </span>
-        </div>
-      </article>
-      <article class="form-group no-margin text-center">
-        <a href="javascript:void(0)" aria-click="order" data-name="id" data-sort="asc" class="no-underline text-muted" title="Mã">
-          <span class="font-bold">#</span>
-          <i class="fa fa-sort" aria-name="sort"></i>
-        </a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="javascript:void(0)" aria-click="order" data-name="view" data-sort="desc" class="no-underline text-muted" title="Lượt xem">
-          <i class="fa fa-eye"></i>
-          <i class="fa fa-sort" aria-name="sort"></i>
-        </a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Có tương tác">
-          <i class="fa fa-mail-reply-all"></i>
-          <i class="fa fa-sort-desc" aria-name="sort"></i>
-        </a>
-      </article>
-    </form>
-  </section>
+	<section class="box-body">
+		<form id="search_form">
+			<article class="form-group">
+				<div class="input-group margin">
+					<input data-nonvalid name="keyword" type="text" class="form-control" placeholder="Nhập từ khóa để tìm kiếm" value="<%= params[:search][:keyword] if defined? params[:search][:keyword] %>" />
+					<span class="input-group-btn">
+						<button data-action="reset" data-nonvalid class="btn btn-default" type="button">Mặc định</button>
+						<button data-nonvalid class="btn btn-primary" type="submit">Tìm kiếm</button>
+					</span>
+				</div>
+			</article>
+			<article class="form-group no-margin text-center">
+				<a href="javascript:void(0)" aria-click="order" data-name="id" data-sort="asc" class="no-underline text-muted" title="Mã">
+					<span class="font-bold">#</span>
+					<i class="fa fa-sort" aria-name="sort"></i>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" aria-click="order" data-name="view" data-sort="desc" class="no-underline text-muted" title="Lượt xem">
+					<i class="fa fa-eye"></i>
+					<i class="fa fa-sort" aria-name="sort"></i>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Có tương tác">
+					<i class="fa fa-mail-reply-all"></i>
+					<i class="fa fa-sort" aria-name="sort"></i>
+				</a>
+			</article>
+		</form>
+	</section>
 </section>
 
-<section class="re-content">
-  <article id="re_list" class="row item-list">
-    <% if total != 0 %>
-      <%= render partial: 'real_estates/pending_list', locals: { res: @res.page(1, per) } %>
-    <% else %>
-      <div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Chưa có tin nào</h4></div>
-    <% end %>
-  </article>
-  <nav class="text-center" id="pagination">
-    <% if total != 0 %>
-      <%= render partial: 'shared/pagination', locals: { total: total, per: per } %>
-    <% end %>
-  </nav>
-</section>
+<% if res_in_page.count == 0 %>
+	<section id="re_list" class="row item-list">
+	</section>
+	<section id="alert">
+		<article class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;">
+			<h4>
+				Không có kết quả
+			</h4>
+			<p>
+				Không tìm thấy kết quả phù hợp, vui lòng thử lại sau
+			</p>
+		</article>
+	</section>
+	<nav class="text-center" id="paginator">
+	</nav>
+<% else %>
+	<section id="re_list" class="row item-list">
+		<%= render partial: 'pending', locals: { res: res_in_page } %>
+	</section>
+	<section id="alert">
+	</section>
+	<nav class="text-center" id="paginator">
+		<%= render partial: '/shared/pagination', locals: { total: res.count, page: page, per: per } %>
+	</nav>
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/real_estates/pending.js"></script>
+	<script type="text/javascript">
+		<% if params[:order].present? %>
+			order = {
+				<%= params[:order].first[0] %>: '<%= params[:order].first[1] %>'
+			}
+		<% end %>
+		page = <%= page %>;
+	</script>
+<% end %>
