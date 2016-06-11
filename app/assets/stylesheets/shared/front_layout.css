@@ -128,7 +128,6 @@ body {
 				}
 
 					header .top-header .user .text {
-						color: inherit;
 						font-weight: 600;
 						height: 40px;
 						line-height: 40px;
@@ -152,7 +151,7 @@ body {
 						display: none;
 					}
 				
-						header .top-header .user:hover .absolute-menu {
+						header .top-header .user .absolute-menu.on {
 							display: block;
 						}
 			
@@ -266,7 +265,7 @@ body {
 						display: none;
 					}
 				
-						header .bottom-header nav li:hover .absolute-menu {
+						header .bottom-header nav li .absolute-menu.on {
 							display: flex;
 							display: -webkit-flex;
 						}

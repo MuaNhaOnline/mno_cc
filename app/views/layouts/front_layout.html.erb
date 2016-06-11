@@ -39,10 +39,9 @@
 					<article class="top-header container no-horizontal-padding">
 						<% if signed? %>
 							<article class="user">
-								<a class="text" href="/trang-ca-nhan">
+								<span class="text cursor-pointer" data-action="on_next_element">
 									<%= current_user.full_name %>
-								</a>
-								<%= user_avatar current_user, style: 'mini' %>
+								</span>
 								<section class="absolute-menu">
 									<article class="item">
 										<a href="/trang-ca-nhan">Trang cá nhân</a>
@@ -58,6 +57,7 @@
 										<a href="/signout">Đăng xuất</a>
 									</article>
 								</section>
+								<%= user_avatar current_user, style: 'mini' %>
 							</article>
 						<% else %>
 							<a aria-click="facebook_login" class="facebook-login" title="Đăng nhập bằng Facebook">
@@ -122,9 +122,11 @@
 							<nav class="hidden-xs hidden-sm">
 								<ul>
 									<li>
-										<a href="/bat-dong-san">Bất động sản</a>
+										<a data-action="on_next_element" href="#">Bất động sản</a>
 										<article class="absolute-menu">
 											<article class="col">
+												<article class="item"><a href="/bat-dong-san">Xem tất cả</a></article>
+												<article class="line"></article>
 												<article class="item"><a href="/bat-dong-san/danh-sach-nha-pho">Nhà phố</a></article>
 												<article class="item"><a href="/bat-dong-san/danh-sach-biet-thu">Biệt thự</a></article>
 												<article class="item"><a href="/bat-dong-san/danh-sach-nha-cap-4">Nhà cấp 4</a></article>

@@ -168,6 +168,34 @@ $(function () {
 		}).css('cursor', 'pointer');
 	
 	// / Click header => Scroll to box
+
+	// Main menu
+
+		$('[data-action="on_next_element"] + *').on('mousedown', function (e) {
+			e.stopPropagation();
+		});
+	
+		$('[data-action="on_next_element"]').on('mousedown', function () {
+			var $menu = $(this).next();
+
+			// Check if on-ing
+			if ($menu.hasClass('on')) {
+				return;
+			}
+
+			// On
+			$menu.addClass('on');
+
+			// Set close event
+			setTimeout(function () {
+				$(document).on('mousedown.close_menu', function (e) {
+					$menu.removeClass('on');
+					$(document).off('mousedown.close_menu');
+				});	
+			});
+		});
+	
+	// / Main menu
 });
 
 // Map
