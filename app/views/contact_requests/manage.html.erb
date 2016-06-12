@@ -24,9 +24,7 @@
 					['Đã bỏ qua', 'eliminated', 'data-value': '["3"]'],
 					['Đã liên hệ', 'done', 'data-value': '["4"]']
 				], by_status),
-				{
-					class: 'form-control'
-				}
+				class: 'form-control'
 			%>
 		</div>
 	</section>
@@ -72,8 +70,8 @@
 		</section>
 	</section>
 
-	<section id="pagination" class="text-center">
-		<%= render partial: 'shared/pagination', locals: { total: requests.count, page: page, per: per } %>
+	<section id="paginator" class="text-center">
+		<%= render partial: 'shared/paginator', locals: { total: requests.count, page: page, per: per } %>
 	</section>
 <% else %>
 	<article class="callout callout-warning">
@@ -93,6 +91,7 @@
 <% content_for :javascripts do %>
 	<script type="text/javascript" src="/assets/contact_requests/manage.js"></script>
 	<script type="text/javascript">
-		currentPage 	=	<%= page %>;
+		page 		= 	<%= page %>;
+		byStatus 	= 	'<%= by_status %>';
 	</script>
 <% end %>

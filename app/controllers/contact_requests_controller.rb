@@ -174,7 +174,8 @@ class ContactRequestsController < ApplicationController
 						locals: {
 							requests: 	requests,
 							page: 		page,
-							per: 		per
+							per: 		per,
+							by_status: 	by_status
 						}
 				}
 				f.json {
@@ -196,8 +197,8 @@ class ContactRequestsController < ApplicationController
 										requests: requests_in_page
 									}
 								),
-								pagination: render_to_string(
-									partial: '/shared/pagination',
+								paginator: render_to_string(
+									partial: '/shared/paginator',
 									formats: :html,
 									locals: {
 										total: 	requests.count,

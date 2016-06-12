@@ -18,7 +18,7 @@ $(function () {
 				}
 
 				// Set src
-				$img[0].src = $item.data('data')['slide'];
+				$img[0].src = $item.data('value')['slide'];
 
 				// Set status
 				$item.addClass('active').siblings('.active').removeClass('active');
@@ -37,6 +37,40 @@ $(function () {
 					}
 				});
 			}
+
+			$('.images-container .full-button a').on('click', function () {
+				// Get data
+				var currentIndex = $('.images-container .circle-paging > .active').index();
+				var imageData = $('.images-container .circle-paging > *').map(function () {
+					return $(this).data('value')['original'];
+				});
+
+				// Build html
+				var $html = $('<img />');
+				$html.css({
+					'max-height': 	'90vh',
+					cursor: 		'pointer'
+				})
+
+				// Set src
+				$html.attr('src', imageData[currentIndex]);
+
+				// Call popup
+				popupFull({
+					html: $html
+				});
+
+				// Next image when click
+				$html.on('click', function () {
+					if (currentIndex == imageData.length) {
+						currentIndex = 0;
+					}
+					else {
+						currentIndex++;
+					}
+					$html.attr('src', imageData[currentIndex])
+				});
+			})
 		})();
 	
 	// / Images container

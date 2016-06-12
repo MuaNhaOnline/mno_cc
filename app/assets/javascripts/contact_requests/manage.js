@@ -1,19 +1,22 @@
-var currentPage;
+var page, per, byStatus;
 
 $(function () {
 
 	var
-		find,
-		currentStatus = $('#by_status :selected').data('value');
+		pagination,
+		byStatusCode = $('#by_status :selected').data('value');
 
 	// By status
 	
 		$('#by_status').on('change', function () {
-			currentStatus = $(this).find(':selected').data('value');
-			find({
+			byStatusCode 	= 	$(this).find(':selected').data('value');
+			byStatus 		= 	this.value;
+
+			pagination.find({
 				data: {
-					by_status: this.value
-				}
+					by_status: 	byStatus,
+				},
+				scrollTo: 	false
 			});
 		});
 	
@@ -37,13 +40,21 @@ $(function () {
 					dataType: 'JSON'
 				}).done(function (data) {
 					if (data.status == 0) {
-						a = currentStatus;
-						b = $item.find('[name="request[status]"]').val();
+						if (byStatusCode.indexOf($item.find('[name="request[status]"]').val()) == -1) {
+							// Remove item immediate
+							$item.prev().remove();
+							$item.remove();
 
-						if (currentStatus.indexOf($item.find('[name="request[status]"]').val()) == -1) {
-							find({
-								data: 'last_data',
-								note: 'reload'
+							// Reload page
+							var findData = pagination.lastData;
+							if ($('#list').children().length == 0) {
+								if (findData.page != 1) {
+									findData.page--;
+								}
+							}
+							pagination.find({
+								data: 		findData,
+								scrollTo: 	false
 							});
 						}
 					}
@@ -74,19 +85,22 @@ $(function () {
 	// / Item
 
 	// Pagination
-	
-		find = _initPagination({
+
+		// Init pagination
+		pagination = _initPagination2({
 			url: 			window.location.pathname,
-			replaceState: 	true,
-			pagination: 	$('#pagination'),
 			list: 			$('#list'),
-			init_list: 		function ($list, note) {
+			paginator: 		$('#paginator'),
+			replaceState: 	true,
+			done: 			function () {
 								initItems();
-								if (note != 'reload') {
-									_scrollTo($('.content').offset().top);
-								}
 							}
-		});
+		})
+
+		// Set last data
+		pagination.lastData = {
+			by_status: 	byStatus
+		}
 	
 	// / Pagination
 

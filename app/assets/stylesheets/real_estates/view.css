@@ -21,6 +21,30 @@ main {
 			}
 		}
 
+		.images-container .full-button {
+			position: absolute;
+			right: 0;
+			top: 0;
+			background-color: rgba(0, 0, 0, .1);
+			margin: 5px;
+		}
+
+			.images-container .full-button a {
+				color: rgba(255, 255, 255, .7);
+				text-decoration: none;
+				transition: .1s;
+				display: block;
+				font-size: 20px;
+				width: 30px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+			}
+
+				.images-container .full-button a:hover {
+					color: #ffffff;
+				}
+
 		.images-container .image {
 			
 		}

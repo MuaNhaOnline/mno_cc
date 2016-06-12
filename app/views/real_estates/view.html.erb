@@ -38,15 +38,15 @@
 	# Register info
 	register_info = nil
 	if signed?
-		register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'register', object_type: 'real_estate', object_id: @re.id).first
+		register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: ['contact', 'register'], object_type: 'real_estate', object_id: @re.id).first
 	else
 		if left_contact?
-			register_info = ContactRequest.where(user_type: 'contact_user', user_id: current_left_contact.id, request_type: 'register', object_type: 'real_estate', object_id: @re.id).first
+			register_info = ContactRequest.where(user_type: 'contact_user', user_id: current_left_contact.id, request_type: ['contact', 'register'], object_type: 'real_estate', object_id: @re.id).first
 		end
 	end
 
 	if register_info.blank?
-		register_info = ContactRequest.new request_type: 'register', object_type: 'real_estate', object_id: @re.id
+		register_info = ContactRequest.new request_type: 'contact', object_type: 'real_estate', object_id: @re.id
 	end
 %>
 
@@ -58,6 +58,9 @@
 			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 				<section class="images-container">
 					<% if @re.images.present? %>
+						<section class="full-button">
+							<a class="fa fa-arrows-alt"></a>
+						</section>
 						<section class="image">
 							<img src="<%= @re.images[0].image.url(:slide) %>" />
 						</section>
@@ -69,7 +72,7 @@
 										slide: re_image.image.url(:slide)
 									}
 								%>
-								<a class="<%= 'active' if index == 0 %>" data-data="<%= data.to_json %>">
+								<a class="<%= 'active' if index == 0 %>" data-value="<%= data.to_json %>">
 									<span></span>
 								</a>
 							<% end %>
@@ -586,13 +589,23 @@
 									<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :name, :email, :phone_number]}'".html_safe unless signed? %>
 								>
 									<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
-									<input type="hidden" name="request[request_type]" value="" />
 									<input type="hidden" name="request[object_type]" value="" />
 									<input type="hidden" name="request[object_id]" value="" />
 									<article class="form-group text-center">
 										<button class="btn btn-orange" style="padding-left: 25px; padding-right: 25px">
 											Gửi
 										</button>
+									</article>
+									<article class="form-group">
+										<%=
+											select_tag 'request[request_type]',
+												options_for_select([
+													['Liên hệ', 'contact'],
+													['Đăng ký mua', 'register']
+												]),
+												class: 'form-control'
+
+										%>
 									</article>
 									<article class="form-group">
 										<textarea class="form-control" placeholder="Lời nhắn" name="request[message]"></textarea>

@@ -209,7 +209,7 @@ $(function () {
 												// Reload page
 												var findData = pagination.lastData;
 												if ($list.children().length == 0) {
-													if (findData.page !== 1) {
+													if (findData.page != 1) {
 														findData.page--;
 													}
 												}
