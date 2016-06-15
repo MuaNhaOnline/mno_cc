@@ -47,7 +47,7 @@ $(function () {
 
 		// Edit
 		
-			$('#edit_group').on('click', function () {
+			$('[data-action="edit_group"]').on('click', function () {
 				if (!currentGroupId) {
 					return;
 				}
@@ -92,7 +92,7 @@ $(function () {
 
 		// Delete
 		
-			$('#delete_group').on('click', function () {
+			$('[data-action="delete_group"]').on('click', function () {
 				if (!currentGroupId) {
 					return;
 				}
@@ -176,7 +176,7 @@ $(function () {
 	// User
 
 		// Find user
-		
+			
 			initForm($('#find_user_form'));
 			$('#find_user').on('valueChange', function () {
 				if (!this.value && !$(this).data('value')) {

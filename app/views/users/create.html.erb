@@ -191,6 +191,14 @@
 						</div>
 					</article>
 				<% end %>
+
+				<article class="form-group">
+					<input name="user[is_receive_email]" type="hidden" value="false">
+					<label class="checkbox-inline">
+						<input <%= 'checked' if @user.is_receive_email %> name="user[is_receive_email]" type="checkbox">
+						Nhận email thông báo
+					</label>
+				</article>
 			</section>
 		</article>	
 	</div>

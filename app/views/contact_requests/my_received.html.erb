@@ -4,7 +4,7 @@
 =end
 
 	@_title 			=
-	@_content_header 	= 	'Danh sách yêu cầu của tôi';
+	@_content_header 	= 	'Danh sách yêu cầu đã nhận của tôi';
 
 	per 				||= 20
 	page				||= 1
@@ -27,15 +27,15 @@
 							Lời nhắn
 						</th>
 						<th>
-							Thời điểm
+							Thành viên
 						</th>
 						<th>
-							Trạng thái
+							Thời điểm
 						</th>
 					</tr>
 				</thead>
 				<tbody id="list">
-					<%= render partial: 'my', locals: { requests: requests_in_page } %>
+					<%= render partial: 'my_received', locals: { requests: requests_in_page } %>
 				</tbody>
 			</table>
 		</section>
@@ -56,9 +56,9 @@
 <% end %>
 
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" type="text/css" href="/assets/contact_requests/my.css">
+	<link rel="stylesheet" type="text/css" href="/assets/contact_requests/my_received.css">
 <% end %>
 
 <% content_for :javascripts do %>
-	<script type="text/javascript" src="/assets/contact_requests/my.js"></script>
+	<script type="text/javascript" src="/assets/contact_requests/my_received.js"></script>
 <% end %>

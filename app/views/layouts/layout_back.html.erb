@@ -192,6 +192,16 @@
 							<li><a href="/blogs/create"><i class="fa fa-circle-o"></i> Tạo blog</a></li>
 						</ul>
 					</li>
+					<% if can? :manage, User %>
+						<li class="treeview">
+							<a href="#">
+								<i class="icon fa fa-user"></i> <span>Quản lý thành viên</span> <i class="fa fa-caret-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="/thanh-vien/danh-sach"><i class="fa fa-circle-o"></i> Danh sách</a></li>
+							</ul>
+						</li>
+					<% end %>
 					<% if can? :manage, RealEstate %>
 						<li class="treeview">
 							<a href="#">

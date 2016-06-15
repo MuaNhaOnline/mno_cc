@@ -168,7 +168,7 @@ class User < ActiveRecord::Base
 
 			assign_attributes _params.permit [
 				:account, :password, :email, :full_name, :birthday, :business_name,
-				:phone_number, :address ]
+				:phone_number, :address, :is_receive_email]
 		end
 
 		# / Get params
@@ -243,28 +243,30 @@ class User < ActiveRecord::Base
 		end
 
 		# View all search
-		# params: 
+		# conditions: 
 		# 	keyword
-		# 	interact, real_estate_count, project_count
-		def self.view_all_search_with_params params
+		# orders:
+		# 	interact, real_estate_count
+		def self.list_search_with_params conditions = {}, orders = {}
 			where = ''
 			joins = []
 			order = {}
 
-			if params.has_key? :interact
-				order[:last_interact_at] = params[:interact]
-			end
+			# Order
 
-			if params.has_key? :real_estate_count
-				order[:real_estate_count] = params[:real_estate_count]
-			end
+				if orders.has_key? :join
+					order[:created_at] = orders[:join]
+				end
 
-			if params.has_key? :project_count
-				order[:project_count] = params[:project_count]
-			end
+				if orders.has_key? :real_estate_count
+					order[:real_estate_count] = orders[:real_estate_count]
+				end
+				# byebug
 
-			if params[:keyword].present?
-				search(params[:keyword]).joins(joins).where(where).order(order)
+			# / Order
+
+			if conditions[:keyword].present?
+				search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 			else
 				joins(joins).where(where).order(order)
 			end

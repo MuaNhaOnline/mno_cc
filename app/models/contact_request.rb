@@ -11,6 +11,11 @@
 		3: Eliminated
 		4: Done
 
+	object_type
+		real_estate
+		project
+		real_estates/floor
+
 =end 
 
 class ContactRequest < ActiveRecord::Base
@@ -27,7 +32,6 @@ class ContactRequest < ActiveRecord::Base
 		belongs_to :contact_user, class_name: 'ContactUserInfo', foreign_key: 'user_id'
 		belongs_to :real_estate, foreign_key: 'object_id'
 		belongs_to :project, foreign_key: 'object_id'
-		belongs_to :real_estate, foreign_key: 'object_id'
 		belongs_to :floor_real_estate, foreign_key: 'object_id'
 
 		has_many :results, class_name: 'ContactRequestResult'
@@ -73,9 +77,7 @@ class ContactRequest < ActiveRecord::Base
 			joins = []
 			order = {}
 
-			return joins(joins).where(where).order(order)
-
-			joins(joins).where(where).order(order)
+			joins(joins).where(where).reorder(order)
 		end
 
 		def self.my_request params = {}
@@ -88,18 +90,26 @@ class ContactRequest < ActiveRecord::Base
 			joins(joins).where(where).order(order)
 		end
 
+		def self.my_received_request params = {}
+			where = 
+				'contact_requests.object_type = \'real_estate\'' +
+				' AND real_estates.user_type = \'user\'' +
+				" AND real_estates.user_id = #{User.current.id}"
+			joins = [:real_estate]
+			order = {}
+
+			joins(joins).where(where).order(order)
+		end
+
 		# Get need notify users
-		
-			def self.need_notify_users notification
-				case notification.action
-				when 'create'
-					User.joins(system_groups: :permissions).where(permissions: { id: 4 }).all.map{ |user| [user.id, 'user'] }
-				else
-					[]
-				end
+		def self.need_notify_users notification
+			case notification.action
+			when 'create'
+				User.joins(system_groups: :permissions).where(permissions: { id: 4 }).all.map{ |user| [user.id, 'user'] }
+			else
+				[]
 			end
-		
-		# / Get need notify users
+		end
 	
 	# / Get
 

@@ -156,6 +156,7 @@ Rails.application.routes.draw do
 		get 'quen-mat-khau' => 'users#forgot_password'
 		get 'trang-ca-nhan' => 'users#view'
 		get 'thanh-vien/quan-ly' => 'users#manager'
+		get 'thanh-vien/danh-sach' => 'users#list'
 
 		get 'thanh-vien/:id', constraints: { id: /\d+/ }, controller: 'users', action: 'view'
 
@@ -179,6 +180,7 @@ Rails.application.routes.draw do
 
 		get 'yeu-cau/quan-ly' => 'contact_requests#manage'
 		get 'yeu-cau/cua-toi' => 'contact_requests#my'
+		get 'yeu-cau/da-nhan-cua-toi' => 'contact_requests#my_received'
 
 	# / Contact request
 

@@ -1429,285 +1429,286 @@ function initForm($form, params) {
 					});
 				}
 			});
-		}
+			
+			(function () {
+				var prefix = 'ac_';
+				var $currentList, $currentInput;
+				_temp[prefix + 'ajax'] = false;
 
-		/*function initAutoComplete() {
-			var prefix = 'ac_';
-			var $currentList, $currentInput;
-			_temp[prefix + 'ajax'] = false;
+				$form.find('[aria-input-type="autocomplete"]:not([data-multiple])').each(function () {
+					var 
+						$input = $(this),
+						isFree = $input.is('[data-free]');
 
-			$form.find('[aria-input-type="autocomplete"]').each(function () {
-				var 
-					$input = $(this),
-					isFree = $input.is('[data-free]');
+					// Create full element
+					$input.wrap('<article class="autocomplete-container"></article>');
+					var 
+						acName = name = $input.attr('name'),
+						value = $input.data('value');
 
-				// Create full element
-				$input.wrap('<article class="autocomplete-container"></article>');
-				var 
-					acName = name = $input.attr('name'),
-					value = $input.data('value');
-
-				if (name[name.length - 1] == ']') {
-					acName = acName.substr(0, acName.length - 1) + '_ac]';
-				}
-				else {
-					acName = name + '_ac';
-				}
-
-				$input.after('<input data-constraint="' + $input.attr('data-constraint') + '" type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
-				$input.removeAttr('data-constraint');
-				$input.attr({
-					'name': acName,
-					'data-nonvalid': ''
-				});
-
-				var $listContainer = $input.find('~ .autocomplete-list-container');
-				var $list = $listContainer.children('ul');
-
-				// For prevent when choose by click
-				$listContainer.on('click', function (e) {
-					e.stopPropagation();
-				});
-
-				$list.next().on({
-					click: function () {
-						$currentInput.removeClass('focus');
-						$(document).off('click.off');
-
-						if (_temp[prefix + 'change']) {
-							closeAutoComplete();
-						}
+					if (name[name.length - 1] == ']') {
+						acName = acName.substr(0, acName.length - 1) + '_ac]';
 					}
-				})
+					else {
+						acName = name + '_ac';
+					}
 
-				$input.on({
-					focus: function () {
-						$currentList = $list;
-						$currentInput = $input;
+					$input.after('<input data-constraint="' + $input.attr('data-constraint') + '" type="hidden" value="' + (value || '') + '" name="' + name + '"><section class="autocomplete-list-container"><ul class="list"></ul><span' + (isFree ? ' style="cursor: pointer"' : '') + '></span></section>');
+					$input.removeAttr('data-constraint');
+					$input.attr({
+						'name': acName,
+						'data-nonvalid': ''
+					});
 
-						if ($currentInput.hasClass('focus')) {
-							return;
+					var $listContainer = $input.find('~ .autocomplete-list-container');
+					var $list = $listContainer.children('ul');
+
+					// For prevent when choose by click
+					$listContainer.on('click', function (e) {
+						e.stopPropagation();
+					});
+
+					$list.next().on({
+						click: function () {
+							$currentInput.removeClass('focus');
+							$(document).off('click.off');
+
+							if (_temp[prefix + 'change']) {
+								closeAutoComplete();
+							}
 						}
+					})
 
-						$currentInput.addClass('focus');
-						$list.empty().next().text(isFree ? _t.form.keyword_for_search_or_new : _t.form.keyword_for_search);	
-						_temp[prefix + 'old'] = $currentInput.val();
+					$input.on({
+						focus: function () {
+							$currentList = $list;
+							$currentInput = $input;
 
-						// For click outside
-						$(document).on('click.off', function (e) {
-							if (!$currentInput.is(':focus')) {
-								$currentInput.removeClass('focus');
-								$(document).off('click.off');
+							if ($currentInput.hasClass('focus')) {
+								return;
+							}
 
-								if (_temp[prefix + 'change']) {
-									closeAutoComplete();
+							$currentInput.addClass('focus');
+							$list.empty().next().text(isFree ? _t.form.keyword_for_search_or_new : _t.form.keyword_for_search);	
+							_temp[prefix + 'old'] = $currentInput.val();
+
+							// For click outside
+							$(document).on('click.off', function (e) {
+								if (!$currentInput.is(':focus')) {
+									$currentInput.removeClass('focus');
+									$(document).off('click.off');
+
+									if (_temp[prefix + 'change']) {
+										closeAutoComplete();
+									}
 								}
+							});
+						},
+						keyup: function () {
+							if (_temp[prefix + 'value'] == $currentInput.val()) {
+								return;
 							}
-						});
-					},
-					keyup: function () {
-						if (_temp[prefix + 'value'] == $currentInput.val()) {
-							return;
-						}
 
-						if (!$currentInput.hasClass('focus')) {
-							$currentInput.focus();
-						}
-
-						_temp[prefix + 'change'] = true;
-						clearTimeout(_temp[prefix + 'to']);
-						_temp[prefix + 'to'] = setTimeout(function () {
-							_temp[prefix + 'value'] = $currentInput.val();
-
-							var data = $.parseJSON($currentInput.data('data') || '{}');
-							data.keyword = $currentInput.val();
-
-							if (data.keyword) {
-								if (_temp[prefix + 'ajax']) {
-									_temp[prefix + 'ajax'].abort();	
-								}
-								_temp[prefix + 'ajax'] = $.ajax({
-									url: $input.data('url'),
-									data: data,
-									dataType: 'JSON'
-								}).done(function (data) {
-									if (data.status != 0 || data.result.length == 0) {
-										searchNoResult();
-									}
-									else {
-										var html = create_auto_complete(data.result);
-										$list.html(html);
-
-										initAutoCompleteList()
-
-										$list.children(':first-child').addClass('selected');
-									}
-								}).fail(function (xhr, status) {
-									if (status != 'abort') {
-										searchNoResult();
-									}
-								});
+							if (!$currentInput.hasClass('focus')) {
+								$currentInput.focus();
 							}
-							else {
-								searchNoResult();
-							}
-						}, 200)
-					},
-					keydown: function (e) {
-						switch (e.which || e.keyCode) {
-							// Up
-							case 38:
-								e.preventDefault();
 
-								var $selected = $list.children('.selected');
-								if ($selected.length == 0) {
-									selectAutoComplete($list.children(':last-child'), 1);
+							_temp[prefix + 'change'] = true;
+							clearTimeout(_temp[prefix + 'to']);
+							_temp[prefix + 'to'] = setTimeout(function () {
+								_temp[prefix + 'value'] = $currentInput.val();
+
+								var data = $.parseJSON($currentInput.data('data') || '{}');
+								data.keyword = $currentInput.val();
+
+								if (data.keyword) {
+									if (_temp[prefix + 'ajax']) {
+										_temp[prefix + 'ajax'].abort();	
+									}
+									_temp[prefix + 'ajax'] = $.ajax({
+										url: $input.data('url'),
+										data: data,
+										dataType: 'JSON'
+									}).done(function (data) {
+										if (data.status != 0 || data.result.length == 0) {
+											searchNoResult();
+										}
+										else {
+											var html = create_auto_complete(data.result);
+											$list.html(html);
+
+											initAutoCompleteList()
+
+											$list.children(':first-child').addClass('selected');
+										}
+									}).fail(function (xhr, status) {
+										if (status != 'abort') {
+											searchNoResult();
+										}
+									});
 								}
 								else {
-									var $prev = $selected.prev();
-									if ($prev.length == 0) {
+									searchNoResult();
+								}
+							}, 200)
+						},
+						keydown: function (e) {
+							switch (e.which || e.keyCode) {
+								// Up
+								case 38:
+									e.preventDefault();
+
+									var $selected = $list.children('.selected');
+									if ($selected.length == 0) {
 										selectAutoComplete($list.children(':last-child'), 1);
 									}
 									else {
-										selectAutoComplete($prev, 1);
+										var $prev = $selected.prev();
+										if ($prev.length == 0) {
+											selectAutoComplete($list.children(':last-child'), 1);
+										}
+										else {
+											selectAutoComplete($prev, 1);
+										}
 									}
-								}
-								break;
+									break;
 
-							// Down
-							case 40:
-								e.preventDefault();
+								// Down
+								case 40:
+									e.preventDefault();
 
-								var $selected = $list.children('.selected');
-								if ($selected.length == 0) {
-									selectAutoComplete($list.children(':first-child'), -1);
-								}
-								else {
-									var $next = $selected.next();
-									if ($next.length == 0) {
+									var $selected = $list.children('.selected');
+									if ($selected.length == 0) {
 										selectAutoComplete($list.children(':first-child'), -1);
 									}
 									else {
-										selectAutoComplete($next, -1);
+										var $next = $selected.next();
+										if ($next.length == 0) {
+											selectAutoComplete($list.children(':first-child'), -1);
+										}
+										else {
+											selectAutoComplete($next, -1);
+										}
 									}
-								}
-								break;
+									break;
 
-							// Enter
-							case 13:
-								e.preventDefault();
-								getAutoComplete();
-								break;
-
-							//Tab
-							case 9:
-								$currentInput.removeClass('focus');
-								if (_temp[prefix + 'change']) {
+								// Enter
+								case 13:
+									e.preventDefault();
 									getAutoComplete();
-								}
-								break;
+									break;
 
-							//Esc
-							case 27:
-								e.preventDefault();
-								$currentInput.val(_temp[prefix + 'old']);
-							default:
-								break;
+								//Tab
+								case 9:
+									$currentInput.removeClass('focus');
+									if (_temp[prefix + 'change']) {
+										getAutoComplete();
+									}
+									break;
+
+								//Esc
+								case 27:
+									e.preventDefault();
+									$currentInput.val(_temp[prefix + 'old']);
+								default:
+									break;
+							}
+						}
+					});
+				})
+
+				function initAutoCompleteList() {
+					var $items = $currentList.find('li');
+					$items.on({
+						mouseenter: function () {
+							selectAutoComplete($(this));
+						},
+						click: function () {
+							getAutoComplete($(this));
+						},
+					});
+				}
+
+				// type: 1 => prev, -1 => next
+				function selectAutoComplete($item, type) {
+					$item.siblings('.selected').removeClass('selected');
+					$item.addClass('selected');
+
+					if (type == 1 || type == -1) {
+						var 
+							itemTop = $item.offset().top,
+							itemHeight = $item.height(),
+							containerTop = $currentList.offset().top,
+							containerHeight = $currentList.height();
+
+						if (itemTop <= containerTop || itemTop + itemHeight >= containerTop + containerHeight) {
+							$currentList.animate({
+								scrollTop: $currentList.scrollTop() - containerTop + itemTop - (itemHeight * (2 + type)) - 2 - type
+							});
 						}
 					}
-				});
-			})
+				}
 
-			function initAutoCompleteList() {
-				var $items = $currentList.find('li');
-				$items.on({
-					mouseenter: function () {
-						selectAutoComplete($(this));
-					},
-					click: function () {
-						getAutoComplete($(this));
-					},
-				});
-			}
-
-			// type: 1 => prev, -1 => next
-			function selectAutoComplete($item, type) {
-				$item.siblings('.selected').removeClass('selected');
-				$item.addClass('selected');
-
-				if (type == 1 || type == -1) {
-					var 
-						itemTop = $item.offset().top,
-						itemHeight = $item.height(),
-						containerTop = $currentList.offset().top,
-						containerHeight = $currentList.height();
-
-					if (itemTop <= containerTop || itemTop + itemHeight >= containerTop + containerHeight) {
-						$currentList.animate({
-							scrollTop: $currentList.scrollTop() - containerTop + itemTop - (itemHeight * (2 + type)) - 2 - type
-						});
+				function searchNoResult() {
+					if ($currentInput.is('[data-free]')) {
+						$currentList.empty().next().text(_t.form.add_new);
+					}
+					else {
+						$currentList.empty().next().text(_t.form.keyword_for_search);	
 					}
 				}
-			}
 
-			function searchNoResult() {
-				if ($currentInput.is('[data-free]')) {
-					$currentList.empty().next().text(_t.form.add_new);
-				}
-				else {
-					$currentList.empty().next().text(_t.form.keyword_for_search);	
-				}
-			}
+				function closeAutoComplete() {
+					var 
+						$input = $currentInput;
 
-			function closeAutoComplete() {
-				var 
-					$input = $currentInput;
+					if ($input.is('[data-free]') && $input.val()) {
+						$input.next().val('0').change().trigger('valueChange');
+						$input.removeClass('focus');	
+					}
+					else {
+						$input.next().val('').change().trigger('valueChange');
+						$input.removeClass('focus').val('');	
+						_temp[prefix + 'value'] = '';
+					}
 
-				if ($input.is('[data-free]') && $input.val()) {
-					$input.next().val('0').change().trigger('valueChange');
-					$input.removeClass('focus');	
-				}
-				else {
-					$input.next().val('').change().trigger('valueChange');
-					$input.removeClass('focus').val('');	
-					_temp[prefix + 'value'] = '';
+					_temp[prefix + 'change'] = false;
+					clearTimeout(_temp[prefix + 'to']);
 				}
 
-				_temp[prefix + 'change'] = false;
-				clearTimeout(_temp[prefix + 'to']);
-			}
+				function getAutoComplete($item) {
+					if (!$item) {
+						$item = $currentList.find('.selected');
+					}
 
-			function getAutoComplete($item) {
-				if (!$item) {
-					$item = $currentList.find('.selected');
+					var 
+						$selected = $item.children(),
+						$input = $item.closest('.autocomplete-container').children(':first-child'),
+						text = $selected.text() || '',
+						value = $selected.data('value') || '';
+
+					$input.next().val(value).change().trigger('valueChange');
+					$input.data('value', value).removeClass('focus').val(text).change().trigger('valueChange');
+
+					_temp[prefix + 'change'] = false;
+					_temp[prefix + 'value'] = $input.val();
+					clearTimeout(_temp[prefix + 'to']);
 				}
 
-				var 
-					$selected = $item.children(),
-					$input = $item.closest('.autocomplete-container').children(':first-child'),
-					text = $selected.text() || '',
-					value = $selected.data('value') || '';
+				function create_auto_complete(data) {
+					var 
+						html = '', 
+						length = data.length;
 
-				$input.next().val(value).change().trigger('valueChange');
-				$input.data('value', value).removeClass('focus').val(text).change().trigger('valueChange');
+					for (var i = 0; i < length; i++) {
+						html += '<li><span title="' + (data[i].description || '') + '" data-value="' + data[i].value + '">' + data[i].text + '</span></li>';
+					}
 
-				_temp[prefix + 'change'] = false;
-				_temp[prefix + 'value'] = $input.val();
-				clearTimeout(_temp[prefix + 'to']);
-			}
-
-			function create_auto_complete(data) {
-				var 
-					html = '', 
-					length = data.length;
-
-				for (var i = 0; i < length; i++) {
-					html += '<li><span title="' + (data[i].description || '') + '" data-value="' + data[i].value + '">' + data[i].text + '</span></li>';
+					return html;
 				}
-
-				return html;
-			}
-		}*/
+			})();
+		
+		}
 
 	// / Auto complete
 

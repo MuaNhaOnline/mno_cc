@@ -83,13 +83,22 @@ $(function () {
 			};
 
 			$.fn.startLoadingStatus = function (action) {
-				this.data('loading', action || 'request')
+				action = action || 'request';
+
+				if (this.data('loading') == action)  {
+					return;
+				}
+
+				this.data('loading', action)
 					.data('before-change-html', this.html())
 					.html('<i class="fa fa-circle-o-notch fa-spin"></i>')
 					.addClass('loading-status');
+
 			}
 
 			$.fn.endLoadingStatus = function (action) {
+				action = action || 'request';
+				
 				if (this.data('loading') == (action || 'request')) {
 					this.data('loading', '')
 						.html(this.data('before-change-html'))

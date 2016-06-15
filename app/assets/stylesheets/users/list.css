@@ -1,0 +1,31 @@
+.user-list {
+}
+
+	.user-list .item {
+		background-color: #fff;
+		padding: 5px;
+		box-shadow: 2px 2px 10px rgba(0, 0, 0, .05);
+		display: flex;
+		display: -webkit-flex;
+		margin: 5px;
+	}
+
+		.user-list .item .avatar-panel {
+			min-width: 60px;
+			max-width: 60px;
+			height: 60px;
+			margin-right: 10px;
+		}
+
+			.user-list .item .avatar-panel img {
+				width: 100%;
+			}
+
+		.user-list .item .info-panel {
+			color: #555;
+		}
+
+			.user-list .item .info-panel .name {
+				font-weight: bold;
+				color: #333;
+			}

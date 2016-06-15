@@ -46,6 +46,14 @@
 				<p class="title">
 					<%= re.title %>
 				</p>
+				<p class="small text-muted">
+					<span class="pull-left">
+						<%= re.created_at.strftime '%d/%m/%Y' %>
+					</span>
+					<span class="pull-right">
+						<%= re.view_count %> lượt xem
+					</span>
+				</p>
 				<p>
 					<span class="fa fa-fw fa-home"></span> <%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %>
 				</p>

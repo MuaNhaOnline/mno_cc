@@ -16,7 +16,6 @@
 /* General */
 
 	.loading-status {
-		
 	}
 
 		.loading-status:before,
@@ -829,6 +828,10 @@
 			margin-bottom: 10px;
 			text-align: center;
 		}
+
+			.box.user-info-box .name a {
+				color: inherit;
+			}
 
 		.box.user-info-box .text {
 			font-weight: bold;

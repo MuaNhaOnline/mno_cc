@@ -356,7 +356,7 @@
 				color: #fff;
 			}
 
-	/*.form .autocomplete-container {
+	.form .autocomplete-container {
 		position: relative;
 	}
 
@@ -374,6 +374,9 @@
 		.form input[aria-input-type="autocomplete"].focus ~ .autocomplete-list-container {
 			display: block;
 		}
+
+
+		
 
 	.form .autocomplete-list-container .list {
 		margin: 0;
@@ -435,7 +438,7 @@
 
 		.form .autocomplete-list-container .list:empty + span {
 			display: block;
-		}*/
+		}
 
 /* / Auto complete */
 

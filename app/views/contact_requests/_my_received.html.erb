@@ -1,0 +1,52 @@
+<%
+=begin
+	params: requests
+=end
+
+%>
+
+<% requests.each do |request| %>
+
+	<tr data-value="<%= request.id %>">
+		<td class="type">
+			<%= request.display_request_type %>
+		</td>
+		<td class="object">
+			<% case request.object_type %>
+			<% when 'real_estate' %>
+				<% if request.real_estate.present? %>
+					<a href="/bat-dong-san/<%= request.real_estate.full_slug %>"><%= request.real_estate.display_id %></a>
+				<% end %>
+			<% end %>
+		</td>
+		<td class="message">
+			<%= request.message %>
+		</td>
+		<td class="user min-width-cell">
+			<% case request.user_type %>
+			<% when 'user' %>
+				<% if request.user.present? %>
+					<a href="javascript:" data-value="<%= request.user.id %>" data-type="user">
+						<%= request.user.full_name %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% when 'contact_user' %>
+				<% if request.contact_user.present? %>
+					<a href="javascript:" data-value="<%= request.contact_user.id %>" data-type="contact_user">
+						<%= request.contact_user.name || request.contact_user.email %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% else %>
+				Không có dữ liệu
+			<% end %>
+		</td>
+		<td>
+			<span aria-time="<%= request.created_at %>"></span>
+		</td>
+	</tr>
+
+<% end %>

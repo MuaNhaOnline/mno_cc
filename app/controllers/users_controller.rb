@@ -338,37 +338,69 @@ class UsersController < ApplicationController
 
 	# / View
 
-	# View all
+	# List
 
 		# View
-		def view_all
-			@users = User.view_all_search_with_params interact: 'desc'
-		end
+		def list
+			# Author
+			authorize! :manage, User
 
-		# Partial view
-		# params: keyword, interact, real_estate_count, project_count
-		def _view_all_list
-			per = 24
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 24).to_i
+			search_params 	=	params[:search] || {}
+			order_params 	= 	params[:order] || {}
 
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
+			# Get users
+			users = User.list_search_with_params search_params, order_params
 
-			users = User.view_all_search_with_params params
-
-			count = users.count
-
-			return render json: { status: 1 } if count == 0
-
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'users/view_all_list', locals: { users: users.page(params[:page], per) }),
-					pagination: render_to_string(partial: 'shared/pagination', locals: { total: count, per: per, page: params[:page] })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'list',
+						layout: 'layout_back',
+						locals: {
+							users: 	users,
+							page: 	page,
+							per: 	per
+						}
 				}
-			}
+				f.json {
+					users_in_page = users.page page, per
+
+					# Check if empty
+					if users_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'list',
+									formats: :html,
+									locals: {
+										users: users_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	users.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
 		end
 
-	# / View all
+	# / List
 
 	# Visit counter
 

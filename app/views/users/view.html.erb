@@ -85,12 +85,26 @@
 				<div class="small-box bg-orange">
 					<div class="inner">
 						<span class="count"><%= ContactRequest.my_request.count %></span>
-						<p>Yêu cầu</p>
+						<p>Yêu cầu đã gửi</p>
 					</div>
 					<div class="icon">
 						<i class="ico-git-pull-request"></i>
 					</div>
 					<a href="/yeu-cau/cua-toi" class="small-box-footer">
+						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+				<div class="small-box bg-red">
+					<div class="inner">
+						<span class="count"><%= ContactRequest.my_received_request.count %></span>
+						<p>Yêu cầu đã nhận</p>
+					</div>
+					<div class="icon">
+						<i class="ico-git-pull-request"></i>
+					</div>
+					<a href="/yeu-cau/da-nhan-cua-toi" class="small-box-footer">
 						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
 					</a>
 				</div>

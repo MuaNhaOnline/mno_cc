@@ -1,0 +1,81 @@
+<%
+=begin
+	params: res(*), page(1), per(24)
+=end
+
+	@_title				=
+	@_content_header  	=   'Danh sách thành viên'
+
+	page 				||= 1
+	per 				||= 24
+	users_in_page 		= users.page page, per
+%>
+
+<section class="box box-solid">
+	<section class="box-body">
+		<form id="search_form">
+			<article class="form-group">
+				<div class="input-group margin">
+					<input data-nonvalid name="keyword" type="text" class="form-control" placeholder="Nhập từ khóa để tìm kiếm" value="<%= params[:search][:keyword] if defined? params[:search][:keyword] %>" />
+					<span class="input-group-btn">
+						<button data-action="reset" data-nonvalid class="btn btn-default" type="button">Mặc định</button>
+						<button data-nonvalid class="btn btn-primary" type="submit">Tìm kiếm</button>
+					</span>
+				</div>
+			</article>
+			<article class="form-group no-margin text-center">
+				<a href="javascript:void(0)" aria-click="order" data-name="join" data-sort="desc" class="no-underline text-muted" title="Thời điểm tham gia">
+					<i class="fa fa-clock-o"></i>
+					<i class="fa fa-sort" aria-name="sort"></i>
+				</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:void(0)" aria-click="order" data-name="real_estate_count" data-sort="desc" class="no-underline text-muted" title="Lượng bất động sản">
+					<i class="fa fa-home"></i>
+					<i class="fa fa-sort" aria-name="sort"></i>
+				</a>
+			</article>
+		</form>
+	</section>
+</section>
+
+<% if users_in_page.count == 0 %>
+	<section id="user_list" class="row no-horizontal-padding user-list">
+	</section>
+	<section id="alert">
+		<article class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;">
+			<h4>
+				Không có kết quả
+			</h4>
+			<p>
+				Không tìm thấy kết quả phù hợp, vui lòng thử lại sau
+			</p>
+		</article>
+	</section>
+	<nav class="text-center" id="paginator">
+	</nav>
+<% else %>
+	<section id="user_list" class="row no-horizontal-padding user-list">
+		<%= render partial: 'list', locals: { users: users_in_page } %>
+	</section>
+	<section id="alert">
+	</section>
+	<nav class="text-center" id="paginator">
+		<%= render partial: '/shared/pagination', locals: { total: users.count, page: page, per: per } %>
+	</nav>
+<% end %>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" href="/assets/users/list.css" />
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/users/list.js"></script>
+	<script type="text/javascript">
+		<% if params[:order].present? %>
+			order = {
+				<%= params[:order].first[0] %>: '<%= params[:order].first[1] %>'
+			}
+		<% end %>
+		page = <%= page %>;
+	</script>
+<% end %>

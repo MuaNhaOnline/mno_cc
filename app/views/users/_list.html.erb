@@ -1,0 +1,22 @@
+<% users.each do |user| %>
+	<article class="col-lg-3 col-md-4 col-ss-6">
+		<a class="item" href="/thanh-vien/<%= user.id %>" target="_blank">
+			<section class="avatar-panel">
+				<%= user_avatar user, style: 'thumb' %>
+			</section>
+			<section class="info-panel">
+				<article class="name info">
+					<%= user.full_name %>
+				</article>
+				<article class="info small">
+					Tham gia từ <span aria-time="<%= user.created_at %>"></span>
+				</article>
+				<article class="info small">
+					<% if user.real_estate_count != 0 %>
+						Đã đăng <%= user.real_estate_count %> BĐS
+					<% end %>
+				</article>
+			</section>
+		</a>
+	</article>
+<% end %>

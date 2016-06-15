@@ -64,9 +64,11 @@ class Ability
 
 		# With permission
 
+			can :manage, :all if user.is_admin
+
 			# System group
 			
-				can :manage, SystemGroup if user.system_permissions.include? 1
+				can :manage, [User, SystemGroup] if user.system_permissions.include? 1
 			
 			# / System group
 		

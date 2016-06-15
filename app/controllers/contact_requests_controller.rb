@@ -263,32 +263,119 @@ class ContactRequestsController < ApplicationController
 			# Author
 			authorize! :view_my, ContactRequest
 
-			@requests = ContactRequest.my_request
-		end
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 20).to_i
 
-		# Partial view
-		# params: page, per
-		def _my_list
+			# Get requests
+			requests = ContactRequest.my_request
+
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'my',
+						layout: 'layout_back',
+						locals: {
+							requests: 	requests,
+							page: 	page,
+							per: 	per
+						}
+				}
+				f.json {
+					requests_in_page = requests.page page, per
+
+					# Check if empty
+					if requests_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'my',
+									formats: :html,
+									locals: {
+										requests: requests_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	requests.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
+		end
+	
+	# / My
+
+	# My
+	
+		# View
+		def my_received
 			# Author
 			authorize! :view_my, ContactRequest
 
-			requests = ContactRequest.my_request
-			count = requests.count
-			page = (params[:page] || 1).to_i + 1
-			per = 10
+			# Get params
+			page 			= 	(params[:page] || 1).to_i
+			per 			=	(params[:per] || 20).to_i
 
-			begin
-				page -= 1
-				requests_in_page = requests.page(page, per)
-			end while requests_in_page.count == 0 && page != 1
+			# Get requests
+			requests = ContactRequest.my_received_request
 
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'my_list', locals: { requests: requests_in_page }),
-					pagination: render_to_string(partial: '/shared/pagination', locals: { total: count, per: per, page: page })
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'my_received',
+						layout: 'layout_back',
+						locals: {
+							requests: 	requests,
+							page: 		page,
+							per: 		per
+						}
 				}
-			}
+				f.json {
+					requests_in_page = requests.page page, per
+
+					# Check if empty
+					if requests_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: render_to_string(
+									partial: 'my_received',
+									formats: :html,
+									locals: {
+										requests: requests_in_page
+									}
+								),
+								paginator: render_to_string(
+									partial: '/shared/pagination',
+									formats: :html,
+									locals: {
+										total: 	requests.count,
+										per: 	per,
+										page: 	page
+									}
+								)
+							}
+						}
+					end
+				}
+			end
 		end
 	
 	# / My

@@ -752,8 +752,8 @@ Permission.create [
 		{
 			id: 1,
 			scope: 'sys_general',
-			name: 'Quản lý nhóm quyền',
-			description: 'Quyền phân quyền cho các thành viên trong hệ thống',
+			name: 'Quản lý thành viên',
+			description: 'Quản lý thành viên, phân quyền trong hệ thống',
 			order: 1
 		},
 		{
