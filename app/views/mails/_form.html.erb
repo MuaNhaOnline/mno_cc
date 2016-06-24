@@ -1,0 +1,44 @@
+<%
+=begin
+	params: mail
+=end
+	mail ||= SystemMail.new
+%>
+
+<%= form_for(
+	mail,
+	url: 		'/mails/save',
+	method: 	'POST',
+	as: 		'mail',
+	html: 		{
+					class: 	'form box box-primary'
+				}
+) do |f| %>
+	<div class="box-header with-border">
+		<h2 class="box-title">
+			<% if mail.reply_id.present? %>
+				Trả lời thư
+			<% else %>
+				Soạn thư
+			<% end %>
+		</h2>
+	</div>
+	<div class="box-body">
+		<%= f.field(
+			'hidden',
+			:reply_id
+		) %>
+		<%= f.field(
+			'text',
+			:subject
+		) %>
+		<%= f.field(
+			'textarea',
+			:content
+		) %>
+	</div>
+	<div class="box-footer text-right">
+		<button class="btn btn-default" aria-click="close-popup">Đóng</button>
+		<button class="btn btn-primary">Gửi</button>
+	</div>
+<% end %>

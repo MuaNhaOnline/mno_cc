@@ -1,0 +1,143 @@
+<%
+=begin
+	params: requests, page(1), per(10), by_status('need_contact')
+=end
+
+	@_title 			=
+	@_content_header 	= 	'Quản lý thư yêu cầu';
+
+	per 				||= 10
+	page				||= 1
+	by_status			||= 'need_contact'
+	requests_in_page	= 	requests.page page, per
+%>
+
+<section class="search-box">
+	<div class="form-group">
+		<%= label_tag :by_status, 'Danh sách' %>
+		<%= select_tag :by_status,
+			options_for_select([
+				['Cần liên hệ', 'need_contact', 'data-value': '["1","2"]'],
+				['Chưa liên hệ', 'wait_contact', 'data-value': '["1"]'],
+				['Cần liên hệ lại', 'recontact', 'data-value': '["2"]'],
+				['Đã bỏ qua', 'eliminated', 'data-value': '["3"]'],
+				['Đã liên hệ', 'done', 'data-value': '["4"]']
+			], by_status),
+			class: 'form-control'
+		%>
+	</div>
+</section>
+
+<% if requests_in_page.count == 0 %>
+	<section class="box box-primary">
+		<section class="box-body padding-0 table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="hightlight-cell"></th>
+						<th>
+							Yêu cầu
+						</th>
+						<th>
+							Đối tượng
+						</th>
+						<th>
+							Lời nhắn
+						</th>
+						<th>
+							Thành viên
+						</th>
+						<th>
+							Thời điểm
+						</th>
+					</tr>
+					<tr>
+						<th colspan="3">
+							Trạng thái
+						</th>
+						<th colspan="2">
+							Ghi chú
+						</th>
+						<th>
+							
+						</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+				</tbody>
+			</table>
+			<section id="alert">
+				<article class="alert alert-warning alert-dismissible">
+					<h4>
+						Không có kết quả
+					</h4>
+					<p>
+						Không tìm thấy kết quả phù hợp, vui lòng thử lại sau
+					</p>
+				</article>
+			</section>
+		</section>
+	</section>
+
+	<section id="paginator" class="text-center">
+	</section>
+<% else %>
+	<section class="box box-primary">
+		<section class="box-body padding-0 table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="hightlight-cell"></th>
+						<th>
+							Yêu cầu
+						</th>
+						<th>
+							Đối tượng
+						</th>
+						<th>
+							Lời nhắn
+						</th>
+						<th>
+							Thành viên
+						</th>
+						<th>
+							Thời điểm
+						</th>
+					</tr>
+					<tr>
+						<th colspan="3">
+							Trạng thái
+						</th>
+						<th colspan="2">
+							Ghi chú
+						</th>
+						<th>
+							
+						</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+					<%= render partial: 'requested_list', locals: { requests: requests_in_page } %>
+				</tbody>
+			</table>
+			<section id="alert">
+			</section>
+		</section>
+	</section>
+
+	<section id="paginator" class="text-center">
+		<%= render partial: 'shared/paginator', locals: { total: requests.count, page: page, per: per } %>
+	</section>
+<% end %>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/mails/requested_list.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/mails/requested_list.js"></script>
+	<script type="text/javascript">
+		page 		= 	<%= page %>;
+		byStatus 	= 	'<%= by_status %>';
+	</script>
+<% end %>

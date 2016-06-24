@@ -8,7 +8,7 @@ class Permission < ActiveRecord::Base
 
 	# Associations
 	
-		belongs_to :parent, class_name: 'Permission'
+		belongs_to :parent, class_name: 'Permission', foreign_key: 'parent_permission_id'
 
 		has_many :childs, class_name: 'Permission', foreign_key: 'parent_permission_id'
 	

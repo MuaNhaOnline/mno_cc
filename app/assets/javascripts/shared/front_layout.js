@@ -35,7 +35,7 @@ $(function () {
 					if (range[0] <= scrollTop && scrollTop <= range[1]) {
 						// range[1] - range[0]: 100%
 						// scrollTop - range[1]: current%
-						$element.css('background-position-y', (100 - ((scrollTop - range[0]) * 100 / (range[1] - range[0]))) + '%')
+						$element.css('background-position-y', (99 - ((scrollTop - range[0]) * 100 / (range[1] - range[0]))) + '%')
 					}
 				})
 			});

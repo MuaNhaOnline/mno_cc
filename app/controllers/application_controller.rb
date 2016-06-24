@@ -195,4 +195,27 @@ class ApplicationController < ActionController::Base
 	
 	# / Bot?
 
+	# Controller helpers
+	
+		def __save_contact_user_info params
+			return false if params.blank?
+
+			contact_user = ContactUserInfo.where(email: params[:email]).first_or_initialize
+
+			if contact_user.save_with_params params
+				# Save cookie, session contact info
+				cookies[:contact_user_id] = {
+					value: contact_user.id,
+					expires: 3.months.from_now
+				}
+				session[:contact_user_id] = contact_user.id
+
+				contact_user
+			else
+				false
+			end
+		end
+	
+	# / Controller helpers
+
 end

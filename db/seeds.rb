@@ -773,8 +773,8 @@ Permission.create [
 		{
 			id: 4,
 			scope: 'sys_general',
-			name: 'Quản lý yêu cầu',
-			description: 'Quản lý các lời yêu cầu của người dùng',
+			name: 'Quản lý hộp thư',
+			description: 'Quản lý hộp thư hệ thống',
 			order: 4
 		}
 

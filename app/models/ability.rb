@@ -88,11 +88,11 @@ class Ability
 			
 			# / Project
 
-			# Contact request
+			# Mail
 			
-				can :manage, ContactRequest if user.system_permissions.include? 4
+				can :manage, SystemMail if user.system_permissions.include? 4
 			
-			# / Contact request
+			# / Mail
 		
 		# / With permission
 

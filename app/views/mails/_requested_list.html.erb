@@ -1,0 +1,77 @@
+<%
+=begin
+	params: requests(*)
+=end
+
+%>
+
+<% requests.each do |request| %>
+
+	<tr>
+		<td class="hightlight-cell"></td>
+		<td class="type min-width-cell">
+			<%= request.display_requested_type %>
+		</td>
+		<td class="object min-width-cell">
+			<% case request.object_type %>
+			<% when 'real_estate' %>
+				<% if request.real_estate.present? %>
+					<a href="/bat-dong-san/<%= request.real_estate.full_slug %>"><%= request.real_estate.display_id %></a>
+				<% end %>
+			<% end %>
+		</td>
+		<td class="message">
+			<%= request.mail.content if request.mail.present? %>
+		</td>
+		<td class="user min-width-cell">
+			<% case (request.mail.present? ? request.mail.sender_type : nil) %>
+			<% when 'user' %>
+				<% if request.mail.sender.present? %>
+					<a href="javascript:" data-value="<%= request.mail.sender.id %>" data-type="user">
+						<%= request.mail.sender.full_name %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% when 'contact_user' %>
+				<% if request.mail.contact_sender.present? %>
+					<a href="javascript:" data-value="<%= request.mail.contact_sender.id %>" data-type="contact_user">
+						<%= request.mail.contact_sender.name || request.mail.contact_sender.email %>
+					</a>
+				<% else %>
+					Không có dữ liệu
+				<% end %>
+			<% else %>
+				Không có dữ liệu
+			<% end %>
+		</td>
+		<td class="min-width-cell">
+			<span aria-time="<%= request.mail.created_at if request.mail.present? %>"></span>
+		</td>
+	</tr>
+	<tr data-value="<%= request.id %>">
+		<td class="status" colspan="3">
+			<select class="form-control" name="request[status]">
+				<option value="" hidden>Chưa xác định</option>
+				<option value="1" <%= 'selected' if request.status == 1 %>>Chờ liên hệ</option>
+				<option value="2" <%= 'selected' if request.status == 2 %>>Chờ liên hệ lại</option>
+				<option value="3" <%= 'selected' if request.status == 3 %>>Bỏ qua</option>
+				<option value="4" <%= 'selected' if request.status == 4 %>>Đã liên hệ</option>
+			</select>
+		</td>
+		<td class="note">
+			<textarea class="form-control" style="height: 34px; resize: vertical;" name="request[note]" placeholder="Ghi chú"><%= request.note %></textarea>
+		</td>
+		<td class="min-width-cell">
+			<button type="submit" class="btn btn-default btn-flat btn-block">
+				Cập nhật
+			</button>
+		</td>
+		<td class="min-width-cell">
+			<button data-action="reply" class="btn btn-default btn-flat btn-block">
+				Trả lời
+			</button>
+		</td>
+	</tr>
+
+<% end %>

@@ -285,69 +285,104 @@ $(function () {
 			
 			// / Fixed
 
+			// Form
+
+				// Scroll to form
+				$('#re_register').on('click', function () {
+					_scrollTo($('.contact-container').offset().top);
+					$('.contact-container [name="mail[requested_info][requested_type]"]').val('2');
+					$('.contact-container [name="mail[content"]]').focus();
+				});
+			
+				var $contactForm = $('#contact_form');
+
+				initForm($contactForm, {
+					submit: function () {
+						$.ajax({
+							url: 		'/mails/save',
+							method: 	'POST',
+							data: 		$contactForm.serialize()
+						}).done(function (data) {
+							if (data.status == 0) {
+								popupPrompt({
+									title: 'Đăng ký thành công',
+									content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+								});
+							}
+							else {
+								_errorPopup();
+							}
+						}).fail(function () {
+							_errorPopup();
+						});
+					}
+				});
+			
+			// / Form
+
 		})();
-	
+
 	// / Contact container
 
 	// Buttons
 	
 		// Register
 
-			var
-				$registerForm = $('#register_form'),
-				requestInfo = $registerForm.data('request_info'),
-				contactInfo = $registerForm.data('contact_info');
+			// var
+			// 	$registerForm = $('#register_form'),
+			// 	requestInfo = $registerForm.data('request_info'),
+			// 	contactInfo = $registerForm.data('contact_info');
 
-			$('#re_register').on('click', function () {
-				var $html = $(_popupContent['re_register']);
+			// $('#re_register').on('click', function () {
+			// 	var $html = $(_popupContent['re_register']);
 
-				var $popup = popupFull({
-					html: $html,
-					width: 'medium'
-				});
+			// 	var $popup = popupFull({
+			// 		html: $html,
+			// 		width: 'medium'
+			// 	});
 
-				var $form = $html.find('form:eq(0)');
+			// 	var $form = $html.find('form:eq(0)');
 
-				_initContactForm($form, {
-					requestInfo: requestInfo,
-					contactInfo: contactInfo,
-					done: function (data) {
-						requestInfo = data.requestInfo;
-						contactInfo = data.contactInfo;
-						$registerForm.data('refill')({
-							requestInfo: requestInfo,
-							contactInfo: contactInfo
-						});
-						$registerForm.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();
+			// 	_initContactForm($form, {
+			// 		requestInfo: requestInfo,
+			// 		contactInfo: contactInfo,
+			// 		done: function (data) {
+			// 			requestInfo = data.requestInfo;
+			// 			contactInfo = data.contactInfo;
+			// 			$registerForm.data('refill')({
+			// 				requestInfo: requestInfo,
+			// 				contactInfo: contactInfo
+			// 			});
+			// 			$registerForm.find('[name="use_default_contact"][value="t"]').prop('checked', true).change();
 
-						$('#re_register').text('Đã đăng ký');
+			// 			$('#re_register').text('Đã đăng ký');
 						
-						$popup.off();
-						popupPrompt({
-							title: 'Đăng ký thành công',
-							content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-						});
-					}
-				});
+			// 			$popup.off();
+			// 			popupPrompt({
+			// 				title: 'Đăng ký thành công',
+			// 				content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+			// 			});
+			// 		}
+			// 	});
 
-				$form.find(':input:visible:eq(0)').focus();
-			});
+			// 	$form.find(':input:visible:eq(0)').focus();
+			// });
 
-			_initContactForm($registerForm, {
-				requestInfo: requestInfo,
-				contactInfo: contactInfo,
-				done: function (data) {
-					requestInfo = data.requestInfo;
-					contactInfo = data.contactInfo;
+			// _initContactForm($registerForm, {
+			// 	requestInfo: requestInfo,
+			// 	contactInfo: contactInfo,
+			// 	done: function (data) {
+			// 		requestInfo = data.requestInfo;
+			// 		contactInfo = data.contactInfo;
 
-					$('#re_register').text('Đã đăng ký');
+			// 		$('#re_register').text('Đã đăng ký');
 
-					popupPrompt({
-						title: 'Đăng ký thành công',
-						content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
-					});
-				}
-			});
+			// 		popupPrompt({
+			// 			title: 'Đăng ký thành công',
+			// 			content: 'Bạn đã đăng ký sản phẩm thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+			// 		});
+			// 	}
+			// });
 		
 		// / Register
 

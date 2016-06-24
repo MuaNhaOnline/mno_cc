@@ -184,6 +184,12 @@ Rails.application.routes.draw do
 
 	# / Contact request
 
+	# Mail
+	
+		get 'hop-thu/yeu-cau' => 'mails#requested_list'
+	
+	# / Mail
+
 	# Log
 	
 		get 	'nhat-ky' 		=>	'logs#index'

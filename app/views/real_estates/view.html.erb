@@ -48,6 +48,16 @@
 	if register_info.blank?
 		register_info = ContactRequest.new request_type: 'contact', object_type: 'real_estate', object_id: @re.id
 	end
+
+	request_mail = SystemMail.new({
+		subject: 			"Bất động sản - #{@re.title}",
+		system_mail_type: 	1,
+		requested_info: 	RequestedSystemMail.new({
+								object_type: 	'real_estate',
+								object_id: 		@re.id,
+								requested_type: 1
+							})
+	})
 %>
 
 <div class="container no-horizontal-padding">
@@ -363,13 +373,9 @@
 					</article>
 				</section>
 				<section class="buttons-container">
-					<a id="re_register" class="register btn btn-orange">
-						<% if register_info.new_record? %>
-							Đăng ký
-						<% else %>
-							Đã đăng ký
-						<% end %>
-					</a>					
+					<button id="re_register" class="register btn btn-orange">
+						Đăng ký
+					</button>					
 					<a id="re_favorite" class="btn" <%= 'data-actived' if @re.is_current_user_favorite %>>
 						Quan tâm
 					</a>
@@ -555,30 +561,135 @@
 											</article>
 										<% end %>
 									</section>
-								<% else %>
-									<section class="avatar">
-										<img src="/assets/users/big/default.png" alt="<%= @re.user_full_name %>">
-									</section>
-									<section class="info">
-										<article class="text name">
-											<%= @re.user_full_name %>
-										</article>
-										<% if @re.user_email.present? %>
-											<article class="text">
-												<span class="icon ico-envelop"></span>
-												<%= @re.user_email %>
-											</article>
-										<% end %>
-										<% if @re.user_phone_number.present? %>
-											<article class="text">
-												<span class="icon ico-phone"></span>
-												<%= @re.user_phone_number %>
-											</article>
-										<% end %>
-									</section>
 								<% end %>
 							</article>
+
 							<article class="contact-request">
+								<article class="callout">
+									Hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+								</article>
+								<%=
+									form_for(
+										request_mail,
+										as: 		'mail',
+										url: 		'/mail/save',
+										method: 	'POST',
+										html: 		{
+														id: 		'contact_form',
+														class: 		'form'
+													}
+									) do |f|
+								%>
+									<!-- Subject -->
+									<%= f.field(
+										'hidden',
+										:subject
+									)  %>
+									<!-- Mail type -->
+									<%= f.field(
+										'hidden',
+										:system_mail_type
+									)  %>
+									<!-- Submit button -->
+									<article class="form-group text-center">
+										<%= f.submit 'Gửi yêu cầu', class: 'btn btn-orange', style: 'padding-left: 25px; padding-right: 25px;' %>
+									</article>
+
+									<!-- Request info -->
+									<%=
+										fields_for(
+											'mail[requested_info]',
+											request_mail.requested_info 
+										) do |requested_info_form|
+									%>
+										<!-- Object type -->
+										<%= requested_info_form.field(
+											'hidden',
+											:object_type
+										) %>
+										<!-- Object id -->
+										<%= requested_info_form.field(
+											'hidden',
+											:object_id
+										) %>
+										<!-- Request type -->
+										<%= requested_info_form.field(
+											'select',
+											:requested_type,
+											{},
+											{
+												label: 					false,
+												select_options_list: 	options_for_select([
+																			['Liên hệ', '1'],
+																			['Đăng ký mua', '2']
+																		]),
+											}
+										) %>
+									<% end %>
+
+									<!-- Content -->
+									<%= f.field(
+										'textarea',
+										:content,
+										{
+											placeholder: 	'Lời nhắn'
+										},
+										{
+											label: 			false
+										}
+									) %>
+
+									<% unless signed? %>
+										<!-- Contact info -->
+										<%=
+											fields_for(
+												'contact_info',
+												current_left_contact
+											) do |contact_form|
+										%>
+											<%= contact_form.field(
+												'text',
+												:name,
+												{
+													placeholder: 	'Tên của bạn'
+												},
+												{
+													label:  		false
+												}
+											) %>
+
+											<div class="row">
+												<article class="col-xs-6">
+													<%= contact_form.field(
+														'email',
+														:email,
+														{
+															placeholder: 	'Email'
+														},
+														{
+															label:  		false
+														}
+													) %>
+												</article>
+												<article class="col-xs-6">
+													<%= contact_form.field(
+														'number',
+														:phone_number,
+														{
+															placeholder: 	'Số điện thoại'
+														},
+														{
+															label:  		false
+														}
+													) %>
+												</article>
+											</div>
+										<% end %>
+									<% end %>
+								<% end %>
+							</article>
+
+							<article class="contact-request hidden">
 								<% if register_info.new_record? %>
 									<article class="callout">
 										Hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
@@ -599,10 +710,6 @@
 									<article class="form-group">
 										<%=
 											select_tag 'request[request_type]',
-												options_for_select([
-													['Liên hệ', 'contact'],
-													['Đăng ký mua', 'register']
-												]),
 												class: 'form-control'
 
 										%>

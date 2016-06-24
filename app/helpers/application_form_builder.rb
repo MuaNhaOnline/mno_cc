@@ -15,37 +15,46 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 
 	def field type, method, options = {}, params = {}
 		# Options
-		# class attribute
-		if options[:class].blank?
-			options[:class] = 'form-control'
-		end
+
+			# id attribute
+			if options[:id].blank?
+				options[:id] = nil
+			end			
+
+			# class attribute
+			if options[:class].blank?
+				options[:class] = 'form-control'
+			end
 
 		# Params
-		# Wrapper
 
-			params[:wrapper] ||= {}
+			# Wrapper
 
-			# class
-			params[:wrapper][:class] ||= 'form-group'
+				params[:wrapper] ||= {}
 
-			# attribute
-			params[:wrapper][:attributes] ||= ''
-			if params[:wrapper][:attributes].is_a?(Hash)
-				params[:wrapper][:attributes] =
-					params[:wrapper][:attributes].map do |key, value|
-						"#{key}=\"#{value}\""
-					end.join(' ')
-			elsif !params[:wrapper][:attributes].is_a?(String)
-				params[:wrapper][:attributes] = ''
-			end
-		
-		# / Wrapper
+				# class
+				params[:wrapper][:class] ||= 'form-group'
 
-		# Label
-		
-			params[:label] ||= false
-		
-		# / Label
+				# attribute
+				params[:wrapper][:attributes] ||= ''
+				if params[:wrapper][:attributes].is_a?(Hash)
+					params[:wrapper][:attributes] =
+						params[:wrapper][:attributes].map do |key, value|
+							"#{key}=\"#{value}\""
+						end.join(' ')
+				elsif !params[:wrapper][:attributes].is_a?(String)
+					params[:wrapper][:attributes] = ''
+				end
+			
+			# / Wrapper
+
+			# Label
+			
+				params[:label] ||= false
+			
+			# / Label
+
+		# / Params
 
 		# Input
 		input_html = case type

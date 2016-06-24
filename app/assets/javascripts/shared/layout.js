@@ -603,7 +603,7 @@ $(function () {
 					}
 					// empty list
 					if ('list' in params) {
-						params['list'].html('<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả</h4></div>')
+						params['list'].html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả</h4></div>')
 					}
 				}
 			}).fail(function (xhr, status) {
@@ -617,7 +617,7 @@ $(function () {
 					}
 					// empty list
 					if ('list' in params) {
-						params['list'].html('<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả</h4></div>')
+						params['list'].html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không tìm thấy kết quả</h4></div>')
 					}
 				}
 			});
@@ -677,7 +677,7 @@ $(function () {
 			list: 			params.list || $(),
 			paginator:		params.paginator || $(),
 			alert: 			params.alert || $('<section></section>'),
-			emptyHtml: 		params.alertHtml || '<div class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không có kết quả</h4><p>Không tìm thấy kết quả phù hợp, vui lòng thử lại sau</p></div>',
+			emptyHtml: 		params.alertHtml || '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không có kết quả</h4><p>Không tìm thấy kết quả phù hợp, vui lòng thử lại sau</p></div>',
 			lastData: 		{},
 			data: 			params.data || {},
 			getData: 		function () {
@@ -2227,6 +2227,7 @@ $(function () {
 						$popup.off();
 					});
 
+					console.log(params);
 					if ('success' in params) {
 						params['success']($popup);
 					}

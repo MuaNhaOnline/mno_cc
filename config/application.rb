@@ -39,6 +39,9 @@ module Mno
     config.item_per_page = 8
     config.real_estate_item_per_page = 4
     config.mail_item_per_page = 20
+
+    # Default form builder
+    config.action_view.default_form_builder = 'ApplicationFormBuilder'
     
     config.exceptions_app = self.routes
   end
