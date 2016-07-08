@@ -264,112 +264,137 @@
 			<div class="row">
 				<div class="col-xs-12 col-md-4"> -->
 					<%
-						# Register info
-						register_info = nil
-						if signed?
-							register_info = ContactRequest.where(user_type: 'user', user_id: current_user.id, request_type: 'advisory').first
-						else
-							if left_contact?
-								register_info = ContactRequest.where(user_type: 'contact_user', user_id: current_left_contact.id, request_type: 'advisory').first
-							end
-						end
-
-						if register_info.blank?
-							register_info = ContactRequest.new request_type: 'advisory', object_type: 'real_estate'
-						end
+						request_mail = SystemMail.new({
+							subject: 			'Liên hệ',
+							system_mail_type: 	2,
+							requested_info: 	RequestedSystemMail.new({
+													object_type: 	'real_estate',
+													requested_type: 3
+												})
+						})
 					%>
-					<form id="contact_form" class="form" 
-						data-request_info="<%= register_info.to_json only: [:id, :request_type, :object_type, :message] %>" 
-						<%= "data-contact_info='#{current_left_contact.to_json only: [:id, :name, :email, :phone_number]}'".html_safe unless signed? %>
-					>
+					<%=
+						form_for(
+							request_mail,
+							as: 		'mail',
+							url: 		'/mail/save',
+							method: 	'POST',
+							html: 		{
+											id: 		'contact_form',
+											class: 		'form'
+										}
+						) do |f|
+					%>
+						<!-- Subject -->
+						<%= f.field(
+							'hidden',
+							:subject
+						)  %>
+						<!-- Mail type -->
+						<%= f.field(
+							'hidden',
+							:system_mail_type
+						)  %>
 						<article class="background lazyload" data-original="/assets/home/index/help.png"></article>
-						<input data-toggled-element="default-contact" type="hidden" name="request[id]" value="" />
-						<input type="hidden" name="request[request_type]" value="" />
-						<article class="types-list">
-							<label>
-								<input type="radio" name="request[object_type]" value="real_estate" /><span class="text">BĐS</span>
-							</label>
-							<label>
-								<input type="radio" name="request[object_type]" value="finance" /><span class="text">Tài chính</span>
-							</label>
-							<label>
-								<input type="radio" name="request[object_type]" value="law" /><span class="text">Luật</span>
-							</label>
-							<label>
-								<input type="radio" name="request[object_type]" value="architecture" /><span class="text">Kiến trúc</span>
-							</label>
-						</article>
+
+						<!-- Request info -->
+						<%=
+							fields_for(
+								'mail[requested_info]',
+								request_mail.requested_info 
+							) do |requested_info_form|
+						%>
+							<!-- Requested type -->
+							<%= requested_info_form.field(
+								'hidden',
+								:requested_type
+							) %>
+
+							<!-- Object type -->
+							<article class="types-list">
+								<label>
+									<%= requested_info_form.radio_button :object_type, 'real_estate' %><span class="text">Bất động sản</span>
+								</label>
+								<label>
+									<%= requested_info_form.radio_button :object_type, 'finance' %><span class="text">Tài chính</span>
+								</label>
+								<label>
+									<%= requested_info_form.radio_button :object_type, 'law' %><span class="text">Luật</span>
+								</label>
+								<label>
+									<%= requested_info_form.radio_button :object_type, 'architecture' %><span class="text">Kiến trúc</span>
+								</label>
+							</article>
+						<% end %>
+
+						<!-- Content -->
+						<%= f.field(
+							'textarea',
+							:content,
+							{
+								placeholder: 	'Bạn đang cần gì?'
+							},
+							{
+								label: 			false
+							}
+						) %>
+
 						<% unless signed? %>
-							<% if left_contact? %>
-								<div data-toggled-element="default-contact">
-									<input type="hidden" name="contact[id]" />
-									<article class="form-group">
-										<input class="form-control" name="contact[default_name]" readonly="true" tabindex="-1" />
-									</article>
-									<div class="row">
-										<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<input data-nonvalid class="form-control" name="contact[default_email]" readonly="true" tabindex="-1" />
-										</article>
-										<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<input data-nonvalid class="form-control" name="contact[default_phone_number]" readonly="true" tabindex="-1" />
-										</article>
-										<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-											<div class="radio margin-0">
-												<label>
-													<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
-													<a style="color: inherit;">Không phải tôi</a>
-												</label>
-											</div>
-										</article>
-									</div>
-								</div>
-								<div class="off" data-toggled-element="new-contact">
-									<article class="form-group">
-										<input data-constraint="required" class="form-control" name="contact[name]" placeholder="Tên của bạn" />
-									</article>
-									<div class="row">
-										<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<input data-constraint="required email" class="form-control" name="contact[email]" placeholder="Email của bạn" />
-										</article>
-										<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<input data-constraint="required phone" class="form-control" name="contact[phone_number]" placeholder="Điện thoại của bạn" />
-										</article>
-										<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-											<div class="radio margin-0">
-												<label>
-													<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
-													<a style="color: inherit;">Quay lại</a>
-												</label>
-											</div>
-										</article>
-									</div>
-								</div>
-							<% else %>
-								<article class="form-group">
-									<input data-constraint="required" class="form-control" name="contact[name]" placeholder="Tên của bạn" />
-								</article>
+							<!-- Contact info -->
+							<%=
+								fields_for(
+									'contact_info',
+									current_left_contact
+								) do |contact_form|
+							%>
+								<%= contact_form.field(
+									'text',
+									:name,
+									{
+										placeholder: 	'Tên của bạn'
+									},
+									{
+										label:  		false
+									}
+								) %>
+
 								<div class="row">
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<input data-constraint="required email" class="form-control" placeholder="Email của bạn" name="contact[email]" />
+									<article class="col-xs-6">
+										<%= contact_form.field(
+											'email',
+											:email,
+											{
+												placeholder: 	'Email'
+											},
+											{
+												label:  		false
+											}
+										) %>
 									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<input data-constraint="required phone" class="form-control" placeholder="Điện thoại của bạn" name="contact[phone_number]" />
+									<article class="col-xs-6">
+										<%= contact_form.field(
+											'number',
+											:phone_number,
+											{
+												placeholder: 	'Số điện thoại'
+											},
+											{
+												label:  		false
+											}
+										) %>
 									</article>
 								</div>
 							<% end %>
 						<% end %>
-						<article class="form-group">
-							<textarea class="form-control" name="request[message]" placeholder="Bạn đang cần gì?"></textarea>
-						</article>
-						<article class="form-group text-center">
-							<button type="submit" class="btn">
-								Gửi
-							</button>
-						</article>
+
+						<div class="form-group text-center">
+							<%= f.submit 'Gửi', class: 'btn' %>
+						</div>
+
 						<p class="callout-text">
 							Chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất
 						</p>
-					</form>
+					<% end %>
 				</div>
 				<!-- <div class="col-xs-12 col-md-8">
 				</div>

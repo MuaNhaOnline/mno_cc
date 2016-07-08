@@ -316,7 +316,7 @@
 			border: 1px solid #ddd;
 			border-top: 0;
 			transition: border-color ease-in-out .15s;
-			max-height: 30vh;
+			max-height: 200px;
 			overflow-y: auto;
 			display: none;
 		}
@@ -329,6 +329,14 @@
 				width: 100%;
 				height: 1px;
 				background-color: #eee;
+			}
+
+			.form .has-error .autocomplete-input-ctn [data-input-type] + .list {
+				border-color: #dd4b39;
+			}
+
+			.form .has-success .autocomplete-input-ctn [data-input-type] + .list {
+				border-color: #00a65a;
 			}
 
 			.form .autocomplete-input-ctn [data-input-type]:focus + .list {

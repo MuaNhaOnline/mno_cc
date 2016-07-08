@@ -6,6 +6,9 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="description" Contents="MuaNhaOnline - Giá trị thực trong tầm tay">
+	<meta http-equiv="cache-control" content="no-cache"> <!-- tells browser not to cache -->
+	<meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
+	<meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
 
 	<link rel="shortcut icon" href="/assets/shared/mini_icon.ico">
 
@@ -50,7 +53,7 @@
 
 	<%= yield :stylesheets %>
 </head>
-<body class="skin-blue sidebar-mini <%= 'sidebar-collapse' if cookies[:sidebar_collapse] != '0' %>">
+<body class="skin-blue sidebar-mini">
 <div id="loading_page" style="
 		position: fixed;
 		width: 100%;
@@ -162,6 +165,11 @@
 				</div>
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
+					<li>
+						<a href="/hop-thu">
+							<i class="fa fa-envelope"></i> <span>Hộp thư</span>
+						</a>
+					</li>
 					<% if can?(:manage, SystemGroup) || can?(:manage, RealEstate) || can?(:manage, Project) %>
 						<li>
 							<a href="/nhat-ky">

@@ -1,0 +1,23 @@
+/*
+	Override
+*/
+
+	.nav-pills>li>a>.fa, .nav-pills>li>a>.icon {
+		margin-right: 5px;
+		width: 14px;
+		text-align: center;
+		display: inline-block;
+	}
+
+	.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+		background-color: transparent;
+		color: #333;
+	}
+
+/*
+	Override
+*/
+
+.mails-list tr {
+	cursor: pointer;
+}

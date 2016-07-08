@@ -20,6 +20,14 @@ class RealEstate < ActiveRecord::Base
 
 	# / PgSearch
 
+	# Solr
+	
+		# searchable do
+		# 	text :title, :description
+		# end
+	
+	# / Solr
+
 	# Associations
 
 		has_one :owner_info, class_name: 'RealEstateOwner', autosave: true

@@ -3,6 +3,7 @@
 		requested_type
 			1: contact
 			2: register
+			3: advisory
 =end	
 
 class RequestedSystemMail < ActiveRecord::Base
@@ -58,7 +59,7 @@ class RequestedSystemMail < ActiveRecord::Base
 				'Liên hệ'
 			when 2
 				'Đăng ký sản phẩm'
-			when 'advisory'
+			when 3
 				case object_type
 				when 'real_estate'
 					'Tư vấn BĐS'

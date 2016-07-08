@@ -496,12 +496,12 @@ class UsersController < ApplicationController
 		def autocomplete
 			users = User.search(params[:keyword]).limit(10)
 
-			list = []
-			users.each do |user|
-				list << { value: user.id, text: "#{user.full_name} - #{user.email}" }
-			end
-
-			render json: { status: 0, result: list }
+			render json: { 
+				status: 0,
+				result: users.all.map do |user|
+					[user.id, "#{user.full_name} &lt;#{user.email}&gt;"]
+				end.to_h
+			}
 		end
 
 	# / Autocomplete

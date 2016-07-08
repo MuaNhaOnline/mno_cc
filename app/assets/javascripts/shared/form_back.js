@@ -1413,6 +1413,7 @@ function initForm($form, params) {
 
 							$input.val(lastVal = '');
 							$itemsList.html('');
+							$input.trigger('valueChange');
 						},
 						'mouseenter': function () {
 							$(this).addClass('hover').siblings('.hover').removeClass('hover');
@@ -1425,6 +1426,7 @@ function initForm($form, params) {
 						var $item = $(this);
 						$item.find('.remove').on('click', function () {
 							$item.remove();
+							$input.trigger('valueChange');
 						});
 					});
 				}
@@ -2204,8 +2206,13 @@ function initForm($form, params) {
 			});
 
 			// Auto check valid
-			$form.find(':input:not(.file-upload):not([data-nonvalid])').on({
+			$form.find(':input:not(.file-upload,[data-input-type="autocomplete"],[data-nonvalid])').on({
 				'change': function () {
+					checkInvalidInput($(this));
+				}
+			});
+			$form.find(':input[data-input-type="autocomplete"]').on({
+				'valueChange': function () {
 					checkInvalidInput($(this));
 				}
 			});
@@ -2426,6 +2433,12 @@ function initForm($form, params) {
 				}
 				else if ($input.is('.file-upload')) {
 					if ($input.siblings('.preview-list').children('.preview').length == 0) {
+						toggleValidInput($input, false, 'required');
+						return 'required';
+					}
+				}
+				else if ($input.is('[data-input-type="autocomplete"][data-multiple]')) {
+					if ($input.parent().prev().children().length == 0) {
 						toggleValidInput($input, false, 'required');
 						return 'required';
 					}

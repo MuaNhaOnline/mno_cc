@@ -1,0 +1,38 @@
+<%
+=begin
+	params: mails
+=end
+%>
+
+<% mails.each do |mail| %>
+	<tr data-value="<%= mail.id %>">
+		<td class="min-width-cell">
+			<input type="checkbox">
+		</td>
+		<td class="min-width-cell">
+			<% if mail.sender_id != current_user_id || mail.sender_type != current_user_type %>
+				<% case mail.sender_type %>
+				<% when 'user' %>
+					<%= mail.sender.full_name %>
+				<% when 'contact_user' %>
+					<%= mail.contact_sender.name %>
+				<% end %>
+			<% else %>
+				<%= mail.receivers.map{ |receiver|
+					case receiver.receiver_type
+					when 'user'
+						receiver.receiver.full_name
+					when 'contact_user'
+						receiver.contact_receiver.name
+					end
+				}.join('<br />').html_safe %>
+			<% end %>
+		</td>
+		<td>
+			<%= mail.subject %>
+		</td>
+		<td class="min-width-cell">
+			<span aria-time="<%= mail.created_at %>"></span>
+		</td>
+	</tr>
+<% end %>

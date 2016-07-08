@@ -2,7 +2,7 @@
 <%
 	page ||= 1
 	page = page.to_i
-	page_count = (total + per - 1) / per
+	page_count = (total.to_f / per).ceil
 
 	return if page_count <= 1
 %>

@@ -380,6 +380,10 @@ $(function () {
 		}
 	}
 
+	function _replaceState(url) {
+		window.history.replaceState({}, document.title, url.replace(/&?_=[0-9]*/, ''));
+	}
+
 // / Helper
 
 // Size
@@ -2227,7 +2231,6 @@ $(function () {
 						$popup.off();
 					});
 
-					console.log(params);
 					if ('success' in params) {
 						params['success']($popup);
 					}

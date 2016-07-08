@@ -62,6 +62,7 @@
 		border-radius: 50%;
 	}
 
+	.sidebar-menu>li>a>.fa,
 	.sidebar-menu>li>a>.icon {
 		display: inline-block;
 		width: 20px;
@@ -74,6 +75,10 @@
 	    margin: 0 0 10px 0;
 	    white-space: nowrap;
 	    padding: 0;
+	}
+
+	.treeview.active > a > .fa-caret-left:before {
+		content: "\f0d7";
 	}
 
 	.navbar-nav>.notifications-menu>.dropdown-menu>li .menu {
@@ -114,6 +119,10 @@
 	.pagination>li>a, .pagination>li>span {
 		margin-top: 4px;
 		margin-bottom: 4px;
+	}
+
+	.box {
+		width: auto;
 	}
 
 /* / Custom template */

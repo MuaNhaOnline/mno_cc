@@ -5,13 +5,24 @@ $(function () {
 		(function () {
 			var $contactForm = $('#contact_form');
 
-			_initContactForm($contactForm, {
-				requestInfo: $contactForm.data('request_info'),
-				contactInfo: $contactForm.data('contact_info'),
-				done: function (data) {
-					popupPrompt({
-						title: 'Đăng ký thành công',
-						content: 'Bạn đã đăng ký thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+			initForm($contactForm, {
+				submit: function () {
+					$.ajax({
+						url: 		'/mails/save',
+						method: 	'POST',
+						data: 		$contactForm.serialize()
+					}).done(function (data) {
+						if (data.status == 0) {
+							popupPrompt({
+								title: 'Đăng ký thành công',
+								content: 'Bạn đã đăng ký thành công, chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất'
+							});
+						}
+						else {
+							_errorPopup();
+						}
+					}).fail(function () {
+						_errorPopup();
 					});
 				}
 			});

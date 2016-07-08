@@ -24,21 +24,55 @@
 		</h2>
 	</div>
 	<div class="box-body">
-		<%= f.field(
-			'hidden',
-			:reply_id
-		) %>
+		<% if mail.reply_id.present? %>
+			<%= f.field(
+				'hidden',
+				:reply_id
+			) %>
+			<%= fields_for(
+				'mail[receivers_attributes][]',
+				SystemMailReceiver.new({
+					receiver_type: mail.replied_mail.sender_type,
+					receiver_id: mail.replied_mail.sender_id
+				})
+			) do |receiver_form| %>
+				<%= receiver_form.field(
+					'hidden',
+					'receiver_type'
+				) %>
+				<%= receiver_form.field(
+					'hidden',
+					'receiver_id'
+				) %>
+			<% end %>
+		<% else %>
+			<%= f.field(
+				'autocomplete',
+				:receiver_ids,
+				{
+					multiple: 			true,
+					'data-url': 		'/users/autocomplete',
+					placeholder: 		'Người nhận',
+					'data-constraint': 	'required'
+				}
+			) %>
+		<% end %>
 		<%= f.field(
 			'text',
-			:subject
+			:subject,
+			placeholder: 		'Chủ đề',
+			'data-constraint': 	'required'
 		) %>
 		<%= f.field(
 			'textarea',
-			:content
+			:content,
+			placeholder: 		'Nội dung',
+			rows: 				5,
+			'data-constraint': 	'required'
 		) %>
 	</div>
 	<div class="box-footer text-right">
-		<button class="btn btn-default" aria-click="close-popup">Đóng</button>
-		<button class="btn btn-primary">Gửi</button>
+		<button type="button" class="btn btn-default" aria-click="close-popup">Đóng</button>
+		<button type="submit" class="btn btn-primary">Gửi</button>
 	</div>
 <% end %>

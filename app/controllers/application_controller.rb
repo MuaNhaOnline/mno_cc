@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 	skip_before_filter :verify_authenticity_token
 
 	before_action :init
-	helper_method :signed?, :current_user, :left_contact?, :current_left_contact, :bot?
+	helper_method :signed?, :current_user, :left_contact?, :current_left_contact, :current_user_type, :current_user_id, :bot?
 
 	rescue_from CanCan::AccessDenied do |e|
 		respond_to do |format|
@@ -175,7 +175,6 @@ class ApplicationController < ActionController::Base
 			if signed?
 				current_user.id
 			elsif left_contact?
-				'contact_user'
 				current_left_contact.id
 			else
 				nil

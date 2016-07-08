@@ -28,6 +28,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'activerecord-session_store'
 
+# Solr
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+
+# Multiple primary keys
+gem 'composite_primary_keys', '=8.0.0'
+
 # cancan
 gem 'cancancan'
 

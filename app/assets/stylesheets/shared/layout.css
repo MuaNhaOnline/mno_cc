@@ -202,7 +202,8 @@
 		background-color: transparent;
 	}
 
-	.min-width-cell {
+	td.min-width-cell,
+	tr.min-width-cell {
 		width: 1%;
 		white-space: nowrap;
 	}

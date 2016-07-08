@@ -1,0 +1,110 @@
+<%
+=begin
+	params: mails, page, per, by_type
+=end	
+	@_title       		=
+	@_content_header	= 'Hộp thư'
+
+	mails_in_page 	= 	mails.page page, per
+	max_page 		= 	(mails.count.to_f / per).ceil
+%>
+
+<div class="row">
+
+	<!-- Navigator -->
+		
+		<div class="col-xs-12 col-md-3">
+			<a data-action="create" href="javascript:;" class="btn btn-primary btn-flat btn-block margin-bottom">Soạn thư</a>
+			<div class="box box-solid">
+				<div class="box-body no-padding">
+					<ul class="nav nav-pills nav-stacked">
+						<li class="<%= 'active' if by_type == 'inbox' %>">
+							<a data-action="change_type" data-value="inbox" href="javascript:;">
+								<i class="fa fa-inbox"></i> Thư đến
+							</a>
+						</li>
+						<li class="<%= 'active' if by_type == 'sent' %>">
+							<a data-action="change_type" data-value="sent" href="javascript:;">
+								<i class="fa fa-envelope-o"></i> Thư đã gửi
+							</a>
+						</li>
+						<li class="<%= 'active' if by_type == 'request' %>">
+							<a data-action="change_type" data-value="request" href="javascript:;">
+								<i class="icon ico-git-pull-request"></i> Thư yêu cầu
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	
+	<!-- / Navigator -->
+
+	<!-- List -->
+	
+		<div class="col-xs-12 col-md-9">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title" id="list_title">
+						Hộp thư đến
+					</h3>
+					<!-- <div class="box-tools pull-right">
+						<div class="has-feedback">
+							<input type="text" class="form-control input-sm" placeholder="Tìm kiếm">
+							<span class="glyphicon glyphicon-search form-control-feedback"></span>
+						</div>
+					</div> -->
+				</div>
+				<div class="box-body no-padding">
+					<div class="mailbox-controls">
+						<button data-action="checked_toggle" type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o fa-fw text-center"></i></button>
+						<button data-action="delete" type="button" class="btn btn-default btn-sm" title="Xóa"><i class="fa fa-trash-o fa-fw text-center"></i></button>
+						<div class="pull-right">
+							<div class="btn-group">
+								<button data-action="prev_page" type="button" class="btn btn-default btn-sm" <%= 'disabled="true"'.html_safe if page == 1 %>><i class="fa fa-chevron-left"></i></button>
+								<button data-action="next_page" type="button" class="btn btn-default btn-sm" <%= 'disabled="true"'.html_safe if page >= max_page %>><i class="fa fa-chevron-right"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive mailbox-messages">
+						<table class="table table-hover table-striped">
+							<tbody id="mails_list" class="mails-list">
+								<%= render partial: 'index', locals: { mails: mails_in_page } %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="box-footer no-padding">
+					<div class="mailbox-controls">
+						<button data-action="checked_toggle" type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o fa-fw text-center"></i>
+						</button>
+						<button data-action="delete" type="button" class="btn btn-default btn-sm" title="Xóa"><i class="fa fa-trash-o fa-fw text-center"></i></button>
+						<div class="pull-right">
+							<div class="btn-group">
+								<button data-action="prev_page" type="button" class="btn btn-default btn-sm" <%= 'disabled="true"'.html_safe if page == 1 %>><i class="fa fa-chevron-left"></i></button>
+								<button data-action="next_page" type="button" class="btn btn-default btn-sm" <%= 'disabled="true"'.html_safe if page >= max_page %>><i class="fa fa-chevron-right"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<!-- / List -->
+
+</div>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/mails/index.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script src="/assets/mails/index.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		searchData = {
+			page: 		<%= page %>,
+			per: 		<%= per %>,
+			by_type: 	'<%= by_type %>'
+		}
+	</script>
+<% end %>

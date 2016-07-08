@@ -2,6 +2,90 @@ class MailsController < ApplicationController
 
 	layout 'layout_back'
 
+	# Index
+	
+		def index
+			# Author
+			authorize! :view_my, SystemMail
+
+			# Get params
+			page 		= 	(params[:page] || 1).to_i
+			per 		=	(params[:per] || 10).to_i
+			by_type		=	params[:by_type] || 'inbox'
+
+			# Get mail
+			mails 		= 	eval("SystemMail.my_#{by_type}_list");
+
+			# Render result
+			respond_to do |f|
+				f.html {
+					render 'index',
+						locals: {
+							mails: 		mails,
+							page: 		page,
+							per: 		per,
+							by_type: 	by_type
+						}
+				}
+				f.json {
+					mails_in_page 	= 	mails.page page, per
+					max_page 		= 	(mails.count.to_f / per).ceil
+
+					# Check if empty
+					if mails_in_page.count == 0
+						render json: {
+							status: 1
+						}
+					else
+						render json: {
+							status: 0,
+							result: {
+								list: 		render_to_string(
+												partial: 'index',
+												formats: :html,
+												locals: {
+													mails: mails_in_page
+												}
+											),
+								page: 		page,
+								max_page: 	max_page,
+								by_type: 	by_type
+							}
+						}
+					end
+				}
+			end
+		end
+	
+	# / Index
+
+	# View
+	
+		# View
+		# params: id
+		def view
+			# Get mail
+			mail = SystemMail.find params[:id]
+
+			# Render response
+			respond_to do |f|
+				f.json {
+					render json: {
+						status: 0,
+						result: render_to_string(
+							partial: 	'view',
+							formats: 	:html,
+							locals: 	{
+											mail: mail
+										}
+						)
+					}
+				}
+			end
+		end
+	
+	# / View
+
 	# Save
 
 		# Partial
@@ -17,7 +101,10 @@ class MailsController < ApplicationController
 
 				# Build default subject or remove reply_id if this not exists
 				if mail.replied_mail.present?
-					mail.subject = '[Trả lời] ' + mail.replied_mail.subject
+					mail.subject = mail.replied_mail.subject
+					if mail.subject.index('[Trả lời]') != 0
+						mail.subject = '[Trả lời] ' + mail.subject
+					end
 				else
 					mail.reply_id = nil
 				end
@@ -142,5 +229,29 @@ class MailsController < ApplicationController
 		end
 	
 	# / Request
+
+	# Delete
+		
+		# Handle
+		# params: ids
+		def delete
+			# Author
+			authorize! :set_my, SystemMail
+
+			# Get mails
+			mails = SystemMail.find params[:ids]
+
+			# Set delete
+			mails.each do |mail|
+				mail.set_delete
+			end
+
+			# Render result
+			render json: {
+				status: 0
+			}
+		end
+	
+	# / Delete
 
 end

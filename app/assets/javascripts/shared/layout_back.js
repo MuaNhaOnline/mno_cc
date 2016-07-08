@@ -73,7 +73,7 @@ $(function () {
 			}
 			
 			function initItems($items) {
-				$items.siblings('.unread').on('mouseenter.change_read_status click.change_read_status', function () {
+				$items.filter('.unread').on('mouseenter.change_read_status click.change_read_status', function () {
 					setReadItem($(this));
 				});	
 			}

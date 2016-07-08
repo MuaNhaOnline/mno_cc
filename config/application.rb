@@ -42,6 +42,9 @@ module Mno
 
     # Default form builder
     config.action_view.default_form_builder = 'ApplicationFormBuilder'
+
+    # Solr path
+    config.solr_path = "#{Rails.root}/lib/classes/solr.rb"
     
     config.exceptions_app = self.routes
   end
