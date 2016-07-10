@@ -1,12 +1,20 @@
 class RealEstateType < ActiveRecord::Base
 
-	default_scope { order('"order" asc') }
+	# Default
+	
+		default_scope { order('"order" asc') }
+	
+	# / Default
 
-	serialize :options, JSON
+	# Associations
 
-	def self.get_options
-		order order: 'ASC'
-	end
+		has_many :translate_names, -> { where("translate_values.object_type = #{RealEstateType.name_translate_type}") }, class_name: 'TranslateValue', primary_key: :key, foreign_key: :name
+
+		belongs_to :translate_name, -> { where("translate_values.object_type = #{RealEstateType.name_translate_type}") }, class_name: 'TranslateValue', primary_key: :key, foreign_key: :name
+
+		accepts_nested_attributes_for :translate_name
+
+	# / Associations
 
 	# PgSearch
 
@@ -19,7 +27,25 @@ class RealEstateType < ActiveRecord::Base
 
 	# / PgSearch
 
+	# Get
+
+		def self.get_options
+			order order: 'ASC'
+		end
+	
+	# / Get
+
 	# Attributes
+
+		serialize :options, JSON
+
+		# Translate object
+		def name_translate_type
+			1
+		end
+		def self.name_translate_type
+			1
+		end
 		
 		# Name
 		def display_name

@@ -28,6 +28,7 @@ class SystemMail < ActiveRecord::Base
 			where = 
 				'system_mail_receivers.receiver_type = \'user\'' +
 				" AND system_mail_receivers.receiver_id = #{User.current.id}" +
+				' AND system_mail_receivers.is_receiver_deleted = false'
 				' AND system_mails.system_mail_type = 1'
 			joins = :receivers
 			order = { created_at: 'DESC' }
@@ -39,7 +40,8 @@ class SystemMail < ActiveRecord::Base
 			where = 
 				'system_mails.sender_type = \'user\'' +
 				" AND system_mails.sender_id = #{User.current.id}" +
-				' AND system_mails.system_mail_type = 1'
+				' AND system_mails.system_mail_type = 1' +
+				' AND system_mails.is_sender_deleted = false'
 			joins = []
 			order = { created_at: 'DESC' }
 
@@ -50,7 +52,8 @@ class SystemMail < ActiveRecord::Base
 			where = 
 				'system_mails.sender_type = \'user\'' +
 				" AND system_mails.sender_id = #{User.current.id}" +
-				' AND system_mails.system_mail_type = 2'
+				' AND system_mails.system_mail_type = 2' +
+				' AND system_mails.is_sender_deleted = false'
 			joins = []
 			order = { created_at: 'DESC' }
 
