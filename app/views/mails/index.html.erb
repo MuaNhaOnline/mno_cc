@@ -69,7 +69,11 @@
 					<div class="table-responsive mailbox-messages">
 						<table class="table table-hover table-striped">
 							<tbody id="mails_list" class="mails-list">
-								<%= render partial: 'index', locals: { mails: mails_in_page } %>
+								<% if mails_in_page.present? %>
+									<%= render partial: 'index', locals: { mails: mails_in_page } %>
+								<% else %>
+									<tr><td class="text-center"><b>Không tìm thấy thư</b></td></tr>
+								<% end %>
 							</tbody>
 						</table>
 					</div>
