@@ -495,6 +495,8 @@ class UsersController < ApplicationController
 
 		def autocomplete
 			users = User.search(params[:keyword]).limit(10)
+			
+			users = users.where.not(id: params[:except]) if params[:except].present?
 
 			render json: { 
 				status: 0,

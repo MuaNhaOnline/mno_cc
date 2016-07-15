@@ -167,7 +167,14 @@
 				<ul class="sidebar-menu">
 					<li>
 						<a href="/hop-thu">
-							<i class="fa fa-envelope"></i> <span>Hộp thư</span>
+							<i class="fa fa-envelope"></i>
+							<span>Hộp tin</span>
+							<%
+								unread_mail_count = SystemMailReceiver.current_user_unread.count
+							%>
+							<% if unread_mail_count != 0 %>
+								<span class="label label-primary pull-right"><%= unread_mail_count %></span>
+							<% end %>
 						</a>
 					</li>
 					<% if can?(:manage, SystemGroup) || can?(:manage, RealEstate) || can?(:manage, Project) %>
@@ -187,7 +194,7 @@
 					<% if can? :manage, SystemMail %>
 						<li>
 							<a href="/hop-thu/yeu-cau">
-								<i class="icon ico-git-pull-request"></i> <span>Hộp thư yêu cầu</span>
+								<i class="icon ico-git-pull-request"></i> <span>Tin yêu cầu</span>
 							</a>
 						</li>
 					<% end %>

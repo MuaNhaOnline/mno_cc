@@ -3,7 +3,7 @@
 	params: mails, page, per, by_type
 =end	
 	@_title       		=
-	@_content_header	= 'Hộp thư'
+	@_content_header	= 'Hộp tin'
 
 	mails_in_page 	= 	mails.page page, per
 	max_page 		= 	(mails.count.to_f / per).ceil
@@ -14,23 +14,18 @@
 	<!-- Navigator -->
 		
 		<div class="col-xs-12 col-md-3">
-			<a data-action="create" href="javascript:;" class="btn btn-primary btn-flat btn-block margin-bottom">Soạn thư</a>
+			<a data-action="create" href="javascript:;" class="btn btn-primary btn-flat btn-block margin-bottom">Gửi tin</a>
 			<div class="box box-solid">
 				<div class="box-body no-padding">
 					<ul class="nav nav-pills nav-stacked">
 						<li class="<%= 'active' if by_type == 'inbox' %>">
 							<a data-action="change_type" data-value="inbox" href="javascript:;">
-								<i class="fa fa-inbox"></i> Thư đến
+								<i class="fa fa-inbox"></i> Tin đến
 							</a>
 						</li>
 						<li class="<%= 'active' if by_type == 'sent' %>">
 							<a data-action="change_type" data-value="sent" href="javascript:;">
-								<i class="fa fa-envelope-o"></i> Thư đã gửi
-							</a>
-						</li>
-						<li class="<%= 'active' if by_type == 'request' %>">
-							<a data-action="change_type" data-value="request" href="javascript:;">
-								<i class="icon ico-git-pull-request"></i> Thư yêu cầu
+								<i class="fa fa-envelope-o"></i> Tin đã gửi
 							</a>
 						</li>
 					</ul>
@@ -46,7 +41,7 @@
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<h3 class="box-title" id="list_title">
-						Hộp thư đến
+						Tin đến
 					</h3>
 					<!-- <div class="box-tools pull-right">
 						<div class="has-feedback">
@@ -67,12 +62,12 @@
 						</div>
 					</div>
 					<div class="table-responsive mailbox-messages">
-						<table class="table table-hover table-striped">
+						<table class="table table-hover">
 							<tbody id="mails_list" class="mails-list">
 								<% if mails_in_page.present? %>
 									<%= render partial: 'index', locals: { mails: mails_in_page } %>
 								<% else %>
-									<tr><td class="text-center"><b>Không tìm thấy thư</b></td></tr>
+									<tr><td class="text-center"><b>Không tìm thấy tin</b></td></tr>
 								<% end %>
 							</tbody>
 						</table>

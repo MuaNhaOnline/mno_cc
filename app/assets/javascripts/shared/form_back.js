@@ -1242,7 +1242,12 @@ function initForm($form, params) {
 					startPlaceholder 	= '<a class="item">Hãy nhập từ khóa</a>',
 					emptyPlaceholder 	= '<a class="item">Không có dữ liệu phù hợp</a>',
 					errorPlaceholder 	= '<a class="item">Lỗi, vui lòng thử lại</a>',
-					hasInitValues		= false;
+					hasInitValues		= false,
+					defaultExcept 		= $input.data('default_except');
+
+				if (defaultExcept) {
+					defaultExcept = defaultExcept.toString().split(',');
+				}
 
 				// Empty items (init items)
 				if ($input.data('init-values') && $input.data('init-values').length != 0) {
@@ -1335,7 +1340,7 @@ function initForm($form, params) {
 
 						var except = $inputsList.find('[type="hidden"]').get().map(function (input) {
 							return input.value;
-						}).join(',');
+						}).concat(defaultExcept).join(',');
 
 						clearTimeout(timeout);
 						timeout = setTimeout(function () {

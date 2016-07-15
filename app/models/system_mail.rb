@@ -29,7 +29,6 @@ class SystemMail < ActiveRecord::Base
 				'system_mail_receivers.receiver_type = \'user\'' +
 				" AND system_mail_receivers.receiver_id = #{User.current.id}" +
 				' AND system_mail_receivers.is_receiver_deleted = false'
-				' AND system_mails.system_mail_type = 1'
 			joins = :receivers
 			order = { created_at: 'DESC' }
 
@@ -40,19 +39,6 @@ class SystemMail < ActiveRecord::Base
 			where = 
 				'system_mails.sender_type = \'user\'' +
 				" AND system_mails.sender_id = #{User.current.id}" +
-				' AND system_mails.system_mail_type = 1' +
-				' AND system_mails.is_sender_deleted = false'
-			joins = []
-			order = { created_at: 'DESC' }
-
-			self.joins(joins).where(where).reorder(order)
-		end
-	
-		def self.my_request_list
-			where = 
-				'system_mails.sender_type = \'user\'' +
-				" AND system_mails.sender_id = #{User.current.id}" +
-				' AND system_mails.system_mail_type = 2' +
 				' AND system_mails.is_sender_deleted = false'
 			joins = []
 			order = { created_at: 'DESC' }
@@ -104,7 +90,33 @@ class SystemMail < ActiveRecord::Base
 				end
 			end
 		end
+
+		# Is read
+		def set_is_read
+			self.receivers.each do |receiver|
+				# If receiver
+				if receiver.receiver_id == User.current.id && receiver.receiver_type == 'user'
+					return receiver.update is_read: true
+				end
+			end
+		end
 	
 	# / Save
+
+	# Attributes
+	
+		# Is rea
+		def current_user_is_read
+			@current_is_read ||= Proc.new do
+
+				self.receivers.each do |receiver|
+					# If receiver
+					return receiver.is_read if receiver.receiver_id == User.current.id && receiver.receiver_type == 'user'
+				end
+
+			end.call
+		end
+	
+	# / Attributes
 
 end

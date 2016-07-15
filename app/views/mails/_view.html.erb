@@ -2,6 +2,7 @@
 =begin
 	mail
 =end
+	can_reply = mail.sender_id != current_user_id || mail.sender_type != current_user_type
 %>
 
 <div class="box box-primary">
@@ -33,7 +34,7 @@
 		</div>
 		<div class="mailbox-controls with-border text-center">
 			<button data-action="delete" type="button" class="btn btn-default btn-sm" title="Xóa"><i class="fa fa-trash-o"></i></button>
-			<% if mail.sender_id != mail.sender_id || mail.sender_type != current_user_type %>
+			<% if can_reply %>
 				<button data-action="reply" type="button" class="btn btn-default btn-sm" title="Trả lời"><i class="fa fa-reply"></i></button>
 			<% end %>
 		</div>
@@ -42,7 +43,7 @@
 		</div>
 	</div>
 	<div class="box-footer">
-		<% if mail.sender_id != mail.sender_id || mail.sender_type != current_user_type %>
+		<% if can_reply %>
 			<div class="pull-right">
 				<button data-action="reply" type="button" class="btn btn-default"><i class="fa fa-reply"></i> Trả lời</button>
 			</div>

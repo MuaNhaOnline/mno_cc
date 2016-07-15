@@ -21,3 +21,12 @@
 .mails-list tr {
 	cursor: pointer;
 }
+
+	.mails-list tr.unread {
+		font-weight: bold;
+	}
+
+	.mails-list tr.read {
+		background-color: #f8f8f8;
+		color: #666;
+	}

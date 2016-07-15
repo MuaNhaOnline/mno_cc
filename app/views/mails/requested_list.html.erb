@@ -17,9 +17,7 @@
 		<%= label_tag :by_status, 'Danh sách' %>
 		<%= select_tag :by_status,
 			options_for_select([
-				['Cần liên hệ', 'need_contact', 'data-value': '["1","2"]'],
-				['Chưa liên hệ', 'wait_contact', 'data-value': '["1"]'],
-				['Cần liên hệ lại', 'recontact', 'data-value': '["2"]'],
+				['Chờ liên hệ', 'need_contact', 'data-value': '["1"]'],
 				['Đã bỏ qua', 'eliminated', 'data-value': '["3"]'],
 				['Đã liên hệ', 'done', 'data-value': '["4"]']
 			], by_status),

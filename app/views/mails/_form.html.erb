@@ -25,6 +25,15 @@
 	</div>
 	<div class="box-body">
 		<% if mail.reply_id.present? %>
+			<p>
+				<b>Từ:</b>
+				<% case mail.replied_mail.sender_type %>
+				<% when 'user' %>
+					<%= mail.replied_mail.sender.full_name %>
+				<% when 'contact_user' %>
+					<%= mail.replied_mail.contact_sender.name %>
+				<% end %>
+			</p>
 			<%= f.field(
 				'hidden',
 				:reply_id
@@ -50,10 +59,11 @@
 				'autocomplete',
 				:receiver_ids,
 				{
-					multiple: 			true,
-					'data-url': 		'/users/autocomplete',
-					placeholder: 		'Người nhận',
-					'data-constraint': 	'required'
+					multiple: 				true,
+					'data-url': 			'/users/autocomplete',
+					placeholder: 			'Người nhận',
+					'data-constraint': 		'required',
+					'data-default_except': 	(current_user_type == 'user' ? current_user_id : '')
 				}
 			) %>
 		<% end %>

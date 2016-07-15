@@ -4,6 +4,11 @@
 			1: contact
 			2: register
 			3: advisory
+		status
+			1: need_contact
+			2: not_use
+			3: eliminated
+			4: done
 =end	
 
 class RequestedSystemMail < ActiveRecord::Base
@@ -23,17 +28,7 @@ class RequestedSystemMail < ActiveRecord::Base
 		
 			def self.need_contact_list
 				order(updated_at: 'ASC')
-					.where('requested_system_mails.status = 1 OR requested_system_mails.status = 2')
-			end
-
-			def self.wait_contact_list
-				order(updated_at: 'ASC')
 					.where('requested_system_mails.status = 1')
-			end
-
-			def self.recontact_list
-				order(updated_at: 'ASC')
-					.where('requested_system_mails.status = 2')
 			end
 
 			def self.eliminated_list
@@ -82,8 +77,6 @@ class RequestedSystemMail < ActiveRecord::Base
 			case status
 			when 1
 				'Chờ liên hệ'
-			when 2
-				'Chờ liên hệ lại'
 			when 3
 				'Đã bỏ qua'
 			when 4

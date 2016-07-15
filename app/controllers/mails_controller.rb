@@ -67,6 +67,9 @@ class MailsController < ApplicationController
 			# Get mail
 			mail = SystemMail.find params[:id]
 
+			# Set is read
+			mail.set_is_read
+
 			# Render response
 			respond_to do |f|
 				f.json {

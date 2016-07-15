@@ -4,7 +4,7 @@ $(function () {
 
 	var $list = $('#mails_list');
 
-	// Get
+	// Get, init
 
 		/*
 			params:
@@ -63,6 +63,8 @@ $(function () {
 				var $row 	= 	$(this);
 				var id 		= 	$row.data('value');
 
+				$row.removeClass('unread').addClass('read');
+
 				popupFull({
 					url: 		'/mails/view/' + id,
 					width: 		'medium',
@@ -116,7 +118,7 @@ $(function () {
 		}
 		initList();
 
-	// / Get
+	// / Get, init
 
 	// Page
 	
