@@ -11,7 +11,7 @@ class RealEstate < ActiveRecord::Base
 	# PgSearch
 
 		include PgSearch
-		pg_search_scope :search, against: [
+		pg_search_scope :pg_search, against: [
 			:meta_search_1,
 			:id,
 			:title,
@@ -22,9 +22,22 @@ class RealEstate < ActiveRecord::Base
 
 	# Solr
 	
-		# searchable do
-		# 	text :title, :description
-		# end
+		searchable do
+			text 		:title
+			text 		:description
+			text 		:address do 
+							self.display_short_address
+						end
+			text 		:real_estate_type do
+							self.display_real_estate_type
+						end
+
+			boolean		:is_pending
+			boolean 	:is_show
+			boolean 	:is_force_hide
+			boolean 	:is_favorite
+			integer		:block_real_estate_group_id
+		end
 	
 	# / Solr
 
@@ -665,6 +678,29 @@ class RealEstate < ActiveRecord::Base
 
 		# Search with params
 
+			def self.search_with_params_2 conditions = {}, paginate = {}, orders = {}
+				# Search if has keyword
+				return self.search do 
+					# Default
+					with :is_pending, false
+					with :is_show, true
+					with :is_force_hide, false
+
+					# Conditions
+					fulltext(conditions[:keyword]) if conditions[:keyword].present?
+					with(:is_favorite, conditions[:is_favorite]) if conditions.has_key? :is_favorite
+
+					# Order
+					order_by(:random) if orders.has_key? :random
+
+					# Paginate
+					paginate(
+						page:		paginate[:page] || 1, 
+						per_page: 	paginate[:per_page] || 12
+					)
+				end.results
+			end
+
 			# params: 
 			#   keyword, price(x;y), real_estate_type, is_full, district, price_from, price_to, currency_unit, unit, area, constructional_level
 			#   is_favorite
@@ -808,12 +844,7 @@ class RealEstate < ActiveRecord::Base
 
 				joins = joins.uniq
 
-				# Keyword
-				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
-				else
-					joins(joins).where(where).order(order)
-				end
+				joins(joins).where(where).order(order)
 			end
 
 			def self.user_search_with_params user_type, user_id, params = {}
@@ -838,7 +869,7 @@ class RealEstate < ActiveRecord::Base
 				end
 
 				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
+					pg_search(params[:keyword]).joins(joins).where(where).order(order)
 				else
 					joins(joins).where(where).order(order)
 				end
@@ -869,7 +900,7 @@ class RealEstate < ActiveRecord::Base
 				end
 
 				if params[:keyword].present?
-					search(params[:keyword]).joins(joins).where(where).order(order)
+					pg_search(params[:keyword]).joins(joins).where(where).order(order)
 				else
 					joins(joins).where(where).order(order)
 				end
@@ -900,7 +931,7 @@ class RealEstate < ActiveRecord::Base
 				# / Order
 
 				if conditions[:keyword].present?
-					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
+					pg_search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end
@@ -931,7 +962,7 @@ class RealEstate < ActiveRecord::Base
 				# / Order
 
 				if conditions[:keyword].present?
-					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
+					pg_search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end
@@ -962,7 +993,7 @@ class RealEstate < ActiveRecord::Base
 				# / Order
 
 				if conditions[:keyword].present?
-					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
+					pg_search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end
@@ -1001,7 +1032,7 @@ class RealEstate < ActiveRecord::Base
 				# / Order
 
 				if conditions[:keyword].present?
-					search(conditions[:keyword]).joins(joins).where(where).reorder(order)
+					pg_search(conditions[:keyword]).joins(joins).where(where).reorder(order)
 				else
 					joins(joins).where(where).order(order)
 				end

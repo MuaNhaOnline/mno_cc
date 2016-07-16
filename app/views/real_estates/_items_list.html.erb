@@ -322,7 +322,7 @@
 	<% when 1 %>
 				</div>
 			</section>
-			<% if paging %>
+			<% if paging && paging != 1 %>
 				<section id="<%= paging_id %>" class="numeric-paging" <%= paging_attrs.html_safe %>>
 					<% (1..paging).each do |num| %>
 						<a href="<%= page_href.call(num) if page_href.present? %>" class="<%= 'active' if num == current_page %>" data-page="<%= num %>" aria-click="paging"><%= num %></a>

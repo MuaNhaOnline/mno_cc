@@ -9,11 +9,26 @@ class HomeController < ApplicationController
 		def search
 			params[:search] ||= {}
 			
-			params[:search][:is_favorite] = 'true'
-			@favorite_res = RealEstate.search_with_params(params[:search].clone)
+			@favorite_res = RealEstate.search_with_params_2(
+				{
+					keyword: 		params[:search][:keyword],
+					is_favorite: 	true
+				},
+				{
+					page: 1,
+					per_page: 5
+				}
+			)
 
-			params[:search].delete :is_favorite
-			@res = RealEstate.search_with_params(params[:search].clone)
+			@res = RealEstate.search_with_params_2(
+				{
+					keyword: 		params[:search][:keyword]
+				},
+				{
+					page: 1,
+					per_page: 12
+				}
+			)
 
 			# @projects = Project.search_with_params(params[:search].clone)
 		end
