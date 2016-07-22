@@ -704,7 +704,7 @@ class RealEstate < ActiveRecord::Base
 						if conditions[:keyword].present?
 							keyword = ApplicationHelper.de_unicode(conditions[:keyword])
 								.downcase
-								.replace('hooc mon', 'hoc mon')
+								.gsub('hooc mon', 'hoc mon')
 							keyword_arr = keyword.split ' '
 
 							# Normal
