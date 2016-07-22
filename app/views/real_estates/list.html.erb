@@ -41,128 +41,136 @@
 	</article>
 <% end %>
 
-<article class="container-box container-box-transparent">
-	<section class="container-box-body">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-					<%
-						per = 12
-						
-						page_href = Proc.new do |page| 
-							request.GET['page'] = page
-							'?' + request.GET.to_query
-						end
-					%>
-					<%=
-						render(
-							partial: 'real_estates/items_list',
-							locals: {
-								res: @res.page(page, per),
-								paging: (@res.count / per.to_f).ceil,
-								list_id: 'res_list',
-								page_href: page_href,
-								current_page: page
-							}
-						)
-					%>
-				</div>
-				<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
-					<article class="search-box-container">
-						<div class="search-box">
-							<h2 class="box-title">
-								<span class="icon ico-search"></span><span class="text">Tìm kiếm</span>
-							</h2>
-							<section class="box-content">
-								<form class="form" action="/tim_kiem" method="get">
-									<div class="row">
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả" />
+<% if @res.present? %>
+	<article class="container-box container-box-transparent">
+		<section class="container-box-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" id="res_list">
+						<%
+							per = 12
+							
+							page_href = Proc.new do |page| 
+								request.GET['page'] = page
+								'?' + request.GET.to_query
+							end
+						%>
+						<%=
+							render(
+								partial: 'real_estates/items_list',
+								locals: {
+									res: @res.page(page, per),
+									paging: (@res.count / per.to_f).ceil,
+									list_id: 'res_list',
+									page_href: page_href,
+									current_page: page
+								}
+							)
+						%>
+					</div>
+					<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+						<article class="search-box-container">
+							<div class="search-box">
+								<h2 class="box-title">
+									<span class="icon ico-search"></span><span class="text">Tìm kiếm</span>
+								</h2>
+								<section class="box-content">
+									<form class="form" action="/tim_kiem" method="get">
+										<div class="row">
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả" />
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[purpose]">
+													<option value="">Đang bán hoặc cho thuê</option>
+													<option value="">Bất kì</option>
+													<option value="sell">Đang bán</option>
+													<option value="rent">Đang cho thuê</option>
+												</select>
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[real_estate_type]">
+													<option value="" hidden>Loại bất động sản</option>
+													<option value="">Bất kì</option>
+													<% RealEstateType.all.each do |type| %>
+														<option value="<%= type.id %>"><%= type.display_name %></option>
+													<% end %>
+												</select>
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[district]">
+													<option value="" hidden>Quận/huyện</option>
+													<option value="">Bất kì</option>
+													<% District.all.each do |district| %>
+														<option value="<%= district.id %>"><%= district.name %></option>
+													<% end %>
+												</select>
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[price_from]">
+													<option value="" hidden>Giá tối thiểu</option>
+													<option value="">Bất kì</option>
+													<option value="1">1 tỷ</option>
+													<option value="1.5">1.5 tỷ</option>
+													<option value="2">2 tỷ</option>
+													<option value="3">3 tỷ</option>
+													<option value="5">5 tỷ</option>
+													<option value="10">10 tỷ</option>
+												</select>
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[price_to]">
+													<option value="" hidden>Giá tối đa</option>
+													<option value="">Bất kì</option>
+													<option value="1">1 tỷ</option>
+													<option value="1.5">1.5 tỷ</option>
+													<option value="2">2 tỷ</option>
+													<option value="3">3 tỷ</option>
+													<option value="5">5 tỷ</option>
+													<option value="10">10 tỷ</option>
+												</select>
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[area_from]">
+													<option value="" hidden>Diện tích tối thiểu</option>
+													<option value="">Bất kì</option>
+													<option value="50">50m2</option>
+													<option value="100">100m2</option>
+													<option value="150">150m2</option>
+													<option value="200">200m2</option>
+													<option value="300">300m2</option>
+													<option value="500">500m2</option>
+												</select>
+											</article>
+											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+												<select class="form-control" name="search[area_to]">
+													<option value="" hidden>Diện tích tối đa</option>
+													<option value="">Bất kì</option>
+													<option value="50">50m2</option>
+													<option value="100">100m2</option>
+													<option value="150">150m2</option>
+													<option value="200">200m2</option>
+													<option value="300">300m2</option>
+													<option value="500">500m2</option>
+												</select>
+											</article>
+										</div>
+										<article class="form-group text-center margin-top-15">
+											<button type="submit" class="btn btn-green">Tìm kiếm</button>
 										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[purpose]">
-												<option value="">Đang bán hoặc cho thuê</option>
-												<option value="">Bất kì</option>
-												<option value="sell">Đang bán</option>
-												<option value="rent">Đang cho thuê</option>
-											</select>
-										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[real_estate_type]">
-												<option value="" hidden>Loại bất động sản</option>
-												<option value="">Bất kì</option>
-												<% RealEstateType.all.each do |type| %>
-													<option value="<%= type.id %>"><%= type.display_name %></option>
-												<% end %>
-											</select>
-										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[district]">
-												<option value="" hidden>Quận/huyện</option>
-												<option value="">Bất kì</option>
-												<% District.all.each do |district| %>
-													<option value="<%= district.id %>"><%= district.name %></option>
-												<% end %>
-											</select>
-										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[price_from]">
-												<option value="" hidden>Giá tối thiểu</option>
-												<option value="">Bất kì</option>
-												<option value="1">1 tỷ</option>
-												<option value="1.5">1.5 tỷ</option>
-												<option value="2">2 tỷ</option>
-												<option value="3">3 tỷ</option>
-												<option value="5">5 tỷ</option>
-												<option value="10">10 tỷ</option>
-											</select>
-										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[price_to]">
-												<option value="" hidden>Giá tối đa</option>
-												<option value="">Bất kì</option>
-												<option value="1">1 tỷ</option>
-												<option value="1.5">1.5 tỷ</option>
-												<option value="2">2 tỷ</option>
-												<option value="3">3 tỷ</option>
-												<option value="5">5 tỷ</option>
-												<option value="10">10 tỷ</option>
-											</select>
-										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[area_from]">
-												<option value="" hidden>Diện tích tối thiểu</option>
-												<option value="">Bất kì</option>
-												<option value="50">50m2</option>
-												<option value="100">100m2</option>
-												<option value="150">150m2</option>
-												<option value="200">200m2</option>
-												<option value="300">300m2</option>
-												<option value="500">500m2</option>
-											</select>
-										</article>
-										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control" name="search[area_to]">
-												<option value="" hidden>Diện tích tối đa</option>
-												<option value="">Bất kì</option>
-												<option value="50">50m2</option>
-												<option value="100">100m2</option>
-												<option value="150">150m2</option>
-												<option value="200">200m2</option>
-												<option value="300">300m2</option>
-												<option value="500">500m2</option>
-											</select>
-										</article>
-									</div>
-									<article class="form-group text-center margin-top-15">
-										<button type="submit" class="btn btn-green">Tìm kiếm</button>
-									</article>
-								</form>
-							</section>
-						</div>
-					</article>
+									</form>
+								</section>
+							</div>
+						</article>
+					</div>
 				</div>
 			</div>
+		</section>
+	</article>
+<% else %>
+	<div class="alert alert-danger" role="alert">
+		<div class="container">
+			Không tìm thấy kết quả phù hợp.
 		</div>
-	</section>
-</article>
+	</div>
+<% end %>

@@ -249,6 +249,10 @@ $(function () {
 			bottomHandle
 	*/
 	function _initFixedScroll($object, $follow, params) {
+		if ($object.length == 0 || $follow.length == 0) {
+			return;
+		}
+
 		if (typeof params == 'undefined') {
 			params = {};
 		}

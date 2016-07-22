@@ -16,7 +16,7 @@ $(function () {
 
 		_initFixedScroll(
 			$('.re-list .search-box-container'), 
-			$('.re-list #res_list')
+			$('#res_list')
 		);
 	
 	// / Fixed search box

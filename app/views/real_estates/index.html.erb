@@ -84,14 +84,15 @@
 								<form class="form" action="/tim_kiem" method="get">
 									<div class="row">
 										<article class="form-group col-sm-12 col-md-12 col-lg-12">
-											<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả bất động sản..." value="" />
+											<input class="form-control" name="search[keyword]" placeholder="Đường, quận, tỉnh/thành phố..." value="" />
 										</article>
 										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control input-toggle" name="search[purpose]">
+											<select class="form-control input-toggle" name="search[purpose_text]">
 												<option data-on="sell" data-off="rent" value="" hidden>Loại hình giao dịch</option>
+												<option data-on="sell" data-off="rent" value="">Tất cả</option>
 												<option data-on="sell" data-off="rent" value="sell">Bán</option>
 												<option data-on="rent" data-off="sell" value="rent">Cho thuê</option>
-												<option data-on="sell" data-off="rent" value="">Bán hoặc cho thuê</option>
+												<option data-on="sell" data-off="rent" value="sell_rent">Bán hoặc cho thuê</option>
 												<option data-on="rent" data-off="sell" value="transfer">Sang nhượng</option>
 											</select>
 										</article>

@@ -25,18 +25,30 @@ class RealEstate < ActiveRecord::Base
 		searchable do
 			text 		:title
 			text 		:description
-			text 		:address do 
+			text 		:address, :default_boost => 2.0 do 
 							self.display_short_address
 						end
-			text 		:real_estate_type do
+			text 		:real_estate_type, :default_boost => 2.0 do
 							self.display_real_estate_type
-						end
+						end 
 
 			boolean		:is_pending
 			boolean 	:is_show
 			boolean 	:is_force_hide
 			boolean 	:is_favorite
 			integer		:block_real_estate_group_id
+			integer		:purpose_id
+			string		:purpose_code do
+							self.purpose.code if self.purpose.present?
+						end
+			integer		:real_estate_type_id
+			integer		:province_id
+			integer		:district_id
+			double		:rent_price
+			double		:sell_price
+			double		:area do
+							self.display_area
+						end
 		end
 	
 	# / Solr
@@ -687,8 +699,90 @@ class RealEstate < ActiveRecord::Base
 					with :is_force_hide, false
 
 					# Conditions
-					fulltext(conditions[:keyword]) if conditions[:keyword].present?
-					with(:is_favorite, conditions[:is_favorite]) if conditions.has_key? :is_favorite
+					# Keyword
+					
+						if conditions[:keyword].present?
+							keyword = ApplicationHelper.de_unicode(conditions[:keyword])
+								.downcase
+								.replace('hooc mon', 'hoc mon')
+							keyword_arr = keyword.split ' '
+
+							# Normal
+							fulltext keyword
+
+							# Address (quan/huyen)
+							index = keyword_arr.index{ |v| ['quan', 'huyen'].include? v }
+							# If exists && not last
+							if index.present? && index != keyword_arr.count - 1
+								# If next key is integer => get 'quan' + 1 word
+								# Else => 2 words
+								if keyword_arr[index + 1] =~ /\A\d+\Z/
+									address_keyword = "quan #{keyword_arr[index + 1]}"
+								else
+									address_keyword = "#{keyword_arr[index + 1]} #{keyword_arr[index + 2]}"
+								end
+
+								fulltext(address_keyword) do
+									fields :address => 3.0
+								end
+							end
+						end
+					
+					# / Keyword
+					# Field
+
+						price_from = 'sell'
+					
+						with(:is_favorite, conditions[:is_favorite]) if conditions.has_key? :is_favorite
+						with(:real_estate_type_id, conditions[:real_estate_type]) if conditions['real_estate_type'].present?
+						with(:province_id, conditions[:province]) if conditions['province'].present?
+						with(:district_id, conditions[:district]) if conditions['district'].present?
+						if conditions[:purpose_text].present?
+							case conditions[:purpose_text]
+							when 'sell_rent'
+								with :purpose_code, ['sell', 'rent', 'sell_rent']
+							when 'transfer'
+								with :purpose_code, 'transfer'
+								price_from = 'rent'
+							else
+								with :purpose_code, conditions[:purpose_text]
+								price_from = conditions[:purpose_text]
+							end
+						end
+
+						# Price
+						if conditions[:price_from].present? || conditions[:price_to].present?
+							# Format price
+							conditions[:price_from] = ApplicationHelper.format_f(conditions[:price_from]).to_f * 1000000 if conditions[:price_from].present?
+							conditions[:price_to] = ApplicationHelper.format_f(conditions[:price_to]).to_f * 1000000 if conditions[:price_to].present?
+
+							# Purpose
+							purpose = conditions[:purpose_text]
+
+							if conditions[:price_from].present? && conditions[:price_to].present?
+								with("#{price_from}_price", conditions[:price_from]..conditions[:price_to])
+							elsif conditions[:price_from].present?
+								with("#{price_from}_price", conditions[:price_from]..(conditions[:price_from] * 2))
+							else
+								with("#{price_from}_price", (conditions[:price_to] * 0.5)..conditions[:price_to])
+							end
+						end
+
+						# Price
+						if conditions[:area_from].present? || conditions[:area_to].present?
+							conditions[:area_from] = ApplicationHelper.format_f(conditions[:area_from]).to_f if conditions[:area_from].present?
+							conditions[:area_to] = ApplicationHelper.format_f(conditions[:area_to]).to_f if conditions[:area_to].present?
+
+							if conditions[:area_from].present? && conditions[:area_to].present?
+								with('area', conditions[:area_from]..conditions[:area_to])
+							elsif conditions[:area_from].present?
+								with('area', conditions[:area_from]..(conditions[:area_from] * 2))
+							else
+								with('area', (conditions[:area_to] * 0.5)..conditions[:area_to])
+							end
+						end
+
+					# / Field
 
 					# Order
 					order_by(:random) if orders.has_key? :random

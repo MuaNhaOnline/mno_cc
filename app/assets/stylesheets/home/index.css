@@ -152,7 +152,7 @@ body {
 	.search-ctn {
 		position: relative;
 		color: #ffffff;
-		padding: 100px 0;
+		padding: 120px 0;
 	}
 
 		.search-ctn .background {
@@ -162,91 +162,67 @@ body {
 			z-index: -1;
 			top: 0;
 			left: 0;
-			background: center center no-repeat;
+			background: center bottom no-repeat;
 			background-size: cover;
 			-webkit-filter: brightness(60%);
 			filter: brightness(60%);
 		}
 
 		.search-ctn .title {
-			font-family:'Open Sans';
+			font-family: 'Open Sans';
 			font-size: 45px;
 			font-weight: 300;
 			margin: 0 20px 20px 20px;
 			text-align: center;
 		}
 
-			.search-ctn .title .sub-title {
-				display: block;
-				font-size: 22px;
-				margin-top: 15px;
-				font-weight: 400;
-				line-height: 1.42857143;
-			}
-
 			@media (min-width: 768px) {
 				.search-ctn .title {
-					margin: 50px 20px;
-					text-align: left;
+					margin: 20px;
 				}
-
-					.search-ctn .title .sub-title {
-						max-width: 400px;
-					}
 			}
-
-		.search-ctn .search-type {
-			color: inherit;
-			display: block;
-			font-size: 15px;
-			font-weight: normal;
-			margin-bottom: 10px;
-			text-decoration: none;
-			cursor: pointer;
-		}
-
-			.search-ctn .search-type .icon {
-				font-size: 28px;
-				width: 40px;
-				text-align: center;
-				display: inline-block;
-				vertical-align: middle;
-			}
-
-				.search-ctn .search-type:hover .icon {
-					color: #00D976;
-				}
 
 		.search-ctn .form-ctn {
-			padding: 0 20px;
 		}
 
 		.search-ctn .form {
-			margin: 20px;
 			padding: 40px;
-			background-color: rgba(0, 0, 0, .4);
-			max-width: 450px;
-			margin: auto;
-			border-radius: 10px;
+			max-width: 700px;
+			margin: 0 auto;
 		}
 
 			.search-ctn .form .row {
 				margin-top: 30px;
 			}
 
-			.search-ctn .form .btn {
-				padding: 10px 20px;
-				background-color: #00A459;
-				font-size: 18px;
+			.search-ctn .form .form-control {
+				height: 50px;
 			}
-				.search-ctn .form .btn:hover,
-				.search-ctn .form .btn:focus {
-					background-color: #008549;
+
+			.search-ctn .form .btn-ctn {
+				position: relative;
+			}
+
+				.search-ctn .form .btn-ctn input {
+					padding-right: 50px;
+					height: 50px;
 				}
 
-				.search-ctn .form .btn:active {
-					background-color: #00D976;
+				.search-ctn .form .btn-ctn button {
+					width: 50px;
+				    height: 50px;
+				    position: absolute;
+				    top: 0;
+				    right: 0;
+				    font-size: 25px;
+				    outline: 0;
+				    transition: .1s;
+				    color: #fff;
 				}
+
+					.search-ctn .form .btn-ctn button:hover {
+						
+					}
 
 /* / Search */
 

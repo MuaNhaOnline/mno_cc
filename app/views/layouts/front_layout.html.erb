@@ -210,15 +210,16 @@
 											params[:search][:district] = params[:search][:district].present? ? params[:search][:district].to_i : nil
 										%>
 										<article class="form-group col-xs-12 col-sm-4 col-md-6 col-lg-6">
-											<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả bất động sản..." value="<%= params[:search][:keyword] %>" />
+											<input class="form-control" name="search[keyword]" placeholder="Đường, quận, tỉnh/thành phố..." value="<%= params[:search][:keyword] %>" />
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
-											<select class="form-control input-toggle" name="search[purpose]">
+											<select class="form-control input-toggle" name="search[purpose_text]">
 												<option data-on="sell" data-off="rent" value="" hidden>Loại hình giao dịch</option>
-												<option data-on="sell" data-off="rent" value="sell" <%= 'selected' if params[:search][:purpose] == 'sell' %>>Bán</option>
-												<option data-on="rent" data-off="sell" value="rent" <%= 'selected' if params[:search][:purpose] == 'rent' %>>Cho thuê</option>
-												<option data-on="sell" data-off="rent" value="">Bán hoặc cho thuê</option>
-												<option data-on="rent" data-off="sell" value="transfer" <%= 'selected' if params[:search][:purpose] == 'transfer' %>>Sang nhượng</option>
+												<option data-on="sell" data-off="rent" value="">Tất cả</option>
+												<option data-on="sell" data-off="rent" value="sell" <%= 'selected' if params[:search][:purpose_text] == 'sell' %>>Bán</option>
+												<option data-on="rent" data-off="sell" value="rent" <%= 'selected' if params[:search][:purpose_text] == 'rent' %>>Cho thuê</option>
+												<option data-on="sell" data-off="rent" value="sell_rent" <%= 'selected' if params[:search][:purpose_text] == 'sell_rent' %>>Bán hoặc cho thuê</option>
+												<option data-on="rent" data-off="sell" value="transfer" <%= 'selected' if params[:search][:purpose_text] == 'transfer' %>>Sang nhượng</option>
 											</select>
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
@@ -240,10 +241,10 @@
 											</select>
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
-											<select class="form-control" name="search[district]">
+											<select class="form-control" name="search[district]" <%= 'disabled' if params[:search][:province].blank? %>>
 												<option value="" hidden>Quận/huyện</option>
 												<option value="">Tất cả quận/huyện</option>
-												<% District.all.each do |district| %>
+												<% District.where(province_id: params[:search][:province]).each do |district| %>
 													<option value="<%= district.id %>" <%= 'selected' if params[:search][:district] == district.id %>><%= district.name %></option>
 												<% end %>
 											</select>
@@ -293,36 +294,37 @@
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[area_from]">
 												<option value="">Diện tích thấp nhất</option>
-												<option value="50" <%= 'selected' if params[:area_from] == '50' %>>Từ 50m2</option>
-												<option value="100" <%= 'selected' if params[:area_from] == '100' %>>Từ 100m2</option>
-												<option value="150" <%= 'selected' if params[:area_from] == '150' %>>Từ 150m2</option>
-												<option value="200" <%= 'selected' if params[:area_from] == '200' %>>Từ 200m2</option>
-												<option value="300" <%= 'selected' if params[:area_from] == '300' %>>Từ 300m2</option>
-												<option value="500" <%= 'selected' if params[:area_from] == '500' %>>Từ 500m2</option>
+												<option value="50" <%= 'selected' if params[:search][:area_from] == '50' %>>Từ 50m2</option>
+												<option value="100" <%= 'selected' if params[:search][:area_from] == '100' %>>Từ 100m2</option>
+												<option value="150" <%= 'selected' if params[:search][:area_from] == '150' %>>Từ 150m2</option>
+												<option value="200" <%= 'selected' if params[:search][:area_from] == '200' %>>Từ 200m2</option>
+												<option value="300" <%= 'selected' if params[:search][:area_from] == '300' %>>Từ 300m2</option>
+												<option value="500" <%= 'selected' if params[:search][:area_from] == '500' %>>Từ 500m2</option>
 											</select>
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 											<select class="form-control" name="search[area_to]">
 												<option value="" hidden>Diện tích cao nhất</option>
-												<option value="50" <%= 'selected' if params[:area_to] == '50' %>>Đến 50m2</option>
-												<option value="100" <%= 'selected' if params[:area_to] == '100' %>>Đến 100m2</option>
-												<option value="150" <%= 'selected' if params[:area_to] == '150' %>>Đến 150m2</option>
-												<option value="200" <%= 'selected' if params[:area_to] == '200' %>>Đến 200m2</option>
-												<option value="300" <%= 'selected' if params[:area_to] == '300' %>>Đến 300m2</option>
-												<option value="500" <%= 'selected' if params[:area_to] == '500' %>>Đến 500m2</option>
+												<option value="50" <%= 'selected' if params[:search][:area_to] == '50' %>>Đến 50m2</option>
+												<option value="100" <%= 'selected' if params[:search][:area_to] == '100' %>>Đến 100m2</option>
+												<option value="150" <%= 'selected' if params[:search][:area_to] == '150' %>>Đến 150m2</option>
+												<option value="200" <%= 'selected' if params[:search][:area_to] == '200' %>>Đến 200m2</option>
+												<option value="300" <%= 'selected' if params[:search][:area_to] == '300' %>>Đến 300m2</option>
+												<option value="500" <%= 'selected' if params[:search][:area_to] == '500' %>>Đến 500m2</option>
 												<option value="">Diện tích cao nhất</option>
 											</select>
 										</article>
 									<% else %>
 										<article class="form-group col-xs-12 col-sm-4 col-md-6 col-lg-6">
-											<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả bất động sản..." value="" />
+											<input class="form-control" name="search[keyword]" placeholder="Đường, quận, tỉnh/thành phố..." value="" />
 										</article>
 										<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-3">
-											<select class="form-control input-toggle" name="search[purpose]">
+											<select class="form-control input-toggle" name="search[purpose_text]">
 												<option data-on="sell" data-off="rent" value="" hidden>Loại hình giao dịch</option>
+												<option data-on="sell" data-off="rent" value="">Tất cả</option>
 												<option data-on="sell" data-off="rent" value="sell">Bán</option>
 												<option data-on="rent" data-off="sell" value="rent">Cho thuê</option>
-												<option data-on="sell" data-off="rent" value="">Bán hoặc cho thuê</option>
+												<option data-on="sell" data-off="rent" value="sell_rent">Bán hoặc cho thuê</option>
 												<option data-on="rent" data-off="sell" value="transfer">Sang nhượng</option>
 											</select>
 										</article>

@@ -1,5 +1,0 @@
-log/
-/config/database.yml
-tmp/
-/uploads
-solr/data
