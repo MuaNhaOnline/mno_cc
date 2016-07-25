@@ -717,9 +717,9 @@ class RealEstate < ActiveRecord::Base
 								# If next key is integer => get 'quan' + 1 word
 								# Else => 2 words
 								if keyword_arr[index + 1] =~ /\A\d+\Z/
-									address_keyword = "quan #{keyword_arr[index + 1]}"
+									address_keyword = "\"quan #{keyword_arr[index + 1]}\""
 								else
-									address_keyword = "#{keyword_arr[index + 1]} #{keyword_arr[index + 2]}"
+									address_keyword = "\"#{keyword_arr[index + 1]} #{keyword_arr[index + 2]}\""
 								end
 
 								fulltext(address_keyword) do
