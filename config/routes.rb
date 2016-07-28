@@ -264,6 +264,18 @@ Rails.application.routes.draw do
 
 	# / Mail box
 
+	# Province
+	
+		get 'thanh-pho/quan-ly' => 'provinces#manage'
+	
+	# / Province
+
+	# District
+	
+		get 'quan/quan-ly' => 'districts#manage'
+	
+	# / District
+
 	# Temp
 
 		#Business

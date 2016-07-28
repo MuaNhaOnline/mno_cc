@@ -735,7 +735,7 @@ BlockType.create [
 Permission.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE permissions_id_seq RESTART WITH 1')
 Permission.create [
-	# 5
+	# 6
 
 		# {
 		# 	id: 1,
@@ -776,6 +776,13 @@ Permission.create [
 			name: 'Quản lý hộp thư',
 			description: 'Quản lý hộp thư hệ thống',
 			order: 4
+		},
+		{
+			id: 5,
+			scope: 'sys_general',
+			name: 'Quản lý thông tin',
+			description: 'Quản lý thông tin như quận,...',
+			order: 5
 		}
 
 	# / System group

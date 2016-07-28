@@ -1,0 +1,35 @@
+<%
+=begin
+	params: provinces
+=end
+
+	@_title 			=
+	@_content_header	= 	'Quản lý tỉnh/thành phố'
+%>
+
+<div class="box box-primary">
+	<div class="box-body table-responsive padding-0">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+					</th>
+					<th>
+						Tên
+					</th>
+				</tr>
+			</thead>
+			<tbody class="dt-list" id="list">
+				<%= render partial: 'manage', locals: { provinces: provinces } %>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/provinces/manage.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/provinces/manage.js"></script>
+<% end %>

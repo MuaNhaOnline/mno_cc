@@ -93,6 +93,12 @@ class Ability
 				can :manage, SystemMail if user.system_permissions.include? 4
 			
 			# / Mail
+
+			# Contents
+			
+				can :manage, ['Contents', District, Province] if user.system_permissions.include? 5
+			
+			# / Contents
 		
 		# / With permission
 

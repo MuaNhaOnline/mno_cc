@@ -1,0 +1,12 @@
+[data-action="move"] {
+	cursor: move;
+	color: #aaa;
+}
+
+.dt-list tr.ui-sortable-helper td {
+	border-top: none;
+}
+
+.dt-list.dragging tr:not(.ui-sortable-helper) {
+	opacity: .7;
+}

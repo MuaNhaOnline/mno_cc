@@ -243,6 +243,17 @@
 							<% end %>
 						</ul>
 					</li>
+					<% if can? :manage, 'Contents' %>
+						<li class="treeview">
+							<a href="#">
+								<i class="icon ico-info"></i> <span>Quản lý thông tin</span> <i class="fa fa-caret-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="/thanh-pho/quan-ly"><i class="fa fa-circle-o"></i> Quản lý tỉnh/thành phố</a></li>
+								<li><a href="/quan/quan-ly"><i class="fa fa-circle-o"></i> Quản lý quận/huyện</a></li>
+							</ul>
+						</li>
+					<% end %>
 					<li class="treeview hidden">
 						<a href="#">
 							<i class="icon ico-building"></i> <span>Dự án</span> <i class="fa fa-caret-left pull-right"></i>

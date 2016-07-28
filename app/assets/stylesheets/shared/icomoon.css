@@ -1,107 +1,128 @@
 @font-face {
-    font-family: 'icomoon';
-    src:
-        url('/assets/icomoon/icomoon.ttf?t957fu') format('truetype'),
-        url('/assets/icomoon/icomoon.woff?t957fu') format('woff'),
-        url('/assets/icomoon/icomoon.svg?t957fu#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'icomoon';
+	src:
+		url('/assets/icomoon/icomoon.ttf?jnn03z') format('truetype'),
+		url('/assets/icomoon/icomoon.woff?jnn03z') format('woff'),
+		url('/assets/icomoon/icomoon.svg?jnn03z#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 [class^="ico-"], [class*=" ico-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
 
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-.ico-map-o:before {
-    content: "\e919";
-}
-.ico-filter:before {
-    content: "\e91a";
-}
-.ico-text_align_right:before {
-    content: "\e902";
-}
-.ico-text_align_center:before {
-    content: "\e903";
-}
-.ico-text_align_left:before {
-    content: "\e904";
-}
-.ico-text_align_justify:before {
-    content: "\e905";
-}
-.ico-chevron-left:before {
-    content: "\e907";
-}
-.ico-chevron-right:before {
-    content: "\e90b";
-}
-.ico-restroom:before {
-    content: "\e913";
-}
-.ico-area:before {
-    content: "\e917";
-}
-.ico-hash:before {
-    content: "\e918";
+.ico-lines:before {
+	content: "\e900";
 }
 .ico-search:before {
-    content: "\e900";
+	content: "\e901";
 }
 .ico-menu:before {
-    content: "\e901";
+	content: "\e902";
 }
-.ico-youtube:before {
-    content: "\e915";
+.ico-text_align_right:before {
+	content: "\e903";
 }
-.ico-google-plus:before {
-    content: "\e916";
+.ico-text_align_center:before {
+	content: "\e904";
 }
-.ico-facebook:before {
-    content: "\e910";
+.ico-text_align_left:before {
+	content: "\e905";
 }
-.ico-sign-in:before {
-    content: "\e90e";
-}
-.ico-phone:before {
-    content: "\e90c";
-}
-.ico-envelop:before {
-    content: "\e90d";
+.ico-text_align_justify:before {
+	content: "\e906";
 }
 .ico-clock:before {
-    content: "\e906";
+	content: "\e907";
 }
-.ico-info:before {
-    content: "\e90a";
+.ico-chevron-left:before {
+	content: "\e908";
 }
 .ico-newspaper:before {
-    content: "\e908";
+	content: "\e909";
 }
 .ico-compass:before {
-    content: "\e909";
+	content: "\e90a";
 }
-.ico-bedroom:before {
-    content: "\e912";
+.ico-info:before {
+	content: "\e90b";
 }
-.ico-home:before {
-    content: "\e914";
+.ico-chevron-right:before {
+	content: "\e90c";
+}
+.ico-phone:before {
+	content: "\e90d";
+}
+.ico-envelop:before {
+	content: "\e90e";
+}
+.ico-sign-in:before {
+	content: "\e90f";
 }
 .ico-upload:before {
-    content: "\e90f";
+	content: "\e910";
+}
+.ico-facebook:before {
+	content: "\e911";
 }
 .ico-location:before {
-    content: "\e911";
+	content: "\e912";
+}
+.ico-bedroom:before {
+	content: "\e913";
+}
+.ico-restroom:before {
+	content: "\e914";
+}
+.ico-home:before {
+	content: "\e915";
+}
+.ico-youtube:before {
+	content: "\e916";
+}
+.ico-google-plus:before {
+	content: "\e917";
+}
+.ico-area:before {
+	content: "\e918";
+}
+.ico-hash:before {
+	content: "\e919";
+}
+.ico-map-o:before {
+	content: "\e91a";
+}
+.ico-filter:before {
+	content: "\e91b";
+}
+.ico-git-pull-request:before {
+	content: "\e91c";
+}
+.ico-bullhorn:before {
+	content: "\e91d";
+}
+.ico-street-view:before {
+	content: "\e91e";
+}
+.ico-pencil-square:before {
+	content: "\e91f";
+}
+.ico-pencil:before {
+	content: "\e920";
+}
+.ico-building:before {
+	content: "\e921";
 }
 

@@ -1,0 +1,16 @@
+<%
+=begin
+	params: districts
+=end
+%>
+
+<% districts.each do |district| %>
+	<tr data-value="<%= district.id %>" data-order="<%= district.order %>">
+		<td class="min-width-cell text-center">
+			<span class="ico-lines" data-action="move"></span>
+		</td>
+		<td>
+			<%= district.name %>
+		</td>
+	</tr>
+<% end %>

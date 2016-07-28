@@ -1,0 +1,16 @@
+<%
+=begin
+	params: provinces
+=end
+%>
+
+<% provinces.each do |province| %>
+	<tr data-value="<%= province.id %>" data-order="<%= province.order %>">
+		<td class="min-width-cell text-center">
+			<span class="ico-lines" data-action="move"></span>
+		</td>
+		<td>
+			<%= province.name %>
+		</td>
+	</tr>
+<% end %>
