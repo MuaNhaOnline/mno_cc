@@ -42,7 +42,7 @@
       </section>
       <section class="box-body">
         <article class="form-group">
-          <input data-constraint="required" <%= "value=\"#{@mail.to.full_name}\" data-value=\"#{@mail.to.id}\"".html_safe if @mail.present? && @mail.to.present? %> name="mail[to_id]" class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="to" placeholder="<%= t 'mail_box.attribute.to' %>" />
+          <input data-constraint="required" <%= "value=\"#{@mail.to.full_name}\" data-value=\"#{@mail.to.id}\"".html_safe if @mail.present? && @mail.to.present? %> name="mail[to_id]" class="form-control" data-input-type="autocomplete" data-url="/users/autocomplete" id="to" placeholder="<%= t 'mail_box.attribute.to' %>" />
         </article>
         <article class="form-group">
           <input value="<%= @mail.subject %>" data-constraint="required" name="mail[subject]" class="form-control" placeholder="<%= t 'mail_box.attribute.subject' %>" />

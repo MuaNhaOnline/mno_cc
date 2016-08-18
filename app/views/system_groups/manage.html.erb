@@ -15,10 +15,10 @@
 			<section class="box groups-container">
 				<section class="box-header with-border">
 					<h2 class="box-title">
-						Danh sách nhóm
+						<%= t '.group_title' %>
 					</h2>
 					<article class="box-tools pull-right">
-						<a id="create_group" class="btn btn-box-tool"><span class="fa fa-plus"></span> Thêm</a>
+						<a id="create_group" class="btn btn-box-tool"><span class="fa fa-plus"></span> <%= t '.add_group' %></a>
 					</article>
 				</section>
 				<section class="box-body padding-0 list" id="groups_list">
@@ -35,11 +35,11 @@
 			<section class="box permissions-container hidden">
 				<section class="box-header with-border">
 					<h2 class="box-title">
-						Danh sách quyền
+						<%= t '.permission_title' %>
 					</h2>
 					<article class="box-tools pull-right">
-						<a data-action="edit_group" class="btn btn-box-tool"><span class="fa fa-pencil"></span> Sửa nhóm</a>
-						<a data-action="delete_group" class="btn btn-box-tool"><span class="fa fa-close"></span> Xóa nhóm</a>
+						<a data-action="edit_group" class="btn btn-box-tool"><span class="fa fa-pencil"></span> <%= t '.edit_group' %></a>
+						<a data-action="delete_group" class="btn btn-box-tool"><span class="fa fa-close"></span> <%= t '.delete_group' %></a>
 					</article>
 				</section>
 				<section class="box-body content">
@@ -49,7 +49,7 @@
 				</section>
 				<section class="box-footer">
 					<button class="btn btn-flat btn-primary btn-block" id="save_permissions">
-						Cập nhật
+						<%= t '.update_permission' %>
 					</button>
 				</section>
 			</section>
@@ -63,16 +63,16 @@
 			<section class="box users-container hidden">
 				<section class="box-header with-border">
 					<h2 class="box-title">
-						Danh sách người dùng thuộc nhóm
+						<%= t '.group_title' %>
 					</h2>
 					<article class="box-tools pull-right">
-						<a data-action="edit_group" class="btn btn-box-tool"><span class="fa fa-pencil"></span> Sửa nhóm</a>
-						<a data-action="delete_group" class="btn btn-box-tool"><span class="fa fa-close"></span> Xóa nhóm</a>
+						<a data-action="edit_group" class="btn btn-box-tool"><span class="fa fa-pencil"></span> <%= t '.edit_group' %></a>
+						<a data-action="delete_group" class="btn btn-box-tool"><span class="fa fa-close"></span> <%= t '.delete_group' %></a>
 					</article>
 				</section>
 				<section class="box-body">
 					<form class="form" id="find_user_form">
-						<input data-nonvalid class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="find_user" placeholder="Nhập thông tin tài khoản cần tìm" />
+						<input data-nonvalid class="form-control" data-input-type="autocomplete" data-url="/users/autocomplete" id="find_user" placeholder="<%= t '.find_user_placeholder' %>" />
 					</form>
 				</section>
 				<section class="box-body padding-0 list">

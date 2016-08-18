@@ -12,6 +12,7 @@ $(function () {
 	_initSizeProcess();
 	initReadTime();
 	customJquery();
+	customPrototype();
 
 	// setInterval(function () {
 	//   $.ajax({
@@ -108,6 +109,24 @@ $(function () {
 		}
 
 	// / Custom jquery
+
+	// Custom property
+
+		function customPrototype() {
+			String.prototype.format = function(replace) {
+				var string = this;
+				for (var key in replace) {
+					string = string.replace(new RegExp("\\{" + key + "\\}", "g"), replace[key]);
+				}
+				return string;
+			}
+
+			String.prototype.toSentenceCase = function() {
+				return this.toLowerCase().replace(/^(.)|\s(.)/g, function(char) { return char.toUpperCase(); });
+			}
+		}
+
+	// / Custom property
 	
 });
 
@@ -389,6 +408,30 @@ $(function () {
 	}
 
 // / Helper
+
+// Format
+
+	function moneyFormat(number, separate) {
+		if (typeof separate == 'undefined') {
+			separate = ',';
+		}
+		number = number.toString();
+
+		return insertSeparate(number, separate);
+	}
+
+	function insertSeparate(number, separate) {
+		if (number.length > 3) {
+			return insertSeparate(number.slice(0, number.length - 3), separate) + separate + number.slice(number.length - 3);
+		}
+		return number;
+	}
+
+	function intFormat(string) {
+		return string.replace(/\D/g, '');
+	}
+
+// / Format
 
 // Size
 	

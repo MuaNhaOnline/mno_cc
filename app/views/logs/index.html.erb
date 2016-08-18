@@ -4,7 +4,7 @@
 =end
 
 	@_title 			=
-	@_content_header 	=	'Nhật ký hệ thống'
+	@_content_header 	=	t('.page_title')
 
 	page 				||= 1
 	per 				||= 10
@@ -19,11 +19,8 @@
 	<div id="reach_bottom" class="text-center reach-bottom"></div>
 <% else %>
 	<article class="callout callout-warning">
-		<h4>
-			Không có kết quả
-		</h4>
 		<p>
-			Không tìm thấy kết quả, vui lòng thử lại sau
+			<%= t 'global.text.empty_callout' %>
 		</p>
 	</article>
 <% end %>

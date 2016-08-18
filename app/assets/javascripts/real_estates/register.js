@@ -41,6 +41,10 @@ $(function () {
 			}
 		);
 
+		$('#locations_list .item .remove').on('click', function () {
+			$(this).closest('.item').remove();
+		});
+
 		$form.find('#location_input').on({
 			keydown: function (e) {
 				if (e.keyCode == 13) {
@@ -77,21 +81,27 @@ $(function () {
 							break;
 					}
 
-					var $inputItem = $(
-						'<article class="item">' +
-							inputs +
-							'<input type="hidden" value="' + $form.find('#type_input').val() + '" name="' + $form.find('#type_input').data('name') 	+ '" />' +
-							'<span class="text">' + text + '</span>' +
-							'<a class="remove">&times;</a>' +
-						'</article>'
-					);
-					$inputItem.find('.remove').on('click', function () {
-						$inputItem.remove();
-					});
+					var $exists = $('#locations_list .item[data-text="' + text + '"]');
+					if ($exists.length != 0) {
+						$exists.hide().fadeIn();
+					}
+					else {
+						var $inputItem = $(
+							'<article class="item" data-text="' + text + '">' +
+								inputs +
+								'<input type="hidden" value="' + $form.find('#type_input').val() + '" name="' + $form.find('#type_input').data('name') 	+ '" />' +
+								'<span class="text">' + text + '</span>' +
+								'<a class="remove">&times;</a>' +
+							'</article>'
+						);
+						$inputItem.find('.remove').on('click', function () {
+							$inputItem.remove();
+						});
 
-					$('#locations_list').append($inputItem);
+						$('#locations_list').append($inputItem);
+					}
 
-					$input.val('').change();
+					$input.val('');
 				}
 			}
 		});

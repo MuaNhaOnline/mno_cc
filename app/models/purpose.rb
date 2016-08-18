@@ -7,10 +7,15 @@ class Purpose < ActiveRecord::Base
 	end
 
 	# Attributes
+
+		# Class name
+		def self.display_name
+			I18n.t('purpose.text')
+		end
 		
 		# Name
 		def display_name is_demand = false
-			I18n.t("#{is_demand ? 'demand' : 'purpose'}.text.#{name}")
+			I18n.t("#{is_demand ? 'demand' : 'purpose'}.name.#{name}")
 		end
 	
 	# / Attributes

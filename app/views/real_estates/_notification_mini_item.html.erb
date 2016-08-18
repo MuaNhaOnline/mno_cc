@@ -3,6 +3,8 @@
 	variables: notification
 =end
 
+	scope = 'real_estates._notification_mini_item.'
+
 	if notification.real_estate.blank?
 		notification.delete
 		return
@@ -22,7 +24,7 @@
 			end
 			notification.interact_contact_user.name
 		when 'guess'
-			'Khách'
+			t 'global.text.guess'
 		end
 
 %>
@@ -31,17 +33,17 @@
 <% when 'create' %>
 	<%
 		url = "/bat-dong-san/#{notification.real_estate.full_slug}"
-		text = "#{user_name} đã tin đăng bất động sản mới"
+		text = t(scope + 'create', name: user_name)
 	%>
 <% when 'edit' %>
 	<%
 		url = "/bat-dong-san/#{notification.real_estate.full_slug}"
-		text = "#{user_name} đã sử tin bất động sản"
+		text = t(scope + 'edit', name: user_name)
 	%>
 <% when 'approve' %>
 	<%
 		url = "/bat-dong-san/#{notification.real_estate.full_slug}"
-		text = "Tin bất động sản của bạn đã được duyệt"
+		text = t(scope + 'approve')
 	%>
 <% end %>
 

@@ -2,6 +2,8 @@
 =begin
 	mail
 =end
+	scope = 'mails._view.'
+
 	can_reply = mail.sender_id != current_user_id || mail.sender_type != current_user_type
 %>
 
@@ -13,7 +15,7 @@
 			</h3>
 			<h5>
 				<% if mail.sender_id != current_user_id || mail.sender_type != current_user_type %>
-					Từ: <%= case mail.sender_type
+					<%= t scope + 'from' %>: <%= case mail.sender_type
 					when 'user'
 						mail.sender.full_name + " <#{mail.sender.email}>"
 					when 'contact_user'
@@ -33,9 +35,9 @@
 			</h5>
 		</div>
 		<div class="mailbox-controls with-border text-center">
-			<button data-action="delete" type="button" class="btn btn-default btn-sm" title="Xóa"><i class="fa fa-trash-o"></i></button>
+			<button data-action="delete" type="button" class="btn btn-default btn-sm" title="<%= t scope + 'delete' %>"><i class="fa fa-trash-o"></i></button>
 			<% if can_reply %>
-				<button data-action="reply" type="button" class="btn btn-default btn-sm" title="Trả lời"><i class="fa fa-reply"></i></button>
+				<button data-action="reply" type="button" class="btn btn-default btn-sm" title="<%= t scope + 'reply' %>"><i class="fa fa-reply"></i></button>
 			<% end %>
 		</div>
 		<div class="mailbox-read-message">
@@ -45,9 +47,9 @@
 	<div class="box-footer">
 		<% if can_reply %>
 			<div class="pull-right">
-				<button data-action="reply" type="button" class="btn btn-default"><i class="fa fa-reply"></i> Trả lời</button>
+				<button data-action="reply" type="button" class="btn btn-default"><i class="fa fa-reply"></i> <%= t scope + 'reply' %></button>
 			</div>
 		<% end %>
-		<button data-action="delete" type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Xóa</button>
+		<button data-action="delete" type="button" class="btn btn-default"><i class="fa fa-trash-o"></i> <%= t scope + 'delete' %></button>
 	</div>
 </div>

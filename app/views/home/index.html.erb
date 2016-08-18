@@ -31,12 +31,12 @@
 			%>"></section>
 		<div class="container no-horizontal-padding">
 			<h2 class="title">
-				Chào mừng bạn đến với<br />MuanhaOnline.vn
+				<%= t '.search.title_html' %>
 			</h2>
 			<div class="form-ctn" data-object="search-box-container">
 				<form class="form" action="/tim_kiem" method="get" data-object="search-form">
 					<div class="btn-ctn">
-						<input class="form-control" name="search[keyword]" placeholder="Đường, quận, tỉnh/thành phố..." value="" id="search_keyword" />
+						<input class="form-control" name="search[keyword]" placeholder="<%= t '.search.placeholder' %>" value="" id="search_keyword" />
 						<button class="fa fa-search btn btn-green"></button>
 					</div>
 				</form>
@@ -58,25 +58,25 @@
 
 	<article class="info-intro-ctn">
 		<h2 class="box-title">
-			Tiếp cận thông tin chính chủ, trực tiếp
+			<%= t '.info.title' %>
 		</h2>
 		<article class="items-list">
 			<a class="item" href="/bat-dong-san">
 				<img class="image lazyload" data-original="/assets/home/index/owner.jpg">
 				<h3 class="title">
-					Nhà chính chủ
+					<%= t '.info.re_title' %>
 				</h3>
 				<p>
-					Để chọn mua sản phẩm bất động sản an toàn, thông tin về bất động sản cần phải rõ ràng pháp lý, tình trạng hiện hữu, vị trí, liên hệ chủ nhà, hình ảnh, dân trí… đó là những sản phẩm mà chúng tôi được ủy thác thông tin phân phối từ chính chủ và là lý do chúng tôi tạo chuyên mục nhà chính chủ.
+					<%= t '.info.re_content' %>
 				</p>
 			</a>
 			<a class="item" href="/du-an">
 				<img class="image lazyload" data-original="/assets/home/index/direct.png">
 				<h3 class="title">
-					Liên hệ trực tiếp với chủ đầu tư
+					<%= t '.info.pj_title' %>
 				</h3>
 				<p>
-					Để chọn mua sản phẩm bất động sản dự án an toàn, thông tin về dự án cần phải rõ ràng pháp lý, hạ tầng xây dựng, tiến độ hoàn thiện công trình, vị trí, liên hệ chủ đầu tư, hình ảnh… đó là những sản phẩm mà chúng tôi được ủy thác thông tin phân phối từ chủ đầu tư trực tiếp hoặc sàn giao dịch cấp 1 trực tiếp của chủ đầu tư. Đó là lý do chúng tôi tạo chuyên mục "Liên hệ trực tiếp với chủ đầu tư".
+					<%= t '.info.pj_content' %>
 				</p>
 			</a>
 		</article>
@@ -98,31 +98,31 @@
 			%>"
 		></section>
 		<h2 class="box-title">
-			Đăng tin miễn phí
+			<%= t '.post.title' %>
 			<span class="sub-title">
-				Bạn có thể đăng tin nhanh chóng và hoàn toàn miễn phí.
+				<%= t '.post.subtitle' %>
 			</span>
 		</h2>
 		<section class="callout-text">
-			BẠN ĐANG MUỐN
+			<%= t '.post.callout1' %>
 		</section>
 		<section class="purposes-list">
 			<a href="/bat-dong-san/dang-tin?p=s">
-				Bán
+				<%= t '.post.sell' %>
 			</a>
 			<a href="/bat-dong-san/dang-tin?p=r">
-				Cho thuê
+				<%= t '.post.rent' %>
 			</a>
 			<a href="/bat-dong-san/dang-tin?p=t">
-				Sang nhượng
+				<%= t '.post.transfer' %>
 			</a>
 		</section>
 		<section class="callout-text">
-			KHÔNG CẦN ĐĂNG KÝ
+			<%= t '.post.callout2' %>
 		</section>
 		<section class="btn-ctn">
 			<a href="/bat-dong-san/dang-tin" class="btn btn-green">
-				Đăng ngay
+				<%= t '.post.action' %>
 			</a>
 		</section>
 	</article>
@@ -133,9 +133,9 @@
 
 	<article class="contact-ctn">
 		<h2 class="box-title">
-			Bạn đang cần gì?
+			<%= t '.contact.title' %>
 			<span class="sub-title">
-				Hãy để lại thông tin, chúng tôi sẽ tư vấn giúp bạn.
+				<%= t '.contact.subtitle' %>
 			</span>
 		</h2>
 		<!-- <div class="container no-horizontal-padding">
@@ -191,16 +191,24 @@
 							<!-- Object type -->
 							<article class="types-list">
 								<label>
-									<%= requested_info_form.radio_button :object_type, 'real_estate' %><span class="text">Bất động sản</span>
+									<%= requested_info_form.radio_button :object_type, 'real_estate' %><span class="text">
+										<%= t '.contact.real_estate' %>
+									</span>
 								</label>
 								<label>
-									<%= requested_info_form.radio_button :object_type, 'finance' %><span class="text">Tài chính</span>
+									<%= requested_info_form.radio_button :object_type, 'finance' %><span class="text">
+										<%= t '.contact.finance' %>
+									</span>
 								</label>
 								<label>
-									<%= requested_info_form.radio_button :object_type, 'law' %><span class="text">Luật</span>
+									<%= requested_info_form.radio_button :object_type, 'law' %><span class="text">
+										<%= t '.contact.law' %>
+									</span>
 								</label>
 								<label>
-									<%= requested_info_form.radio_button :object_type, 'architecture' %><span class="text">Kiến trúc</span>
+									<%= requested_info_form.radio_button :object_type, 'architecture' %><span class="text">
+										<%= t '.contact.architecture' %>
+									</span>
 								</label>
 							</article>
 						<% end %>
@@ -210,7 +218,7 @@
 							'textarea',
 							:content,
 							{
-								placeholder: 	'Bạn đang cần gì?'
+								placeholder: 	t('.contact.content_placeholder')
 							},
 							{
 								label: 			false
@@ -229,7 +237,7 @@
 									'text',
 									:name,
 									{
-										placeholder: 	'Tên của bạn'
+										placeholder: 	t('.contact.name_placeholder')
 									},
 									{
 										label:  		false
@@ -242,7 +250,7 @@
 											'email',
 											:email,
 											{
-												placeholder: 	'Email'
+												placeholder: 	t('.contact.email_placeholder')
 											},
 											{
 												label:  		false
@@ -254,7 +262,7 @@
 											'number',
 											:phone_number,
 											{
-												placeholder: 	'Số điện thoại'
+												placeholder: 	t('.contact.phone_placeholder')
 											},
 											{
 												label:  		false
@@ -266,11 +274,11 @@
 						<% end %>
 
 						<div class="form-group text-center">
-							<%= f.submit 'Gửi', class: 'btn' %>
+							<%= f.submit t('global.text.submit'), class: 'btn' %>
 						</div>
 
 						<p class="callout-text">
-							Chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất
+							<%= t '.contact.callout' %>
 						</p>
 					<% end %>
 				</div>
@@ -282,45 +290,22 @@
 
 <!-- / Contact -->
 
-<!-- Gallery -->
-
-	<!-- <article class="gallery-ctn">
-		<article class="images-list">
-			<img src="/assets/home/index/gallery_1.png">
-			<img class="active" src="/assets/home/index/gallery_2.png">
-			<img src="/assets/home/index/gallery_3.png">
-		</article>
-	</article>
- -->
-<!-- / Gallery -->
-
 <!-- Concept -->
 
 	<article class="concept-ctn">
 		<h2 class="box-title">
-			Thẩm định giá trực tuyến
+			<%= t '.concept.title' %>
 			<span class="sub-title">
-				Bạn có biết?
+				<%= t '.concept.subtitle' %>
 			</span>
 		</h2>
 		<img class="content-image lazyload" data-original="/assets/home/index/calculator.png">
 		<section class="content">
-			<p>
-				Thẩm định giá bất động sản là sự ước tính về giá trị của các quyền sở hữu bất động sản cụ thể bằng hình thức tiền tệ cho một mục đích đã được xác định rõ trong những điều kiện của một thị trường nhất định với những phương pháp phù hợp.
-			</p>
-			<p>
-				Thẩm định giá với mục đích bảo toàn tài sản, mua sắm tài sản, chuyển đổi quyền sở hữu tài sản, thế chấp, tính thuế, thanh lý tài sản, phục vụ tư vấn…
-			</p>
-			<p>
-				Thẩm định giá trực tuyến là công cụ tiếp nhận thông tin bất động sản liên quan qua mạng nhằm tiết kiệm thời gian, chi phí thẩm định, theo dõi kết quả thẩm định nhanh chóng chính xác. Tùy theo nhu cầu khách hàng, công cụ sẽ có các cấp bậc thẩm định trực tuyến khác nhau.
-			</p>
-			<p>
-				Ngoài ra, có một nỗi lo lắng chung khác mà người mua luôn lo lắng là ‘’Làm sao tìm được căn nhà yêu thích thật sự?’’ đó là lý do chúng tôi thiết lập hệ thống Muanhaonline và đang dần hoàn thiện hệ thống.
-			</p>
+			<%= t '.concept.content_html' %>
 		</section>
 		<section class="btn-ctn">
 			<a class="btn" href="/bat-dong-san/dang-tin-tham-dinh">
-				Đăng ký thẩm định
+				<%= t '.concept.action' %>
 			</a>
 		</section>
 	</article>
@@ -340,17 +325,17 @@
 				}.to_json
 			%>">
 		<h2 class="box-title">
-			Cám ơn bạn đã ghé thăm
+			<%= t '.rating.title' %>
 			<span class="sub-title">
-				Bạn có thích website của chúng tôi không?
+				<%= t '.rating.subtitle' %>
 			</span>
 		</h2>
 		<section class="buttons-list">
-			<button class="btn btn-5">Rất thích</button>
-			<button class="btn btn-4">Thích</button>
-			<button class="btn btn-3">Tạm được</button>
-			<button class="btn btn-2">Chưa tốt</button>
-			<button class="btn btn-1">Rất tệ</button>
+			<button class="btn btn-5"><%= t '.rating.vote1' %></button>
+			<button class="btn btn-4"><%= t '.rating.vote2' %></button>
+			<button class="btn btn-3"><%= t '.rating.vote3' %></button>
+			<button class="btn btn-2"><%= t '.rating.vote4' %></button>
+			<button class="btn btn-1"><%= t '.rating.vote5' %></button>
 		</section>
 	</article>
 

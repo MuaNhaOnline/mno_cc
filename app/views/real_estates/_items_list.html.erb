@@ -59,13 +59,13 @@
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 			<article class="item">
 				<section class="image">
-					<a href="/bat-dong-san/<%= re.full_slug %>">
+					<a href="<%= view_re_path re %>">
 						<%= real_estate_avatar re %>
 					</a>
 				</section>
 				<section class="title">
 					<h3>
-						<a href="/bat-dong-san/<%= re.full_slug %>">
+						<a href="<%= view_re_path re %>">
 							<%= re.title %>
 						</a>
 					</h3>
@@ -105,6 +105,9 @@
 		</div>
 	<% end %>
 <% when 2 %>
+	<%
+		scope = 'real_estates._items_list_2.'
+	%>
 	<!--
 	<% res.each do |re| %>
 		--><article class="item" data-value="<%= re.id %>">
@@ -137,7 +140,7 @@
 							<article class="content">
 								<section class="title">
 									<h3>
-										<a href="/bat-dong-san/<%= re.full_slug %>"><%= re.title %></a>
+										<a href="<%= view_re_path re %>"><%= re.title %></a>
 									</h3>						
 								</section>
 								<section>
@@ -161,7 +164,7 @@
 												</section>
 												<section class="text">
 													<section class="name">
-														Địa chỉ
+														<%= RealEstate.i18n_attribute 'short_address' %>
 													</section>
 													<section class="value">
 														<%= re.display_short_address %>
@@ -179,7 +182,7 @@
 												</section>
 												<section class="text">
 													<section class="name">
-														Mã
+														<%= RealEstate.i18n_attribute 'id' %>
 													</section>
 													<section class="value">
 														<%= re.display_id %>
@@ -194,7 +197,7 @@
 												</section>
 												<section class="text">
 													<section class="name">
-														Thời gian đăng
+														<%= RealEstate.i18n_attribute 'created_at' %>
 													</section>
 													<section class="value" aria-time="<%= re.created_at %>">
 													</section>
@@ -208,7 +211,7 @@
 												</section>
 												<section class="text">
 													<section class="name">
-														Loại
+														<%= RealEstate.i18n_attribute 'real_estate_type' %>
 													</section>
 													<section class="value">
 														<%= re.display_real_estate_type %>
@@ -223,7 +226,7 @@
 												</section>
 												<section class="text">
 													<section class="name">
-														Diện tích
+														<%= RealEstate.i18n_attribute 'area' %>
 													</section>
 													<section class="value">
 														<%= re.display_area %><span class="unit">m<sup>2</sup></span>
@@ -239,7 +242,7 @@
 													</section>
 													<section class="text">
 														<section class="name">
-															Phòng ngủ
+															<%= RealEstate.i18n_attribute 'bedroom' %>
 														</section>
 														<section class="value">
 															<%= re.display_bedroom %>
@@ -256,7 +259,7 @@
 													</section>
 													<section class="text">
 														<section class="name">
-															Phòng tắm
+															<%= RealEstate.i18n_attribute 'restroom' %>
 														</section>
 														<section class="value">
 															<%= re.display_restroom %>
@@ -273,7 +276,7 @@
 													</section>
 													<section class="text">
 														<section class="name">
-															Hướng
+															<%= RealEstate.i18n_attribute 'direction' %>
 														</section>
 														<section class="value">
 															<%= re.display_direction %>
@@ -290,7 +293,7 @@
 													</section>
 													<section class="text">
 														<section class="name">
-															Giấy tờ
+															<%= RealEstate.i18n_attribute 'legal_record' %>
 														</section>
 														<section class="value">
 															<%= re.display_legal_record_type %>
@@ -304,8 +307,8 @@
 							</article>
 						</section>
 						<section class="buttons-container">
-							<a href="/bat-dong-san/<%= re.full_slug %>" class="btn btn-orange">
-								Xem chi tiết
+							<a href="<%= view_re_path re %>" class="btn btn-orange">
+								<%= t scope + 'view_detail' %>
 							</a>
 						</section>
 					</div>
@@ -322,10 +325,31 @@
 	<% when 1 %>
 				</div>
 			</section>
+
 			<% if paging && paging != 1 %>
+				<%
+					min_page = current_page - 3
+					if min_page < 1
+						min_page = 1
+					end
+					max_page = current_page + 3
+					if max_page > paging
+						max_page = paging
+					end
+				%>
 				<section id="<%= paging_id %>" class="numeric-paging" <%= paging_attrs.html_safe %>>
-					<% (1..paging).each do |num| %>
-						<a href="<%= page_href.call(num) if page_href.present? %>" class="<%= 'active' if num == current_page %>" data-page="<%= num %>" aria-click="paging"><%= num %></a>
+					<% if min_page != 1 %>
+						<a href="<%= page_href.call(1) %>"><%= t 'global.paginator.first' %></a>
+					<% end %>
+					<% (min_page..max_page).each do |i| %>
+						<% if i == current_page %>
+							<a class="active"><%= i %></a>
+						<% else %>
+							<a href="<%= page_href.call(i) %>"><%= i %></a>
+						<% end %>
+					<% end %>
+					<% if max_page != paging %>
+						<a href="<%= page_href.call(paging) %>"><%= t 'global.paginator.last' %></a>
 					<% end %>
 				</section>
 			<% end %>

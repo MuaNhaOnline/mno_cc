@@ -45,7 +45,8 @@
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
-	<link rel="stylesheet" type="text/css" href="/assets/shared/icon.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/bootstrap-tagsinput.css">
+	<link rel="stylesheet" type="text/css" href="/assets/shared/icomoon.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/layout_back.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/layout.css">
 	<link rel="stylesheet" type="text/css" href="/assets/shared/form_back.css">
@@ -54,6 +55,9 @@
 	<%= yield :stylesheets %>
 </head>
 <body class="skin-blue sidebar-mini">
+<%
+	scope = 'back_layout.'
+%>
 <div id="loading_page" style="
 		position: fixed;
 		width: 100%;
@@ -79,31 +83,30 @@
 		<!-- Header Navbar: style can be found in header.less -->
 		<nav class="navbar navbar-static-top" role="navigation">
 			<a href="#" class="visible-xs sidebar-toggle" data-toggle="offcanvas" role="button">
-				<span class="sr-only">Toggle navigation</span>
 			</a>
 			<!-- Sidebar toggle button-->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<li class="dropdown notifications-menu">
-						<%
-							notifications = Notification.get_by_current_user
-							unread_count = notifications.unread.count
-						%>
-						<a id="_notification_button" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							<i class="ico-bullhorn"></i>
-							<% if unread_count != 0 %>
-								<span class="label label-warning" id="notification_count"><%= unread_count %></span>
-							<% end %>
-						</a>
-						<ul class="dropdown-menu">
-							<li>
-								<ul class="menu" id="_notifications_list">
-									
-								</ul>
-							</li>
-						</ul>
-					</li>
 					<% if signed? %>
+						<li class="dropdown notifications-menu">
+							<%
+								notifications = Notification.get_by_current_user
+								unread_count = notifications.unread.count
+							%>
+							<a id="_notification_button" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<i class="ico-bullhorn"></i>
+								<% if unread_count != 0 %>
+									<span class="label label-warning" id="notification_count"><%= unread_count %></span>
+								<% end %>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<ul class="menu" id="_notifications_list">
+										
+									</ul>
+								</li>
+							</ul>
+						</li>
 						<li class="dropdown user user-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<%= user_avatar current_user, { style_class: 'user-image' } %>
@@ -120,10 +123,10 @@
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="/trang-ca-nhan" class="btn btn-primary btn-flat"><%= t 'layout.header.user_profile' %></a>
+										<a href="<%= profile_path %>" class="btn btn-primary btn-flat"><%= t scope + 'header.profile' %></a>
 									</div>
 									<div class="pull-right">
-										<a href="/signout" class="btn btn-primary btn-flat"><%= t 'layout.header.signout' %></a>
+										<a href="<%= signout_path %>" class="btn btn-primary btn-flat"><%= t scope + 'header.signout' %></a>
 									</div>
 								</li>
 							</ul>
@@ -131,12 +134,12 @@
 					<% else %>
 						<li class="dropdown user user-menu">
 							<a href="/dang-nhap">
-								<span>Đăng nhập</span>
+								<span><%= t scope + 'header.signin' %></span>
 							</a>
 						</li>
 						<li class="dropdown user user-menu">
 							<a href="/dang-ky">
-								<span>Đăng ký</span>
+								<span><%= t scope + 'header.register' %></span>
 							</a>
 						</li>
 					<% end %>
@@ -152,23 +155,22 @@
 				<!-- Sidebar user panel -->
 				<div class="user-panel">
 					<div class="pull-left image">
-						<a href="/trang-ca-nhan">
+						<a href="<%= profile_path %>">
 							<%= user_avatar current_user %>
 						</a>
 					</div>
 					<div class="pull-left info">
 						<p>
-							<a style="color: #eee" href="/trang-ca-nhan"><%= current_user.full_name %></a>
+							<a style="color: #eee" href="<%= profile_path %>"><%= current_user.full_name %></a>
 						</p>
-						<a href="/trang-ca-nhan"">Trang cá nhân</a>
+						<a href="<%= profile_path %>"><%= t scope + 'menu.profile' %></a>
 					</div>
 				</div>
-				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
 					<li>
-						<a href="/hop-thu">
+						<a href="<%= mails_path %>">
 							<i class="fa fa-envelope"></i>
-							<span>Hộp tin</span>
+							<span><%= t scope + 'menu.mail' %></span>
 							<%
 								unread_mail_count = SystemMailReceiver.current_user_unread.count
 							%>
@@ -179,66 +181,67 @@
 					</li>
 					<% if can?(:manage, SystemGroup) || can?(:manage, RealEstate) || can?(:manage, Project) %>
 						<li>
-							<a href="/nhat-ky">
-								<i class="icon ico-pencil-square"></i> <span>Nhật ký</span>
+							<a href="<%= logs_path %>">
+								<i class="icon ico-pencil-square"></i> <span><%= t scope + 'menu.log' %></span>
 							</a>
 						</li>
 					<% end %>
 					<% if can? :manage, SystemGroup %>
 						<li>
-							<a href="/quan-ly-nhom-quyen">
-								<i class="icon ico-street-view"></i> <span>Quản lý nhóm quyền</span>
+							<a href="<%= manage_sgroups_path %>">
+								<i class="icon ico-street-view"></i> <span><%= t scope + 'menu.permission' %></span>
 							</a>
 						</li>
 					<% end %>
 					<% if can? :manage, SystemMail %>
 						<li>
-							<a href="/hop-thu/yeu-cau">
-								<i class="icon ico-git-pull-request"></i> <span>Tin yêu cầu</span>
+							<a href="<%= requested_mails_path %>">
+								<i class="icon ico-git-pull-request"></i> <span><%= t scope + 'menu.request' %></span>
 							</a>
 						</li>
 					<% end %>
-					<li style="display: none;">
-						<a href="#">
-							<i class="fa fa-yelp"></i> <span>Blog</span> <i class="fa fa-caret-left pull-right"></i>
-						</a>
-						<ul class="treeview-menu">
-							<li><a href="/blogs"><i class="fa fa-circle-o"></i> Danh sách blog</a></li>
-							<li><a href="/blogs/create"><i class="fa fa-circle-o"></i> Tạo blog</a></li>
-						</ul>
-					</li>
+					<% if can? :manage, Blog %>
+						<li class="treeview">
+							<a href="#">
+								<i class="fa fa-book"></i> <span><%= t scope + 'menu.blog.title' %></span> <i class="fa fa-caret-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li><a href="<%= create_blog_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.blog.list.create' %></a></li>
+							</ul>
+						</li>
+					<% end %>
 					<% if can? :manage, User %>
 						<li class="treeview">
 							<a href="#">
-								<i class="icon fa fa-user"></i> <span>Quản lý thành viên</span> <i class="fa fa-caret-left pull-right"></i>
+								<i class="icon fa fa-user"></i> <span><%= t scope + 'menu.user.title' %></span> <i class="fa fa-caret-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
-								<li><a href="/thanh-vien/danh-sach"><i class="fa fa-circle-o"></i> Danh sách</a></li>
+								<li><a href="<%= users_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.user.list.list' %></a></li>
 							</ul>
 						</li>
 					<% end %>
 					<% if can? :manage, RealEstate %>
 						<li class="treeview">
 							<a href="#">
-								<i class="icon ico-home"></i> <span>Quản lý bất động sản</span> <i class="fa fa-caret-left pull-right"></i>
+								<i class="icon ico-home"></i> <span><%= t scope + 'menu.manage_re.title' %></span> <i class="fa fa-caret-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
-								<li><a href="/bat-dong-san/kiem-duyet"><i class="fa fa-circle-o"></i> Duyệt tin</a></li>
-								<li><a href="/bat-dong-san/quan-ly"><i class="fa fa-circle-o"></i> Quản lý tin</a></li>
+								<li><a href="<%= pending_res_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.manage_re.list.approve' %></a></li>
+								<li><a href="<%= manage_res_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.manage_re.list.manage' %></a></li>
 							</ul>
 						</li>
 					<% end %>
 					<li class="treeview">
 						<a href="#">
-							<i class="icon ico-home"></i> <span>Bất động sản</span> <i class="fa fa-caret-left pull-right"></i>
+							<i class="icon ico-home"></i> <span><%= t scope + 'menu.re.title' %></span> <i class="fa fa-caret-left pull-right"></i>
 						</a>
 						<ul class="treeview-menu">
 							<% if can? :view_my, RealEstate %>
-								<li><a href="/bat-dong-san/cua-toi"><i class="fa fa-circle-o"></i> Danh sách của tôi</a></li>
-								<li><a href="/bat-dong-san/quan-tam-cua-toi"><i class="fa fa-circle-o"></i> Danh sách quan tâm</a></li>
+								<li><a href="<%= my_res_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.re.list.my' %></a></li>
+								<li><a href="<%= my_favorite_res_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.re.list.my_favorite' %></a></li>
 							<% end %>
 							<% if can? :create, RealEstate %>
-								<li><a href="/bat-dong-san/dang-tin"><i class="fa fa-circle-o"></i> Đăng tin</a></li>
+								<li><a href="<%= create_re_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.re.list.post' %></a></li>
 								<li class="hidden"><a href="/bat-dong-san/dang-tin-tham-dinh"><i class="fa fa-circle-o"></i> Đăng tin thẩm định</a></li>
 							<% end %>
 						</ul>
@@ -246,11 +249,11 @@
 					<% if can? :manage, 'Contents' %>
 						<li class="treeview">
 							<a href="#">
-								<i class="icon ico-info"></i> <span>Quản lý thông tin</span> <i class="fa fa-caret-left pull-right"></i>
+								<i class="icon ico-info"></i> <span><%= t scope + 'menu.content.title' %></span> <i class="fa fa-caret-left pull-right"></i>
 							</a>
 							<ul class="treeview-menu">
-								<li><a href="/thanh-pho/quan-ly"><i class="fa fa-circle-o"></i> Quản lý tỉnh/thành phố</a></li>
-								<li><a href="/quan/quan-ly"><i class="fa fa-circle-o"></i> Quản lý quận/huyện</a></li>
+								<li><a href="<%= manage_provinces_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.content.list.province' %></a></li>
+								<li><a href="<%= manage_districts_path %>"><i class="fa fa-circle-o"></i> <%= t scope + 'menu.content.list.district' %></a></li>
 							</ul>
 						</li>
 					<% end %>
@@ -314,7 +317,7 @@
 	<!-- /.content-wrapper -->
 	<footer class="main-footer clearfix <%= 'margin-0' unless signed? %>">
 		<article class="pull-left">
-			<strong>MuaNhaOnline</strong> - Giá trị thực trong tầm tay.
+			<strong>MuaNhaOnline</strong> - <%= t 'global.info.slogan' %>
 			<br />
 			<strong>Version</strong> 1.1.0
 		</article>
@@ -368,6 +371,7 @@
 <script type="text/javascript" src="/assets/shared/jquery.cookie.js"></script>
 <script type="text/javascript" src="/assets/shared/jquery.lazyload.min.js"></script>
 <script type="text/javascript" src="/assets/shared/jquery.dotdotdot.min.js"></script>
+<script type="text/javascript" src="/assets/shared/bootstrap-tagsinput.min.js"></script>
 <script type="text/javascript" src="/assets/shared/<%= I18n.locale %>.js"></script>
 <script type="text/javascript" src="/assets/shared/layout.js"></script>
 <script type="text/javascript" src="/assets/shared/layout_back.js"></script>

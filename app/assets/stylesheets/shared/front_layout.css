@@ -371,6 +371,7 @@ body {
 	.search-box-container {
 		background-color: #fff;
 		border-top: 3px solid #006437;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, .1);
 	}
 
 		.search-box-container:after {
@@ -427,6 +428,7 @@ body {
 
 				.search-box-container .box-content .suggest-keywords .label {
 					font-weight: bold;
+					color: inherit;
 				}
 
 				.search-box-container .box-content .suggest-keywords a {
@@ -436,6 +438,7 @@ body {
 					border-bottom: 2px solid #ddd;
 					text-decoration: none;
 					transition: border-bottom-color .3s;
+					margin: 3px 0;
 				}
 
 					.search-box-container .box-content .suggest-keywords a:hover {
@@ -590,6 +593,7 @@ body {
 					margin: 10px auto;
 					background-color: #fff;
 					padding: 10px;
+					box-shadow: 0px 0px 20px rgba(0, 0, 0, .2)
 				}
 		
 					.medium-items-list .item > * {
@@ -1170,7 +1174,28 @@ body {
 					min-width: 100%;
 					max-width: 100%;
 				}
+
+				.input-group-addon {
+					border: none;
+					border-bottom: 2px solid #CED5E2;
+					border-radius: 0;
+					background-color: #EFF1F5;
+				}
+
+					.has-error .input-group-addon,
+					.has-success .input-group-addon {
+						color: inherit;
+						background-color: #EFF1F5;
+					}
 			
+					.has-success .input-group-addon {
+						border-bottom-color: #008549;
+					}
+			
+					.has-error .input-group-addon {
+						border-bottom-color: #D30029;
+					}
+
 			/* / Form group, control */
 
 			/* Button */

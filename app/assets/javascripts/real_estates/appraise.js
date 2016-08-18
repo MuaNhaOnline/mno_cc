@@ -12,7 +12,7 @@ $(function () {
     $list.find('[aria-click="edit-appraisal-company"]').on('click', function () {
       var 
         $row = $(this).closest('tr'),
-        $html = $('<article style="width: 300px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><input type="hidden" name="id" value="' + $row.data('value') + '" /><article class="form-group"><input name="ac_id" data-url="/appraisal_companies/autocomplete" aria-input-type="autocomplete" class="form-control" placeholder="' + _t.real_estate.view.appraise.appraisal_company_placeholder + '" /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">' + _t.form.finish + '</button> <button type="button" class="btn btn-default btn-flat">' + _t.form.cancel + '</button></article></form></article>'),
+        $html = $('<article style="width: 300px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><input type="hidden" name="id" value="' + $row.data('value') + '" /><article class="form-group"><input name="ac_id" data-url="/appraisal_companies/autocomplete" data-input-type="autocomplete" class="form-control" placeholder="' + _t.real_estate.view.appraise.appraisal_company_placeholder + '" /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">' + _t.form.finish + '</button> <button type="button" class="btn btn-default btn-flat">' + _t.form.cancel + '</button></article></form></article>'),
         $form = $html.find('form');
 
       var $popup = popupFull({

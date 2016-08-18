@@ -25,7 +25,11 @@ class ApplicationController < ActionController::Base
 			format.json { render json: { status: 6, result: 'author' } }
 		end
 	end
-	
+
+	def default_url_options(options = {})
+		{ locale: I18n.locale }.merge options
+	end
+
 	def init
 		# if request.get?
 		# 	session[:first_get] = true unless session.has_key? :first_get

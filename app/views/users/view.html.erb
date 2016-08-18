@@ -22,18 +22,18 @@
 			<h3 class="profile-username text-center margin-bottom-15"><%= @user.full_name %></h3>
 
 			<ul class="list-group list-group-unbordered">
-				<li class="list-group-item">
+				<li class="list-group-item clearfix">
 					<b>Email</b> <span class="pull-right"><%= @user.email %></span>
 				</li>
-				<li class="list-group-item">
+				<li class="list-group-item clearfix">
 					<b>Phone</b> <span class="pull-right"><%= @user.phone_number %></span>
 				</li>
-				<li class="list-group-item">
+				<li class="list-group-item clearfix">
 					<b>Address</b> <span class="pull-right"><%= @user.address %></span>
 				</li>
 			</ul>
 
-			<a href="/users/create/<%= @user.id %>" class="btn btn-primary btn-block"><b>Cập nhật thông tin</b></a>
+			<a href="<%= update_info_path %>" class="btn btn-primary btn-block"><b><%= t '.update_info' %></b></a>
 		</div>
 	</div>
 </div>
@@ -44,24 +44,24 @@
 				<% if current_user.id == @user.id %>
 					<div class="inner">
 						<span class="count"><%= RealEstate.my_search_with_params.count %></span>
-						<p>Tin bất động sản</p>
+						<p><%= t '.re_count' %></p>
 					</div>
 					<div class="icon">
 						<i class="ico-home"></i>
 					</div>
-					<a href="/bat-dong-san/cua-toi" class="small-box-footer">
-						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					<a href="<%= my_res_path %>" class="small-box-footer">
+						<%= t '.view_all' %> <i class="fa fa-arrow-circle-right"></i>
 					</a>
 				<% else %>
 					<div class="inner">
 						<span class="count"><%= RealEstate.user_search_with_params('user', @user.id).count %></span>
-						<p>Tin bất động sản</p>
+						<p><%= t '.re_count' %></p>
 					</div>
 					<div class="icon">
 						<i class="ico-home"></i>
 					</div>
-					<a href="/bat-dong-san/cua-thanh-vien/<%= @user.id %>" class="small-box-footer">
-						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					<a href="<%= re_list_of_path user_id: @user.id %>" class="small-box-footer">
+						<%= t '.view_all' %> <i class="fa fa-arrow-circle-right"></i>
 					</a>
 				<% end %>
 			</div>
@@ -71,13 +71,13 @@
 				<div class="small-box bg-purple">
 					<div class="inner">
 						<span class="count"><%= RealEstate.my_favorite_search_with_params.count %></span>
-						<p>Tin BĐS đang quan tâm</p>
+						<p><%= t '.favorite_re_count' %></p>
 					</div>
 					<div class="icon">
 						<i class="ico-home"></i>
 					</div>
-					<a href="/bat-dong-san/quan-tam-cua-toi" class="small-box-footer">
-						Xem danh sách <i class="fa fa-arrow-circle-right"></i>
+					<a href="<%= my_favorite_res_path %>" class="small-box-footer">
+						<%= t '.view_all' %> <i class="fa fa-arrow-circle-right"></i>
 					</a>
 				</div>
 			</div>

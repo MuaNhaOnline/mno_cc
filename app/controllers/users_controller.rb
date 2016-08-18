@@ -5,6 +5,10 @@ class UsersController < ApplicationController
 		
 		# View
 		def create
+			if params[:id].blank? && User.signed?
+				params[:id] = User.current.id
+			end
+
 			@user = params[:id].present? ? User.find(params[:id]) : User.new
 			
 			# Author

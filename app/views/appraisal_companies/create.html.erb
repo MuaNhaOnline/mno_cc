@@ -49,7 +49,7 @@
 		    <article class="form-group">
 		      <label for="representative_id"><%= t 'appraisal_company.attribute.representative' %></label>
           <sup class="required-label"></sup>
-          <input data-value="<%= @ac.representative_id unless @ac.representative.nil? %>" value="<%= @ac.representative.full_name unless @ac.representative.nil? %>" data-url="/users/autocomplete" aria-input-type="autocomplete" name="ac[representative_id]" data-constraint="required" type="text" class="form-control" id="representative_id" />
+          <input data-value="<%= @ac.representative_id unless @ac.representative.nil? %>" value="<%= @ac.representative.full_name unless @ac.representative.nil? %>" data-url="/users/autocomplete" data-input-type="autocomplete" name="ac[representative_id]" data-constraint="required" type="text" class="form-control" id="representative_id" />
 		    </article>
 
 				<!-- / Representative -->

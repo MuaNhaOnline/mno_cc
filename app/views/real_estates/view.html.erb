@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :javascripts do %>
-	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+	<script type="text/javascript" src='http://maps.google.com/maps/api/js?key=AIzaSyBsMB8D8mBgDcBqGCyOii1Kgu-BJmfNAvQ&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
 	<script type="text/javascript" src="/assets/real_estates/view.js"></script>
 	<script type="text/javascript">
@@ -23,11 +23,11 @@
 		background: '/assets/shared/main_navigator/main_2.jpeg',
 		list: [
 			{
-				url: '/bat-dong-san',
-				text: 'Bất động sản'
+				url: res_path,
+				text: t('real_estates.index.page_title')
 			},
 			{
-				url: "/bat-dong-san/#{@re.full_slug}",
+				url: view_re_path(@re),
 				text: @re.title
 			}
 		]
@@ -36,18 +36,18 @@
 	@_hide_search_box = true
 
 	request_mail = SystemMail.new({
-		subject: 			"Bất động sản - #{@re.title}",
-		system_mail_type: 	2,
+		subject: 			@re.title,
+		system_mail_type: 	SystemMail::REQUEST_TYPE,
 		requested_info: 	RequestedSystemMail.new({
 								object_type: 	'real_estate',
 								object_id: 		@re.id,
-								requested_type: 1
+								requested_type: RequestedSystemMail::NEED_CONTACT_STATUS
 							})
 	})
 %>
 
 <div class="container no-horizontal-padding">
-	<div class="row">
+	<div class="row shadow-filter">
 
 		<!-- Images -->
 
@@ -92,7 +92,7 @@
 						<section class="view-count">
 							<span class="value"><%= @re.view_count %></span>
 							<br />
-							<span class="name">lượt xem</span>
+							<span class="name"><%= t '.view_count' %></span>
 						</section>
 						<section class="price">
 							<% if @re.display_sell_price.present? %>
@@ -115,7 +115,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												Địa chỉ <span class="ico-info"></span>
+												<%= t 'real_estate.attributes.short_address' %> <span class="ico-info"></span>
 											</section>
 											<section class="value">
 												<%= @re.display_address %>
@@ -125,17 +125,17 @@
 											<% if @re.fields.include? :building_name %>
 												<article class="text">
 													<span class="name">
-														Tòa nhà
+														<%= RealEstate.i18n_attribute 'building_name' %>
 													</span>
 													<span class="value">
-														<%= "Tầng #{@re.floor_number}" if @re.fields.include? :floor_number %> <%= @re.building_name %>
+														<%= "#{RealEstate.i18n_attribute 'floor'} #{@re.floor_number}" if @re.fields.include? :floor_number %> <%= @re.building_name %>
 													</span>
 												</article>
 											<% end %>
 											<% if @re.fields.include?(:is_alley) && @re.fields.include?(:street_type) %>
 												<article class="text">
 													<span class="name">
-														Vị trí
+														<%= RealEstate.i18n_attribute 'position' %>
 													</span>
 													<span class="value">
 														<%= @re.display_is_alley %> - <%= @re.display_street_type %>
@@ -155,7 +155,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												Mã
+												<%= RealEstate.i18n_attribute 'id' %>
 											</section>
 											<section class="value">
 												<%= @re.display_id %>
@@ -170,7 +170,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												Thời gian đăng
+												<%= RealEstate.i18n_attribute 'created_at' %>
 											</section>
 											<section class="value" aria-time="<%= @re.created_at %>">
 											</section>
@@ -184,7 +184,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												Loại
+												<%= RealEstate.i18n_attribute 'real_estate_type' %>
 											</section>
 											<section class="value">
 												<%= @re.display_real_estate_type %>
@@ -199,7 +199,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												Diện tích <span class="ico-info"></span>
+												<%= RealEstate.i18n_attribute 'area' %> <span class="ico-info"></span>
 											</section>
 											<section class="value">
 												<%= @re.display_area %><span class="unit">m<sup>2</sup></span>
@@ -209,7 +209,7 @@
 											<% if @re.fields.include?(:width_x) && @re.display_width_x.present? && @re.fields.include?(:width_y) && @re.display_width_y.present?%>
 												<article class="text">
 													<span class="name">
-														Kích thước
+														<%= RealEstate.i18n_attribute 'width' %>
 													</span>
 													<span class="value">
 														<%= @re.display_width_x %><span class="unit">x</span><%= @re.display_width_y %><span class="unit">m</span>
@@ -224,7 +224,7 @@
 											<% if @re.fields.include? :campus_area %>
 												<article class="text">
 													<span class="name">
-														DT khuôn viên
+														<%= RealEstate.i18n_attribute 'campus_area' %>
 													</span>
 													<span class="value">
 														<%= @re.display_campus_area %><span class="unit">m<sup>2</sup></span>
@@ -234,7 +234,7 @@
 											<% if @re.fields.include? :constructional_area %>
 												<article class="text">
 													<span class="name">
-														DT xây dựng
+														<%= RealEstate.i18n_attribute 'constructional_area' %>
 													</span>
 													<span class="value">
 														<%= @re.display_constructional_area %><span class="unit">m<sup>2</sup></span>
@@ -244,7 +244,7 @@
 											<% if @re.fields.include? :using_area %>
 												<article class="text">
 													<span class="name">
-														DT sử dụng
+														<%= RealEstate.i18n_attribute 'using_area' %>
 													</span>
 													<span class="value">
 														<%= @re.display_using_area %><span class="unit">m<sup>2</sup></span>
@@ -262,7 +262,7 @@
 											</section>
 											<section class="text">
 												<section class="name">
-													Phòng ngủ
+													<%= RealEstate.i18n_attribute 'bedroom' %>
 												</section>
 												<section class="value">
 													<%= @re.display_bedroom %>
@@ -279,7 +279,7 @@
 											</section>
 											<section class="text">
 												<section class="name">
-													Phòng tắm
+													<%= RealEstate.i18n_attribute 'restroom' %>
 												</section>
 												<section class="value">
 													<%= @re.display_restroom %>
@@ -296,7 +296,7 @@
 											</section>
 											<section class="text">
 												<section class="name">
-													Hướng
+													<%= RealEstate.i18n_attribute 'direction' %>
 												</section>
 												<section class="value">
 													<%= @re.display_direction %>
@@ -313,7 +313,7 @@
 											</section>
 											<section class="text">
 												<section class="name">
-													Giấy tờ <span class="ico-info"></span>
+													<%= RealEstate.i18n_attribute 'legal_record' %> <span class="ico-info"></span>
 												</section>
 												<section class="value">
 													<%= @re.display_legal_record_type %>
@@ -323,7 +323,7 @@
 												<% if @re.fields.include? :constructional_level %>
 													<article class="text">
 														<span class="name">
-															Loại
+															<%= RealEstate.i18n_attribute 'constructional_level' %>
 														</span>
 														<span class="value">
 															<%= @re.display_constructional_level %>
@@ -333,7 +333,7 @@
 												<% if @re.fields.include? :constructional_quality %>
 													<article class="text">
 														<span class="name">
-															Tình trạng
+															<%= RealEstate.i18n_attribute 'constructional_quality' %>
 														</span>
 														<span class="value">
 															<%= @re.display_constructional_quality %>
@@ -343,7 +343,7 @@
 												<% if @re.fields.include? :planning_status_type %>
 													<article class="text">
 														<span class="name">
-															Tình trạng quy hoạch
+															<%= RealEstate.i18n_attribute 'planning_status' %>
 														</span>
 														<span class="value">
 															<%= @re.display_planning_status_type %>
@@ -360,10 +360,10 @@
 				</section>
 				<section class="buttons-container">
 					<button id="re_register" class="register btn btn-orange">
-						Đăng ký
+						<%= t '.register' %>
 					</button>					
 					<a id="re_favorite" class="btn" <%= 'data-actived' if @re.is_current_user_favorite %>>
-						Quan tâm
+						<%= t '.favorite' %>
 					</a>
 				</section>
 			</div>
@@ -377,7 +377,7 @@
 					<article class="box">
 						<section class="box-header">
 							<article class="box-title">
-								Mô tả
+								<%= t '.description' %>
 							</article>
 						</section>
 						<section class="box-body">
@@ -387,7 +387,7 @@
 					<article class="box">
 						<section class="box-header">
 							<article class="box-title">
-								Bản đồ vị trí
+								<%= t '.position' %>
 							</article>
 						</section>
 						<section class="box-body">
@@ -404,7 +404,7 @@
 							</section>
 							<section>
 								<div class="checkbox">
-									<label><input type="checkbox" id="view_surround" />Xem bất động sản lân cận</label>
+									<label><input type="checkbox" id="view_surround" /><%= t '.view_surround' %></label>
 								</div>								
 							</section>
 						</section>
@@ -413,7 +413,7 @@
 						<article class="box">
 							<section class="box-header">
 								<article class="box-title">
-									Tiện ích
+									<%= t '.utility' %>
 								</article>
 							</section>
 							<section class="box-body">
@@ -421,7 +421,7 @@
 									<article class="content-box">
 										<section class="content-box-header">
 											<aricle class="content-box-title">
-												Tiện ích bất động sản
+												<%= RealEstate.i18n_attribute 'property_utility' %>
 											</aricle>
 										</section>
 										<section class="content-box-body">
@@ -439,7 +439,7 @@
 									<article class="content-box">
 										<section class="content-box-header">
 											<aricle class="content-box-title">
-												Tiện ích khu vực
+												<%= RealEstate.i18n_attribute 'region_utility' %>
 											</aricle>
 										</section>
 										<section class="content-box-body">
@@ -460,7 +460,7 @@
 						<article class="box">
 							<section class="box-header">
 								<article class="box-title">
-									Đánh giá
+									<%= t '.assessment' %>
 								</article>
 							</section>
 							<section class="box-body">
@@ -468,7 +468,7 @@
 									<article class="content-box">
 										<section class="content-box-header">
 											<aricle class="content-box-title">
-												Điểm tốt
+												<%= RealEstate.i18n_attribute 'advantage' %>
 											</aricle>
 										</section>
 										<section class="content-box-body">
@@ -486,7 +486,7 @@
 									<article class="content-box">
 										<section class="content-box-header">
 											<aricle class="content-box-title">
-												Điểm xấu
+												<%= RealEstate.i18n_attribute 'disadvantage' %>
 											</aricle>
 										</section>
 										<section class="content-box-body">
@@ -515,7 +515,7 @@
 					<article class="box">
 						<section class="box-header">
 							<article class="box-title">
-								Liên hệ
+								<%= t '.contact.title' %>
 							</article>
 						</section>
 						<section class="box-body">
@@ -552,7 +552,7 @@
 
 							<article class="contact-request">
 								<article class="callout">
-									Hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+									<%= t '.contact.callout' %>
 								</article>
 								<%=
 									form_for(
@@ -578,7 +578,7 @@
 									)  %>
 									<!-- Submit button -->
 									<article class="form-group text-center">
-										<%= f.submit 'Gửi yêu cầu', class: 'btn btn-orange', style: 'padding-left: 25px; padding-right: 25px;' %>
+										<%= f.submit t('.contact.submit'), class: 'btn btn-orange', style: 'padding-left: 25px; padding-right: 25px;' %>
 									</article>
 
 									<!-- Request info -->
@@ -606,8 +606,8 @@
 											{
 												label: 					false,
 												select_options_list: 	options_for_select([
-																			['Liên hệ', '1'],
-																			['Đăng ký mua', '2']
+																			[SystemMail.i18n_value('requested_type', '1'), '1'],
+																			[SystemMail.i18n_value('requested_type', '2'), '2'],
 																		]),
 											}
 										) %>
@@ -618,7 +618,7 @@
 										'textarea',
 										:content,
 										{
-											placeholder: 	'Lời nhắn'
+											placeholder: 	t('.contact.content_placeholder')
 										},
 										{
 											label: 			false
@@ -637,7 +637,7 @@
 												'text',
 												:name,
 												{
-													placeholder: 	'Tên của bạn'
+													placeholder: 	t('.contact.name_placeholder')
 												},
 												{
 													label:  		false
@@ -650,7 +650,7 @@
 														'email',
 														:email,
 														{
-															placeholder: 	'Email'
+															placeholder: 	t('.contact.email_placeholder')
 														},
 														{
 															label:  		false
@@ -662,7 +662,7 @@
 														'number',
 														:phone_number,
 														{
-															placeholder: 	'Số điện thoại'
+															placeholder: 	t('.contact.phone_placeholder')
 														},
 														{
 															label:  		false
@@ -688,7 +688,7 @@
 		<article class="box box-transparent">
 			<section class="box-header">
 				<h2 class="box-title">
-					Bất động sản liên quan
+					<%= t '.relative_re' %>
 				</h2>
 			</section>
 			<section class="box-body">

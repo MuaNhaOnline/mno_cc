@@ -10,7 +10,7 @@ class LogsController < ApplicationController
 			per 	= 	(params[:per] || 10).to_i
 
 			# Get logs
-			logs 	= 	Log.get_without_view_action
+			logs 	= 	Log.get_without_view_action.get_for_build
 
 			# Render result
 			respond_to do |f|

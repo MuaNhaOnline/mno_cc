@@ -33,7 +33,10 @@
 		<% case log.action %>
 		<% when 'create' %>
 			<h3 class="timeline-header">
-				<a href="/thanh-vien/<%= log.user.id %>"><%= log.user.full_name %></a> đã đăng ký vào hệ thống
+				<%
+					new_user_name = "<a href='#{view_user_path(log.user)}'>#{log.user.full_name}</a>"
+				%>
+				<%= t('users._log_item.create', name: new_user_name).html_safe %>
 			</h3>
 		<% end %>
 	</div>

@@ -7,8 +7,8 @@
       </a>
     </td>
     <td><%= re.title %></td>
-    <td><%= t 'purpose.text.' + re.purpose.name unless re.purpose.nil? %></td>
-    <td><%= t 'real_estate_type.text.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
+    <td><%= t 'purpose.name.' + re.purpose.name unless re.purpose.nil? %></td>
+    <td><%= t 'real_estate_type.name.' + re.real_estate_type.name unless re.real_estate_type.nil? %></td>
     <% 
       ac = re.assigned_appraisal_companies.first
     %>

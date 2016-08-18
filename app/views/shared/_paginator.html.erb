@@ -5,10 +5,24 @@
 	page_count = (total + per - 1) / per
 
 	return if page_count <= 1
+
+	min_page = page - 3
+	if min_page < 1
+		min_page = 1
+	end
+	max_page = page + 3
+	if max_page > page_count
+		max_page = page_count
+	end
 %>
 
 <ul class="pagination inline-block <%= class_style if defined? class_style %>">
-	<% (1..page_count).each do |i| %>
+	<% if min_page != 1 %>
+		<li>
+			<a href="javascript:;" aria-click="paging" data-page="<%= 1 %>"><%= global.paginator.first %></a>
+		</li>
+	<% end %>
+	<% (min_page..max_page).each do |i| %>
 		<% if i == page %>
 			<li class="active">
 				<a href="javascript:;"><%= i %></a>
@@ -18,5 +32,10 @@
 				<a href="javascript:;" aria-click="paging" data-page="<%= i %>"><%= i %></a>
 			</li>
 		<% end %>
+	<% end %>
+	<% if max_page != page_count %>
+		<li>
+			<a href="javascript:;" aria-click="paging" data-page="<%= page_count %>"><%= global.paginator.last %></a>
+		</li>
 	<% end %>
 </ul>

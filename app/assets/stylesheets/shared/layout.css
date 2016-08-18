@@ -23,6 +23,15 @@
 			content: '' !important;
 		}
 
+	.shadow-filter {
+		-webkit-filter: drop-shadow(0 0 10px rgba(0, 0, 0, .15));
+		filter: drop-shadow(0 0 10px rgba(0, 0, 0, .15));
+	}
+
+	.shadow-box {
+		box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+	}
+
 /* / General */
 
 /* Standar */
@@ -80,6 +89,10 @@
 	.alert {
 		border: 0;
 		border-radius: 0;
+	}
+
+	a:hover, a:focus {
+		text-decoration: none;
 	}
 
 /* / Custom bootstrap */

@@ -12,15 +12,29 @@ class ReRegistration < ActiveRecord::Base
 			autosave: 		true,
 			dependent: 		:delete_all
 
+		has_and_belongs_to_many :provinces,
+			join_table: 	're_registrations_provinces',
+			autosave: 		true,
+			dependent: 		:delete_all
+
+		has_and_belongs_to_many :districts,
+			join_table: 	're_registrations_districts',
+			autosave: 		true,
+			dependent: 		:delete_all
+
 	# / Associations
 
 	# Save
 
 		def assign_attributes_with_params params
 
-			self.locations = []
 			if params[:locations].present?
-				params[:locations].each_with_index do |location, index|
+				self.locations = ReRegistrationLocation.find params[:locations].map { |value| value[:id] }
+			else
+				self.locations = []
+			end
+			if params[:new_locations].present?
+				params[:new_locations].each do |location|
 					if location[:province].present?
 						if location[:province] == 'Hồ Chí Minh'
 							location[:province] = 'Tp. Hồ Chí Minh'
@@ -40,22 +54,22 @@ class ReRegistration < ActiveRecord::Base
 					object = ReRegistrationLocation.new
 					object.object_type 	=	location[:type]
 					object.object_id 	= 	case location[:type]
-					when 'province'
-						location[:province_id]
-					when 'district'
-						location[:district_id]
-					when 'street'
-						location[:street_id]
-					else
-						next
-					end
+											when 'province'
+												location[:province_id]
+											when 'district'
+												location[:district_id]
+											when 'street'
+												location[:street_id]
+											else
+												next
+											end
 
 					self.locations << object
 				end
 			end
 
 			self.assign_attributes params.permit [
-				:purpose_id, :min_price, :max_price, :min_area, :max_area,
+				:purpose_id, :min_sell_price, :max_sell_price, :min_rent_price, :max_rent_price, :min_area, :max_area,
 				real_estate_type_ids: []
 			]
 		end

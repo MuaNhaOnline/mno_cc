@@ -10,43 +10,55 @@
 	params: @blog
 =end
 
-	@title = t 'blog.view.create.page_title'
+	@_title				= 
+	@_content_header 	=	t '.page_title'
 %>
 
-<form id="blog_form" class="form">
-	<article class="box">
-		<section class="box-header with-border">
-			<h2 class="box-title">
-				<%= t 'blog.view.create.form_title' %>
-			</h2>
-		</section>
-		<section class="box-body">
-			<% unless @blog.new_record? %>
-				<input type="hidden" name="blog[id]" value="<%= @blog.id %>" />
-			<% end %>
-			<article class="form-group">
-				<label class="control-label">
-					Tiêu đề
-					<sup for="title" class="required-label"></sup>
-				</label>
-				<input data-constraint="required" class="form-control" name="blog[title]" id="title" value="<%= @blog.title %>" />
-			</article>
-			<article class="form-group">
-				<label class="control-label" for="content">
-					Nội dung
-					<sup class="required-label"></sup>
-				</label>
-				<textarea data-editor-extra-plugins=",font,uploadimage,filebrowser,image2,youtube" data-constraint="required" class="form-control" aria-input-type="editor" name="blog[content]" id="content"><%= @blog.content %></textarea>
-			</article>
-			<article class="form-group">
-				<label class="control-label">
-					Mã khóa
-				</label>
-				<input data-constraint="required" class="form-control" name="blog[key]" id="key" value="<%= @blog.key %>" />
-			</article>
-		</section>
-		<section class="box-footer text-center">
-			<button type="submit" class="btn btn-primary btn-flat"><%= t 'form.finish' %></button>
-		</section>
-	</article>
-</form>
+<%= form_for(
+	@blog,
+	url: 			'#',
+	method: 		'POST',
+	html: 			{
+						id: 		'blog_form',
+						class: 		'form'
+					}
+) do |f| %>
+
+	<div class="box box-primary">
+		<div class="box-body">
+			<%= f.field(
+				'text',
+				:title,
+				{
+					'data-constraint':	'required'
+				},
+				{
+					label:		Blog.i18n_attribute('title')
+				}
+			) %>
+			<%= f.field(
+				'editor',
+				:content,
+				{
+					'data-constraint':	'required',
+					'data-editor-extra-plugins': 'font,uploadimage,filebrowser,image2,youtube'
+				},
+				{
+					label:		Blog.i18n_attribute('content')
+				}
+			) %>
+			<%= f.field(
+				'tags',
+				:tags,
+				{},
+				{
+					label:		Blog.i18n_attribute('tags')
+				}
+			) %>
+		</div>
+		<div class="box-footer text-center">
+			<%= f.submit t('global.text.submit'), class: 'btn btn-primary' %>
+		</div>
+	</div>
+
+<% end %>

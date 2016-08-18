@@ -1,14 +1,366 @@
 vi:
-  layout:
+  # View
+  global:
+    info:
+      slogan: Giá trị thực trong tầm tay
+    text:
+      empty_callout: Không tìm thấy kết quả phù hợp
+      close: Đóng
+      submit: Hoàn tất
+      delete: Xóa
+      send: Gửi
+      search: Tìm kiếm
+      guess: Khách
+      all: Tất cả
+    paginator:
+      first: Trang đầu
+      last: Trang cuối
+    unit:
+      range:
+        from: Từ
+        to: Đến
+      billion: Tỷ
+      million: Triệu
+      square_meter: m2
+      square_meter_html: m<sup>2</sup>
+  front_layout:
     header:
-      user_profile: 'Thông tin'
-      signout: 'Đăng xuất'
-  form:
-    search_placeholder: 'Nhập từ khóa để tìm kiếm'
-    search: 'Tìm kiếm'
-    finish: 'Hoàn tất'
-    cancel: 'Bỏ qua'
+      facebook: hoặc
+      signin: Đăng nhập
+      post: Đăng tin miễn phí
+      profile: Trang cá nhân
+      my_post: Tin của tôi
+      my_favorite: Tin đang quan tâm
+      signout: Đăng xuất
+      real_estate: Bất động sản
+      project: Dự án
+      valued: Nhà định giá
+      business: Doanh nghiệp
+      news: Tin tức
+      view_all: Xem tất cả
+    search_box:
+      title: Tìm kiếm
+      keyword_placeholder: Đường, quận, tỉnh/thành phố...
+      all_types: Tất cả loại
+      all_provinces: Tất cả tỉnh/thành phố
+      all_districts: Tất cả quận/huyện
+      from_price_text: Giá thấp nhất
+      to_price_text: Giá cao nhất
+      from_million:
+        one: Từ %{count} triệu
+        other: Từ %{count} triệu
+      from_billion:
+        one: Từ %{count} tỷ
+        other: Từ %{count} tỷ
+      to_million:
+        one: Đến %{count} triệu
+        other: Đến %{count} triệu
+      to_billion:
+        one: Đến %{count} tỷ
+        other: Đến %{count} tỷ
+      from_area_text: Diện tích thấp nhất
+      to_area_text: Diện tích cao nhất
+      from_square_meter:
+        one: Từ %{count}m2
+        other: Từ %{count}m2
+      to_square_meter:
+        one: Đến %{count}m2
+        other: Đến %{count}m2
+      suggest:
+        text: Gợi ý
+        has_pool: Căn hộ có hồ bơi
+        lower_1_billion: Nhà phố dưới 1 tỷ
+      register_html: <a href="%{path}">Đăng ký theo dõi</a> theo tiêu chí của bạn
+    footer:
+      policy:
+        title: Chính sách
+        intro: Giới thiệu
+        how_to_use: Hướng dẫn sử dụng
+        rules: Điều khoản sử dụng
+      keyword:
+        title: Từ khóa được tìm kiếm nhiều
+      sitemap:
+        title: Sơ đồ website
+        home: Trang chủ
+        real_estate: Bất động sản
+        project: Dự án
+        valued: Nhà định giá
+        business: Doanh nghiệp
+        news: Tin tức
+        contact: Liên hệ
+      link:
+        title: Liên kết
+      info_html: '
+        Công ty TNHH tư vấn BĐS Thịnh An
+        <br />
+        Tầng 7, số 60 Nguyễn Văn Thủ, phường Đa Kao, quận 1, tp. Hồ Chí Minh
+        <br />
+        ĐT: (+84) 939 26 24 26 - Email: info@muanhaonline.com.vn - Mã số thuế: 0311281970
+      '
+  back_layout:
+    header:
+      profile: Trang cá nhân
+      signout: Đăng xuất
+      signin: Đăng nhập
+      register: Đăng ký
+    menu:
+      profile: Trang cá nhân
+      mail: Hộp tin
+      log: Nhật ký
+      permission: Quản lý nhóm quyền
+      request: Tin yêu cầu
+      user:
+        title: Quản lý thành viên
+        list:
+          list: Danh sách
+      manage_re:
+        title: Quản lý bất động sản
+        list:
+          approve: Duyệt tin
+          manage: Quản lý tin
+      re:
+        title: Bất động sản
+        list:
+          my: Danh sách của tôi
+          my_favorite: Danh sách quan tâm
+          post: Đăng tin
+      blog:
+        title: Bài viết
+        list:
+          create: Tạo mới
+      content:
+        title: Quản lý thông tin
+        list:
+          province: Quản lý tỉnh/thành phố
+          district: Quản lý quận/huyện
+  home:
+    index:
+      search:
+        title_html: Chào mừng bạn đến với<br />MuanhaOnline.vn
+        placeholder: Đường, quận, tỉnh/thành phố...
+      info:
+        title: Tiếp cận thông tin chính chủ, trực tiếp
+        re_title: Nhà chính chủ
+        re_content: Để chọn mua sản phẩm bất động sản an toàn, thông tin về bất động sản cần phải rõ ràng pháp lý, tình trạng hiện hữu, vị trí, liên hệ chủ nhà, hình ảnh, dân trí… đó là những sản phẩm mà chúng tôi được ủy thác thông tin phân phối từ chính chủ và là lý do chúng tôi tạo chuyên mục nhà chính chủ.
+        pj_title: Liên hệ trực tiếp với chủ đầu tư
+        pj_content: Để chọn mua sản phẩm bất động sản dự án an toàn, thông tin về dự án cần phải rõ ràng pháp lý, hạ tầng xây dựng, tiến độ hoàn thiện công trình, vị trí, liên hệ chủ đầu tư, hình ảnh… đó là những sản phẩm mà chúng tôi được ủy thác thông tin phân phối từ chủ đầu tư trực tiếp hoặc sàn giao dịch cấp 1 trực tiếp của chủ đầu tư. Đó là lý do chúng tôi tạo chuyên mục "Liên hệ trực tiếp với chủ đầu tư".
+      post:
+        title: Đăng tin miễn phí
+        subtitle: Bạn có thể đăng tin nhanh chóng và hoàn toàn miễn phí.
+        callout1: BẠN ĐANG MUỐN
+        sell: Bán
+        rent: Cho thuê
+        transfer: Sang nhượng
+        callout2: KHÔNG CẦN ĐĂNG KÝ
+        action: Đăng ngay
+      contact:
+        title: Bạn đang cần gì?
+        subtitle: Hãy để lại thông tin, chúng tôi sẽ tư vấn giúp bạn.
+        real_estate: Bất động sản
+        finance: Tài chính
+        law: Luật
+        architecture: Kiến trúc
+        content_placeholder: Bạn đang cần gì?
+        name_placeholder: Tên của bạn
+        email_placeholder: Email
+        phone_placeholder: Số điện thoại
+        callout: Chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất
+      concept:
+        title: Thẩm định giá trực tuyến
+        subtitle: Bạn có biết?
+        content_html:
+          <p>
+            Thẩm định giá bất động sản là sự ước tính về giá trị của các quyền sở hữu bất động sản cụ thể bằng hình thức tiền tệ cho một mục đích đã được xác định rõ trong những điều kiện của một thị trường nhất định với những phương pháp phù hợp.
+          </p>
+          <p>
+            Thẩm định giá với mục đích bảo toàn tài sản, mua sắm tài sản, chuyển đổi quyền sở hữu tài sản, thế chấp, tính thuế, thanh lý tài sản, phục vụ tư vấn…
+          </p>
+          <p>
+            Thẩm định giá trực tuyến là công cụ tiếp nhận thông tin bất động sản liên quan qua mạng nhằm tiết kiệm thời gian, chi phí thẩm định, theo dõi kết quả thẩm định nhanh chóng chính xác. Tùy theo nhu cầu khách hàng, công cụ sẽ có các cấp bậc thẩm định trực tuyến khác nhau.
+          </p>
+          <p>
+            Ngoài ra, có một nỗi lo lắng chung khác mà người mua luôn lo lắng là ‘’Làm sao tìm được căn nhà yêu thích thật sự?’’ đó là lý do chúng tôi thiết lập hệ thống Muanhaonline và đang dần hoàn thiện hệ thống.
+          </p>
+        action: Đăng ký thẩm định
+      rating:
+        title: Cám ơn bạn đã ghé thăm
+        subtitle: Bạn có thích website của chúng tôi không?
+        vote1: Rất thích
+        vote2: Thích
+        vote3: Tạm được
+        vote4: Chưa tốt
+        vote5: Rất tệ
+    search:
+      page_title: Kết quả tìm kiếm
+  real_estates:
+    index:
+      page_title: Bất động sản
+      page_description: Danh sách bất động sản
+      favorite_list_title: Bất động sản nổi bật
+      list_title: Bất động sản gần đây
+    _items_list_2:
+      view_detail: Xem chi tiết
+    view:
+      view_count: lượt xem
+      register: Đăng ký
+      favorite: Quan tâm
+      description: Mô tả
+      position: Vị trí
+      view_surround: Xem bất động sản lân cận
+      utility: Tiện ích
+      assessment: Đánh giá
+      contact:
+        title: Liên hệ
+        callout: Hãy để lại lời nhắn cho chúng tôi nếu bạn có bất cứ nhu cầu gì.
+        submit: Gửi yêu cầu
+        content_placeholder: Lời nhắn
+        name_placeholder: Tên của bạn
+        email_placeholder: Email
+        phone_placeholder: Số điện thoại
+      relative_re: Bất động sản liên quan
+    register:
+      page_title: Đăng ký theo dõi
+      box_title: Tiêu chí theo dõi
+    _notification_mini_item:
+      create: '%{name} đã tin đăng bất động sản mới'
+      edit: '%{name} đã sửa tin bất động sản'
+      approve: Tin bất động sản của bạn đã được duyệt
+    _log_item:
+      create: '%{name} đã tạo bất động sản mới'
+      edit: '%{name} đã sửa bất động sản'
+      approve: '%{name} đã duyệt bất động sản'
+  contact_requests:
+    _notification_mini_item:
+      create: '%{name} gửi yêu cầu mới'
+  users:
+    view:
+      update_info: Cập nhật thông tin
+      re_count: Tin bất động sản
+      favorite_re_count: Tin bất động sản quan tâm
+      view_all: Xem danh sách
+    _log_item:
+      create: '%{name} đã đăng ký vào hệ thống'
+  mails:
+    index:
+      page_title: Hộp tin
+      compose: Soạn tin
+      inbox: Tin đến
+      sent: Tin đã gửi
+      empty_list: Không tìm thấy tin
+    _form:
+      compose: Soạn tin
+      reply: Trả lời tin
+      from: Từ
+      receiver_placeholder: Người nhận
+      subject_placeholder: Chủ đề
+      content_placeholder: Nội dung
+    _view:
+      from: Từ
+      delete: Xóa
+      reply: Trả lời
+  logs:
+    index:
+      page_title: Nhật ký hệ thống
+  system_groups:
+    manage:
+      group_title: Danh sách nhóm
+      permission_title: Danh sách quyền
+      add_group: Thêm
+      edit_group: Sửa nhóm
+      delete_group: Xóa nhóm
+      update_permission: Cập nhật
+      user_title: Danh sách người dùng thuộc nhóm
+      find_user_placeholder: Nhập thông tin tài khoản cần tìm
+  blogs:
+    create:
+      page_title: 'Đăng bài viết'
+    edit:
+      page_title: 'Sửa bài viết'
+
+
+  # Active record
+  real_estate_type:
+    text: 'Loại bất động sản'
+    name:
+      land_group: Đất
+      residential_land: Đất thổ cư
+      vacant_land: Đất nông nghiệp
+      forest_land: Đất lâm nghiệp
+      other_land: Đất khác
+      productive_land: Đất sản xuất
+      project_land: Đất dự án
+      space_group: Mặt bằng
+      office: Văn phòng
+      motel: Phòng trọ
+      store: Mặt bằng - Cửa hàng
+      restaurant_hotel: Nhà hàng - Khách sạn
+      storage_workshop: Kho - xưởng
+      apartment_group: Căn hộ
+      high_apartment: Căn hộ cao cấp
+      medium_apartment: Căn hộ trung bình
+      low_apartment: Căn hộ thu nhập thấp
+      social_home: Nhà ở xã hội
+      house_group: Nhà
+      villa: Biệt thự
+      town_house: Nhà phố
+  constructional_level:
+    name:
+      level_1: Nhà cấp 1
+      level_2: Nhà cấp 2
+      level_3: Nhà cấp 3
+      level_4: Nhà cấp 4
+      temporary: Nhà tạm
+      empty: Nhà thô
+  purpose:
+    text: Loại hình giao dịch
+    name:
+      sell: Bán
+      rent: Cho thuê
+      sell_rent: Bán hoặc cho thuê
+      transfer: Sang nhượng
+  demand:
+    name:
+      sell: 'Mua'
+      rent: 'Thuê'
+      sell_rent: 'Mua hoặc thuê'
+      transfer: 'Sang nhượng'
+  province:
+    text: 'Tỉnh/Thành phố'
+  district:
+    text: 'Quận/Huyện'
   real_estate:
+    attributes:
+      short_address: Địa chỉ
+      full_address: Địa chỉ
+      id: Mã
+      created_at: Thời gian đăng
+      real_estate_type: Loại
+      area: Diện tích
+      campus_area: DT khuôn viên
+      constructional_area: DT xây dựng
+      using_area: DT sử dụng
+      bedroom: Phòng ngủ
+      restroom: Phòng tắm
+      direction: Hướng
+      legal_record: Giấy tờ
+      building_name: Tòa nhà
+      floor: Tầng
+      position: Vị trí
+      width: Kích thước
+      constructional_level: Loại
+      constructional_quality: Tình trạng
+      planning_status: Tình trạng quy hoạch
+      description: Mô tả
+      property_utility: Tiện ích bất động sản
+      region_utility: Tiện ích khu vực
+      advantage: Điểm tốt
+      disadvantage: Điểm xấu
+    re_registration:
+      attributes:
+        purpose: Nhu cầu
+        real_estate_type: Loại bất động sản
+
+    # Sẽ bỏ
     attribute:
       appraisal_box: 'Thông tin thẩm định'
       appraisal_purpose: 'Mục đích'
@@ -124,29 +476,28 @@ vi:
         control: 'Điều khiển'
         edit_appraisal_company: 'Thay đổi công ty thẩm định'
         delete: 'Xóa'
-  real_estate_type:
-    text:
-      land_group: 'Đất'
-      residential_land: 'Đất thổ cư'
-      vacant_land: 'Đất nông nghiệp'
-      forest_land: 'Đất lâm nghiệp'
-      other_land: 'Đất khác'
-      productive_land: 'Đất sản xuất'
-      project_land: 'Đất dự án'
-      space_group: 'Mặt bằng'
-      office: 'Văn phòng'
-      motel: 'Phòng trọ'
-      store: 'Mặt bằng - Cửa hàng'
-      restaurant_hotel: 'Nhà hàng - Khách sạn'
-      storage_workshop: 'Kho - xưởng'
-      apartment_group: 'Căn hộ'
-      high_apartment: 'Căn hộ cao cấp'
-      medium_apartment: 'Căn hộ trung bình'
-      low_apartment: 'Căn hộ thu nhập thấp'
-      social_home: 'Nhà ở xã hội'
-      house_group: 'Nhà'
-      villa: 'Biệt thự'
-      town_house: 'Nhà phố'
+  system_mail:
+    values:
+      requested_type:
+        '1': Liên hệ
+        '2': Đăng ký mua
+  blog:
+    attributes:
+      title: 'Tiêu đề'
+      content: 'Nội dung'
+      tags: 'Từ khóa'
+
+
+
+  layout:
+    header:
+      user_profile: 'Thông tin'
+      signout: 'Đăng xuất'
+  form:
+    search_placeholder: 'Nhập từ khóa để tìm kiếm'
+    search: 'Tìm kiếm'
+    finish: 'Hoàn tất'
+    cancel: 'Bỏ qua'
   project_type:
     text:
       apartment: 'Căn hộ'
@@ -180,18 +531,6 @@ vi:
       residential_land: 'Đất thổ cư'
       vacant_land: 'Đất trồng'
       other_land: 'Đất khác'
-  purpose:
-    text:
-      sell: 'Bán'
-      rent: 'Cho thuê'
-      sell_rent: 'Bán hoặc cho thuê'
-      transfer: 'Sang nhượng'
-  demand:
-    text:
-      sell: 'Mua'
-      rent: 'Thuê'
-      sell_rent: ''
-      transfer: 'Sang nhượng'
   direction:
     text:
       non: 'Không xác định'
@@ -203,14 +542,6 @@ vi:
       south_west: 'Tây nam'
       north_east: 'Đông bắc'
       south_east: 'Đông nam'
-  constructional_level:
-    text:
-      level_1: 'Nhà cấp 1'
-      level_2: 'Nhà cấp 2'
-      level_3: 'Nhà cấp 3'
-      level_4: 'Nhà cấp 4'
-      temporary: 'Nhà tạm'
-      empty: 'Nhà thô'
   legal_record_type:
     text:
       red: 'Sổ đỏ'
@@ -434,11 +765,6 @@ vi:
         save_draft: 'Lưu tạm'
         reply: 'Trả lời'
         delete: 'Xóa'
-  blog:
-    view:
-      create:
-        page_title: 'Tạo blog'
-        form_title: 'Tạo blog'
   question:
     view:
       manager:

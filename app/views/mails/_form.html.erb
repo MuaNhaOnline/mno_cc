@@ -2,6 +2,9 @@
 =begin
 	params: mail
 =end
+	
+	scope = 'mails._form.'
+
 	mail ||= SystemMail.new
 %>
 
@@ -17,16 +20,16 @@
 	<div class="box-header with-border">
 		<h2 class="box-title">
 			<% if mail.reply_id.present? %>
-				Trả lời thư
+				<%= t scope + 'reply' %>
 			<% else %>
-				Soạn thư
+				<%= t scope + 'compose' %>
 			<% end %>
 		</h2>
 	</div>
 	<div class="box-body">
 		<% if mail.reply_id.present? %>
 			<p>
-				<b>Từ:</b>
+				<b><%= t scope + 'from' %>:</b>
 				<% case mail.replied_mail.sender_type %>
 				<% when 'user' %>
 					<%= mail.replied_mail.sender.full_name %>
@@ -61,7 +64,7 @@
 				{
 					multiple: 				true,
 					'data-url': 			'/users/autocomplete',
-					placeholder: 			'Người nhận',
+					placeholder: 			t(scope + 'receiver_placeholder'),
 					'data-constraint': 		'required',
 					'data-default_except': 	(current_user_type == 'user' ? current_user_id : '')
 				}
@@ -70,19 +73,19 @@
 		<%= f.field(
 			'text',
 			:subject,
-			placeholder: 		'Chủ đề',
+			placeholder: 		t(scope + 'subject_placeholder'),
 			'data-constraint': 	'required'
 		) %>
 		<%= f.field(
 			'textarea',
 			:content,
-			placeholder: 		'Nội dung',
+			placeholder: 		t(scope + 'content_placeholder'),
 			rows: 				5,
 			'data-constraint': 	'required'
 		) %>
 	</div>
 	<div class="box-footer text-right">
-		<button type="button" class="btn btn-default" aria-click="close-popup">Đóng</button>
-		<button type="submit" class="btn btn-primary">Gửi</button>
+		<button type="button" class="btn btn-default" aria-click="close-popup"><%= t 'global.text.close' %></button>
+		<button type="submit" class="btn btn-primary"><%= t 'global.text.send' %></button>
 	</div>
 <% end %>

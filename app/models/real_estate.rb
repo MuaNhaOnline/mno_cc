@@ -723,7 +723,7 @@ class RealEstate < ActiveRecord::Base
 								end
 
 								fulltext(address_keyword) do
-									fields :address => 3.0
+									fields :address
 								end
 							end
 						end
@@ -1347,7 +1347,7 @@ class RealEstate < ActiveRecord::Base
 			# tempLocale = I18n.locale
 			# I18n.locale = 'vi'
 
-			# assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_type == 'user' ? "#{user.full_name} #{user.email} #{user.phone_number}" : "#{contact_user.name} #{contact_user.email} #{contact_user.phone_number}"} #{title.gsub('Quận', '').gsub('quận', '')}"
+			# assign_attributes meta_search_1: "#{display_id} #{id} #{street.name if street.present?} #{district.name.gsub('Quận', '') if district.present?} #{I18n.t('real_estate_type.name.' + real_estate_type.name) if real_estate_type.present?}", meta_search_2: "#{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{province.name if province.present?}", meta_search_3: "#{user_type == 'user' ? "#{user.full_name} #{user.email} #{user.phone_number}" : "#{contact_user.name} #{contact_user.email} #{contact_user.phone_number}"} #{title.gsub('Quận', '').gsub('quận', '')}"
 
 			# I18n.locale = tempLocale
 		end
@@ -1377,6 +1377,14 @@ class RealEstate < ActiveRecord::Base
 
 	# / Delete
 
+	# Class attributes
+
+		def self.i18n_attribute key
+			I18n.t 'real_estate.attributes.' + key
+		end
+	
+	# / Class attributes
+
 	# Attributes
 
 		serialize :params, JSON
@@ -1391,7 +1399,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Name
 		def name
-			@name ||= "#{I18n.t('purpose.text.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.text.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}"
+			@name ||= "#{I18n.t('purpose.name.' + purpose.name) unless purpose.nil?} #{I18n.t('real_estate_type.name.' + real_estate_type.name) unless real_estate_type.nil?} - #{I18n.t('real_estate.attribute.' + (is_alley ? 'alley' : 'facade'))} #{street.name unless street.nil?} #{district.name unless district.nil?} #{province.name unless province.nil?}"
 		end
 
 		# Slug
@@ -1547,12 +1555,12 @@ class RealEstate < ActiveRecord::Base
 
 		# Contructional level
 		def display_constructional_level
-			@display_constructional_level ||= fields.include?(:constructional_level) && constructional_level.present? ? I18n.t("constructional_level.text.#{constructional_level.name}") : ''
+			@display_constructional_level ||= fields.include?(:constructional_level) && constructional_level.present? ? I18n.t("contructional_level.name.#{constructional_level.name}") : ''
 		end
 
 		# Real estate type
 		def display_real_estate_type
-			@display_real_estate_type ||= real_estate_type.present? ? I18n.t("real_estate_type.text.#{real_estate_type.name}") : ''
+			@display_real_estate_type ||= real_estate_type.present? ? I18n.t("real_estate_type.name.#{real_estate_type.name}") : ''
 		end
 
 		# Restroom
@@ -1575,7 +1583,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Purpose
 		def display_purpose
-			@display_purpose ||= purpose.present? ? I18n.t("purpose.text.#{purpose.name}") : ''
+			@display_purpose ||= purpose.present? ? I18n.t("purpose.name.#{purpose.name}") : ''
 		end
 
 		# Currency

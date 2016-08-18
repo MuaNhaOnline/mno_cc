@@ -2,8 +2,8 @@
 	<link rel="stylesheet" type="text/css" href="/assets/real_estates/register.css">
 <% end %>
 
-<% content_for :scripts do %>
-	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+<% content_for :javascripts do %>
+	<script type="text/javascript" src='http://maps.google.com/maps/api/js?key=AIzaSyBsMB8D8mBgDcBqGCyOii1Kgu-BJmfNAvQ&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
 	<script type="text/javascript" src="/assets/real_estates/register.js"></script>
 <% end %>
@@ -13,173 +13,301 @@
 	params: 
 =end
 
-	@_title = 'Đăng ký bất động sản'
-	@_content_header = 'Đăng ký bất động sản'
+	@_title				=
+	@_content_header	=	t('.page_title')
+	@_main_navigator = {
+		background: '/assets/shared/main_navigator/main_2.jpeg',
+		list: [
+			{
+				url: register_re_path,
+				text: t('.page_title')
+			}
+		]
+	}
+	@_hide_search_box = true
 %>
 
 <%= form_for(
 	@registration,
-	url: 			'/real_estates/register',
+	url: 			'',
 	method: 		'POST',
 	html: 			{
 						id: 		'register_form',
 						class: 		'form'
 					}
 ) do |f| %>
-	
-<div class="row">
 
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+	<div class="container">
+		<div class="row">
 
-		<div class="box box-primary">
-			<section class="box-header with-border">
-				<h2 class="box-title">
-					Thông tin đăng ký
-				</h2>
-			</section>
-			<section class="box-body">
-				<%= f.field(
-					'select',
-					:purpose_id,
-					{},
-					{
-						label: 					'Nhu cầu',
-						select_options_list: 	Purpose.where.not(code: 'sell_rent').all.map do |purpose|
-													[
-														purpose.display_name(true),
-														purpose.id
-													]
-												end
-					}
-				) %>
-				<%= f.field(
-					'autocomplete',
-					:real_estate_type_ids,
-					{
-						multiple: 			true,
-						'data-url': 		'/real_estate_types/get_by_keyword',
-						'data-init-values': RealEstateType.all.map do |type|
-												[ type.id, type.display_name ]
-											end.to_h.to_json
-					},
-					{
-						label: 			'Loại bất động sản'
-					}
-				) %>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+
+				<div class="box box-primary shadow-box">
+					<section class="box-header with-border">
+						<h2 class="box-title">
+							<%= t '.box_title' %>
+						</h2>
+					</section>
+					<section class="box-body">
 						<%= f.field(
-							'money',
-							:min_price,
-							{},
+							'select',
+							:purpose_id,
 							{
-								label: 		'Giá tối thiểu'
-							}
-						) %>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<%= f.field(
-							'money',
-							:max_price,
-							{},
-							{
-								label: 		'Giá tối đa'
-							}
-						) %>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<%= f.field(
-							'area',
-							:min_area,
-							{},
-							{
-								label: 		'Diện tích tối thiểu'
-							}
-						) %>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<%= f.field(
-							'area',
-							:max_area,
-							{},
-							{
-								label: 		'Diện tích tối đa'
-							}
-						) %>
-					</div>
-				</div>
-				<!-- Location -->
-					
-					<div>
-						<%= f.field(
-							'hidden',
-							:id,
-							{
-								'data-name': 	"#{f.object_name}[locations][][type]",
-								name: 			nil,
-								value: 			nil,
-								id: 			'type_input'
-							}
-						) %>
-						<%= f.field(
-							'hidden',
-							:id,
-							{
-								'data-name': 	"#{f.object_name}[locations][][province]",
-								name: 			nil,
-								value: 			nil,
-								id: 			'province_input'
-							}
-						) %>
-						<%= f.field(
-							'hidden',
-							:id,
-							{
-								'data-name': 	"#{f.object_name}[locations][][district]",
-								name: 			nil,
-								value: 			nil,
-								id: 			'district_input'
-							}
-						) %>
-						<%= f.field(
-							'hidden',
-							:id,
-							{
-								'data-name': 	"#{f.object_name}[locations][][street]",
-								name: 			nil,
-								value: 			nil,
-								id: 			'street_input'
-							}
-						) %>
-						<%= f.field(
-							'text',
-							:locations,
-							{
-								'data-input-type'	=>	'location',
-								value: 			nil,
-								name: 			nil,
-								id: 			'location_input',
-								placeholder: 	''
+								class:		'form-control input-toggle'
 							},
 							{
-								label: 			'Vị trí',
-								before: 		'<section class="tags-ctn" id="locations_list"></section>'
+								label: 					'Nhu cầu',
+								select_options_list: 	[
+															[
+																'Tất cả',
+																'',
+																{
+																	'data-on':	'sell rent'
+																}
+															]
+														] +
+														Purpose.all.map do |purpose|
+															[
+																purpose.display_name(true),
+																purpose.id,
+																case purpose.code
+																when 'sell'
+																	{
+																		'data-on':	'sell',
+																		'data-off':	'rent'
+																	}
+																when 'rent'
+																	{
+																		'data-on':	'rent',
+																		'data-off':	'sell'
+																	}
+																when 'sell_rent'
+																	{
+																		'data-on':	'sell rent'
+																	}
+																when 'transfer'
+																	{
+																		'data-on':	'rent',
+																		'data-off':	'sell'
+																	}
+																end
+															]
+														end
 							}
-						) %>						
-					</div>
-				
-				<!-- / Location -->
+						) %>
+						<%= f.field(
+							'autocomplete',
+							:real_estate_type_ids,
+							{
+								multiple: 			true,
+								'data-url': 		'/real_estate_types/get_by_keyword',
+								'data-init-values': RealEstateType.all.map do |type|
+														[ type.id, type.display_name ]
+													end.to_h.to_json,
+								'data-value':		@registration.real_estate_types.map do |type|
+														{
+															value:	type.id,
+															text:	type.display_name
+														}
+													end.to_json
+							},
+							{
+								label: 				'Loại bất động sản'
+							}
+						) %>
+						<div class="row" data-toggled-element="sell">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<%= f.field(
+									'money',
+									:min_sell_price,
+									{},
+									{
+										label: 			'Giá mua tối thiểu',
+										input_group:	{
+															left: t('global.unit.range.from')
+														}
+									}
+								) %>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<%= f.field(
+									'money',
+									:max_sell_price,
+									{},
+									{
+										label: 			'Giá mua tối đa',
+										input_group:	{
+															left: t('global.unit.range.to')
+														}
+									}
+								) %>
+							</div>
+						</div>
+						<div class="row" data-toggled-element="rent">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<%= f.field(
+									'money',
+									:min_sell_price,
+									{},
+									{
+										label: 			'Giá thuê tối thiểu',
+										input_group:	{
+															left: t('global.unit.range.from')
+														}
+									}
+								) %>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<%= f.field(
+									'money',
+									:max_sell_price,
+									{},
+									{
+										label: 			'Giá thuê tối đa',
+										input_group:	{
+															left: t('global.unit.range.to')
+														}
+									}
+								) %>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<%= f.field(
+									'area',
+									:min_area,
+									{},
+									{
+										label: 			'Diện tích tối thiểu',
+										input_group:	{
+															left: t('global.unit.range.from'),
+															right: t('global.unit.square_meter_html')
+														}
+									}
+								) %>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<%= f.field(
+									'area',
+									:max_area,
+									{},
+									{
+										label: 			'Diện tích tối đa',
+										input_group:	{
+															left: t('global.unit.range.to'),
+															right: t('global.unit.square_meter_html')
+														}
+									}
+								) %>
+							</div>
+						</div>
+						<!-- Location -->
 
-				<div id="map" style="height: 300px" class="hidden"></div>
-			</section>
-			<section class="box-footer text-center">
-				<%= f.submit 'Hoàn tất', class: 'btn btn-primary' %>
-			</section>
+							<div>
+
+								<%
+									location_list = ''
+								%>
+								<% @registration.locations.each do |location| %>
+									<% location_list += f.fields_for :locations, location, index: nil do |l_f| %>
+										<%
+											address = []
+											case location.object_type
+											when 'province'
+												address << location.province.name
+											when 'district'
+												address << location.district.name
+												address << location.district.province.name
+											when 'street'
+												address << location.street.name
+												address << location.street.district.name
+												address << location.street.district.province.name
+											end
+											address = address.join ', '
+										%>
+										<article class="item" data-text="<%= address %>">
+											<%= l_f.field(
+												'hidden',
+												:id
+											) %>
+											<span class="text"><%= address %></span>
+											<a class="remove">×</a>
+										</article>
+									<% end %>
+								<% end %>
+
+								<!-- Template -->
+								<%= f.field(
+									'hidden',
+									nil,
+									{
+										'data-name': 	"#{f.object_name}[new_locations][][type]",
+										name: 			nil,
+										value: 			nil,
+										id: 			'type_input'
+									}
+								) %>
+								<%= f.field(
+									'hidden',
+									nil,
+									{
+										'data-name': 	"#{f.object_name}[new_locations][][province]",
+										name: 			nil,
+										value: 			nil,
+										id: 			'province_input'
+									}
+								) %>
+								<%= f.field(
+									'hidden',
+									nil,
+									{
+										'data-name': 	"#{f.object_name}[new_locations][][district]",
+										name: 			nil,
+										value: 			nil,
+										id: 			'district_input'
+									}
+								) %>
+								<%= f.field(
+									'hidden',
+									nil,
+									{
+										'data-name': 	"#{f.object_name}[new_locations][][street]",
+										name: 			nil,
+										value: 			nil,
+										id: 			'street_input'
+									}
+								) %>
+
+								<%= f.field(
+									'text',
+									:locations,
+									{
+										'data-input-type'	=>	'location',
+										value: 			nil,
+										name: 			nil,
+										id: 			'location_input',
+										placeholder: 	''
+									},
+									{
+										label: 			'Vị trí',
+										label_for:		'location_input',
+										before: 		'<section class="tags-ctn" id="locations_list">' + location_list + '</section>'
+									}
+								) %>					
+							</div>
+						
+						<!-- / Location -->
+
+						<div id="map" style="height: 300px" class="hidden"></div>
+					</section>
+					<section class="box-footer text-center">
+						<%= f.submit 'Hoàn tất', class: 'btn btn-green btn-large' %>
+					</section>
+				</div>
+
+			</div>
+			
 		</div>
-
 	</div>
-	
-</div>
+
 <% end %>

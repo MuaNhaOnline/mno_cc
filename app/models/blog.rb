@@ -1,4 +1,12 @@
 class Blog < ActiveRecord::Base
+
+	# Associations
+	
+		has_and_belongs_to_many :tags,
+			autosave: 		true,
+			dependent: 		:delete_all
+	
+	# / Associations
 	
 	# Validations
 
@@ -25,7 +33,16 @@ class Blog < ActiveRecord::Base
 		# Assign with params
 
 			def assign_attributes_with_params params
-				assign_attributes params.permit [:title, :content, :key]
+				if params[:tags].present?
+					params[:tag_ids] = []
+
+					params[:tags].each do |text|
+						next if text.blank?
+						params[:tag_ids] << Tag.find_or_create_by(text: text).id
+					end
+				end
+
+				assign_attributes params.permit [:title, :content, tag_ids: []]
 			end
 
 		# / Assign with params
@@ -52,8 +69,6 @@ class Blog < ActiveRecord::Base
 		def self.delete_by_id id
 			blog = find(id)
 
-			return { status: 6 } if User.current.cannot? :delete, blog
-
 			if delete id
 				{ status: 0 }
 			else
@@ -62,5 +77,13 @@ class Blog < ActiveRecord::Base
 		end
 
 	# / Delete
+
+	# Class attributes
+
+		def self.i18n_attribute key
+			I18n.t 'blog.attributes.' + key
+		end
+	
+	# / Class attributes
 
 end

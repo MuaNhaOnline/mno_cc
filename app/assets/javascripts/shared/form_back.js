@@ -25,6 +25,7 @@ function initForm($form, params) {
 	initEditor();
 	initColor();
 	initIcon();
+	initTags();
 	initDropdownselect();
 	initSeparateNumber();
 	initReadMoney();
@@ -49,7 +50,7 @@ function initForm($form, params) {
 		$container.find('.form-group').removeClass('has-success has-error').find('.callout-error').remove();
 		$container.find('.money-text').text('');
 		// Icon input
-		$icon = $container.find('[aria-input-type="icon"]');
+		$icon = $container.find('[data-input-type="icon"]');
 		$icon.val('');
 		$icon.next().find('.text').show();
 		$icon.next().find('.icon').remove();
@@ -1239,7 +1240,7 @@ function initForm($form, params) {
 					$inputsList = $input.closest('.form-group').find('.tags-ctn'),
 					lastVal = this.value,
 					timeout,
-					startPlaceholder 	= '<a class="item">Hãy nhập từ khóa</a>',
+					$startPlaceholder 	= $('<a class="item">Hãy nhập từ khóa</a>'),
 					emptyPlaceholder 	= '<a class="item">Không có dữ liệu phù hợp</a>',
 					errorPlaceholder 	= '<a class="item">Lỗi, vui lòng thử lại</a>',
 					hasInitValues		= false,
@@ -1252,18 +1253,17 @@ function initForm($form, params) {
 				// Empty items (init items)
 				if ($input.data('init-values') && $input.data('init-values').length != 0) {
 					hasInitValues = true;
-					startPlaceholder = '';
+					$startPlaceholder = '';
 					$.each($input.data('init-values'), function (id, text) {
-						startPlaceholder += '<a class="item" data-value="' + id + '">' + text + '</a>'
+						$startPlaceholder += '<a class="item" data-value="' + id + '">' + text + '</a>'
 					});
+
+					$startPlaceholder = $($startPlaceholder);
 				}
 
-				initInputs($inputsList.find('.item'));
+				addInputs($input.data('value'));
 
 				$input.on({
-					'click': function (e) {
-						e.stopPropagation();
-					},
 					'focus': function () {
 						focus();
 					},
@@ -1276,11 +1276,11 @@ function initForm($form, params) {
 									$hoverItem 	= $();
 
 								$current.removeClass('hover');
-								if ($current.is(':first-child')) {
+								if ($current.is($itemsList.find('a:visible:first')[0])) {
 									$hoverItem = $itemsList.find('> :last-child').addClass('hover');
 								}
 								else {
-									$hoverItem = $current.prev().addClass('hover');
+									$hoverItem = $current.prevAll(':visible:eq(0)').addClass('hover');
 								}
 
 								_scrollIfCantSee($hoverItem, $itemsList);
@@ -1291,11 +1291,11 @@ function initForm($form, params) {
 								e.preventDefault();
 								var $current = $itemsList.find('a.hover');
 								$current.removeClass('hover');
-								if ($current.is(':last-child')) {
+								if ($current.is($itemsList.find('a:visible:last')[0])) {
 									$hoverItem = $itemsList.find('> :first-child').addClass('hover');
 								}
 								else {
-									$hoverItem = $current.next().addClass('hover');
+									$hoverItem = $current.nextAll(':visible:eq(0)').addClass('hover');
 								}
 
 								_scrollIfCantSee($hoverItem, $itemsList);
@@ -1330,7 +1330,7 @@ function initForm($form, params) {
 						}
 
 						if (!this.value) {
-							$itemsList.html(startPlaceholder);
+							$itemsList.html($startPlaceholder);
 							if (hasInitValues) {
 								$itemsList.find('a:eq(0)').addClass('hover');
 								initItems($itemsList.find('a'));	
@@ -1381,43 +1381,50 @@ function initForm($form, params) {
 				});
 
 				function focus() {
-					$itemsList.html(startPlaceholder);
+					$itemsList.html($startPlaceholder);
 					if (hasInitValues) {
-						$itemsList.find('a:eq(0)').addClass('hover');
+						var $focusItem = $itemsList.find('.hover');
+						$focusItem.removeClass('hover');
+						$focusItem = $focusItem.nextAll(':visible:eq(0)');
+
+						if ($focusItem.length == 0) {
+							$focusItem = $itemsList.find('a:visible:eq(0)');
+						}
+						$focusItem.addClass('hover');
 						initItems($itemsList.find('a'));	
 					}
-					
+
 					$input.addClass('focus');
-					$(document).on('click.autocomplete_input', function (e) {
-						focusout();
+					setTimeout(function () {
+						$input.on('mousedown.autocomplete', function (e) {
+							e.stopPropagation();
+						});
+						$(document).on('mousedown.autocomplete_input', function (e) {
+							focusout();
+						});
 					});
 				}
 
 				function focusout() {
-					$input.removeClass('focus').blur();
-					$(document).off('click.autocomplete_input');
+						$input.removeClass('focus').blur();
+						$input.off('mousedown.autocomplete');
+						$(document).off('mousedown.autocomplete_input');
 				}
 
 				function initItems($items) {
 					$items.on({
-						'click': function (e) {
+						'mousedown': function (e) {
 							e.stopPropagation();
-
+						},
+						'click': function (e) {
 							var $item = $(this);
 
-							var $inputItem = $(
-								'<article class="item">' +
-									'<input type="hidden" value="' + $item.data('value') + '" name="' + $input.data('name') + '" />' +
-									'<span class="text">' + $item.text() + '</span>' +
-									'<a class="remove">&times;</a>' +
-								'</article>'
-							);
-							initInputs($inputItem);
+							addInputs({
+								value: $item.data('value'),
+								text: $item.text()
+							});
 
-							$inputsList.append($inputItem);
-
-							$input.val(lastVal = '');
-							$itemsList.html('');
+							$input.focus().val(lastVal = '');
 							$input.trigger('valueChange');
 						},
 						'mouseenter': function () {
@@ -1426,10 +1433,29 @@ function initForm($form, params) {
 					});
 				}
 
+				function addInputs(data) {
+					$(data).each(function () {
+						$startPlaceholder.filter('[data-value="' + this.value + '"]').hide();
+
+						var $inputItem = $(
+							'<article class="item">' +
+								'<input type="hidden" value="' + this.value + '" name="' + $input.data('name') + '" />' +
+								'<span class="text">' + this.text + '</span>' +
+								'<a class="remove">&times;</a>' +
+							'</article>'
+						);
+						initInputs($inputItem);
+
+						$inputsList.append($inputItem);
+					});
+				}
+
 				function initInputs($items) {
 					$items.each(function () {
 						var $item = $(this);
 						$item.find('.remove').on('click', function () {
+							$startPlaceholder.filter('[data-value="' + $item.data('value') + '"]').show();
+							
 							$item.remove();
 							$input.trigger('valueChange');
 						});
@@ -1442,7 +1468,7 @@ function initForm($form, params) {
 				var $currentList, $currentInput;
 				_temp[prefix + 'ajax'] = false;
 
-				$form.find('[aria-input-type="autocomplete"]:not([data-multiple])').each(function () {
+				$form.find('[data-input-type="autocomplete"]:not([data-multiple])').each(function () {
 					var 
 						$input = $(this),
 						isFree = $input.is('[data-free]');
@@ -1721,12 +1747,19 @@ function initForm($form, params) {
 
 	// Editor
 
+		var editorCounter = 0;
 		function initEditor() {
-			$form.find('[aria-input-type="editor"]').each(function () {
+			$form.find('[data-input-type="editor"]').each(function () {
+				if (!this.id) {
+					this.id = 'editor' + editorCounter++;
+				}
+
 				var $input = $(this);
 
 				var extraPlugins = 'autogrow,justify';
-				extraPlugins += $input.data('editor-extra-plugins') || '';
+				if ($input.data('editor-extra-plugins')) {
+					extraPlugins += ',' + $input.data('editor-extra-plugins');
+				}
 
 				CKEDITOR.replace(this.id, {
 					extraPlugins: extraPlugins
@@ -1746,7 +1779,7 @@ function initForm($form, params) {
 			});
 
 			$form.on('submit', function () {
-				$form.find('[aria-input-type="editor"]').each(function () {
+				$form.find('[data-input-type="editor"]').each(function () {
 					this.value = CKEDITOR.instances[this.id].getData();
 				});
 			});
@@ -1754,10 +1787,19 @@ function initForm($form, params) {
 
 	// Editor
 
+	// Tag
+	
+		function initTags() {
+			$form.find('[data-input-type="tags"]').tagsinput({
+			});
+		}
+	
+	// / Tag
+
 	// Color
 
 		function initColor() {
-			$form.find('[aria-input-type="color"]').attr('data-recreate', '').data('recreate', function (data) {
+			$form.find('[data-input-type="color"]').attr('data-recreate', '').data('recreate', function (data) {
 				createColorInput(data.element);
 			}).each(function () {
 				$input = $(this);
@@ -1807,7 +1849,7 @@ function initForm($form, params) {
 	// Icon
 	
 		function initIcon() {
-			$form.find('[aria-input-type="icon"]').attr('type', 'hidden').attr('data-recreate', '').each(function () {
+			$form.find('[data-input-type="icon"]').attr('type', 'hidden').attr('data-recreate', '').each(function () {
 				$input = $(this);
 				
 				// Create wrapper
@@ -1904,7 +1946,7 @@ function initForm($form, params) {
 	// Dropdownselect
 
 		function initDropdownselect() {
-			$form.find('[aria-input-type="dropdownselect"]').each(function () {
+			$form.find('[data-input-type="dropdownselect"]').each(function () {
 				var $container = $(this);
 
 				// Init value
@@ -1971,6 +2013,35 @@ function initForm($form, params) {
 
 				$input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
 			});
+
+
+			$form.find('[data-input-type="money"]').on({
+				keyup: function () {
+					var $input = $(this);
+
+					if ($input.val() != $input.data('old-value')) {
+						var value = $input.val().replace(/\D/g, '');
+
+						$input.closest('.form-group').find('[data-object="money_text"]').text(value ? read_money(value) : '');
+
+						$input.data('old-value', $input.val());
+					}
+				},
+				change: function () {
+					var $input = $(this);
+					
+					var value = $input.val().replace(/\D/g, '');
+
+					$input.closest('.form-group').find('[data-object="money_text"]').text(value ? read_money(value) : '');
+
+					$input.data('old-value', $input.val());
+				}
+			}).each(function () {
+				var $input = $(this)
+				var value = $input.val().replace(/\D/g, '');
+
+				$input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+			});
 		}
 
 	// Read money
@@ -1978,7 +2049,7 @@ function initForm($form, params) {
 	// Price format
 
 		function initSeparateNumber() {
-			$form.find('.separate-number').on({
+			$form.find('[data-input-type="money"], .separate-number').on({
 				focus: function () {
 					_temp['price'] = this.value;
 					_temp['is_changed'] = false;

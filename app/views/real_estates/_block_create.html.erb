@@ -201,7 +201,7 @@
 						<label class="control-label" for="description">
 							Mô tả
 						</label>
-						<textarea class="form-control" name="real_estate[description]" id="description" aria-input-type="editor"><%= @re.description %></textarea>
+						<textarea class="form-control" name="real_estate[description]" id="description" data-input-type="editor"><%= @re.description %></textarea>
 					</article>
 
 				</div>
@@ -232,7 +232,7 @@
 								<option data-off="sell rent" value hidden>Chọn mục đích</option>
 								<% Purpose.get_options.each do |p| %>
 									<% next if p.code == 'transfer' %>
-									<option value="<%= p.id %>" <%= 'selected' if p.name == default_purpose_name %> <%= p.options['html']['attributes'].html_safe if defined?(p.options['html']['attributes']) %>><%= t 'purpose.text.' + p.name %></option>
+									<option value="<%= p.id %>" <%= 'selected' if p.name == default_purpose_name %> <%= p.options['html']['attributes'].html_safe if defined?(p.options['html']['attributes']) %>><%= t 'purpose.name.' + p.name %></option>
 								<% end %>
 							</select>
 						</article>

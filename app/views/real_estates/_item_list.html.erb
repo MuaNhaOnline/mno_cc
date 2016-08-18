@@ -128,7 +128,7 @@
 							</div>
 							<div class="type-real">
 								<i class="fa fa-home"></i>
-								<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
+								<span><%= t 'real_estate_type.name.' + re.real_estate_type.name %></span>
 							</div>
 							<div class="convenient">
 								<% if re.fields.include? :restroom %>
@@ -194,7 +194,7 @@
 						</div>
 						<div class="type-real">
 							<i class="fa fa-home"></i>
-							<span><%= t 'real_estate_type.text.' + re.real_estate_type.name %></span>
+							<span><%= t 'real_estate_type.name.' + re.real_estate_type.name %></span>
 						</div>
 						<div class="convenient">
 							<% if re.fields.include? :restroom_number %>

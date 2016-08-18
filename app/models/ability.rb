@@ -99,6 +99,12 @@ class Ability
 				can :manage, ['Contents', District, Province] if user.system_permissions.include? 5
 			
 			# / Contents
+
+			# Blog
+			
+				can :manage, Blog if user.system_permissions.include? 6
+			
+			# / Blog
 		
 		# / With permission
 

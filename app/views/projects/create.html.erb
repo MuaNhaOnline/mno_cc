@@ -220,7 +220,7 @@
 								<article class="form-group">
 									<label class="control-label" for="description">Giới thiệu</label>
 									<sup class="required-label"></sup>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-constraint="required" name="project[description]" class="form-control" id="description" aria-input-type="editor"><%= @project.description %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-constraint="required" name="project[description]" class="form-control" id="description" data-input-type="editor"><%= @project.description %></textarea>
 								</article>
 
 							<!-- / Description -->
@@ -274,7 +274,7 @@
 									<label class="control-label" for="position_description">
 										Mô tả vị trí
 									</label>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" class="form-control" aria-input-type="editor" name="project[position_description]" id="position_description"><%= @project.position_description %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" class="form-control" data-input-type="editor" name="project[position_description]" id="position_description"><%= @project.position_description %></textarea>
 								</article>
 
 							<!-- / Position description -->
@@ -821,7 +821,7 @@
 
 								<article class="form-group">
 									<label class="control-label" for="payment_method"><%= t 'project.attribute.payment_method' %></label>
-									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" aria-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= @project.payment_method %></textarea>
+									<textarea data-editor-extra-plugins=",uploadimage,filebrowser,image2" data-input-type="editor" name="project[payment_method]" class="form-control" id="payment_method"><%= @project.payment_method %></textarea>
 								</article>
 
 								<article class="form-group">
@@ -878,7 +878,7 @@
 									Màu chủ đạo
 									<sup class="required-label"></sup>
 								</label>
-								<input data-constraint="required" aria-input-type="color" name="project[main_color]" class="form-control" value="<%= @project.main_color %>" />
+								<input data-constraint="required" data-input-type="color" name="project[main_color]" class="form-control" value="<%= @project.main_color %>" />
 							</article>
 						</section>
 					</article>

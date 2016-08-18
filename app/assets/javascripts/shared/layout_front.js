@@ -590,7 +590,7 @@ $(function () {
 			$('.btn-search-plus').fadeToggle();
 		}).click();
 
-		$('[aria-input-type="dropdownselect"]').each(function () {
+		$('[data-input-type="dropdownselect"]').each(function () {
 			var $input = $(this);
 
 			$input.find('~ ul a').on('click', function () {

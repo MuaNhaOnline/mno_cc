@@ -3,7 +3,7 @@
 	params: mails, page, per, by_type
 =end	
 	@_title       		=
-	@_content_header	= 'Hộp tin'
+	@_content_header	= t '.page_title'
 
 	mails_in_page 	= 	mails.page page, per
 	max_page 		= 	(mails.count.to_f / per).ceil
@@ -14,18 +14,20 @@
 	<!-- Navigator -->
 		
 		<div class="col-xs-12 col-md-3">
-			<a data-action="create" href="javascript:;" class="btn btn-primary btn-flat btn-block margin-bottom">Gửi tin</a>
+			<a data-action="create" href="javascript:;" class="btn btn-primary btn-flat btn-block margin-bottom">
+				<%= t '.compose' %>
+			</a>
 			<div class="box box-solid">
 				<div class="box-body no-padding">
 					<ul class="nav nav-pills nav-stacked">
 						<li class="<%= 'active' if by_type == 'inbox' %>">
 							<a data-action="change_type" data-value="inbox" href="javascript:;">
-								<i class="fa fa-inbox"></i> Tin đến
+								<i class="fa fa-inbox"></i> <%= t '.inbox' %>
 							</a>
 						</li>
 						<li class="<%= 'active' if by_type == 'sent' %>">
 							<a data-action="change_type" data-value="sent" href="javascript:;">
-								<i class="fa fa-envelope-o"></i> Tin đã gửi
+								<i class="fa fa-envelope-o"></i> <%= t '.sent' %>
 							</a>
 						</li>
 					</ul>
@@ -41,7 +43,12 @@
 			<div class="box box-primary">
 				<div class="box-header with-border">
 					<h3 class="box-title" id="list_title">
-						Tin đến
+						<% case by_type %>
+						<% when 'inbox' %>
+							<%= t '.inbox' %>
+						<% when 'sent' %>
+							<%= t '.sent' %>
+						<% end %>
 					</h3>
 					<!-- <div class="box-tools pull-right">
 						<div class="has-feedback">
@@ -53,7 +60,7 @@
 				<div class="box-body no-padding">
 					<div class="mailbox-controls">
 						<button data-action="checked_toggle" type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o fa-fw text-center"></i></button>
-						<button data-action="delete" type="button" class="btn btn-default btn-sm" title="Xóa"><i class="fa fa-trash-o fa-fw text-center"></i></button>
+						<button data-action="delete" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o fa-fw text-center"></i></button>
 						<div class="pull-right">
 							<div class="btn-group">
 								<button data-action="prev_page" type="button" class="btn btn-default btn-sm" <%= 'disabled="true"'.html_safe if page == 1 %>><i class="fa fa-chevron-left"></i></button>
@@ -67,7 +74,7 @@
 								<% if mails_in_page.present? %>
 									<%= render partial: 'index', locals: { mails: mails_in_page } %>
 								<% else %>
-									<tr><td class="text-center"><b>Không tìm thấy tin</b></td></tr>
+									<tr><td class="text-center"><b><%= t '.empty_list' %></b></td></tr>
 								<% end %>
 							</tbody>
 						</table>
@@ -77,7 +84,7 @@
 					<div class="mailbox-controls">
 						<button data-action="checked_toggle" type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o fa-fw text-center"></i>
 						</button>
-						<button data-action="delete" type="button" class="btn btn-default btn-sm" title="Xóa"><i class="fa fa-trash-o fa-fw text-center"></i></button>
+						<button data-action="delete" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o fa-fw text-center"></i></button>
 						<div class="pull-right">
 							<div class="btn-group">
 								<button data-action="prev_page" type="button" class="btn btn-default btn-sm" <%= 'disabled="true"'.html_safe if page == 1 %>><i class="fa fa-chevron-left"></i></button>

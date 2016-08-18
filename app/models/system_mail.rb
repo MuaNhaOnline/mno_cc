@@ -7,6 +7,13 @@
 
 class SystemMail < ActiveRecord::Base
 
+	# Constants
+	
+		NORMAL_TYPE = 1
+		REQUEST_TYPE = 2
+	
+	# / Constants
+
 	# Associations
 
 		belongs_to :sender, class_name: 'User'
@@ -102,6 +109,14 @@ class SystemMail < ActiveRecord::Base
 		end
 	
 	# / Save
+
+	# Class attributes
+	
+		def self.i18n_value field, value
+			I18n.t("system_mail.values.#{field}.#{value}")
+		end
+	
+	# / Class attributes
 
 	# Attributes
 	

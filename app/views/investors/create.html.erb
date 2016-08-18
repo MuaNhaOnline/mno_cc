@@ -60,7 +60,7 @@
 							<label class="control-label" for="investor[representation_id]">
 								Tài khoản đại diện
 							</label>
-	  						<input data-constraint="required" <%= "value=\"#{@investor.representation.full_name}\" data-value=\"#{@investor.representation.id}\"".html_safe if !@investor.new_record? && @investor.representation.present? %> class="form-control" aria-input-type="autocomplete" data-url="/users/autocomplete" id="investor[representation_id]" name="investor[representation_id]" />
+	  						<input data-constraint="required" <%= "value=\"#{@investor.representation.full_name}\" data-value=\"#{@investor.representation.id}\"".html_safe if !@investor.new_record? && @investor.representation.present? %> class="form-control" data-input-type="autocomplete" data-url="/users/autocomplete" id="investor[representation_id]" name="investor[representation_id]" />
 						</article>
 					
 					<!-- / Representation -->
@@ -104,7 +104,7 @@
 				<label class="control-label" for="investor[description]">
 					Mô tả
 				</label>			
-				<textarea class="form-control" aria-input-type="editor" name="investor[description]" id="investor[description]"><%= @investor.description %></textarea>
+				<textarea class="form-control" data-input-type="editor" name="investor[description]" id="investor[description]"><%= @investor.description %></textarea>
 			</article>
 			<button class="btn btn-primary btn-block">
 				Hoàn tất

@@ -110,6 +110,7 @@
 				*/
 
 				component = address_components[i];
+
 				switch(component.types[0]) {
 					// Số nhà
 					case 'street_number':
@@ -133,6 +134,10 @@
 					// Thành phố
 					case 'administrative_area_level_1':
 						result.province = component.long_name.toSentenceCase();
+
+						if (result.province == 'Hồ Chí Minh') {
+							result.province = 'Tp. Hồ Chí Minh';
+						}
 						break;
 					default:
 						break;

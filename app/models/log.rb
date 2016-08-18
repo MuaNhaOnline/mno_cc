@@ -28,6 +28,10 @@ class Log < ActiveRecord::Base
 		def self.get_without_view_action
 			where.not(action: 'view')
 		end
+
+		def self.get_for_build
+			where(object_type: ['real_estate', 'project', 'user'])
+		end
 	
 	# / Get
 

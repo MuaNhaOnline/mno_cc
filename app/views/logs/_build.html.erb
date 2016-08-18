@@ -8,6 +8,7 @@
 
 <% logs.each do |log| %>
 	<%
+		puts '-------------------------' + log.object_type + '_______________________';
 		controller = case log.object_type
 			when 'real_estate', 'project', 'user'
 				log.object_type + 's'

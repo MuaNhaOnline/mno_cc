@@ -6,12 +6,24 @@
 			3: advisory
 		status
 			1: need_contact
-			2: not_use
+			2: (not_use)
 			3: eliminated
 			4: done
 =end	
 
 class RequestedSystemMail < ActiveRecord::Base
+
+	# Constants
+	
+		CONTACT_TYPE = 1
+		REGISTER_TYPE = 2
+		ADVISORY = 3
+
+		NEED_CONTACT_STATUS = 1
+		ELIMINATED_STATUS = 3
+		DONE_STATUS = 4
+
+	# / Constants
 
 	# Associations
 	

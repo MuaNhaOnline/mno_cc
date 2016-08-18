@@ -3,9 +3,9 @@
 <% end %>
 
 <% content_for :scripts do %>
-	<script type="text/javascript" src="/assets/real_estates/create.js"></script>
-	<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+	<script type="text/javascript" src='http://maps.google.com/maps/api/js?key=AIzaSyBsMB8D8mBgDcBqGCyOii1Kgu-BJmfNAvQ&libraries=places'></script>
 	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/real_estates/create.js"></script>
 	<script type="text/javascript">
 		signed = <%= signed? %>;
 	</script>
@@ -48,28 +48,28 @@
 	current_re_type_group = @re.real_estate_type_id.blank? ? nil : @re.real_estate_type.options['group']
 	re_type_group_basic_html = 
 	"<option hidden #{'selected' if current_re_type_group == nil} data-off='real_estate_type_basic' value>Chọn loại bất động sản</option>
-	<option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type_basic land_basic' data-off=un-land_basic value=1>#{t 'real_estate_type.text.land_group'}</option>
-	<option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type_basic house_basic' data-off=un-house_basic value=2>#{t 'real_estate_type.text.house_group'}</option>
-	<option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type_basic apartment_basic' data-off=un-apartment_basic value=3>#{t 'real_estate_type.text.apartment_group'}</option>
-	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type_basic space_basic' data-off=un-space_basic value=4>#{t 'real_estate_type.text.space_group'}</option>"
+	<option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type_basic land_basic' data-off=un-land_basic value=1>#{t 'real_estate_type.name.land_group'}</option>
+	<option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type_basic house_basic' data-off=un-house_basic value=2>#{t 'real_estate_type.name.house_group'}</option>
+	<option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type_basic apartment_basic' data-off=un-apartment_basic value=3>#{t 'real_estate_type.name.apartment_group'}</option>
+	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type_basic space_basic' data-off=un-space_basic value=4>#{t 'real_estate_type.name.space_group'}</option>"
 	re_type_group_html = 
 	"<option hidden #{'selected' if current_re_type_group == nil} data-off='real_estate_type' value>Chọn loại bất động sản</option>
-	<option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type land detail_land' data-off='un-land un-detail_land' value=1>#{t 'real_estate_type.text.land_group'}</option>
-	<option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type house detail_house' data-off='un-house un-detail_house' value=2>#{t 'real_estate_type.text.house_group'}</option>
-	<option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type apartment detail_apartment' data-off='un-apartment un-detail_apartment' value=3>#{t 'real_estate_type.text.apartment_group'}</option>
-	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type space detail_space' data-off='un-space un-detail_space' value=4>#{t 'real_estate_type.text.space_group'}</option>"
+	<option #{'selected' if current_re_type_group == 'land'} data-on='real_estate_type land detail_land' data-off='un-land un-detail_land' value=1>#{t 'real_estate_type.name.land_group'}</option>
+	<option #{'selected' if current_re_type_group == 'house'} data-on='real_estate_type house detail_house' data-off='un-house un-detail_house' value=2>#{t 'real_estate_type.name.house_group'}</option>
+	<option #{'selected' if current_re_type_group == 'apartment'} data-on='real_estate_type apartment detail_apartment' data-off='un-apartment un-detail_apartment' value=3>#{t 'real_estate_type.name.apartment_group'}</option>
+	<option #{'selected' if current_re_type_group == 'space'} data-on='real_estate_type space detail_space' data-off='un-space un-detail_space' value=4>#{t 'real_estate_type.name.space_group'}</option>"
 
 	land_html = house_html = apartment_html = space_html = '<option hidden value>Chọn chi tiết</option>'
 	RealEstateType.get_options.each do |t|
 		case t.options['group']
 			when 'land'
-				land_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.text.' + t.name}</option>"
+				land_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.name.' + t.name}</option>"
 			when 'house'
-				house_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.text.' + t.name}</option>"
+				house_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.name.' + t.name}</option>"
 			when 'apartment'
-				apartment_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.text.' + t.name}</option>"
+				apartment_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.name.' + t.name}</option>"
 			when 'space'
-				space_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.text.' + t.name}</option>"
+				space_html += "<option #{'selected' if t.id == @re.real_estate_type_id || (defined?(t.options['default']) && t.options['default'] && @re.real_estate_type_id.blank?)} #{t.options['html']['attributes'] if defined?(t.options['html']['attributes'])} value=\"#{t.id}\">#{t 'real_estate_type.name.' + t.name}</option>"
 		end
 	end
 
@@ -232,7 +232,7 @@
 							<select data-constraint="required" name="real_estate[purpose_id]" class="form-control input-toggle" id="purpose" autofocus>
 								<option data-off="sell rent" value hidden>Chọn mục đích</option>
 								<% Purpose.get_options.each do |p| %>
-									<option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options['html']['attributes'].html_safe if defined?(p.options['html']['attributes']) %>><%= t 'purpose.text.' + p.name %></option>
+									<option value="<%= p.id %>" <%= 'selected' if (@re.purpose_id.present? && p.id == @re.purpose_id) %> <%= p.options['html']['attributes'].html_safe if defined?(p.options['html']['attributes']) %>><%= t 'purpose.name.' + p.name %></option>
 								<% end %>
 							</select>
 						</article>
@@ -708,7 +708,7 @@
 										<select data-constraint="required" class="form-control" name="real_estate[constructional_level_id]" id="contructional_level_id">
 											<option value hidden>Chọn loại</option>
 											<% ConstructionalLevel.get_options.each do |l| %>
-												<option <%= 'selected' if l.id == @re.constructional_level_id %> value="<%= l.id %>"><%= t 'constructional_level.text.' + l.name %></option>
+												<option <%= 'selected' if l.id == @re.constructional_level_id %> value="<%= l.id %>"><%= t 'contructional_level.name.' + l.name %></option>
 											<% end %>
 										</select>
 									</article>
@@ -796,7 +796,7 @@
 								<%= t 'real_estate.attribute.description' %>
 								<sup class="required-label"></sup>
 							</label>
-							<textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description" aria-input-type="editor"><%= @re.description %></textarea>
+							<textarea data-constraint="required" class="form-control" name="real_estate[description]" id="description" data-input-type="editor"><%= @re.description %></textarea>
 						</article>
 					</section>
 				</article>

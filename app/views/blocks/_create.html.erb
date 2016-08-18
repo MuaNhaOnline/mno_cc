@@ -299,7 +299,7 @@
 												<select data-constraint="required" class="form-control input-toggle" name="block[group][tab_name][real_estate_type_id]">
 													<option value hidden data-off="apartment office">Chọn loại</option>
 													<% RealEstateType.where('code LIKE \'%|complex_apartment|%\'').each do |t| %>
-														<option value="<%= t.id %>" <%= 'selected' if group.real_estate_type_id == t.id %> <%= t.options['html']['attributes'].html_safe if defined?(t.options['html']['attributes']) %>><%= t 'real_estate_type.text.' + t.name %></option>
+														<option value="<%= t.id %>" <%= 'selected' if group.real_estate_type_id == t.id %> <%= t.options['html']['attributes'].html_safe if defined?(t.options['html']['attributes']) %>><%= t 'real_estate_type.name.' + t.name %></option>
 													<% end %>
 												</select>
 											</article>

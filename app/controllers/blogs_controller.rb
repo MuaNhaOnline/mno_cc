@@ -14,26 +14,39 @@ class BlogsController < ApplicationController
 
 	# Create
 
-		# View
-		# params: (id)
+		# POST: blog form
 		def create
-			@blog = params[:id].present? ? Blog.find(params[:id]) : Blog.new
+			@blog = Blog.new
+
+			if request.post?
+				if @blog.save_with_params params[:blog]
+					render json: { status: 0 }
+				else
+					render json: { status: 2 }
+				end
+
+				return
+			end
 
 			render layout: 'layout_back'
 		end
 
-		# Handle
-		# params: blog form
-		def save
-			blog = params[:blog][:id].present? ? Blog.find(params[:blog][:id]) : Blog.new
+		# GET: id
+		# POST: blog form
+		def edit
+			@blog = Blog.find params[:id]
 
-			result = blog.save_with_params params[:blog]
+			if request.post?
+				if @blog.save_with_params params[:blog]
+					render json: { status: 0 }
+				else
+					render json: { status: 2 }
+				end
 
-			if result[:status] != 0
-				render json: { status: 2 }
-			else
-				render json: { status: 0 }
+				return
 			end
+
+			render layout: 'layout_back'
 		end
 
 	# / Create

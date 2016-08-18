@@ -47,4 +47,12 @@ class Province < ActiveRecord::Base
 		end
 	
 	# / Save
+
+	# Atrributes
+	
+		def self.display_name
+			I18n.t 'province.text'
+		end
+	
+	# / Atrributes
 end

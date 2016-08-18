@@ -2,6 +2,8 @@ class District < ActiveRecord::Base
 
 	default_scope { order('"order" asc, name asc') }
 
+	belongs_to :province
+
 	# Callback
 	
 		before_save :get_next_order
@@ -48,5 +50,13 @@ class District < ActiveRecord::Base
 		end
 	
 	# / Save
+
+	# Atrributes
+	
+		def self.display_name
+			I18n.t 'district.text'
+		end
+	
+	# / Atrributes
 
 end

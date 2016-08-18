@@ -1,5 +1,5 @@
 class RealEstatesController < ApplicationController
-	layout 'layout_front'
+	layout 'front_layout'
 
 	def index
 		@favorite_res = RealEstate.search_with_params(is_favorite: 'true')
@@ -41,7 +41,7 @@ class RealEstatesController < ApplicationController
 				{ search_name: 'Mặt bằng - Cửa hàng', real_estate_type: 'store' }
 			when 'nha-hang-khach-san'
 				{ search_name: 'Nhà hàng - Khách sạn', real_estate_type: 'restaurant_hotel' }
-			when 'nha-kho-xuong'
+			when 'kho-xuong'
 				{ search_name: 'Kho - Xưởng', real_estate_type: 'storage_workshop' }
 			when 'can-ho-cao-cap'
 				{ search_name: 'Căn hộ cao cấp', real_estate_type: 'high_apartment' }
@@ -132,14 +132,14 @@ class RealEstatesController < ApplicationController
 	# View
 		
 		# View
-		# params: slug(*)
+		# params: full_slug(*)
 		def view
-			# Get id from slug
-			id = params[:slug][((params[:slug].rindex('-') || -1) + 1)...params[:slug].length]
+			# Get id from full_slug
+			id = params[:full_slug][((params[:full_slug].rindex('-') || -1) + 1)...params[:full_slug].length]
 
 			@re = RealEstate.find id
 
-			return redirect_to "/bat-dong-san/#{@re.full_slug}" if @re.full_slug != params[:slug] + '.html'
+			return redirect_to "/bat-dong-san/#{@re.full_slug}" if @re.full_slug != params[:full_slug] + '.html'
 
 			# Author
 			authorize! :view, @re
@@ -1445,7 +1445,7 @@ class RealEstatesController < ApplicationController
 	
 		# View
 		def register
-			@registration = ReRegistration.new
+			@registration = ReRegistration.find 2
 
 			if request.post?
 				if @registration.save_with_params params[:re_registration]
@@ -1460,9 +1460,11 @@ class RealEstatesController < ApplicationController
 				end
 
 				return render json: response
+			else
+				if params[:search].present?
+
+				end
 			end
-			
-			render layout: 'layout_back'
 		end
 	
 	# / Registraion

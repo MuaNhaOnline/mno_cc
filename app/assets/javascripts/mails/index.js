@@ -15,7 +15,7 @@ $(function () {
 			params = params || {};
 
 			$.ajax({
-				url: '/mails/index',
+				url: window.location.pathname,
 				data: searchData,
 				cache: false
 			}).always(function () {

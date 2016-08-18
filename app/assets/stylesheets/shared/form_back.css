@@ -319,6 +319,7 @@
 			max-height: 200px;
 			overflow-y: auto;
 			display: none;
+			z-index: 30;
 		}
 
 			.form .autocomplete-input-ctn .list:before {
@@ -362,6 +363,7 @@
 			.form .autocomplete-input-ctn .item.hover {
 				background-color: #3c8dbc;
 				color: #fff;
+				text-decoration: none;
 			}
 
 	.form .autocomplete-container {
@@ -379,7 +381,7 @@
 		display: none;
 	}
 
-		.form input[aria-input-type="autocomplete"].focus ~ .autocomplete-list-container {
+		.form input[data-input-type="autocomplete"].focus ~ .autocomplete-list-container {
 			display: block;
 		}
 

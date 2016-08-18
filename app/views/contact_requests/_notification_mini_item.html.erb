@@ -3,6 +3,8 @@
 	variables: notification
 =end
 
+	scope = 'contact_requests._notification_mini_item.'
+
 	if notification.contact_request.blank?
 		notification.delete
 		return
@@ -22,7 +24,7 @@
 			end
 			notification.interact_contact_user.name
 		when 'guess'
-			'Khách'
+			t 'global.text.guess'
 		end
 %>
 
@@ -30,7 +32,7 @@
 <% when 'create' %>
 	<%
 		url = "/yeu-cau/quan-ly"
-		text = "#{user_name} gửi yêu cầu mới"
+		text = t(scope + 'create', name: user_name)
 	%>
 <% end %>
 

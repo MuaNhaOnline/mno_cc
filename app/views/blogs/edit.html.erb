@@ -1,0 +1,64 @@
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :scripts do %>
+	<script type="text/javascript" src="/assets/blogs/edit.js"></script>
+<% end %>
+
+<% 
+=begin
+	params: @blog
+=end
+
+	@_title				= 
+	@_content_header 	=	t '.page_title'
+%>
+
+<%= form_for(
+	@blog,
+	url: 			'#',
+	method: 		'POST',
+	html: 			{
+						id: 		'blog_form',
+						class: 		'form'
+					}
+) do |f| %>
+
+	<div class="box box-primary">
+		<div class="box-body">
+			<%= f.field(
+				'text',
+				:title,
+				{
+					'data-constraint':	'required'
+				},
+				{
+					label:		Blog.i18n_attribute('title')
+				}
+			) %>
+			<%= f.field(
+				'editor',
+				:content,
+				{
+					'data-constraint':	'required',
+					'data-editor-extra-plugins': 'font,uploadimage,filebrowser,image2,youtube'
+				},
+				{
+					label:		Blog.i18n_attribute('content')
+				}
+			) %>
+			<%= f.field(
+				'tags',
+				:tags,
+				{},
+				{
+					label:		Blog.i18n_attribute('tags')
+				}
+			) %>
+		</div>
+		<div class="box-footer text-center">
+			<%= f.submit t('global.text.submit'), class: 'btn btn-primary' %>
+		</div>
+	</div>
+
+<% end %>
