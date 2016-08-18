@@ -192,8 +192,8 @@ Rails.application.routes.draw do
 
 		# Mail
 		
-			get 'hop-thu/yeu-cau' => 'mails#requested_list', as: 'requested_mails'
-			get 'hop-thu' => 'mails#index', as: 'mails'
+			get 'hop-tin/yeu-cau' => 'mails#requested_list', as: 'requested_mails'
+			get 'hop-tin' => 'mails#index', as: 'mails'
 		
 		# / Mail
 
