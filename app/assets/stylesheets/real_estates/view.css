@@ -301,6 +301,10 @@ main {
 		background-color: #fff;
 	}
 
+		.description-container .box {
+			box-shadow: none;
+		}
+
 		.description-container > *:first-child {
 			margin-top: 0 !important;
 		}

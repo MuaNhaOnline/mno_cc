@@ -659,7 +659,7 @@
 												</article>
 												<article class="col-xs-6">
 													<%= contact_form.field(
-														'number',
+														'phone',
 														:phone_number,
 														{
 															placeholder: 	t('.contact.phone_placeholder')
@@ -685,13 +685,13 @@
 
 	<!-- Relative real-estate -->
 	
-		<article class="box box-transparent">
-			<section class="box-header">
-				<h2 class="box-title">
-					<%= t '.relative_re' %>
+		<article class="container-box container-box-transparent">
+			<section class="container-box-header">
+				<h2 class="container-box-title">
+					<%= t '.relative_res' %>
 				</h2>
 			</section>
-			<section class="box-body">
+			<section class="container-box-body">
 				<%
 					res = RealEstate.search_with_params.limit(6)
 				%>

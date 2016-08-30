@@ -77,6 +77,11 @@
 	    padding: 0;
 	}
 
+	.skin-blue .main-header .logo:hover,
+	.skin-blue .main-header .logo:focus {
+		text-decoration: none;
+	}
+
 	.treeview.active > a > .fa-caret-left:before {
 		content: "\f0d7";
 	}
@@ -115,6 +120,10 @@
 			left: 0;
 			background-color: #3c8dbc;
 		}
+
+	.sidebar-menu>li>a:focus {
+		text-decoration: none;
+	}
 
 	.pagination>li>a, .pagination>li>span {
 		margin-top: 4px;

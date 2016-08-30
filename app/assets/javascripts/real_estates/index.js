@@ -16,10 +16,7 @@ $(function () {
 
 		_initFixedScroll(
 			$('.re-index .search-box-container'), 
-			$('.re-index #res_list'),
-			{
-				staticTop: true
-			}
+			$('.re-index #res_list')
 		);
 	
 	// / Fixed search box

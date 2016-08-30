@@ -13,8 +13,10 @@ class HomeController < ApplicationController
 			@res = RealEstate.search_with_params_2(
 				params[:search].clone,
 				{
-					page: page,
-					per_page: 12
+					paginate: {
+						page: page,
+						per_page: 12	
+					}
 				}
 			)
 		end

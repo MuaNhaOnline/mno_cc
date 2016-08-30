@@ -16,7 +16,7 @@
 
 <%= form_for(
 	@blog,
-	url: 			'#',
+	url: 			'/blogs/create',
 	method: 		'POST',
 	html: 			{
 						id: 		'blog_form',
@@ -48,11 +48,50 @@
 				}
 			) %>
 			<%= f.field(
+				'select',
+				:category_id,
+				{},
+				{
+					label:					Blog.i18n_attribute('category'),
+					select_options_list:	BlogCategory.all.map do |cat|
+												[
+													cat.name,
+													cat.id
+												]
+											end
+				}
+			) %>
+			<%= f.field(
 				'tags',
 				:tags,
 				{},
 				{
 					label:		Blog.i18n_attribute('tags')
+				}
+			) %>
+			<%= f.field(
+				'autocomplete',
+				:relative_re_ids,
+				{
+					multiple: 			true,
+					'data-url': 		'/real_estates/get_by_keyword',
+					# 'data-value':		@registration.real_estate_types.map do |type|
+					# 						{
+					# 							value:	type.id,
+					# 							text:	type.display_name
+					# 						}
+					# 					end.to_json
+				},
+				{
+					label: 				Blog.i18n_attribute('relative_res')
+				}
+			) %>
+			<%= f.field(
+				'image',
+				:image,
+				{},
+				{
+					label:		Blog.i18n_attribute('image')
 				}
 			) %>
 		</div>

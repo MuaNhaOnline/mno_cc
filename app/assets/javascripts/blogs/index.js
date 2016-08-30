@@ -1,41 +1,16 @@
-$(function() {
-	Jump();
-
-	//init dot dot dot
-	$('[data-dot]').dotdotdot({
-		watch: 'window'
+$(function () {
+	$('.blogs .primary-item .title').dotdotdot({
+		watch: 'window',
+		height: 38
+	});
+	$('.blogs .primary-item .content').dotdotdot({
+		watch: 'window',
+		height: 60,
+		after: 'a'
 	});
 
-	// Delete button
-	$('[aria-click="delete"]').on('click', function () {
-		var $item = $(this).closest('.item');
-
-		if (confirm('Bạn có chắc muốn xóa blog này?')) {
-			$.ajax({
-				url: '/blogs/delete',
-				method: 'POST',
-				data: { id: $item.data('value') },
-				dataType: 'JSON'
-			}).done(function (data) {
-				if (data.status == 0) {
-					$item.remove();
-				}
-				else {
-					alert('Xóa blog thất bại');
-				}
-			}).fail(function () {
-				alert('Xóa blog thất bại');
-			})
-		}
+	$('.blogs .item .title').dotdotdot({
+		watch: 'window',
+		height: 34
 	});
 });
-// init Jump
-function Jump() {
-	var top;
-	$(window).load(function() {
-		top = $('.title-blog').offset().top - 80;
-		$body.animate({
-			scrollTop: top
-		}, 500)
-	});
-}

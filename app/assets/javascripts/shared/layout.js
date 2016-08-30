@@ -1,4 +1,5 @@
 var $html, $body, $window, $document, _temp = {}, _isSystemScroll = false, _popupContent = {};
+var _layout;
 
 $(function () {	
 	$('#loading_page').remove();
@@ -278,15 +279,19 @@ $(function () {
 
 		var 
 			// 1: Top, 2: Middle, 3: Bottom
-			flag = -1;
+			flag = -1,
+			manager = {};
 
 		$follow.css('min-height', '100vh');
 
-		function doIt() {
+		manager.isRunning = function () {
+			return flag != -1;
+		}
+		manager.doIt = function () {
 			var 
 				min = $follow.offset().top,
 				max = $follow.offset().top + $follow.outerHeight() - $object.outerHeight(),
-				scrollTop = $(window).scrollTop();
+				scrollTop = $(window).scrollTop() + (_layout == 'front' ? 80 : 0);
 
 			if (scrollTop < min) {
 				if (flag == 1) {
@@ -321,7 +326,7 @@ $(function () {
 				else {
 					$object.css({
 						position: 'fixed',
-						top: '0px'
+						top: (_layout == 'front' ? '80px' : '0')
 					});
 				}
 			}
@@ -340,13 +345,36 @@ $(function () {
 					});
 				}
 			}
+
+			console.log(flag);
+		}
+		manager.start = function () {
+			if (manager.isRunning()) {
+				return;
+			}
+
+			$(window).on('scroll.' + $object.selector.replace(/ /, '_'), function () {
+				manager.doIt();
+			});
+		}
+		manager.end = function () {
+			if (!manager.isRunning()) {
+				return;
+			}
+
+			$(window).off('scroll.' + $object.selector.replace(/ /, '_'));
+			flag = -1;
+			$object.css({
+				position: '',
+				top: ''
+			});
+			$follow.css('min-height', '');
 		}
 
-		doIt();
+		manager.start();
+		manager.doIt();
 
-		$(window).on('scroll', function () {
-			doIt();
-		});
+		return manager;
 	}
 
 	/*

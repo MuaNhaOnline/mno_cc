@@ -5,14 +5,14 @@ $(function () {
 		submit: function () {
 			toggleLoadStatus(true);
 			$.ajax({
-				url: '',
+				url: $form.attr('action'),
 				method: 'POST',
 				data: $form.serialize(),
 			}).always(function () {
 				toggleLoadStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
-					window.location = '/blogs';
+					window.location = data.result.redirect;
 				}
 				else {
 					popupPrompt({

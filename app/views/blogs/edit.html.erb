@@ -16,7 +16,7 @@
 
 <%= form_for(
 	@blog,
-	url: 			'#',
+	url: 			'/blogs/edit/' + @blog.id.to_s,
 	method: 		'POST',
 	html: 			{
 						id: 		'blog_form',
@@ -48,12 +48,42 @@
 				}
 			) %>
 			<%= f.field(
+				'select',
+				:category_id,
+				{},
+				{
+					label:					Blog.i18n_attribute('category'),
+					select_options_list:	BlogCategory.all.map do |cat|
+												[
+													cat.name,
+													cat.id
+												]
+											end
+				}
+			) %>
+			<%= f.field(
+				'autocomplete',
+				:relative_re_ids,
+				{
+					multiple: 			true,
+					'data-url': 		'/real_estates/get_by_keyword'
+				},
+				{
+					label: 				Blog.i18n_attribute('relative_res'),
+					text_method:		lambda { |re| "[#{re.display_id}] #{re.title}" }
+				}
+			) %>
+			<%= f.field(
 				'tags',
 				:tags,
 				{},
 				{
 					label:		Blog.i18n_attribute('tags')
 				}
+			) %>
+			<%= f.field(
+				'image',
+				:image
 			) %>
 		</div>
 		<div class="box-footer text-center">

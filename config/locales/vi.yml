@@ -7,11 +7,14 @@ vi:
       empty_callout: Không tìm thấy kết quả phù hợp
       close: Đóng
       submit: Hoàn tất
+      finish: Hoàn tất
       delete: Xóa
       send: Gửi
       search: Tìm kiếm
       guess: Khách
       all: Tất cả
+      read_more: Xem thêm
+      edit: Sửa
     paginator:
       first: Trang đầu
       last: Trang cuối
@@ -36,8 +39,21 @@ vi:
       project: Dự án
       valued: Nhà định giá
       business: Doanh nghiệp
-      news: Tin tức
+      news: Bài viết
       view_all: Xem tất cả
+    main_menu:
+      re:
+        title: Bất động sản
+        list:
+          list: Danh sách
+          my: Danh sách của tôi
+          my_favorite: Danh sách quan tâm
+          create: Đăng tin
+      reg:
+        title: Theo dõi
+        list:
+          create: Thêm mới
+          my: Danh sách của tôi
     search_box:
       title: Tìm kiếm
       keyword_placeholder: Đường, quận, tỉnh/thành phố...
@@ -86,7 +102,7 @@ vi:
         project: Dự án
         valued: Nhà định giá
         business: Doanh nghiệp
-        news: Tin tức
+        news: Bài viết
         contact: Liên hệ
       link:
         title: Liên kết
@@ -128,6 +144,7 @@ vi:
         title: Bài viết
         list:
           create: Tạo mới
+          manage: Quản lý
       content:
         title: Quản lý thông tin
         list:
@@ -217,10 +234,7 @@ vi:
         name_placeholder: Tên của bạn
         email_placeholder: Email
         phone_placeholder: Số điện thoại
-      relative_re: Bất động sản liên quan
-    register:
-      page_title: Đăng ký theo dõi
-      box_title: Tiêu chí theo dõi
+      relative_res: Bất động sản liên quan
     _notification_mini_item:
       create: '%{name} đã tin đăng bất động sản mới'
       edit: '%{name} đã sửa tin bất động sản'
@@ -229,6 +243,30 @@ vi:
       create: '%{name} đã tạo bất động sản mới'
       edit: '%{name} đã sửa bất động sản'
       approve: '%{name} đã duyệt bất động sản'
+  registrations:
+    index:
+      page_title: Danh sách theo dõi
+      box_title: Danh sách theo dõi
+      add_new: Thêm mới
+    create:
+      page_title: Đăng ký theo dõi
+      edit_page_title: Chỉnh sửa theo dõi
+      box_title: Tiêu chí theo dõi
+      contact_box_title: Thông tin cá nhân
+      name_placeholder: Tên của bạn
+      email_placeholder: Email
+      phone_placeholder: Số điện thoại
+    view:
+      page_title: Thông tin theo dõi
+      info_box: Thông tin
+      res_box: Bất động sản phù hợp
+      empty_re_list: Chưa có sản phẩm phù hợp, bạn sẽ nhận đc thông báo trong thời gian sớm nhất
+    _item:
+      sell_price: Giá mua
+      rent_price: Giá thuê
+      area: Diện tích
+      position: Vị trí
+      expires_at: Thời hạn
   contact_requests:
     _notification_mini_item:
       create: '%{name} gửi yêu cầu mới'
@@ -276,7 +314,13 @@ vi:
       page_title: 'Đăng bài viết'
     edit:
       page_title: 'Sửa bài viết'
-
+    index:
+      page_title: Bài viết
+    view:
+      created_at: Đăng từ
+      relative_blogs: Có thể bạn muốn xem
+    manage:
+      page_title: Quản lý bài viết
 
   # Active record
   real_estate_type:
@@ -486,7 +530,20 @@ vi:
       title: 'Tiêu đề'
       content: 'Nội dung'
       tags: 'Từ khóa'
-
+      category: Loại
+      relative_res: Bất động sản liên quan
+      image: Hình đại diện
+      created_at: Thời gian đăng
+  re_registration:
+    attributes:
+      purpose: Nhu cầu
+      real_estate_type: Loại bất động sản
+      min_sell_price: Giá mua tối thiểu
+      max_sell_price: Giá mua tối đa
+      min_rent_price: Giá thuê tối thiểu
+      max_rent_price: Giá thuê tối đa
+      min_area: Diện tích tối thiểu
+      max_area: Diện tích tối đa
 
 
   layout:

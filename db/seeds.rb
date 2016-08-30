@@ -22,6 +22,17 @@ ConstructionalLevel.create [
 	{ name: 'empty' }
 ]
 
+BlogCategory.delete_all
+ActiveRecord::Base.connection.execute('ALTER SEQUENCE blog_categories_id_seq RESTART WITH 1')
+BlogCategory.create [
+	{
+		name:	'Hướng dẫn'
+	},
+	{
+		name:	'Bất động sản'
+	},
+]
+
 Currency.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE currencies_id_seq RESTART WITH 1')
 Currency.create [

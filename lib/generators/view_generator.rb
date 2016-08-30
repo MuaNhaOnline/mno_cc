@@ -8,19 +8,20 @@ class ViewGenerator < Rails::Generators::Base
 	params: 
 =end
 
-	@_title = ''
-	@_content_header = ''
-	@_description = ''
-	@_main_navigator = {
-		background: '',
-		list: [
-			{
-				url: '',
-				text: ''
-			}
-		]
-	}
-	@_main_class = ''
+	@_title				=	''
+	@_content_header	=	''
+	@_description		=	''
+	@_main_navigator	=	{
+								background: '',
+								list: [
+									{
+										url: '',
+										text: ''
+									}
+								]
+							}
+	@_main_class		=	''
+	@_hide_search_box	=	true
 %>
 
 <% content_for :stylesheets do %>

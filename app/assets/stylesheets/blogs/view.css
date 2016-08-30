@@ -1,36 +1,166 @@
-/*start search-box*/
-.search {
-	background: url('/assets/background/background-search.jpg') no-repeat center center;
-	height: 550px;
-	display: flex;
-	margin-bottom: 40px;
-}	
-	.search .search-box {
-		margin: auto;
-	}
-/*end search-box*/
+/* Blog */
 
-/*start logo blog*/
-.title-blog {
-	margin-bottom: 30px;
-}
-	.logo-blog {
-		background: url('/assets/icon/logoBlog.png') no-repeat center center;
-		width: 262px;
-		height: 73px;
-		margin: 20px auto;
+	.blog .container-box-header {
+		padding: 0 5%;
 	}
-/*end*/
 
-/*start detail blog*/
-.detail-blog {
-	width: 70%;
-}
-	.detail-blog .item-blog .title {
-		margin-bottom: 0;
+	.blog .time {
+		margin-top: -20px;
+		text-align: right;
+		font-style: italic;
+		font-size: 85%;
 	}
-	.detail-blog .item-blog .content {
-		height: auto;
-		max-height: inherit;
+
+	.blog .container-box-body {
+		padding: 20px;
 	}
-/*end*/
+
+	/* Tag */
+	
+		.blog .tags {
+			margin-top: 20px;
+		}
+	
+			.blog .tags div {
+				font-size: 85%;
+				font-weight: bold;
+				margin-bottom: 3px;
+			}
+	
+			.blog .tags a {
+				display: inline-block;
+				padding: 5px 10px;
+				background-color: #303740;
+				color: #fff;
+				outline: 0;
+			}
+	
+				.blog .tags a:hover,
+				.blog .tags a:focus {
+					text-decoration: none;
+					background-color: #008549;
+				}
+	
+				.blog .tags a:active {
+					text-decoration: none;
+					background-color: #00A459;
+				}
+	
+	/* / Tag */
+
+/* / Blog */
+
+/* Relative blog */
+
+	.relative-blogs .item {
+	}
+
+		.relative-blogs .image-ctn {
+			text-align: center;
+		}
+
+			.relative-blogs .image-ctn img {
+				width: 200px;
+				max-width: 100%;
+				margin-bottom: 5px;
+			}
+
+		.relative-blogs .title {
+			font-size: 14px;
+		}
+
+			.relative-blogs .title a {
+				color: inherit;
+			}
+
+	@media (max-width: 767px) {
+		.relative-blogs .item {
+			display: -webkit-flex;
+			display: flex;
+		}
+
+			.relative-blogs .image-ctn {
+				-webkit-flex: 0 0 150px;
+				flex: 0 0 150px;
+				max-width: 35%;
+				margin-right: 10px;
+			}
+	}
+
+/* / Relative blog */
+
+/* Relative re */
+
+	.relative-re-ctn.box {
+	}
+
+	.relative-re {
+		position: relative;
+		max-width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+		.relative-re .prev,
+		.relative-re .next {
+			display: block;
+			position: absolute;
+			font-size: 30px;
+			line-height: 30px;
+			height: 30px;
+			color: #fff;
+			text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+			opacity: 0;
+			top: 150px;
+			transition: .3s;
+			display: none;
+		}
+
+			.relative-re.has-many .prev,
+			.relative-re.has-many .next {
+				display: block;
+			}
+
+			.relative-re .prev {
+				left: 15px;
+			}
+
+				.relative-re:hover .prev {
+					left: 5px;
+				}
+
+			.relative-re .next {
+				right: 15px;
+			}
+
+				.relative-re:hover .next {
+					right: 5px;
+				}
+
+			.relative-re:hover .prev,
+			.relative-re:hover .next {
+				opacity: .5;
+			}
+
+			.relative-re .prev:hover,
+			.relative-re .next:hover {
+				opacity: 1;
+			}
+
+		.relative-re .medium-items-list {
+			display: -webkit-flex;
+			display: flex;
+			overflow: hidden;
+		}
+
+			.relative-re .medium-items-list .item-ctn {
+				min-width: 100%;
+			}
+
+			.relative-re .medium-items-list .item {
+				margin: 0;
+				box-shadow: none;
+			}
+
+
+/* / Relative re */

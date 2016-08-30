@@ -1441,32 +1441,33 @@ class RealEstatesController < ApplicationController
 	
 	# / Zoho
 
-	# Registraion
-	
-		# View
-		def register
-			@registration = ReRegistration.find 2
+	# Get by keyword
+		
+		# params: keyword, except
+		def get_by_keyword
+			keyword = params[:keyword]
+			except = params[:except].split(',')
 
-			if request.post?
-				if @registration.save_with_params params[:re_registration]
-					response = {
-						status: 0,
-						result: @registration.id
-					}
-				else
-					response = {
-						status: 2
-					}
-				end
+			res = RealEstate
+				.search_with_params_2({
+					keyword: keyword,
+					except: { ids: except },
+				}, {
+					limit: 20
+				})
 
-				return render json: response
-			else
-				if params[:search].present?
-
-				end
+			if res.count == 0
+				return render json: { status: 1 }
 			end
+
+			render json: {
+				status: 0,
+				result: res.map do |re|
+					[re.id, "[#{re.display_id}] #{re.title}"]
+				end.to_h
+			}
 		end
 	
-	# / Registraion
+	# / Get by keyword
 
 end

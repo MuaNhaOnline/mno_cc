@@ -4,12 +4,12 @@ $(function () {
 	initForm($form, {
 		submit: function () {
 			$.ajax({
-				url: '/real_estates/register',
+				url: $form.attr('action'),
 				method: 'POST',
 				data: $form.serialize()
 			}).done(function (data) {
 				if (data.status == 0) {
-
+					window.location = data.result;
 				}
 				else {
 					errorPopup()

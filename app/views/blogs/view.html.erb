@@ -1,39 +1,109 @@
+<%
+=begin
+	params: @blog
+=end
+
+	@_title				=
+	@_content_header	=	@blog.title
+	@_main_navigator	=	{
+								list: [
+									{
+										url: blogs_path,
+										text: t('blogs.index.page_title')
+									},
+									{
+										url: view_blog_path(@blog),
+										text: truncate(@blog.title, length: 40, separate: ' ')
+									}
+								]
+							}
+	@_hide_search_box	=	true
+%>
+
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" href="/assets/blogs/index.css" />
-	<link rel="stylesheet" href="/assets/blogs/view.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/blogs/view.css">
 <% end %>
 
-<% content_for :scripts do %>
+<% content_for :javascripts do %>
 	<script type="text/javascript" src="/assets/blogs/view.js"></script>
 <% end %>
 
-<!--start Search Box -->
-<%= render partial: 'shared/front_end_search_box' %>
-<!-- end Search Box-->
-
-<!-- start title blog -->
-<section class="title-blog container">
-	<div class="logo-blog"></div>
-</section>
-<!-- end -->
-
-<!-- start detail blog -->
-<section class="detail-blog container">
-	<ul class="wrapper">
-		<li class="item-blog item" data-value="<%= @blog.id %>">
-			<div class="title">
-				<a href="#">
-					<h1><%= @blog.title %></h1>
-				</a>					
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-md-9">
+			<div class="container-box container-box-near shadow-box blog">
+				<div class="container-box-header">
+					<h2 class="container-box-title">
+						<%= @blog.title %>
+					</h2>
+					<div class="time">
+						<%= t '.created_at' %>
+						<span aria-time="<%= @blog.created_at %>"></span>
+					</div>
+				</div>
+				<div class="container-box-body">
+					<div class="content">
+						<%= @blog.content.html_safe %>
+					</div>
+					<% if @blog.tags.present? %>
+						<div class="tags">
+							<div><%= Blog.i18n_attribute 'tags' %>:</div>
+							<% @blog.tags.each do |tag| %>
+								<a href="#"><%= tag.text %></a>
+							<% end %>
+						</div>
+					<% end %>
+				</div>
 			</div>
-			<div class="info">
-				<span style="color: #666; font-style: Italic;" aria-time="<%= @blog.created_at %>"></span><% if can? :edit, @blog %> <a href="/blogs/create/<%= @blog.id %>" class="small">[Sửa]</a><% end %>	<% if can? :delete, @blog %> <a href="javascript:void(0)" aria-click="delete" class="small">[Xóa]</a><% end %>	
+			<div class="box relative-blogs">
+				<div class="box-header">
+					<h3 class="box-title">
+						<%= t '.relative_blogs' %>
+					</h3>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<% Blog.random.limit(3).each do |blog| %>
+							<div class="col-xs-12 col-sm-4">
+								<div class="item">
+									<div class="image-ctn">
+										<a href="<%= view_blog_path blog %>">
+											<img src="<%= blog.image.url(:thumb) %>">
+										</a>
+									</div>
+									<div class="content-ctn">
+										<h4 class="title">
+											<a href="<%= view_blog_path blog %>">
+												<%= blog.title %>
+											</a>
+										</h4>
+									</div>
+								</div>
+							</div>
+						<% end %>
+					</div>
+				</div>
 			</div>
-			<div class="content" data-dot><%= @blog.content.html_safe %></div>
-			<div class="function">
-				<a href="javascript:void(0)" data-toggle="tooltip" data-placement="auto" title="Share bài viết này"><i class="fa fa-share-alt"></i></a>
-			</div>
-		</li>
-	</ul>
-</section>
-<!-- end -->
+		</div>
+		<div class="col-xs-12 col-md-3" id="relative_re_ctn">
+			<% if @blog.relative_res.present? %>
+				<div class="box box-near box-small relative-re-ctn">
+					<div class="box-header">
+						<h3 class="box-title">
+							<%= Blog.i18n_attribute '.relative_res' %>
+						</h3>
+					</div>
+					<div class="box-body">
+						<div id="relative_re" class="relative-re <%= 'has-many' if @blog.relative_res.count > 1 %>">
+							<a class="prev ico-chevron-left"></a>
+							<div class="medium-items-list">
+								<%= render partial: 'real_estates/items_list_2', locals: { res: @blog.relative_res, col: nil } %>
+							</div>
+							<a class="next ico-chevron-right"></a>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

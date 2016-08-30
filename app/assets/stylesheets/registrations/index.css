@@ -1,0 +1,26 @@
+.registrations .item {
+	margin-bottom: 10px;
+}
+
+.registrations .add-new {
+	margin-bottom: 10px;
+	display: block;
+	padding: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #999;
+	text-align: center;
+}
+
+	.registrations .add-new:hover {
+		text-decoration: none;
+	}
+
+	.registrations .add-new:hover,
+	.registrations .add-new:focus {
+		color: #333;
+	}
+
+	.registrations .add-new:active {
+		color: #666;
+	}

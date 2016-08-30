@@ -1,0 +1,47 @@
+<%
+=begin
+	params: blogs, per, page
+=end
+
+	@_title				=
+	@_content_header	=	t '.page_title'
+
+	page 			||=	1
+	per				||= 12
+	blogs_in_page	||=	blogs.page page, per
+%>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/blogs/manage.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/blogs/manage.js"></script>
+<% end %>
+
+<div class="box">
+	<div class="box-body no-padding">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						<%= Blog.i18n_attribute 'title' %>
+					</th>
+					<th>
+						<%= Blog.i18n_attribute 'category' %>
+					</th>
+					<th>
+						<%= Blog.i18n_attribute 'created_at' %>
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="list">
+				<%= render partial: 'manage', locals: { blogs: blogs_in_page } %>
+			</tbody>
+		</table>
+		<div id="paginator" class="text-center">
+			<%= render partial: '/shared/pagination', locals: { total: blogs.count, page: page, per: per } %>
+		</div>
+	</div>
+</div>

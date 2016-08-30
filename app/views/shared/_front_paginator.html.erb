@@ -1,0 +1,35 @@
+<!-- page, per, total -->
+<%
+	page ||= 1
+	page = page.to_i
+	page_count = (total + per - 1) / per
+
+	return if page_count <= 1
+
+	min_page = page - 3
+	if min_page < 1
+		min_page = 1
+	end
+	max_page = page + 3
+	if max_page > page_count
+		max_page = page_count
+	end
+%>
+
+<ul class="numeric-paging <%= class_style if defined? class_style %>">
+	<!--
+	<% if min_page != 1 %>
+		--><a href="javascript:;" aria-click="paging" data-page="<%= 1 %>"><%= t 'global.paginator.first' %></a><!--
+	<% end %>
+	<% (min_page..max_page).each do |i| %>
+		<% if i == page %>
+			--><a class="active" href="javascript:;"><%= i %></a><!--
+		<% else %>
+			--><a href="javascript:;" aria-click="paging" data-page="<%= i %>"><%= i %></a><!--
+		<% end %>
+	<% end %>
+	<% if max_page != page_count %>
+		--><a href="javascript:;" aria-click="paging" data-page="<%= page_count %>"><%= t 'global.paginator.last' %></a><!--
+	<% end %>
+	-->
+</ul>

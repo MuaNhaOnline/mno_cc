@@ -80,30 +80,8 @@
 							<span class="text"><%= t scope + 'header.post' %></span>
 							<span class="ico-upload"></span>
 						</a>
-						<a id="mobile_button_toggle" class="pull-left ico-menu menu visible-xs visible-sm"></a>
+						<a id="main_menu_toggle" class="pull-left ico-menu menu"></a>
 					</article>
-				</section>
-
-				<section id="mobile_menu" class="hidden-md hidden-lg mobile-menu">
-					<nav>
-						<ul>
-							<li>
-								<a href="<%= res_path %>"><%= t scope + 'header.real_estate' %></a>
-							</li>
-							<li>
-								<a href="<%= pjs_path %>"><%= t scope + 'header.project' %></a>
-							</li>
-							<li>
-								<a class="processing-function" href="#"><%= t scope + 'header.valued' %></a>
-							</li>
-							<li>
-								<a class="processing-function" href="#"><%= t scope + 'header.business' %></a>
-							</li>
-							<li>
-								<a class="processing-function" href="#"><%= t scope + 'header.news' %></a>
-							</li>
-						</ul>
-					</nav>
 				</section>
 
 				<section class="bottom-header-container">
@@ -167,7 +145,7 @@
 										<a class="processing-function" href="#"><%= t scope + 'header.business' %></a>
 									</li>
 									<li>
-										<a class="processing-function" href="#"><%= t scope + 'header.news' %></a>
+										<a href="<%= blogs_path %>"><%= t scope + 'header.news' %></a>
 									</li>
 								</ul>
 							</nav>
@@ -180,10 +158,62 @@
 		
 		<!-- / Header -->
 
+		<!-- Menu -->
+		
+			<section id="main_menu" class="main-menu-ctn" style="display: none">
+				<div class="overlay"></div>
+				<nav>
+					<h2>
+						Menu
+						<span class="close-icon">&times;</span>
+					</h2>
+					<ul>
+						<li>
+							<a>
+								<span class="icon ico-home"></span>
+								<span class="text"><%= t scope + 'main_menu.re.title' %></span>
+								<span class="subicon ico-chevron-down"></span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="<%= create_re_path %>"><%= t scope + 'main_menu.re.list.create' %></a>
+								</li>
+								<li>
+									<a href="<%= res_path %>"><%= t scope + 'main_menu.re.list.list' %></a>
+								</li>
+								<li>
+									<a href="<%= my_res_path %>"><%= t scope + 'main_menu.re.list.my' %></a>
+								</li>
+								<li>
+									<a href="<%= my_favorite_res_path %>"><%= t scope + 'main_menu.re.list.my_favorite' %></a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a>
+								<span class="icon ico-search"></span>
+								<span class="text"><%= t scope + 'main_menu.reg.title' %></span>
+								<span class="subicon ico-chevron-down"></span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="<%= create_registration_path %>"><%= t scope + 'main_menu.reg.list.create' %></a>
+								</li>
+								<li>
+									<a href="<%= registrations_path %>"><%= t scope + 'main_menu.reg.list.my' %></a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</section>
+		
+		<!-- / Menu -->
+
 		<!-- Navigator -->
 
 			<% if @_main_navigator.present? %>
-				<nav class="main-navigator" style="background-image: url(<%= @_main_navigator[:background] || '/assets/shared/main_navigator/main_2.png' %>)">
+				<nav class="main-navigator" style="background-image: url(<%= @_main_navigator[:background] || '/assets/shared/main_navigator/main_2.jpeg' %>)">
 					<article class="list-container">
 						<article class="container">
 							<% if @_main_navigator[:list].present? %>
@@ -210,10 +240,11 @@
 							<form class="form" action="<%= search_path %>" method="get">
 								<div class="row">
 									<%
-										params[:search] ||= {}
+										search_params = params[:search]
+										search_params = {} if search_params.blank? || !search_params.is_a?(Hash)
 									%>
 									<article class="form-group col-xs-12 col-sm-4 col-md-6">
-										<input class="form-control" name="search[keyword]" placeholder="<%= t scope + 'search_box.keyword_placeholder' %>" value="<%= params[:search][:keyword] %>" />
+										<input class="form-control" name="search[keyword]" placeholder="<%= t scope + 'search_box.keyword_placeholder' %>" value="<%= search_params[:keyword] %>" />
 									</article>
 									<%
 										purposes = Purpose.all.map { |purpose|
@@ -236,32 +267,32 @@
 										}
 									%>
 									<article class="form-group col-xs-6 col-sm-4 col-md-3">
-										<select class="form-control input-toggle" name="search[purpose_text]">
+										<select class="form-control input-toggle" name="search[purpose]">
 											<option data-on="sell" data-off="rent" value="" hidden><%= Purpose.display_name %></option>
 											<option data-on="sell" data-off="rent" value=""><%= t 'global.text.all' %></option>
-											<%= options_for_select purposes, params[:search][:purpose_text] %>
+											<%= options_for_select purposes, search_params[:purpose] %>
 										</select>
 									</article>
 									<article class="form-group col-xs-6 col-sm-4 col-md-3">
 										<select class="form-control" name="search[real_estate_type]">
 											<option value="" hidden><%= RealEstateType.display_name %></option>
 											<option value=""><%= t scope + 'search_box.all_types' %></option>
-											<%= options_from_collection_for_select RealEstateType.all, :id, :display_name, params[:search][:real_estate_type] %>
+											<%= options_from_collection_for_select RealEstateType.all, :id, :display_name, search_params[:real_estate_type] %>
 										</select>
 									</article>
 									<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
 										<select class="form-control" name="search[province]">
 											<option value="" hidden><%= Province.display_name %></option>
 											<option value=""><%= t scope + 'search_box.all_provinces' %></option>
-											<%= options_from_collection_for_select Province.all, :id, :name, params[:search][:province] %>
+											<%= options_from_collection_for_select Province.all, :id, :name, search_params[:province] %>
 										</select>
 									</article>
 									<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
-										<select class="form-control" name="search[district]" <%= 'disabled' if params[:search][:province].blank? %>>
+										<select class="form-control" name="search[district]" <%= 'disabled' if search_params[:province].blank? %>>
 											<option value="" hidden><%= District.display_name %></option>
 											<option value=""><%= t scope + 'search_box.all_districts' %></option>
-											<% if params[:search][:province].present? %>
-												<%= options_from_collection_for_select District.where(province_id: params[:search][:province]), :id, :name, params[:search][:district] %>
+											<% if search_params[:province].present? %>
+												<%= options_from_collection_for_select District.where(province_id: search_params[:province]), :id, :name, search_params[:district] %>
 											<% end %>
 										</select>
 									</article>
@@ -296,7 +327,7 @@
 										%>
 										<select data-toggled-element="sell" class="form-control" name="search[price_from]">
 											<option value=""><%= t scope + 'search_box.from_price_text' %></option>
-											<%= options_for_select prices, params[:search][:price_from] %>
+											<%= options_for_select prices, search_params[:price_from] %>
 										</select>
 										<%
 											prices = [
@@ -328,7 +359,7 @@
 										%>
 										<select data-toggled-element="rent" class="form-control" name="search[price_from]">
 											<option value=""><%= t scope + 'search_box.from_price_text' %></option>
-											<%= options_for_select prices, params[:search][:price_from] %>
+											<%= options_for_select prices, search_params[:price_from] %>
 										</select>
 									</article>
 									<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
@@ -362,7 +393,7 @@
 										%>
 										<select data-toggled-element="sell" class="form-control" name="search[price_to]">
 											<option value="" hidden><%= t scope + 'search_box.to_price_text' %></option>
-											<%= options_for_select prices, params[:search][:price_to] %>
+											<%= options_for_select prices, search_params[:price_to] %>
 											<option value=""><%= t scope + 'search_box.to_price_text' %></option>
 										</select>
 										<%
@@ -395,7 +426,7 @@
 										%>
 										<select data-toggled-element="rent" class="form-control" name="search[price_to]">
 											<option value="" hidden><%= t scope + 'search_box.to_price_text' %></option>
-											<%= options_for_select prices, params[:search][:price_to] %>
+											<%= options_for_select prices, search_params[:price_to] %>
 											<option value=""><%= t scope + 'search_box.to_price_text' %></option>
 										</select>
 									</article>
@@ -430,7 +461,7 @@
 										%>
 										<select class="form-control" name="search[area_from]">
 											<option value=""><%= t scope + 'search_box.from_area_text' %></option>
-											<%= options_for_select areas, params[:search][:area_from] %>
+											<%= options_for_select areas, search_params[:area_from] %>
 										</select>
 									</article>
 									<article class="form-group col-xs-6 col-sm-4 col-md-3 col-lg-2">
@@ -464,7 +495,7 @@
 										%>
 										<select class="form-control" name="search[area_to]">
 											<option value="" hidden><%= t scope + 'search_box.to_area_text' %></option>
-											<%= options_for_select areas, params[:search][:area_to] %>
+											<%= options_for_select areas, search_params[:area_to] %>
 											<option value=""><%= t scope + 'search_box.to_area_text' %></option>
 										</select>
 									</article>
@@ -774,13 +805,13 @@
 		</script>
 	<!-- / Google analytics -->
 	<!-- Zoho -->
-		<script type="text/javascript" src='https://crm.zoho.com/crm/javascript/zcga.js'></script>
+		<!-- <script type="text/javascript" src='https://crm.zoho.com/crm/javascript/zcga.js'></script>
 		<script type="text/javascript">
 			var $zoho= $zoho || {salesiq:{values:{},ready:function(){}}};var d=document;s=d.createElement("script");s.type="text/javascript";
 			s.defer=true;s.src="https://salesiq.zoho.com/chinguyen1/float.ls?embedname=chinguyen1";
 			t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);
 			$zoho.salesiq.ready=function(embedinfo){$zoho.salesiq.floatbutton.visible("hide");}
-		</script>
+		</script> -->
 	<!-- / Zoho -->
 
 	<script type="text/javascript">

@@ -53,6 +53,16 @@ module ApplicationHelper
 		}
 	end
 
+	def self.display_datetime datetime
+		return if datetime.blank? || !datetime.is_a?(Time)
+
+		if Time.now.year == datetime.year
+			datetime.strftime('Ngày %d/%m lúc %H:%M')
+		else
+			datetime.strftime('Ngày %d/%m/%Y lúc %H:%M')
+		end
+	end
+
 	def self.zoho_get_content_by_val array, val
 		array.each do |element|
 			return element['__content__'] if element['val'] == val

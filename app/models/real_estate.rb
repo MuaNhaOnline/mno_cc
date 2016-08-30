@@ -23,6 +23,10 @@ class RealEstate < ActiveRecord::Base
 	# Solr
 	
 		searchable do
+			integer		:id
+			text 		:display_id, :default_boost => 3.0 do
+							self.display_id + ' ' + self.display_id(true)
+						end
 			text 		:title
 			text 		:description
 			text 		:address, :default_boost => 2.0 do 
@@ -322,15 +326,15 @@ class RealEstate < ActiveRecord::Base
 					province = Province.find_or_create_by name: params[:province]
 					params[:province_id] = province.id
 				end
-				unless params[:district].blank?
+				if params[:district].present? && params[:province_id].present?
 					district = District.find_or_create_by name: params[:district], province_id: params[:province_id]
 					params[:district_id] = district.id
 				end
-				unless params[:ward].blank?
+				if params[:ward].present? && params[:district_id].present?
 					ward = Ward.find_or_create_by name: params[:ward], district_id: params[:district_id]
 					params[:ward_id] = ward.id
 				end
-				unless params[:street].blank?
+				if params[:street].present? && params[:district_id].present?
 					street = Street.find_or_create_by name: params[:street], district_id: params[:district_id]
 					params[:street_id] = street.id
 				end
@@ -690,7 +694,11 @@ class RealEstate < ActiveRecord::Base
 
 		# Search with params
 
-			def self.search_with_params_2 conditions = {}, paginate = {}, orders = {}
+			def self.can_view_conditions
+				'(is_pending = false AND is_show = true AND is_force_hide = false AND block_real_estate_group_id IS NULL)'
+			end
+
+			def self.search_with_params_2 conditions = {}, params = {}
 				# Search if has keyword
 				return self.search do 
 					# Default
@@ -699,6 +707,15 @@ class RealEstate < ActiveRecord::Base
 					with :is_force_hide, false
 
 					# Conditions
+					# Except
+					
+						if conditions[:except].present?
+							if conditions[:except][:ids].present?
+								without :id, conditions[:except][:ids]
+							end
+						end
+					
+					# / Except
 					# Keyword
 					
 						if conditions[:keyword].present?
@@ -737,16 +754,18 @@ class RealEstate < ActiveRecord::Base
 						with(:real_estate_type_id, conditions[:real_estate_type]) if conditions['real_estate_type'].present?
 						with(:province_id, conditions[:province]) if conditions['province'].present?
 						with(:district_id, conditions[:district]) if conditions['district'].present?
-						if conditions[:purpose_text].present?
-							case conditions[:purpose_text]
+						if conditions[:purpose].present?
+							purpose = Purpose.find conditions[:purpose]
+
+							case purpose.code
 							when 'sell_rent'
 								with :purpose_code, ['sell', 'rent', 'sell_rent']
 							when 'transfer'
 								with :purpose_code, 'transfer'
 								price_from = 'rent'
 							else
-								with :purpose_code, conditions[:purpose_text]
-								price_from = conditions[:purpose_text]
+								with :purpose_code, purpose.code
+								price_from = purpose.code
 							end
 						end
 
@@ -785,13 +804,22 @@ class RealEstate < ActiveRecord::Base
 					# / Field
 
 					# Order
-					order_by(:random) if orders.has_key? :random
+					if params[:order].present?
+						order_by(:random) if params[:order].has_key? :random
+					end
+
+					# Limit
+					if params[:limit].present?
+						limit params[:limit]
+					end
 
 					# Paginate
-					paginate(
-						page:		paginate[:page] || 1, 
-						per_page: 	paginate[:per_page] || 12
-					)
+					if params[:paginate].present?
+						paginate(
+							page:		params[:paginate][:page] || 1, 
+							per_page: 	params[:paginate][:per_page] || 12
+						)
+					end
 				end.results
 			end
 
@@ -1408,8 +1436,12 @@ class RealEstate < ActiveRecord::Base
 		end
 
 		# ID
-		def display_id
-			@display_id ||= ApplicationHelper.id_format id, 'RE'
+		def display_id just_id = false
+			if just_id
+				id.to_s
+			else
+				@display_id ||= ApplicationHelper.id_format id, 'RE'
+			end
 		end
 
 		# Description

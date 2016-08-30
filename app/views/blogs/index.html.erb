@@ -1,49 +1,95 @@
+<%
+=begin
+	params: 
+=end
+
+	@_title				=
+	@_content_header	=	t('.page_title')
+	@_main_navigator	=	{
+								list: [
+									{
+										text: t('.page_title')
+									}
+								]
+							}
+	@_hide_search_box	=	true
+%>
+
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" href="/assets/blogs/index.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/blogs/index.css">
 <% end %>
 
-<% content_for :scripts do %>
+<% content_for :javascripts do %>
 	<script type="text/javascript" src="/assets/blogs/index.js"></script>
 <% end %>
 
-<!--start Search Box -->
-<%= render partial: 'shared/front_end_search_box' %>
-<!-- end Search Box-->
+<%
+	cats = BlogCategory.all
+	catss = cats.each_slice((cats.count / 2.0).round).to_a
+%>
 
-<!-- start navigator -->
-<!-- <section class="navigator container">
-	<ol class="breadcrumb">
-		<li><a href="/">Trang chủ</a></li>
-		<li class="active">Blog</li>
-	</ol>
-</section> -->
-<!-- end navigator -->
+<div class="container blogs">
+	<div class="row">
+		<% catss.each do |cats| %>
+			<div class="col-xs-12 col-sm-6">
+				<% cats.each do |cat| %>
+					<% next if cat.blogs.blank? %>
+					<div class="box box-near">
+						<div class="box-header">
+							<h3 class="box-title">
+								<%= cat.display_name %>
+							</h3>
+						</div>
+						<div class="box-body">
+							<div class="primary-item">
+								<div class="image-ctn">
+									<a href="<%= view_blog_path cat.blogs[0] %>">
+										<img src="<%= cat.blogs[0].image.url(:thumb) %>">
+									</a>
+								</div>
+								<div class="content-ctn">
+									<h4 class="title">
+										<a href="<%= view_blog_path cat.blogs[0] %>">
+											<%= cat.blogs[0].title %>
+										</a>
+									</h4>
+									<div class="content">
+										<%= strip_tags cat.blogs[0].content %>
+										<a href="<%= view_blog_path cat.blogs[0] %>" class="small">
+											Xem thêm
+										</a>
+									</div>
+								</div>
+							</div>
 
-<!-- start title blog -->
-<section class="title-blog container">
-	<div class="logo-blog"></div>
-</section>
-<!-- end -->
-
-<!-- start list blog -->
-<section class="list-blog container">
-	<ul class="wrapper">
-		<% @blogs.each do |blog| %>
-			<li class="item-blog item" data-value="<%= blog.id %>">
-				<div class="title">
-					<a href="/blogs/<%= blog.id %>">
-						<h1><%= blog.title %></h1>
-					</a>	
-				</div>
-				<div class="info">
-					<span style="color: #666; font-style: Italic;" aria-time="<%= blog.created_at %>"></span><% if can? :edit, blog %> <a href="/blogs/create/<%= blog.id %>" class="small">[Sửa]</a><% end %>	 <% if can? :delete, blog %> <a href="javascript:void(0)" aria-click="delete" class="small">[Xóa]</a><% end %>	
-				</div>
-				<div class="content" data-dot><%= blog.content.html_safe %></div>
-				<div class="function">
-					<a href="javascript:void(0)" data-toggle="tooltip" data-placement="auto" title="Share bài viết này"><i class="fa fa-share-alt"></i></a>
-				</div>
-			</li>
+							<% if cat.blogs[1..3].present? %>
+								<div class="subitem-ctn">
+									<div class="row">
+										<% cat.blogs[1..3].each_with_index do |blog, index| %>
+											<div class="col-xs-12 col-md-6 col-lg-4 <%= 'hidden-md' if index == 2 %>">
+												<div class="item">
+													<div class="image-ctn hidden-xs hidden-sm">
+														<a href="<%= view_blog_path blog %>">
+															<img src="<%= blog.image.url(:thumb) %>">
+														</a>
+													</div>
+													<div class="content-ctn">
+														<h4 class="title">
+															<a href="<%= view_blog_path blog %>">
+																<%= blog.title %>
+															</a>
+														</h4>
+													</div>
+												</div>
+											</div>
+										<% end %>
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			</div>
 		<% end %>
-	</ul>	
-</section>
-<!-- end -->
+	</div>
+</div>

@@ -2040,7 +2040,7 @@ function initForm($form, params) {
 				var $input = $(this)
 				var value = $input.val().replace(/\D/g, '');
 
-				$input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
+				$input.closest('.form-group').find('[data-object="money_text"]').text(value ? read_money(value) : '');
 			});
 		}
 

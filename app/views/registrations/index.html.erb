@@ -1,0 +1,56 @@
+<%
+=begin
+	params: 
+=end
+
+	@_title				=
+	@_content_header	=	t('.page_title')
+	@_description		=	''
+	@_main_navigator	=	{
+								list: [
+									{
+										url: registrations_path,
+										text: t('.page_title')
+									}
+								]
+							}
+	@_hide_search_box	=	true
+%>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/registrations/index.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src="/assets/registrations/index.js"></script>
+<% end %>
+
+<div class="container">
+	<div class="container-box container-box-transparent">
+		<div class="container-box-header">
+			<h3 class="container-box-title">
+				<%= t '.box_title' %>
+			</h3>
+		</div>
+		<div class="container-box-body registrations" id="registrations">
+			<%
+				left,right = @registrations.each_slice((@registrations.count / 2.0).round).to_a
+			%>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<a href="<%= create_registration_path %>" class="box add-new">
+						<span class="ico-plus"></span> <%= t '.add_new' %>
+					</a>
+					<% left.each do |registration| %>
+						<%= render partial: 'item', locals: { registration: registration } %>
+					<% end %>
+				</div>
+				<div class="col-xs-12 col-sm-6">
+					<% right.each do |registration| %>
+						<%= render partial: 'item', locals: { registration: registration } %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -17,25 +17,27 @@
 %>
 
 <ul class="pagination inline-block <%= class_style if defined? class_style %>">
+	<!--
 	<% if min_page != 1 %>
-		<li>
-			<a href="javascript:;" aria-click="paging" data-page="<%= 1 %>"><%= global.paginator.first %></a>
-		</li>
+		--><li>
+			<a href="javascript:;" aria-click="paging" data-page="<%= 1 %>"><%= t 'global.paginator.first' %></a>
+		</li><!--
 	<% end %>
 	<% (min_page..max_page).each do |i| %>
 		<% if i == page %>
-			<li class="active">
+			--><li class="active">
 				<a href="javascript:;"><%= i %></a>
-			</li>
+			</li><!--
 		<% else %>
-			<li>
+			--><li>
 				<a href="javascript:;" aria-click="paging" data-page="<%= i %>"><%= i %></a>
-			</li>
+			</li><!--
 		<% end %>
 	<% end %>
 	<% if max_page != page_count %>
-		<li>
-			<a href="javascript:;" aria-click="paging" data-page="<%= page_count %>"><%= global.paginator.last %></a>
-		</li>
+		--><li>
+			<a href="javascript:;" aria-click="paging" data-page="<%= page_count %>"><%= t 'global.paginator.last' %></a>
+		</li><!--
 	<% end %>
+	-->
 </ul>

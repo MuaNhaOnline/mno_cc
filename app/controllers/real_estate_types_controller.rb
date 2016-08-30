@@ -2,7 +2,7 @@ class RealEstateTypesController < ApplicationController
 	# Get
 	# params: keyword, except
 	def get_by_keyword
-		keyword = params[:keyword];
+		keyword = params[:keyword]
 		except = params[:except].split(',')
 
 		types = RealEstateType.where.not(id: except).search(keyword)

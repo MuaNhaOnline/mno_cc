@@ -296,6 +296,7 @@
 		}
 	
 			.form .tags-ctn .remove:hover {
+				text-decoration: none;
 				color: rgba(0, 0, 0, .3);
 			}
 

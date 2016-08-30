@@ -15,10 +15,7 @@ $(function () {
 
 		_initFixedScroll(
 			$('.home-search .search-box-container'), 
-			$('.home-search #res_list'),
-			{
-				staticTop: true
-			}
+			$('.home-search #res_list')
 		);
 	
 	// / Fixed search box

@@ -67,6 +67,11 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 			date_field(method, options)
 		when 'textarea'
 			text_area(method, options)
+		when 'phone'
+			options['data-constraint'] ||= ''
+			options['data-constraint'] << ' integer'
+
+			text_field(method, options)
 		when 'number'
 			number_field(method, options)
 		when 'select'
@@ -78,7 +83,7 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 			options['value'] = ApplicationHelper.display_decimal(self.object.send(method)) if self.object.send(method).present?
 
 			params[:after] ||= ''
-			read_ctn = '<div class="small" data-object="money_text"></div>'
+			read_ctn = '<div class="small text-right" data-object="money_text"></div>'
 			params[:after] = read_ctn + params[:after]
 
 			text_field(method, options)
@@ -97,6 +102,17 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 				options['data-name']		=	"#{self.object_name}[#{method}][]"
 				options[:name]				= 	nil
 
+				object_method = method.to_s.gsub '_id', ''
+				if params[:text_method].present? && self.object.send(object_method).present?
+					options['data-value'] = self.object.send(object_method).map do |object|
+						{
+							value:	object.id,
+							text:	params[:text_method].call(object)
+						}
+					end.to_json
+				end
+
+				hidden_field(method, value: '', multiple: true) +
 				('<section class="tags-ctn"></section>' +
 				'<section class="autocomplete-input-ctn">' +
 					text_field(method, options) +
@@ -115,6 +131,31 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 			end
 
 			select(method, tags, {}, options)
+		when 'image'
+			options['class'] = 'file-upload'
+			options['data-types'] = 'image'
+
+			# Amount
+			if params[:amount].present?
+				options['data-amount'] = params[:amount]
+			end
+
+			# Default
+			images = self.object.send(method)
+
+			if images.present?
+				if images.is_a? Paperclip::Attachment
+					values = { 'id': self.object.id, 'url': images.url }
+				else
+					# values = []
+					# images.each do |image|
+					# 	values << { 'id'=> image.id, 'url'=> image..url }
+					# end
+				end
+				options['data-init-value'] = values.to_json
+			end
+
+			file_field(method, options)
 		when 'hidden'
 			params[:wrapper] = false
 

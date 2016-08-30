@@ -1,0 +1,186 @@
+<%
+=begin
+	registration
+	type (1)
+		enum 1,2
+	use_box: true
+=end
+	scope = 'registrations._item.'
+
+	type ||= 1
+	unless defined?(use_box)
+		use_box = true
+	end
+%>
+
+<% if use_box %>
+	<div class="box item" data-value="<%= registration.id %>">
+		<div class="box-body">
+<% else %>
+	<div class="item" data-value="<%= registration.id %>">
+<% end %>
+	<!-- Purpose -->
+	<% if registration.purpose.present? %>
+		<div class="content-box">
+			<div class="content-box-header">
+				<h4 class="content-box-title">
+					<%= ReRegistration.i18n_attribute('purpose') %>
+				</h4>
+			</div>
+			<div class="content-box-body">
+				<%= registration.display_purpose %>
+			</div>
+		</div>
+	<% end %>
+
+	<!-- Real estate types -->
+	<% if registration.real_estate_types.present? %>
+		<div class="content-box">
+			<div class="content-box-header">
+				<h4 class="content-box-title">
+					<%= ReRegistration.i18n_attribute('real_estate_type') %>
+				</h4>
+			</div>
+			<div class="content-box-body">
+				<%
+					types = registration.real_estate_types.map{ |type| type.display_name }
+				%>
+				<%= types.join(', ') %>
+			</div>
+		</div>
+	<% end %>
+	
+	<!-- Sell price -->
+	<%
+		if
+			(registration.min_sell_price.present? || registration.max_sell_price.present?) &&
+			(registration.purpose.blank? || ['sell', 'sell_rent'].include?(registration.purpose.code))
+	%>
+		<div class="content-box">
+			<div class="content-box-header">
+				<h4 class="content-box-title">
+					<%= t scope + '.sell_price' %>
+				</h4>
+			</div>
+			<div class="content-box-body">
+				<% if registration.min_sell_price.present? && registration.max_sell_price.present? %>
+					<%= registration.display_min_sell_price %> <b>-</b>
+					<%= registration.display_max_sell_price %>
+				<% elsif registration.min_sell_price.present? %>
+					<b>&gt;</b> <%= registration.display_min_sell_price %>
+				<% else %>
+					<b>&lt;</b> <%= registration.display_max_sell_price %>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+	
+	<!-- Rent price -->
+	<%
+		if
+			(registration.min_rent_price.present? || registration.max_rent_price.present?) &&
+			(registration.purpose.blank? || ['rent', 'sell_rent', 'transfer'].include?(registration.purpose.code))
+	%>
+		<div class="content-box">
+			<div class="content-box-header">
+				<h4 class="content-box-title">
+					<%= t scope + '.rent_price' %>
+				</h4>
+			</div>
+			<div class="content-box-body">
+				<% if registration.min_rent_price.present? && registration.max_rent_price.present? %>
+					<%= registration.display_min_rent_price %> <b>-</b>
+					<%= registration.display_max_rent_price %>
+				<% elsif registration.min_rent_price.present? %>
+					<b>&gt;</b> <%= registration.display_min_rent_price %>
+				<% else %>
+					<b>&lt;</b> <%= registration.display_max_rent_price %>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+
+	<!-- Area -->
+	<% if registration.min_area.present? || registration.max_area.present? %>
+		<div class="content-box">
+			<div class="content-box-header">
+				<h4 class="content-box-title">
+					<%= t scope + '.area' %>
+				</h4>
+			</div>
+			<div class="content-box-body">
+				<% if registration.min_area.present? && registration.max_area.present? %>
+					<%= registration.display_min_area %> <b>-</b>
+					<%= registration.display_max_area %><%= t 'global.unit.square_meter_html' %>
+				<% elsif registration.min_area.present? %>
+					<b>&gt;</b> <%= registration.display_min_area %><%= t 'global.unit.square_meter_html' %>
+				<% else %>
+					<b>&lt;</b> <%= registration.display_max_area %><%= t 'global.unit.square_meter_html' %>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+
+	<!-- Position -->
+	<% if registration.locations.present? %>
+		<div class="content-box">
+			<div class="content-box-header">
+				<h4 class="content-box-title">
+					<%= t scope + '.position' %>
+				</h4>
+			</div>
+			<div class="content-box-body">
+				<% registration.locations.each do |location| %>
+					<p style="margin-bottom: 5px">
+						<%= location.display %>
+					</p>
+				<% end %>
+			</div>
+		</div>		
+	<% end %>
+
+	<!-- Expire -->
+	<div class="content-box">
+		<div class="content-box-header">
+			<h4 class="content-box-title">
+				<%= t scope + '.expires_at' %>
+			</h4>
+		</div>
+		<div class="content-box-body">
+			<%= registration.display_expires_at %>
+		</div>
+	</div>
+
+	<!-- Buttons -->
+	<% if type == 1 %>
+		<div class="btn-ctn" style="margin: 0 -15px -20px;">
+			<div class="row no-horizontal-padding">
+				<div class="col-xs-4">
+					<a class="btn btn-block btn-green" href="<%= view_registration_path registration %>">Xem chi tiết</a>
+				</div>
+				<div class="col-xs-4">
+					<a class="btn btn-block" href="<%= edit_registration_path registration %>">Chỉnh sửa</a>
+				</div>
+				<div class="col-xs-4">
+					<a class="btn btn-block btn-orange" data-action="delete">Bỏ theo dõi</a>
+				</div>
+			</div>
+		</div>
+	<% else %>
+		<div class="btn-ctn" style="margin: 0 -15px -20px;">
+			<div class="row no-horizontal-padding">
+				<div class="col-xs-6">
+					<a class="btn btn-block" href="<%= edit_registration_path registration %>">Chỉnh sửa</a>
+				</div>
+				<div class="col-xs-6">
+					<a class="btn btn-block btn-orange" data-action="delete">Bỏ theo dõi</a>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% if use_box %>
+		</div>
+	</div>
+<% else %>
+	</div>
+<% end %>

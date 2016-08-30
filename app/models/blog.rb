@@ -1,10 +1,30 @@
 class Blog < ActiveRecord::Base
 
+	# Default
+	
+		default_scope { order('"created_at" desc') }
+	
+	# / Default
+
 	# Associations
+
+		belongs_to 	:category,
+			class_name: 'BlogCategory'
 	
 		has_and_belongs_to_many :tags,
 			autosave: 		true,
 			dependent: 		:delete_all
+		has_and_belongs_to_many :relative_res,
+			class_name:	'RealEstate',
+			autosave:	true
+
+		has_attached_file :image, 
+			# Slide: 1.52
+			styles: { thumb: '200x112#' },
+			default_url: "/assets/blogs/:style/default.png", 
+			:path => ":rails_root/app/assets/file_uploads/blog_images/:style/:id_:filename", 
+			:url => "/assets/blog_images/:style/:id_:filename"
+		validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 	
 	# / Associations
 	
@@ -33,6 +53,7 @@ class Blog < ActiveRecord::Base
 		# Assign with params
 
 			def assign_attributes_with_params params
+				# Tags
 				if params[:tags].present?
 					params[:tag_ids] = []
 
@@ -42,7 +63,21 @@ class Blog < ActiveRecord::Base
 					end
 				end
 
-				assign_attributes params.permit [:title, :content, tag_ids: []]
+				# Image
+				if params[:image].present?
+					value = JSON.parse params[:image]
+
+					if value['is_new']
+						TemporaryFile.get_file(value['id']) do |image|
+							self.image = image
+						end
+					end
+				else
+					self.image = nil
+				end
+
+				assign_attributes params.permit [:title, :content, :category_id,
+					tag_ids: [], relative_re_ids: []]
 			end
 
 		# / Assign with params

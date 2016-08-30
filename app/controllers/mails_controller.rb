@@ -131,7 +131,7 @@ class MailsController < ApplicationController
 				params[:mail][:sender_id] 	= 	current_user.id
 			else
 				# New & get contact
-				contact_user = __save_contact_user_info params[:contact_info]
+				contact_user = _save_contact_user_info params[:contact_info]
 
 				# Check if error
 				return render json: { status: 2 } unless contact_user

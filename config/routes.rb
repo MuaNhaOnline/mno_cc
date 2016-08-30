@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-	scope "(:locale)", locale: /vi|en/ do
+	scope '(:locale)', locale: /vi|en/ do
 
 		# Root
 
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
 			get 'home/result'
 			get 'home/index'
-			get 'home/back'
+			# get 'home/back'
 			# post 'nothing' => 'home#nothing'
 			# post 'end_session' => 'home#end_session'
 			# post 'track_session' => 'home#track_session'
@@ -36,6 +36,17 @@ Rails.application.routes.draw do
 			post 'system_groups/:action(/:id)', controller: 'system_groups'
 		
 		# / System groups
+
+		# Registration
+			
+			scope 'theo-doi', controller: 'registrations' do
+				get 'them', action: 'create', as: 'create_registration'
+				get 'sua/:id', action: 'create', as: 'edit_registration'
+				get 'xem/:id', action: 'view', as: 'view_registration'
+				get '(:action)', action: 'index', as: 'registrations'
+			end
+		
+		# / Registration
 
 		# Real estate
 
@@ -72,7 +83,6 @@ Rails.application.routes.draw do
 			get 'bat-dong-san/quan-tam' => 'real_estates#my_favorite'
 			get 'bat-dong-san/kiem-duyet' => 'real_estates#pending', as: 'pending_res'
 			get 'bat-dong-san/quan-ly' => 'real_estates#manage', as: 'manage_res'
-			get 'bat-dong-san/dang-ky-theo-doi(/:id)' => 'real_estates#register', as: 'register_re'
 
 			get 'bat-dong-san/:full_slug' => 'real_estates#view', constraints: { full_slug: /(\w|-)*\d+/ }, as: 'view_re'
 
@@ -226,13 +236,16 @@ Rails.application.routes.draw do
 
 		# Blog
 
-			get 'bai-viet/them-moi' => 'blogs#create', as: 'create_blog'
+			scope 'bai-viet', controller: 'blogs' do
+				get 'them-moi', action: 'create', as: 'create_blog'
+				get 'chinh-sua/:id', action: 'edit', as: 'edit_blog'
+				get 'xem/:id', action: 'view', as: 'view_blog'
+				get 'quan-ly', action: 'manage', as: 'manage_blogs'
+				get '', action: 'index', as: 'blogs'
+			end
 
-			get 'bai-viet(/:action(/:id))' => 'blogs#index', as: 'blog_list'
 			get 'blogs(/:action(/:id))' => 'blogs#index'
-
-			post 'blogs/:action(/:id)' => 'blogs'
-
+			post 'blogs/:action(/:id)', controller: 'blogs'
 
 		# / Blog
 

@@ -200,7 +200,7 @@ class ApplicationController < ActionController::Base
 
 	# Controller helpers
 	
-		def __save_contact_user_info params
+		def _save_contact_user_info params
 			return false if params.blank?
 
 			contact_user = ContactUserInfo.where(email: params[:email]).first_or_initialize
@@ -217,6 +217,10 @@ class ApplicationController < ActionController::Base
 			else
 				false
 			end
+		end
+
+		def _route_helpers
+			Rails.application.routes.url_helpers
 		end
 	
 	# / Controller helpers
