@@ -39,7 +39,7 @@ vi:
       project: Dự án
       valued: Nhà định giá
       business: Doanh nghiệp
-      news: Bài viết
+      news: Blog
       view_all: Xem tất cả
     main_menu:
       re:
@@ -102,7 +102,7 @@ vi:
         project: Dự án
         valued: Nhà định giá
         business: Doanh nghiệp
-        news: Bài viết
+        news: Blog
         contact: Liên hệ
       link:
         title: Liên kết
@@ -141,7 +141,7 @@ vi:
           my_favorite: Danh sách quan tâm
           post: Đăng tin
       blog:
-        title: Bài viết
+        title: Blog
         list:
           create: Tạo mới
           manage: Quản lý
@@ -316,12 +316,12 @@ vi:
     edit:
       page_title: 'Sửa bài viết'
     index:
-      page_title: Bài viết
+      page_title: Blog
     view:
       created_at: Đăng từ
       relative_blogs: Có thể bạn muốn xem
     manage:
-      page_title: Quản lý bài viết
+      page_title: Quản lý Blog
 
   # Active record
   real_estate_type:
