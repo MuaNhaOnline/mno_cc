@@ -2,7 +2,6 @@ $(function () {
 
 	// Init favorite items list
 	
-		_initLargeItemsList($('#favorite_res_list'));
 		_initMediumItemsList($('#res_list'));
 	
 	// / Init favorite items list
@@ -10,13 +9,13 @@ $(function () {
 	// Fixed search box
 
 		$(window).on('resize', function () {
-			$('.re-index .search-box-container').css('width', $('.re-index .search-box-container').parent().width() + 'px');
+			$('.res-search .search-box-container').css('width', $('.res-search .search-box-container').parent().width() + 'px');
 		});
-		$('.re-index .search-box-container').css('width', $('.re-index .search-box-container').parent().width() + 'px');
+		$('.res-search .search-box-container').css('width', $('.res-search .search-box-container').parent().width() + 'px');
 
 		_initFixedScroll(
-			$('.re-index .search-box-container'), 
-			$('.re-index #res_list')
+			$('.res-search .search-box-container'), 
+			$('.res-search #res_list')
 		);
 	
 	// / Fixed search box

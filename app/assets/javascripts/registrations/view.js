@@ -27,10 +27,11 @@ $(function () {
 
 	// Pagination
 	
-		var pagination = _initPagination2({
-			url: 			window.location.pathname,
-			list: 			$('#list'),
-			paginator:  	$('#paginator'),
+		_initPagination3({
+			url:			'',
+			list:			$('#list'),
+			paginator:		$('#paginator'),
+			replaceState: 	true
 		});
 	
 	// / Pagination

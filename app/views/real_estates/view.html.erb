@@ -693,9 +693,11 @@
 			</section>
 			<section class="container-box-body">
 				<%
-					res = RealEstate.search_with_params.limit(6)
+					res = RealEstate.search_with_params_2({}, { limit: 4 }).results
 				%>
-				<%= render partial: '/real_estates/items_list', locals: { res: res } %>
+				<div class="medium-items-list">
+					<%= render partial: '/real_estates/items_list_2', locals: { res: res } %>
+				</div>
 			</section>
 		</article>
 	

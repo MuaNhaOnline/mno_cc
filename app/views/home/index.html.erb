@@ -34,7 +34,7 @@
 				<%= t '.search.title_html' %>
 			</h2>
 			<div class="form-ctn" data-object="search-box-container">
-				<form class="form" action="/tim_kiem" method="get" data-object="search-form">
+				<form class="form" action="<%= search_res_path %>" method="get" data-object="search-form">
 					<div class="btn-ctn">
 						<input class="form-control" name="search[keyword]" placeholder="<%= t '.search.placeholder' %>" value="" id="search_keyword" />
 						<button class="fa fa-search btn btn-green"></button>

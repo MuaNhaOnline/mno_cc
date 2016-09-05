@@ -1,9 +1,9 @@
 <% content_for :stylesheets do %>
-	<link rel="stylesheet" href="/assets/home/search.css" />
+	<link rel="stylesheet" href="/assets/real_estates/search.css" />
 <% end %>
 
 <% content_for :javascripts do %>
-	<script type="text/javascript" src="/assets/home/search.js"></script>
+	<script type="text/javascript" src="/assets/real_estates/search.js"></script>
 <% end %>
 
 <%
@@ -21,14 +21,14 @@
 			}
 		]
 	}
-	@_main_class = 'home-search'
+	@_main_class = 'res-search'
 	@_hide_search_box = true if @res.present?
 
 	page = params[:page].present? ? params[:page].to_i : 1
 
 	search_scope = 'front_layout.search_box.'
 
-	if par.blank? || !par.is_a Hash
+	# if per.blank? || !per.is_a Hash
 
 	search_params = params[:search]
 	search_params = {} if search_params.blank? || !search_params.is_a?(Hash)
@@ -42,7 +42,7 @@
 	</div>
 	<div class="alert alert-info" role="alert">
 		<div class="container">
-			<%= t search_scope + 'register_html', path: register_re_path(search: search_params) %>
+			<%= t search_scope + 'register_html', path: create_registration_path(search: search_params) %>
 		</div>
 	</div>
 <% end %>
@@ -53,31 +53,33 @@
 			<article class="container-box container-box-transparent">
 				<section class="container-box-header">
 					<h2 class="container-box-title">
-						Bất động sản dành cho bạn
+						<%= '.box_title' %>
 					</h2>
 				</section>
 				<section class="container-box-body">
 					<div class="container-fluid">
-						<%
-							per = 12
-										
-							page_href = Proc.new do |page| 
-								request.GET['page'] = page
-								'?' + request.GET.to_query
-							end
-						%>
-						<%=
-							render(
-								partial: 'real_estates/items_list',
-								locals: { 
-									res: @res, 
-									paging: @res.total_pages,
-									current_page: @res.current_page,
-									list_id: 'res_list',
-									page_href: page_href
-								}
-							)
-						%>
+						<% if @res.count != 0 %>
+							<div class="medium-items-list" id="res_list">
+								<%=
+									render(
+										partial: 'real_estates/items_list_2',
+										locals: {
+											res: @res
+										}
+									)
+								%>
+							</div>
+							<div id="res_paginator" data-search-params="<%= { conditions: @res_conditions, search_params: @res_search_params }.to_json %>">
+								<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
+							</div>
+						<% else %>
+							<div class="alert alert-warning alert-dismissible">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+								<p>
+									<%= t '.empty_re_list' %>
+								</p>
+							</div>
+						<% end %>
 					</div>
 				</section>
 			</article>
@@ -89,7 +91,7 @@
 						<span class="icon ico-search"></span><span class="text"><%= t search_scope + 'title' %></span>
 					</h2>
 					<section class="box-content">
-						<form class="form" action="/tim_kiem" method="get">
+						<form class="form" action="<%= search_res_path %>" method="get">
 							<div class="row">
 								<article class="form-group col-xs-12">
 									<input class="form-control" name="search[keyword]" placeholder="<%= t search_scope + 'keyword_placeholder' %>" value="<%= search_params[:keyword] %>" />
@@ -352,7 +354,7 @@
 								<button type="submit" class="btn btn-green"><%= t 'global.text.search' %></button>
 							</article>
 							<div>
-								<%= t search_scope + 'register_html', path: register_re_path(search: search_params) %>
+								<%= t search_scope + 'register_html', path: create_registration_path(search: search_params) %>
 							</div>
 						</form>
 					</section>

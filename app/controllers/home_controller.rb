@@ -6,21 +6,6 @@ class HomeController < ApplicationController
 
 	# Search result
 
-		def search
-			page = params[:page] || 1
-			params[:search] ||= {}
-
-			@res = RealEstate.search_with_params_2(
-				params[:search].clone,
-				{
-					paginate: {
-						page: page,
-						per_page: 12	
-					}
-				}
-			)
-		end
-
 		# Get
 		# params: bounds
 		def search_by_bounds
@@ -50,7 +35,7 @@ class HomeController < ApplicationController
 	
 	def back
 
-		return render layout: 'back_layout'
+		return render layout: 'front_layout'
 
 		# if params[:s] == '1'
 		# 	SessionInfo.delete_all

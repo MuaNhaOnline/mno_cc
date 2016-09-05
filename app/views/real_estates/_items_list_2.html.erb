@@ -2,64 +2,101 @@
 =begin
 	params:
 		res: (*)
-		col: col-xs-12 col-sm-6 col-md-4 col-lg-4
+		type: 1
 =end
-	unless defined? include_ctn
-		include_ctn = false	
-	end
-
-	id ||= ''
-	unless defined? col
-		col = 'col-xs-12 col-sm-6 col-md-4 col-lg-4'
-	end
+	
+	type ||= 1
 %>
 
-<% res.each do |re| %>
-	<div class="item-ctn <%= col %>">
-		<article class="item">
-			<section class="image">
-				<a href="<%= view_re_path re %>">
-					<%= real_estate_avatar re %>
-				</a>
-			</section>
-			<section class="title">
-				<h3>
-					<a href="<%= view_re_path re %>">
-						<%= re.title %>
-					</a>
-				</h3>
-			</section>
-			<section class="address">
-				<span class="ico-location"></span> <%= re.display_short_address %>
-			</section>
-			<section class="type">
-				<span class="ico-home"></span> <%= re.display_real_estate_type %>
-			</section>
-			<section class="price">
-				<% if re.display_sell_price.present? %>
-					<article class="sell-price-text"><%= re.display_sell_price %></article>
-				<% end %>
-				<% if re.display_rent_price.present? %>
-					<article class="rent-price-text"><%= re.display_rent_price %></article>
-				<% end %>
-			</section>
-			<section class="infos">
-				<% if re.display_bedroom.present? %>
-					<article>
-						<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
-					</article>
-				<% end %>
-				<% if re.display_restroom.present? %>
-					<article>
-						<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
-					</article>
-				<% end %>
-				<% if re.display_area.present? %>
-					<article>
-						<span class="icon ico-area"></span> <span class="text"><%= re.display_area %><small>m<sup>2</sup></small></span>
-					</article>
-				<% end %>
-			</section>
-		</article>
-	</div>
+<% case type %>
+<% when 1 %>
+	<% res.each do |re| %>
+		<div class="item-ctn">
+			<article class="item">
+				<div>
+					<div class="image">
+						<a href="<%= view_re_path re %>">
+							<%= real_estate_avatar re %>
+						</a>
+					</div>
+				</div>
+				<div class="grow">
+					<div class="title">
+						<h3>
+							<a href="<%= view_re_path re %>">
+								<%= re.title %>
+							</a>
+						</h3>
+					</div>
+					<div class="address">
+						<span class="ico-location"></span> <%= re.display_short_address %>
+					</div>
+					<div class="type">
+						<span class="ico-home"></span> <%= re.display_real_estate_type %>
+					</div>
+				</div>
+				<div>
+					<div class="price">
+						<% if re.display_sell_price.present? %>
+							<article class="sell-price-text"><%= re.display_sell_price %></article>
+						<% end %>
+						<% if re.display_rent_price.present? %>
+							<article class="rent-price-text"><%= re.display_rent_price %></article>
+						<% end %>
+					</div>
+					<div class="infos">
+						<% if re.display_bedroom.present? %>
+							<article>
+								<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
+							</article>
+						<% end %>
+						<% if re.display_restroom.present? %>
+							<article>
+								<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
+							</article>
+						<% end %>
+						<% if re.display_area.present? %>
+							<article>
+								<span class="icon ico-area"></span> <span class="text"><%= re.display_area %><small>m<sup>2</sup></small></span>
+							</article>
+						<% end %>
+					</div>
+				</div>
+			</article>
+		</div>
+	<% end %>
+<% when 2 %>
+	<% res.each do |re| %>
+		<div class="item-ctn">
+			<article class="item item-2">
+				<div>
+					<div class="image">
+						<a href="<%= view_re_path re %>">
+							<%= real_estate_avatar re %>
+						</a>
+					</div>
+					<div class="upon-info">
+						<div class="title">
+							<h3>
+								<a href="<%= view_re_path re %>">
+									<%= re.title %>
+								</a>
+							</h3>
+						</div>
+						<div class="address">
+							<span class="ico-location"></span> <%= re.display_short_address %>
+						</div>
+						<div class="price">
+							<% if re.display_sell_price.present? %>
+								<article class="sell-price-text"><%= re.display_sell_price %></article>
+							<% end %>
+							<% if re.display_rent_price.present? %>
+								<article class="rent-price-text"><%= re.display_rent_price %></article>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+	<% end %>
 <% end %>

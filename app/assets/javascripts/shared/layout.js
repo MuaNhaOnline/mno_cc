@@ -1,5 +1,5 @@
 var $html, $body, $window, $document, _temp = {}, _isSystemScroll = false, _popupContent = {};
-var _layout;
+var _offsetTop = 0;
 
 $(function () {	
 	$('#loading_page').remove();
@@ -51,7 +51,6 @@ $(function () {
 			content: 'Cám ơn bạn đã sử dụng dịch vụ. Chức năng sẽ sớm được đưa vào sử dụng.'
 		});
 	});
-
 
 	// Custom jquery
 
@@ -128,7 +127,6 @@ $(function () {
 		}
 
 	// / Custom property
-	
 });
 
 // Helper
@@ -280,9 +278,8 @@ $(function () {
 		var 
 			// 1: Top, 2: Middle, 3: Bottom
 			flag = -1,
-			manager = {};
-
-		$follow.css('min-height', '100vh');
+			manager = {},
+			lastScroll = document.body.scrollTop;
 
 		manager.isRunning = function () {
 			return flag != -1;
@@ -291,7 +288,8 @@ $(function () {
 			var 
 				min = $follow.offset().top,
 				max = $follow.offset().top + $follow.outerHeight() - $object.outerHeight(),
-				scrollTop = $(window).scrollTop() + (_layout == 'front' ? 80 : 0);
+				scrollTop = $(window).scrollTop() + _offsetTop,
+				scrollHeight = $object[0].scrollHeight - $object.height();
 
 			if (scrollTop < min) {
 				if (flag == 1) {
@@ -314,20 +312,32 @@ $(function () {
 						});
 					}
 				}
+
+				$object.scrollTop(0);
 			}
 			else if (scrollTop < max) {
-				if (flag == 2) {
-					return;
+				if (scrollHeight != 0) {
+					$object.scrollTop(
+						$object.scrollTop() +
+						(
+							document.body.scrollTop > lastScroll ?
+								document.body.scrollTop - lastScroll :
+								- (lastScroll - document.body.scrollTop)
+						)
+					);	
 				}
-				flag = 2;
-				if (params.middleHandle) {
-					params.middleHandle();
-				}
-				else {
-					$object.css({
-						position: 'fixed',
-						top: (_layout == 'front' ? '80px' : '0')
-					});
+
+				if (flag != 2) {
+					flag = 2;
+					if (params.middleHandle) {
+						params.middleHandle();
+					}
+					else {
+						$object.css({
+							position: 'fixed',
+							top: _offsetTop + 'px'
+						});
+					}
 				}
 			}
 			else {
@@ -344,17 +354,30 @@ $(function () {
 						top: max + 'px'
 					});
 				}
+
+				$object.scrollTop($object[0].scrollHeight);
 			}
 
-			console.log(flag);
+			lastScroll = document.body.scrollTop;
 		}
+
+		var key = $object.selector.replace(/ /, '_');
 		manager.start = function () {
 			if (manager.isRunning()) {
 				return;
 			}
 
-			$(window).on('scroll.' + $object.selector.replace(/ /, '_'), function () {
+			$(window).on('scroll.' + key, function () {
 				manager.doIt();
+			}).on('resize.' + key, function () {
+				$object.css('width', $object.parent().width());
+			});
+
+			$follow.css('min-height', _offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)');
+			$object.css({
+				'max-height': 	_offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)',
+				'width':		$object.parent().width(),
+				'overflow':		'hidden'
 			});
 		}
 		manager.end = function () {
@@ -362,13 +385,19 @@ $(function () {
 				return;
 			}
 
-			$(window).off('scroll.' + $object.selector.replace(/ /, '_'));
 			flag = -1;
 			$object.css({
 				position: '',
 				top: ''
 			});
 			$follow.css('min-height', '');
+			$object.css({
+				'max-height': 	'',
+				'width':		'',
+				'overflow':		''
+			});
+			$(window).off('scroll.' + key);
+			$(window).off('resize.' + key);
 		}
 
 		manager.start();
@@ -903,6 +932,205 @@ $(function () {
 		function initPaginator() {
 			obj.paginator.find('[aria-click="paging"]').on('click', function () {
 				$(this).startLoadingStatus();
+				obj.lastData['page'] = $(this).data('page');
+				obj.find({ data: obj.lastData });
+			});
+		}
+		initPaginator();
+
+		return obj;
+	}
+
+	/*
+		params:
+			url(*)
+			data 			{}
+							{} || function
+			lastData 		{} || function
+			list 			$()
+			paginator 		$()
+			alert 			$('<section></section>')
+			emptyHtml 		'...'
+			replaceState	false
+			done 			function
+			fail 			function
+			empty 			function
+			scrollTo 		list
+	*/
+	function _initPagination3(params) {
+		// Check if have not params or url
+		if (typeof params == 'undefined' || !('url' in params)) {
+			return;
+		}
+
+		var 
+			xhr		= 	null,
+			obj,
+
+		// Create object
+		obj = {
+			url: 			params.url,
+			list: 			params.list || $(),
+			paginator:		params.paginator || $(),
+			alert: 			params.alert || $('<section></section>'),
+			emptyHtml: 		params.alertHtml || '<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4 class="no-margin"><i class="icon fa fa-warning"></i> Không có kết quả</h4><p>Không tìm thấy kết quả phù hợp, vui lòng thử lại sau</p></div>',
+			lastData: 		params.lastData,
+			data: 			params.data || {},
+			getData: 		function () {
+								return typeof obj.data == 'function' ?
+									obj.data() :
+									obj.data;
+							},
+			replaceState: 	params.replaceState || false,
+			done: 			params.done || function () {},
+			fail: 			params.fail || function () {},
+			empty: 			params.empty || function () {},
+			/*
+				findParams
+					scrollTo 		true
+									Whether scrollTo ...
+					data 			nothing
+					url 			param url
+					startRequest 	function () {}
+					endRequest 		function () {}
+			*/
+			find: 			function (findParams) {
+								findParams = findParams || {};
+
+								// Params
+								if (typeof findParams.scrollTo == 'undefined') {
+									findParams.scrollTo = true;
+								}
+								findParams.startRequest = 	findParams.startRequest || function () {};
+								findParams.endRequest 	= 	findParams.endRequest 	|| function () {};
+
+								// Get data
+
+									// Clone data
+									var data = $.extend({}, obj.getData());
+
+									// Use find params if exists
+									if ('data' in findParams) {
+										$.extend(data, findParams.data);
+									}
+
+									// Default value
+									data.page = data.page || 1;
+
+									// Save to last data
+									obj.lastData = data;
+
+								// / Get data
+
+								// Request
+								
+									// Get url
+									var url = findParams.url || obj.url;
+
+									// Hide alert
+									obj.alert.hide();
+
+									console.log(data);
+									// Call request
+									findParams.startRequest();
+									xhr = $.ajax({
+										url: url,
+										data: data,
+										cache: false
+									}).done(function (data) {
+										if (data.status == 0) {
+											// Replace html
+											obj.list.html(data.result.list);
+											obj.paginator.html(data.result.paginator);
+
+											// Callback
+											obj.done(data.result);
+											initPaginator();
+
+											// Scroll to list
+											if (findParams.scrollTo) {
+												_scrollTo(obj.list.offset().top - _offsetTop);
+											}
+
+											if (obj.replaceState) {
+												// Remove timestamp in url
+												window.history.replaceState({}, document.title, this.url.replace(/&?_=[0-9]*/, ''));
+											}
+										}
+										else if (data.status == 1) {
+											// Replace html
+											obj.list.html('');
+											obj.paginator.html('');
+
+											// Callback
+											obj.empty();
+
+											// Alert
+											obj.alert.show().html(obj.emptyHtml);
+										}
+										else {
+											// Replace html
+											obj.list.html('');
+											obj.paginator.html('');
+
+											// Callback
+											obj.fail();
+
+											// Alert
+											_errorPopup();
+										}
+									}).fail(function (xhr, status) {
+										if (status != 'abort') {
+											// Replace html
+											obj.list.html('');
+											obj.paginator.html('');
+											obj.list.next()
+
+											// Callback
+											obj.fail();
+
+											// Alert
+											_errorPopup();
+										}
+									}).always(function () {
+										findParams.endRequest();
+									});
+								
+								// / Request
+							}
+		};
+		obj.scrollTo = params.scrollTo || obj.list;
+		if (typeof obj.lastData == 'function') {
+			obj.lastData = obj.lastData();
+		}
+		if (typeof obj.lastData == 'undefined') {
+			obj.lastData = obj.paginator.data('search-params');
+		}
+		if (typeof obj.lastData == 'undefined') {
+			obj.lastData = {};
+		}
+
+		// Append alert
+
+			if (!params.alert) {
+				// Get table
+				var $replaceAfter = obj.list.closest('table');
+
+				// If not in table => Append after list
+				if ($replaceAfter.length == 0) {
+					$replaceAfter = obj.list;
+				}
+
+				// Append
+				$replaceAfter.after(obj.alert);
+			}
+
+		// / Append alert
+
+		function initPaginator() {
+			obj.paginator.find('[aria-click="paging"]').on('click', function () {
+				$(this).startLoadingStatus();
+
 				obj.lastData['page'] = $(this).data('page');
 				obj.find({ data: obj.lastData });
 			});

@@ -36,12 +36,12 @@
 					<h2 class="container-box-title">
 						<%= @blog.title %>
 					</h2>
+				</div>
+				<div class="container-box-body">
 					<div class="time">
 						<%= t '.created_at' %>
 						<span aria-time="<%= @blog.created_at %>"></span>
 					</div>
-				</div>
-				<div class="container-box-body">
 					<div class="content">
 						<%= @blog.content.html_safe %>
 					</div>
@@ -85,21 +85,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-md-3" id="relative_re_ctn">
+		<div class="visible-md visible-lg col-md-3">
 			<% if @blog.relative_res.present? %>
-				<div class="box box-near box-small relative-re-ctn">
-					<div class="box-header">
-						<h3 class="box-title">
-							<%= Blog.i18n_attribute '.relative_res' %>
-						</h3>
-					</div>
+				<div class="box box-near box-small box-transparent">
 					<div class="box-body">
-						<div id="relative_re" class="relative-re <%= 'has-many' if @blog.relative_res.count > 1 %>">
-							<a class="prev ico-chevron-left"></a>
-							<div class="medium-items-list">
-								<%= render partial: 'real_estates/items_list_2', locals: { res: @blog.relative_res, col: nil } %>
-							</div>
-							<a class="next ico-chevron-right"></a>
+						<div class="medium-items-list" id="relative_re">
+							<%= render partial: 'real_estates/items_list_2', locals: { res: @blog.relative_res, type: 2 } %>
 						</div>
 					</div>
 				</div>

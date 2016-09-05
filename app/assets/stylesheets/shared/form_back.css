@@ -291,13 +291,13 @@
 			font-weight: bold;
 			cursor: pointer;
 			font-size: 20px;
-			vertical-align: -2px;
+			vertical-align: -1px;
 			text-align: center;
 		}
 	
 			.form .tags-ctn .remove:hover {
 				text-decoration: none;
-				color: rgba(0, 0, 0, .3);
+				color: rgba(0, 0, 0, .5);
 			}
 
 /* / Tags */

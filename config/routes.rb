@@ -83,6 +83,7 @@ Rails.application.routes.draw do
 			get 'bat-dong-san/quan-tam' => 'real_estates#my_favorite'
 			get 'bat-dong-san/kiem-duyet' => 'real_estates#pending', as: 'pending_res'
 			get 'bat-dong-san/quan-ly' => 'real_estates#manage', as: 'manage_res'
+			get 'bat-dong-san/tim-kiem' => 'real_estates#search', as: 'search_res'
 
 			get 'bat-dong-san/:full_slug' => 'real_estates#view', constraints: { full_slug: /(\w|-)*\d+/ }, as: 'view_re'
 

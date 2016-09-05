@@ -53,26 +53,28 @@
 					</h2>
 				</section>
 				<section class="container-box-body">
-					<%
-						per = 12
-						
-						page_href = Proc.new do |page| 
-							request.GET['page'] = page
-							'?' + request.GET.to_query
-						end
-					%>
-					<%=
-						render(
-							partial: 'real_estates/items_list',
-							locals: {
-								res: @res.page(page, per),
-								paging: (@res.count / per.to_f).ceil,
-								list_id: 'res_list',
-								page_href: page_href,
-								current_page: page
-							}
-						)
-					%>
+					<% if @res.count != 0 %>
+						<div class="medium-items-list" id="res_list">
+							<%=
+								render(
+									partial: 'real_estates/items_list_2',
+									locals: {
+										res: @res
+									}
+								)
+							%>
+						</div>
+						<div id="res_paginator" data-search-params="<%= { conditions: @res_conditions, search_params: @res_search_params }.to_json %>">
+							<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
+						</div>
+					<% else %>
+						<div class="alert alert-warning alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<p>
+								<%= t '.empty_re_list' %>
+							</p>
+						</div>
+					<% end %>
 				</section>
 			</article>
 		</div>
@@ -86,7 +88,7 @@
 						<span class="icon ico-search"></span><span class="text"><%= t search_scope + '.search_box.title' %></span>
 					</h2>
 					<section class="box-content">
-						<form class="form" action="/tim_kiem" method="get">
+						<form class="form" action="<%= search_res_path %>" method="get">
 							<div class="row">
 								<article class="form-group col-xs-12">
 									<input class="form-control" name="search[keyword]" placeholder="<%= t search_scope + 'search_box.keyword_placeholder' %>" />

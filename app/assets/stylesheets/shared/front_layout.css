@@ -86,12 +86,15 @@ body {
 				float: right;
 				height: 40px;
 				line-height: 40px;
-				text-decoration: none;
 				font-size: 28px;
 				color: #fff;
 				text-align: center;
 				padding: 0 10px;
 			}
+	
+				header .top-header > :hover {
+					text-decoration: none;
+				}
 	
 			header .top-header .sign-in {
 				transition: .3s;
@@ -112,7 +115,7 @@ body {
 			header .top-header .menu {
 				transition: .3s;
 				position: relative;
-				z-index: 1;
+				z-index: 2;
 			}
 	
 				header .top-header .menu:hover {
@@ -138,7 +141,6 @@ body {
 				}
 
 					header .top-header .user .text {
-						font-weight: 600;
 						height: 40px;
 						line-height: 40px;
 						padding: 0 15px;
@@ -289,6 +291,7 @@ body {
 						left: 0;
 						margin-top: -3px;
 						display: none;
+						box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 					}
 				
 						header .bottom-header nav li .absolute-menu.on {
@@ -334,7 +337,7 @@ body {
 					z-index: 1;
 					top: -22px;
 					margin: 0;
-					margin-left: 20px;
+					margin-left: 25px;
 				}
 		
 		/* / Bottom */
@@ -488,6 +491,7 @@ body {
 
 	main {
 		padding: 50px 0;
+		overflow-x: hidden;
 	}
 
 	/* Callout */
@@ -621,6 +625,128 @@ body {
 		/* Medium items list */
 		
 			.medium-items-list {
+				display: -webkit-flex;
+				display: flex;
+				flex-wrap: wrap;
+				margin: 0 -5px -10px;
+			}
+
+				.medium-items-list .item-ctn {
+					flex: 1 1 250px;
+					margin: 0 5px;
+					margin-bottom: 10px;
+				}
+		
+				.medium-items-list .item {
+					max-width: 300px;
+					margin: 0 auto;
+					background-color: #fff;
+					padding: 10px;
+					box-shadow: 0px 1px 2px rgba(0, 0, 0, .1);
+					height: 100%;
+					display: -webkit-flex;
+					display: flex;
+					-webkit-flex-direction: column;
+					flex-direction: column;
+					position: relative;
+				}
+		
+					.medium-items-list .item > .grow {
+						flex-grow: 1;
+					}
+		
+					.medium-items-list .item > :first-child {
+						margin-top: -10px;
+					}
+		
+					.medium-items-list .item > :last-child {
+						margin-bottom: -10px;
+					}
+		
+					.medium-items-list .item .image {
+						margin: 0 -10px 10px;
+					}
+		
+						.medium-items-list .item.item-2 .image {
+							margin-bottom: 0;
+						}
+		
+						.medium-items-list .item .image img {
+							width: 100%;
+						}
+
+					.medium-items-list .item .title {
+						max-height: 50px;
+						overflow: hidden;
+						color: #006437;
+						margin-bottom: 7px;
+					}
+
+						.medium-items-list .item .title a {
+							font-size: 16px;
+							color: inherit;
+							display: block;
+							line-height: 25px;
+						}
+
+					.medium-items-list .item .type,
+					.medium-items-list .item .address {
+						font-size: 13px;
+						margin-bottom: 7px;
+					}
+
+					.medium-items-list .item .price {
+						text-align: right;
+						padding-right: 10px;
+						font-size: 15px;
+						margin-bottom: 7px;
+					}
+
+					.medium-items-list .item .infos {
+						text-align: center;
+						border-top: 2px solid #008549;
+						margin-bottom: 10px;
+					}
+		
+						.medium-items-list .item .infos > * {
+							display: inline-block;
+							margin: 10px 10px 0 10px;
+						}
+		
+						.medium-items-list .item .infos .icon {
+							font-size: 18px;
+						}
+		
+					.medium-items-list .item .upon-info {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						padding: 10px;
+						background-color: rgba(0, 0, 0, .6);
+						color: #eee;
+					}
+		
+						.medium-items-list .item .upon-info .title {
+							color: #fff;
+						}
+		
+						.medium-items-list .item .upon-info .sell-price-text {
+							color: #FFC732;
+						}
+		
+						.medium-items-list .item .upon-info .rent-price-text {
+							color: #FF8F86;
+						}
+		
+						.medium-items-list .item .upon-info > :last-child {
+							margin-bottom: 0;
+						}
+		
+		/* / Medium items list */
+		
+		/* Medium items list */
+		
+			/*.medium-items-list {
 
 			}
 
@@ -705,7 +831,7 @@ body {
 		
 						.medium-items-list .item .infos .icon {
 							font-size: 18px;
-						}
+						}*/
 		
 		/* / Medium items list */
 
@@ -824,7 +950,7 @@ body {
 									}
 
 									.large-items-list .item .infos-container .rent-price-text {
-										color: #2DCEFC;
+										color: #EA4235;
 										margin-bottom: 10px;
 									}
 
@@ -961,7 +1087,7 @@ body {
 						}
 
 						.large-items-list .item .infos-container .rent-price-text {
-							color: #0085AB;
+							color: #EA4235;
 						}
 
 						.large-items-list .item .infos-container .info-item .icon {
@@ -1010,7 +1136,6 @@ body {
 				margin: 4px;
 				background-color: #fff;
 				color: #333;
-				text-decoration: none;
 				box-shadow: 0px 1px 2px rgba(0, 0, 0, .1);
 			}
 	
@@ -1019,6 +1144,7 @@ body {
 				.numeric-paging a.active {
 					background-color: #00A459;
 					color: #fff;
+					text-decoration: none;
 				}
 	
 				.numeric-paging a:active {
@@ -1065,6 +1191,40 @@ body {
 					}
 	
 	/* / Circle paging */
+
+	/* Pagination */
+	
+		.paginator {
+			display: block;
+			text-align: center;
+			padding: 10px;
+			margin-top: 20px;
+		}
+	
+			.paginator a {
+				display: inline-block;
+				padding: 5px 10px;
+				min-width: 30px;
+				margin: 4px;
+				background-color: #fff;
+				color: #333;
+				box-shadow: 0px 1px 2px rgba(0, 0, 0, .1);
+			}
+	
+				.paginator a:hover,
+				.paginator a:focus,
+				.paginator a.active {
+					background-color: #00A459;
+					color: #fff;
+					text-decoration: none;
+				}
+	
+				.paginator a:active {
+					background-color: #00D976;
+					color: #fff;
+				}
+	
+	/* / Pagination */
 
 	/* Sign-in box */
 	

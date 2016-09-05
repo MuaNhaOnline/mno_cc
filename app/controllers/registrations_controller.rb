@@ -39,25 +39,31 @@ class RegistrationsController < ApplicationController
 		if params[:search].present?
 			# Purpose
 			if params[:search][:purpose].present?
-				purpose = Purpose.find params[:search][:purpose]
-
-				@registration.purpose_id = params[:search][:purpose]
-
-				# Price
-				case purpose.code
-				when 'transfer', 'rent'
-					if params[:search][:price_from].present?
-						@registration.min_rent_price = params[:search][:price_from].to_f * 1000000
-					end
-					if params[:search][:price_to].present?
-						@registration.max_rent_price = params[:search][:price_to].to_f * 1000000
-					end
+				if params[:search][:purpose] =~ /\D/
+					purpose = Purpose.where(code: params[:search][:purpose]).first
 				else
-					if params[:search][:price_from].present?
-						@registration.min_sell_price = params[:search][:price_from].to_f * 1000000
-					end
-					if params[:search][:price_to].present?
-						@registration.max_sell_price = params[:search][:price_to].to_f * 1000000
+					purpose = Purpose.where(id: params[:search][:purpose]).first
+				end
+
+				if purpose.present?
+					@registration.purpose_id = purpose.id
+
+					# Price
+					case purpose.code
+					when 'transfer', 'rent'
+						if params[:search][:price_from].present?
+							@registration.min_rent_price = params[:search][:price_from].to_f * 1000000
+						end
+						if params[:search][:price_to].present?
+							@registration.max_rent_price = params[:search][:price_to].to_f * 1000000
+						end
+					else
+						if params[:search][:price_from].present?
+							@registration.min_sell_price = params[:search][:price_from].to_f * 1000000
+						end
+						if params[:search][:price_to].present?
+							@registration.max_sell_price = params[:search][:price_to].to_f * 1000000
+						end
 					end
 				end
 			end

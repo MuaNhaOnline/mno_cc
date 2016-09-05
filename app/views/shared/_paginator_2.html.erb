@@ -1,0 +1,27 @@
+<!-- results -->
+<%
+	min_page = results.current_page - 3
+	if min_page < 1
+		min_page = 1
+	end
+	max_page = results.current_page + 3
+	if max_page > results.total_pages
+		max_page = results.total_pages
+	end
+%>
+
+<nav class="paginator"><!--
+	<% if min_page != 1 %>
+		--><a aria-click="paging" data-page="<%= 1 %>"><%= t 'global.paginator.first' %></a><!--
+	<% end %>
+	<% (min_page..max_page).each do |i| %>
+		<% if i == results.current_page %>
+			--><a class="active"><%= i %></a><!--
+		<% else %>
+			--><a aria-click="paging" data-page="<%= i %>"><%= i %></a><!--
+		<% end %>
+	<% end %>
+	<% if max_page != results.total_pages %>
+		--><a aria-click="paging" data-page="<%= results.total_pages %>"><%= t 'global.paginator.last' %></a><!--
+	<% end %>
+--></nav>

@@ -207,8 +207,6 @@ vi:
         vote3: Tạm được
         vote4: Chưa tốt
         vote5: Rất tệ
-    search:
-      page_title: Kết quả tìm kiếm
   real_estates:
     index:
       page_title: Bất động sản
@@ -235,6 +233,9 @@ vi:
         email_placeholder: Email
         phone_placeholder: Số điện thoại
       relative_res: Bất động sản liên quan
+    search:
+      page_title: Kết quả tìm kiếm
+      box_title: Bất động sản phù hợp
     _notification_mini_item:
       create: '%{name} đã tin đăng bất động sản mới'
       edit: '%{name} đã sửa tin bất động sản'

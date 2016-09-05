@@ -237,7 +237,7 @@
 							<span class="icon ico-search"></span><span class="text"><%= t scope + 'search_box.title' %></span>
 						</h2>
 						<section class="box-content" <%= 'style="display: none;"'.html_safe if @_hide_search_box %>>
-							<form class="form" action="<%= search_path %>" method="get">
+							<form class="form" action="<%= search_res_path %>" method="get">
 								<div class="row">
 									<%
 										search_params = params[:search]

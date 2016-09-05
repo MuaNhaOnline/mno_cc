@@ -1,4 +1,4 @@
-_layout = 'front';
+_offsetTop = 80;
 
 $(function () {
 

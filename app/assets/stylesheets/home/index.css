@@ -103,6 +103,7 @@ main {
 
 	.info-intro-ctn {
 		padding: 100px 20px;
+		background-color: #fff;
 	}
 
 		.info-intro-ctn .box-title {
@@ -389,6 +390,7 @@ main {
 
 	.concept-ctn {
 		padding: 70px 0;
+		background-color: #fff;
 	}
 	
 		.concept-ctn .box-title {
@@ -446,7 +448,6 @@ main {
 /* Rating */
 
 	.rating-ctn {
-		padding: 50px 0;
 	}
 
 		.rating-ctn img {

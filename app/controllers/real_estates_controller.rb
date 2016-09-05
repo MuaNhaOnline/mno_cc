@@ -2,10 +2,76 @@ class RealEstatesController < ApplicationController
 	layout 'front_layout'
 
 	def index
+		return _list if request.xhr?
+
 		@favorite_res = RealEstate.search_with_params(is_favorite: 'true')
-		@res = RealEstate.search_with_params(newest: '')
+
+		page 				=	(params[:page] || 1).to_i
+		per 				=	(params[:per] || 12).to_i
+		@res_conditions 	=	params[:conditions] || {}
+		@res_search_params 	=	params[:search_params] || { order: :newest }
+		@res_search_params[:paginate] ||= {}
+		@res_search_params[:paginate][:page] = page
+		@res_search_params[:paginate][:per] = per
+		@res = RealEstate.search_with_params_2(@res_conditions.clone, @res_search_params.clone).results
 
 		render layout: 'front_layout'
+	end
+
+	def search
+		return _list if request.xhr?
+
+		# Get params
+		page 				=	(params[:page] || 1).to_i
+		per 				=	(params[:per] || 12).to_i
+		@res_conditions 	=	params[:search] || {}
+		@res_search_params 	=	params[:search_params] || {}
+		@res_search_params[:paginate] ||= {}
+		@res_search_params[:paginate][:page] = page
+		@res_search_params[:paginate][:per] = per
+
+		# Get res
+		@res = RealEstate.search_with_params_2(
+			@res_conditions.clone,
+			@res_search_params.clone
+		).results
+	end
+
+	# Ajax
+	def _list
+		return render text: 'Nothing here' unless request.xhr?
+
+		# Get params
+		page 			=	(params[:page] || 1).to_i
+		per 			=	(params[:per] || 12).to_i
+		conditions 		=	params[:conditions] || {}
+		search_params	=	params[:search_params] || {}
+
+		search_params[:paginate] ||= {}
+		search_params[:paginate][:page] = page
+		search_params[:paginate][:per] = per
+
+		# Get res
+		res = RealEstate.search_with_params_2(conditions, search_params)
+
+		# Render
+		render json: {
+			status: 0,
+			result: {
+				list: render_to_string(
+					partial:	'items_list_2',
+					locals:		{
+									res: res.results
+								}
+				),
+				paginator: render_to_string(
+					partial:	'/shared/paginator_2',
+					locals:		{
+									results: res.results
+								}
+				)
+			}
+		}
 	end
 
 	def demo
@@ -1379,27 +1445,27 @@ class RealEstatesController < ApplicationController
 		# 	type
 		#   per, page, price(x;y), real_estate_type, is_full, district
 		#   newest, cheapest
-		def search
-			res = RealEstate.search_with_params params
+		# def search
+		# 	res = RealEstate.search_with_params params
 			
-			params[:per] ||= Rails.application.config.real_estate_item_per_page
-			params[:per] = params[:per].to_i
+		# 	params[:per] ||= Rails.application.config.real_estate_item_per_page
+		# 	params[:per] = params[:per].to_i
 
-			params[:type] ||= 1
+		# 	params[:type] ||= 1
 
-			params[:page] ||= 1
-			params[:page] = params[:page].to_i
+		# 	params[:page] ||= 1
+		# 	params[:page] = params[:page].to_i
 			
-			return render json: { status: 1 } if res.count == 0
+		# 	return render json: { status: 1 } if res.count == 0
 
-			render json: {
-				status: 0,
-				result: {
-					list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: params[:type] }),
-					pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: params[:per], page: params[:page] })
-				}
-			}
-		end
+		# 	render json: {
+		# 		status: 0,
+		# 		result: {
+		# 			list: render_to_string(partial: 'real_estates/item_list', locals: { res: res.page(params[:page], params[:per]), type: params[:type] }),
+		# 			pagination: render_to_string(partial: 'shared/pagination_2', locals: { total: res.count, per: params[:per], page: params[:page] })
+		# 		}
+		# 	}
+		# end
 
 	# / Search
 
@@ -1454,7 +1520,7 @@ class RealEstatesController < ApplicationController
 					except: { ids: except },
 				}, {
 					limit: 20
-				})
+				}).results
 
 			if res.count == 0
 				return render json: { status: 1 }
