@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
 	def create
 		@registration = params[:id].present? ? ReRegistration.find(params[:id]) : ReRegistration.new
 
-		# Post
+		# Post & return
 		if request.post?
 			if signed?
 				params[:re_registration][:user_type]	=	'user'
@@ -87,6 +87,22 @@ class RegistrationsController < ApplicationController
 			elsif params[:search][:province].present?
 				@registration.locations << ReRegistrationLocation.create(object_type: 'province', object_id: params[:search][:province])
 			end
+		end
+
+		respond_to do |f|
+			f.html
+			f.json {
+				render json: {
+					status: 0,
+					result: render_to_string(
+						partial:	'form',
+						formats:	:html,
+						locals: {
+							reg: @registration
+						}
+					)
+				}
+			}
 		end
 	end
 

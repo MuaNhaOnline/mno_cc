@@ -265,6 +265,8 @@ $(function () {
 			topHandle
 			middleHandle
 			bottomHandle
+			addMin
+			addMax
 	*/
 	function _initFixedScroll($object, $follow, params) {
 		if ($object.length == 0 || $follow.length == 0) {
@@ -274,6 +276,8 @@ $(function () {
 		if (typeof params == 'undefined') {
 			params = {};
 		}
+		params.addMin = params.addMin || 0;
+		params.addMax = params.addMax || 0;
 
 		var 
 			// 1: Top, 2: Middle, 3: Bottom
@@ -285,11 +289,15 @@ $(function () {
 			return flag != -1;
 		}
 		manager.doIt = function () {
-			var 
-				min = $follow.offset().top,
-				max = $follow.offset().top + $follow.outerHeight() - $object.outerHeight(),
-				scrollTop = $(window).scrollTop() + _offsetTop,
-				scrollHeight = $object[0].scrollHeight - $object.height();
+			var
+				minScroll = -($object.height() - window.innerHeight),
+				min = $follow.offset().top + params.addMin,
+				max = $follow.offset().top + $follow.outerHeight() - (minScroll < 0 ? window.innerHeight - _offsetTop : $object.outerHeight()) + params.addMax,
+				scrollTop = $(window).scrollTop() + _offsetTop;
+
+			if (minScroll > 0) {
+				minScroll = 0;
+			}
 
 			if (scrollTop < min) {
 				if (flag == 1) {
@@ -300,44 +308,60 @@ $(function () {
 					params.topHandle();
 				}
 				else {
-					if (params.staticTop) {
+					// if (params.staticTop) {
 						$object.css({
 							position: 'static'
 						});
-					}
-					else {
-						$object.css({
-							position: 'absolute',
-							top: min + 'px'
-						});
-					}
+					// }
+					// else {
+					// 	$object.css({
+					// 		position: 'absolute',
+					// 		top: min + 'px'
+					// 	});
+					// }
 				}
-
-				$object.scrollTop(0);
 			}
 			else if (scrollTop < max) {
-				if (scrollHeight != 0) {
-					$object.scrollTop(
-						$object.scrollTop() +
-						(
-							document.body.scrollTop > lastScroll ?
-								document.body.scrollTop - lastScroll :
-								- (lastScroll - document.body.scrollTop)
-						)
-					);	
-				}
+				if (flag == 2) {
+					if (minScroll < 0) {
+						var newTop =
+							parseFloat($object.css('top')) -
+							(
+								document.body.scrollTop > lastScroll ?
+									document.body.scrollTop - lastScroll :
+									-(lastScroll - document.body.scrollTop)
+							);
+						if (newTop < minScroll) {
+							newTop = minScroll;
+						}
+						else if (newTop > _offsetTop) {
+							newTop = _offsetTop;
+						}
 
-				if (flag != 2) {
-					flag = 2;
+						$object.css('top', newTop + 'px');
+					}
+				}
+				else {
 					if (params.middleHandle) {
 						params.middleHandle();
 					}
 					else {
 						$object.css({
-							position: 'fixed',
-							top: _offsetTop + 'px'
+							position: 'fixed'
 						});
+						if (minScroll < 0) {
+							if (flag == 1) {
+								$object.css('top', _offsetTop + 'px');
+							}
+							else {
+								$object.css('top', minScroll + 'px');
+							}
+						}
+						else {
+							$object.css('top', _offsetTop + 'px');
+						}
 					}
+					flag = 2;
 				}
 			}
 			else {
@@ -349,13 +373,19 @@ $(function () {
 					params.bottomHandle();
 				}
 				else {
-					$object.css({
-						position: 'absolute',
-						top: max + 'px'
-					});
+					if (minScroll < 0) {
+						$object.css({
+							position: 'absolute',
+							top: max - _offsetTop + minScroll + 'px'
+						});
+					}
+					else {
+						$object.css({
+							position: 'absolute',
+							top: max + 'px'
+						});	
+					}
 				}
-
-				$object.scrollTop($object[0].scrollHeight);
 			}
 
 			lastScroll = document.body.scrollTop;
@@ -375,9 +405,9 @@ $(function () {
 
 			$follow.css('min-height', _offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)');
 			$object.css({
-				'max-height': 	_offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)',
 				'width':		$object.parent().width(),
-				'overflow':		'hidden'
+				// 'max-height': 	_offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)',
+				// 'overflow':		'hidden'
 			});
 		}
 		manager.end = function () {
@@ -392,9 +422,9 @@ $(function () {
 			});
 			$follow.css('min-height', '');
 			$object.css({
-				'max-height': 	'',
 				'width':		'',
-				'overflow':		''
+				// 'max-height': 	'',
+				// 'overflow':		''
 			});
 			$(window).off('scroll.' + key);
 			$(window).off('resize.' + key);
@@ -2365,8 +2395,6 @@ $(function () {
 				gray
 			width: (none)
 				small, medium, large, maximum
-			dock: 
-				right
 			esc: (true)
 				allow escape popup with click outside or 'esc' key
 	*/
@@ -2380,45 +2408,45 @@ $(function () {
 			zIndex = 'z-index' in params ? params['z-index'] : '30',
 			esc = !('esc' in params) || params.esc,
 			overlay = 'overlay' in params ? params['overlay'] : 'transparent',
-			width = 'width' in params ? params['width'] : '',
-			dock = 'dock' in params ? params['dock'] : '';
+			width = 'width' in params ? params['width'] : '';
 
 		var $popup = $('#' + id);
 
 		if ($popup.length == 0) {
-			$popup = $('<article id="' + id + '" style="z-index: ' + zIndex + ';" class="popup-full-container"><section class="popup-close"></section><section class="popup-full"><article class="popup-content"></article></section></article>');
+			$popup = $(
+				'<article id="' + id + '" style="z-index: ' + zIndex + ';" class="popup-full-container">' +
+					'<div class="popup-full">' +
+						'<section class="popup-close">&times;</section>' +
+						'<section class="popup-content"></section>' +
+					'</div>' +
+				'</article>');
 
-			$popup.find('.popup-close').on('click', function () {
-				if ($popup.is('[aria-esc]')) {
+			$popup.find('.popup-close').add($popup).on('click', function () {
+				if ($popup.is('[data-esc]')) {
 					$popup.off();
 				}
+			});
+			$popup.children().on('click', function (e) {
+				e.stopPropagation();
 			});
 
 			$('main').append($popup);
 		}
 
-		$popup.attr('aria-width', width);
+		$popup.attr('data-width', width);
 
 		if (esc) {
-			$popup.attr('aria-esc', '');
+			$popup.attr('data-esc', '');
 		}
 		else {
-			$popup.removeAttr('aria-esc');
-		}
-
-		$popup.attr('data-dock', dock);
-
-		if (overlay == 'gray') {
-			$popup.addClass('gray');
-		}
-		else {
-			$popup.removeClass('gray');
+			$popup.removeAttr('data-esc');
 		}
 
 		$popup.on = function () {
 			$popup.addClass('on');
+			$popup.scrollTop(0);
 			$(document).on('keydown.turn_off_popup_' + id, function (e) {
-				if ($popup.is('[aria-esc]')) {
+				if ($popup.is('[data-esc]')) {
 					if (e.keyCode == 27) {
 						e.preventDefault();
 						$popup.off();
@@ -2476,8 +2504,6 @@ $(function () {
 			transparent, gray
 		width: (none)
 			small, medium, large, maximum
-		dock: 
-			right
 		onEscape:
 			handle on popup escape
 	*/
@@ -2493,7 +2519,6 @@ $(function () {
 		popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '30';
 		popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
 		popupParams['width'] = 'width' in params ? params['width'] : '';
-		popupParams['dock'] = 'dock' in params ? params['dock'] : '';
 
 		var $popup = getPopup(popupParams);
 

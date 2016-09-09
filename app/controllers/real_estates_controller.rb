@@ -52,7 +52,12 @@ class RealEstatesController < ApplicationController
 		search_params[:paginate][:per] = per
 
 		# Get res
-		res = RealEstate.search_with_params_2(conditions, search_params)
+		res = RealEstate.search_with_params_2(conditions, search_params).results
+
+		# Check if empty
+		if res.count == 0
+			return render json: { status: 1 }
+		end
 
 		# Render
 		render json: {
@@ -61,13 +66,13 @@ class RealEstatesController < ApplicationController
 				list: render_to_string(
 					partial:	'items_list_2',
 					locals:		{
-									res: res.results
+									res: res
 								}
 				),
 				paginator: render_to_string(
 					partial:	'/shared/paginator_2',
 					locals:		{
-									results: res.results
+									results: res
 								}
 				)
 			}
@@ -88,49 +93,150 @@ class RealEstatesController < ApplicationController
 
 		private def get_search_param_from_keyword search
 			case search
-
 			when 'dat-tho-cu'
-				{ search_name: 'Đất thổ cư', real_estate_type: 'residential_land' }
+				{ 
+					search_name: 'Đất thổ cư',
+					conditions: {
+						real_estate_type: 1
+					}
+				}
 			when 'dat-nong-nghiep'
-				{ search_name: 'Đất nông nghiệp', real_estate_type: 'vacant_land' }
+				{ 
+					search_name: 'Đất nông nghiệp',
+					conditions: {
+						real_estate_type: 2
+					}
+				}
 			when 'dat-lam-nghiep'
-				{ search_name: 'Đất lâm nghiệp', real_estate_type: 'forest_land' }
+				{ 
+					search_name: 'Đất lâm nghiệp',
+					conditions: {
+						real_estate_type: 15
+					}
+				}
 			when 'dat-san-xuat'
-				{ search_name: 'Đất cho sản xuất', real_estate_type: 'productive_land' }
+				{ 
+					search_name: 'Đất cho sản xuất',
+					conditions: {
+						real_estate_type: 16
+					}
+				}
 			when 'dat-du-an'
-				{ search_name: 'Đất dự án', real_estate_type: 'project_land' }
+				{ 
+					search_name: 'Đất dự án',
+					conditions: {
+						real_estate_type: 17
+					}
+				}
 			when 'van-phong'
-				{ search_name: 'Văn phòng', real_estate_type: 'office' }
+				{ 
+					search_name: 'Văn phòng',
+					conditions: {
+						real_estate_type: 4
+					}
+				}
 			when 'phong-tro'
-				{ search_name: 'Phòng trọ', real_estate_type: 'motel' }
+				{ 
+					search_name: 'Phòng trọ',
+					conditions: {
+						real_estate_type: 5
+					}
+				}
 			when 'mat-bang-cua-hang'
-				{ search_name: 'Mặt bằng - Cửa hàng', real_estate_type: 'store' }
+				{ 
+					search_name: 'Mặt bằng - Cửa hàng',
+					conditions: {
+						real_estate_type: 6
+					}
+				}
 			when 'nha-hang-khach-san'
-				{ search_name: 'Nhà hàng - Khách sạn', real_estate_type: 'restaurant_hotel' }
+				{ 
+					search_name: 'Nhà hàng - Khách sạn',
+					conditions: {
+						real_estate_type: 7
+					}
+				}
 			when 'kho-xuong'
-				{ search_name: 'Kho - Xưởng', real_estate_type: 'storage_workshop' }
+				{ 
+					search_name: 'Kho - Xưởng',
+					conditions: {
+						real_estate_type: 8
+					}
+				}
 			when 'can-ho-cao-cap'
-				{ search_name: 'Căn hộ cao cấp', real_estate_type: 'high_apartment' }
+				{ 
+					search_name: 'Căn hộ cao cấp',
+					conditions: {
+						real_estate_type: 9
+					}
+				}
 			when 'can-ho-trung-binh'
-				{ search_name: 'Căn hộ trung bình', real_estate_type: 'medium_apartment' }
+				{ 
+					search_name: 'Căn hộ trung bình',
+					conditions: {
+						real_estate_type: 10
+					}
+				}
 			when 'can-ho-thap'
-				{ search_name: 'Căn hộ thu nhập thấp', real_estate_type: 'low_apartment' }
+				{ 
+					search_name: 'Căn hộ thu nhập thấp',
+					conditions: {
+						real_estate_type: 11
+					}
+				}
 			when 'nha-o-xa-hoi'
-				{ search_name: 'Nhà ở xã hội', real_estate_type: 'social_home' }
+				{ 
+					search_name: 'Nhà ở xã hội',
+					conditions: {
+						real_estate_type: 14
+					}
+				}
 			when 'biet-thu'
-				{ search_name: 'Biệt thự', real_estate_type: 'villa' }
+				{ 
+					search_name: 'Biệt thự',
+					conditions: {
+						real_estate_type: 12
+					}
+				}
 			when 'nha-pho'
-				{ search_name: 'Nhà phố', real_estate_type: 'town_house' }
+				{ 
+					search_name: 'Nhà phố',
+					conditions: {
+						real_estate_type: 13
+					}
+				}
 
 			when 'nha-tam'
-				{ search_name: 'Nhà tạm', constructional_level: 'temporary' }
+				{
+					search_name: 'Nhà tạm',
+					conditions: {
+						constructional_level: 5
+					}
+				}
 			when 'nha-cap-4'
-				{ search_name: 'Nhà nát tiện xây mới', constructional_level: 'level_4' }
-
+				{
+					search_name: 'Nhà nát tiện xây mới',
+					conditions: {
+						constructional_level: 4
+					}
+				}
 			when 'can-ho-co-ho-boi'
-				{ search_name: 'Căn hộ có hồ bơi', real_estate_type: 'apartment', utilities: { pool: '' } }
+				{
+					search_name: 'Căn hộ có hồ bơi',
+					conditions: {
+						real_estate_type: [9,10,11],
+						region_utility: 6
+					}
+				}
 			when 'nha-pho-duoi-1-ty' 
-				{ search_name: 'Nhà phố dưới 1 tỷ', real_estate_type: 'town_house', price: '0;1000000000', }
+				{
+					search_name: 'Căn hộ có hồ bơi',
+					conditions: {
+						real_estate_type: 13,
+						price_from: 0,
+						price_to: 1000
+					}
+				}
 
 			else
 				{}
@@ -140,30 +246,35 @@ class RealEstatesController < ApplicationController
 		# View
 		# params: search params
 		def list
-			if params[:user_id].present?
-				params[:search] ||= {}
-				params[:search][:user_id] = params[:user_id]
-			end
-
-			return redirect_to '/bat-dong-san' if params[:search].blank?
+			return _list if request.xhr?
+			return redirect_to _route_helpers.res_path if params[:search].blank?
 
 			if params[:search].is_a? String
-				search_params = get_search_param_from_keyword(params[:search]) 
-
-				@search_name = search_params[:search_name]
+				@search_params = get_search_param_from_keyword params[:search]
 			else
-				search_params = params[:search]
-
-				@search_name = 'Danh sách của ' + User.find(search_params[:user_id]).full_name if params[:search][:user_id].present?
+				@search_params = params[:search]
 			end
 
-			search_params[:is_favorite] = 'true'
-			@favorite_res = RealEstate.search_with_params search_params.clone
+			@search_params[:conditions] ||= {}
+			@search_params[:search_params] ||= {}
 
-			search_params[:is_favorite] = 'false'
-			@res = RealEstate.search_with_params search_params.clone
+			fav_conditions = @search_params[:conditions].clone
+			fav_conditions[:is_favorite] = true
+			fav_search_params = @search_params[:search_params].clone
+			fav_search_params[:order] = :random
+			fav_search_params[:limit] = 3
+			@favorite_res = RealEstate.search_with_params_2(fav_conditions, fav_search_params).results
 
-			render layout: 'front_layout'
+			page 		=	(params[:page] || 1).to_i
+			per 		=	(params[:per] || 12).to_i
+			@search_params[:conditions].delete :is_favorite
+			search_params = @search_params[:search_params].clone
+			search_params[:paginate] = {
+				page: page,
+				per: per
+			}
+
+			@res = RealEstate.search_with_params_2(@search_params[:conditions].clone, search_params).results
 		end
 
 		# Partial view
@@ -205,7 +316,7 @@ class RealEstatesController < ApplicationController
 
 			@re = RealEstate.find id
 
-			return redirect_to "/bat-dong-san/#{@re.full_slug}" if @re.full_slug != params[:full_slug] + '.html'
+			return redirect_to "/bat-dong-san/#{@re.full_slug}" if @re.full_slug != params[:full_slug]
 
 			# Author
 			authorize! :view, @re

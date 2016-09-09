@@ -3,6 +3,8 @@
 <% end %>
 
 <% content_for :javascripts do %>
+	<script type="text/javascript" src='http://maps.google.com/maps/api/js?key=AIzaSyBsMB8D8mBgDcBqGCyOii1Kgu-BJmfNAvQ&libraries=places'></script>
+	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
 	<script type="text/javascript" src="/assets/real_estates/search.js"></script>
 <% end %>
 
@@ -34,331 +36,335 @@
 	search_params = {} if search_params.blank? || !search_params.is_a?(Hash)
 %>
 
-<% if @res.blank? %>
-	<div class="alert alert-danger" role="alert">
-		<div class="container">
-			<%= t 'global.text.empty_callout' %>
+<div class="container-fluid">
+	<% if @res.blank? %>
+		<div class="alert alert-danger" role="alert">
+			<div class="container">
+				<%= t 'global.text.empty_callout' %>
+			</div>
 		</div>
-	</div>
-	<div class="alert alert-info" role="alert">
-		<div class="container">
-			<%= t search_scope + 'register_html', path: create_registration_path(search: search_params) %>
+		<div class="alert alert-info" role="alert">
+			<div class="container">
+				<%= t search_scope + 'register_html', path: create_registration_path(search: search_params) %>
+			</div>
 		</div>
-	</div>
-<% end %>
+	<% end %>
 
-<% if @res.present? %>
-	<div class="row">
-		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-			<article class="container-box container-box-transparent">
-				<section class="container-box-header">
-					<h2 class="container-box-title">
-						<%= '.box_title' %>
-					</h2>
-				</section>
-				<section class="container-box-body">
-					<div class="container-fluid">
-						<% if @res.count != 0 %>
-							<div class="medium-items-list" id="res_list">
-								<%=
-									render(
-										partial: 'real_estates/items_list_2',
-										locals: {
-											res: @res
-										}
-									)
-								%>
-							</div>
-							<div id="res_paginator" data-search-params="<%= { conditions: @res_conditions, search_params: @res_search_params }.to_json %>">
-								<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
-							</div>
-						<% else %>
-							<div class="alert alert-warning alert-dismissible">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<p>
-									<%= t '.empty_re_list' %>
-								</p>
-							</div>
-						<% end %>
-					</div>
-				</section>
-			</article>
-		</div>
-		<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
-			<article class="search-box-container">
-				<div class="search-box">
-					<h2 class="box-title">
-						<span class="icon ico-search"></span><span class="text"><%= t search_scope + 'title' %></span>
-					</h2>
-					<section class="box-content">
-						<form class="form" action="<%= search_res_path %>" method="get">
-							<div class="row">
-								<article class="form-group col-xs-12">
-									<input class="form-control" name="search[keyword]" placeholder="<%= t search_scope + 'keyword_placeholder' %>" value="<%= search_params[:keyword] %>" />
-								</article>
-								<%
-									purposes = Purpose.all.map { |purpose|
-										[
-											purpose.display_name,
-											purpose.id,
-											case purpose.code
-											when 'sell', 'sell_rent'
-												{
-													'data-on': 'sell',
-													'data-off': 'rent'
-												}
-											when 'rent', 'transfer'
-												{
-													'data-on': 'rent',
-													'data-off': 'sell'
-												}
-											end
-										]
-									}
-								%>
-								<article class="form-group col-xs-12 col-lg-6">
-									<select class="form-control input-toggle" name="search[purpose]">
-										<option data-on="sell" data-off="rent" value="" hidden><%= Purpose.display_name %></option>
-										<option data-on="sell" data-off="rent" value=""><%= t 'global.text.all' %></option>
-										<%= options_for_select purposes, search_params[:purpose] %>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<select class="form-control" name="search[real_estate_type]">
-										<option value="" hidden><%= RealEstateType.display_name %></option>
-										<option value=""><%= t search_scope + 'all_types' %></option>
-										<%= options_from_collection_for_select RealEstateType.all, :id, :display_name, search_params[:real_estate_type] %>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<select class="form-control" name="search[province]">
-										<option value="" hidden><%= Province.display_name %></option>
-										<option value=""><%= t search_scope + 'all_provinces' %></option>
-										<%= options_from_collection_for_select Province.all, :id, :name, search_params[:province] %>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<select class="form-control" name="search[district]" disabled>
-										<option value="" hidden><%= District.display_name %></option>
-										<option value=""><%= t search_scope + 'all_districts' %></option>
-										<% if search_params[:province].present? %>
-											<%= options_from_collection_for_select District.where(province_id: search_params[:province]), :id, :name, search_params[:district] %>
-										<% end %>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<%
-										prices = [
-											[
-												t(search_scope + 'from_billion', count: 1),
-												1000
-											],
-											[
-												t(search_scope + 'from_billion', count: 1.5),
-												1500
-											],
-											[
-												t(search_scope + 'from_billion', count: 2),
-												2000
-											],
-											[
-												t(search_scope + 'from_billion', count: 3),
-												3000
-											],
-											[
-												t(search_scope + 'from_billion', count: 5),
-												5000
-											],
-											[
-												t(search_scope + 'from_billion', count: 10),
-												10000
-											]
-										]
-									%>
-									<select data-toggled-element="sell" class="form-control" name="search[price_from]">
-										<option value=""><%= t search_scope + 'from_price_text' %></option>
-										<%= options_for_select prices, search_params[:price_from] %>
-									</select>
-									<%
-										prices = [
-											[
-												t(search_scope + 'from_million', count: 1),
-												1
-											],
-											[
-												t(search_scope + 'from_million', count: 1.5),
-												1.5
-											],
-											[
-												t(search_scope + 'from_million', count: 2),
-												2
-											],
-											[
-												t(search_scope + 'from_million', count: 3),
-												3
-											],
-											[
-												t(search_scope + 'from_million', count: 5),
-												5
-											],
-											[
-												t(search_scope + 'from_million', count: 10),
-												10
-											]
-										]
-									%>
-									<select data-toggled-element="rent" class="form-control" name="search[price_from]">
-										<option value=""><%= t search_scope + 'from_price_text' %></option>
-										<%= options_for_select prices, search_params[:price_from] %>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<%
-										prices = [
-											[
-												t(search_scope + 'to_billion', count: 1),
-												1000
-											],
-											[
-												t(search_scope + 'to_billion', count: 1.5),
-												1500
-											],
-											[
-												t(search_scope + 'to_billion', count: 2),
-												2000
-											],
-											[
-												t(search_scope + 'to_billion', count: 3),
-												3000
-											],
-											[
-												t(search_scope + 'to_billion', count: 5),
-												5000
-											],
-											[
-												t(search_scope + 'to_billion', count: 10),
-												10000
-											]
-										]
-									%>
-									<select data-toggled-element="sell" class="form-control" name="search[price_to]">
-										<option value="" hidden><%= t search_scope + 'to_price_text' %></option>
-										<%= options_for_select prices, search_params[:price_to] %>
-										<option value=""><%= t search_scope + 'to_price_text' %></option>
-									</select>
-									<%
-										prices = [
-											[
-												t(search_scope + 'to_million', count: 1),
-												1
-											],
-											[
-												t(search_scope + 'to_million', count: 1.5),
-												1.5
-											],
-											[
-												t(search_scope + 'to_million', count: 2),
-												2
-											],
-											[
-												t(search_scope + 'to_million', count: 3),
-												3
-											],
-											[
-												t(search_scope + 'to_million', count: 5),
-												5
-											],
-											[
-												t(search_scope + 'to_million', count: 10),
-												10
-											]
-										]
-									%>
-									<select data-toggled-element="rent" class="form-control" name="search[price_to]">
-										<option value="" hidden><%= t search_scope + 'to_price_text' %></option>
-										<%= options_for_select prices, search_params[:price_to] %>
-										<option value=""><%= t search_scope + 'to_price_text' %></option>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<%
-										areas = [
-											[
-												t(search_scope + 'from_square_meter', count: 50),
-												50
-											],
-											[
-												t(search_scope + 'from_square_meter', count: 100),
-												100
-											],
-											[
-												t(search_scope + 'from_square_meter', count: 150),
-												150
-											],
-											[
-												t(search_scope + 'from_square_meter', count: 200),
-												200
-											],
-											[
-												t(search_scope + 'from_square_meter', count: 300),
-												300
-											],
-											[
-												t(search_scope + 'from_square_meter', count: 500),
-												500
-											]
-										]
-									%>
-									<select class="form-control" name="search[area_from]">
-										<option value=""><%= t search_scope + 'from_area_text' %></option>
-										<%= options_for_select areas, search_params[:area_from] %>
-									</select>
-								</article>
-								<article class="form-group col-xs-12 col-lg-6">
-									<%
-										areas = [
-											[
-												t(search_scope + 'to_square_meter', count: 50),
-												50
-											],
-											[
-												t(search_scope + 'to_square_meter', count: 100),
-												100
-											],
-											[
-												t(search_scope + 'to_square_meter', count: 150),
-												150
-											],
-											[
-												t(search_scope + 'to_square_meter', count: 200),
-												200
-											],
-											[
-												t(search_scope + 'to_square_meter', count: 300),
-												300
-											],
-											[
-												t(search_scope + 'to_square_meter', count: 500),
-												500
-											]
-										]
-									%>
-									<select class="form-control" name="search[area_to]">
-										<option value="" hidden><%= t search_scope + 'to_area_text' %></option>
-										<%= options_for_select areas, search_params[:area_to] %>
-										<option value=""><%= t search_scope + 'to_area_text' %></option>
-									</select>
-								</article>
-							</div>
-							<article class="form-group text-center margin-top-15">
-								<button type="submit" class="btn btn-green"><%= t 'global.text.search' %></button>
-							</article>
-							<div>
-								<%= t search_scope + 'register_html', path: create_registration_path(search: search_params) %>
-							</div>
-						</form>
+	<% if @res.present? %>
+		<div class="row">
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+				<article class="container-box container-box-transparent">
+					<section class="container-box-header">
+						<h2 class="container-box-title">
+							<%= t '.box_title' %>
+						</h2>
 					</section>
-				</div>
-			</article>
-		</div>
-<% end %>
+					<section class="container-box-body">
+						<div class="container-fluid">
+							<% if @res.count != 0 %>
+								<div class="medium-items-list" id="res_list">
+									<%=
+										render(
+											partial: 'real_estates/items_list_2',
+											locals: {
+												res: @res
+											}
+										)
+									%>
+								</div>
+								<div id="res_paginator" data-search-params="<%= { conditions: @res_conditions, search_params: @res_search_params }.to_json %>">
+									<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
+								</div>
+							<% else %>
+								<div class="alert alert-warning alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<p>
+										<%= t '.empty_re_list' %>
+									</p>
+								</div>
+							<% end %>
+						</div>
+					</section>
+				</article>
+			</div>
+			<div class="hidden-xs col-sm-3 col-md-3 col-lg-3" style="padding-top: 70px;">
+				<article class="search-box-container">
+					<div class="search-box">
+						<h2 class="box-title">
+							<span class="icon ico-search"></span><span class="text"><%= t search_scope + 'title' %></span>
+						</h2>
+						<section class="box-content">
+							<form class="form" action="<%= search_res_path %>" method="get">
+								<div class="row">
+									<article class="form-group col-xs-12">
+										<input class="form-control" name="search[keyword]" placeholder="<%= t search_scope + 'keyword_placeholder' %>" value="<%= search_params[:keyword] %>" />
+									</article>
+									<%
+										purposes = Purpose.all.map { |purpose|
+											[
+												purpose.display_name,
+												purpose.id,
+												case purpose.code
+												when 'sell', 'sell_rent'
+													{
+														'data-on': 'sell',
+														'data-off': 'rent'
+													}
+												when 'rent', 'transfer'
+													{
+														'data-on': 'rent',
+														'data-off': 'sell'
+													}
+												end
+											]
+										}
+									%>
+									<article class="form-group col-xs-12 col-lg-6">
+										<select class="form-control input-toggle" name="search[purpose]">
+											<option data-on="sell" data-off="rent" value="" hidden><%= Purpose.display_name %></option>
+											<option data-on="sell" data-off="rent" value=""><%= t 'global.text.all' %></option>
+											<%= options_for_select purposes, search_params[:purpose] %>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<select class="form-control" name="search[real_estate_type]">
+											<option value="" hidden><%= RealEstateType.display_name %></option>
+											<option value=""><%= t search_scope + 'all_types' %></option>
+											<%= options_from_collection_for_select RealEstateType.all, :id, :display_name, search_params[:real_estate_type] %>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<select class="form-control" name="search[province]">
+											<option value="" hidden><%= Province.display_name %></option>
+											<option value=""><%= t search_scope + 'all_provinces' %></option>
+											<%= options_from_collection_for_select Province.all, :id, :name, search_params[:province] %>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<select class="form-control" name="search[district]" disabled>
+											<option value="" hidden><%= District.display_name %></option>
+											<option value=""><%= t search_scope + 'all_districts' %></option>
+											<% if search_params[:province].present? %>
+												<%= options_from_collection_for_select District.where(province_id: search_params[:province]), :id, :name, search_params[:district] %>
+											<% end %>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<%
+											prices = [
+												[
+													t(search_scope + 'from_billion', count: 1),
+													1000
+												],
+												[
+													t(search_scope + 'from_billion', count: 1.5),
+													1500
+												],
+												[
+													t(search_scope + 'from_billion', count: 2),
+													2000
+												],
+												[
+													t(search_scope + 'from_billion', count: 3),
+													3000
+												],
+												[
+													t(search_scope + 'from_billion', count: 5),
+													5000
+												],
+												[
+													t(search_scope + 'from_billion', count: 10),
+													10000
+												]
+											]
+										%>
+										<select data-toggled-element="sell" class="form-control" name="search[price_from]">
+											<option value=""><%= t search_scope + 'from_price_text' %></option>
+											<%= options_for_select prices, search_params[:price_from] %>
+										</select>
+										<%
+											prices = [
+												[
+													t(search_scope + 'from_million', count: 1),
+													1
+												],
+												[
+													t(search_scope + 'from_million', count: 1.5),
+													1.5
+												],
+												[
+													t(search_scope + 'from_million', count: 2),
+													2
+												],
+												[
+													t(search_scope + 'from_million', count: 3),
+													3
+												],
+												[
+													t(search_scope + 'from_million', count: 5),
+													5
+												],
+												[
+													t(search_scope + 'from_million', count: 10),
+													10
+												]
+											]
+										%>
+										<select data-toggled-element="rent" class="form-control" name="search[price_from]">
+											<option value=""><%= t search_scope + 'from_price_text' %></option>
+											<%= options_for_select prices, search_params[:price_from] %>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<%
+											prices = [
+												[
+													t(search_scope + 'to_billion', count: 1),
+													1000
+												],
+												[
+													t(search_scope + 'to_billion', count: 1.5),
+													1500
+												],
+												[
+													t(search_scope + 'to_billion', count: 2),
+													2000
+												],
+												[
+													t(search_scope + 'to_billion', count: 3),
+													3000
+												],
+												[
+													t(search_scope + 'to_billion', count: 5),
+													5000
+												],
+												[
+													t(search_scope + 'to_billion', count: 10),
+													10000
+												]
+											]
+										%>
+										<select data-toggled-element="sell" class="form-control" name="search[price_to]">
+											<option value="" hidden><%= t search_scope + 'to_price_text' %></option>
+											<%= options_for_select prices, search_params[:price_to] %>
+											<option value=""><%= t search_scope + 'to_price_text' %></option>
+										</select>
+										<%
+											prices = [
+												[
+													t(search_scope + 'to_million', count: 1),
+													1
+												],
+												[
+													t(search_scope + 'to_million', count: 1.5),
+													1.5
+												],
+												[
+													t(search_scope + 'to_million', count: 2),
+													2
+												],
+												[
+													t(search_scope + 'to_million', count: 3),
+													3
+												],
+												[
+													t(search_scope + 'to_million', count: 5),
+													5
+												],
+												[
+													t(search_scope + 'to_million', count: 10),
+													10
+												]
+											]
+										%>
+										<select data-toggled-element="rent" class="form-control" name="search[price_to]">
+											<option value="" hidden><%= t search_scope + 'to_price_text' %></option>
+											<%= options_for_select prices, search_params[:price_to] %>
+											<option value=""><%= t search_scope + 'to_price_text' %></option>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<%
+											areas = [
+												[
+													t(search_scope + 'from_square_meter', count: 50),
+													50
+												],
+												[
+													t(search_scope + 'from_square_meter', count: 100),
+													100
+												],
+												[
+													t(search_scope + 'from_square_meter', count: 150),
+													150
+												],
+												[
+													t(search_scope + 'from_square_meter', count: 200),
+													200
+												],
+												[
+													t(search_scope + 'from_square_meter', count: 300),
+													300
+												],
+												[
+													t(search_scope + 'from_square_meter', count: 500),
+													500
+												]
+											]
+										%>
+										<select class="form-control" name="search[area_from]">
+											<option value=""><%= t search_scope + 'from_area_text' %></option>
+											<%= options_for_select areas, search_params[:area_from] %>
+										</select>
+									</article>
+									<article class="form-group col-xs-12 col-lg-6">
+										<%
+											areas = [
+												[
+													t(search_scope + 'to_square_meter', count: 50),
+													50
+												],
+												[
+													t(search_scope + 'to_square_meter', count: 100),
+													100
+												],
+												[
+													t(search_scope + 'to_square_meter', count: 150),
+													150
+												],
+												[
+													t(search_scope + 'to_square_meter', count: 200),
+													200
+												],
+												[
+													t(search_scope + 'to_square_meter', count: 300),
+													300
+												],
+												[
+													t(search_scope + 'to_square_meter', count: 500),
+													500
+												]
+											]
+										%>
+										<select class="form-control" name="search[area_to]">
+											<option value="" hidden><%= t search_scope + 'to_area_text' %></option>
+											<%= options_for_select areas, search_params[:area_to] %>
+											<option value=""><%= t search_scope + 'to_area_text' %></option>
+										</select>
+									</article>
+								</div>
+								<article class="form-group text-center margin-top-15">
+									<button type="submit" class="btn btn-green"><%= t 'global.text.search' %></button>
+								</article>
+								<div>
+									<a data-action="create_reg" href="<%= create_registration_path search: search_params %>">
+										<%= t search_scope + 'register_html' %>
+									</a>
+								</div>
+							</form>
+						</section>
+					</div>
+				</article>
+			</div>
+	<% end %>
+</div>

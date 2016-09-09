@@ -14,12 +14,12 @@ Advantage.create [
 ConstructionalLevel.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE constructional_levels_id_seq RESTART WITH 1')
 ConstructionalLevel.create [
-	{ name: 'level_1' },
-	{ name: 'level_2' },
-	{ name: 'level_3' },
-	{ name: 'level_4', code: '|level_4|' },
-	{ name: 'temporary', code: '|temporary|' },
-	{ name: 'empty' }
+	{ id: 1, name: 'level_1' },
+	{ id: 2, name: 'level_2' },
+	{ id: 3, name: 'level_3' },
+	{ id: 4, name: 'level_4', code: '|level_4|' },
+	{ id: 5, name: 'temporary', code: '|temporary|' },
+	{ id: 6, name: 'empty' }
 ]
 
 BlogCategory.delete_all
@@ -113,12 +113,12 @@ PlanningStatusType.create [
 PropertyUtility.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE property_utilities_id_seq RESTART WITH 1')
 PropertyUtility.create [
-	{ name: 'n_1' },
-	{ name: 'n_2' },
-	{ name: 'n_3' },
-	{ name: 'n_4' },
-	{ name: 'n_5' },
-	{ name: 'n_6', code: '|pool|' }
+	{ id: 1, name: 'n_1' },
+	{ id: 2, name: 'n_2' },
+	{ id: 3, name: 'n_3' },
+	{ id: 4, name: 'n_4' },
+	{ id: 5, name: 'n_5' },
+	{ id: 6, name: 'n_6', code: '|pool|' }
 ]
 
 Purpose.delete_all

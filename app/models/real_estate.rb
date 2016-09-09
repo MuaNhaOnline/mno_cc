@@ -53,7 +53,9 @@ class RealEstate < ActiveRecord::Base
 			double		:area do
 							self.display_area
 						end
-			time	:created_at
+			time		:created_at
+			integer		:region_utility_ids, multiple: true
+			integer		:user_id
 		end
 	
 	# / Solr
@@ -713,6 +715,9 @@ class RealEstate < ActiveRecord::Base
 			# 				page
 			# 				per_page
 			def self.search_with_params_2 conditions = {}, params = {}
+				conditions.symbolize_keys! if conditions.respond_to? :symbolize_keys!
+				params.symbolize_keys! if params.respond_to? :symbolize_keys!
+
 				# Search if has keyword
 				return self.search do 
 					# Default
@@ -763,12 +768,15 @@ class RealEstate < ActiveRecord::Base
 						# / Keyword
 						# Field
 
-							price_from = 'sell'
-						
+							with(:user_id, conditions[:user]) if conditions[:user].present?
 							with(:is_favorite, conditions[:is_favorite]) if conditions.has_key? :is_favorite
-							with(:real_estate_type_id, conditions[:real_estate_type]) if conditions['real_estate_type'].present?
-							with(:province_id, conditions[:province]) if conditions['province'].present?
-							with(:district_id, conditions[:district]) if conditions['district'].present?
+							with(:real_estate_type_id, conditions[:real_estate_type]) if conditions[:real_estate_type].present?
+							with(:province_id, conditions[:province]) if conditions[:province].present?
+							with(:district_id, conditions[:district]) if conditions[:district].present?
+							with(:region_utility_ids, conditions[:region_utility]) if conditions[:region_utility].present?
+								
+							# Purpose
+							use_price = 'sell'
 							if conditions[:purpose].present?
 								if conditions[:purpose] =~ /\D/
 									purpose = Purpose.where(code: conditions[:purpose]).first
@@ -781,10 +789,10 @@ class RealEstate < ActiveRecord::Base
 									with :purpose_code, ['sell', 'rent', 'sell_rent']
 								when 'transfer'
 									with :purpose_code, 'transfer'
-									price_from = 'rent'
+									use_price = 'rent'
 								else
 									with :purpose_code, purpose.code
-									price_from = purpose.code
+									use_price = purpose.code
 								end if purpose.present?
 							end
 
@@ -798,11 +806,11 @@ class RealEstate < ActiveRecord::Base
 								purpose = conditions[:purpose_text]
 
 								if conditions[:price_from].present? && conditions[:price_to].present?
-									with("#{price_from}_price", conditions[:price_from]..conditions[:price_to])
+									with("#{use_price}_price", conditions[:price_from]..conditions[:price_to])
 								elsif conditions[:price_from].present?
-									with("#{price_from}_price", conditions[:price_from]..(conditions[:price_from] * 2))
+									with("#{use_price}_price", conditions[:price_from]..(conditions[:price_from] * 2))
 								else
-									with("#{price_from}_price", (conditions[:price_to] * 0.5)..conditions[:price_to])
+									with("#{use_price}_price", (conditions[:price_to] * 0.5)..conditions[:price_to])
 								end
 							end
 
@@ -828,8 +836,8 @@ class RealEstate < ActiveRecord::Base
 						params[:order] = [ params[:order] ] unless params[:order].is_a? Array
 						params[:order].map!{ |v| v.to_s }
 
-						order_by(:random) if params[:order].include? 'random'
-						order_by(:created_at, :desc) if params[:order].include? 'newest'
+						order_by(:random) if params[:order].include? :random
+						order_by(:created_at, :desc) if params[:order].include? :newest
 					end
 
 					# Limit
@@ -1459,7 +1467,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Slug
 		def full_slug
-			@full_slug ||= "#{slug}-#{id}.html"
+			@full_slug ||= "#{slug}-#{id}"
 		end
 
 		# ID

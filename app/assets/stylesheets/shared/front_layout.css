@@ -427,11 +427,14 @@ body {
 			display: block;
 			position: absolute;
 			top: -40px;
-			left: 50px;
 			font-size: 21px;
-			cursor: pointer;
 			white-space: nowrap;
 		}
+
+			.search-box-container.in-top .box-title {
+				cursor: pointer;
+				left: 50px;
+			}
 
 			.search-box-container .box-title .icon {
 				display: inline-block;
@@ -454,7 +457,7 @@ body {
 				font-size: 16px;
 			}
 
-				.search-box-container .box-title:hover .text {
+				.search-box-container.in-top .box-title:hover .text {
 					text-decoration: underline;
 				}
 
@@ -542,6 +545,10 @@ body {
 			background-color: #fff;
 			box-shadow: 0px 1px 2px rgba(0, 0, 0, .1);
 		}
+	
+			main .box:last-child {
+				margin-bottom: 0;
+			}
 	
 			main .box.box-transparent {
 				background-color: transparent;

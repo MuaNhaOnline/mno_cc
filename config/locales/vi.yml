@@ -86,7 +86,7 @@ vi:
         text: Gợi ý
         has_pool: Căn hộ có hồ bơi
         lower_1_billion: Nhà phố dưới 1 tỷ
-      register_html: <a href="%{path}">Đăng ký theo dõi</a> theo tiêu chí của bạn
+      register_html: Đăng ký theo dõi
     footer:
       policy:
         title: Chính sách
@@ -233,6 +233,8 @@ vi:
         email_placeholder: Email
         phone_placeholder: Số điện thoại
       relative_res: Bất động sản liên quan
+    list:
+      page_title: Bất động sản
     search:
       page_title: Kết quả tìm kiếm
       box_title: Bất động sản phù hợp
@@ -267,7 +269,13 @@ vi:
       rent_price: Giá thuê
       area: Diện tích
       position: Vị trí
-      expires_at: Thời hạn
+      expires_at: Thời hạn đến
+    _form:
+      box_title: Tiêu chí theo dõi
+      contact_box_title: Thông tin cá nhân
+      name_placeholder: Tên của bạn
+      email_placeholder: Email
+      phone_placeholder: Số điện thoại
   contact_requests:
     _notification_mini_item:
       create: '%{name} gửi yêu cầu mới'

@@ -15,7 +15,7 @@
 			<article class="item">
 				<div>
 					<div class="image">
-						<a href="<%= view_re_path re %>">
+						<a href="<%= view_re_path full_slug: re.full_slug %>">
 							<%= real_estate_avatar re %>
 						</a>
 					</div>
@@ -23,7 +23,7 @@
 				<div class="grow">
 					<div class="title">
 						<h3>
-							<a href="<%= view_re_path re %>">
+							<a href="<%= view_re_path full_slug: re.full_slug %>">
 								<%= re.title %>
 							</a>
 						</h3>

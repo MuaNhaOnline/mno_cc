@@ -85,7 +85,7 @@ Rails.application.routes.draw do
 			get 'bat-dong-san/quan-ly' => 'real_estates#manage', as: 'manage_res'
 			get 'bat-dong-san/tim-kiem' => 'real_estates#search', as: 'search_res'
 
-			get 'bat-dong-san/:full_slug' => 'real_estates#view', constraints: { full_slug: /(\w|-)*\d+/ }, as: 'view_re'
+			get 'bat-dong-san/:full_slug.html' => 'real_estates#view', constraints: { full_slug: /(\w|-)*\d+/ }, as: 'view_re'
 
 			get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index', as: 'res'
 			get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'

@@ -170,8 +170,8 @@ $(function () {
 
 	// Search box
 	
-		$('.search-box-container .box-title').on('click', function () {
-			$(this).next().stop().slideToggle();
+		$('.search-box-container.in-top .box-title').on('click', function () {
+			$(this).closest('.search-box').find('.box-content').stop().slideToggle();
 		});
 
 		(function () {

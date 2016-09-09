@@ -8,155 +8,329 @@
 
 <%
 =begin
-	@favorite_res, @res
+	@search_params, @favorite_res, @res
 =end
  
-	@_title = @search_name || 'Bất động sản'
-	@_description = "Danh sách "
+	@_title = @search_params[:search_name] || t('.page_title')
 	@_main_navigator = {
 		list: [
 			{
-				text: @search_name || 'Bất động sản'
+				url: res_path,
+				text: t('real_estates.index.page_title')
+			},
+			{
+				text: @search_params[:search_name] || t('.page_title')
 			}
 		]
 	}
 	@_main_class = 're-list'
+	@_hide_search_box = true
 
 	page = params[:page].present? ? params[:page].to_i : 1
 %>
 
-<% if @favorite_res.present? %>
-	<article class="container-box container-box-transparent">
-		<section class="container-box-header">
-			<h2 class="container-box-title">
-				<%= @search_name || 'Bất động sản dành cho bạn' %>
-			</h2>
-		</section>
-		<section class="container-box-body">
-			<%
-				per = 3
-			%>
-			<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res.random.limit(per), list_id: 'favorite_res_list' } %>
-		</section>
-	</article>
-<% end %>
-
-<% if @res.present? %>
-	<article class="container-box container-box-transparent">
-		<section class="container-box-body">
+<div class="container-box container-box-transparent">
+	<div class="container-box-header">
+		<div class="row">
+			<div class="col-xs-12 <%= 'col-sm-9 col-md-9 col-lg-9' if @favorite_res.blank? && @res.present? %>">
+				<h2 class="container-box-title">
+					<%= @search_params[:search_name] || t('.page_title') %>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<% if @favorite_res.present? %>
+		<div class="container-box-body">
+			<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res, list_id: 'favorite_res_list' } %>
+		</div>
+	<% end %>
+	<% if @res.present? %>
+		<div class="container-box-body">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" id="res_list">
-						<%
-							per = 12
-							
-							page_href = Proc.new do |page| 
-								request.GET['page'] = page
-								'?' + request.GET.to_query
-							end
-						%>
-						<%=
-							render(
-								partial: 'real_estates/items_list',
-								locals: {
-									res: @res.page(page, per),
-									paging: (@res.count / per.to_f).ceil,
-									list_id: 'res_list',
-									page_href: page_href,
-									current_page: page
-								}
-							)
-						%>
+					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+						<div class="medium-items-list" id="res_list">
+							<%=
+								render(
+									partial: 'real_estates/items_list_2',
+									locals: {
+										res: @res
+									}
+								)
+							%>
+						</div>
+						<div id="res_paginator" data-search-params="<%= @search_params.slice(:conditions, :search_params).to_json %>">
+							<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
+						</div>
 					</div>
 					<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
 						<article class="search-box-container">
+							<%
+								search_scope = 'front_layout.'
+							%>
 							<div class="search-box">
 								<h2 class="box-title">
-									<span class="icon ico-search"></span><span class="text">Tìm kiếm</span>
+									<span class="icon ico-search"></span><span class="text"><%= t search_scope + '.search_box.title' %></span>
 								</h2>
 								<section class="box-content">
-									<form class="form" action="/tim_kiem" method="get">
+									<form class="form" action="<%= search_res_path %>" method="get">
 										<div class="row">
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
-												<input class="form-control" name="search[keyword]" placeholder="Mã, tên, mô tả" />
+											<article class="form-group col-xs-12">
+												<input class="form-control" name="search[keyword]" placeholder="<%= t search_scope + 'search_box.keyword_placeholder' %>" />
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
-												<select class="form-control" name="search[purpose]">
-													<option value="">Đang bán hoặc cho thuê</option>
-													<option value="">Bất kì</option>
-													<option value="sell">Đang bán</option>
-													<option value="rent">Đang cho thuê</option>
+											<%
+												purposes = Purpose.all.map { |purpose|
+													[
+														purpose.display_name,
+														purpose.id,
+														case purpose.code
+														when 'sell', 'sell_rent'
+															{
+																'data-on': 'sell',
+																'data-off': 'rent'
+															}
+														when 'rent', 'transfer'
+															{
+																'data-on': 'rent',
+																'data-off': 'sell'
+															}
+														end
+													]
+												}
+											%>
+											<article class="form-group col-xs-12 col-lg-6">
+												<select class="form-control input-toggle" name="search[purpose]">
+													<option data-on="sell" data-off="rent" value="" hidden><%= Purpose.display_name %></option>
+													<option data-on="sell" data-off="rent" value=""><%= t 'global.text.all' %></option>
+													<%= options_for_select purposes %>
 												</select>
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+											<article class="form-group col-xs-12 col-lg-6">
 												<select class="form-control" name="search[real_estate_type]">
-													<option value="" hidden>Loại bất động sản</option>
-													<option value="">Bất kì</option>
-													<% RealEstateType.all.each do |type| %>
-														<option value="<%= type.id %>"><%= type.display_name %></option>
-													<% end %>
+													<option value="" hidden><%= RealEstateType.display_name %></option>
+													<option value=""><%= t search_scope + 'search_box.all_types' %></option>
+													<%= options_from_collection_for_select RealEstateType.all, :id, :display_name %>
 												</select>
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
-												<select class="form-control" name="search[district]">
-													<option value="" hidden>Quận/huyện</option>
-													<option value="">Bất kì</option>
-													<% District.all.each do |district| %>
-														<option value="<%= district.id %>"><%= district.name %></option>
-													<% end %>
+											<article class="form-group col-xs-12 col-lg-6">
+												<select class="form-control" name="search[province]">
+													<option value="" hidden><%= Province.display_name %></option>
+													<option value=""><%= t search_scope + 'search_box.all_provinces' %></option>
+													<%= options_from_collection_for_select Province.all, :id, :name %>
 												</select>
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
-												<select class="form-control" name="search[price_from]">
-													<option value="" hidden>Giá tối thiểu</option>
-													<option value="">Bất kì</option>
-													<option value="1">1 tỷ</option>
-													<option value="1.5">1.5 tỷ</option>
-													<option value="2">2 tỷ</option>
-													<option value="3">3 tỷ</option>
-													<option value="5">5 tỷ</option>
-													<option value="10">10 tỷ</option>
+											<article class="form-group col-xs-12 col-lg-6">
+												<select class="form-control" name="search[district]" disabled>
+													<option value="" hidden><%= District.display_name %></option>
+													<option value=""><%= t search_scope + 'search_box.all_districts' %></option>
 												</select>
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
-												<select class="form-control" name="search[price_to]">
-													<option value="" hidden>Giá tối đa</option>
-													<option value="">Bất kì</option>
-													<option value="1">1 tỷ</option>
-													<option value="1.5">1.5 tỷ</option>
-													<option value="2">2 tỷ</option>
-													<option value="3">3 tỷ</option>
-													<option value="5">5 tỷ</option>
-													<option value="10">10 tỷ</option>
+											<article class="form-group col-xs-12 col-lg-6">
+												<%
+													prices = [
+														[
+															t(search_scope + 'search_box.from_billion', count: 1),
+															1000
+														],
+														[
+															t(search_scope + 'search_box.from_billion', count: 1.5),
+															1500
+														],
+														[
+															t(search_scope + 'search_box.from_billion', count: 2),
+															2000
+														],
+														[
+															t(search_scope + 'search_box.from_billion', count: 3),
+															3000
+														],
+														[
+															t(search_scope + 'search_box.from_billion', count: 5),
+															5000
+														],
+														[
+															t(search_scope + 'search_box.from_billion', count: 10),
+															10000
+														]
+													]
+												%>
+												<select data-toggled-element="sell" class="form-control" name="search[price_from]">
+													<option value=""><%= t search_scope + 'search_box.from_price_text' %></option>
+													<%= options_for_select prices %>
+												</select>
+												<%
+													prices = [
+														[
+															t(search_scope + 'search_box.from_million', count: 1),
+															1
+														],
+														[
+															t(search_scope + 'search_box.from_million', count: 1.5),
+															1.5
+														],
+														[
+															t(search_scope + 'search_box.from_million', count: 2),
+															2
+														],
+														[
+															t(search_scope + 'search_box.from_million', count: 3),
+															3
+														],
+														[
+															t(search_scope + 'search_box.from_million', count: 5),
+															5
+														],
+														[
+															t(search_scope + 'search_box.from_million', count: 10),
+															10
+														]
+													]
+												%>
+												<select data-toggled-element="rent" class="form-control" name="search[price_from]">
+													<option value=""><%= t search_scope + 'search_box.from_price_text' %></option>
+													<%= options_for_select prices %>
 												</select>
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+											<article class="form-group col-xs-12 col-lg-6">
+												<%
+													prices = [
+														[
+															t(search_scope + 'search_box.to_billion', count: 1),
+															1000
+														],
+														[
+															t(search_scope + 'search_box.to_billion', count: 1.5),
+															1500
+														],
+														[
+															t(search_scope + 'search_box.to_billion', count: 2),
+															2000
+														],
+														[
+															t(search_scope + 'search_box.to_billion', count: 3),
+															3000
+														],
+														[
+															t(search_scope + 'search_box.to_billion', count: 5),
+															5000
+														],
+														[
+															t(search_scope + 'search_box.to_billion', count: 10),
+															10000
+														]
+													]
+												%>
+												<select data-toggled-element="sell" class="form-control" name="search[price_to]">
+													<option value="" hidden><%= t search_scope + 'search_box.to_price_text' %></option>
+													<%= options_for_select prices %>
+													<option value=""><%= t search_scope + 'search_box.to_price_text' %></option>
+												</select>
+												<%
+													prices = [
+														[
+															t(search_scope + 'search_box.to_million', count: 1),
+															1
+														],
+														[
+															t(search_scope + 'search_box.to_million', count: 1.5),
+															1.5
+														],
+														[
+															t(search_scope + 'search_box.to_million', count: 2),
+															2
+														],
+														[
+															t(search_scope + 'search_box.to_million', count: 3),
+															3
+														],
+														[
+															t(search_scope + 'search_box.to_million', count: 5),
+															5
+														],
+														[
+															t(search_scope + 'search_box.to_million', count: 10),
+															10
+														]
+													]
+												%>
+												<select data-toggled-element="rent" class="form-control" name="search[price_to]">
+													<option value="" hidden><%= t search_scope + 'search_box.to_price_text' %></option>
+													<%= options_for_select prices %>
+													<option value=""><%= t search_scope + 'search_box.to_price_text' %></option>
+												</select>
+											</article>
+											<article class="form-group col-xs-12 col-lg-6">
+												<%
+													areas = [
+														[
+															t(search_scope + 'search_box.from_square_meter', count: 50),
+															50
+														],
+														[
+															t(search_scope + 'search_box.from_square_meter', count: 100),
+															100
+														],
+														[
+															t(search_scope + 'search_box.from_square_meter', count: 150),
+															150
+														],
+														[
+															t(search_scope + 'search_box.from_square_meter', count: 200),
+															200
+														],
+														[
+															t(search_scope + 'search_box.from_square_meter', count: 300),
+															300
+														],
+														[
+															t(search_scope + 'search_box.from_square_meter', count: 500),
+															500
+														]
+													]
+												%>
 												<select class="form-control" name="search[area_from]">
-													<option value="" hidden>Diện tích tối thiểu</option>
-													<option value="">Bất kì</option>
-													<option value="50">50m2</option>
-													<option value="100">100m2</option>
-													<option value="150">150m2</option>
-													<option value="200">200m2</option>
-													<option value="300">300m2</option>
-													<option value="500">500m2</option>
+													<option value=""><%= t search_scope + 'search_box.from_area_text' %></option>
+													<%= options_for_select areas %>
 												</select>
 											</article>
-											<article class="form-group col-sm-12 col-md-12 col-lg-6">
+											<article class="form-group col-xs-12 col-lg-6">
+												<%
+													areas = [
+														[
+															t(search_scope + 'search_box.to_square_meter', count: 50),
+															50
+														],
+														[
+															t(search_scope + 'search_box.to_square_meter', count: 100),
+															100
+														],
+														[
+															t(search_scope + 'search_box.to_square_meter', count: 150),
+															150
+														],
+														[
+															t(search_scope + 'search_box.to_square_meter', count: 200),
+															200
+														],
+														[
+															t(search_scope + 'search_box.to_square_meter', count: 300),
+															300
+														],
+														[
+															t(search_scope + 'search_box.to_square_meter', count: 500),
+															500
+														]
+													]
+												%>
 												<select class="form-control" name="search[area_to]">
-													<option value="" hidden>Diện tích tối đa</option>
-													<option value="">Bất kì</option>
-													<option value="50">50m2</option>
-													<option value="100">100m2</option>
-													<option value="150">150m2</option>
-													<option value="200">200m2</option>
-													<option value="300">300m2</option>
-													<option value="500">500m2</option>
+													<option value="" hidden><%= t search_scope + 'search_box.to_area_text' %></option>
+													<%= options_for_select areas %>
+													<option value=""><%= t search_scope + 'search_box.to_area_text' %></option>
 												</select>
 											</article>
 										</div>
 										<article class="form-group text-center margin-top-15">
-											<button type="submit" class="btn btn-green">Tìm kiếm</button>
+											<button type="submit" class="btn btn-green"><%= t 'global.text.search' %></button>
 										</article>
 									</form>
 								</section>
@@ -165,12 +339,14 @@
 					</div>
 				</div>
 			</div>
-		</section>
-	</article>
-<% else %>
-	<div class="alert alert-danger" role="alert">
-		<div class="container">
-			Không tìm thấy kết quả phù hợp.
 		</div>
-	</div>
-<% end %>
+	<% else %>
+		<div class="container-box-body">
+			<div class="alert alert-danger" role="alert">
+				<div class="container">
+					Không tìm thấy kết quả phù hợp.
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

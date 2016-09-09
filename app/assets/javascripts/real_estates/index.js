@@ -16,7 +16,10 @@ $(function () {
 
 		_initFixedScroll(
 			$('.re-index .search-box-container'), 
-			$('.re-index #res_list')
+			$('.re-index #res_list'),
+			{
+				addMax: -10
+			}
 		);
 	
 	// / Fixed search box

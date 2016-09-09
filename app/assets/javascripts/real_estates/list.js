@@ -16,9 +16,23 @@ $(function () {
 
 		_initFixedScroll(
 			$('.re-list .search-box-container'), 
-			$('#res_list')
+			$('#res_list'),
+			{
+				addMax: -10
+			}
 		);
 	
 	// / Fixed search box
+
+	// Pagination
+	
+		_initPagination3({
+			url:			'',
+			list:			$('#res_list'),
+			paginator:		$('#res_paginator'),
+			replaceState: 	true
+		});
+	
+	// / Pagination
 
 });
