@@ -571,7 +571,6 @@ $(function () {
 								break;
 							case '2':
 								if (parseFloat(shapeWidth) >= parseFloat(width)) {
-									$form.toggleValidInput($shapeWidth, false, 'width');
 									return {
 										status: false,
 										input: $shapeWidth,

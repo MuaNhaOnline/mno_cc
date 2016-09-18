@@ -6,8 +6,12 @@ class Disadvantage < ActiveRecord::Base
 		order order: 'ASC'
 	end
 
-	def display_name
-		@display_name ||= name.present? ? I18n.t("disadvantage.text.#{name}") : ''
-	end
+	# Attributes
+	
+		def display_name
+			@display_name ||= name.present? ? I18n.t("disadvantage.name.#{name}") : ''
+		end
+	
+	# / Attributes
 
 end

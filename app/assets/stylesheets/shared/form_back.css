@@ -12,29 +12,24 @@
 /* Attributes */
 
 	/*  Off  */
-	
-		.form .off {
-			pointer-events: none;
-		}
 		
-		.form .off:not(.disabled-only) {
+		.form .off:not(.disable-only) {
 			display: none !important;
 			visibility: hidden;
 		}
 		
-		.form .off.disabled-only {
+		/*.form .off.disable-only {
 			opacity: .2;
-		}
+		}*/
 
 	/*  / Off  */
 
 	/* Required label */
 
 		.form .required-label {
-			color: #e00;
+			color: #EA4235;
 			display: inline-block;
-			font-family: FontAwesome;
-			font-size: 65%;
+			font: normal 65% FontAwesome;
 			text-rendering: auto;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
@@ -109,6 +104,7 @@
 
 		.form .file-uploader.has {
 			border-color: transparent;
+			background-color: transparent;
 		}
 
 		.form .file-uploader.order,
@@ -164,6 +160,7 @@
 			float: left;
 			transition: .3s;
 			cursor: pointer;
+		    background-color: #fff;
 		}
 
 			.form .file-uploader .add-button:hover {
@@ -212,6 +209,10 @@
 			float: left;
 			max-width: 100%;
 		}
+
+			.form .file-uploader .preview.bg-light-blue {
+				outline: 2px solid #006437;
+			}
 
 			.form .file-uploader .preview .image {
 				position: relative;
@@ -455,14 +456,23 @@
 
 /* Cropper */
 
-	.cropper-container {
+	.cropper-ctn {
 		background-color: #fff;
+		margin: 0 auto;
+		max-height: 50vh;
 	}
 
-		.cropper-container .image-cropper {
-			padding: 5px;
-			max-width: 70vw;
-			max-height: 70vh;
+		.cropper-ctn .image-cropper {
+			max-height: 50vh;
+			width: 100%;
+		}
+
+			.cropper-ctn img {
+				max-height: 100%;
+				max-width: 100%;
+			}
+
+		.cropper-ctn .cropper-container {
 		}
 
 /* Cropper */

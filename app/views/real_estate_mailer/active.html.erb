@@ -1,36 +1,36 @@
-<h3>Chào <b><%= @re.user_full_name %></b>, chúc mừng bạn đã đăng tin thành công tại MuaNhaOnline.vn</h3>
+<h3>Chào <b><%= @re.contact_user.name %></b>, chúc mừng bạn đã đăng tin thành công tại MuaNhaOnline.vn</h3>
 
 <% 
-	query = { secure_code: @re.params['secure_code'] }.to_query
+	query = { secure_code: @re.params['secure_code'] }
 %>
 
 <ol>
 	<li>
 		<%
-			url = "#{Rails.application.config.base_url}bat-dong-san/active/#{@re.id}?#{query}"
+			url = _route_helpers.active_re_url(query.merge(id: @re.id))
 		%>
 		Kích hoạt tin tại <a href="<%= url %>">đây</a>.
-		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
+		<p><small>(<a href="<%= url %>"><%= url %></a>)</small></p>
 	</li>
 	<li>
 		<%
-			url = "#{Rails.application.config.base_url}bat-dong-san/#{@re.full_slug}?#{query}"
+			url = _route_helpers.view_re_url(query.merge(full_slug: @re.full_slug))
 		%>
 		Xem tin tại <a href="<%= url %>">đây</a>.
-		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
+		<p><small>(<a href="<%= url %>"><%= url %></a>)</small></p>
 	</li>
 	<li>
 		<%
-			url = "#{Rails.application.config.base_url}bat-dong-san/chinh-sua/#{@re.id}?#{query}"
+			url = _route_helpers.edit_re_url(query.merge(id: @re.id))
 		%>
 		Sửa tin tại <a href="<%= url %>">đây</a>.
-		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
+		<p><small>(<a href="<%= url %>"><%= url %></a>)</small></p>
 	</li>
 	<li>
 		<%
-			url = "#{Rails.application.config.base_url}bat-dong-san/delete/#{@re.id}?#{query}"
+			url = _route_helpers.delete_re_url(query.merge(id: @re.id))
 		%>
 		Xóa tin tại <a href="<%= url %>">đây</a>.
-		<p><small>(<a href="<%= query %>"><%= query %></a>)</small></p>
+		<p><small>(<a href="<%= url %>"><%= url %></a>)</small></p>
 	</li>
 </ol>

@@ -109,9 +109,19 @@ function initForm($form, params) {
 					}
 				}
 				else if ($input.is('select')) {
-					var $option = $input.children(':selected');
+					var $option = $input.find(':selected');
 					onElements = $option.attr('data-on');
 					offElements = $option.attr('data-off');
+				}
+				else if ($input.is('input:not([type]),input[type="text"]')) {
+					if ($input.val()) {
+						onElements = $input.attr('data-on');
+						offElements = $input.attr('data-off');
+					}
+					else {
+						onElements = $input.attr('data-off');
+						offElements = $input.attr('data-on');	
+					}
 				}
 				else {
 					onElements = $input.attr('data-on');
@@ -121,33 +131,6 @@ function initForm($form, params) {
 				var $context = $input.closest('.tab-content', $form[0]);
 				if ($context.length == 0) {
 					$context = $form;
-				}
-
-				// Turn on elements
-				if (onElements && !$input.is(':disabled')) {
-					// Create elements list
-					var onElementsList = '';
-					$(onElements.split(' ')).each(function () {
-						onElementsList += ',[data-toggled-element~="' + this + '"]';
-					});
-
-					// Turn on all elements & process their child
-					$context.find(onElementsList.substr(1)).each(function () {
-						var $element = $(this);
-
-						// Turn on element
-						toggleElement($element, true);
-
-						// Process this element
-						if ($element.is('.input-toggle')) {
-							toggle($element);
-						}
-
-						// Process element's child if exists
-						$element.find('.input-toggle').each(function () {
-							toggle($(this));
-						});
-					});
 				}
 				
 				// Turn off elements
@@ -174,6 +157,33 @@ function initForm($form, params) {
 						// $element.find('.input-toggle').each(function () {
 						// 	// toggle($(this));
 						// });
+					});
+				}
+
+				// Turn on elements
+				if (onElements && !$input.is(':disabled')) {
+					// Create elements list
+					var onElementsList = '';
+					$(onElements.split(' ')).each(function () {
+						onElementsList += ',[data-toggled-element~="' + this + '"]';
+					});
+
+					// Turn on all elements & process their child
+					$context.find(onElementsList.substr(1)).each(function () {
+						var $element = $(this);
+
+						// Turn on element
+						toggleElement($element, true);
+
+						// Process this element
+						if ($element.is('.input-toggle')) {
+							toggle($element);
+						}
+
+						// Process element's child if exists
+						$element.find('.input-toggle').each(function () {
+							toggle($(this));
+						});
 					});
 				}
 				$input.data('toggling', false);
@@ -205,7 +215,7 @@ function initForm($form, params) {
 					if (on) {
 						removeSuccessLabel($element.removeClass('off').trigger('enable'));
 
-						// var invalid = checkInvalidInput($element);
+						// var invalid = invalidInput($element);
 						// if (invalid) {
 						//  toggleValidInput($element, false, invalid);           
 						// }
@@ -304,7 +314,7 @@ function initForm($form, params) {
 
 					// Init for read file
 
-					var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-container no-padding"><section class="image-cropper"></section></section>' + (hasDescription ? '<section class="box-body"><input class="form-control" aria-name="description" placeholder="Mô tả" /></section>' : '') + '<section class="box-footer no-padding"><section class="button-group clearfix"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn btn-link pull-left no-underline"><span class="fa fa-close"></span> ' + _t.form.delete + '</button><button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : '<button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-link pull-right no-underline"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</section></article></section></article>'),
+					var $html = $('<article class="box box-solid no-margin"><section class="box-header padding-bottom-0"><h3 class="box-title">' + _t.form.crop_title + '</h3></section><section class="box-body cropper-ctn no-padding"><section class="image-cropper"></section></section>' + (hasDescription ? '<section class="box-body"><input class="form-control" aria-name="description" placeholder="Mô tả" /></section>' : '') + '<section class="box-footer text-center"><button aria-click="close" title="' + _t.form.delete_tooltip + '" class="btn"><span class="fa fa-close"></span> ' + _t.form.delete + '</button> <button aria-click="crop" title="' + _t.form.crop_tooltip + '" class="btn btn-orange"><span class="fa fa-crop"></span> ' + _t.form.crop + '</button>' + (ratio ? '' : ' <button aria-click="uncrop" title="' + _t.form.uncrop_tooltip + '" class="btn btn-green"><span class="fa fa-check"></span> ' + _t.form.uncrop + '</button>') + '</article></section></article>'),
 						fileReader = new FileReader(),
 						currentIndex = 0;
 
@@ -325,11 +335,12 @@ function initForm($form, params) {
 									html: $html,
 									id: 'image_cropper',
 									'z-index': 35,
-									esc: false
+									esc: false,
+									width: 'medium'
 								});
 
 								// Create image cropper
-								$img.cropper({
+								var cropper = $img.cropper({
 									aspectRatio: ratio
 								});
 
@@ -352,7 +363,7 @@ function initForm($form, params) {
 									var imageData = $(this).is('[aria-click="crop"]') ? $img.cropper('getCroppedCanvas').toDataURL() : orginalImageData;
 
 									var $item = $('<article class="preview" data-uploading></article>');
-									$item.html($fileUpload.data('input') + '<section class="image"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+									$item.html($fileUpload.data('input') + '<section class="image"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" src="' + imageData + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block" aria-click="avatar">Làm ảnh đại diện</button>' : '')  + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 									$item.data('control_show', null);
 
@@ -365,7 +376,7 @@ function initForm($form, params) {
 
 										$(controls).each(function () {
 											var controlParams = this;
-											var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+											var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block">' + (controlParams['text'] || 'Xử lý') + '</button>');
 
 											if ('handle' in controlParams) {
 												$control.on('click', function (e) {
@@ -410,12 +421,13 @@ function initForm($form, params) {
 
 									$item.find('[aria-click="description"]').on('click', function () {
 										var 
-											$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+											$html = $('<article class="box"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 300px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
 											$descriptionForm = $html.find('form');
 
 										var $popup = popupFull({
 											html: $html,
-											id: 'input_description_popup'
+											id: 'input_description_popup',
+											width:	'medium'
 										});
 
 										// Adjust values
@@ -573,7 +585,7 @@ function initForm($form, params) {
 								else {
 									src = '/assets/file_extensions/' + e.target.fileName.split('.').pop() + '.png'
 								}
-								$item.html($fileUpload.data('input') + '<section class="image"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" src="' + src + '" onError="this.src=\'/assets/file_extensions/file.png\'" /></section><section class="control">' + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
+								$item.html($fileUpload.data('input') + '<section class="image"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" src="' + src + '" onError="this.src=\'/assets/file_extensions/file.png\'" /></section><section class="control">' + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block" aria-click="remove">Xóa</button></section><section class="progress no-margin"><article class="progress-bar" role="progressbar" style="width: 0%;"></article></section>');
 
 								$item.data('control_show', null);
 
@@ -586,7 +598,7 @@ function initForm($form, params) {
 
 									$(controls).each(function () {
 										var controlParams = this;
-										var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+										var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block">' + (controlParams['text'] || 'Xử lý') + '</button>');
 
 										if ('handle' in controlParams) {
 											$control.on('click', function (e) {
@@ -631,12 +643,13 @@ function initForm($form, params) {
 
 								$item.find('[aria-click="description"]').on('click', function () {
 									var 
-										$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+										$html = $('<article class="box"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 300px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
 										$descriptionForm = $html.find('form');
 
 									var $popup = popupFull({
 										html: $html,
-										id: 'input_description_popup'
+										id: 'input_description_popup',
+										width:	'medium'
 									});
 
 									// Adjust values
@@ -1056,7 +1069,7 @@ function initForm($form, params) {
 											value['url'] = '/assets/file_extensions/' + ext + '.png';
 										}
 									}
-									$item.html($fileUpload.data('input') + '<section class="image" title="' + (value['file_name'] || '') + '"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" onError="this.src=\'/assets/file_extensions/file.png\'" src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block font-bold" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block font-bold" aria-click="remove">Xóa</button></section>');
+									$item.html($fileUpload.data('input') + '<section class="image" title="' + (value['file_name'] || '') + '"><img style="' + (dimension ? ('height: ' + dimension.height + 'px;') : '') + '" onError="this.src=\'/assets/file_extensions/file.png\'" src="' + value['url'] + '" /></section><section class="control">' + (hasAvatar ? '<button type="button" class="btn btn-flat btn-primary btn-block" aria-click="avatar">Làm ảnh đại diện</button>' : '') + (hasDescription ? '<button type="button" class="btn btn-flat btn-primary btn-block" aria-click="description">Mô tả</button>' : '') + '<button type="button" class="btn btn-flat btn-danger btn-block" aria-click="remove">Xóa</button></section>');
 									$item.find('[aria-name="hidden_input"]').val(JSON.stringify(value));
 
 									// Avatar
@@ -1071,7 +1084,7 @@ function initForm($form, params) {
 
 										$(controls).each(function () {
 											var controlParams = this;
-											var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block font-bold">' + (controlParams['text'] || 'Xử lý') + '</button>');
+											var $control = $('<button ' + controlParams['attribute'] + ' class="btn btn-flat btn-' + (controlParams['type'] || 'default') + ' btn-block">' + (controlParams['text'] || 'Xử lý') + '</button>');
 
 											if ('handle' in controlParams) {
 												$control.on('click', function (e) {
@@ -1153,12 +1166,13 @@ function initForm($form, params) {
 
 						$item.find('[aria-click="description"]').on('click', function () {
 							var 
-								$html = $('<article aria-popupcontent="image_description" style="width: 400px; max-width: 80vw" class="box box-solid box-default"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 250px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
+								$html = $('<article class="box"><form class="form box-body"><section class="margin-bottom-15" style="display:flex;display:-webkit-flex;display:-ms-flex;justify-content: center;-webkit-justify-content: center;"><img aria-name="preview_image" style="max-width: 100%; max-height: 300px"></section><article class="form-group"><input class="form-control" name="description" placeholder="Mô tả" data-nonvalid /></article><article class="text-center"><button type="submit" class="btn btn-primary btn-flat">Hoàn tất</button> <button type="button" class="btn btn-default btn-flat">Hủy</button></article></form></article>'),
 								$descriptionForm = $html.find('form');
 
 							var $popup = popupFull({
 								html: $html,
-								id: 'input_description_popup'
+								id: 'input_description_popup',
+								width:	'medium'
 							});
 
 							// Adjust values
@@ -2014,33 +2028,26 @@ function initForm($form, params) {
 				$input.closest('.form-group').find('.money-text').text(value ? read_money(value) : '');
 			});
 
-
+			function updateMoneyText($input) {
+				if ($input.val() == $input.data('old-value')) {
+					return;
+				}
+				var value = $input.val().replace(/\D/g, '');
+				var text = value ? read_money(value) : '';
+				$input.closest('.form-group').find('[data-object="money_text"]').text(text);
+				$input.
+					data('old-value', $input.val()).
+					trigger('change_money_text', text);
+			}
 			$form.find('[data-input-type="money"]').on({
 				keyup: function () {
-					var $input = $(this);
-
-					if ($input.val() != $input.data('old-value')) {
-						var value = $input.val().replace(/\D/g, '');
-
-						$input.closest('.form-group').find('[data-object="money_text"]').text(value ? read_money(value) : '');
-
-						$input.data('old-value', $input.val());
-					}
+					updateMoneyText($(this));
 				},
 				change: function () {
-					var $input = $(this);
-					
-					var value = $input.val().replace(/\D/g, '');
-
-					$input.closest('.form-group').find('[data-object="money_text"]').text(value ? read_money(value) : '');
-
-					$input.data('old-value', $input.val());
+					updateMoneyText($(this));
 				}
 			}).each(function () {
-				var $input = $(this)
-				var value = $input.val().replace(/\D/g, '');
-
-				$input.closest('.form-group').find('[data-object="money_text"]').text(value ? read_money(value) : '');
+				updateMoneyText($(this));
 			});
 		}
 
@@ -2077,6 +2084,10 @@ function initForm($form, params) {
 					_temp['is_changed'] = true;
 				},
 				focusout: function () {
+					if (_temp['is_changed']) {
+						$(this).change();
+					}
+
 					_temp['is_changed'] = false;
 				},
 				'paste change': function () {
@@ -2284,12 +2295,12 @@ function initForm($form, params) {
 			// Auto check valid
 			$form.find(':input:not(.file-upload,[data-input-type="autocomplete"],[data-nonvalid])').on({
 				'change': function () {
-					checkInvalidInput($(this));
+					invalidInput($(this));
 				}
 			});
 			$form.find(':input[data-input-type="autocomplete"]').on({
 				'valueChange': function () {
-					checkInvalidInput($(this));
+					invalidInput($(this));
 				}
 			});
 
@@ -2499,7 +2510,7 @@ function initForm($form, params) {
 
 	// Check input
 
-		function checkInvalidInput($input) {
+		function invalidInput($input) {
 			if ($input.is('[data-constraint~="required"]')) {
 				if ($input.is('[type="radio"],[type="checkbox"]')) {
 					if ($form.find('[name="' + $input.attr('name') + '"]:checked').length == 0) {
@@ -2534,7 +2545,7 @@ function initForm($form, params) {
 				if (typeof result != 'undefined') {
 					if (result instanceof Array) {
 						toggleValidInput(result);
-						return;
+						return true;
 					}
 					if (result.status) {
 						if ('params' in result) {
@@ -2553,12 +2564,13 @@ function initForm($form, params) {
 						else {
 							toggleValidInput(result.input || $input, false, result.constraint || 'custom');
 						}
-						return;
+						return true;
 					}	
 				}
 			}
 
 			toggleValidInput($input, true);
+			return false;
 		}
 
 	// / Check input
@@ -2773,12 +2785,12 @@ function initForm($form, params) {
 		function initSubmit() {
 			$form.submitStatus = function (submitting) {
 				$form.data('submitting', submitting);
-				$form.find('[type="submit"],[data-type="submit"]').prop('disabled', submitting);
+				$form.find(':submit,[data-type="submit"]').prop('disabled', submitting);
 			}
 
 			$form.submitStatus(false);
 
-			$form.on('submit', function (e) {
+			$form.on('submit', function (e, submitData) {
 				if (!('submit' in params)) {
 					return;
 				}
@@ -2789,30 +2801,25 @@ function initForm($form, params) {
 					return;
 				}
 
-				// Check validate before check
-				if ($form.hasClass('box-danger')) {
-					return; 
-				}
-				else {
-					var $dangerBox = $form.find('.box-danger:visible');
-					if ($dangerBox.length) {
-						$body.animate({
-							scrollTop: $dangerBox.offset().top - 20 
-						}); 
-					
-						return; 
-					}	
+				if ($form.data('has-error')) {
+					return;
 				}
 
-				if (params['submit_status']) {
-					$form.submitStatus(true);
-				}
+				$form.submitStatus(true);
 
 				// Check validate
-				$form.find(':input:enabled:not([data-nonvalid]):not(button)').each(function () {
-					checkInvalidInput($(this));
+				var hasError = false;
+				$form.find(':input:enabled:visible:not([data-nonvalid]):not(button)').each(function () {
+					if (invalidInput($(this)) && !hasError) {
+						hasError = $(this);
+					}
 				});
-				
+				if (hasError) {
+					_scrollTo(hasError.offset().top);
+					$form.submitStatus(false);
+					return;
+				}
+
 				function waitCheckingList() {
 					setTimeout(function () {
 						if (Object.keys(checkingList).length > 0) {
@@ -2825,33 +2832,15 @@ function initForm($form, params) {
 				}
 
 				function submit() {
-					// Check validate after check
-					if ($form.hasClass('box-danger')) {
-						$form.submitStatus(false);
-						return; 
+					//Submit
+					var result = params.submit(submitData);
+					if ('always' in result) {
+						result.always(function () {
+							$form.submitStatus(false);
+						});
 					}
 					else {
-						var $dangerBox = $form.find('.box-danger:visible');
-						if ($dangerBox.length) {
-							$body.animate({
-								scrollTop: $dangerBox.offset().top - 20 
-							}); 
-						
-							$form.submitStatus(false);
-							return; 
-						}	
-					}
-
-					//Submit
-					if (params.submit() == false) {
-						var $dangerBox = $form.find('.box-danger:visible');
-						if ($dangerBox.length) {
-							$body.animate({
-								scrollTop: $dangerBox.offset().top - 20 
-							}); 
-						
-							$form.submitStatus(false);
-						}
+						$form.submitStatus(false);
 					}
 				}
 

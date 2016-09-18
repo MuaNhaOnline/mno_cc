@@ -29,35 +29,53 @@
 						</h3>
 					</div>
 					<div class="address">
-						<span class="ico-location"></span> <%= re.display_short_address %>
+						<span title="<%= RealEstate.i18n_attribute 'address' %>">
+							<span class="ico-location"></span> <%= re.display_short_address %>
+						</span>
 					</div>
 					<div class="type">
-						<span class="ico-home"></span> <%= re.display_real_estate_type %>
+						<span title="<%= RealEstate.i18n_attribute 'real_estate_type' %>">
+							<span class="ico-home"></span> <%= re.display_real_estate_type %>
+						</span>
 					</div>
 				</div>
 				<div>
 					<div class="price">
 						<% if re.display_sell_price.present? %>
-							<article class="sell-price-text"><%= re.display_sell_price %></article>
+							<article class="sell-price-text">
+								<span title="<%= RealEstate.i18n_attribute('sell_price') %>">
+									<%= re.display_sell_price %>	
+								</span>
+							</article>
 						<% end %>
 						<% if re.display_rent_price.present? %>
-							<article class="rent-price-text"><%= re.display_rent_price %></article>
+							<article class="rent-price-text">
+								<span title="<%= RealEstate.i18n_attribute('rent_price') %>">
+									<%= re.display_rent_price %>	
+								</span>
+							</article>
 						<% end %>
 					</div>
 					<div class="infos">
 						<% if re.display_bedroom.present? %>
 							<article>
-								<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
+								<span title="<%= RealEstate.i18n_value('bedroom', re.display_bedroom, 'count') %>">
+									<span class="icon ico-bedroom"></span> <span class="text"><%= re.display_bedroom %></span>
+								</span>
 							</article>
 						<% end %>
 						<% if re.display_restroom.present? %>
 							<article>
-								<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
+								<span title="<%= RealEstate.i18n_value('restroom', re.display_restroom, 'count') %>">
+									<span class="icon ico-restroom"></span> <span class="text"><%= re.display_restroom %></span>
+								</span>
 							</article>
 						<% end %>
 						<% if re.display_area.present? %>
 							<article>
-								<span class="icon ico-area"></span> <span class="text"><%= re.display_area %><small>m<sup>2</sup></small></span>
+								<span title="<%= RealEstate.i18n_value('area_html', re.display_area, 'count') %>" data-html="true">
+									<span class="icon ico-area"></span> <span class="text"><%= re.display_area %><small><%= t 'global.unit.square_meter_html' %></small></span>
+								</span>
 							</article>
 						<% end %>
 					</div>
@@ -83,15 +101,23 @@
 								</a>
 							</h3>
 						</div>
-						<div class="address">
+						<div class="address" title Realestate.i18n_attribute('address') %>">
 							<span class="ico-location"></span> <%= re.display_short_address %>
 						</div>
 						<div class="price">
 							<% if re.display_sell_price.present? %>
-								<article class="sell-price-text"><%= re.display_sell_price %></article>
+								<article class="sell-price-text">
+									<span title="<%= RealEstate.i18n_attribute('sell_price') %>">
+										<%= re.display_sell_price %>
+									</span>
+								</article>
 							<% end %>
 							<% if re.display_rent_price.present? %>
-								<article class="rent-price-text"><%= re.display_rent_price %></article>
+								<article class="rent-price-text">
+									<span title="<%= RealEstate.i18n_attribute('rent_price') %>">
+										<%= re.display_rent_price %>
+									</span>
+								</article>
 							<% end %>
 						</div>
 					</div>

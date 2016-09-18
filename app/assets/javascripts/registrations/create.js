@@ -9,7 +9,7 @@ $(function () {
 				data: $form.serialize()
 			}).done(function (data) {
 				if (data.status == 0) {
-					window.location = data.result;
+					window.location = data.result.redirect;
 				}
 				else {
 					errorPopup()

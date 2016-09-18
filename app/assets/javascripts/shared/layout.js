@@ -33,6 +33,23 @@ $(function () {
 	
 	_getPopupContent();
 
+	$('[data-toggle="tooltip"], [title]').tooltip({
+		container: 'body',
+		placement: function (tooltip, item) {
+			var tooltipClone = $(tooltip).clone().css('opacity', 0);
+			$('body').append(tooltipClone);
+			var tooltipHeight = tooltipClone.outerHeight();
+			tooltipClone.remove();
+			if ($(item).offset().top > document.body.scrollTop + tooltipHeight + 5) {
+				return 'top';
+			}
+			else {
+				return 'bottom';
+			}
+		},
+		delay: 200
+	});
+
 	$('a[href="#"]').on('click', function (e) {
 		e.preventDefault();
 	});
@@ -449,7 +466,7 @@ $(function () {
 
 		_isSystemScroll = true;
 		(params['context'] ? params['context'] : $('html, body')).animate({
-			scrollTop: to
+			scrollTop: to - _offsetTop
 		}, 200, function () {
 			if (typeof params.complete == 'function') {
 				params.complete();
@@ -492,6 +509,22 @@ $(function () {
 
 	function _replaceState(url) {
 		window.history.replaceState({}, document.title, url.replace(/&?_=[0-9]*/, ''));
+	}
+
+	function dataURLToBlob(dataURL, type) {
+		var 
+			byteString = atob(dataURL.split(",")[1]),
+			ab = new ArrayBuffer(byteString.length),
+			ia = new Uint8Array(ab),
+			i;
+
+		for (i = 0; i < byteString.length; i++) {
+			ia[i] = byteString.charCodeAt(i);
+		}
+
+		return new Blob([ab], {
+			type: type
+		});
 	}
 
 // / Helper
@@ -2436,9 +2469,11 @@ $(function () {
 		$popup.attr('data-width', width);
 
 		if (esc) {
+			$popup.find('.popup-close').show();
 			$popup.attr('data-esc', '');
 		}
 		else {
+			$popup.find('.popup-close').hide();
 			$popup.removeAttr('data-esc');
 		}
 
@@ -2608,6 +2643,8 @@ $(function () {
 			allow escape popup with click outside or 'esc' key
 		overlay: (transparent)
 			transparent, gray
+		width: (medium)
+			small, medium, large, maximum
 		id: (popup_prompt)
 			id of popup.
 			if wanna show two popup, ids must different
@@ -2629,6 +2666,7 @@ $(function () {
 		popupParams.id = 'id' in params ? params.id : 'popup_prompt';
 		popupParams['z-index'] = 'z-index' in params ? params['z-index'] : '31';
 		popupParams['overlay'] = 'overlay' in params ? params['overlay'] : 'transparent';
+		popupParams['width'] = 'width' in params ? params['width'] : 'medium';
 
 		var $popup = getPopup(popupParams);
 

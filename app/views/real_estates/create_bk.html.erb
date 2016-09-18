@@ -1,0 +1,1370 @@
+<%
+=begin
+	params: @re
+=end
+%>
+
+<% content_for :stylesheets do %>
+	<link rel="stylesheet" type="text/css" href="/assets/real_estates/create_bk.css">
+<% end %>
+
+<% content_for :javascripts do %>
+	<script type="text/javascript" src='http://maps.google.com/maps/api/js?key=AIzaSyBsMB8D8mBgDcBqGCyOii1Kgu-BJmfNAvQ&libraries=places'></script>
+	<script type="text/javascript" src="/assets/shared/locationpicker.js"></script>
+	<script type="text/javascript" src="/assets/real_estates/create_bk.js"></script>
+<% end %>
+
+<div class="container">
+	<%= form_for(
+		@re,
+		url:	'/real_estates/save/' + @re.id.to_s,
+		method:	'POST',
+		html:	{
+					id:			're_form',
+					class:		'form',
+					'data-new':	@re.new_record?
+				}
+	) do |f| %>
+		<div class="col-xs-12 col-md-6">
+			<!-- Status -->
+			<div class="toggle-type-buttons">
+				<label>
+					<%= f.radio_button(
+						:is_full,
+						true,
+						{
+							class:		'sr-only input-toggle',
+							'data-on':	'full',
+							'data-off':	'un-full'
+						}
+					) %>
+					<a>
+						<b><%= RealEstate.i18n_value 'is_full', true %></b>
+						<br />
+						<%= t '.status_box.is_full_true_description' %>
+						<br />
+						<small class="action">(<%= t '.status_box.click' %>)</small>
+						<small class="selected">(<%= t '.status_box.selected' %>)</small>
+					</a>
+				</label>
+				<label>
+					<%= f.radio_button(
+						:is_full,
+						false,
+						{
+							class:		'sr-only input-toggle',
+							'data-on':	'un-full',
+							'data-off':	'full'
+						}
+					) %>
+					<a>
+						<b><%= RealEstate.i18n_value 'is_full', false %></b>
+						<br />
+						<%= t '.status_box.is_full_false_description' %>
+						<br />
+						<small class="action">(<%= t '.status_box.click' %>)</small>
+						<small class="selected">(<%= t '.status_box.selected' %>)</small>
+					</a>
+				</label>
+			</div>
+			<div class="box box-form">
+				<!-- Trade -->
+				<div data-value="trade" data-object="box">
+					<div class="box-header">
+						<h3 class="box-title">
+							<%= t '.trade_box.box_title' %>
+						</h3>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-xs-8">
+								<!-- Purpose -->
+								<%= f.field(
+									'select',
+									:purpose_id,
+									{
+										class:				'form-control input-toggle',
+										title:				t('.trade_box.purpose_title'),
+										'data-constraint':	'require'
+									},
+									{
+										label:					RealEstate.i18n_attribute('purpose'),
+										select_options_list:	[
+																	[
+																		t('.trade_box.purpose_placeholder'),
+																		'',
+																		{
+																			'data-off':	'sell rent transfer',
+																			'hidden':	''
+																		}
+																	]
+																] +
+																Purpose.all.map do |purpose|
+																	[
+																		purpose.display_name,
+																		purpose.id,
+																		case purpose.code
+																		when 'sell'
+																			{
+																				'data-on':	'sell',
+																				'data-off':	'un-sell'
+																			}
+																		when 'rent'
+																			{
+																				'data-on':	'rent',
+																				'data-off':	'un-rent'
+																			}
+																		when 'transfer'
+																			{
+																				'data-on':	'transfer',
+																				'data-off':	'un-transfer'
+																			}
+																		when 'sell_rent'
+																			{
+																				'data-on':	'sell rent',
+																				'data-off':	'un-sell un-rent'
+																			}
+																		end
+																	]
+																end,
+										require:				true
+									}
+								) %>
+							</div>
+							<div class="col-xs-4">
+								<!-- Currency -->
+								<%= f.field(
+									'select',
+									:currency_id,
+									{
+										id:						'currency',
+										title:					t('.trade_box.currency_title'),
+										'data-constraint':		'require'
+									},
+									{
+										label:					RealEstate.i18n_attribute('currency'),
+										select_options_list:	Currency.all.map do |currency|
+																	[
+																		currency.name,
+																		currency.id,
+																		{
+																			data: {
+																				value: currency.code
+																			}
+																		}
+																	]
+																end,
+										require:				true
+									}
+								) %>
+							</div>
+						</div>
+						<!-- Sell price -->
+						<div class="row" data-toggled-element="sell un-rent un-transfer">
+							<div class="col-xs-12 col-sm-5 col-md-4">
+								<%= f.field(
+									'money',
+									:sell_price,
+									{
+										'data-object':			'price',
+										title:					t('.trade_box.sell_price_title_html'),
+										'data-html':			'true',
+										placeholder:			'1,500,000,000',
+									},
+									{
+										label:					RealEstate.i18n_attribute('sell_price'),
+										read_money:				false,
+										input_toggle:			{
+																	on:		'sell-price',
+																	off:	'un-sell-price'
+																}
+									}
+								) %>
+							</div>
+							<div class="col-xs-12 col-sm-7 col-md-8">
+								<div class="form-group" data-toggled-element="un-sell-price">
+									<label class="hidden-xs">&nbsp;</label>
+									<span class="form-control" readonly="true">Giá thỏa thuận</span>
+								</div>
+								<div style="max-width: 100%; overflow: hidden;" data-toggled-element="sell-price">
+									<%= f.field(
+										'select',
+										:sell_unit_id,
+										{
+											title:					t('.trade_box.sell_price_unit')
+										},
+										{
+											label:					RealEstate.i18n_attribute('sell_price_unit'),
+											input_group:			{
+																		left:	'<span data-object="money"></span> <span data-object="currency"></span>/'.html_safe
+																	},
+											select_options_list:	Unit.all.select{ |unit| unit.options['group'] == 'sell' }.map do |unit|
+																		[
+																			unit.display_name,
+																			unit.id
+																		]
+																	end,
+											require:				true
+										}
+									) %>
+								</div>
+							</div>
+						</div>
+						<!-- Rent price -->
+						<div class="row" data-toggled-element="rent un-sell un-transfer">
+							<div class="col-xs-12 col-sm-5 col-md-4">
+								<%= f.field(
+									'money',
+									:sell_price,
+									{
+										'data-object':			'price',
+										title:					t('.trade_box.rent_price_title_html'),
+										'data-html':			'true',
+										placeholder:			'10,000,000'
+									},
+									{
+										label:					RealEstate.i18n_attribute('rent_price'),
+										read_money:				false,
+										input_toggle:			{
+																	on:		'rent-price',
+																	off:	'un-rent-price'
+																}
+									}
+								) %>
+							</div>
+							<div class="col-xs-12 col-sm-7 col-md-8">
+								<div class="form-group" data-toggled-element="un-rent-price">
+									<label class="hidden-xs">&nbsp;</label>
+									<span class="form-control" readonly="true">Giá thỏa thuận</span>
+								</div>
+								<div style="max-width: 100%; overflow: hidden;" data-toggled-element="rent-price">
+									<%= f.field(
+										'select',
+										:rent_unit_id,
+										{
+											title:					t('.trade_box.rent_price_unit')
+										},
+										{
+											label:					RealEstate.i18n_attribute('rent_price_unit'),
+											input_group:			{
+																		left:	'<span data-object="money"></span> <span data-object="currency"></span>/'.html_safe
+																	},
+											select_options_list:	Unit.all.select{ |unit| unit.options['group'] == 'rent' }.map do |unit|
+																		[
+																			unit.display_name,
+																			unit.id
+																		]
+																	end,
+											require:				true
+										}
+									) %>
+								</div>
+							</div>
+						</div>
+						<!-- Transfer price -->
+						<div class="row" data-toggled-element="transfer un-sell un-rent">
+							<div class="col-xs-12 col-sm-5 col-md-4">
+								<%= f.field(
+									'money',
+									:sell_price,
+									{
+										'data-object':			'price',
+										title:					t('.trade_box.transfer_price_title_html'),
+										'data-html':			'true',
+										placeholder:			'500,000,000',
+									},
+									{
+										label:					RealEstate.i18n_attribute('transfer_price'),
+										read_money:				false,
+										input_toggle:			{
+																	on:		'transfer-price',
+																	off:	'un-transfer-price'
+																}
+									}
+								) %>
+							</div>
+							<div class="col-xs-12 col-sm-7 col-md-8">
+								<div class="form-group" data-toggled-element="un-transfer-price">
+									<label class="hidden-xs">&nbsp;</label>
+									<span class="form-control" readonly="true">Giá thỏa thuận</span>
+								</div>
+								<div style="max-width: 100%; overflow: hidden;" data-toggled-element="transfer-price">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div class="form-control" readonly="true" tabindex="-1">
+											<span data-object="money"></span> <span data-object="currency"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Negotiable -->
+						<div data-toggled-element="sell rent transfer">
+							<%= f.field(
+								'checkbox',
+								:is_negotiable,
+								{
+									title:				t('.trade_box.is_negotiable_title'),
+								},
+								{
+									label:				RealEstate.i18n_attribute('is_negotiable')
+								}
+							) %>
+						</div>
+					</div>
+				</div>
+				<!-- Position -->
+				<div data-value="position" data-object="box">
+					<div class="box-header">
+						<h3 class="box-title">
+							<%= t '.position_box.box_title' %>
+						</h3>
+					</div>
+					<div class="box-body">
+						<!-- Hidden fields -->
+						<%= f.field(
+							'hidden',
+							:street,
+							{
+								id:		'street',
+								value:	(f.object.street.name if f.object.street.present?)
+							}
+						) %>
+						<%= f.field(
+							'hidden',
+							:ward,
+							{
+								id:		'ward',
+								value:	(f.object.ward.name if f.object.ward.present?)
+							}
+						) %>
+						<%= f.field(
+							'hidden',
+							:district,
+							{
+								id:		'district',
+								value:	(f.object.district.name if f.object.district.present?)
+							}
+						) %>
+						<%= f.field(
+							'hidden',
+							:province,
+							{
+								id:		'province',
+								value:	(f.object.province.name if f.object.province.present?)
+							}
+						) %>
+
+						<%= f.field(
+							'hidden',
+							:lat,
+							{
+								id:		'lat'
+							}
+						) %>
+
+						<%= f.field(
+							'hidden',
+							:lng,
+							{
+								id:		'lng',
+							}
+						) %>
+						<!-- Adddress -->
+						<div class="row">
+							<div class="col-xs-3">
+								<%= f.field(
+									'text',
+									:address_number,
+									{
+										title:			t('.position_box.address_number_title'),
+										placeholder:	t('.position_box.address_number_placeholder')
+									},
+									{
+										label:			RealEstate.i18n_attribute('address_number')
+									}
+								) %>	
+							</div>
+							<div class="col-xs-9">
+								<%= f.field(
+									'text',
+									:location,
+									{
+										id:				'location',
+										title:			t('.position_box.location_title_html'),
+										'data-html':	'true',
+										placeholder:	t('.position_box.location_placeholder'),
+										'data-new':		f.object.new_record?
+									},
+									{
+										label:			t('.position_box.location_label'),
+										after:			"<small>#{t('.position_box.location_tip')}</small>",
+										require:		true
+									}
+								) %>
+							</div>
+						</div>
+						<!-- Map -->
+						<div class="margin-bottom-15">
+							<div id="map" tabindex="0" style="outline: 0;"></div>
+						</div>
+						<div data-toggled-element="full">
+							<!-- Street type -->
+							<%= f.checkbox_radio_list(
+								'radio',
+								:street_type,
+								[
+									[
+										{
+											title:			t('.position_box.private_street_title_html'),
+											'data-html':	'true',
+											value:			RealEstate::PRIVATE_STREET
+										},
+										{
+											label:			RealEstate.i18n_value('street_type', RealEstate::PRIVATE_STREET)
+										}
+									],
+									[
+										{
+											title:			t('.position_box.public_street_title_html'),
+											'data-html':	'true',
+											value:			RealEstate::PUBLIC_STREET
+										},
+										{
+											label:			RealEstate.i18n_value('street_type', RealEstate::PUBLIC_STREET)
+										}
+									]
+								],
+								{
+									label:		RealEstate.i18n_attribute('street_type'),
+									require:	true
+								}
+							) %>
+							<!-- Alley -->
+							<%= f.label :is_alley, RealEstate.i18n_attribute('is_alley') %>
+							<%= f.field(
+								'real',
+								:alley_width,
+								{
+									title:					t('.position_box.alley_width_title'),
+									placeholder:			t('.position_box.alley_width_placeholder'),
+									'data-toggled-element':	'alley',
+									class:					'form-control disable-only'
+								},
+								{
+									input_group:	{
+														left: 		f.field(
+																		'checkbox',
+																		:is_alley,
+																		{
+																			title:			t('.position_box.is_alley_title'),
+																			value:			true
+																		},
+																		{
+																			label:			t('.position_box.is_alley_label'),
+																			input_toggle:	{
+																								on:		'alley'
+																							}
+																		}
+																	),
+														right:		t('global.unit.meter')
+													}
+								}
+							) %>
+						</div>
+					</div>
+				</div>
+				<!-- Detail -->
+				<div data-value="detail" data-object="box">
+					<div class="box-header">
+						<h3 class="box-title">
+							<%= t '.detail_box.box_title' %>
+						</h3>
+					</div>
+					<div class="box-body">
+						<!-- Real-estate type -->
+						<%
+							re_type_options = {
+								'house'		=>	[
+													[
+														t('.detail_box.re_type_placeholder'),
+														'',
+														{
+															'hidden': 	true,
+															'data-off':	'un-apartment un-land un-house un-space'
+														}
+													]
+												],
+								'apartment'	=>	[],
+								'land'		=>	[],
+								'space'		=>	[]
+							}
+							RealEstateType.all.each do |type|
+								re_type_options[type.options['group']] << [
+									type.display_name,
+									type.id,
+									case type.name
+									when 'high_apartment', 'medium_apartment', 'low_apartment', 'social_home'
+										{
+											'data-on':		'apartment',
+											'data-off':		'un-apartment'
+										}
+									when 'residential_land', 'vacant_land', 'forest_land', 'productive_land', 'project_land'
+										{
+											'data-on':		'land',
+											'data-off':		'un-land'
+										}
+									when 'villa'
+										{
+											'data-on':		'house villa',
+											'data-off':		'un-house un-villa'
+										}
+									when 'town_house'
+										{
+											'data-on':		'house town_house',
+											'data-off':		'un-house un-town_house'
+										}
+									when 'motel', 'store', 'restaurant_hotel', 'storage_workshop'
+										{
+											'data-on':		'space',
+											'data-off':		'un-space un-office'
+										}
+									when 'office'
+										{
+											'data-on':		'space office',
+											'data-off':		'un-space un-office'
+										}
+									end
+								]
+							end
+							re_type_options = re_type_options.map{|k, v| [t(".detail_box.#{k}_group"), v] }
+						%>
+						<%= f.field(
+							'select',
+							:real_estate_type_id,
+							{
+								title:					t('.detail_box.re_type_title')
+							},
+							{
+								select_options_list:	re_type_options,
+								label:					RealEstate.i18n_attribute('real_estate_type'),
+								input_toggle:			true,
+								require:				true
+							}
+						) %>
+						<div data-toggled-element="un-full">
+							<%= f.field(
+								'real',
+								:campus_area,
+								{
+									title:				t('.detail_box.area_title'),
+									placeholder:		t('.detail_box.area_placeholder'),
+								},
+								{
+									label:				t('.detail_box.area_label'),
+									require:			true,
+									input_group:		{
+															right: t('global.unit.square_meter')
+														}
+								}
+							) %>
+						</div>
+						<div data-toggled-element="full">
+							<!-- Building name -->
+							<div data-toggled-element="un-land un-house apartment un-space office">
+								<%= f.field(
+									'text',
+									:building_name,
+									{
+										title:			t('.detail_box.building_name_title'),
+										placeholder:	t('.detail_box.building_name_placeholder')
+									},
+									{
+										label:			RealEstate.i18n_attribute('building_name')
+									}
+								) %>
+							</div>
+							<!-- Area -->
+							<div class="flex flex-same-row">
+								<div data-toggled-element="land house un-apartment space">
+									<%= f.field(
+										'real',
+										:campus_area,
+										{
+											id:				'campus_area',
+											title:			t('.detail_box.campus_area_title'),
+											placeholder:	t('.detail_box.campus_area_placeholder'),
+										},
+										{
+											label:			RealEstate.i18n_attribute('campus_area'),
+											require:		true,
+											input_group:	{
+																right: t('global.unit.square_meter')
+															}
+										}
+									) %>
+								</div>
+								<div data-toggled-element="un-land house un-apartment space">
+									<%= f.field(
+										'real',
+										:constructional_area,
+										{
+											id:				'constructional_area',
+											title:			t('.detail_box.constructional_area_title'),
+											placeholder:	t('.detail_box.constructional_area_placeholder'),
+										},
+										{
+											label:			RealEstate.i18n_attribute('constructional_area'),
+											require:		true,
+											input_group:	{
+																right: t('global.unit.square_meter')
+															}
+										}
+									) %>
+								</div>
+								<div data-toggled-element="un-land house apartment space">
+									<%= f.field(
+										'real',
+										:using_area,
+										{
+											id:				'using_area',
+											title:			t('.detail_box.using_area_title'),
+											placeholder:	t('.detail_box.using_area_placeholder'),
+										},
+										{
+											label:			RealEstate.i18n_attribute('using_area'),
+											require:		true,
+											input_group:	{
+																right: t('global.unit.square_meter')
+															}
+										}
+									) %>
+								</div>
+							</div>
+							<!-- Width -->
+							<div data-toggled-element="land house un-apartment space">
+								<div class="flex flex-same-row">
+									<%= f.field(
+										'real',
+										:width_x,
+										{
+											id:				'width_x',
+											title:			t('.detail_box.width_x_title'),
+											placeholder:	t('.detail_box.width_x_placeholder'),
+										},
+										{
+											label:			RealEstate.i18n_attribute('width_x'),
+											input_group:	{
+																right: t('global.unit.meter')
+															}
+										}
+									) %>
+									<%= f.field(
+										'real',
+										:width_y,
+										{
+											id:				'width_y',
+											title:			t('.detail_box.width_y_title'),
+											placeholder:	t('.detail_box.width_y_placeholder'),
+										},
+										{
+											label:			RealEstate.i18n_attribute('width_y'),
+											input_group:	{
+																right: t('global.unit.meter')
+															}
+										}
+									) %>
+								</div>
+								<div id="area_alert" class="alert alert-warning" style="display: none;">
+									<%= t '.detail_box.size_not_satisfactory_html' %>
+								</div>
+							</div>
+
+							<!-- Shape -->
+							<div class="flex flex-same-row" data-toggled-element="land house un-apartment space">
+								<%= f.field(
+									'select',
+									:shape,
+									{
+										id:						'shape',
+										title:					t('.detail_box.shape_title_html'),
+										'data-html':			'true'
+									},
+									{
+										label:					RealEstate.i18n_attribute('shape'),
+										select_options_list:	[
+																	[
+																		RealEstate.i18n_value('shape', RealEstate::NORMAL_SHAPE),
+																		RealEstate::NORMAL_SHAPE,
+																		{
+																			'data-off':		'un-normal-shape',
+																			'data-value':	'normal'
+																		}
+																	],
+																	[
+																		RealEstate.i18n_value('shape', RealEstate::LESS_SHAPE),
+																		RealEstate::LESS_SHAPE,
+																		{
+																			'data-on':		'un-normal-shape',
+																			'data-value':	'less'
+																		}
+																	],
+																	[
+																		RealEstate.i18n_value('shape', RealEstate::GREATER_SHAPE),
+																		RealEstate::GREATER_SHAPE,
+																		{
+																			'data-on':		'un-normal-shape',
+																			'data-value':	'greater'
+																		}
+																	]
+																],
+										require:				true,
+										input_toggle:			true
+									}
+								) %>
+								<div data-toggled-element="un-normal-shape">
+									<%= f.field(
+										'real',
+										:shape_width,
+										{
+											id:						'shape_width',
+											title:					t('.detail_box.shape_width_title_html'),
+											'data-html':			'true',
+											placeholder:			t('.detail_box.shape_width_placeholder')
+										},
+										{
+											label:			RealEstate.i18n_attribute('shape_width'),
+											input_group:	{
+																right:	t('global.unit.meter')
+															}
+										}
+									) %>
+								</div>
+							</div>
+							<div class="flex flex-same-row">
+								<!-- Floor -->
+								<div data-toggled-element="un-land house un-apartment un-space">
+									<%= f.field(
+										'integer',
+										:floor_number,
+										{
+											title:			t('.detail_box.num_of_floor_title'),
+											placeholder:	t('.detail_box.num_of_floor_placeholder')
+										},
+										{
+											label:			RealEstate.i18n_attribute('num_of_floor'),
+											input_group:	{
+																right:	t('global.unit.num_of_floor')
+															},
+											require:		true
+										}
+									) %>
+								</div>
+								<div data-toggled-element="un-land un-house apartment un-space">
+									<%= f.field(
+										'integer',
+										:floor_number,
+										{
+											title:			t('.detail_box.pos_of_floor_title'),
+											placeholder:	t('.detail_box.pos_of_floor_placeholder')
+										},
+										{
+											label:			RealEstate.i18n_attribute('pos_of_floor'),
+											input_group:	{
+																left:	t('global.unit.pos_of_floor')
+															},
+											require:		true
+										}
+									) %>
+								</div>
+								<!-- Bedroom -->
+								<div data-toggled-element="un-land house apartment space">
+									<%= f.field(
+										'select',
+										:bedroom_number,
+										{
+											title:					t('.detail_box.bedroom_number_title')
+										},
+										{
+											label:					RealEstate.i18n_attribute('bedroom_number'),
+											select_options_list:	[
+																		[
+																			t('.detail_box.bedroom_number_placeholder'),
+																			''
+																		]
+																	] +
+																	(1..3).map do |num|
+																		[
+																			num.to_s + ' ' + t('global.unit.num_of_room'),
+																			num
+																		]
+																	end +
+																	[
+																		[
+																			'4+ ' + t('global.unit.num_of_room'),
+																			4
+																		]
+																	],
+											require:				true
+										}
+									) %>
+								</div>
+								<!-- Restroom -->
+								<div data-toggled-element="un-land house apartment space">
+									<%= f.field(
+										'select',
+										:restroom_number,
+										{
+											title:					t('.detail_box.restroom_number_title')
+										},
+										{
+											label:					RealEstate.i18n_attribute('restroom_number'),
+											select_options_list:	[
+																		[
+																			t('.detail_box.restroom_number_placeholder'),
+																			''
+																		]
+																	] +
+																	(1..3).map do |num|
+																		[
+																			num.to_s + ' ' + t('global.unit.num_of_room'),
+																			num
+																		]
+																	end +
+																	[
+																		[
+																			'4+ ' + t('global.unit.num_of_room'),
+																			4
+																		]
+																	],
+											require:				true
+										}
+									) %>
+								</div>
+							</div>
+							<div class="flex flex-same-row">
+								<!-- Direction -->
+								<div data-toggled-element="un-land house apartment space">
+									<%= f.field(
+										'select',
+										:direction_id,
+										{
+											title:					t('.detail_box.direction_title')
+										},
+										{
+											label:					RealEstate.i18n_attribute('direction'),
+											select_options_list:	Direction.all.map do |direction|
+																		[
+																			direction.display_name,
+																			direction.id
+																		]
+																	end,
+											require:				true
+										}
+									) %>
+								</div>
+								<!-- Constructional level -->
+								<div data-toggled-element="un-land house un-villa un-apartment un-space">
+									<%= f.field(
+										'select',
+										:constructional_level_id,
+										{
+											title:					t('.detail_box.constructional_level_title')
+										},
+										{
+											label:					RealEstate.i18n_attribute('constructional_level'),
+											select_options_list:	[
+																		[
+																			t('.detail_box.constructional_level_placeholder'),
+																			'',
+																			{
+																				hidden:	''
+																			}
+																		]
+																	] +
+																	ConstructionalLevel.all.map do |level|
+																		[
+																			level.display_name,
+																			level.id
+																		]
+																	end,
+											require:				true
+										}
+									) %>
+								</div>
+							</div>
+							<div class="flex flex-same-row" data-toggled-element="un-land house apartment space">
+								<!-- Build year -->
+								<%= f.field(
+									'select',
+									:build_year,
+									{
+										title:					t('.detail_box.build_year_title')
+									},
+									{
+										label:					RealEstate.i18n_attribute('build_year'),
+										select_options_list:	[
+																	[
+																		t('.detail_box.build_year_placeholder'),
+																		'',
+																		{
+																			hidden:	''
+																		}
+																	]
+																] +
+																Time.new.year.downto(Time.new.year - 19).map do |year|
+																	[
+																		t('global.unit.pos_of_year') + ' ' + year.to_s,
+																		year
+																	]
+																end +
+																[
+																	[
+																		'20+ ' + t('global.unit.num_of_year'),
+																		20
+																	],
+																	[
+																		'50+ ' + t('global.unit.num_of_year'),
+																		50
+																	]
+																],
+										require:				true
+									}
+								) %>
+								<!-- Constructional quality -->
+								<%= f.field(
+									'select',
+									:constructional_quality,
+									{
+										title:					t('.detail_box.constructional_quality_title')
+									},
+									{
+										label:					RealEstate.i18n_attribute('constructional_quality'),
+										select_options_list:	[
+																	[
+																		t('.detail_box.constructional_quality_title'),
+																		'',
+																		{
+																			hidden:	''
+																		}
+																	],
+																	[
+																		RealEstate.i18n_value('constructional_quality', RealEstate::BEST_QUALITY),
+																		RealEstate::BEST_QUALITY
+																	],
+																	[
+																		RealEstate.i18n_value('constructional_quality', RealEstate::NEW_QUALITY),
+																		RealEstate::NEW_QUALITY
+																	],
+																	[
+																		RealEstate.i18n_value('constructional_quality', RealEstate::NORMAL_QUALITY),
+																		RealEstate::NORMAL_QUALITY
+																	],
+																	[
+																		RealEstate.i18n_value('constructional_quality', RealEstate::LOW_QUALITY),
+																		RealEstate::LOW_QUALITY
+																	]
+																],
+										require:				true
+									}
+								) %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Description -->
+				<div data-value="description" data-object="box">
+					<div class="box-header">
+						<h3 class="box-title">
+							<%= t '.description_box.box_title' %>
+						</h3>
+					</div>
+					<div class="box-body">
+						<!-- Title -->
+						<%= f.field(
+							'text',
+							:title,
+							{
+								title:			t('.description_box.title_title'),
+								placeholder:	t('.description_box.title_placeholder')
+							},
+							{
+								label:			RealEstate.i18n_attribute('title'),
+								require:		true
+							}
+						) %>
+						<!-- Description -->
+						<%= f.field(
+							'editor',
+							:description,
+							{},
+							{
+								label:			RealEstate.i18n_attribute('description'),
+								require:		true
+							}
+						) %>
+						<!-- Image -->
+						<%= f.field(
+							'image',
+							:images,
+							{
+								multiple:		true
+							},
+							{
+								label:			RealEstate.i18n_attribute('image'),
+								require:		true,
+								before:			"<p>#{t('.description_box.image_description')}</p>",
+								amount:			5,
+								has:			[:description, :avatar, :order]
+							}
+						) %>
+					</div>
+				</div>
+				<div data-toggled-element="full">
+					<!-- Docs -->
+					<div data-value="doc" data-object="box" data-toggled-element="sell un-rent un-transfer">
+						<div class="box-header">
+							<h3 class="box-title">
+								<%= t '.doc_box.box_title' %>
+							</h3>
+						</div>
+						<div class="box-body">
+							<!-- Legal record -->
+							<div class="row">
+								<div class="col-xs-12 col-sm-6">
+									<%= f.field(
+										'select',
+										:legal_record_type_id,
+										{
+											title:					t('.doc_box.legal_record_type_title')
+										},
+										{
+											label:					RealEstate.i18n_attribute('legal_record_type'),
+											select_options_list:	[
+																		[
+																			t('.doc_box.legal_record_type_placeholder'),
+																			'',
+																			hidden:			'',
+																			'data-off':		'custom_legal_record_type'
+																		]
+																	] +
+																	LegalRecordType.all.map do |type|
+																		[
+																			type.display_name,
+																			type.id,
+																			'data-off':		'custom_legal_record_type'
+																		]
+																	end +
+																	[
+																		[
+																			t('global.text.custom_input'),
+																			0,
+																			'data-on':		'custom_legal_record_type'
+																		]
+																	],
+											require:				true,
+											input_toggle:			true
+										}
+									) %>
+									<div data-toggled-element="custom_legal_record_type">
+										<%= f.field(
+											'text',
+											:custom_legal_record_type,
+											{
+												title:					t('.doc_box.custom_legal_record_type_title'),
+												placeholder:			t('.doc_box.custom_legal_record_type_placeholder')
+											},
+											{
+												require:				true
+											}
+										) %>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<!-- Planning status -->
+									<%= f.field(
+										'select',
+										:planning_status_type_id,
+										{
+											title:					t('.doc_box.planning_status_type_title')
+										},
+										{
+											label:					RealEstate.i18n_attribute('planning_status_type'),
+											select_options_list:	[
+																		[
+																			t('.doc_box.planning_status_type_placeholder'),
+																			'',
+																			hidden:			'',
+																			'data-off':		'custom_planning_status_type'
+																		]
+																	] +
+																	PlanningStatusType.all.map do |type|
+																		[
+																			type.display_name,
+																			type.id,
+																			'data-off':		'custom_planning_status_type'
+																		]
+																	end +
+																	[
+																		[
+																			t('global.text.custom_input'),
+																			0,
+																			'data-on':		'custom_planning_status_type'
+																		]
+																	],
+											require:				true,
+											input_toggle:			true
+										}
+									) %>
+									<div data-toggled-element="custom_planning_status_type">
+										<%= f.field(
+											'text',
+											:custom_planning_status_type,
+											{
+												title:					t('.doc_box.custom_planning_status_type_title'),
+												placeholder:			t('.doc_box.custom_planning_status_type_placeholder')
+											},
+											{
+												require:				true
+											}
+										) %>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Utility -->
+					<div data-value="utility" data-object="box">
+						<div class="box-header">
+							<h3 class="box-title">
+								<%= t '.utility_box.box_title' %>
+							</h3>
+						</div>
+						<div class="box-body">
+							<!-- Property utility -->
+							<div data-toggled-element="un-land house apartment space">
+								<%= f.checkbox_radio_list(
+									'checkbox',
+									:property_utility_ids,
+									PropertyUtility.all.map do |utility|
+										[
+											{
+												value:		utility.id
+											},
+											{
+												label:		utility.display_name
+											}
+										]
+									end,
+									{
+										label:		RealEstate.i18n_attribute('property_utility')
+									}
+								) %>
+							</div>
+							<!-- Region utility -->
+							<%= f.checkbox_radio_list(
+								'checkbox',
+								:region_utility_ids,
+								RegionUtility.all.map do |utility|
+									[
+										{
+											value:		utility.id
+										},
+										{
+											label:		utility.display_name
+										}
+									]
+								end,
+								{
+									label:		RealEstate.i18n_attribute('region_utility')
+								}
+							) %>
+						</div>
+					</div>
+					<!-- Rating -->
+					<div data-value="rating" data-object="box">
+						<div class="box-header">
+							<h3 class="box-title">
+								<%= t '.rating_box.box_title' %>
+							</h3>
+						</div>
+						<div class="box-body">
+							<!-- Avantage -->
+							<%= f.checkbox_radio_list(
+								'checkbox',
+								:advantage_ids,
+								Advantage.all.map do |advantage|
+									[
+										{
+											value:		advantage.id
+										},
+										{
+											label:		advantage.display_name
+										}
+									]
+								end,
+								{
+									label:		RealEstate.i18n_attribute('advantage')
+								}
+							) %>
+							<%= f.field(
+								'text',
+								:custom_advantages,
+								{
+									title:					t('.rating_box.custom_advantage_title_html'),
+									'data-html':			true,
+									placeholder:			t('.rating_box.custom_advantage_placeholder')
+								}
+							) %>
+							<!-- Disadvantage -->
+							<%= f.checkbox_radio_list(
+								'checkbox',
+								:disadvantage_ids,
+								Disadvantage.all.map do |disadvantage|
+									[
+										{
+											value:		disadvantage.id
+										},
+										{
+											label:		disadvantage.display_name
+										}
+									]
+								end,
+								{
+									label:		RealEstate.i18n_attribute('disadvantage')
+								}
+							) %>
+							<%= f.field(
+								'text',
+								:custom_disadvantages,
+								{
+									title:					t('.rating_box.custom_disadvantage_title_html'),
+									'data-html':			true,
+									placeholder:			t('.rating_box.custom_disadvantage_placeholder')
+								}
+							) %>
+						</div>
+					</div>
+				</div>
+				<% unless signed? %>
+					<!-- Contact -->
+					<div data-value="contact" data-object="box">
+						<div class="box-header">
+							<h3 class="box-title">
+								<%= t '.contact_box.box_title' %>
+							</h3>
+						</div>
+						<div class="box-body">
+							<%=
+								fields_for(
+									'contact_info',
+									current_left_contact
+								) do |contact_form|
+							%>
+								<%= contact_form.field(
+									'text',
+									:name,
+									{
+										title:			t('.contact_box.name_title'),
+										placeholder:	t('.contact_box.name_placeholder'),
+									},
+									{
+										label:  		t('.contact_box.name_label')
+									}
+								) %>
+
+								<div class="row">
+									<article class="col-xs-6">
+										<%= contact_form.field(
+											'email',
+											:email,
+											{
+												title:			t('.contact_box.email_title'),
+												placeholder:	t('.contact_box.email_placeholder'),
+											},
+											{
+												label:  		t('.contact_box.email_label')
+											}
+										) %>
+									</article>
+									<article class="col-xs-6">
+										<%= contact_form.field(
+											'phone',
+											:phone_number,
+											{
+												title:			t('.contact_box.phone_number_title'),
+												placeholder:	t('.contact_box.phone_number_placeholder'),
+											},
+											{
+												label:  		t('.contact_box.phone_number_label')
+											}
+										) %>
+									</article>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+				<div class="box-footer text-center">
+					<%= f.submit t('global.text.finish'),
+						class: 			'btn btn-green btn-large',
+						title: 			t('.finish_box.finish_title_html'),
+						'data-html':	'true'
+					%>
+					<%= f.field(
+						'hidden',
+						:is_draft,
+						{
+							id:		'is_draft'
+						}
+					) %>
+					<%= f.button t('.finish_box.save_draft'),
+						type:			'button',
+						id:				'save_draft',
+						class: 			'btn btn-large',
+						title: 			t('.finish_box.save_draft_title_html'),
+						'data-html':	'true'
+					%>
+				</div>
+			</div>
+		</div>
+		<div class="hidden-xs hidden-sm col-md-6">
+			<!-- List -->
+			<div id="menu_list" class="menu-list-ctn">
+				<nav>
+					<h3 class="title">
+						<%= t '.list_box.box_title' %>
+					</h3>
+					<a data-value="trade">
+						<%= t '.trade_box.box_title' %>
+					</a>
+					<a data-value="position">
+						<%= t '.position_box.box_title' %>
+					</a>
+					<a data-value="detail">
+						<%= t '.detail_box.box_title' %>
+					</a>
+					<a data-value="description">
+						<%= t '.description_box.box_title' %>
+					</a>
+					<div data-toggled-element="full">
+						<a data-value="doc" data-toggled-element="sell un-rent un-transfer">
+							<%= t '.doc_box.box_title' %>
+						</a>
+					</div>
+					<a data-value="utility" data-toggled-element="full">
+						<%= t '.utility_box.box_title' %>
+					</a>
+					<a data-value="rating" data-toggled-element="full">
+						<%= t '.rating_box.box_title' %>
+					</a>
+					<% unless signed? %>
+						<a data-value="contact">
+							<%= t '.contact_box.box_title' %>
+						</a>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	<% end %>
+</div>

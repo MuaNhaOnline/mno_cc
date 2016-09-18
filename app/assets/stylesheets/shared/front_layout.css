@@ -100,7 +100,8 @@ body {
 				transition: .3s;
 			}
 	
-				header .top-header .sign-in:hover {
+				header .top-header .sign-in:hover,
+				header .top-header .sign-in:focus {
 					background-color: #006582;
 				}
 	
@@ -108,7 +109,8 @@ body {
 				transition: .3s;
 			}
 	
-				header .top-header .facebook-login:hover {
+				header .top-header .facebook-login:hover,
+				header .top-header .facebook-login:focus {
 					background-color: #3a5795;
 				}
 	
@@ -118,7 +120,8 @@ body {
 				z-index: 2;
 			}
 	
-				header .top-header .menu:hover {
+				header .top-header .menu:hover,
+				header .top-header .menu:focus {
 					background-color: #303740;
 				}
 	
@@ -126,7 +129,8 @@ body {
 				transition: .3s;
 			}
 	
-				header .top-header .new-post:hover {
+				header .top-header .new-post:hover,
+				header .top-header .new-post:focus {
 					background-color: #A37700;
 				}
 
@@ -291,7 +295,6 @@ body {
 						left: 0;
 						margin-top: -3px;
 						display: none;
-						box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 					}
 				
 						header .bottom-header nav li .absolute-menu.on {
@@ -409,7 +412,7 @@ body {
 /* Seach box */
 
 	.search-box-container {
-		background-color: #fff;
+		background-color: #f8f8f8;
 		border-top: 3px solid #006437;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 	}
@@ -466,7 +469,6 @@ body {
 		}
 
 			.search-box-container .box-content .suggest-keywords {
-				padding: 10px;
 			}
 
 				.search-box-container .box-content .suggest-keywords .label {
@@ -553,6 +555,10 @@ body {
 			main .box.box-transparent {
 				background-color: transparent;
 				box-shadow: none;
+			}
+	
+			main .box.box-form {
+				background-color: #f8f8f8;
 			}
 	
 			main .box.box-near {
@@ -969,7 +975,7 @@ body {
 
 								.large-items-list .item .infos-container .content .infos {
 									margin: -20px;
-									padding: 20px;
+									padding: 10px 20px;
 								}
 
 								.large-items-list .item .infos-container .infos > .row > *:nth-child(2n+1) {
@@ -1359,16 +1365,22 @@ body {
 				}
 
 				.form-control {
-					border: none;
 					border-radius: 0;
-					border-bottom: 2px solid #CED5E2;
+					background-color: #fff;
+					border: 1px solid #e0e0e0;
 					transition: border-bottom-color .3s;
-					height: 40px;
 				}
 
+					.form-control.cke_chrome {
+						border-color: #e0e0e0;
+					}
+
 					.form-control[readonly],
-					.form-control[disabled] {
+					.form-control[disabled],
+					.form-control[readonly]:focus,
+					.form-control[disabled]:focus {
 						cursor: not-allowed;
+						background-color: #eee;
 					}
 
 					.form-control,
@@ -1380,16 +1392,24 @@ body {
 					.form-control:focus,
 					.has-success .form-control:focus,
 					.has-error .form-control:focus {
-						border-bottom-color: #008549;
 						box-shadow: none;
+						background-color: #fff;
+						border-color: #ccc;
 					}
 
 					.has-success .form-control {
-						border-bottom-color: #008549;
+						background-color: #F6FFFB;
+						border-color: #A2E9C9;
 					}
 
 					.has-error .form-control {
-						border-bottom-color: #D30029;
+						border-color: #FFB2B2;
+						background-color: #FFECEC;
+					}
+
+					.has-success .checkbox,
+					.has-success .radio {
+						color: inherit;
 					}
 
 				textarea.form-control {
@@ -1398,25 +1418,41 @@ body {
 				}
 
 				.input-group-addon {
-					border: none;
-					border-bottom: 2px solid #CED5E2;
 					border-radius: 0;
-					background-color: #EFF1F5;
 				}
 
+					.input-group-addon,
 					.has-error .input-group-addon,
 					.has-success .input-group-addon {
+						background-color: #eee;
+						border-color: #e0e0e0;
 						color: inherit;
-						background-color: #EFF1F5;
 					}
-			
-					.has-success .input-group-addon {
-						border-bottom-color: #008549;
+
+				.checkbox,
+				.radio {
+					margin-top: 0;
+					margin-bottom: 0;
+				}
+
+					.checkbox + .checkbox,
+					.radio + .radio {
+						margin-top: 5px;
 					}
-			
-					.has-error .input-group-addon {
-						border-bottom-color: #D30029;
+
+					.input-group-addon .checkbox,
+					.input-group-addon .radio {
+						line-height: 20px;
 					}
+
+					.input-group-addon .form-group {
+						margin-bottom: 0;
+					}
+
+						.input-group-addon .checkbox input,
+						.input-group-addon .radio input {
+							margin-top: 4px;
+						}
 
 			/* / Form group, control */
 
@@ -1426,8 +1462,9 @@ body {
 					border: none;
 					border-radius: 0;
 					background: #00A459;
-					font-size: 15px;
 					color: #fff;
+					padding-left: 18px;
+					padding-right: 18px;
 				}
 
 					.btn:hover,
@@ -1436,8 +1473,8 @@ body {
 					}
 
 					.btn.btn-large {
-						padding: 10px 30px;
-						font-size: 18px;
+						padding: 10px 20px;
+						font-size: 16px;
 					}
 
 					.btn:hover,
@@ -1494,6 +1531,20 @@ body {
 			/* / Button */
 
 		/* / Form */
+
+		/* Alert */
+		
+			.alert {
+				border: 1px solid transparent;
+			}
+
+				.alert.alert-warning {
+					background-color: #FFF9EC;
+					border-color: #FFF1D5;
+					color: #A37700;
+				}
+		
+		/* / Alert */
 	
 	/* / Bootstrap */
 
@@ -1513,6 +1564,7 @@ body {
 		text-align: left;
 		display: flex;
 		display: -webkit-flex;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 	}
 
 		.absolute-menu .col {

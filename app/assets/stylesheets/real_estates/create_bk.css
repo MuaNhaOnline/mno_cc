@@ -1,0 +1,123 @@
+/* Status */
+
+	.toggle-type-buttons {
+		margin-bottom: 10px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+		display: flex;
+	}
+		.toggle-type-buttons label {
+			display: block;
+			margin-bottom: 0;
+			flex-basis: 1px;
+			flex-grow: 1;
+		}
+
+		.toggle-type-buttons a {
+			background-color: #fff;
+			display: block;
+			height: 100%;
+			padding: 7px 10px 4px;
+			text-align: center;
+			color: inherit;
+			border-bottom: 3px solid transparent;
+			margin-bottom: 0;
+			font-weight: normal;
+			position: relative;
+		}
+
+			.toggle-type-buttons a:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 0;
+				right: 0;
+				background-color: #eee;
+				height: 100%;
+				width: 1px;
+			}
+
+				.toggle-type-buttons a:hover:after,
+				.toggle-type-buttons label:last-child a:after {
+					display: none;
+				}
+
+			.toggle-type-buttons input:checked + a {
+				border-bottom-color: #00A459;
+				background-color: #f8f8f8;
+			}
+
+				.toggle-type-buttons input:checked + a .action,
+				.toggle-type-buttons input + a .selected {
+					display: none;
+				}
+
+				.toggle-type-buttons input + a .action,
+				.toggle-type-buttons input:checked + a .selected {
+					display: initial;
+				}
+
+			.toggle-type-buttons input + a:hover,
+			.toggle-type-buttons input + a:focus,
+			.toggle-type-buttons input + a:active {
+				color: #fff;
+			}
+
+			.toggle-type-buttons input + a:hover,
+			.toggle-type-buttons input + a:focus {
+				background-color: #008347;
+			}
+
+			.toggle-type-buttons input + a:active {
+				background-color: #00D976;
+			}
+
+/* / Status */
+
+/* Menu list */
+
+	.menu-list-ctn {
+	}
+
+		.menu-list-ctn nav {
+			display: inline-block;
+			padding: 10px;
+			background-color: #fff;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+			counter-reset: menu_item;
+		}
+
+		.menu-list-ctn .title {
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 5px;
+			padding: 5px 10px;
+			text-align: center;
+		}
+
+		.menu-list-ctn a {
+			display: block;
+			padding: 5px 10px;
+			color: inherit;
+		}
+
+			.menu-list-ctn a.active {
+				color: #00A459;
+				font-weight: bold;
+			}
+
+			.menu-list-ctn a:before {
+				content: counter(menu_item) '. ';
+				counter-increment: menu_item;
+			}
+
+			.menu-list-ctn a:hover,
+			.menu-list-ctn a:focus {
+				color: #006437;
+				text-decoration: underline;
+			}
+
+			.menu-list-ctn a:active {
+				color: #00A459;
+			}
+
+/* / Menu list */

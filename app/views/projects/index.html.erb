@@ -117,7 +117,7 @@
 											</select>
 										</article>
 										<article class="form-group col-sm-12 col-md-12 col-lg-6">
-											<select class="form-control disabled-only" name="search[district]" data-toggled-element="district">
+											<select class="form-control disable-only" name="search[district]" data-toggled-element="district">
 												<option value="" hidden>Quận/huyện</option>
 												<option value="">Tất cả quận/huyện</option>
 												<% District.where(province_id: hcm_province.id).each do |district| %>

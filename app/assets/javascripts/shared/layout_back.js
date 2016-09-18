@@ -136,22 +136,6 @@ $(function () {
 		}
 	}
 
-	function dataURLToBlob(dataURL, type) {
-		var 
-			byteString = atob(dataURL.split(",")[1]),
-			ab = new ArrayBuffer(byteString.length),
-			ia = new Uint8Array(ab),
-			i;
-
-		for (i = 0; i < byteString.length; i++) {
-			ia[i] = byteString.charCodeAt(i);
-		}
-
-		return new Blob([ab], {
-			type: type
-		});
-	}
-
 // / Helper
 
 // Status animation

@@ -24,7 +24,9 @@ class RegistrationsController < ApplicationController
 			if @registration.save_with_params params[:re_registration]
 				response = {
 					status: 0,
-					result: Rails.application.routes.url_helpers.view_registration_path(id: @registration.id)
+					result: {
+						redirect: Rails.application.routes.url_helpers.view_registration_path(id: @registration.id)
+					} 
 				}
 			else
 				response = {

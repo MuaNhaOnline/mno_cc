@@ -31,25 +31,10 @@
 	@_hide_search_box	=	true
 %>
 
-<%= form_for(
-	@registration,
-	url: 			"/registrations/create/#{@registration.id}",
-	method: 		'POST',
-	html: 			{
-						id: 		'register_form',
-						class: 		'form'
-					}
-) do |f| %>
-	<%= f.field('hidden', :id) %>
-
-	<div class="container">
-		<div class="row">
-
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
-				<div class="box box-primary shadow-box">
-				</div>
-			</div>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+			<%= render partial: 'form', locals: { reg: @registration } %>
 		</div>
 	</div>
-
-<% end %>
+</div>

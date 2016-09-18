@@ -10,7 +10,7 @@ class PlanningStatusType < ActiveRecord::Base
 		
 		# Name
 		def display_name
-			@display_name ||= I18n.t("planning_status_type.text.#{name}")
+			@display_name ||= I18n.t("planning_status_type.name.#{name}")
 		end
 	
 	# / Attributes

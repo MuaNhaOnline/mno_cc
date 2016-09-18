@@ -111,9 +111,14 @@ class SystemMail < ActiveRecord::Base
 	# / Save
 
 	# Class attributes
-	
-		def self.i18n_value field, value
-			I18n.t("system_mail.values.#{field}.#{value}")
+
+		def self.i18n_value key, value, type = 'text'
+			case type
+			when 'text'
+				I18n.t "system_mail.values.#{key}.#{value}"
+			when 'count'
+				I18n.t "system_mail.values.#{key}", count: value
+			end
 		end
 	
 	# / Class attributes

@@ -373,70 +373,52 @@ class RealEstatesController < ApplicationController
 				@is_appraisal = @re.appraisal_type != 0
 			end
 
-			render layout: 'layout_back'
+			render 'create_bk', layout: 'front_layout'
 		end  
 
 		# Handle
-		# params: real_estate form
+		# params: id, real_estate form
 		def save
-			is_draft = params.has_key? :draft
-			re = params[:real_estate][:id].present? ? RealEstate.find(params[:real_estate][:id]) : RealEstate.new
 
 			if signed?
-				# If signed => save with current user
 				params[:real_estate][:user_id] = current_user.id
-
-				result = re.save_with_params(params[:real_estate], is_draft)
-
-				return render json: result if result[:status] != 0
-
-				render json: {
-					status: 0,
-					result: re.id, 
-					images: re.images.map{ |image| image.id }, 
-				}
+				params[:real_estate][:user_type] = 'user'
 			else
-				# If not signed => get contact info
-				contact_user = params[:contact][:id].present? ? ContactUserInfo.find(params[:contact][:id]) : ContactUserInfo.new
-
-				result = contact_user.save_with_params params[:contact], params[:contact][:id].present?
-				if result[:status] == 5
-					# If exists data => confirm
-					return render json: {
-						status: 5,
-						result: {
-							same_contact: result[:result].to_json(only: [:id]),
-							html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { code: result[:code], same_contact: result[:result] })
-						}
-					}
-				end
-
-				# Save cookie, session contact info
-				cookies[:contact_user_id] = {
-					value: contact_user.id,
-					expires: 3.months.from_now
-				}
-				session[:contact_user_id] = contact_user.id
-
-				# Save with contact user
+				contact_user = _save_contact_user_info params[:contact_info]
 				params[:real_estate][:user_id] = contact_user.id
 				params[:real_estate][:user_type] = 'contact_user'
-
-				result = re.save_with_params(params[:real_estate], is_draft)
-
-				return render json: result if result[:status] != 0
-
-				if params[:real_estate][:id].blank?
-					RealEstateMailer.active(re).deliver_later
-				end
-
-				render json: { 
-					status: 0, 
-					result: re.id, 
-					images: re.images.map{ |image| image.id }, 
-					secure_code: re.params['secure_code']
-				}
 			end
+
+			re = nil
+			result = nil
+			ActiveRecord::Base.transaction do
+				re = params[:id].present? ? RealEstate.find(params[:id]) : RealEstate.create
+				result 	= 	re.save_with_params(
+								params[:real_estate],
+								new_record?:	params[:id].blank?
+							)
+
+				if result[:status] != 0
+					raise ActiveRecord::Rollback
+				end
+			end
+
+			if result[:status] != 0
+				puts result
+				return render json: result
+			end
+
+			# Contact user create new
+			if re.user_type == 'contact_user' && params[:id].blank?
+				RealEstateMailer.active(re).deliver_later
+			end
+
+			render json: {
+				status: 0,
+				result: {
+					redirect: signed? ? _route_helpers.my_res_path : _route_helpers.res_path
+				} 
+			}
 
 			# Log
 			Log.create(

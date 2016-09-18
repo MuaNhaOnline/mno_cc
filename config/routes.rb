@@ -71,21 +71,24 @@ Rails.application.routes.draw do
 			get 'real_estates/floors/get_data_for_interact_view/:id' => 'real_estates#floors_get_data_for_interact_view'
 			get 'real_estates/floors/get_options_for_interact_view/:id' => 'real_estates#floors_get_options_for_interact_view'
 
-			get 'bat-dong-san/danh-sach' => 'real_estates#list', as: 're_list'
-			get 'bat-dong-san/danh-sach-:search' => 'real_estates#list', as: 're_list_by'
-			get 'bat-dong-san/cua-thanh-vien/:user_id' => 'real_estates#list', as: 're_list_of'
-			get 'bat-dong-san/dang-tin' => 'real_estates#create', as: 'create_re'
-			get 'bat-dong-san/dang-tin/:id' => 'real_estates#create', as: 'edit_re'
-			get 'bat-dong-san/dang-tin-tham-dinh(/:id)' => 'real_estates#create', appraisal: true
-			get 'bat-dong-san/chinh-sua(/:id)' => 'real_estates#create'
-			get 'bat-dong-san/cua-toi' => 'real_estates#my', as: 'my_res'
-			get 'bat-dong-san/quan-tam-cua-toi' => 'real_estates#my_favorite', as: 'my_favorite_res'
-			get 'bat-dong-san/quan-tam' => 'real_estates#my_favorite'
-			get 'bat-dong-san/kiem-duyet' => 'real_estates#pending', as: 'pending_res'
-			get 'bat-dong-san/quan-ly' => 'real_estates#manage', as: 'manage_res'
-			get 'bat-dong-san/tim-kiem' => 'real_estates#search', as: 'search_res'
 
-			get 'bat-dong-san/:full_slug.html' => 'real_estates#view', constraints: { full_slug: /(\w|-)*\d+/ }, as: 'view_re'
+			scope 'bat-dong-san', controller: 'real_estates' do
+				get 'danh-sach', 				action: 'list', 		as: 're_list'
+				get 'danh-sach-:search', 		action: 'list', 		as: 're_list_by'
+				get 'cua-thanh-vien/:user_id', 	action: 'list', 		as: 're_list_of'
+				get 'dang-tin', 				action: 'create', 		as: 'create_re'
+				get 'chinh-sua/:id', 			action: 'create', 		as: 'edit_re'
+				get 'dang-tin-tham-dinh(/:id)', action: 'create', 		appraisal: true
+				get 'cua-toi', 					action: 'my', 			as: 'my_res'
+				get 'quan-tam-cua-toi', 		action: 'my_favorite', 	as: 'my_favorite_res'
+				get 'kiem-duyet', 				action: 'pending',		as: 'pending_res'
+				get 'quan-ly', 					action: 'manage',		as: 'manage_res'
+				get 'tim-kiem', 				action: 'search', 		as: 'search_res'
+				get 'kich-hoat/:id',			action:	'active',		as:	'active_re'
+				get 'xoa/:id',					action:	'delete',		as:	'delete_re'
+			end
+
+			get 'bat-dong-san/:full_slug(.html)' => 'real_estates#view', constraints: { full_slug: /(\w|-)*\d+/ }, as: 'view_re'
 
 			get 'bat-dong-san(/:action(/:id))', controller: 'real_estates', action: 'index', as: 'res'
 			get 'real_estates(/:action(/:id))', controller: 'real_estates', action: 'index'

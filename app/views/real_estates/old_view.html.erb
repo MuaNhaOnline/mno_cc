@@ -341,7 +341,7 @@
 			<div class="user-info row">
 				<div class="col-xs-4 col-sm-2 avatar">
 					<% if @re.user_id == 0 %>
-						<img class="img-circle" src="/assets/users/big/default.png" alt="<%= @re.user_full_name %>">
+						<img class="img-circle" src="/assets/users/big/default.png">
 					<% else %>
 						<%= user_avatar @re.user, style: 'big' %>
 					<% end %>

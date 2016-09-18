@@ -13,7 +13,7 @@
 	params: 
 =end
 
-	@_title = 'Trang chủ'
+	@_title = t('.page_title')
 	@_description = 'MuanhaOnline - Đăng tin nhà đất miễn phí. Tìm kiếm nhà đất chính chủ, liên hệ dự án trực tiếp với chủ đầu tư.'
 %>
 
@@ -37,7 +37,13 @@
 				<form class="form" action="<%= search_res_path %>" method="get" data-object="search-form">
 					<div class="btn-ctn">
 						<input class="form-control" name="search[keyword]" placeholder="<%= t '.search.placeholder' %>" value="" id="search_keyword" />
-						<button class="fa fa-search btn btn-green"></button>
+						<button class="btn btn-green">
+							<span class="fa fa-search"></span>
+							<%= t 'global.text.search' %>
+						</button>
+					</div>
+					<div class="exam">
+						<%= t '.search.exam' %>
 					</div>
 				</form>
 				<!-- <a href="javascript:;" class="search-type map-search">

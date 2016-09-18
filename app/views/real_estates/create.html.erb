@@ -613,7 +613,7 @@
 											<option <%= 'selected' if @re.shape == 2 %> data-on="shape" value="2"><%= t 'real_estate.attribute.shape_less' %></option>
 										</select>
 									</article>
-									<article class="form-group col-ss-6 disabled-only" data-toggled-element="shape">
+									<article class="form-group col-ss-6 disable-only" data-toggled-element="shape">
 										<label class="control-label" for="shape_width">
 											<%= t 'real_estate.attribute.shape_width' %>
 											<sup class="required-label"></sup>
@@ -1009,97 +1009,30 @@
 							%>
 							<input type="hidden" name="secure_code" id="secure_code" value="<%= @re.params['secure_code'] %>" />
 
-							<!-- User full name -->
-
-							<% if left_contact? %>
-								<div class="row" data-toggled-element="default-contact">
-									<input type="hidden" name="contact[id]" value="<%= current_left_contact.id %>" />
-									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<label class="control-label">
-											Tên
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required" class="form-control" name="contact[default_name]" value="<%= current_left_contact.name %>" />
-									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<label class="control-label">
-											Email
-										</label>
-										<input class="form-control" name="contact[default_email]" readonly="true" tabindex="-1" value="<%= current_left_contact.email %>" />
-									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<label class="control-label">
-											Số điện thoại
-										</label>
-										<input class="form-control" name="contact[default_phone_number]" readonly="true" tabindex="-1" value="<%= current_left_contact.phone_number %>" />
-									</article>
-									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-										<div class="radio margin-0">
-											<label>
-												<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
-												<a style="color: inherit;">Không phải tôi</a>
-											</label>
-										</div>
-									</article>
-								</div>
-								<div class="row off" data-toggled-element="new-contact">
-									<input type="hidden" name="contact[id]" />
-									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<label class="control-label">
-											Tên
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required" class="form-control" name="contact[name]" />
-									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<label class="control-label">
-											Email
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required email" class="form-control" placeholder="Email" name="contact[email]" />
-									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<label class="control-label">
-											Số điện thoại
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required multi-phone" class="form-control" placeholder="Điện thoại" name="contact[phone_number]" />
-									</article>
-									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-										<div class="radio margin-0">
-											<label>
-												<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
-												<a style="color: inherit;">Quay lại</a>
-											</label>
-										</div>
-									</article>
-								</div>
-							<% else %>
-								<div class="row">
-									<input type="hidden" name="contact[id]" />
-									<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<label class="control-label">
-											Tên
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required" class="form-control" name="contact[name]" />
-									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<label class="control-label">
-											Email
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required email" class="form-control" name="contact[email]" />
-									</article>
-									<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
-										<label class="control-label">
-											Số điện thoại
-											<sup class="required-label"></sup>
-										</label>
-										<input data-constraint="required multi-phone" class="form-control" name="contact[phone_number]" />
-									</article>
-								</div>
-							<% end %>
+							<div class="row">
+								<input type="hidden" name="contact[id]" />
+								<article class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<label class="control-label">
+										Tên
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required" class="form-control" name="contact_info[name]" />
+								</article>
+								<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									<label class="control-label">
+										Email
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required email" class="form-control" name="contact_info[email]" />
+								</article>
+								<article class="form-group col-xs-6 col-sm-6 col-md-6 col-lg-6">
+									<label class="control-label">
+										Số điện thoại
+										<sup class="required-label"></sup>
+									</label>
+									<input data-constraint="required integer" class="form-control" name="contact_info[phone_number]" />
+								</article>
+							</div>
 
 						</section>
 					</article>

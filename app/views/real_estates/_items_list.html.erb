@@ -146,12 +146,16 @@
 								<section>
 									<% if re.display_sell_price.present? %>
 										<section class="price sell-price-text">
-											<%= re.display_sell_price %>
+											<span title="<%= RealEstate.i18n_attribute 'sell_price' %>">
+												<%= re.display_sell_price %>
+											</span>
 										</section>
 									<% end %>
 									<% if re.display_rent_price.present? %>
 										<section class="price rent-price-text">
-											<%= re.display_rent_price %>
+											<span title="<%= RealEstate.i18n_attribute 'rent_price' %>">
+												<%= re.display_rent_price %>
+											</span>
 										</section>
 									<% end %>
 								</section>

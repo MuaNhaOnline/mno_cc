@@ -8,6 +8,7 @@ vi:
       close: Đóng
       submit: Hoàn tất
       finish: Hoàn tất
+      view_result: Xem kết quả
       delete: Xóa
       send: Gửi
       search: Tìm kiếm
@@ -15,6 +16,9 @@ vi:
       all: Tất cả
       read_more: Xem thêm
       edit: Sửa
+      require: Bắt buộc
+      other: Khác
+      custom_input: Nhập khác
     paginator:
       first: Trang đầu
       last: Trang cuối
@@ -24,8 +28,14 @@ vi:
         to: Đến
       billion: Tỷ
       million: Triệu
+      meter: m
       square_meter: m2
       square_meter_html: m<sup>2</sup>
+      num_of_floor: tầng
+      pos_of_floor: Tầng
+      num_of_room: phòng
+      pos_of_year: Năm
+      num_of_year: năm
   front_layout:
     header:
       facebook: hoặc
@@ -56,11 +66,18 @@ vi:
           my: Danh sách của tôi
     search_box:
       title: Tìm kiếm
+      keyword_title: Nhập từ khóa tìm kiếm
       keyword_placeholder: Đường, quận, tỉnh/thành phố...
+      purpose_title: Chọn loại hình giao dịch
+      re_type_title: Chọn loại bất động sản
       all_types: Tất cả loại
+      province_title: Chọn tỉnh/thành phố
       all_provinces: Tất cả tỉnh/thành phố
+      district_title: Chọn quận/huyện
       all_districts: Tất cả quận/huyện
+      from_price_title: Chọn giá thấp nhất
       from_price_text: Giá thấp nhất
+      to_price_title: Chọn giá cao nhất
       to_price_text: Giá cao nhất
       from_million:
         one: Từ %{count} triệu
@@ -74,7 +91,9 @@ vi:
       to_billion:
         one: Đến %{count} tỷ
         other: Đến %{count} tỷ
+      from_area_title: Diện tích cao nhất
       from_area_text: Diện tích thấp nhất
+      to_area_title: Diện tích cao nhất
       to_area_text: Diện tích cao nhất
       from_square_meter:
         one: Từ %{count}m2
@@ -152,9 +171,11 @@ vi:
           district: Quản lý quận/huyện
   home:
     index:
+      page_title: Trang chủ
       search:
         title_html: Chào mừng bạn đến với<br />MuanhaOnline.vn
         placeholder: Đường, quận, tỉnh/thành phố...
+        exam: 'Ví dụ: Nhà phố quận 2, cách mạng tháng 8, nhà bán bình chánh'
       info:
         title: Tiếp cận thông tin chính chủ, trực tiếp
         re_title: Nhà chính chủ
@@ -238,6 +259,120 @@ vi:
     search:
       page_title: Kết quả tìm kiếm
       box_title: Bất động sản phù hợp
+    create_bk:
+      status_box:
+        click: nhấn để chọn
+        selected: đang chọn
+        is_full_true_description: Chi tiết. Gồm nhiều thông tin cụ thể. Tuy nhiên được ưu tiên hiển thị. Nên dùng
+        is_full_false_description: Nhanh. Chi gồm các thông tin cơ bản. Bạn có thể mô tả thêm ở mục giới thiệu
+      trade_box:
+        box_title: Thông tin giao dịch
+        purpose_placeholder: Chọn hình thức giao dịch
+        purpose_title: Chọn hình thức giao dịch
+        currency_title: Chọn loại tiền tệ
+        sell_price_title_html: Nhập giá rao bán</br><small>Để trống nếu muốn thỏa thuận</small>
+        rent_price_title_html: Nhập giá cho thuê</br><small>Để trống nếu muốn thỏa thuận</small>
+        transfer_price_title_html: Nhập giá sang nhượng</br><small>Để trống nếu muốn thỏa thuận</small>
+        sell_price_unit: Giá bán theo
+        rent_price_unit: Giá cho thuê theo
+        is_negotiable_title: Đánh dấu nếu bạn chấp nhận thương lượng giá
+      position_box:
+        box_title: Vị trí
+        address_number_placeholder: 208/32
+        address_number_title: 'Nhập số nhà'
+        location_label: Đường, phường, quận, thành phố
+        location_placeholder: Nguyễn Trãi, Quận 5, Tp. Hồ Chí Minh
+        location_title_html: Nhập hoặc kéo bản đồ bên dưới để tìm đường
+        location_tip: Nhập để tìm kiếm hoặc chọn vị trí ở bản đồ bên dưới (nên dùng)
+        is_alley_label: 'Hẻm - Hẻm rộng:'
+        is_alley_title: Đánh dấu nếu BĐS trong hẻm
+        alley_width_title: Nhập chiều rộng của hẻm
+        alley_width_placeholder: '4.5'
+        private_street_title_html: Đánh dấu nếu là đường nôi bộ<br /><small>Thường là đường thuộc khu dự án</small>
+        public_street_title_html: Đánh dấu nếu là đường chính<br /><small>Đa số là đường chính</small>
+      detail_box:
+        box_title: Thông tin chi tiết
+        re_type_title: Chọn loại bất động sản
+        re_type_placeholder: Chọn loại bất động sản
+        house_group: Nhà
+        apartment_group: Căn hộ
+        land_group: Đất
+        space_group: Mặt bằng
+        building_name_title: Nhập tên tòa nhà
+        building_name_placeholder: Chung cư Lê Thành block A1
+        area_label: Diện tích
+        area_title: Nhập diện tích
+        area_placeholder: '110'
+        using_area_title: Là tổng diện tích đất có thể sử dụng, bao gồm đất, các tầng, ban công...
+        using_area_placeholder: '260'
+        campus_area_title: Là tổng diện tích đất có
+        campus_area_placeholder: '110'
+        constructional_area_title: Là tổng diện tích đất được xây dựng
+        constructional_area_placeholder: '80'
+        width_x_title: Nhập chiều ngang
+        width_x_placeholder: '5'
+        width_y_title: Nhập chiều dài
+        width_y_placeholder: '20'
+        size_not_satisfactory_html: Kích thước không thỏa. <b>Rộng <span class="code-font">x</span> Dài <span class="code-font"><=</span> Diện tích</b><br><small>(Không bắt buộc thay đổi)</small>
+        shape_title_html: 'Nở hậu: Mặt sau rộng hơn mặt trước<br />Tóp hậu: Mặt sau hẹp hơn mặt trước'
+        shape_width_title_html: 'Tóp hậu: Nhỏ hơn chiều ngang<br />Nở hậu: Lớn hơn chiều ngang'
+        shape_width_placeholder: '5.5'
+        num_of_floor_title: Không gồm tầng trệt, tầng lửng
+        num_of_floor_placeholder: '3'
+        pos_of_floor_title: Nhập 0 nếu là tầng trệt
+        pos_of_floor_placeholder: '6'
+        bedroom_number_title: Chọn số lượng phòng ngủ
+        bedroom_number_placeholder: Chọn số phòng ngủ
+        restroom_number_title: Chọn số lượng phòng tắm
+        restroom_number_placeholder: Chọn số phòng tắm
+        direction_title: Chọn hướng
+        constructional_level_title: Chọn loại nhà
+        constructional_level_placeholder: Chọn loại nhà
+        build_year_title: Chọn năm xây dựng
+        build_year_placeholder: Chọn năm xây dựng
+        constructional_quality_title: Chọn tình trạng hiện tại
+        constructional_quality_placeholder: Chọn tình trạng
+      description_box:
+        box_title: Giới thiệu
+        title_title: Nhập tiêu đề
+        title_placeholder: Nhà phố mặt tiền quận 1, tiện kinh doanh
+        image_description: Bạn có thể cung cấp 5 hình. Hãy chọn hình đại diện bằng cách nhấp vào hình
+      doc_box:
+        box_title: Thông tin thêm
+        legal_record_type_title: Chọn loại giấy tờ
+        legal_record_type_placeholder: Chọn loại giấy tờ
+        custom_legal_record_type_title: Nhập loại giấy tờ
+        custom_legal_record_type_placeholder: Nhập loại giấy tờ
+        planning_status_type_title: Chọn tình trạng quy hoạch
+        planning_status_type_placeholder: Chọn tình trạng
+        custom_planning_status_type_title: Nhập tình trạng quy hoạch
+        custom_planning_status_type_placeholder: Nhập tình trạng
+      utility_box:
+        box_title: Tiện ích
+      rating_box:
+        box_title: Đánh giá
+        custom_advantage_title_html: Nhập thêm các điểm tốt khác<br/><small>Cách nhau bằng dấu ','</small>
+        custom_advantage_placeholder: Điểm tốt khác
+        custom_disadvantage_title_html: Nhập thêm các điểm xấu khác<br/><small>Cách nhau bằng dấu ','</small>
+        custom_disadvantage_placeholder: Điểm xấu khác
+      contact_box:
+        box_title: Thông tin liên hệ
+        name_title: Nhập tên của bạn
+        name_label: Tên
+        name_placeholder: Tên của bạn
+        email_title: Email được sử dụng để kích hoạt. Cần nhập đúng email đang sử dụng
+        email_label: Email
+        email_placeholder: email_kich_hoat@gmail.com
+        phone_number_title: Nhập số điện thoại để liên hệ
+        phone_number_label: Số điện thoại
+        phone_number_placeholder: 09xx xxx xxx
+      finish_box:
+        finish_title_html: Hoàn tất đăng tin<br /><small>Cần chờ duyệt trước khi có thể hiển thị</small>
+        save_draft: Lưu tạm
+        save_draft_title_html: Lưu tạm, bạn có thể tiếp tục tin đăng<br /><small>Không bắt buộc bất kỳ trường nào</small>
+      list_box:
+        box_title: Danh mục
+
     _notification_mini_item:
       create: '%{name} đã tin đăng bất động sản mới'
       edit: '%{name} đã sửa tin bất động sản'
@@ -383,35 +518,88 @@ vi:
     text: 'Quận/Huyện'
   real_estate:
     attributes:
-      short_address: Địa chỉ
+      address: Địa chỉ
+      address_number: Số nhà
+      advantage: Điểm tốt
+      area: Diện tích
+      bedroom: Phòng ngủ
+      bedroom_number: Số phòng ngủ
+      build_year: Năm xây dựng
+      building_name: Tên tòa nhà/chung cư
+      campus_area: Diện tích khuôn viên
+      constructional_area: Diện tích xây dựng
+      constructional_level: Loại nhà
+      constructional_quality: Tình trạng
+      created_at: Thời gian đăng
+      currency: Loại tiền tệ
+      description: Mô tả
+      direction: Hướng
+      disadvantage: Điểm xấu
+      floor: Tầng
       full_address: Địa chỉ
       id: Mã
-      created_at: Thời gian đăng
-      real_estate_type: Loại
-      area: Diện tích
-      campus_area: DT khuôn viên
-      constructional_area: DT xây dựng
-      using_area: DT sử dụng
-      bedroom: Phòng ngủ
-      restroom: Phòng tắm
-      direction: Hướng
+      is_alley: Mặt đường
+      is_negotiable: Giá có thể thương lượng
       legal_record: Giấy tờ
-      building_name: Tòa nhà
-      floor: Tầng
+      legal_record_type: Giấy tờ
+      num_of_floor: Số tầng
+      planning_status_type: Tình trạng quy hoạch
+      pos_of_floor: Tầng thứ
       position: Vị trí
-      width: Kích thước
-      constructional_level: Loại
-      constructional_quality: Tình trạng
-      planning_status: Tình trạng quy hoạch
-      description: Mô tả
       property_utility: Tiện ích bất động sản
+      purpose: Hình thức giao dịch
+      real_estate_type: Loại
       region_utility: Tiện ích khu vực
-      advantage: Điểm tốt
-      disadvantage: Điểm xấu
-    re_registration:
-      attributes:
-        purpose: Nhu cầu
-        real_estate_type: Loại bất động sản
+      rent_price: Giá cho thuê
+      rent_price_unit: Giá cho thuê theo
+      restroom: Phòng tắm
+      restroom_number: Số phòng tắm
+      sell_price: Giá bán
+      sell_price_unit: Giá bán theo
+      shape: Hình dáng
+      shape_width: Kích thước mặt hậu
+      short_address: Địa chỉ
+      street_type: Loại đường
+      title: Tiêu đề
+      transfer_price: Giá sang nhượng
+      using_area: Diện tích sử dụng
+      width: Kích thước
+      width_x: Chiều ngang
+      width_y: Chiều dài
+      image: Hình ảnh
+    values:
+      bedroom:
+        zero: 'Không có phòng ngủ'
+        one: '1 phòng ngủ'
+        other: '%{count} phòng ngủ'
+        many: 'Hơn 4 phòng ngủ'
+      restroom:
+        zero: 'Không có phòng tắm'
+        one: '1 phòng tắm'
+        other: '%{count} phòng tắm'
+        many: 'Hơn 4 phòng tắm'
+      area: 'Diện tích: %{count}m2'
+      area_html: 'Diện tích: %{count}m<sup>2<sup>'
+      is_alley:
+        'true': Hẻm
+        'false': Mặt tiền
+      street_type:
+        '1': Đường nội bộ
+        '2': Đường chính
+      shape:
+        '0': 'Bình thường'
+        '1': 'Tóp hậu'
+        '2': 'Nở hậu'
+      is_full:
+        'true': Tin đầy đủ
+        'false': Tin nhanh
+      constructional_quality:
+        '1': 'Đang xuống cấp'
+        '2': 'Còn sử dụng tốt'
+        '3': 'Còn mới'
+        '4': 'Rất mới'
+      price:
+        empty: 'Giá thỏa thuận'
 
     # Sẽ bỏ
     attribute:
@@ -553,6 +741,138 @@ vi:
       max_rent_price: Giá thuê tối đa
       min_area: Diện tích tối thiểu
       max_area: Diện tích tối đa
+  unit:
+    name:
+      area: 'Tổng diện tích'
+      display_area: ''
+      square_meter: 'm2'
+      display_square_meter: '/m<sup>2</sup>'
+      square_meter_per_month: 'm2/tháng'
+      display_square_meter_per_month: '/m<sup>2</sup>/tháng'
+      square_meter_per_year: 'm2/năm'
+      display_square_meter_per_year: '/m<sup>2</sup>/năm'
+      month: 'Tổng diện tích/tháng'
+      display_month: '/tháng'
+      year: 'Tổng diện tích/năm'
+      display_year: '/năm'
+      per: 'Căn'
+      display_per: '/căn'
+      platform: 'Nền'
+      display_platform: '/nền'
+    text:
+      area: 'Tổng diện tích'
+      display_area: ''
+      square_meter: 'm2'
+      display_square_meter: '/m<sup>2</sup>'
+      square_meter_per_month: 'm2/tháng'
+      display_square_meter_per_month: '/m<sup>2</sup>/tháng'
+      square_meter_per_year: 'm2/năm'
+      display_square_meter_per_year: '/m<sup>2</sup>/năm'
+      month: 'Tổng diện tích/tháng'
+      display_month: '/tháng'
+      year: 'Tổng diện tích/năm'
+      display_year: '/năm'
+      per: 'Căn'
+      display_per: '/căn'
+      platform: 'Nền'
+      display_platform: '/nền'
+  direction:
+    text:
+      non: 'Không xác định'
+      east: 'Đông'
+      west: 'Tây'
+      south: 'Nam'
+      north: 'Bắc'
+      north_west: 'Tây bắc'
+      south_west: 'Tây nam'
+      north_east: 'Đông bắc'
+      south_east: 'Đông nam'
+    name:
+      non: 'Không xác định'
+      east: 'Đông'
+      west: 'Tây'
+      south: 'Nam'
+      north: 'Bắc'
+      north_west: 'Tây bắc'
+      south_west: 'Tây nam'
+      north_east: 'Đông bắc'
+      south_east: 'Đông nam'
+  legal_record_type:
+    name:
+      red: 'Sổ đỏ'
+      pink: 'Sổ hồng'
+    text:
+      red: 'Sổ đỏ'
+      pink: 'Sổ hồng'
+  planning_status_type:
+    name:
+      stable: 'Ổn định'
+      part: 'Một phần'
+      full: 'Toàn bộ'
+    text:
+      stable: 'Ổn định'
+      part: 'Một phần'
+      full: 'Toàn bộ'
+  region_utility:
+    name:
+      n_1: 'Siêu thị'
+      n_2: 'Chợ'
+      n_3: 'Bệnh viện'
+      n_4: 'Công viên'
+      n_5: 'Khu vui chơi'
+      n_6: 'Bến xe'
+      n_7: 'Khu dân cư'
+      n_8: 'Khu kinh doanh'
+    text:
+      n_1: 'Siêu thị'
+      n_2: 'Chợ'
+      n_3: 'Bệnh viện'
+      n_4: 'Công viên'
+      n_5: 'Khu vui chơi'
+      n_6: 'Bến xe'
+      n_7: 'Khu dân cư'
+      n_8: 'Khu kinh doanh'
+  property_utility:
+    name:
+      n_1: 'Tầng hầm'
+      n_2: 'Tầng lửng'
+      n_3: 'Sân thượng'
+      n_4: 'Gara ôtô'
+      n_5: 'Thang máy'
+      n_6: 'Hồ bơi'
+    text:
+      n_1: 'Tầng hầm'
+      n_2: 'Tầng lửng'
+      n_3: 'Sân thượng'
+      n_4: 'Gara ôtô'
+      n_5: 'Thang máy'
+      n_6: 'Hồ bơi'
+  advantage:
+    name:
+      n_1: 'Hẻm thông'
+      n_2: 'Có hai mặt đường chính'
+      n_3: 'Có hai mặt hẻm'
+      n_4: 'Có một mặt đường chính và một mặt hẻm'
+      n_5: 'Tiện làm quán cafe, nhà hàng, khách sạn'
+    text:
+      n_1: 'Hẻm thông'
+      n_2: 'Có hai mặt đường chính'
+      n_3: 'Có hai mặt hẻm'
+      n_4: 'Có một mặt đường chính và một mặt hẻm'
+      n_5: 'Tiện làm quán cafe, nhà hàng, khách sạn'
+  disadvantage:
+    name:
+      n_1: 'Khu quy hoạch treo'
+      n_2: 'Gần chùa, nhà  thờ, tang lễ'
+      n_3: 'Đường hẻm đâm thẳng vào nhà'
+      n_4: 'Gần chân cầu, trụ điện, ống cống'
+      n_5: 'Tường chung không thể xây mới'
+    text:
+      n_1: 'Khu quy hoạch treo'
+      n_2: 'Gần chùa, nhà  thờ, tang lễ'
+      n_3: 'Đường hẻm đâm thẳng vào nhà'
+      n_4: 'Gần chân cầu, trụ điện, ống cống'
+      n_5: 'Tường chung không thể xây mới'
 
 
   layout:
@@ -597,82 +917,10 @@ vi:
       residential_land: 'Đất thổ cư'
       vacant_land: 'Đất trồng'
       other_land: 'Đất khác'
-  direction:
-    text:
-      non: 'Không xác định'
-      east: 'Đông'
-      west: 'Tây'
-      south: 'Nam'
-      north: 'Bắc'
-      north_west: 'Tây bắc'
-      south_west: 'Tây nam'
-      north_east: 'Đông bắc'
-      south_east: 'Đông nam'
-  legal_record_type:
-    text:
-      red: 'Sổ đỏ'
-      pink: 'Sổ hồng'
-      other: 'Khác'
-  planning_status_type:
-    text:
-      stable: 'Ổn định'
-      part: 'Một phần'
-      full: 'Toàn bộ'
-      other: 'Khác'
-  region_utility:
-    text:
-      n_1: 'Siêu thị'
-      n_2: 'Chợ'
-      n_3: 'Bệnh viện'
-      n_4: 'Công viên'
-      n_5: 'Khu vui chơi'
-      n_6: 'Bến xe'
-      n_7: 'Khu dân cư'
-      n_8: 'Khu kinh doanh'
-  property_utility:
-    text:
-      n_1: 'Tầng hầm'
-      n_2: 'Tầng lửng'
-      n_3: 'Sân thượng'
-      n_4: 'Gara ôtô'
-      n_5: 'Thang máy'
-      n_6: 'Hồ bơi'
-  advantage:
-    text:
-      n_1: 'Hẻm thông'
-      n_2: 'Có hai mặt đường chính'
-      n_3: 'Có hai mặt hẻm'
-      n_4: 'Có một mặt đường chính và một mặt hẻm'
-      n_5: 'Tiện làm quán cafe, nhà hàng, khách sạn'
-  disadvantage:
-    text:
-      n_1: 'Khu quy hoạch treo'
-      n_2: 'Gần chùa, nhà  thờ, tang lễ'
-      n_3: 'Đường hẻm đâm thẳng vào nhà'
-      n_4: 'Gần chân cầu, trụ điện, ống cống'
-      n_5: 'Tường chung không thể xây mới'
   street_type:
     text:
       public: 'Đường chính'
       private: 'Đường nội bộ'
-  unit:
-    text:
-      area: 'Tổng diện tích'
-      display_area: ''
-      square_meter: 'm2'
-      display_square_meter: '/m<sup>2</sup>'
-      square_meter_per_month: 'm2/tháng'
-      display_square_meter_per_month: '/m<sup>2</sup>/tháng'
-      square_meter_per_year: 'm2/năm'
-      display_square_meter_per_year: '/m<sup>2</sup>/năm'
-      month: 'Tổng diện tích/tháng'
-      display_month: '/tháng'
-      year: 'Tổng diện tích/năm'
-      display_year: '/năm'
-      per: 'Căn'
-      display_per: '/căn'
-      platform: 'Nền'
-      display_platform: '/nền'
   user:
     attribute:
       account_box: 'Thông tin tài khoản'

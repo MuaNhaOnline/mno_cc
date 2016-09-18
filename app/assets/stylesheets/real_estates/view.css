@@ -281,9 +281,9 @@ main {
 	}
 
 		.buttons-container .btn {
-			float: left;
+			/*float: left;*/
 			display: block;
-			width: 50%;
+			/*width: 50%;*/
 			padding: 0;
 			height: 50px;
 			line-height: 50px;

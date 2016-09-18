@@ -8,6 +8,23 @@
 
 class RealEstate < ActiveRecord::Base
 
+	# Constant
+		
+		# Street type
+		PRIVATE_STREET 	=	1
+		PUBLIC_STREET 	=	2
+		# Shape
+		NORMAL_SHAPE 	=	0
+		LESS_SHAPE 		=	1
+		GREATER_SHAPE 	=	2
+		# Quality
+		BEST_QUALITY	=	4
+		NEW_QUALITY		=	3
+		NORMAL_QUALITY	=	2
+		LOW_QUALITY		=	1
+
+	# / Constant
+
 	# PgSearch
 
 		include PgSearch
@@ -105,9 +122,15 @@ class RealEstate < ActiveRecord::Base
 		validate :custom_validate
 
 		def custom_validate
+			return if is_draft
+			
 			if block_real_estate_group_id.present?
 				return
 			end
+
+			# Reload fields
+			fields true
+			
 			# Purpose
 			if fields.include?(:purpose) && purpose.blank?
 				errors.add :purpose, 'Mục đích không thể bỏ trống'
@@ -121,11 +144,11 @@ class RealEstate < ActiveRecord::Base
 			end
 
 			# Unit
-			if fields.include?(:sell_unit) && sell_unit.blank?
+			if fields.include?(:sell_unit) && sell_price.present? && sell_unit.blank?
 				errors.add :sell_unit, 'Đơn vị tính giá bán không thể bỏ trống'
 				return
 			end
-			if fields.include?(:rent_unit) && rent_unit.blank?
+			if fields.include?(:rent_unit) && rent_price.present? && rent_unit.blank?
 				errors.add :rent_unit, 'Đơn vị tính giá cho thuê không thể bỏ trống'
 				return
 			end
@@ -380,6 +403,7 @@ class RealEstate < ActiveRecord::Base
 				assign_attributes images: _images
 
 				assign_attributes params.permit [
+					:is_full, :is_draft,
 					:title, :description, :purpose_id, :sell_price, :sell_price_text, :rent_price, :rent_price_text, 
 					:currency_id, :sell_unit_id, :rent_unit_id, :is_negotiable, :province_id, :district_id, :ward_id, :street_id, 
 					:address_number, :street_type, :is_alley, :real_estate_type_id, :building_name,
@@ -396,32 +420,24 @@ class RealEstate < ActiveRecord::Base
 
 		# Save with params
 
-			def save_with_params params, is_draft = false
-				# Author
-				# Unsigned user can't save draft
-				return { status: 6 } if is_draft && !User.signed?
-				if new_record?
-					return { status: 6 } if User.current.cannot? :create, RealEstate
-				else
-					return { status: 6 } if User.current.cannot? :edit, self
-				end
+			def save_with_params re_params, params = {}
+				# Params
+				return { status: 7 } if !params.has_key? :new_record?
 
-				assign_attributes_with_params params
+				assign_attributes_with_params re_params
 
 				other_params = {
-					is_draft: is_draft,
-					is_full: params[:is_full],
 					is_pending: true,
 					slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.name))
 				}
 
-				if user_type == 'contact_user' && new_record?
+				if user_type == 'contact_user' && params[:new_record?]
 					other_params[:is_active] = false
-					other_params[:params] = {}
+					other_params[:params] ||= {}
 					other_params[:params]['secure_code'] = SecureRandom.base64
 				end
 
-				unless new_record?
+				unless params[:new_record?]
 					other_params[:zoho_is_changed] = true
 				end
 
@@ -789,7 +805,7 @@ class RealEstate < ActiveRecord::Base
 									with :purpose_code, ['sell', 'rent', 'sell_rent']
 								when 'transfer'
 									with :purpose_code, 'transfer'
-									use_price = 'rent'
+									use_price = 'sell'
 								else
 									with :purpose_code, purpose.code
 									use_price = purpose.code
@@ -1357,6 +1373,7 @@ class RealEstate < ActiveRecord::Base
 				:title, :description]
 
 			if re.purpose.present?
+				fields << :sell_price if re.purpose.code == 'transfer'
 				fields << :sell_price << :sell_unit if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
 				fields << :rent_price << :rent_unit if re.purpose.code == 'rent' || re.purpose.code == 'sell_rent'
 			end
@@ -1366,7 +1383,7 @@ class RealEstate < ActiveRecord::Base
 				fields << :alley_width if re.is_alley
 				fields << :real_estate_type << :region_utility << :advantage << :disadvantage
 
-				if re.purpose.code == 'sell' || re.purpose.code == 'sell_rent'
+				if re.purpose.present? && (re.purpose.code == 'sell' || re.purpose.code == 'sell_rent')
 					fields << :legal_record_type << :planning_status_type
 					fields << :custom_legal_record_type if re.legal_record_type_id == 0
 					fields << :custom_planning_status_type if re.planning_status_type_id == 0
@@ -1378,11 +1395,11 @@ class RealEstate < ActiveRecord::Base
 							fields << :campus_area << :shape << :width_x << :width_y
 						when 'space', 'house'
 							fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
-								:constructional_level << :constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
+								:constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
 							if re.real_estate_type.options['group'] == 'house'
 								fields << :floor_number
-								if re.real_estate_type.name == 'villa'
-									fields.delete :constructional_level
+								if re.real_estate_type.name == 'town_house'
+									fields << :constructional_level
 								end
 							end
 							if re.real_estate_type.name == 'office'
@@ -1445,6 +1462,15 @@ class RealEstate < ActiveRecord::Base
 		def self.i18n_attribute key
 			I18n.t 'real_estate.attributes.' + key
 		end
+
+		def self.i18n_value key, value, type = 'text'
+			case type
+			when 'text'
+				I18n.t "real_estate.values.#{key}.#{value}"
+			when 'count'
+				I18n.t "real_estate.values.#{key}", count: value
+			end
+		end
 	
 	# / Class attributes
 
@@ -1452,11 +1478,13 @@ class RealEstate < ActiveRecord::Base
 
 		serialize :params, JSON
 		serialize :floor_infos_text, JSON
+		attr_accessor :location
 
 		# reverse_geocoded_by :lat, :lng
 
 		# Fields
-		def fields
+		def fields reload = false
+			@fields = false if reload
 			@fields ||= RealEstate.get_fields self
 		end
 

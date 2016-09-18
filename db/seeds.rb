@@ -179,6 +179,9 @@ Purpose.create [
 
 RealEstateType.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE real_estate_types_id_seq RESTART WITH 1')
+=begin
+	18 (3)
+=end
 RealEstateType.create [
 	{ 
 		id: 9, 
@@ -248,16 +251,6 @@ RealEstateType.create [
 		},
 		order: 6,
 		meta_search: 'Đất nông nghiệp'
-	},
-	{ 
-		id: 3, 
-		name: 'other_land', 
-		code: '|land|', 
-		options: {
-			group: 'land'
-		},
-		order: 7,
-		meta_search: 'Đất khác'
 	},
 	{ 
 		id: 15, 

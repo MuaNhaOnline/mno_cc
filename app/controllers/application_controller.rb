@@ -7,6 +7,7 @@
 		4: Need sign in
 		5: Error of business
 		6: Permission
+		7: Syntax error
 =end
 
 class ApplicationController < ActionController::Base
@@ -21,7 +22,7 @@ class ApplicationController < ActionController::Base
 
 	rescue_from CanCan::AccessDenied do |e|
 		respond_to do |format|
-			format.html { redirect_to('/search?error=author') }
+			format.html { redirect_to(_route_helpers.root_path) }
 			format.json { render json: { status: 6, result: 'author' } }
 		end
 	end
@@ -31,51 +32,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def init
-		# if request.get?
-		# 	session[:first_get] = true unless session.has_key? :first_get
-
-		# 	if session[:first_get]
-		# 		session[:first_get] = false
-
-		# 		session_info = SessionInfo.new
-
-		# 		# Track campaign
-		# 		if params[:utm_campaign].present?
-		# 			session_info.utm_campaign 	= params[:utm_campaign]
-		# 			session_info.utm_source 	= params[:utm_source]
-		# 			session_info.utm_medium 	= params[:utm_medium]
-		# 			session_info.utm_term 		= params[:utm_term]
-		# 			session_info.utm_content 	= params[:utm_content]
-		# 		end
-
-		# 		# Track if have begin session
-		# 		if cookies[:begin_session_info_id].present?
-		# 			session_info.begin_session_info_id = cookies[:begin_session_info_id]
-		# 		end
-
-		# 		session_info.save
-				
-		# 		if cookies[:begin_session_info_id].blank?
-		# 			cookies[:begin_session_info_id] = {
-		# 			  value: session_info.id,
-		# 			  expires: 6.months.from_now
-		# 			}
-		# 		end
-
-		# 		session[:session_info_id] = session_info.id
-		# 	end
-			
-		# 	unless cookies.has_key? :width_type
-		# 		if params.has_key? :width_type
-		# 			cookies[:width_type] = params[:width_type]
-		# 			render plain: '0'
-		# 		else
-		# 			@location = request.path
-		# 			render 'home/get_width', layout: false
-		# 		end
-		# 		return
-		# 	end
-		# end
+		Rails.application.routes.default_url_options[:host] = request.base_url
 
 		User.options = {}
 

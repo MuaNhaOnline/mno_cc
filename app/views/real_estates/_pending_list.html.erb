@@ -16,7 +16,7 @@
           <%= re.title %>
         </p>
         <p>
-          <span class="fa fa-fw fa-user"></span> <%= re.user_id == 0 ? re.user_full_name : "<a href=\"/thanh-vien/#{re.user.id}\">#{re.user.full_name}</a>".html_safe %>
+          <span class="fa fa-fw fa-user"></span> <%= re.user_id == 0 ? re.contact_user.name : "<a href=\"/thanh-vien/#{re.user.id}\">#{re.user.full_name}</a>".html_safe %>
         </p>
         <p>
           <span class="fa fa-fw fa-home"></span> <%= re.display_real_estate_type %>
