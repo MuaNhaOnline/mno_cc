@@ -2815,7 +2815,7 @@ function initForm($form, params) {
 					}
 				});
 				if (hasError) {
-					_scrollTo(hasError.offset().top);
+					_scrollTo(hasError.closest('.form-group').offset().top);
 					$form.submitStatus(false);
 					return;
 				}

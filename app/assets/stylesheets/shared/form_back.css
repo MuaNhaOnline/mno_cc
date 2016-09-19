@@ -98,6 +98,10 @@
 		transition: .3s;
 	}
 
+		.form .has-error .file-uploader {
+			border-color: #FFB2B2;
+		}
+
 		.form .file-uploader:hover {
 			border-color: #3c8dbc;
 		}

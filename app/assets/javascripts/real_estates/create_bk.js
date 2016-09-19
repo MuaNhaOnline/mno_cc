@@ -16,7 +16,18 @@ $(function () {
 								data:		$form.serialize()
 							}).done(function (data) {
 								if (data.status == 0) {
-									window.location = data.result.redirect;
+									if ($('body').is('[data-signed]')) {
+										window.location = data.result.redirect;
+									}
+									else {
+										popupPrompt({
+											title:		'Thành công',
+											content:	'Đăng tin thành công. Vui lòng vào hộp thư để kích hoạt tin đăng',
+											onEscape:	function () {
+															window.location = data.result.redirect;
+														}
+										})
+									}
 								}
 								else {
 									_errorPopup();
