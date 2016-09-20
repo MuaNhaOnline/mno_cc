@@ -404,8 +404,8 @@ class RealEstatesController < ApplicationController
 			end
 
 			if result[:status] != 0
-				puts result
-				return render json: result
+				render json: result
+				return
 			end
 
 			# Contact user create new

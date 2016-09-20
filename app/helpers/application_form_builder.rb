@@ -356,7 +356,7 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 			input_html	<<	field(
 								type,
 								method,
-								item[0].merge(multiple: true, include_hidden: false),
+								item[0].merge(multiple: type == 'checkbox', include_hidden: false),
 								item[1].merge(wrapper: false, require: index == 0 && params[:require])
 							)
 		end
