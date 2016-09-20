@@ -398,6 +398,7 @@ class RealEstatesController < ApplicationController
 								new_record?:	params[:id].blank?
 							)
 
+				puts result
 				if result[:status] != 0
 					raise ActiveRecord::Rollback
 				end
