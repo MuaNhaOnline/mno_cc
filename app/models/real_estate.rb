@@ -1650,7 +1650,7 @@ class RealEstate < ActiveRecord::Base
 
 		# Contructional level
 		def display_constructional_level
-			@display_constructional_level ||= fields.include?(:constructional_level) && constructional_level.present? ? I18n.t("contructional_level.name.#{constructional_level.name}") : ''
+			@display_constructional_level ||= fields.include?(:constructional_level) && constructional_level.present? ? I18n.t("constructional_level.name.#{constructional_level.name}") : ''
 		end
 
 		# Real estate type
