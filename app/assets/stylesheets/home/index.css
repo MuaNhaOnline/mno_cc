@@ -29,7 +29,7 @@ main {
 		}
 
 		.post-ctn .box-title {
-			font-family:'Open Sans';
+			/*font-family: 'Open Sans';*/
 			font-size: 50px;
 			font-weight: 300;
 		}
@@ -43,7 +43,7 @@ main {
 			}
 
 		.post-ctn .callout-text {
-			font-family:'Open Sans';
+			/*font-family:'Open Sans';*/
 			font-size: 13px;
 			font-weight: bold;
 			margin-top: 30px;
@@ -107,7 +107,7 @@ main {
 	}
 
 		.info-intro-ctn .box-title {
-			font-family: 'Open Sans';
+			/*font-family: 'Open Sans';*/
 			font-size: 40px;
 			font-weight: 300;
 			text-align: center;
@@ -136,7 +136,7 @@ main {
 
 				.info-intro-ctn .items-list .item .title {
 					margin-top: 20px;
-					font-family: 'Open Sans';
+					/*font-family: 'Open Sans';*/
 					font-size: 22px;
 					color: #333;
 				}
@@ -176,7 +176,7 @@ main {
 		}
 
 		.search-ctn .title {
-			font-family: 'Open Sans';
+			/*font-family: 'Open Sans';*/
 			font-size: 45px;
 			font-weight: 300;
 			margin: 0 20px 20px 20px;
@@ -248,7 +248,7 @@ main {
 	}
 
 		.contact-ctn .box-title {
-			font-family: 'Open Sans';
+			/*font-family: 'Open Sans';*/
 			font-size: 45px;
 			font-weight: 300;
 			text-align: center;
@@ -394,7 +394,7 @@ main {
 	}
 	
 		.concept-ctn .box-title {
-			font-family: 'Open Sans';
+			/*font-family: 'Open Sans';*/
 			font-size: 45px;
 			font-weight: 300;
 			text-align: center;
@@ -416,7 +416,8 @@ main {
 		}
 
 		.concept-ctn .content {
-			font: 300 22px 'Open Sans';
+			/*font: 300 22px 'Open Sans';*/
+			font-size: 20px;
 			max-width: 700px;
 			margin: 0 auto;
 			margin-top: 20px;
@@ -459,7 +460,7 @@ main {
 		}
 	
 		.rating-ctn .box-title {
-			font-family: 'Open Sans';
+			/*font-family: 'Open Sans';*/
 			font-size: 45px;
 			font-weight: 300;
 			text-align: center;
@@ -491,23 +492,23 @@ main {
 				}
 
 			.rating-ctn .buttons-list .btn-1 {
-				background-color: #DB9A18;
+				background-color: #C19000;
 			}
 
 			.rating-ctn .buttons-list .btn-2 {
-				background-color: #DBBA18;
+				background-color: #C1B000;
 			}
 
 			.rating-ctn .buttons-list .btn-3 {
-				background-color: #DBDB18;
+				background-color: #9ABA00;
 			}
 
 			.rating-ctn .buttons-list .btn-4 {
-				background-color: #90CD16;
+				background-color: #4DAB00;
 			}
 
 			.rating-ctn .buttons-list .btn-5 {
-				background-color: #13B013;
+				background-color: #008549;
 			}
 
 /* / Rating */

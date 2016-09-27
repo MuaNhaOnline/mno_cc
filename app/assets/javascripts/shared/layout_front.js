@@ -452,9 +452,9 @@ $(function () {
 		var $header = $('.header-fixed');
 		var $coverWall = $('.cover-wall');
 		
-		var lastScroll = $window.scrollTop(), isSlideDown = false, isSlideUp = false;
+		var lastScroll = _currentScrollTop(), isSlideDown = false, isSlideUp = false;
 		$window.on('scroll', function(e) {		
-			var currentScroll = $window.scrollTop();
+			var currentScroll = _currentScrollTop();
 			
 			// If current is top
 			if (currentScroll == 0) {

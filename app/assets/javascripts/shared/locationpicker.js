@@ -610,29 +610,33 @@
 			});
 
 			if (!('location' in options)) {
+				console.log(1);
 				if (navigator.geolocation) {
-	        navigator.geolocation.getCurrentPosition(function (position) {
-				gmapContext.currentTypes = [];
-	        	GmUtility.setPosition(gmapContext, new google.maps.LatLng(position.coords.latitude, position.coords.longitude), function(context){
-							if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
-								updateInputValues(settings.inputBinding, gmapContext);	
-							}
-							// Set  input bindings if needed
-							setupInputListenersInput(settings.inputBinding, gmapContext);
-							context.settings.oninitialized($target);
-						});
-	        }, function () {
-				gmapContext.currentTypes = [];
-	        	GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
-							if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
-								updateInputValues(settings.inputBinding, gmapContext);	
-							}
-							// Set  input bindings if needed
-							setupInputListenersInput(settings.inputBinding, gmapContext);
-							context.settings.oninitialized($target);
-						});
-	        });
-	    	}
+					console.log(2);
+
+					gmapContext.currentTypes = [];
+					GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
+						if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+							updateInputValues(settings.inputBinding, gmapContext);	
+						}
+						// Set  input bindings if needed
+						setupInputListenersInput(settings.inputBinding, gmapContext);
+						context.settings.oninitialized($target);
+					});
+
+					navigator.geolocation.getCurrentPosition(function (position) {
+						GmUtility.setPosition(gmapContext, new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+						// gmapContext.currentTypes = [];
+						// GmUtility.setPosition(gmapContext, new google.maps.LatLng(position.coords.latitude, position.coords.longitude), function(context){
+						// 	if (typeof params == 'undefined' || !('isNew' in params) || !params.isNew) {
+						// 		updateInputValues(settings.inputBinding, gmapContext);	
+						// 	}
+						// 	// Set  input bindings if needed
+						// 	setupInputListenersInput(settings.inputBinding, gmapContext);
+						// 	context.settings.oninitialized($target);
+						// });
+					});
+				}
 			}
 			else {
 				gmapContext.currentTypes = [];

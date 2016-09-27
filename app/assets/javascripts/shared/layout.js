@@ -40,7 +40,7 @@ $(function () {
 			$('body').append(tooltipClone);
 			var tooltipHeight = tooltipClone.outerHeight();
 			tooltipClone.remove();
-			if ($(item).offset().top > document.body.scrollTop + tooltipHeight + 5) {
+			if ($(item).offset().top > _currentScrollTop() + tooltipHeight + 5) {
 				return 'top';
 			}
 			else {
@@ -86,7 +86,7 @@ $(function () {
 				var win = $(window);
 
 				var viewport = {
-					top: 	win.scrollTop(),
+					top: 	_currentScrollTop(),
 					// left: 	win.scrollLeft()
 				};
 				viewport.bottom = 	viewport.top + win.height();
@@ -263,7 +263,7 @@ $(function () {
 		var win = $(window);
 
 		var viewport = {
-				top : win.scrollTop(),
+				top : _currentScrollTop(),
 				left : win.scrollLeft()
 		};
 		viewport.right = viewport.left + win.width();
@@ -300,7 +300,7 @@ $(function () {
 			// 1: Top, 2: Middle, 3: Bottom
 			flag = -1,
 			manager = {},
-			lastScroll = document.body.scrollTop;
+			lastScroll = _currentScrollTop();
 
 		manager.isRunning = function () {
 			return flag != -1;
@@ -310,7 +310,7 @@ $(function () {
 				minScroll = -($object.height() - window.innerHeight),
 				min = $follow.offset().top + params.addMin,
 				max = $follow.offset().top + $follow.outerHeight() - (minScroll < 0 ? window.innerHeight - _offsetTop : $object.outerHeight()) + params.addMax,
-				scrollTop = $(window).scrollTop() + _offsetTop;
+				scrollTop = _currentScrollTop() + _offsetTop;
 
 			if (minScroll > 0) {
 				minScroll = 0;
@@ -344,9 +344,9 @@ $(function () {
 						var newTop =
 							parseFloat($object.css('top')) -
 							(
-								document.body.scrollTop > lastScroll ?
-									document.body.scrollTop - lastScroll :
-									-(lastScroll - document.body.scrollTop)
+								$(window).scrollTop() > lastScroll ?
+									$(window).scrollTop() - lastScroll :
+									-(lastScroll - $(window).scrollTop())
 							);
 						if (newTop < minScroll) {
 							newTop = minScroll;
@@ -405,7 +405,7 @@ $(function () {
 				}
 			}
 
-			lastScroll = document.body.scrollTop;
+			lastScroll = _currentScrollTop();
 		}
 
 		var key = $object.selector.replace(/ /, '_');
@@ -525,6 +525,10 @@ $(function () {
 		return new Blob([ab], {
 			type: type
 		});
+	}
+
+	function _currentScrollTop() {
+		return document.documentElement.scrollTop || document.body.scrollTop;
 	}
 
 // / Helper

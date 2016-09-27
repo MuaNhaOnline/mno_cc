@@ -770,7 +770,6 @@ function initForm($form, params) {
 								}
 								else {
 									$alert.text('Kích thước yêu cầu: ' + dimension.width + 'x' + dimension.height).show();
-									return;
 									readNext();
 								}
 							}
@@ -2310,6 +2309,9 @@ function initForm($form, params) {
 					var keyCode = e.which || e.keyCode;
 
 					if (
+							// Control key, command
+							e.ctrlKey || e.charCode == 0 ||
+
 							// Number
 							(48 <= keyCode &&
 							keyCode <= 57) ||
@@ -2337,6 +2339,9 @@ function initForm($form, params) {
 					var keyCode = e.which || e.keyCode;
 
 					if (
+							// Control key, command
+							e.ctrlKey || e.charCode == 0 ||
+
 							// Number
 							(48 <= keyCode &&
 							keyCode <= 57) ||
@@ -2365,6 +2370,9 @@ function initForm($form, params) {
 				'keypress': function (e) {
 					var keyCode = e.which || e.keyCode;
 					if (
+							// Control key, command
+							e.ctrlKey || e.charCode == 0 ||
+
 							//Number
 							(48 <= keyCode &&
 							keyCode <= 57) ||

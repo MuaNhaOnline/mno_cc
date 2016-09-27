@@ -25,25 +25,8 @@
 			position: relative;
 		}
 
-			.toggle-type-buttons a:after {
-				content: '';
-				display: block;
-				position: absolute;
-				top: 0;
-				right: 0;
-				background-color: #eee;
-				height: 100%;
-				width: 1px;
-			}
-
-				.toggle-type-buttons a:hover:after,
-				.toggle-type-buttons label:last-child a:after {
-					display: none;
-				}
-
 			.toggle-type-buttons input:checked + a {
-				border-bottom-color: #00A459;
-				background-color: #f8f8f8;
+				background-color: #008347;
 			}
 
 				.toggle-type-buttons input:checked + a .action,
@@ -56,6 +39,7 @@
 					display: initial;
 				}
 
+			.toggle-type-buttons input:checked + a,
 			.toggle-type-buttons input + a:hover,
 			.toggle-type-buttons input + a:focus,
 			.toggle-type-buttons input + a:active {
@@ -64,7 +48,7 @@
 
 			.toggle-type-buttons input + a:hover,
 			.toggle-type-buttons input + a:focus {
-				background-color: #008347;
+				background-color: #00A459;
 			}
 
 			.toggle-type-buttons input + a:active {

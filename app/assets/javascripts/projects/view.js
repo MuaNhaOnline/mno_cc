@@ -121,7 +121,7 @@ $(function () {
 	
 		(function () {
 			var 
-				lastScrollTop = $window.scrollTop(),
+				lastScrollTop = _currentScrollTop(),
 				// Flag for dont check while scrolling
 				isScrolling = false,
 				$sideBar = $('#side_bar'),
@@ -135,7 +135,7 @@ $(function () {
 					flag = -1;
 
 				function fixedSideBar() {
-					var scrollTop = $window.scrollTop();
+					var scrollTop = _currentScrollTop();
 
 					// Above content
 					if (scrollTop < $contentPanel.offset().top) {
@@ -256,7 +256,7 @@ $(function () {
 							});
 						}
 						else {
-							scrollTop = $window.scrollTop();
+							scrollTop = _currentScrollTop();
 
 							$checkBox = scrollTop > lastScrollTop ? $focusingBox.next() : $focusingBox.prev();
 							// Check if current is last or first => check if can't see => unactive
@@ -278,7 +278,7 @@ $(function () {
 			// / Active content
 
 			$window.on('scroll', function () {
-				lastScrollTop = $window.scrollTop();
+				lastScrollTop = _currentScrollTop();
 			});
 		})()
 	

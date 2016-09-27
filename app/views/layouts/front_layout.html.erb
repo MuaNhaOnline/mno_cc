@@ -137,7 +137,7 @@
 										</article>
 									</li>
 									<li>
-										<a href="<%= pjs_path %>"><%= t scope + 'header.project' %></a>
+										<a class="processing-function" href="#"><%= t scope + 'header.project' %></a>
 									</li>
 									<li>
 										<a class="processing-function" href="#"><%= t scope + 'header.valued' %></a>
@@ -674,9 +674,7 @@
 														</a>
 													</li>
 													<li>
-														<a href="<%= pjs_path %>">
-															<%= t scope + 'footer.sitemap.project' %>
-														</a>
+														<%= t scope + 'footer.sitemap.project' %>
 													</li>
 													<li>
 														<%= t scope + 'footer.sitemap.valued' %>
@@ -785,6 +783,7 @@
 	<script type="text/javascript" src="/assets/shared/jquery.lazyload.min.js"></script>
 	<script type="text/javascript" src="/assets/shared/bootstrap.js"></script>
 	<script type="text/javascript" src="/assets/shared/bootstrap-tagsinput.min.js"></script>
+	<script type="text/javascript" src="/assets/shared/bowser.min.js"></script>
 	<script type="text/javascript" src="/assets/shared/<%= I18n.locale %>.js"></script>
 	<script type="text/javascript" src="/assets/shared/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="/assets/shared/cropper.min.js"></script>

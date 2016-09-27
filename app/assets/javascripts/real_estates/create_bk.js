@@ -101,7 +101,7 @@ $(function () {
 			options.location = { latitude: $lat.val(), longitude: $lng.val() }
 		}
 
-		$form.find('#map').css({
+		$('#map').css({
 			height: '300px'
 		}).locationpicker(options, {
 			'isNew': $form.find('#location').data('new'),
@@ -209,7 +209,7 @@ $(function () {
 	
 		var
 			$menu = $('#menu_list'),
-			$follow = $form.find('.box.box-form');
+			$follow = $form.find('.box.box-form').parent();
 
 		// Padding top
 		function setPaddingTop() {
@@ -244,7 +244,7 @@ $(function () {
 			// Active when scroll
 			$(window).on('scroll', function () {
 				$form.find('[data-object="box"]').each(function () {
-					if ($(this).offset().top > _offsetTop + document.body.scrollTop) {
+					if ($(this).offset().top >= _offsetTop + _currentScrollTop()) {
 						activeByBoxName($(this).data('value'));
 						return false;
 					}

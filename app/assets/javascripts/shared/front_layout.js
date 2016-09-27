@@ -31,13 +31,13 @@ $(function () {
 					}
 
 					// Get scroll top
-					var scrollTop = $window.scrollTop();
+					var scrollTop = _currentScrollTop();
 
 					// If scroll top in range => update
 					if (range[0] <= scrollTop && scrollTop <= range[1]) {
 						// range[1] - range[0]: 100%
 						// scrollTop - range[1]: current%
-						$element.css('background-position-y', (99 - ((scrollTop - range[0]) * 100 / (range[1] - range[0]))) + '%')
+						$element.css('background-position', '50% ' + (99 - ((scrollTop - range[0]) * 100 / (range[1] - range[0]))) + '%')
 					}
 				})
 			});
@@ -59,7 +59,7 @@ $(function () {
 			// Add padding
 			$('.content-wrapper').css('padding-top', $('header').height() + 'px');
 			// Check fixed
-			if (document.body.scrollTop < 20) {
+			if (_currentScrollTop() < 20) {
 				$('header').removeClass('fixed');
 			}
 			else {
@@ -68,7 +68,7 @@ $(function () {
 			// Add event
 			$(window).on({
 				'scroll.fixedHeader': 	function () {
-											if (document.body.scrollTop < 20) {
+											if (_currentScrollTop() < 20) {
 												$('header').removeClass('fixed');
 											}
 											else {
@@ -305,6 +305,12 @@ $(function () {
 		});
 	
 	// / Main menu
+
+	// Browser detect
+	
+		$('body').addClass(bowser.name.toLowerCase());
+	
+	// / Browser detect
 });
 
 // Map

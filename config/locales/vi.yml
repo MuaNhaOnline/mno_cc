@@ -260,7 +260,9 @@ vi:
       page_title: Kết quả tìm kiếm
       box_title: Bất động sản phù hợp
     create_bk:
+      page_title: Đăng tin bất động sản
       status_box:
+        box_title: Loại tin
         click: nhấn để chọn
         selected: đang chọn
         is_full_true_description: Chi tiết. Gồm nhiều thông tin cụ thể. Tuy nhiên được ưu tiên hiển thị. Nên dùng

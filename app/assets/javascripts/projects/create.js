@@ -342,12 +342,12 @@ $(function () {
 
 		_temp['focus_scroll'] = null;
 		var 
-			lastScrollTop = $window.scrollTop(),
+			lastScrollTop = _currentScrollTop(),
 			currentScrollTop;
 		$window.on('scroll', function (e) {
 			clearTimeout(_temp['focus_scroll']);
 			_temp['focus_scroll'] = setTimeout(function () {
-				currentScrollTop = $window.scrollTop();
+				currentScrollTop = _currentScrollTop();
 
 				if (!canSee($focusingBox.is('[aria-name="button"]') ? $focusingBox : $focusingBox.find('.box-header'), {
 							// Scroll down => -
