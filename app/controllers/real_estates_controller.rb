@@ -6,14 +6,12 @@ class RealEstatesController < ApplicationController
 
 		@favorite_res = RealEstate.search_with_params(is_favorite: 'true')
 
-		page 				=	(params[:page] || 1).to_i
-		per 				=	(params[:per] || 12).to_i
-		@res_conditions 	=	params[:conditions] || {}
-		@res_search_params 	=	params[:search_params] || { order: :newest }
-		@res_search_params[:paginate] ||= {}
-		@res_search_params[:paginate][:page] = page
-		@res_search_params[:paginate][:per] = per
-		@res = RealEstate.search_with_params_2(@res_conditions.clone, @res_search_params.clone).results
+		@page 			=	(params[:page] || 1).to_i
+		@per 			=	(params[:per] || 12).to_i
+		@conditions 	=	params[:conditions] || {}
+		@search_params 	=	params[:search_params] || { order: 'newest' }
+
+		@res = RealEstate.search_with_params_3(@conditions).order_with_params(@search_params[:order])
 
 		render layout: 'front_layout'
 	end
@@ -22,19 +20,13 @@ class RealEstatesController < ApplicationController
 		return _list if request.xhr?
 
 		# Get params
-		page 				=	(params[:page] || 1).to_i
-		per 				=	(params[:per] || 12).to_i
-		@res_conditions 	=	params[:search] || {}
-		@res_search_params 	=	params[:search_params] || {}
-		@res_search_params[:paginate] ||= {}
-		@res_search_params[:paginate][:page] = page
-		@res_search_params[:paginate][:per] = per
+		@page 			=	(params[:page] || 1).to_i
+		@per 			=	(params[:per] || 12).to_i
+		@conditions 	=	params[:search] || params[:conditions] || {}
+		@search_params 	=	params[:search_params] || { }
 
 		# Get res
-		@res = RealEstate.search_with_params_2(
-			@res_conditions.clone,
-			@res_search_params.clone
-		).results
+		@res = RealEstate.search_with_params_3(@conditions).order_with_params(@search_params[:order])
 	end
 
 	# Ajax
@@ -45,14 +37,10 @@ class RealEstatesController < ApplicationController
 		page 			=	(params[:page] || 1).to_i
 		per 			=	(params[:per] || 12).to_i
 		conditions 		=	params[:conditions] || {}
-		search_params	=	params[:search_params] || {}
-
-		search_params[:paginate] ||= {}
-		search_params[:paginate][:page] = page
-		search_params[:paginate][:per] = per
+		search_params 	=	params[:search_params] || { }
 
 		# Get res
-		res = RealEstate.search_with_params_2(conditions, search_params).results
+		res = RealEstate.search_with_params_3(conditions).order_with_params(search_params[:order])
 
 		# Check if empty
 		if res.count == 0
@@ -66,13 +54,15 @@ class RealEstatesController < ApplicationController
 				list: render_to_string(
 					partial:	'items_list_2',
 					locals:		{
-									res: res
+									res: res.page(page, per)
 								}
 				),
 				paginator: render_to_string(
-					partial:	'/shared/paginator_2',
+					partial:	'/shared/paginator',
 					locals:		{
-									results: res
+									page: 	page,
+									per:	per,
+									total:	res.count
 								}
 				)
 			}
@@ -255,26 +245,14 @@ class RealEstatesController < ApplicationController
 				@search_params = params[:search]
 			end
 
-			@search_params[:conditions] ||= {}
-			@search_params[:search_params] ||= {}
+			@page 			=	(params[:page] || 1).to_i
+			@per 			=	(params[:per] || 12).to_i
+			@search_params[:conditions] 	||= {}
+			@search_params[:search_params] 	||= {}
 
-			fav_conditions = @search_params[:conditions].clone
-			fav_conditions[:is_favorite] = true
-			fav_search_params = @search_params[:search_params].clone
-			fav_search_params[:order] = :random
-			fav_search_params[:limit] = 3
-			@favorite_res = RealEstate.search_with_params_2(fav_conditions, fav_search_params).results
+			@res = RealEstate.search_with_params_3(@search_params[:conditions]).order_with_params(@search_params[:search_params][:order])
 
-			page 		=	(params[:page] || 1).to_i
-			per 		=	(params[:per] || 12).to_i
-			@search_params[:conditions].delete :is_favorite
-			search_params = @search_params[:search_params].clone
-			search_params[:paginate] = {
-				page: page,
-				per: per
-			}
-
-			@res = RealEstate.search_with_params_2(@search_params[:conditions].clone, search_params).results
+			@fav_res = RealEstate.get_favorite.search_with_params_3(@search_params[:conditions]).order_with_params(@search_params[:search_params][:order])
 		end
 
 		# Partial view
@@ -1232,7 +1210,6 @@ class RealEstatesController < ApplicationController
 
 		# View
 		def my_favorite
-			# Author
 			authorize! :view_my, RealEstate
 
 			# Get params

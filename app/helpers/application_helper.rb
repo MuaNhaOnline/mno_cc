@@ -351,7 +351,9 @@ module ApplicationHelper
 
 	# Remove sign in text
 
-		def self.de_unicode text
+		def self.deunicode text
+
+			return '' if text.blank?
 
 			text
 				.gsub(/á|à|ạ|ả|ã|â|ấ|ầ|ậ|ẩ|ẫ|ă|ắ|ằ|ặ|ẳ|ẵ/, 'a')

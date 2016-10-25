@@ -6,19 +6,32 @@
 =end
 	
 	type ||= 1
+	scope = 'real_estates._items_list.'
 %>
 
 <% case type %>
 <% when 1 %>
 	<% res.each do |re| %>
 		<div class="item-ctn">
-			<article class="item">
-				<div>
+			<article class="item" data-value="<%= re.id %>" data-is-favorite="<%= re.is_current_user_favorite %>">
+				<div class="top">
 					<div class="image">
 						<a href="<%= view_re_path full_slug: re.full_slug %>">
 							<%= real_estate_avatar re %>
 						</a>
 					</div>
+					<% if signed? %>
+						<div class="feature">
+							<a href="#" class="favorite <%= 'has-bg' if re.is_current_user_favorite %>" 
+							   data-html="true" 
+							   title="<%= t(scope + (re.is_current_user_favorite ? 'disfavorite_title_html' : 'favorite_title_html')) %>">
+								<span class="text">
+									<%= t(scope + 'favorite_text') if re.is_current_user_favorite %>
+								</span>
+							   	<span class="icon <%= re.is_current_user_favorite ? 'ico-star' : 'ico-star-o' %>"></span>
+						   </a>
+						</div>
+					<% end %>
 				</div>
 				<div class="grow">
 					<div class="title">
@@ -44,7 +57,7 @@
 						<% if re.display_sell_price.present? %>
 							<article class="sell-price-text">
 								<span title="<%= RealEstate.i18n_attribute('sell_price') %>">
-									<%= re.display_sell_price %>	
+									<%= re.display_sell_price %>
 								</span>
 							</article>
 						<% end %>

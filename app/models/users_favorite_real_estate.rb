@@ -2,6 +2,16 @@ class UsersFavoriteRealEstate < ActiveRecord::Base
 	belongs_to :user  
 	belongs_to :real_estate
 
+	# Get
+	
+		def self.of_current_user
+			where('false') unless User.signed?
+			
+			where user_id: User.current.id
+		end
+	
+	# / Get
+
 	# Add
 
 		def self.add_favorite real_estate_id

@@ -8,6 +8,12 @@
 
 class RealEstate < ActiveRecord::Base
 
+	# Callback
+	
+		after_save :pg_search_update
+	
+	# / Callback
+
 	# Constant
 		
 		# Street type
@@ -27,13 +33,66 @@ class RealEstate < ActiveRecord::Base
 
 	# PgSearch
 
+		has_one :searchable, class_name: 'SearchableRealEstate'
+
 		include PgSearch
-		pg_search_scope :pg_search, against: [
-			:meta_search_1,
-			:id,
-			:title,
-			:description
-		]
+		pg_search_scope :pg_search,
+			associated_against: {
+				searchable: {
+					:real_estate_id			=>	'A',
+					:real_estate_display_id	=>	'A',
+					:real_estate_type		=>	'A',
+					:address				=>	'A',
+					:title 					=>	'D',
+					:description 			=>	'D'
+				}
+			}
+		pg_search_scope :pg_address_sort,
+			associated_against: {
+				searchable: {
+					:real_estate_id			=>	'D',
+					:real_estate_display_id	=>	'D',
+					:real_estate_type		=>	'D',
+					:address				=>	'A',
+					:title 					=>	'D',
+					:description 			=>	'D'
+				}
+			},
+			using: {
+				:tsearch => {:any_word => true},
+				:dmetaphone => {:any_word => true, :sort_only => true}
+			}
+
+		def pg_search_update
+			keys = self.previous_changes.keys
+
+			self.searchable ||= build_searchable(real_estate_display_id: display_id.downcase)
+			self.searchable.address 			= 	ApplicationHelper.deunicode(self.display_short_address).downcase if keys.include?(:street_id) || keys.include?(:district_id) || keys.include?(:province_id)
+			self.searchable.real_estate_type 	= 	ApplicationHelper.deunicode(self.display_real_estate_type).downcase if keys.include?(:real_estate_type_id)
+			self.searchable.title 				= 	ApplicationHelper.deunicode(self.title).downcase if keys.include?(:title)
+			self.searchable.description 		= 	ApplicationHelper.deunicode(ActionView::Base.full_sanitizer.sanitize(self.description)).downcase if keys.include?(:description)
+
+			self.searchable.save if self.searchable.changed?
+		end
+
+		def pg_search_force_update
+			if searchable.blank?
+				build_searchable
+			end
+			searchable.real_estate_display_id 	= 	display_id.downcase
+			searchable.address 					= 	ApplicationHelper.deunicode(display_short_address).downcase
+			searchable.real_estate_type 		= 	ApplicationHelper.deunicode(display_real_estate_type).downcase
+			searchable.title 					= 	ApplicationHelper.deunicode(title).downcase
+			searchable.description 				= 	ApplicationHelper.deunicode(ActionView::Base.full_sanitizer.sanitize(description)).downcase
+
+			searchable.save if searchable.changed?
+		end
+
+		def self.pg_search_force_update_all
+			find_each do |re|
+				re.pg_search_force_update
+			end
+		end
 
 	# / PgSearch
 
@@ -428,7 +487,7 @@ class RealEstate < ActiveRecord::Base
 
 				other_params = {
 					is_pending: true,
-					slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.name))
+					slug: ApplicationHelper.to_slug(ApplicationHelper.deunicode(self.name))
 				}
 
 				if user_type == 'contact_user' && params[:new_record?]
@@ -711,14 +770,38 @@ class RealEstate < ActiveRecord::Base
 
 		# / Get random
 
+		# Get favorite
+		
+			def self.get_favorite
+				where(is_favorite: true)
+			end
+		
+		# / Get favorite
+
 		# Search with params
 
 			def self.can_view_conditions
 				'(is_pending = false AND is_show = true AND is_force_hide = false AND block_real_estate_group_id IS NULL)'
 			end
 
+			def self.list_conditions
+				# search_obj.with :is_pending, false
+				# search_obj.with :is_show, true
+				# search_obj.with :is_force_hide, false
+				self.where is_pending: false, is_show: true, is_force_hide: false, block_real_estate_group_id: nil
+			end
+
+			def self.my_favorite_list_conditions search_obj
+				# return unless User.signed?
+
+				# ids = UsersFavoriteRealEstate.of_current_user.order(created_at: :asc).pluck(:real_estate_id)
+
+				# search_obj.with :id, ids
+			end
+
 			# params
 			# 		conditions:
+			# 			conditions_of(list, my_favorite_list)
 			# 			except
 			# 				ids
 			# 			keyword
@@ -737,9 +820,12 @@ class RealEstate < ActiveRecord::Base
 				# Search if has keyword
 				return self.search do 
 					# Default
-					with :is_pending, false
-					with :is_show, true
-					with :is_force_hide, false
+					conditions[:conditions_of] ||= 'list'
+					if conditions[:conditions_of].class == String
+						eval "RealEstate.#{conditions[:conditions_of]}_conditions self"
+					else
+						conditions[:conditions_of].call self
+					end
 
 					# Conditions
 					if conditions.present?
@@ -755,7 +841,7 @@ class RealEstate < ActiveRecord::Base
 						# Keyword
 						
 							if conditions[:keyword].present?
-								keyword = ApplicationHelper.de_unicode(conditions[:keyword])
+								keyword = ApplicationHelper.deunicode(conditions[:keyword])
 									.downcase
 									.gsub('hooc mon', 'hoc mon')
 								keyword_arr = keyword.split ' '
@@ -830,7 +916,7 @@ class RealEstate < ActiveRecord::Base
 								end
 							end
 
-							# Price
+							# Area
 							if conditions[:area_from].present? || conditions[:area_to].present?
 								conditions[:area_from] = ApplicationHelper.format_f(conditions[:area_from]).to_f if conditions[:area_from].present?
 								conditions[:area_to] = ApplicationHelper.format_f(conditions[:area_to]).to_f if conditions[:area_to].present?
@@ -871,6 +957,162 @@ class RealEstate < ActiveRecord::Base
 							per_page: 	params[:paginate][:per_page] || 12
 						)
 					end
+				end
+			end
+
+			# args:
+			# 	conditions:
+			# 		conditions_of: 
+			# 			default: list
+			# 			value: enum(list,my_favorite_list)
+			def self.search_with_params_3 conditions = {}, params = {}
+				conditions 	= 	conditions.clone
+				params 		= 	params.clone
+				conditions.symbolize_keys! if conditions.respond_to? :symbolize_keys!
+				params.symbolize_keys! if params.respond_to? :symbolize_keys!
+
+				results = self
+
+				# Default
+				eval("results = results.#{conditions[:conditions_of] || 'list'}_conditions")
+
+				# Except
+				
+					if conditions[:except].present?
+						if conditions[:except][:ids].present?
+							results = results.where.not(id: conditions[:except][:ids])
+						end
+					end
+				
+				# / Except
+
+				# Fields
+				
+					results = results.where(user_id: conditions[:user]) if conditions[:user].present?
+					results = results.where(is_favorite: conditions[:is_favorite]) if conditions[:is_favorite].present?
+					results = results.where(real_estate_type_id: conditions[:real_estate_type]) if conditions[:real_estate_type].present?
+					results = results.where(constructional_level_id: conditions[:constructional_level]) if conditions[:constructional_level].present?
+					results = results.where(street_id: conditions[:street]) if conditions[:street].present?
+					results = results.where(district_id: conditions[:district]) if conditions[:district].present?
+					results = results.where(province_id: conditions[:province]) if conditions[:province].present?
+					results = results.where(region_utility_id: conditions[:region_utility]) if conditions[:region_utility].present?
+
+					price_using = 'sell'
+
+					# Purpose
+					if conditions[:purpose].present?
+						if conditions[:purpose] =~ /\D/
+							purpose = Purpose.where(code: conditions[:purpose]).first
+						else
+							purpose = Purpose.where(id: conditions[:purpose]).first
+						end
+
+						if purpose.present?
+							purpose_code = ''
+							case purpose.code
+							when 'sell_rent'
+								purpose_code = 'sell', 'rent', 'sell_rent'
+							when 'transfer'
+								purpose_code = 'sell'
+							else
+								purpose_code = price_using = purpose.code
+							end
+
+							results = results
+								.joins(:purpose)
+								.where(purposes: { code: purpose_code })
+						end
+					end
+
+					# Price
+					if conditions[:price_from].present? || conditions[:price_to].present?
+						# Format price
+						conditions[:price_from] = ApplicationHelper.format_f(conditions[:price_from]).to_f * 1000000 if conditions[:price_from].present?
+						conditions[:price_to] = ApplicationHelper.format_f(conditions[:price_to]).to_f * 1000000 if conditions[:price_to].present?
+
+						if conditions[:price_from].present? && conditions[:price_to].present?
+							range = conditions[:price_from]..conditions[:price_to]
+						elsif conditions[:price_from].present?
+							range = conditions[:price_from]..(conditions[:price_from] * 2)
+						else
+							range = (conditions[:price_to] * 0.5)..conditions[:price_to]
+						end
+
+						results = results.where("#{use_price}_price": range)
+					end
+
+					# Area
+					if conditions[:area_from].present? || conditions[:area_to].present?
+						# Format price
+						conditions[:area_from] = ApplicationHelper.format_f(conditions[:area_from]).to_f if conditions[:area_from].present?
+						conditions[:area_to] = ApplicationHelper.format_f(conditions[:area_to]).to_f if conditions[:area_to].present?
+
+						if conditions[:area_from].present? && conditions[:area_to].present?
+							range = conditions[:area_from]..conditions[:area_to]
+						elsif conditions[:area_from].present?
+							range = conditions[:area_from]..(conditions[:area_from] * 2)
+						else
+							range = (conditions[:area_to] * 0.5)..conditions[:area_to]
+						end
+						results = results.where.any_of(
+							{
+								campus_area: range
+							},
+							{
+								constructional_area: range
+							},
+							{
+								using_area: range
+							}
+						)
+					end
+
+				# / Fields
+
+				# Keyword
+				
+					if conditions[:keyword].present?
+						keyword = ApplicationHelper.deunicode conditions[:keyword]
+							.downcase
+							.gsub('hooc mon', 'hoc mon')
+						keyword_arr = keyword.split ' '
+
+						# Address
+						index = keyword_arr.index{ |v| ['quan', 'huyen'].include? v }
+						# If exists && not last
+						if index.present? && index != keyword_arr.count - 1
+							# If next key is integer => get 'quan' + 1 word
+							# Else => 2 words
+							if keyword_arr[index + 1] =~ /\A\d+\Z/
+								address_keyword = "quan #{keyword_arr[index + 1]}cxcx1`"
+							else
+								address_keyword = "#{keyword_arr[index + 1]} #{keyword_arr[index + 2]}"
+							end
+							results = results.pg_address_sort address_keyword
+						end
+
+						# Normal
+						results = results.pg_search keyword
+					end
+				
+				# / Keyword
+
+				results
+			end
+
+			# args:
+			# 	params:
+			# 		value: string
+			def self.order_with_params params
+				# Return self.order(nil) instead of self
+				# because return self will stop chain
+				return self.order(nil) if params.blank?
+
+				return case params
+				when 'newest'
+					self.order(created_at: :desc)
+				else
+					self.order(nil)
 				end
 			end
 
@@ -1503,13 +1745,13 @@ class RealEstate < ActiveRecord::Base
 			if just_id
 				id.to_s
 			else
-				@display_id ||= ApplicationHelper.id_format id, 'RE'
+				ApplicationHelper.id_format id, 'RE'
 			end
 		end
 
 		# Description
 		def display_description
-			@display_description ||= description.present? ? description.html_safe : ''
+			description.present? ? description.html_safe : ''
 		end
 
 		# User name

@@ -51,6 +51,8 @@ gem "geokit"
 
 gem 'browser'
 
+gem 'activerecord_any_of'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -75,6 +75,9 @@
 								<span class="text"><%= t scope + 'header.signin' %></span>
 								<span class="ico-sign-in"></span>
 							</a>
+							<a class="sign-in" title="Đăng ký" href="/dang-ky">
+								<span class="text">Đăng ký</span>
+							</a>
 						<% end %>
 
 						<a href="<%= create_re_path %>" class="new-post" title="Đăng tin miễn phí">
@@ -165,47 +168,81 @@
 				<div class="overlay"></div>
 				<nav>
 					<h2>
-						Menu
+						<%= t scope + 'main_menu.title' %>
 						<span class="close-icon">&times;</span>
 					</h2>
-					<ul>
-						<li>
-							<a>
-								<span class="icon ico-home"></span>
-								<span class="text"><%= t scope + 'main_menu.re.title' %></span>
-								<span class="subicon ico-chevron-down"></span>
-							</a>
-							<ul class="submenu">
-								<li>
-									<a href="<%= create_re_path %>"><%= t scope + 'main_menu.re.list.create' %></a>
-								</li>
-								<li>
-									<a href="<%= res_path %>"><%= t scope + 'main_menu.re.list.list' %></a>
-								</li>
-								<li>
-									<a href="<%= my_res_path %>"><%= t scope + 'main_menu.re.list.my' %></a>
-								</li>
-								<li>
-									<a href="<%= my_favorite_res_path %>"><%= t scope + 'main_menu.re.list.my_favorite' %></a>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<a>
-								<span class="icon ico-search"></span>
-								<span class="text"><%= t scope + 'main_menu.reg.title' %></span>
-								<span class="subicon ico-chevron-down"></span>
-							</a>
-							<ul class="submenu">
-								<li>
-									<a href="<%= create_registration_path %>"><%= t scope + 'main_menu.reg.list.create' %></a>
-								</li>
-								<li>
-									<a href="<%= registrations_path %>"><%= t scope + 'main_menu.reg.list.my' %></a>
-								</li>
-							</ul>
-						</li>
-					</ul>
+					<div class="menu">
+						<ul>
+							<li>
+								<a>
+									<span class="icon ico-home"></span>
+									<span class="text"><%= t scope + 'main_menu.re.title' %></span>
+									<span class="subicon ico-chevron-down"></span>
+								</a>
+								<ul class="submenu">
+									<li>
+										<a href="<%= create_re_path %>"><%= t scope + 'main_menu.re.list.create' %></a>
+									</li>
+									<li>
+										<a href="<%= res_path %>"><%= t scope + 'main_menu.re.list.list' %></a>
+									</li>
+									<li>
+										<a href="<%= my_res_path %>"><%= t scope + 'main_menu.re.list.my' %></a>
+									</li>
+									<li>
+										<a href="<%= my_favorite_res_path %>"><%= t scope + 'main_menu.re.list.my_favorite' %></a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a>
+									<span class="icon ico-search"></span>
+									<span class="text"><%= t scope + 'main_menu.reg.title' %></span>
+									<span class="subicon ico-chevron-down"></span>
+								</a>
+								<ul class="submenu">
+									<li>
+										<a href="<%= create_registration_path %>"><%= t scope + 'main_menu.reg.list.create' %></a>
+									</li>
+									<li>
+										<a href="<%= registrations_path %>"><%= t scope + 'main_menu.reg.list.my' %></a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<% if signed? %>
+						<%
+							fav_res = RealEstate.search_with_params_2(
+								{
+									conditions_of:	'my_favorite_list'
+								},
+								{
+									limit:		3
+								}
+							).results
+						%>
+						<% if fav_res.present? %>
+							<h2>
+								<%= t scope + 'main_menu.fav_re.title' %>
+							</h2>
+							<div class="fav-res">
+								<div class="list">
+									<% fav_res.each do |re| %>
+										<a href="<%= view_re_path full_slug: re.full_slug %>" class="item" data-title="<%= re.title %>">
+											<%= real_estate_avatar re %>
+										</a>
+									<% end %>
+								</div>
+								<div class="title"></div>
+								<div class="view-all">
+									<a href="<%= my_favorite_res_path %>">
+										<%= t scope + 'main_menu.fav_re.view_all' %>
+									</a>
+								</div>
+							</div>
+						<% end %>
+					<% end %>
 				</nav>
 			</section>
 		
@@ -235,10 +272,15 @@
 				<section class="search-box-container in-top">
 					<div class="container">
 						<div class="search-box no-horizontal-padding">
-							<h2 class="box-title">
+							<h2 class="box-title" style="<%= 'display: none;' unless @_hide_search_box %>">
 								<span class="icon ico-search"></span><span class="text"><%= t scope + 'search_box.title' %></span>
 							</h2>
 							<section class="box-content" <%= 'style="display: none;"'.html_safe if @_hide_search_box %>>
+								<div>
+									<h2 style="font-size: 21px; margin-bottom: 10px; color: #666; display: inline-block;">
+										<%= t scope + 'search_box.title' %>
+									</h2>
+								</div>
 								<form class="form" action="<%= search_res_path %>" method="get">
 									<div class="row">
 										<%

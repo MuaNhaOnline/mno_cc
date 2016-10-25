@@ -47,7 +47,7 @@
 %>
 
 <div class="container no-horizontal-padding">
-	<div class="row shadow-filter">
+	<div class="row shadow-filter view-ctn">
 
 		<!-- Images -->
 
@@ -690,7 +690,7 @@
 			</section>
 			<section class="container-box-body">
 				<%
-					res = RealEstate.search_with_params_2({}, { limit: 4 }).results
+					res = RealEstate.search_with_params_3.limit(4)
 				%>
 				<div class="medium-items-list">
 					<%= render partial: '/real_estates/items_list_2', locals: { res: res } %>

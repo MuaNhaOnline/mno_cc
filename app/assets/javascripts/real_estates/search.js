@@ -1,10 +1,13 @@
 $(function () {
 
-	// Init favorite items list
+	// Init items list
 	
-		_initMediumItemsList($('#res_list'));
+		function initItemList() {
+			_initMediumItemsList($('#res_list'));
+		}
+		initItemList();
 	
-	// / Init favorite items list
+	// / Init items list
 
 	// Fixed search box
 
@@ -29,7 +32,10 @@ $(function () {
 			url:			'',
 			list:			$('#res_list'),
 			paginator:		$('#res_paginator'),
-			replaceState: 	true
+			replaceState: 	true,
+			done:			function () {
+								initItemList();
+							}
 		});
 	
 	// / Pagination

@@ -610,9 +610,7 @@
 			});
 
 			if (!('location' in options)) {
-				console.log(1);
 				if (navigator.geolocation) {
-					console.log(2);
 
 					gmapContext.currentTypes = [];
 					GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){

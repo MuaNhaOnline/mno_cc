@@ -23,6 +23,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ico-star-o:before {
+  content: "\e924";
+}
+.ico-star:before {
+  content: "\e925";
+}
 .ico-chevron-left:before {
   content: "\e908";
 }

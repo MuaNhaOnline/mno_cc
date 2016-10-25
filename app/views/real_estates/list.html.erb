@@ -26,14 +26,14 @@
 	@_main_class = 're-list'
 	@_hide_search_box = true
 
-	page = params[:page].present? ? params[:page].to_i : 1
+	res_in_page = @res.page(@page, @per)
 %>
 
 <div class="container-box container-box-transparent">
 	<div class="container-box-header">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-12 <%= 'col-sm-9 col-md-9 col-lg-9' if @favorite_res.blank? && @res.present? %>">
+				<div class="col-xs-12 <%= 'col-sm-9 col-md-9 col-lg-9' if @fav_res.blank? && @res.present? %>">
 					<h2 class="container-box-title">
 						<%= @search_params[:search_name] || t('.page_title') %>
 					</h2>
@@ -41,43 +41,39 @@
 			</div>
 		</div>
 	</div>
-	<% if @favorite_res.present? %>
+	<% if @fav_res.present? %>
 		<div class="container-box-body" style="margin-bottom: 70px">
-			<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @favorite_res, list_id: 'favorite_res_list' } %>
+			<%= render partial: 'real_estates/items_list', locals: { type: 2, res: @fav_res.random.limit(3), list_id: 'favorite_res_list' } %>
 		</div>
 	<% end %>
-	<% if @res.present? %>
-		<div class="container-box-body">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-						<div class="medium-items-list" id="res_list">
+	<div class="container-box-body">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+					<div class="medium-items-list" id="res_list">
+						<% if res_in_page.present? %>
 							<%=
 								render(
 									partial: 'real_estates/items_list_2',
 									locals: {
-										res: @res
+										res: res_in_page
 									}
 								)
 							%>
-						</div>
-						<div id="res_paginator" data-search-params="<%= @search_params.slice(:conditions, :search_params).to_json %>">
-							<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
-						</div>
+						<% else %>
+							<div class="alert alert-danger" role="alert">
+								<%= t 'global.text.empty_callout' %>
+							</div>
+						<% end %>
 					</div>
-					<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
-						<%= render partial: '/shared/search_box' %>
+					<div id="res_paginator" data-search-params="<%= @search_params.slice(:conditions, :search_params).to_json %>">
+						<%= render partial: 'shared/paginator', locals: { page: @page, per: @per, total: @res.count } %>
 					</div>
+				</div>
+				<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+					<%= render partial: '/shared/search_box' %>
 				</div>
 			</div>
 		</div>
-	<% else %>
-		<div class="container-box-body">
-			<div class="alert alert-danger" role="alert">
-				<div class="container">
-					<%= t 'global.text.empty_callout' %>
-				</div>
-			</div>
-		</div>
-	<% end %>
+	</div>
 </div>

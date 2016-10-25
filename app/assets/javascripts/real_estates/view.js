@@ -60,6 +60,8 @@ $(function () {
 					html: $html
 				});
 
+				$html.wrap('<center></center>');
+
 				// Next image when click
 				$html.on('click', function () {
 					if (currentIndex == imageData.length) {
@@ -438,5 +440,11 @@ $(function () {
 		// / Favorite
 	
 	// / Buttons
+
+	// Relative res
+	
+		_initMediumItemsList($('.medium-items-list'));
+	
+	// / Relative res
 
 });

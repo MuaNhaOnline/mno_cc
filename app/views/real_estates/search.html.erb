@@ -10,7 +10,7 @@
 
 <%
 =begin
-	@favorite_res, @res, @projects
+	@res
 =end
  
 	@_title = 'Kết quả tìm kiếm'
@@ -34,61 +34,62 @@
 
 	search_params = params[:search]
 	search_params = {} if search_params.blank? || !search_params.is_a?(Hash)
+
+	res_in_page = @res.page(@page, @per)
 %>
 
 <div class="container-fluid">
-	<% if @res.blank? %>
-		<div class="alert alert-danger" role="alert">
-			<div class="container">
-				<%= t 'global.text.empty_callout' %>
-			</div>
-		</div>
-		<div class="alert alert-info" role="alert">
-			<div class="container">
-				<%= t search_scope + 'register_html', path: create_registration_path(search: search_params) %>
-			</div>
-		</div>
-	<% end %>
-
-	<% if @res.present? %>
-		<div class="row">
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-				<article class="container-box container-box-transparent">
+	<div class="container-fluid">
+		<article class="container-box container-box-transparent">
+			<div class="row">
+				<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 					<section class="container-box-header">
 						<h2 class="container-box-title">
 							<%= t '.box_title' %>
 						</h2>
 					</section>
-					<section class="container-box-body">
-						<div class="container-fluid">
-							<% if @res.count != 0 %>
-								<div class="medium-items-list" id="res_list">
+				</div>
+			</div>
+			<section class="container-box-body">
+				<div class="row">
+					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+						<% if res_in_page.blank? %>
+							<div class="alert alert-danger" role="alert">
+								<div class="container">
+									<%= t 'global.text.empty_callout' %>
+									<br />
+									<a data-action="create_reg" href="<%= create_registration_path(search: search_params) %>">
+										<%= t search_scope + 'register' %>
+									</a>
+								</div>
+							</div>
+						<% else %>
+							<div class="medium-items-list" id="res_list">
+								<% if res_in_page != 0 %>
 									<%=
 										render(
 											partial: 'real_estates/items_list_2',
 											locals: {
-												res: @res
+												res: @res.page(@page, @per)
 											}
 										)
 									%>
-								</div>
-								<div id="res_paginator" data-search-params="<%= { conditions: @res_conditions, search_params: @res_search_params }.to_json %>">
-									<%= render partial: 'shared/paginator_2', locals: { results: @res } %>
-								</div>
-							<% else %>
-								<div class="alert alert-warning alert-dismissible">
-									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-									<p>
+								<% else %>
+									<div class="alert alert-warning alert-dismissible">
 										<%= t '.empty_re_list' %>
-									</p>
-								</div>
-							<% end %>
-						</div>
-					</section>
-				</article>
-			</div>
-			<div class="hidden-xs col-sm-3 col-md-3 col-lg-3" style="padding-top: 70px;">
-				<%= render partial: '/shared/search_box' %>
-			</div>
-	<% end %>
+									</div>
+								<% end %>
+							</div>
+							<div id="res_paginator" data-search-params="<%= { conditions: @conditions, search_params: @search_params }.to_json %>">
+								<%= render partial: 'shared/paginator', locals: { page: @page, per: @per, total: @res.count } %>
+							</div>
+						<% end %>
+					</div>
+					<div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+						<%= render partial: '/shared/search_box' %>
+					</div>
+				</div>
+			</section>
+		</article>
+	</div>
 </div>

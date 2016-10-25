@@ -33,33 +33,7 @@ $(function () {
 	
 	_getPopupContent();
 
-	$('[data-toggle="tooltip"], [title]').tooltip({
-		container: 'body',
-		placement: function (tooltip, item) {
-			var tooltipClone = $(tooltip).clone().css('opacity', 0);
-			$('body').append(tooltipClone);
-			var tooltipHeight = tooltipClone.outerHeight();
-			tooltipClone.remove();
-			if ($(item).offset().top > _currentScrollTop() + tooltipHeight + 5) {
-				return 'top';
-			}
-			else {
-				return 'bottom';
-			}
-		},
-		delay: 200
-	});
-
-	$('a[href="#"]').on('click', function (e) {
-		e.preventDefault();
-	});
-
-	$('.lazyload').lazyload({
-		effect: 'fadeIn',
-		appear: function () {
-			$(this).removeClass('lazyload');
-		}
-	});
+	_initGeneral();
 
 	$('.processing-function').on('click', function (e) {
 		e.preventDefault();
@@ -145,6 +119,40 @@ $(function () {
 
 	// / Custom property
 });
+
+function _initGeneral($context) {
+	if (typeof $context == 'undefined') {
+		$context = $('body');
+	}
+
+	$context.find('[data-toggle="tooltip"], [title]').tooltip({
+		container: 'body',
+		placement: function (tooltip, item) {
+			var tooltipClone = $(tooltip).clone().css('opacity', 0);
+			$('body').append(tooltipClone);
+			var tooltipHeight = tooltipClone.outerHeight();
+			tooltipClone.remove();
+			if ($(item).offset().top > _currentScrollTop() + tooltipHeight + 5) {
+				return 'top';
+			}
+			else {
+				return 'bottom';
+			}
+		},
+		delay: 200
+	});
+
+	$context.find('a[href="#"]').on('click', function (e) {
+		e.preventDefault();
+	});
+
+	$context.find('.lazyload').lazyload({
+		effect: 'fadeIn',
+		appear: function () {
+			$(this).removeClass('lazyload');
+		}
+	});
+}
 
 // Helper
 
@@ -306,6 +314,10 @@ $(function () {
 			return flag != -1;
 		}
 		manager.doIt = function () {
+			if ($follow.height() < $object.height()) {
+				return;
+			}
+
 			var
 				minScroll = -($object.height() - window.innerHeight),
 				min = $follow.offset().top + params.addMin,
@@ -420,7 +432,7 @@ $(function () {
 				$object.css('width', $object.parent().width());
 			});
 
-			$follow.css('min-height', _offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)');
+			// $follow.css('min-height', _offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)');
 			$object.css({
 				'width':		$object.parent().width(),
 				// 'max-height': 	_offsetTop == 0 ? '100vh' : 'calc(100vh - ' + _offsetTop + 'px)',
@@ -437,7 +449,7 @@ $(function () {
 				position: '',
 				top: ''
 			});
-			$follow.css('min-height', '');
+			// $follow.css('min-height', '');
 			$object.css({
 				'width':		'',
 				// 'max-height': 	'',
@@ -1097,7 +1109,6 @@ $(function () {
 									// Hide alert
 									obj.alert.hide();
 
-									console.log(data);
 									// Call request
 									findParams.startRequest();
 									xhr = $.ajax({

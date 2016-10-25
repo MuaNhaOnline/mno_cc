@@ -276,7 +276,7 @@
 		<% unless signed? %>
 			<section class="box-header with-border">
 				<h2 class="box-title">
-					<%= t '.contact_box_title' %>
+					<%= t scope + '.contact_box_title' %>
 				</h2>
 			</section>
 			<section class="box-body">
@@ -291,7 +291,7 @@
 						:name,
 						{},
 						{
-							label:  		t('.name_placeholder')
+							label:  		t(scope + '.name_placeholder')
 						}
 					) %>
 
@@ -302,7 +302,7 @@
 								:email,
 								{},
 								{
-									label:  		t('.email_placeholder')
+									label:  		t(scope + '.email_placeholder')
 								}
 							) %>
 						</article>
@@ -312,7 +312,7 @@
 								:phone_number,
 								{},
 								{
-									label:  		t('.phone_placeholder')
+									label:  		t(scope + '.phone_placeholder')
 								}
 							) %>
 						</article>

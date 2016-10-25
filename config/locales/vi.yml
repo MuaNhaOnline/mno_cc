@@ -52,6 +52,7 @@ vi:
       news: Blog
       view_all: Xem tất cả
     main_menu:
+      title: Danh mục
       re:
         title: Bất động sản
         list:
@@ -64,6 +65,9 @@ vi:
         list:
           create: Thêm mới
           my: Danh sách của tôi
+      fav_re:
+        title: Bất động sản đang quan tâm
+        view_all: Xem đầy đủ
     search_box:
       title: Tìm kiếm
       keyword_title: Nhập từ khóa tìm kiếm
@@ -105,7 +109,7 @@ vi:
         text: Gợi ý
         has_pool: Căn hộ có hồ bơi
         lower_1_billion: Nhà phố dưới 1 tỷ
-      register_html: Đăng ký theo dõi
+      register: Đăng ký theo dõi
     footer:
       policy:
         title: Chính sách
@@ -234,6 +238,10 @@ vi:
       page_description: Danh sách bất động sản
       favorite_list_title: Bất động sản nổi bật
       list_title: Bất động sản gần đây
+    _items_list:
+      favorite_title_html: Nhấn đề <b>thêm</b> vào danh sách <b>quan tâm</b>
+      disfavorite_title_html: Nhấn đề <b>xóa</b> khỏi danh sách <b>quan tâm</b>
+      favorite_text: Đang quan tâm
     _items_list_2:
       view_detail: Xem chi tiết
     view:

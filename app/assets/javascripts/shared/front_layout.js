@@ -141,37 +141,92 @@ $(function () {
 			});
 		});
 
-		function openMobileMenu() {
-			$('#main_menu').show().css('overflow-y', 'scroll');
+		var favResTo;
 
-			$('#main_menu nav').css({
-				left: '-100%'
-			}).animate({
-				left: '0'
-			}, 500);
+		function openMobileMenu() {
+			// Show
+			$('#main_menu').css('display', 'block');
+			setTimeout(function () {
+				$('#main_menu').addClass('active');
+			});
 
 			$('body').css({
 				width: $('body').width() + 'px'
 			}).addClass('no-scroll');
+
+			// Fav res
+			if ($('#main_menu .fav-res').length != 0) {
+				activeFavRe($('#main_menu .fav-res .item:eq(0)'));
+				favResTo = setIntervalFavRes();
+
+				$('#main_menu .fav-res').on({
+					mouseenter:		function () {
+										clearInterval(favResTo);
+									},
+					mouseleave:		function () {
+										favResTo = setIntervalFavRes();
+									}
+				});
+
+				$('#main_menu .fav-res .item').on({
+					mouseenter:		function () {
+										activeFavRe($(this));
+									}
+				});
+			}
 		}
 
 		function closeMobileMenu() {
-			$('#main_menu').fadeOut(500).css('overflow-y', 'hidden');
-			$('#main_menu nav').animate({
-				left: '-100%'
-			}, 300);
+			// Hide
+			$('#main_menu').removeClass('active').fadeOut(300);
 
 			$('body').css({
 				width: 'auto'
 			}).removeClass('no-scroll');
+
+			// Fav res
+			clearInterval(favResTo);
+		}
+
+		function setIntervalFavRes() {
+			return setInterval(function () {
+				var $activeItem = $('#main_menu .fav-res .active');
+
+				if ($activeItem.is(':last-child')) {
+					activeFavRe($('#main_menu .fav-res .item:eq(0)'));
+				}
+				else {
+					activeFavRe($activeItem.next());
+				}
+			}, 3000);
+		}
+
+		function activeFavRe($item) {
+			if ($item.hasClass('active')) {
+				return;
+			}
+
+			$item.siblings('.active').removeClass('active');
+			$item.addClass('active');
+
+			$item.closest('.fav-res').find('.title').text($item.data('title'));
 		}
 	
 	// / Mobile menu button
 
 	// Search box
-	
+
 		$('.search-box-container.in-top .box-title').on('click', function () {
-			$(this).closest('.search-box').find('.box-content').stop().slideToggle();
+			var $box = $(this).closest('.search-box-container');
+
+			if ($box.hasClass('active')) {
+				$(this).fadeIn();
+				$box.find('.box-content').stop().slideUp();
+			}
+			else {
+				$(this).fadeOut();
+				$box.find('.box-content').stop().slideDown();
+			}
 		});
 
 		(function () {
@@ -661,6 +716,8 @@ $(function () {
 
 	function _initMediumItemsList($listBox) {
 
+		_initGeneral($listBox);
+
 		// Dotdotdot title
 			
 			$listBox.find('.item .title a').dotdotdot({
@@ -669,6 +726,53 @@ $(function () {
 			});
 		
 		// / Dotdotdot title
+
+		// Favorite
+		
+			$listBox.find('.item .feature .favorite').on('click', function () {
+				var $button = $(this);
+				var $item = $button.closest('.item');
+
+				$button.find('.icon').startLoadingStatus();
+
+				$.ajax({
+					url: '/real_estates/user_favorite/' + $item.data('value'),
+					method: 'POST',
+					data: {
+						is_add: $item.data('is-favorite') ? '0' : '1'
+					},
+					dataType: 'JSON'
+				}).always(function () {
+					$button.find('.icon').endLoadingStatus()
+				}).done(function (data) {
+					if (data.status == 0) {
+						var isFavorite, text;
+						if ($item.data('is-favorite')) {
+							$item.data('is-favorite', false);
+							$button
+								.attr('data-original-title', 'Nhấn đề <b>thêm</b> vào danh sách <b>quan tâm</b>')
+								.removeClass('has-bg');
+							$button.find('.text').text('');
+							$button.find('.icon').removeClass('ico-star').addClass('ico-star-o');
+						}
+						else {
+							$item.data('is-favorite', true);
+							$button
+								.attr('data-original-title', 'Nhấn đề <b>xóa</b> khỏi danh sách <b>quan tâm</b>')
+								.addClass('has-bg');
+							$button.find('.text').text('Đang quan tâm');
+							$button.find('.icon').removeClass('ico-star-o').addClass('ico-star');
+						}
+					}
+					else {
+						errorPopup();
+					}
+				}).fail(function () {
+					errorPopup();
+				});
+			});
+		
+		// / Favorite
 
 	}
 

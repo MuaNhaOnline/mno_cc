@@ -295,7 +295,7 @@ class Project < ActiveRecord::Base
 			other_params = {
 				is_draft: _is_draft,
 				is_pending: true,
-				slug: ApplicationHelper.to_slug(ApplicationHelper.de_unicode(self.project_name))
+				slug: ApplicationHelper.to_slug(ApplicationHelper.deunicode(self.project_name))
 			}
 
 			assign_attributes other_params
