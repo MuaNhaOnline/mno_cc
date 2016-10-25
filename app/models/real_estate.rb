@@ -36,32 +36,47 @@ class RealEstate < ActiveRecord::Base
 		has_one :searchable, class_name: 'SearchableRealEstate'
 
 		include PgSearch
-		pg_search_scope :pg_search,
-			associated_against: {
-				searchable: {
-					:real_estate_id			=>	'A',
-					:real_estate_display_id	=>	'A',
-					:real_estate_type		=>	'A',
-					:address				=>	'A',
-					:title 					=>	'D',
-					:description 			=>	'D'
-				}
+		pg_search_scope :pg_search, lambda { |query, fields = nil|
+			{
+				associated_against: {
+					searchable: fields || {
+						:real_estate_id			=>	'A',
+						:real_estate_display_id	=>	'A',
+						:real_estate_type		=>	'A',
+						:address				=>	'A',
+						:title 					=>	'D',
+						:description 			=>	'D'
+					}
+				},
+				query: query
 			}
-		pg_search_scope :pg_address_sort,
-			associated_against: {
-				searchable: {
-					:real_estate_id			=>	'D',
-					:real_estate_display_id	=>	'D',
-					:real_estate_type		=>	'D',
-					:address				=>	'A',
-					:title 					=>	'D',
-					:description 			=>	'D'
-				}
-			},
-			using: {
-				:tsearch => {:any_word => true},
-				:dmetaphone => {:any_word => true, :sort_only => true}
-			}
+		}
+		# pg_search_scope :pg_search,
+		# 	associated_against: {
+		# 		searchable: {
+		# 			:real_estate_id			=>	'A',
+		# 			:real_estate_display_id	=>	'A',
+		# 			:real_estate_type		=>	'A',
+		# 			:address				=>	'A',
+		# 			:title 					=>	'D',
+		# 			:description 			=>	'D'
+		# 		}
+		# 	}
+		# pg_search_scope :pg_address_sort,
+		# 	associated_against: {
+		# 		searchable: {
+		# 			:real_estate_id			=>	'D',
+		# 			:real_estate_display_id	=>	'D',
+		# 			:real_estate_type		=>	'D',
+		# 			:address				=>	'A',
+		# 			:title 					=>	'D',
+		# 			:description 			=>	'D'
+		# 		}
+		# 	},
+		# 	using: {
+		# 		:tsearch => {:any_word => true},
+		# 		:dmetaphone => {:any_word => true, :sort_only => true}
+		# 	}
 
 		def pg_search_update
 			keys = self.previous_changes.keys
@@ -1078,21 +1093,30 @@ class RealEstate < ActiveRecord::Base
 						keyword_arr = keyword.split ' '
 
 						# Address
-						index = keyword_arr.index{ |v| ['quan', 'huyen'].include? v }
+						# index = keyword_arr.index{ |v| ['quan', 'huyen'].include? v }
+						index = keyword_arr.index{ |v| ['quan', 'huyen', 'duong'].include? v }
 						# If exists && not last
 						if index.present? && index != keyword_arr.count - 1
-							# If next key is integer => get 'quan' + 1 word
-							# Else => 2 words
-							if keyword_arr[index + 1] =~ /\A\d+\Z/
-								address_keyword = "quan #{keyword_arr[index + 1]}cxcx1`"
-							else
-								address_keyword = "#{keyword_arr[index + 1]} #{keyword_arr[index + 2]}"
-							end
-							results = results.pg_address_sort address_keyword
+							# # If next key is integer => get 'quan' + 1 word
+							# # Else => 2 words
+							# if keyword_arr[index + 1] =~ /\A\d+\Z/
+							# 	address_keyword = "quan #{keyword_arr[index + 1]}cxcx1`"
+							# else
+							# 	address_keyword = "#{keyword_arr[index + 1]} #{keyword_arr[index + 2]}"
+							# end
+							results = results.pg_search keyword, {
+								:real_estate_id			=>	'A',
+								:real_estate_display_id	=>	'A',
+								:real_estate_type		=>	'B',
+								:address				=>	'A',
+								:title 					=>	'D',
+								:description 			=>	'D'
+							}
+						else
+							# Normal
+							results = results.pg_search keyword
 						end
 
-						# Normal
-						results = results.pg_search keyword
 					end
 				
 				# / Keyword

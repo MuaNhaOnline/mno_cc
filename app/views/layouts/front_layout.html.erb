@@ -186,12 +186,14 @@
 									<li>
 										<a href="<%= res_path %>"><%= t scope + 'main_menu.re.list.list' %></a>
 									</li>
-									<li>
-										<a href="<%= my_res_path %>"><%= t scope + 'main_menu.re.list.my' %></a>
-									</li>
-									<li>
-										<a href="<%= my_favorite_res_path %>"><%= t scope + 'main_menu.re.list.my_favorite' %></a>
-									</li>
+									<% if can? :view_my, :RealEstate %>
+										<li>
+											<a href="<%= my_res_path %>"><%= t scope + 'main_menu.re.list.my' %></a>
+										</li>
+										<li>
+											<a href="<%= my_favorite_res_path %>"><%= t scope + 'main_menu.re.list.my_favorite' %></a>
+										</li>
+									<% end %>
 								</ul>
 							</li>
 							<li>
