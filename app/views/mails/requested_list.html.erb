@@ -124,7 +124,7 @@
 	</section>
 
 	<section id="paginator" class="text-center">
-		<%= render partial: 'shared/paginator', locals: { total: requests.count, page: page, per: per } %>
+		<%= render partial: 'shared/pagination', locals: { total: requests.count, page: page, per: per } %>
 	</section>
 <% end %>
 

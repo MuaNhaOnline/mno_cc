@@ -16,7 +16,7 @@ $(function () {
 				toggleLoadStatus(false);
 			}).done(function (data) {
 				if (data.status == 0) {
-					window.location = '/';
+					window.location = data.result;
 				}
 				else if (data.status == 5) {
 					if (data.result.status == 3) {

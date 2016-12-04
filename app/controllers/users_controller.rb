@@ -237,9 +237,11 @@ class UsersController < ApplicationController
 				cookies.delete :user_password
 			end
 
+            redirect_path = session[:redirect_after_signin] || profile_path
+            session.delete :redirect_after_signin
 			respond_to do |format|
-				format.html { redirect_to '/' }
-				format.json { render json: { status: 0, result: user.id } }
+				format.html { redirect_to redirect_path }
+				format.json { render json: { status: 0, result: redirect_path } }
 			end
 		end
 

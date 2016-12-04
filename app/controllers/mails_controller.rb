@@ -203,7 +203,7 @@ class MailsController < ApplicationController
 									}
 								),
 								paginator: render_to_string(
-									partial: '/shared/paginator',
+									partial: '/shared/pagination',
 									formats: :html,
 									locals: {
 										total: 	requests.count,

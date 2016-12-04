@@ -22,7 +22,14 @@ class ApplicationController < ActionController::Base
 
 	rescue_from CanCan::AccessDenied do |e|
 		respond_to do |format|
-			format.html { redirect_to(_route_helpers.root_path) }
+			format.html {
+                if signed?
+                    redirect_to(root_path)
+                else
+                    session['redirect_after_signin'] = request.original_url
+                    redirect_to(signin_path)
+                end
+            }
 			format.json { render json: { status: 6, result: 'author' } }
 		end
 	end
