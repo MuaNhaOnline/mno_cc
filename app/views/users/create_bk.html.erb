@@ -1,0 +1,314 @@
+<% content_for :stylesheets do %>
+<% end %>
+
+<% content_for :javascript do %>
+	<script type="text/javascript" src="/assets/users/create.js"></script>
+<% end %>
+
+<% if @user.new_record? 
+	content_for :content_header do %>
+		<%= t 'user.view.create.form_title' %>
+	<% end %>
+<% end %>
+
+<% 
+=begin
+	params: @user
+=end
+
+	if @user.new_record?
+		@title = t 'user.view.create.page_title'
+	else
+		@title = @user.full_name
+	end
+
+	# Image
+	avatar_init_value = ''
+	if !@user.new_record? && @user.avatar.present?
+		avatar_init_value = { 'url': @user.avatar.url }.to_json
+	end
+%>
+
+<form class="row form" id="create_user" data-entertotab>
+	<% if @user.new_record? %>
+		<input type="hidden" id="zc_gad" name="zc_gad" value="" />
+	<% else %>
+		<input type="hidden" name="user[id]" value="<%= @user.id %>" />
+	<% end %>
+	<div class="col-md-6">
+		<article class="box box-default box-primary">
+			<section class="box-header with-border">
+				<h2 class="box-title">
+					<%= t 'user.attribute.account_box' %>
+				</h2>
+			</section>
+			<section class="box-body">
+
+				<% if @user.new_record? %>
+
+					<!-- Account name -->
+
+						<article class="form-group">
+							<label for="account"><%= t 'user.attribute.account' %></label>
+							<sup class="required-label"></sup>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-user"></i>
+								</div>
+								<input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" autofocus />
+							</div>
+						</article>
+
+					<!-- / Account name -->
+
+					<!-- Password -->
+
+						<div class="row">
+							<article class="form-group col-md-6">
+								<label for="password"><%= t 'user.attribute.password' %></label>
+								<sup class="required-label"></sup>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-lock"></i>
+									</div>
+									<input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
+								</div>
+							</article>
+							<article class="form-group col-md-6">
+								<label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
+								<sup class="required-label"></sup>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-lock"></i>
+									</div>
+									<input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" />
+								</div>
+							</article>
+						</div>
+
+					<!-- / Password -->
+
+				<% elsif @user.provider.blank? %>
+
+					<!-- Change password -->
+
+						<article class="form-group">
+							<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-flat btn-block">Đổi mật khẩu</a>
+						</article>
+
+					<!-- / Change password -->
+
+				<% end %>
+
+				<!-- Full name -->
+
+					<article class="form-group">
+						<label for="full_name"><%= t 'user.attribute.full_name' %></label>
+						<sup class="required-label"></sup>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-font"></i>
+							</div>
+							<input value="<%= @user.full_name %>" name="user[full_name]" data-constraint="required" type="text" class="form-control" id="full_name" />
+						</div>
+					</article>
+
+				<!-- / Full name -->
+
+				<!-- Email -->
+
+					<% if @user.provider.blank? %>
+
+						<% if @user.active_status == 2 || @user.active_status == 3 %>
+							<article class="form-group">
+								<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
+								<p class="text-center">
+									<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
+									<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
+								</p>
+							</article>
+							<article class="form-group hide" aria-name="email">
+						<% else %>
+							<article class="form-group">
+						<% end %>
+							<label for="email"><%= t 'user.attribute.email' %></label>
+							<sup class="required-label"></sup>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-envelope"></i>
+								</div>
+								<% if @user.new_record? %>
+									<% if left_contact? %>
+										<input data-toggled-element="default-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" value="<%= current_left_contact.email %>" readonly="true" tabindex="-1" />
+										<input data-toggled-element="new-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+									<% else %>
+										<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+									<% end %>
+								<% else %>
+									<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
+								<% end %>
+							</div>
+						</article>
+
+					 <% end %>
+
+				<!-- / Email -->
+
+				<!-- Phone number -->
+
+					<article class="form-group">
+						<label for="phone_number">
+							<%= t 'user.attribute.phone_number' %>
+							<sup class="required-label"></sup>
+						</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-phone"></i>
+							</div>
+							<% if @user.new_record? && left_contact? %>
+								<input data-toggled-element="default-contact" value="<%= current_left_contact.phone_number %>" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" readonly="true" tabindex="-1" />
+								<input data-toggled-element="new-contact" value="" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" />
+							<% else %>
+								<input value="<%= @user.phone_number %>" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" />
+							<% end %>
+						</div>
+					</article>
+
+				<!-- / Phone number -->
+
+				<% if @user.new_record? && left_contact? %>
+					<input data-toggled-element="default-contact" type="hidden" name="contact_id" value="<%= current_left_contact.id %>" />
+					<article class="form-group text-right">
+						<div class="radio margin-0">
+							<label data-toggled-element="default-contact">
+								<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
+								<a style="color: inherit;">Không phải tôi</a>
+							</label>
+							<label data-toggled-element="new-contact">
+								<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
+								<a style="color: inherit;">Quay lại</a>
+							</label>
+						</div>
+					</article>
+				<% end %>
+
+				<article class="form-group">
+					<input name="user[is_receive_email]" type="hidden" value="false">
+					<label class="checkbox-inline">
+						<input <%= 'checked' if @user.is_receive_email %> name="user[is_receive_email]" type="checkbox">
+						Nhận email thông báo
+					</label>
+				</article>
+			</section>
+		</article>	
+	</div>
+
+	<% if @user.new_record? %>
+
+		<div class="col-md-12 hidden-md hidden-lg">
+
+			<!-- Button -->
+
+			<article class="box box-solid">
+				<section class="box-body row">
+					<div class="margin-top-bottom-5 col-md-12">
+						<button type="submit" class="btn btn-default btn-block btn-flat animate-icon"><span class="icon pull-right fa fa-arrow-down"></span><%= t('user.view.create.half_finish_1').html_safe %></button>
+					</div>
+				</section>
+			</article>
+
+			<!-- /Button -->
+
+		</div>
+
+	<% end %>
+
+	<div class="col-md-6">
+		<article class="box box-default">
+			<section class="box-header with-border">
+				<h2 class="box-title">
+					<%= t 'user.view.create.addition_box' %>
+				</h2>
+			</section>
+			<section class="box-body">
+
+				<!-- Birthday -->
+
+					<article class="form-group">
+						<label for="birthday"><%= t 'user.attribute.birthday' %></label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input value="<%= @user.birthday.strftime('%Y') unless @user.birthday.nil? %>" data-constraint="integer range" data-minvalue="1900" data-maxvalue="<%= Date.today.strftime('%Y') %>" class="form-control" type="text" name="user[birthday]" />
+						</div>
+					</article>
+
+				<!-- / Birthday -->
+
+				<!-- Business name -->
+
+				<article class="form-group">
+					<label for="business_name"><%= t 'user.attribute.business_name' %></label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-group"></i>
+						</div>
+						<input value="<%= @user.business_name %>" name="user[business_name]" type="text" class="form-control" id="business_name" />
+					</div>
+				</article>
+
+				<!-- / Business name -->
+
+				<!-- Address -->
+
+				<article class="form-group">
+					<label for="address"><%= t 'user.attribute.address' %></label>
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-home"></i>
+						</div>
+						<textarea name="user[address]" class="form-control" id="address"><%= @user.address %></textarea>
+					</div>
+				</article>
+
+				<!-- Address -->
+
+				<!-- Avatar -->
+
+				<article class="form-group">
+					<label><%= t 'user.attribute.avatar_image' %></label>
+					<input data-init-value="<%= avatar_init_value %>" name="user[avatar_id]" class="file-upload" type="file" data-types="image" data-ratio="1" />
+				</article>
+
+				<!-- / Avatar -->
+
+			</section>
+		</article>	
+	</div>
+
+	<div class="col-md-12">
+
+		<!-- Button -->
+
+		<article class="box box-solid">
+			<section class="box-body row">
+				<% if @user.new_record? %>
+					<div class="margin-top-bottom-5 col-md-6 hidden-xs hidden-sm">
+						<button type="submit" class="btn btn-default btn-block btn-flat"><span class="icon pull-right fa fa-arrow-up" style="transform: rotate(45deg)"></span><%= t('user.view.create.half_finish_2').html_safe %></button>
+					</div>
+					<div class="margin-top-bottom-5 col-md-6">
+						<button type="submit" class="btn btn-primary btn-block btn-flat animate-icon"><span class="icon pull-left fa fa-check"></span><b><%= t 'user.view.create.finish' %></b></button>
+					</div>
+				<% else %>
+					<div class="margin-top-bottom-5 col-md-12">
+						<button type="submit" class="btn btn-primary btn-block btn-flat animate-icon"><span class="icon pull-left fa fa-check"></span><b><%= t 'user.view.create.finish' %></b></button>
+					</div>
+				<% end %>
+			</section>
+		</article>
+
+		<!-- /Button -->
+
+	</div>
+</form>

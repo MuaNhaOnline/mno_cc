@@ -113,41 +113,41 @@ class RealEstate < ActiveRecord::Base
 
 	# Solr
 	
-		searchable do
-			integer		:id
-			text 		:display_id, :default_boost => 3.0 do
-							self.display_id + ' ' + self.display_id(true)
-						end
-			text 		:title
-			text 		:description
-			text 		:address, :default_boost => 2.0 do 
-							self.display_short_address
-						end
-			text 		:real_estate_type, :default_boost => 2.0 do
-							self.display_real_estate_type
-						end 
+		# searchable do
+		# 	integer		:id
+		# 	text 		:display_id, :default_boost => 3.0 do
+		# 					self.display_id + ' ' + self.display_id(true)
+		# 				end
+		# 	text 		:title
+		# 	text 		:description
+		# 	text 		:address, :default_boost => 2.0 do 
+		# 					self.display_short_address
+		# 				end
+		# 	text 		:real_estate_type, :default_boost => 2.0 do
+		# 					self.display_real_estate_type
+		# 				end 
 
-			boolean		:is_pending
-			boolean 	:is_show
-			boolean 	:is_force_hide
-			boolean 	:is_favorite
-			integer		:block_real_estate_group_id
-			integer		:purpose_id
-			string		:purpose_code do
-							self.purpose.code if self.purpose.present?
-						end
-			integer		:real_estate_type_id
-			integer		:province_id
-			integer		:district_id
-			double		:rent_price
-			double		:sell_price
-			double		:area do
-							self.display_area
-						end
-			time		:created_at
-			integer		:region_utility_ids, multiple: true
-			integer		:user_id
-		end
+		# 	boolean		:is_pending
+		# 	boolean 	:is_show
+		# 	boolean 	:is_force_hide
+		# 	boolean 	:is_favorite
+		# 	integer		:block_real_estate_group_id
+		# 	integer		:purpose_id
+		# 	string		:purpose_code do
+		# 					self.purpose.code if self.purpose.present?
+		# 				end
+		# 	integer		:real_estate_type_id
+		# 	integer		:province_id
+		# 	integer		:district_id
+		# 	double		:rent_price
+		# 	double		:sell_price
+		# 	double		:area do
+		# 					self.display_area
+		# 				end
+		# 	time		:created_at
+		# 	integer		:region_utility_ids, multiple: true
+		# 	integer		:user_id
+		# end
 	
 	# / Solr
 
@@ -193,195 +193,199 @@ class RealEstate < ActiveRecord::Base
 
 	# Validations
 
+		def before_validation
+			# Reload fields
+			fields true
+		end
+
 		validate :custom_validate
 
 		def custom_validate
-			return if is_draft
-			
-			if block_real_estate_group_id.present?
+			# Skip if
+			if is_draft || block_real_estate_group_id.present?
 				return
 			end
-
-			# Reload fields
-			fields true
 			
 			# Purpose
-			if fields.include?(:purpose) && purpose.blank?
-				errors.add :purpose, 'Mục đích không thể bỏ trống'
+			if purpose.blank?
+				add_err :purpose, 'blank'
 				return
 			end
 
 			# Currency
-			if fields.include?(:currency) && currency.blank?
-				errors.add :currency, 'Loại tiền tệ không thể bỏ trống'
+			if currency.blank?
+				add_err :currency, 'blank'
 				return
 			end
 
 			# Unit
 			if fields.include?(:sell_unit) && sell_price.present? && sell_unit.blank?
-				errors.add :sell_unit, 'Đơn vị tính giá bán không thể bỏ trống'
+				add_err :sell_unit, 'blank'
 				return
 			end
 			if fields.include?(:rent_unit) && rent_price.present? && rent_unit.blank?
-				errors.add :rent_unit, 'Đơn vị tính giá cho thuê không thể bỏ trống'
+				add_err :rent_unit, 'blank'
 				return
 			end
 
 			# Location
-			if fields.include?(:province) && province.blank?
-				errors.add :province, 'Tỉnh/thành phố không thể bỏ trống'
+			if province.blank?
+				add_err :province, 'blank'
 				return
 			end
-			if fields.include?(:district) && district.blank?
-				errors.add :district, 'Quận không thể bỏ trống'
+			if district.blank?
+				add_err :district, 'blank'
 				return
 			end
-			if fields.include?(:street) && street.blank?
-				errors.add :street, 'Đường không thể bỏ trống'
+			if street.blank?
+				add_err :street, 'blank'
+				return
+			end
+			if lat.blank?
+				add_err :lat, 'blank'
+				return
+			end
+			if lng.blank?
+				add_err :lng, 'blank'
 				return
 			end
 
 			# Street_type
-			if fields.include?(:street_type) && street_type.blank?
-				errors.add :street_type, 'Loại đường không thể bỏ trống'
-				return
+			if fields.include?(:street_type)
+				if street_type.blank?
+					add_err :street_type, 'blank'
+					return
+				end
+				unless [PUBLIC_STREET, PRIVATE_STREET].include? street_type
+					add_err :street_type, 'invalid'
+				end
 			end
 
 			# Alley
 			if fields.include?(:is_alley) && is_alley.nil?
-				errors.add :is_alley, 'Mặt đường không thể bỏ trống'
-				return
-			end
-			if fields.include?(:alley_width) && alley_width.blank?
-				errors.add :alley_width, 'Độ rộng hẻm không thể bỏ trống'
+				add_err :is_alley, 'blank'
 				return
 			end
 
 			# Type
-			if fields.include?(:real_estate_type) && real_estate_type.blank?
-				errors.add :real_estate_type, 'Loại bất động sản không thể bỏ trống'
+			if real_estate_type.blank?
+				add_err :real_estate_type, 'blank'
 				return
 			end
 
 			# Building name
 			if fields.include?(:building_name) && building_name.blank?
-				errors.add :building_name, 'Tên tòa nhà không thể bỏ trống'
+				add_err :building_name, 'blank'
 				return
 			end
 
 			# Area
 			if fields.include?(:constructional_area) && constructional_area.blank?
-				errors.add :constructional_area, 'Diện tích xây dựng không thể bỏ trống'
+				add_err :constructional_area, 'blank'
 				return
 			end
 			if fields.include?(:using_area) && using_area.blank?
-				errors.add :using_area, 'Diện tích sử dụng không thể bỏ trống'
+				add_err :using_area, 'blank'
 				return
 			end
 			if fields.include?(:campus_area) && campus_area.blank?
-				errors.add :campus_area, 'Diện tích khuôn viên không thể bỏ trống'
+				add_err :campus_area, 'blank'
 				return
 			end
-
-			# Width
-			# if fields.include?(:width_x) && width_x.blank?
-			#   errors.add :width_x, 'Chiều ngang không thể bỏ trống'
-			#   return
-			# end
-			# if fields.include?(:width_y) && width_y.blank?
-			#   errors.add :width_y, 'Chiều dài không thể bỏ trống'
-			#   return
-			# end
 
 			# Shape
-			if fields.include?(:shape) && shape.blank?
-				errors.add :shape, 'Hình dáng không thể bỏ trống'
-				return
-			end
-			if fields.include?(:shape_width) && shape_width.blank?
-				errors.add :shape_width, 'Kích thước mặt hậu không thể bỏ trống'
-				return
+			if fields.include?(:shape)
+				if shape.blank?
+					add_err :shape, 'blank'
+					return
+				end
+				unless [NORMAL_SHAPE, LESS_SHAPE, GREATER_SHAPE].include? shape
+					add_err :shape, 'invalid'
+					return
+				end
+
+				# Shape width
+				if fields.include?(:shape_width) && shape_width.blank?
+					add_err :shape_width, 'blank'
+					return
+				end
 			end
 
 			# Number of ...
-			# if fields.include?(:floor_number) && floor_number.blank?
-			#   errors.add :floor_number, 'Tầng không thể bỏ trống'
-			#   return
-			# end
+			if fields.include?(:floor_number) && floor_number.blank?
+				add_err :floor_number, 'blank'
+			  return
+			end
 			if fields.include?(:restroom_number) && restroom_number.blank?
-				errors.add :restroom_number, 'Số phòng tắm không thể bỏ trống'
+				add_err :restroom_number, 'blank'
 				return
 			end
 			if fields.include?(:bedroom_number) && bedroom_number.blank?
-				errors.add :bedroom_number, 'Số phòng ngủ không thể bỏ trống'
+				add_err :bedroom_number, 'blank'
 				return
 			end
 
 			# Direction
 			if fields.include?(:direction) && direction.blank?
-				errors.add :direction, 'Hướng không thể bỏ trống'
+				add_err :direction, 'blank'
 				return
 			end
 
 			# Constructional level
 			if fields.include?(:constructional_level) && constructional_level.blank?
-				errors.add :constructional_level, 'Loại nhà không thể bỏ trống'
+				add_err :constructional_level, 'blank'
 				return
 			end
 
 			# Build year
 			if fields.include?(:build_year) && build_year.blank?
-				errors.add :build_year, 'Năm xây dựng không thể bỏ trống'
+				add_err :build_year, 'blank'
 				return
 			end
-
-			# Constructional level
-			if fields.include?(:constructional_level) && constructional_level.blank?
-				errors.add :constructional_level, 'Loại nhà không thể bỏ trống'
-				return
-			end
-
 
 			# Constructional quality
-			if fields.include?(:constructional_quality) && constructional_quality.blank?
-				errors.add :constructional_quality, 'Hiện trạng không thể bỏ trống'
-				return
+			if fields.include?(:constructional_quality)
+				if constructional_quality.blank?
+					add_err :constructional_quality, 'blank'
+					return
+				end
+				unless [BEST_QUALITY, NEW_QUALITY, NORMAL_QUALITY, LOW_QUALITY].include? constructional_quality
+					add_err :constructional_quality, 'invalid'
+				end
 			end
 
 			# Title
-			if fields.include?(:title) && title.blank?
-				errors.add :title, 'Tiêu đề không thể bỏ trống'
+			if title.blank?
+				add_err :title, 'blank'
 				return
 			end
 
 			# Description
-			if fields.include?(:description) && description.blank?
-				errors.add :description, 'Mô tả không thể bỏ trống'
+			if description.blank?
+				add_err :description, 'blank'
 				return
 			end
 
 			# Legal record type
 			if fields.include?(:legal_record_type)
-				if legal_record_type.blank? && legal_record_type_id != 0
-					errors.add :legal_record_type, 'Hồ sơ pháp lý không thể bỏ trống'
-					return
-				end
-				if fields.include?(:custom_legal_record_type) && custom_legal_record_type.blank?
-					errors.add :custom_legal_record_type, 'Hồ sơ pháp lý không thể bỏ trống'
+				if legal_record_type.blank? && custom_legal_record_type.blank?
+					add_err :legal_record_type, 'blank'
 					return
 				end
 			end
 
 			# Planning status type
 			if fields.include?(:planning_status_type)
-				if planning_status_type.blank? && planning_status_type_id != 0
-					errors.add :planning_status_type, 'Tình trạng quy hoạch không thể bỏ trống'
+				if planning_status_type.blank? && custom_planning_status_type.blank?
+					add_err :planning_status_type, 'blank'
 					return
 				end
-				if fields.include?(:custom_planning_status_type) && custom_planning_status_type.blank?
-					errors.add :custom_planning_status_type, 'Tình trạng quy hoạch không thể bỏ trống'
-					return
-				end
+			end
+
+			# Image
+			if images.blank?
+				add_err :image, 'blank'
+				return
 			end
 		end
 
@@ -803,15 +807,23 @@ class RealEstate < ActiveRecord::Base
 				# search_obj.with :is_pending, false
 				# search_obj.with :is_show, true
 				# search_obj.with :is_force_hide, false
-				self.where is_pending: false, is_show: true, is_force_hide: false, block_real_estate_group_id: nil
+				self.where is_draft: false, is_pending: false, is_show: true, is_force_hide: false, block_real_estate_group_id: nil
 			end
 
-			def self.my_favorite_list_conditions search_obj
-				# return unless User.signed?
+            def self.my_list_conditions
+                if User.signed?
+                    self.where(user_id: User.current.id, block_real_estate_group_id: nil)
+                else
+                    self.where('false')
+                end
+            end
 
-				# ids = UsersFavoriteRealEstate.of_current_user.order(created_at: :asc).pluck(:real_estate_id)
-
-				# search_obj.with :id, ids
+			def self.my_favorite_list_conditions
+				if User.signed?
+					self.joins(:users_favorite_real_estates).where(users_favorite_real_estates: { user_id: User.current.id })
+				else
+					self.where('false')
+				end
 			end
 
 			# params
@@ -1633,10 +1645,7 @@ class RealEstate < ActiveRecord::Base
 		# Get fields
 
 		def self.get_fields re
-			fields = [
-				:purpose, :currency, :is_negotiable,
-				:address_number, :province, :district, :ward, :street, :lat, :lng,
-				:title, :description]
+			fields = []
 
 			if re.purpose.present?
 				fields << :sell_price if re.purpose.code == 'transfer'
@@ -1647,21 +1656,21 @@ class RealEstate < ActiveRecord::Base
 			if re.is_full
 				fields << :street_type << :is_alley
 				fields << :alley_width if re.is_alley
-				fields << :real_estate_type << :region_utility << :advantage << :disadvantage
+				fields << :region_utility << :advantage << :disadvantage
 
 				if re.purpose.present? && (re.purpose.code == 'sell' || re.purpose.code == 'sell_rent')
 					fields << :legal_record_type << :planning_status_type
-					fields << :custom_legal_record_type if re.legal_record_type_id == 0
-					fields << :custom_planning_status_type if re.planning_status_type_id == 0
 				end
 
 				if re.real_estate_type.present?
 					case re.real_estate_type.options['group']
 						when 'land'
 							fields << :campus_area << :shape << :width_x << :width_y
+							fields << :shape_width if re.shape != 0
 						when 'space', 'house'
 							fields << :campus_area << :using_area << :constructional_area << :restroom_number << :bedroom_number << :build_year <<
 								:constructional_quality << :direction << :shape << :width_x << :width_y << :property_utility
+							fields << :shape_width if re.shape != 0
 							if re.real_estate_type.options['group'] == 'house'
 								fields << :floor_number
 								if re.real_estate_type.name == 'town_house'
@@ -1677,7 +1686,7 @@ class RealEstate < ActiveRecord::Base
 					end
 				end
 			else
-				fields << :real_estate_type << :campus_area
+				fields << :campus_area
 			end
 
 			fields

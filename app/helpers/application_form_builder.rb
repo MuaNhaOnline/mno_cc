@@ -22,10 +22,8 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 	def field type, method, options = {}, params = {}
 		# Options
 
-			# class attribute
-			if options[:class].blank?
-				options[:class] = 'form-control'
-			end
+			options[:class] ||= 'form-control'
+            options[:'data-constraint'] ||= ''
 
 		# / Options
 
@@ -62,8 +60,7 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 			# Required field
 
 				if params[:require]
-					options[:'data-constraint'] ||= ''
-					options[:'data-constraint'] = ' required'
+					options[:'data-constraint'] << ' required'
 				end
 			
 				if 	(
@@ -80,6 +77,21 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 				end
 			
 			# / Required field
+
+            # Constraint
+            
+                if params[:constraints].present?
+                    params[:constraints].each do |key, value|
+                        options[:'data-constraint'] << ' ' + key.to_s
+                        case key
+                        when :range
+                            options[:'data-minvalue'] = value[:min] if value[:min]
+                            options[:'data-maxvalue'] = value[:max] if value[:max]
+                        end
+                    end
+                end
+            
+            # / Constraint
 
 			# Input toggle
 			
@@ -197,6 +209,10 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 			if params[:amount].present?
 				options[:'data-amount'] = params[:amount]
 			end
+            # Ratio
+            if params[:ratio].present?
+                options[:'data-ratio'] = params[:ratio]
+            end
 
 			# Default
 			images = self.object.send(method)

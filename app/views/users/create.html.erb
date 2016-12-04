@@ -1,14 +1,5 @@
-<% content_for :stylesheets do %>
-<% end %>
-
-<% content_for :scripts do %>
+<% content_for :javascripts do %>
 	<script type="text/javascript" src="/assets/users/create.js"></script>
-<% end %>
-
-<% if @user.new_record? 
-	content_for :content_header do %>
-		<%= t 'user.view.create.form_title' %>
-	<% end %>
 <% end %>
 
 <% 
@@ -16,299 +7,288 @@
 	params: @user
 =end
 
-	if @user.new_record?
-		@title = t 'user.view.create.page_title'
-	else
-		@title = @user.full_name
-	end
+    breadcrumb = []
+    if @user.new_record?
+        breadcrumb <<   {
+                            text: t('.page_title.create')
+                        }
+    else
+        breadcrumb <<   {
+                            text: @user.full_name,
+                            url: view_user_path(@user)
+                        }
+        breadcrumb <<   {
+                            text: t('.page_title.edit')
+                        }
+    end
+    @_main_navigator = {
+        list: breadcrumb
+    }
 
-	# Image
-	avatar_init_value = ''
-	if !@user.new_record? && @user.avatar.present?
-		avatar_init_value = { 'url': @user.avatar.url }.to_json
-	end
+    @_hide_search_box = true
 %>
 
-<form class="row form" id="create_user" data-entertotab>
-	<% if @user.new_record? %>
-		<input type="hidden" id="zc_gad" name="zc_gad" value="" />
-	<% else %>
-		<input type="hidden" name="user[id]" value="<%= @user.id %>" />
-	<% end %>
-	<div class="col-md-6">
-		<article class="box box-default box-primary">
-			<section class="box-header with-border">
-				<h2 class="box-title">
-					<%= t 'user.attribute.account_box' %>
-				</h2>
-			</section>
-			<section class="box-body">
+<div class="container">
+    <%= form_for(
+        @user,
+        url:    '/users/save/',
+        method: 'POST',
+        html:   {
+                    id:     'user_form',
+                    class:  'form'
+                }
+    ) do |f| %>
+        <%= f.field('hidden', :id) %>
+        <div class="container-box container-box-transparent">
+            <div class="container-box-header">
+                <h2 class="container-box-title">
+                    <%= breadcrumb.last[:text] %>
+                </h2>
+            </div>
+            <div class="container-box-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="box box-form">
+                            <div class="box-header">
+                                <h3 class="box-title">
+                                    <%= t '.account_box.box_title' %>
+                                </h3>
+                            </div>
+                            <div class="box-body">
+                                <% if @user.new_record? %>
+                                    <!-- Full name -->
+                                    <%= f.field(
+                                        'text',
+                                        :account,
+                                        {
+                                            title:          t('.account_box.full_name_title'),
+                                            autofocus:      true,
+                                            id:             'account'
+                                        },
+                                        {
+                                            label:          User.human_attr('account'),
+                                            require:        true,
+                                            input_group:    {
+                                                                left: '<i class="fa fa-user"></i>'
+                                                            }
+                                        }
+                                    ) %>
+                                    <!-- Password -->
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <%= f.field(
+                                                'password',
+                                                :password,
+                                                {
+                                                    title:  t('.account_box.password_title'),
+                                                    id:     'password'
+                                                },
+                                                {
+                                                    label:          User.human_attr('password'),
+                                                    require:        true,
+                                                    input_group:    {
+                                                                        left: '<i class="fa fa-lock"></i>'
+                                                                    }
+                                                }
+                                            ) %>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <%= f.field(
+                                                'password',
+                                                :repeat_password,
+                                                {
+                                                    title:  t('.account_box.repeat_password_title'),
+                                                    id:     'repeat_password'
+                                                },
+                                                {
+                                                    label:          t('.account_box.repeat_password_label'),
+                                                    require:        true,
+                                                    input_group:    {
+                                                                        left: '<i class="fa fa-lock"></i>'
+                                                                    }
+                                                }
+                                            ) %>
+                                        </div>
+                                    </div>
+                                <% elsif @user.provider.blank? %>
+                                    <!-- Change password -->
+                                    <div class="form-group">
+                                        <button type="button" data-action="change_password" class="btn btn-block">
+                                            <%= t '.account_box.change_password' %>
+                                        </button>
+                                    </div>
+                                <% end %>
+                                <!-- Full name -->
+                                <%= f.field(
+                                    'text',
+                                    :full_name,
+                                    {
+                                        title:          t('.account_box.full_name_title'),
+                                    },
+                                    {
+                                        label:          User.human_attr('full_name'),
+                                        require:        true,
+                                        input_group:    {
+                                                            left: '<i class="fa fa-font"></i>'
+                                                        }
+                                    }
+                                ) %>
+                                <!-- Email -->
+                                <% if @user.provider.blank? %>
+                                    <%
+                                        input_options = {
+                                            title:  t('.account_box.email_title'),
+                                            id:     'email'
+                                        }
+                                        input_params = {
+                                            label:          User.human_attr('email'),
+                                            require:        true,
+                                            input_group:    {
+                                                                left: '<i class="fa fa-envelope"></i>'
+                                                            }
+                                        }
 
-				<% if @user.new_record? %>
+                                        if !@user.new_record?
+                                            input_options[:title] = t('.account_box.change_email_title')
+                                        elsif left_contact?
+                                            input_options[:value] = current_left_contact.email
+                                        end
+                                    %>
+                                    <% if @user.active_status == 2 || @user.active_status == 3 %>
+                                        <%
+                                            input_params[:wrapper] ||= {
+                                                attributes: 'style="display: none" data-name="email"',
+                                            }
+                                        %>
+                                        <article class="form-group">
+                                            <p>
+                                                <%= t(
+                                                    '.account_box.active_email_alert', 
+                                                    new_email: @user.params['new_email'],
+                                                    active_email: @user.active_status == 2 ? @user.email : @user.params['new_email']
+                                                ) %>
+                                            </p>
+                                            <p class="text-center">
+                                                <a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat"><%= t 'global.text.resend' %></a>
+                                                <button data-action="cancel_change_mail" type="button" class="btn btn-default btn-flat"><%= t 'global.text.cancel' %></button>
+                                            </p>
+                                        </article>
+                                    <% end %>
 
-					<!-- Account name -->
-
-						<article class="form-group">
-							<label for="account"><%= t 'user.attribute.account' %></label>
-							<sup class="required-label"></sup>
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-user"></i>
-								</div>
-								<input name="user[account]" data-constraint="required" type="text" class="form-control" id="account" autofocus />
-							</div>
-						</article>
-
-					<!-- / Account name -->
-
-					<!-- Password -->
-
-						<div class="row">
-							<article class="form-group col-md-6">
-								<label for="password"><%= t 'user.attribute.password' %></label>
-								<sup class="required-label"></sup>
-								<div class="input-group">
-									<div class="input-group-addon">
-										<i class="fa fa-lock"></i>
-									</div>
-									<input name="user[password]" data-constraint="required" class="form-control" type="password" id="password" />
-								</div>
-							</article>
-							<article class="form-group col-md-6">
-								<label for="repeat_password"><%= t 'user.view.create.repeat_password' %></label>
-								<sup class="required-label"></sup>
-								<div class="input-group">
-									<div class="input-group-addon">
-										<i class="fa fa-lock"></i>
-									</div>
-									<input name="repeat_password" data-constraint="required" class="form-control" type="password" id="repeat_password" />
-								</div>
-							</article>
-						</div>
-
-					<!-- / Password -->
-
-				<% elsif @user.provider.blank? %>
-
-					<!-- Change password -->
-
-						<article class="form-group">
-							<a aria-click="change-password" href="javascript:void(0)" class="btn btn-default btn-flat btn-block">Đổi mật khẩu</a>
-						</article>
-
-					<!-- / Change password -->
-
-				<% end %>
-
-				<!-- Full name -->
-
-					<article class="form-group">
-						<label for="full_name"><%= t 'user.attribute.full_name' %></label>
-						<sup class="required-label"></sup>
-						<div class="input-group">
-							<div class="input-group-addon">
-								<i class="fa fa-font"></i>
-							</div>
-							<input value="<%= @user.full_name %>" name="user[full_name]" data-constraint="required" type="text" class="form-control" id="full_name" />
-						</div>
-					</article>
-
-				<!-- / Full name -->
-
-				<!-- Email -->
-
-					<% if @user.provider.blank? %>
-
-						<% if @user.active_status == 2 || @user.active_status == 3 %>
-							<article class="form-group">
-								<p>Bạn đã thay đổi email trước đó thành <%= @user.params['new_email'] %>. Hãy vào email <%= @user.active_status == 2 ? 'cũ' : 'mới' %> để xác nhận.</p>
-								<p class="text-center">
-									<a href="/users/resend_active_account/<%= @user.id %>" target="_blank" class="btn btn-default btn-flat">Gửi lại</a>
-									<button aria-click="cancel_change_mail" type="button" class="btn btn-default btn-flat">Hủy</button>
-								</p>
-							</article>
-							<article class="form-group hide" aria-name="email">
-						<% else %>
-							<article class="form-group">
-						<% end %>
-							<label for="email"><%= t 'user.attribute.email' %></label>
-							<sup class="required-label"></sup>
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-envelope"></i>
-								</div>
-								<% if @user.new_record? %>
-									<% if left_contact? %>
-										<input data-toggled-element="default-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" value="<%= current_left_contact.email %>" readonly="true" tabindex="-1" />
-										<input data-toggled-element="new-contact" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
-									<% else %>
-										<input name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
-									<% end %>
-								<% else %>
-									<input data-toggle="popover" data-trigger="focus" data-content="Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới." data-placement="auto" value="<%= @user.email %>" name="user[email]" data-constraint="required email" type="text" class="form-control" id="email" />
-								<% end %>
-							</div>
-						</article>
-
-					 <% end %>
-
-				<!-- / Email -->
-
-				<!-- Phone number -->
-
-					<article class="form-group">
-						<label for="phone_number">
-							<%= t 'user.attribute.phone_number' %>
-							<sup class="required-label"></sup>
-						</label>
-						<div class="input-group">
-							<div class="input-group-addon">
-								<i class="fa fa-phone"></i>
-							</div>
-							<% if @user.new_record? && left_contact? %>
-								<input data-toggled-element="default-contact" value="<%= current_left_contact.phone_number %>" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" readonly="true" tabindex="-1" />
-								<input data-toggled-element="new-contact" value="" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" />
-							<% else %>
-								<input value="<%= @user.phone_number %>" name="user[phone_number]" data-constraint="required multi-phone" type="text" class="form-control" id="phone_number" />
-							<% end %>
-						</div>
-					</article>
-
-				<!-- / Phone number -->
-
-				<% if @user.new_record? && left_contact? %>
-					<input data-toggled-element="default-contact" type="hidden" name="contact_id" value="<%= current_left_contact.id %>" />
-					<article class="form-group text-right">
-						<div class="radio margin-0">
-							<label data-toggled-element="default-contact">
-								<input data-nonvalid class="input-toggle sr-only" data-on="new-contact" data-off="default-contact" type="radio" name="use_default_contact" value="" />
-								<a style="color: inherit;">Không phải tôi</a>
-							</label>
-							<label data-toggled-element="new-contact">
-								<input data-nonvalid class="input-toggle sr-only" data-on="default-contact" data-off="new-contact" type="radio" name="use_default_contact" value="t" checked />
-								<a style="color: inherit;">Quay lại</a>
-							</label>
-						</div>
-					</article>
-				<% end %>
-
-				<article class="form-group">
-					<input name="user[is_receive_email]" type="hidden" value="false">
-					<label class="checkbox-inline">
-						<input <%= 'checked' if @user.is_receive_email %> name="user[is_receive_email]" type="checkbox">
-						Nhận email thông báo
-					</label>
-				</article>
-			</section>
-		</article>	
-	</div>
-
-	<% if @user.new_record? %>
-
-		<div class="col-md-12 hidden-md hidden-lg">
-
-			<!-- Button -->
-
-			<article class="box box-solid">
-				<section class="box-body row">
-					<div class="margin-top-bottom-5 col-md-12">
-						<button type="submit" class="btn btn-default btn-block btn-flat animate-icon"><span class="icon pull-right fa fa-arrow-down"></span><%= t('user.view.create.half_finish_1').html_safe %></button>
-					</div>
-				</section>
-			</article>
-
-			<!-- /Button -->
-
-		</div>
-
-	<% end %>
-
-	<div class="col-md-6">
-		<article class="box box-default">
-			<section class="box-header with-border">
-				<h2 class="box-title">
-					<%= t 'user.view.create.addition_box' %>
-				</h2>
-			</section>
-			<section class="box-body">
-
-				<!-- Birthday -->
-
-					<article class="form-group">
-						<label for="birthday"><%= t 'user.attribute.birthday' %></label>
-						<div class="input-group">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
-							<input value="<%= @user.birthday.strftime('%Y') unless @user.birthday.nil? %>" data-constraint="integer range" data-minvalue="1900" data-maxvalue="<%= Date.today.strftime('%Y') %>" class="form-control" type="text" name="user[birthday]" />
-						</div>
-					</article>
-
-				<!-- / Birthday -->
-
-				<!-- Business name -->
-
-				<article class="form-group">
-					<label for="business_name"><%= t 'user.attribute.business_name' %></label>
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-group"></i>
-						</div>
-						<input value="<%= @user.business_name %>" name="user[business_name]" type="text" class="form-control" id="business_name" />
-					</div>
-				</article>
-
-				<!-- / Business name -->
-
-				<!-- Address -->
-
-				<article class="form-group">
-					<label for="address"><%= t 'user.attribute.address' %></label>
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-home"></i>
-						</div>
-						<textarea name="user[address]" class="form-control" id="address"><%= @user.address %></textarea>
-					</div>
-				</article>
-
-				<!-- Address -->
-
-				<!-- Avatar -->
-
-				<article class="form-group">
-					<label><%= t 'user.attribute.avatar_image' %></label>
-					<input data-init-value="<%= avatar_init_value %>" name="user[avatar_id]" class="file-upload" type="file" data-types="image" data-ratio="1" />
-				</article>
-
-				<!-- / Avatar -->
-
-			</section>
-		</article>	
-	</div>
-
-	<div class="col-md-12">
-
-		<!-- Button -->
-
-		<article class="box box-solid">
-			<section class="box-body row">
-				<% if @user.new_record? %>
-					<div class="margin-top-bottom-5 col-md-6 hidden-xs hidden-sm">
-						<button type="submit" class="btn btn-default btn-block btn-flat"><span class="icon pull-right fa fa-arrow-up" style="transform: rotate(45deg)"></span><%= t('user.view.create.half_finish_2').html_safe %></button>
-					</div>
-					<div class="margin-top-bottom-5 col-md-6">
-						<button type="submit" class="btn btn-primary btn-block btn-flat animate-icon"><span class="icon pull-left fa fa-check"></span><b><%= t 'user.view.create.finish' %></b></button>
-					</div>
-				<% else %>
-					<div class="margin-top-bottom-5 col-md-12">
-						<button type="submit" class="btn btn-primary btn-block btn-flat animate-icon"><span class="icon pull-left fa fa-check"></span><b><%= t 'user.view.create.finish' %></b></button>
-					</div>
-				<% end %>
-			</section>
-		</article>
-
-		<!-- /Button -->
-
-	</div>
-</form>
+                                    <%= f.field(
+                                        'email',
+                                        :email,
+                                        input_options,
+                                        input_params
+                                    ) %>
+                                <% end %>
+                                <!-- Phone number -->
+                                <%
+                                    input_options = {
+                                        title:                  t('.account_box.phone_number_title'),
+                                        :'data-constraint'  =>  'multi-phone'
+                                    }
+                                    if @user.new_record? && left_contact?
+                                        input_options[:value] = current_left_contact.phone_number
+                                    end
+                                %>
+                                <%= f.field(
+                                    'text',
+                                    :phone_number,
+                                    input_options,
+                                    {
+                                        label:          User.human_attr('phone_number'),
+                                        require:        true,
+                                        input_group:    {
+                                                            left: '<i class="fa fa-phone"></i>'
+                                                        }
+                                    }
+                                ) %>
+                            </div>
+                            <div class="box-footer text-center hidden-xs hidden-sm">
+                                <%= f.submit t('global.text.finish'),
+                                    class:          'btn btn-green btn-large'
+                                %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="box box-form">
+                            <div class="box-header">
+                                <h3 class="box-title">
+                                    <%= t '.addition_box.box_title' %>
+                                </h3>
+                            </div>
+                            <div class="box-body">
+                                <!-- Birthday -->
+                                <%= f.field(
+                                    'integer',
+                                    :birthday,
+                                    {
+                                        title:      t('.addition_box.birthday_title'),
+                                        value:      @user.birthday.present? ? @user.birthday.strftime('%Y') : nil,
+                                    },
+                                    {
+                                        constraints:    {
+                                                            range: {
+                                                                min: 1900,
+                                                                max: Date.today.strftime('%Y')
+                                                            }
+                                                        },
+                                        label:          User.human_attr('birthday'),
+                                        input_group:    {
+                                                            left: '<i class="fa fa-calendar"></i>'
+                                                        }
+                                    }
+                                ) %>
+                                <!-- Business name -->
+                                <%= f.field(
+                                    'text',
+                                    :business_name,
+                                    {
+                                        title:      t('.addition_box.business_name_title')
+                                    },
+                                    {
+                                        label:          User.human_attr('business_name'),
+                                        input_group:    {
+                                                            left: '<i class="fa fa-group"></i>'
+                                                        }
+                                    }
+                                ) %>
+                                <!-- Address -->
+                                <%= f.field(
+                                    'textarea',
+                                    :address,
+                                    {
+                                        title:      t('.addition_box.address_title')
+                                    },
+                                    {
+                                        label:          User.human_attr('address'),
+                                        input_group:    {
+                                                            left: '<i class="fa fa-home"></i>'
+                                                        }
+                                    }
+                                ) %>
+                                <!-- Avatar -->
+                                <%= f.field(
+                                    'image',
+                                    :avatar,
+                                    {},
+                                    {
+                                        label:          User.human_attr('avatar'),
+                                        ratio:          '1'
+                                    }
+                                ) %>
+                            </div>
+                            <div class="box-footer text-center hidden-md hidden-lg">
+                                <%= f.submit t('global.text.finish'),
+                                    class:          'btn btn-green btn-large'
+                                %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

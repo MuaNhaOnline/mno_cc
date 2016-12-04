@@ -23,6 +23,51 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ico-eye-blocked:before {
+  content: "\e926";
+}
+.ico-views:before {
+  content: "\e926";
+}
+.ico-vision:before {
+  content: "\e926";
+}
+.ico-visit:before {
+  content: "\e926";
+}
+.ico-banned:before {
+  content: "\e926";
+}
+.ico-blocked:before {
+  content: "\e926";
+}
+.ico-forbidden:before {
+  content: "\e926";
+}
+.ico-private:before {
+  content: "\e926";
+}
+.ico-eye:before {
+  content: "\e927";
+}
+.ico-views2:before {
+  content: "\e927";
+}
+.ico-vision2:before {
+  content: "\e927";
+}
+.ico-visit2:before {
+  content: "\e927";
+}
+.ico-close:before {
+  content: "\e928";
+}
+.ico-remove:before {
+  content: "\e928";
+}
+.ico-times:before {
+  content: "\e928";
+}
 .ico-star-o:before {
   content: "\e924";
 }

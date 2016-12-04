@@ -11,6 +11,8 @@ vi:
       view_result: Xem kết quả
       delete: Xóa
       send: Gửi
+      resend: Gửi lại
+      cancel: Hủy
       search: Tìm kiếm
       guess: Khách
       all: Tất cả
@@ -238,6 +240,9 @@ vi:
       page_description: Danh sách bất động sản
       favorite_list_title: Bất động sản nổi bật
       list_title: Bất động sản gần đây
+    my_favorite:
+      page_title: Đang quan tâm
+      box_title: 'Bất động sản đang quan tâm'
     _items_list:
       favorite_title_html: Nhấn đề <b>thêm</b> vào danh sách <b>quan tâm</b>
       disfavorite_title_html: Nhấn đề <b>xóa</b> khỏi danh sách <b>quan tâm</b>
@@ -268,7 +273,9 @@ vi:
       page_title: Kết quả tìm kiếm
       box_title: Bất động sản phù hợp
     create_bk:
-      page_title: Đăng tin bất động sản
+      page_title:
+        create: Đăng tin
+        edit: Sửa tin
       status_box:
         box_title: Loại tin
         click: nhấn để chọn
@@ -382,6 +389,13 @@ vi:
         save_draft_title_html: Lưu tạm, bạn có thể tiếp tục tin đăng<br /><small>Không bắt buộc bất kỳ trường nào</small>
       list_box:
         box_title: Danh mục
+    my:
+      page_title: 'Của tôi'
+      box_title: 'Bất động sản của tôi'
+    _my_items:
+      edit_title: Sửa tin
+      delete_title: Xóa tin
+      pending: Đang chờ duyệt
 
     _notification_mini_item:
       create: '%{name} đã tin đăng bất động sản mới'
@@ -425,6 +439,27 @@ vi:
     _notification_mini_item:
       create: '%{name} gửi yêu cầu mới'
   users:
+    create:
+      page_title:
+        create: Đăng ký tài khoản
+        edit: Cập nhật thông tin
+      account_box:
+        box_title: Thông tin tài khoản
+        account_title: Nhập tên đăng nhập
+        full_name_title: Nhập họ và tên
+        password_title: Nhập mật khẩu
+        email_title: Nhập địa chỉ email
+        change_email_title: Nếu bạn thay đổi, bạn cần xác nhận ở email cũ lẫn email mới.
+        active_email_alert: Bạn đã thay đổi email thành %{new_email}. Hãy vào email %{active_email} để xác nhận.
+        repeat_password_title: Nhập lại mật khẩu
+        repeat_password_label: Nhập lại mật khẩu
+        change_password: Đổi mật khẩu
+        phone_number_title: Nhập số điện thoại
+      addition_box:
+        box_title: Thông tin bổ sung
+        birthday_title: Nhập năm sinh
+        business_name_title: Nhập tên công ty (nếu có)
+        address_title: Nhập địa chỉ
     view:
       update_info: Cập nhật thông tin
       re_count: Tin bất động sản
@@ -477,6 +512,58 @@ vi:
       page_title: Quản lý Blog
 
   # Active record
+  user:
+    attributes:
+      account: Tên đăng nhập
+      full_name: Họ và tên
+      password: Mật khẩu
+      email: Email
+      phone_number: Số điện thoại
+      birthday: Năm sinh
+      business_name: Công ty
+      address: Địa chỉ
+      avatar: Ảnh đại diện
+
+    attribute:
+      account_box: 'Thông tin tài khoản'
+      account: 'Tên tài khoản'
+      password: 'Mật khẩu'
+      email: 'Email'
+      full_name: 'Họ và tên'
+      birthday: 'Năm sinh'
+      business_name: 'Tên doanh nghiệp'
+      phone_number: 'Số điện thoại'
+      address: 'Địa chỉ'
+      avatar_image: 'Ảnh đại diện'
+    validate:
+      account_not_exist: 'Tên tài khoản không tồn tại'
+      password_not_correct: 'Mật khẩu chưa chính xác'
+    view:
+      create:
+        page_title: 'Đăng ký tài khoản'
+        form_title: 'Đăng ký tài khoản'
+        repeat_password: 'Mật khẩu xác nhận'
+        addition_box: 'Thông tin bổ sung'
+        half_finish_1: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên dưới'
+        half_finish_2: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên cạnh'
+        finish: 'Hoàn tất'
+      signin:
+        page_title: 'Đăng nhập'
+        form_title: 'Đăng nhập'
+        finish: 'Đăng nhập'
+      manager:
+        page_title: 'Quản lý nhóm người dùng'
+        form_title: 'Quản lý nhóm người dùng'
+        search_placeholder: 'Tìm kiếm...'
+        system_manager: 'Quản lý hệ thống'
+        user_manager: 'Quản lý người dùng'
+        real_estate_manager: 'Quản lý bất động sản'
+        project_manager: 'Quản lý dự án'
+        appraiser: 'Thẩm định viên'
+        statistician: 'Thống kê viên'
+      view_all:
+        page_title: 'Danh sách người dùng'
+        form_title: 'Danh sách người dùng'
   real_estate_type:
     text: 'Loại bất động sản'
     name:
@@ -484,7 +571,6 @@ vi:
       residential_land: Đất thổ cư
       vacant_land: Đất nông nghiệp
       forest_land: Đất lâm nghiệp
-      other_land: Đất khác
       productive_land: Đất sản xuất
       project_land: Đất dự án
       space_group: Mặt bằng
@@ -509,13 +595,25 @@ vi:
       level_4: Nhà cấp 4
       temporary: Nhà tạm
       empty: Nhà thô
+  requested_system_mail:
+    values:
+      requested_type:
+        '1': Liên hệ
+        '2': Đăng ký
+        '3': Tư vấn
   purpose:
-    text: Loại hình giao dịch
+    text: Hình thức giao dịch
     name:
       sell: Bán
       rent: Cho thuê
       sell_rent: Bán hoặc cho thuê
       transfer: Sang nhượng
+    values:
+      name:
+        sell: Bán
+        rent: Cho thuê
+        sell_rent: Bán hoặc cho thuê
+        transfer: Sang nhượng
   demand:
     name:
       sell: 'Mua'
@@ -549,6 +647,7 @@ vi:
       full_address: Địa chỉ
       id: Mã
       is_alley: Mặt đường
+      alley_width: Chiều rộng hẻm
       is_negotiable: Giá có thể thương lượng
       legal_record: Giấy tờ
       legal_record_type: Giấy tờ
@@ -561,15 +660,22 @@ vi:
       real_estate_type: Loại
       region_utility: Tiện ích khu vực
       rent_price: Giá cho thuê
-      rent_price_unit: Giá cho thuê theo
+      rent_unit: Giá cho thuê theo
       restroom: Phòng tắm
       restroom_number: Số phòng tắm
+      floor_number: Tầng/số tầng
       sell_price: Giá bán
-      sell_price_unit: Giá bán theo
+      sell_unit: Giá bán theo
       shape: Hình dáng
       shape_width: Kích thước mặt hậu
       short_address: Địa chỉ
       street_type: Loại đường
+      province: Tỉnh/thành phố
+      district: Quận/huyện
+      ward: Phường/xã
+      lat: Kinh độ
+      lng: Vĩ độ
+      street: Đường
       title: Tiêu đề
       transfer_price: Giá sang nhượng
       using_area: Diện tích sử dụng
@@ -609,6 +715,10 @@ vi:
         '3': 'Còn mới'
         '4': 'Rất mới'
       price:
+        empty: 'Giá thỏa thuận'
+      sell_price:
+        empty: 'Giá thỏa thuận'
+      rent_price:
         empty: 'Giá thỏa thuận'
 
     # Sẽ bỏ
@@ -884,6 +994,18 @@ vi:
       n_4: 'Gần chân cầu, trụ điện, ống cống'
       n_5: 'Tường chung không thể xây mới'
 
+  # Error
+  activerecord:
+    errors:
+      messages:
+        record_invalid: ''
+  errors:
+    format: "%{message}"
+  error:
+    message: "%{name} %{message}"
+    types:
+      blank: không thể bỏ trống
+      invalid: không hợp lệ
 
   layout:
     header:
@@ -931,47 +1053,6 @@ vi:
     text:
       public: 'Đường chính'
       private: 'Đường nội bộ'
-  user:
-    attribute:
-      account_box: 'Thông tin tài khoản'
-      account: 'Tên tài khoản'
-      password: 'Mật khẩu'
-      email: 'Email'
-      full_name: 'Họ và tên'
-      birthday: 'Năm sinh'
-      business_name: 'Tên doanh nghiệp'
-      phone_number: 'Số điện thoại'
-      address: 'Địa chỉ'
-      avatar_image: 'Ảnh đại diện'
-    validate:
-      account_not_exist: 'Tên tài khoản không tồn tại'
-      password_not_correct: 'Mật khẩu chưa chính xác'
-    view:
-      create:
-        page_title: 'Đăng ký tài khoản'
-        form_title: 'Đăng ký tài khoản'
-        repeat_password: 'Mật khẩu xác nhận'
-        addition_box: 'Thông tin bổ sung'
-        half_finish_1: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên dưới'
-        half_finish_2: '<b>Hoàn tất</b> hoặc <b>tiếp tục</b> nhập thông tin bổ sung bên cạnh'
-        finish: 'Hoàn tất'
-      signin:
-        page_title: 'Đăng nhập'
-        form_title: 'Đăng nhập'
-        finish: 'Đăng nhập'
-      manager:
-        page_title: 'Quản lý nhóm người dùng'
-        form_title: 'Quản lý nhóm người dùng'
-        search_placeholder: 'Tìm kiếm...'
-        system_manager: 'Quản lý hệ thống'
-        user_manager: 'Quản lý người dùng'
-        real_estate_manager: 'Quản lý bất động sản'
-        project_manager: 'Quản lý dự án'
-        appraiser: 'Thẩm định viên'
-        statistician: 'Thống kê viên'
-      view_all:
-        page_title: 'Danh sách người dùng'
-        form_title: 'Danh sách người dùng'
   appraisal_company:
     attribute:
       info_box: 'Thông tin'

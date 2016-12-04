@@ -3,7 +3,11 @@
 	params:
 		res: (*)
 		type: 1
+            1: normal item
+            2: short item
 =end
+
+	return if res.blank?
 	
 	type ||= 1
 	scope = 'real_estates._items_list.'
@@ -114,7 +118,7 @@
 								</a>
 							</h3>
 						</div>
-						<div class="address" title Realestate.i18n_attribute('address') %>">
+						<div class="address" title="<%= Realestate.i18n_attribute('address') %>">
 							<span class="ico-location"></span> <%= re.display_short_address %>
 						</div>
 						<div class="price">

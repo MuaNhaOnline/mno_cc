@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><%= @_title.blank? ? '' : @_title + ' - ' %> Mua nhà online</title>
+    <%
+        @_title ||= []
+        if @_title.blank? && @_main_navigator.present? && @_main_navigator[:list].present?
+            @_title = @_main_navigator[:list].map{ |item| item[:text] }.reverse
+        end
+        if @_title.is_a? Array
+            @_title << 'MuanhaOnline'
+            @_title = @_title.join(' - ')
+        end
+    %>
+	<title><%= @_title %></title>
 
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,7 +85,7 @@
 								<span class="text"><%= t scope + 'header.signin' %></span>
 								<span class="ico-sign-in"></span>
 							</a>
-							<a class="sign-in" title="Đăng ký" href="/dang-ky">
+							<a class="sign-in" title="Đăng ký" href="<%= signup_path %>">
 								<span class="text">Đăng ký</span>
 							</a>
 						<% end %>
@@ -215,14 +225,9 @@
 					</div>
 					<% if signed? %>
 						<%
-							fav_res = RealEstate.search_with_params_2(
-								{
-									conditions_of:	'my_favorite_list'
-								},
-								{
-									limit:		3
-								}
-							).results
+							fav_res = RealEstate.search_with_params_3(
+								conditions_of:	'my_favorite_list'
+							).limit(3)
 						%>
 						<% if fav_res.present? %>
 							<h2>
@@ -263,7 +268,11 @@
 									</article>
 									<% @_main_navigator[:list].each do |item| %>
 										<article class="item">
-											<a href="<%= item[:url] %>"><%= item[:text] %></a>
+                                            <% if item[:url].present? %>
+    											<a href="<%= item[:url] %>"><%= item[:text] %></a>
+                                            <% else %>
+                                                <span><%= item[:text] %></span>
+                                            <% end %>
 										</article>
 									<% end %>
 								</article>

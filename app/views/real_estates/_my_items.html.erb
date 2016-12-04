@@ -1,0 +1,59 @@
+<%
+=begin
+	params:
+		res: (*)
+=end
+
+	return if res.blank?
+	
+	type ||= 1
+	scope = 'real_estates._my_items.'
+%>
+
+<% res.each do |re| %>
+	<article class="item-ctn">
+		<div class="item" data-value="<%= re.id %>" data-is-show="<%= re.is_show ? 'true' : 'false' %>">
+			<div class="top">
+				<div class="image">
+					<a href="<%= view_re_path full_slug: re.full_slug %>">
+						<%= real_estate_avatar re %>
+					</a>
+				</div>
+                <div class="feature">
+                    <% if re.is_pending %>
+                        <span class="pending-status">
+                            <span class="text">
+                                <%= t(scope + 'pending') %>
+                            </span>
+                        </span>
+                    <% end %>
+                </div>
+			</div>
+			<div class="grow">
+				<div class="address">
+					<span title="<%= RealEstate.i18n_attribute 'address' %>">
+						<span class="ico-location"></span> <%= re.display_short_address %>
+					</span>
+				</div>
+				<div class="type">
+					<span title="<%= RealEstate.i18n_attribute 'real_estate_type' %>">
+						<span class="ico-home"></span> <%= re.display_real_estate_type %>
+					</span>
+				</div>
+			</div>
+			<div>
+                <div class="functions">
+                    <a href="javascript:;" title="" data-action="toggle_show_status" data-html="true">
+                        <span class="icon ico-fw ico-eye"></span>
+                    </a>
+                    <a href="<%= edit_re_path re %>" title="<%= t scope + 'edit_title' %>">
+                        <span class="icon ico-fw ico-pencil"></span>
+                    </a>
+                    <a href="javascript:;" data-action="delete" title="<%= t scope + 'delete_title' %>">
+                        <span class="icon ico-fw ico-close"></span>
+                    </a>
+                </div>
+			</div>
+		</div>
+	</article>
+<% end %>

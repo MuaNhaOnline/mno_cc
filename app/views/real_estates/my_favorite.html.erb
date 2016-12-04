@@ -3,71 +3,51 @@
 	params: res(*), page(1), per(12)
 =end
 
-	@_title       		= 	'Đang quan tâm - Bất động sản'
-	@_content_header  	=   'Bất động sản tôi đang quan tâm'
+	@_title       		= 	t '.page_title'
+	@_main_navigator = {
+		background: '/assets/shared/main_navigator/main_2.jpeg',
+		list: [
+			{
+				url: my_favorite_res_path,
+				text: t('.page_title')
+			}
+		]
+	}
+	@_hide_search_box = true
 
 	page        		||= 1
 	per         		||= 12
 	res_in_page     	= res.page page, per
 %>
 
-<section class="box box-solid">
-	<section class="box-body">
-		<form id="search_form">
-			<article class="form-group">
-				<div class="input-group margin">
-					<input data-nonvalid name="keyword" type="text" class="form-control" placeholder="Nhập từ khóa để tìm kiếm" value="<%= params[:search][:keyword] if defined? params[:search][:keyword] %>" />
-					<span class="input-group-btn">
-						<button data-action="reset" data-nonvalid class="btn btn-default" type="button">Mặc định</button>
-						<button data-nonvalid class="btn btn-primary" type="submit">Tìm kiếm</button>
-					</span>
-				</div>
-			</article>
-			<article class="form-group no-margin text-center">
-				<a href="javascript:void(0)" aria-click="order" data-name="id" data-sort="asc" class="no-underline text-muted" title="Mã">
-					<span class="font-bold">#</span>
-					<i class="fa fa-sort" aria-name="sort"></i>
-				</a>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:void(0)" aria-click="order" data-name="view" data-sort="desc" class="no-underline text-muted" title="Lượt xem">
-					<i class="fa fa-eye"></i>
-					<i class="fa fa-sort" aria-name="sort"></i>
-				</a>
-				&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:void(0)" aria-click="order" data-name="interact" data-sort="desc" data-now class="no-underline text-muted" title="Có tương tác">
-					<i class="fa fa-mail-reply-all"></i>
-					<i class="fa fa-sort" aria-name="sort"></i>
-				</a>
-			</article>
-		</form>
-	</section>
-</section>
-
-<% if res_in_page.count == 0 %>
-	<section id="re_list" class="row item-list">
-	</section>
-	<section id="alert">
-		<article class="alert alert-warning alert-dismissible" style="width: 80%; margin: 0 auto;">
-			<h4>
-				Không có kết quả
-			</h4>
-			<p>
-				Không tìm thấy kết quả phù hợp, vui lòng thử lại sau
-			</p>
-		</article>
-	</section>
-	<nav class="text-center" id="paginator">
-	</nav>
-<% else %>
-	<section id="re_list" class="row item-list">
-		<%= render partial: 'my_favorite', locals: { res: res_in_page } %>
-	</section>
-	<section id="alert">
-	</section>
-	<nav class="text-center" id="paginator">
-		<%= render partial: '/shared/pagination', locals: { total: res.count, page: page, per: per } %>
-	</nav>
-<% end %>
+<div class="container">
+	<div class="container-box container-box-transparent">
+		<div class="container-box-header">
+			<h2 class="container-box-title">
+				<%= t '.box_title' %>
+			</h2>
+		</div>
+		<div class="container-box-body">
+			<div class="medium-items-list" id="res_list">
+				<% if res_in_page.count != 0 %>
+					<%=
+						render(
+							partial: 'real_estates/items_list_2',
+							locals: {
+								res: res.page(page, per)
+							}
+						)
+					%>
+				<% else %>
+					<%= render partial: '/shared/empty_alert' %>
+				<% end %>
+			</div>
+			<div id="res_paginator">
+				<%= render partial: 'shared/paginator', locals: { page: page, per: per, total: res.count } %>
+			</div>
+		</div>
+	</div>
+</div>
 
 <% content_for :javascripts do %>
 	<script type="text/javascript" src="/assets/real_estates/my_favorite.js"></script>

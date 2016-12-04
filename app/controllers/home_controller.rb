@@ -15,7 +15,7 @@ class HomeController < ApplicationController
 
 			result = {}
 			@res.each do |re|
-				result[re.id] = { lat: re.lat, lng: re.lng, title: re.title, url: "/bat-dong-san/#{re.full_slug}" }
+				result[re.id] = { lat: re.lat, lng: re.lng, title: re.title, url: _route_helpers.view_re_path(full_slug: re.full_slug) }
 			end
 
 			render json: {

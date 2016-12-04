@@ -89,8 +89,17 @@ $(function () {
 				// Each more, get parent (item element)
 				var $item = $(this).closest('.info-item');
 
+                // Check empty more info
+                if ($item.find('.more > *').length == 0) {
+                    $item.find('.ico-info').remove();
+                    return;
+                }
+
 				// Add class has more for parent
 				$item.closest('.info-item').addClass('has-more');
+
+                // Add icon
+                $item.find('.name:eq(0)').append(' <span class="ico-info"></span>');
 
 				// Set click event
 				$item.on('click', function () {
@@ -191,6 +200,7 @@ $(function () {
 					}
 				]
 			});
+            a = map;
 
 			var objects = {}, markers = [], to = null;
 			objects[realEstateId] = null;
@@ -222,12 +232,12 @@ $(function () {
 					bs = map.getBounds(),
 					bounds = {
 						from: {
-							lat: bs.H.H,
-							lng: bs.j.H,
+                            lat: bs.getSouthWest().lat(),
+                            lng: bs.getSouthWest().lng()
 						},
 						to: {
-							lat: bs.H.j,
-							lng: bs.j.j,
+							lat: bs.getNorthEast().lat(),
+							lng: bs.getNorthEast().lng()
 						}
 					};
 

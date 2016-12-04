@@ -5,8 +5,8 @@ class UsersController < ApplicationController
 		
 		# View
 		def create
-			if params[:id].blank? && User.signed?
-				params[:id] = User.current.id
+			if params[:id].blank? && signed?
+				params[:id] = current_user.id
 			end
 
 			@user = params[:id].present? ? User.find(params[:id]) : User.new
@@ -17,38 +17,26 @@ class UsersController < ApplicationController
 			else  
 				authorize! :edit, @user
 			end
+
+            render layout: 'front_layout'
 		end
 
 		# Handle
 		# params: form user
 		def save
-			# Get user
-			if is_new = params[:user][:id].blank?
-				user = User.new
+			is_new = params[:user][:id].blank?
 
-				if params[:contact_id].present?
-					# Get contact data if get from contact
-					contact = ContactUserInfo.find params[:contact_id]
+            # Get user
+			user = is_new ? User.new : User.find(params[:user][:id])
 
-					params[:user][:email] = contact.email
-					params[:user][:phone_number] = contact.phone_number
-				else
-					# Check if current email, phone_number was used by contact
-					same_contact = ContactUserInfo.where("phone_number ~ '(\\y|,){1}(#{params[:user][:phone_number]})(\\y|,){1}' OR email = '#{params[:user][:email]}'").first
-					if same_contact.present?
-						return render json: {
-							status: 5,
-							result: {
-								same_contact: same_contact.to_json(only: [:id]),
-								html: render_to_string(partial: 'contact_user_infos/same_contact', locals: { code: 'contact_user', same_contact: same_contact })
-							}
-						}
-					end
-				end
-			else 
-				user = User.find(params[:user][:id])
-			end
+            # Author
+            if is_new
+                authorize! :create, User
+            else
+                authorize! :edit, user
+            end
 
+            # Save
 			result = user.save_with_params params[:user]
 			
 			# If error
@@ -69,17 +57,17 @@ class UsersController < ApplicationController
 				)
 				
 				# Delete contact
-				if contact.present?
-					contact.update is_deleted: true
-				end
+				# if contact.present?
+				# 	contact.update is_deleted: true
+				# end
 			end
 
 			# Send active mail
 			case user.active_status
 			when 1
-				UserMailer.active_account(user).deliver_now
+				UserMailer.active_account(user).deliver_later
 			when 2
-				UserMailer.active_old_email(user).deliver_now
+				UserMailer.active_old_email(user).deliver_later
 			end
 
 			render json: { status: 0, result: user.id, email_changed: result[:email_changed] }
@@ -126,7 +114,7 @@ class UsersController < ApplicationController
 					session[:recently_active_id] = params[:id]
 				when 2
 					@user = result[:user]
-					UserMailer.active_new_email(@user).deliver_now
+					UserMailer.active_new_email(@user).deliver_later
 			end
 		end
 
@@ -143,11 +131,11 @@ class UsersController < ApplicationController
 			# Send active mail
 			case user.active_status
 				when 1
-					UserMailer.active_account(user).deliver_now
+					UserMailer.active_account(user).deliver_later
 				when 2
-					UserMailer.active_old_email(user).deliver_now
+					UserMailer.active_old_email(user).deliver_later
 				when 3
-					UserMailer.active_new_email(user).deliver_now
+					UserMailer.active_new_email(user).deliver_later
 			end
 
 			redirect_to "/users/active_callout/#{user.id}?status=resend"
@@ -478,7 +466,7 @@ class UsersController < ApplicationController
 
 			return render json: result if result[:status] != 0
 			
-			UserMailer.restore_password(result[:result][:user], result[:result][:new_password]).deliver_now
+			UserMailer.restore_password(result[:result][:user], result[:result][:new_password]).deliver_later
 			
 			render json: { status: 0, result: result[:result][:user].id }
 		end

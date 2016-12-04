@@ -20,6 +20,12 @@
 
 /* General */
 
+    .ico-fw {
+        width: 1.28571429em;
+        text-align: center;
+        display: inline-block;
+    }
+
 	.code-font {
 		font-family: 'MonoSpace', 'Consolas';
 		font-size: 85%;

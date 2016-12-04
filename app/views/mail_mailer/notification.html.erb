@@ -1,0 +1,40 @@
+<%
+    if @mail.sender_type == 'user'
+        name = @mail.sender.full_name
+        phone = @mail.sender.phone_number
+        email = @mail.sender.email
+    else
+        name = @mail.contact_sender.name
+        phone = @mail.contact_sender.phone_number
+        email = @mail.contact_sender.email
+    end
+%>
+<h3>Thành viên đã liên hệ</h3>
+<p>Thông tin:</p>
+<ul>
+    <li>
+        Tên: <%= name %>
+    </li>
+    <li>
+        Số điện thoại: <%= phone %>
+    </li>
+    <li>
+        Email: <%= email %>
+    </li>
+    <li>
+        Yêu cầu: <%= @mail.requested_info.human_value 'requested_type' %>
+    </li>
+    <li>
+        Lời nhắn:
+        <div style="white-space: pre-wrap"><%= @mail.content %></div>
+    </li>
+    <li>
+        Đối tượng:
+        <% case @mail.requested_info.object_type %>
+        <% when 'real_estate' %>
+            <% if @mail.requested_info.real_estate.present? %>
+                <a href="<%= _route_helpers.view_re_url full_slug: @mail.requested_info.real_estate.full_slug %>">Bất động sản <%= @mail.requested_info.real_estate.display_id %></a>
+            <% end %>
+        <% end %>
+    </li>
+</ul>

@@ -146,6 +146,11 @@ class MailsController < ApplicationController
 				return render json: { status: 2 }
 			end
 
+            # Send mail to admin
+            if mail.system_mail_type == SystemMail::REQUEST_TYPE
+                MailMailer.notification(mail, 'kimchilucky@gmail.com ').deliver_later
+            end
+
 			# Success
 			render json: { status: 0 }
 		end

@@ -115,7 +115,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												<%= t 'real_estate.attributes.short_address' %> <span class="ico-info"></span>
+												<%= t 'real_estate.attributes.short_address' %>
 											</section>
 											<section class="value">
 												<%= @re.display_address %>
@@ -199,7 +199,7 @@
 										</section>
 										<section class="text">
 											<section class="name">
-												<%= RealEstate.i18n_attribute 'area' %> <span class="ico-info"></span>
+												<%= RealEstate.i18n_attribute 'area' %>
 											</section>
 											<section class="value">
 												<%= @re.display_area %><span class="unit">m<sup>2</sup></span>
@@ -313,7 +313,7 @@
 											</section>
 											<section class="text">
 												<section class="name">
-													<%= RealEstate.i18n_attribute 'legal_record' %> <span class="ico-info"></span>
+													<%= RealEstate.i18n_attribute 'legal_record' %>
 												</section>
 												<section class="value">
 													<%= @re.display_legal_record_type %>
@@ -555,7 +555,7 @@
 									form_for(
 										request_mail,
 										as: 		'mail',
-										url: 		'/mail/save',
+										url: 		'/mails/save',
 										method: 	'POST',
 										html: 		{
 														id: 		'contact_form',
@@ -606,6 +606,7 @@
 																			[SystemMail.i18n_value('requested_type', '1'), '1'],
 																			[SystemMail.i18n_value('requested_type', '2'), '2'],
 																		]),
+                                                require:                true
 											}
 										) %>
 									<% end %>
@@ -618,7 +619,8 @@
 											placeholder: 	t('.contact.content_placeholder')
 										},
 										{
-											label: 			false
+											label: 			false,
+                                            require:        true
 										}
 									) %>
 
@@ -637,7 +639,8 @@
 													placeholder: 	t('.contact.name_placeholder')
 												},
 												{
-													label:  		false
+													label:  		false,
+                                                    require:        true
 												}
 											) %>
 
@@ -650,7 +653,8 @@
 															placeholder: 	t('.contact.email_placeholder')
 														},
 														{
-															label:  		false
+															label:  		false,
+                                                            require:        true
 														}
 													) %>
 												</article>
@@ -662,7 +666,8 @@
 															placeholder: 	t('.contact.phone_placeholder')
 														},
 														{
-															label:  		false
+															label:  		false,
+                                                            require:        true
 														}
 													) %>
 												</article>

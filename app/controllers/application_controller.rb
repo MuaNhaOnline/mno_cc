@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 	
 	skip_before_filter :verify_authenticity_token
 
-	before_action :init
+	before_action :init, :load_current_user
 	helper_method :signed?, :current_user, :left_contact?, :current_left_contact, :current_user_type, :current_user_id, :bot?
 
 	rescue_from CanCan::AccessDenied do |e|
@@ -32,39 +32,10 @@ class ApplicationController < ActionController::Base
 	end
 
 	def init
-		Rails.application.routes.default_url_options[:host] = request.base_url
-
-		User.options = {}
-
-		@current_user = User.current = get_current_user
-		session[:user_id] = current_user.id
-
-		@current_ability = User.ability = Ability.new(current_user, request)
+        Rails.application.routes.default_url_options[:host] = request.base_url
+		Rails.application.routes.default_url_options[:locale] = I18n.locale
 	end
  
-	# private
-	# def set_locale
-	# 	# begin
-	# 	# 	if (cookies.has_key?('locale'))
-	# 	# 		I18n.locale = cookies[:locale]
-	# 	# 	else 
-	# 	# 		I18n.locale = cookies[:locale] = params[:l] || I18n.default_locale
-	# 	# 	end
-	# 	# rescue
-	# 	# 	I18n.locale = cookies[:locale] = I18n.default_locale
-	# 	# end
-
-	# 	begin
-	# 		if (request.has_key? :purpose)
-	# 			I18n.locale = cookies[:locale]
-	# 		else 
-	# 			I18n.locale = cookies[:locale] = params[:l] || I18n.default_locale
-	# 		end
-	# 	rescue
-	# 		I18n.locale = cookies[:locale] = I18n.default_locale
-	# 	end
-	# end
-
 	# Current
 	
 		# Current user
@@ -98,6 +69,15 @@ class ApplicationController < ActionController::Base
 
 			def current_ability
 				@current_ability # Always have (run in before_action (init))
+			end
+
+			def load_current_user
+				User.options = {}
+
+				@current_user = User.current = get_current_user
+				session[:user_id] = current_user.id
+
+				@current_ability = User.ability = Ability.new(current_user, request)
 			end
 
 		# / Current user

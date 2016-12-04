@@ -154,8 +154,8 @@ class User < ActiveRecord::Base
 			end
 
 			# Avatar
-			if _params[:avatar_id].present?
-				_value = JSON.parse _params[:avatar_id]
+			if _params[:avatar].present?
+				_value = JSON.parse _params[:avatar]
 
 				if _value['is_new']
 					TemporaryFile.get_file(_value['id']) do |_avatar|
@@ -176,13 +176,6 @@ class User < ActiveRecord::Base
 		# Save with params
 
 		def save_with_params _params
-			# Author
-			if new_record?
-				return { status: 6 } if User.current.cannot? :create, nil
-			else
-				return { status: 6 } if User.current.cannot? :edit, self
-			end
-
 			assign_attributes_with_params _params
 
 			_user_params = {}
@@ -388,7 +381,7 @@ class User < ActiveRecord::Base
 			user = find id
 
 			# Author
-			return { status: 6 } if current.cannot? :cancel_change_email, user
+			return { status: 6 } if current.cannot? :edit, user
 
 			user.active_status = 0
 			user.params.delete 'active_code'

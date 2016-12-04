@@ -37,6 +37,7 @@ Currency.delete_all
 ActiveRecord::Base.connection.execute('ALTER SEQUENCE currencies_id_seq RESTART WITH 1')
 Currency.create [
 	{
+		id: 1,
 		name: 'VNĐ',
 		code: 'VND',
 		options: {
@@ -47,6 +48,7 @@ Currency.create [
 		}
 	},
 	{
+		id: 2,
 		name: 'USD',
 		code: 'USD',
 		options: {
@@ -56,6 +58,7 @@ Currency.create [
 		}
 	},
 	{
+		id: 3,
 		name: 'SJC',
 		code: 'SJC',
 		options: {

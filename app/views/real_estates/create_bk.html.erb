@@ -3,14 +3,29 @@
 	params: @re
 =end
 
-	@_title		=	t('.page_title')
-
+    breadcrumb = [
+        {
+            text: t('real_estates.index.page_title'),
+            url: res_path
+        }
+    ]
+    if @re.new_record?
+        breadcrumb  <<  {
+                            text: t('.page_title.create')
+                        }
+    else
+        if signed?
+            breadcrumb  <<  {
+                                text: t('real_estates.my.page_title'),
+                                url: my_res_path
+                            }
+        end
+        breadcrumb  <<  {
+                            text: t('.page_title.edit')
+                        }
+    end
 	@_main_navigator = {
-		list: [
-			{
-				text: t('.page_title')
-			}
-		]
+		list: breadcrumb
 	}
 
 	@_hide_search_box = true
@@ -41,7 +56,7 @@
 			<div class="container-box container-box-transparent">
 				<div class="container-box-header">
 					<h2 class="container-box-title">
-						<%= t '.page_title' %>
+						<%= breadcrumb.last[:text] %>
 					</h2>
 				</div>
 				<div class="container-box-body">
@@ -120,7 +135,7 @@
 																		] +
 																		Purpose.all.map do |purpose|
 																			[
-																				purpose.display_name,
+																				purpose.human_value(:name),
 																				purpose.id,
 																				case purpose.code
 																				when 'sell'
@@ -203,7 +218,7 @@
 									<div class="col-xs-12 col-sm-7 col-md-8">
 										<div class="form-group" data-toggled-element="un-sell-price">
 											<label class="hidden-xs">&nbsp;</label>
-											<span class="form-control" readonly="true">Giá thỏa thuận</span>
+											<span class="form-control" readonly="true"><%= @re.human_value :sell_price, 'empty' %></span>
 										</div>
 										<div style="max-width: 100%; overflow: hidden;" data-toggled-element="sell-price">
 											<%= f.field(
@@ -213,7 +228,7 @@
 													title:					t('.trade_box.sell_price_unit')
 												},
 												{
-													label:					RealEstate.i18n_attribute('sell_price_unit'),
+													label:					RealEstate.i18n_attribute('sell_unit'),
 													input_group:			{
 																				left:	'<span data-object="money"></span> <span data-object="currency"></span>/'.html_safe
 																			},
@@ -254,7 +269,7 @@
 									<div class="col-xs-12 col-sm-7 col-md-8">
 										<div class="form-group" data-toggled-element="un-rent-price">
 											<label class="hidden-xs">&nbsp;</label>
-											<span class="form-control" readonly="true">Giá thỏa thuận</span>
+											<span class="form-control" readonly="true"><%= @re.human_value :rent_price, 'empty' %></span>
 										</div>
 										<div style="max-width: 100%; overflow: hidden;" data-toggled-element="rent-price">
 											<%= f.field(
@@ -264,7 +279,7 @@
 													title:					t('.trade_box.rent_price_unit')
 												},
 												{
-													label:					RealEstate.i18n_attribute('rent_price_unit'),
+													label:					RealEstate.i18n_attribute('rent_unit'),
 													input_group:			{
 																				left:	'<span data-object="money"></span> <span data-object="currency"></span>/'.html_safe
 																			},
@@ -305,7 +320,7 @@
 									<div class="col-xs-12 col-sm-7 col-md-8">
 										<div class="form-group" data-toggled-element="un-transfer-price">
 											<label class="hidden-xs">&nbsp;</label>
-											<span class="form-control" readonly="true">Giá thỏa thuận</span>
+											<span class="form-control" readonly="true"><%= @re.human_value :sell_price, 'empty' %></span>
 										</div>
 										<div style="max-width: 100%; overflow: hidden;" data-toggled-element="transfer-price">
 											<div class="form-group">
@@ -583,7 +598,7 @@
 											label:				t('.detail_box.area_label'),
 											require:			true,
 											input_group:		{
-																	right: t('global.unit.square_meter')
+																	right: t('global.unit.square_meter_html')
 																}
 										}
 									) %>
@@ -618,7 +633,7 @@
 													label:			RealEstate.i18n_attribute('campus_area'),
 													require:		true,
 													input_group:	{
-																		right: t('global.unit.square_meter')
+																		right: t('global.unit.square_meter_html')
 																	}
 												}
 											) %>
@@ -636,7 +651,7 @@
 													label:			RealEstate.i18n_attribute('constructional_area'),
 													require:		true,
 													input_group:	{
-																		right: t('global.unit.square_meter')
+																		right: t('global.unit.square_meter_html')
 																	}
 												}
 											) %>
@@ -654,7 +669,7 @@
 													label:			RealEstate.i18n_attribute('using_area'),
 													require:		true,
 													input_group:	{
-																		right: t('global.unit.square_meter')
+																		right: t('global.unit.square_meter_html')
 																	}
 												}
 											) %>
@@ -883,7 +898,7 @@
 											) %>
 										</div>
 										<!-- Constructional level -->
-										<div data-toggled-element="un-land house un-villa un-apartment un-space">
+										<div data-toggled-element="un-land town_house un-villa un-apartment un-space">
 											<%= f.field(
 												'select',
 												:constructional_level_id,

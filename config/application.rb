@@ -32,6 +32,9 @@ module Mno
     # Content type
     # config.middleware.use Rack::ContentLength
 
+    # Console
+    config.web_console.development_only = false
+
     # Timezone
     config.time_zone = 'Hanoi'
     # config.active_record.default_timezone = 'Hanoi'

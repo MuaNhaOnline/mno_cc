@@ -83,7 +83,7 @@ $(function () {
 
 				this.data('loading', action)
 					.data('before-change-html', this.html())
-					.html('<i class="fa fa-circle-o-notch fa-spin"></i>')
+					.html('<i class="fa fa-fw fa-circle-o-notch fa-spin icon"></i>')
 					.addClass('loading-status');
 
 			}

@@ -157,20 +157,18 @@ Rails.application.routes.draw do
 
 		# User
 
-			get 'signup' => 'users#create'
-			get 'signin' => 'users#signin'
 			# get 'signout' => 'users#signout'
 			get 'active_account_signin' => 'users#active_account_signin'
 			get 'auth/:provider/callback' => 'users#facebook_signin'
 			post 'register' => 'users#save'
-			post 'signin' => 'users#signin_handle'
+			post 'signin' => 'users#signin_handle', as: nil
 			post 'users/forgot_password' => 'users#forgot_password_handle'
 			post 'users/change_type'
 			post 'users/change_password'
 			post 'users/cancel_change_email/:id' => 'users#cancel_change_email'
 
-			get 'dang-ky' => 'users#create'
-			get 'dang-nhap' => 'users#signin'
+			get 'dang-ky' => 'users#create', as: 'signup'
+			get 'dang-nhap' => 'users#signin', as: 'signin'
 			get 'dang-xuat' => 'users#signout', as: 'signout'
 			get 'quen-mat-khau' => 'users#forgot_password'
 			get 'trang-ca-nhan' => 'users#view', as: 'profile'

@@ -41,6 +41,10 @@ body {
 
 /* Animation */
 
+/* General */
+
+/* / General */
+
 /* Header */
 
 	header {
@@ -385,7 +389,8 @@ body {
 			margin-right: 5px;
 		}
 
-		.main-navigator a {
+        .main-navigator a,
+		.main-navigator span {
 			color: #fff;
 			vertical-align: middle;
 		}
@@ -702,24 +707,41 @@ body {
 								text-shadow: 1px 1px 2px rgba(0, 0, 0, .6);
 								font-size: 18px;
 								transition: transform .1s;
-								opacity: .9;
 								padding: 2px 8px;
+                                float: right;
+                                clear: right;
 							}
 
 								.medium-items-list .item .top .feature > .has-bg {
 									background-color: rgba(0, 0, 0, .5);
 								}
 
-								.medium-items-list .item .top .feature > *:hover,
-								.medium-items-list .item .top .feature > *:focus,
-								.medium-items-list .item .top .feature > *:active {
+                                .medium-items-list .item .top .feature > * {
+                                    margin-top: 5px;
+                                }
+
+                                .medium-items-list .item .top .feature > a {
+                                    opacity: .9;
+                                }
+
+								.medium-items-list .item .top .feature > a:hover,
+								.medium-items-list .item .top .feature > a:focus,
+								.medium-items-list .item .top .feature > a:active {
 									opacity: 1;
 								}
 
-								.medium-items-list .item .top .feature > *:active {
+								.medium-items-list .item .top .feature > a:active {
 									-webkit-transform: scale(.9);
 									transform: scale(.9);
 								}
+
+                            .medium-items-list .item .top .feature .pending-status {
+                                background-color: rgba(234, 66, 53, .8);
+                            }
+
+                            .medium-items-list .item .top .feature .hide-status {
+                                background-color: rgba(220, 160, 1, .8);
+                            }
 
 							.medium-items-list .item .top .feature .favorite:hover {
 								color: #FF8F86;
@@ -809,6 +831,34 @@ body {
 						.medium-items-list .item .upon-info > :last-child {
 							margin-bottom: 0;
 						}
+
+                    .medium-items-list .item .functions {
+                        text-align: center;
+                        border-top: 2px solid #008549;
+                        margin-bottom: 10px;
+                    }
+        
+                        .medium-items-list .item .functions > * {
+                            display: inline-block;
+                            margin: 10px 2px 0;
+                        }
+        
+                        .medium-items-list .item .functions .icon {
+                            font-size: 18px;
+                        }
+        
+                        .medium-items-list .item .functions a {
+                            color: #333;
+                        }
+        
+                            .medium-items-list .item .functions a:hover,
+                            .medium-items-list .item .functions a:focus {
+                                color: #008347;
+                            }
+            
+                            .medium-items-list .item .functions a:active {
+                                color: #00D976;
+                            }
 		
 		/* / Medium items list */
 		
@@ -1558,6 +1608,11 @@ body {
 						.btn:active {
 							background-color: #4a525d;
 						}
+
+                    .btn.btn-block {
+                        display: block;
+                        text-align: center;
+                    }
 
 					.btn.btn-green {
 						background-color: #008549;
