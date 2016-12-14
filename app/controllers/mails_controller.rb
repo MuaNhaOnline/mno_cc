@@ -148,7 +148,7 @@ class MailsController < ApplicationController
 
             # Send mail to admin
             if mail.system_mail_type == SystemMail::REQUEST_TYPE
-                MailMailer.notification(mail, 'kimchilucky@gmail.com ').deliver_later
+                MailMailer.notification(mail, 'kimchilucky@gmail.com').deliver_later
             end
 
 			# Success
