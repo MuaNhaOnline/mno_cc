@@ -10,7 +10,8 @@ class Ability
 			# User
 			
 				if user.new_record?
-					can [:create, :login]
+                    can :create, User
+					can :login
 				else
 					can :logout
 				end

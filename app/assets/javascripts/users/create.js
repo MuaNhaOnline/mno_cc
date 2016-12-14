@@ -31,16 +31,16 @@ $(function () {
 				dataType: 'JSON'
 			}).done(function (data) {
 				if (data.status == 0) {
-					if ($form.find('[name="user[id]"]').length == 0) {
-						window.location = '/users/active_callout/' + data.result + '/?status=success';
-					}
-					else {
+					if ($form.find('[name="user[id]"]').val()) {
 						if (data.email_changed) {
 							window.location = '/users/active_callout/' + data.result + '/?status=old_email';
 						}
 						else {
 							window.location = '/users/' + data.result;	
 						}
+                    }
+                    else {
+                        window.location = '/users/active_callout/' + data.result + '/?status=success';
 					}
 				}
 				else {

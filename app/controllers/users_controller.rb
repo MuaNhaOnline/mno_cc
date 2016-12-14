@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 			
 			# Author
 			if @user.new_record?
-				authorize! :create, nil
+				authorize! :create, User
 			else  
 				authorize! :edit, @user
 			end
